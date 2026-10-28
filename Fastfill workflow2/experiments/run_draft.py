@@ -37,22 +37,29 @@ from workflow.pipeline import run_draft_workflow  # noqa: E402
 from workflow.robot import Robot  # noqa: E402
 
 
-def preflight(settings: dict) -> None:
-    # the model list (a relay does not serve /models/<id>); the key, the host and the model are checked
+def preflight(settings: dict, attempts: int = 6) -> None:
+    # the model list (a relay does not serve /models/<id>); the key, the host and the model are checked. A dropped
+    # connection is retried with backoff (the relay resets a connection now and then: one reset must not stop a run);
+    # an HTTP answer (key, model access) is final.
     request = urllib.request.Request(f"{settings['base_url']}/models",
                                      headers={"Authorization": f"Bearer {settings['api_key']}",
                                               "User-Agent": "fastfill-workflow/1.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            listed = [m.get("id") for m in json.load(response).get("data", [])]
-        if listed and settings["model"] not in listed:
-            raise SystemExit(f"preflight: model {settings['model']} is not served at {settings['base_url']}")
-    except urllib.error.HTTPError as exc:
-        raise SystemExit(f"preflight: OpenAI answered HTTP {exc.code} for model {settings['model']} "
-                         f"(key or model access): {exc.read()[:200]!r}")
-    except (urllib.error.URLError, TimeoutError, OSError) as exc:
-        raise SystemExit(f"preflight: cannot reach {settings['base_url']} from this node ({exc}); run where there is "
-                         "internet access, or make sizes on a GPU node first and pass --sizes-file")
+    for attempt in range(attempts):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                listed = [m.get("id") for m in json.load(response).get("data", [])]
+            if listed and settings["model"] not in listed:
+                raise SystemExit(f"preflight: model {settings['model']} is not served at {settings['base_url']}")
+            return
+        except urllib.error.HTTPError as exc:
+            raise SystemExit(f"preflight: the API answered HTTP {exc.code} for model {settings['model']} "
+                             f"(key or model access): {exc.read()[:200]!r}")
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            if attempt == attempts - 1:
+                raise SystemExit(f"preflight: cannot reach {settings['base_url']} from this node after {attempts} "
+                                 f"tries ({exc}); run where there is internet access")
+            print(f"preflight: {exc}; retrying in {5 * 2 ** attempt} s", flush=True)
+            time.sleep(5 * 2 ** attempt)
 
 
 def run_room(condition: dict, sizes: dict | None, yaws: dict | None, size_error: str | None, catalog: str,

@@ -21,4 +21,8 @@ try:
 except Exception:
     print("requests in the last 60 s: (no log yet)")
 EOF
-echo "running: $(pgrep -f 'run_draft.py|gpt_pure_relay.py|_run.py --rows' | wc -l | tr -d ' ') processes"
+echo "running on this machine: $(pgrep -f 'run_draft.py|gpt_pure_relay.py|_run.py --rows' | wc -l | tr -d ' ') processes (a Slurm job runs on its compute node: see squeue --me)"
+for f in experiments/exp150/logs/*.log; do  # a run that stopped early says why on its last line
+  case $(basename $f) in runs.log|slurm-*) continue;; esac
+  last=$(tail -1 "$f" 2>/dev/null); case $last in *preflight*|*Error*|*Traceback*|*budget\ stop*) echo "  $(basename $f .log): $last";; esac
+done
