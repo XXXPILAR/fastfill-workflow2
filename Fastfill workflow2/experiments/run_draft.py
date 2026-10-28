@@ -199,7 +199,9 @@ def main() -> None:
         sizer = FastFillSizer(a.checkpoint, device=a.device)
         print(f"FastFill loaded: {sizer.describe()}", flush=True)
     else:
-        file_sizes = [json.loads(l)["layout"] for l in a.sizes_file.read_text().splitlines() if l.strip()]
+        lines = [json.loads(l) for l in a.sizes_file.read_text().splitlines() if l.strip()]
+        file_sizes = [r["layout"] for r in lines]
+        file_errors = [r.get("error") for r in lines]
         if len(file_sizes) != len(rows):
             raise SystemExit(f"--sizes-file has {len(file_sizes)} lines, --rows {len(rows)}")
     (a.out / "config.json").write_text(json.dumps({
@@ -229,6 +231,8 @@ def main() -> None:
             layout = file_sizes[i]
             sizes[i] = {b["id"]: b["target_size_local_m"] for b in layout["objects"]} if layout else None
             yaws[i] = {b["id"]: b["yaw_rad"] for b in layout["objects"]} if layout else None
+            if not layout and file_errors[i]:  # the file's own record of why (as the in-process sizer reports it)
+                size_errors[i] = str(file_errors[i])[:300]
         if sizer is not None and (n + 1) % 50 == 0:
             print(f"sizes: {n + 1}/{len(pending)}", flush=True)
     if sizer is not None:
