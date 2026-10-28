@@ -24,7 +24,11 @@ ROOMS=$($PY -c "import json; print(' '.join(map(str, json.load(open('$OUT/rooms.
 mkdir -p $OUT/logs
 export WORKFLOW_REASONING_EFFORT=medium
 
-COMMON=(--rows ../test300/rows.jsonl --sizes-file ../server_runs/test300-v4/test300_base/predictions_spread.jsonl
+# FastFill's sizes: the server run of experiments/exp150/fastfill_server.sbatch when copied back, else the earlier
+# test300 run (same base arm, spread decode)
+SIZES_FILE=${SIZES_FILE:-../server_runs/test300-v4/test300_base/predictions_spread.jsonl}
+echo "sizes from $SIZES_FILE" >> $OUT/logs/runs.log
+COMMON=(--rows ../test300/rows.jsonl --sizes-file "$SIZES_FILE"
         --indices $ROOMS --api relay --base-url "$BASE_URL" --model "$MODEL" --rpm "$RPM" --rpm-file "$RPMF")
 ROBOT_MAIN=(--robot-width 0.5 --drafts 2 --resize --robot-margin 0.1 --hard-zones --relocate --repair-rounds 3
             --repair-seconds 180)
