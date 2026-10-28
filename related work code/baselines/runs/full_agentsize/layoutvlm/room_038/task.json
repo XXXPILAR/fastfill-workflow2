@@ -1,0 +1,35 @@
+{
+ "task_description": "a garage of about 11.7m x 6.2m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the platform (o0003) should be against a wall. the cabinet (o0002) should be within 0.50 m of the table (o0001). the kitchen lower cabinet (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    11.7,
+    0.0,
+    0.0
+   ],
+   [
+    11.7,
+    6.162788,
+    0.0
+   ],
+   [
+    0.0,
+    6.162788,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

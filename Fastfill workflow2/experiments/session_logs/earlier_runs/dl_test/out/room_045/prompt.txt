@@ -1,0 +1,7 @@
+The scene is a office with 2 objects, each named by its id: obj_0000 (seat: A modern office chair with a wooden frame and a brown leather cushioned seat. It features a unique backrest design that curves outward and has five swivel wheels for mobility.; on the floor), obj_0001 (drawer desk: A classic wooden writing desk with multiple drawers and ornate legs, designed for elegant office or study settings.; on the floor). Use each id as the object name of its layout line, exactly once per object, and place every one of them. Where given, an object's support (on the floor, against a wall, or placed on another object) is required.
+Units: 1 px = 1 cm. center_x runs along the 874px side, center_y along the 604px side, from the room's corner (0, 0). orientation is counter-clockwise; 0 degrees means the object's front faces the positive center_y direction, 90 degrees the negative center_x direction.
+Floor polygon (center_x, center_y; objects must stay inside it): (0, 0), (874, 0), (874, 604), (0, 604)
+Already in the room (fixed, do not output): fixed_0000 {length: 400px; width: 10px; height: 24px; center_x: 274px; center_y: 596px; center_z: 90px; orientation: -180 degrees;} (beam)
+Constraint: {"type": "faces", "object_id": "obj_0000", "target_id": "obj_0001"}
+Constraint: {"type": "against_wall", "object_id": "obj_0000"}
+Constraint: {"type": "near", "object_id": "obj_0001", "target_id": "obj_0000", "max_distance_m": 0.2}

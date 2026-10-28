@@ -1,0 +1,746 @@
+Decoding-based Regression
+Xingyou Song∗1 and Dara Bahri∗1
+1Google DeepMind
+∗Equal Contribution.
+Language models have recently been shown capable of performing regression wherein numeric predic-
+tions are represented as decoded strings. In this work, we provide theoretical grounds for this capability
+and furthermore investigate the utility of causal sequence decoding models as numeric regression heads
+given any feature representation. We find that, despite being trained in the usual way - for next-token
+prediction via cross-entropy loss - decoder-based heads are as performant as standard pointwise heads
+when benchmarked over standard regression tasks, while being flexible enough to capture smooth
+numeric distributions, such as in the task of density estimation.
+1. Introduction
+Decoder
+111110010011
+Regression Problem
+Figure 1| Given any feature representation𝜙(𝑥),
+we attach a decoding-based head to output predic-
+tive distribution𝑝𝜃(𝑦|𝑥).
+Despite being originally developed for the pur-
+pose of text generation and chat applications,
+large language models (LLMs) have recently
+been applied for new applications, particularly
+one of which is regression, and more broadly
+the prediction of numeric outcomes. Vacareanu
+et al. (2024) have shown service-based LLMs
+such as ChatGPT and Gemini capable of regres-
+sion with performance comparable to that of
+traditional regression methods such as random
+forests, while Akhauri et al. (2025); Song et al.
+(2024) have shown smaller custom language
+models can be trained specifically on multiple
+regression tasks for transfer learning.
+For an input-output pair(𝑥,𝑦), where 𝑥 is a
+feature vector and𝑦 is a real number, a regres-
+sion model’s performance is determined by two
+factors: how it processes𝑥 and how its output
+“head” represents𝑦. While the mentioned works (Akhauri et al., 2025; Song et al., 2024; Vacareanu
+et al., 2024) can be seen astext-to-text regressionwhere both𝑥 and 𝑦 are represented as tokens, this
+combination is not necessarily required. Tang et al. (2024) investigate the isolated case where LLM
+embeddings of𝑥 are attached to feed-forward networks as regression heads, while Nguyen et al.
+(2024) investigate the case when these embeddings are eventually attached to Gaussian distribution
+heads. Both can be seen as particular instances when𝑥 is represented as text, while common regres-
+sion heads are still used. However, there has not been work investigating the inverse situation, i.e.𝑦 is
+represented as text or structured tokens. One could do so by using decoding-based regression heads,
+where for example, tokens<1><.><2><3> can be decoded to represent 1.23, a technique used in
+several works training language models for specific numeric tasks, such as arithmetic (Nogueira et al.,
+2021), linear algebra (Charton, 2022), and symbolic regression (d’Ascoli et al., 2022).
+In contrast to traditional deterministic or parametric distribution (e.g. Gaussian) regression heads,
+© 2025 Google DeepMind. All rights reserved
+arXiv:2501.19383v2  [cs.LG]  12 Aug 2025
+Decoding-based Regression
+decoding-based heads may be much more flexible, as they can represent any numeric distribution
+approximately overℝ without the need for explicit normalization. However, due to their initial lack
+of inductive bias over numeric distances, numeric token representations and sequential dependencies
+may need to belearned using additional training data, and thus it is worth empirically investigating
+these trade-offs in isolated, controlled experiments. Our research provides valuable insights on using
+numbers as an output modality of token-based autoregressive decoders. Our specific contributions
+and findings are thus as follows:
+• We formalize decoding-based regression, i.e. explicitly define tokenization schemes for numbers,
+establish training and inference procedures, discuss methods for pointwise estimation, and
+theoretically provide risk guarantees for density estimation under common assumptions.
+• In experimental benchmarks, we find that properly tuned decoding-based regression heads are
+data-efficient and competitive with regular pointwise heads on tabular regression, yet are also
+expressive enough to perform against Gaussian mixture heads for density estimation.
+2. Related Work and Motivation
+The idea oftext-to-text regressionis especially relevant as LLMs are currently being fine-tuned as
+“Generative Reward Models” (Mahan et al., 2024; Zhang et al., 2024), i.e. end-to-end scoring methods
+for reinforcement learning feedback (Bai et al., 2022; Ziegler et al., 2019) or LLM-as-a-Judge (Zheng
+et al., 2023). Such reward modeling methods can be simpler than other forms such as Bradley-Terry
+(Bradley & Terry, 1952) which requires appending additional prediction heads and custom losses.
+However, little analysis has been done in isolation on the theoretical and modeling capabilities of
+using text, or more generally tokens, to represent real numbers. Understandably, one could argue
+that regular supervised fine-tuning over numbers represented as strings is unprincipled, considering
+that there is no notion of numeric distance when using cross-entropy loss.
+However, we argue that token-based numeric modeling is actually natural, given observed phenomena
+and techniques proposed in recent works. Given a post-processed representation𝜙(𝑥)∈ ℝ𝑑 after 𝑥 is
+sent through a task-specific encoder (MLP, CNN, etc.), we provide an overview of common regression
+heads 𝑝𝜃(𝑦|𝜙(𝑥)) with trainable parameters𝜃, which can be applied on top of𝜙(𝑥) to return numeric
+outputs (additional techniques in Section 5).
+Pointwise Heads: By far, the most commonly used regression head is a learnable deterministic
+function with weights𝜃, typically a simple feed-forward network (often a single linear layer) mapping
+𝜙(𝑥) to a single-point scalar, trained by minimizing a pointwise loss like mean squared error. To allow
+stability during training, the𝑦-values must be normalized space, e.g. within[0, 1].
+Parameteric Distribution Heads:In the case of probabilistic outputs, one may apply distributions
+with parametric forms. A common example is a Gaussian head, e.g.𝑝𝜃(𝑦|𝜙(𝑥)) =N(𝜇,𝜎 2) where
+𝜇,𝜎 are deterministic learnable functions of𝜙(𝑥). A more flexible variant is a finite mixture of
+Gaussians (Bishop, 1994), which can be extended to infinite mixtures (Rasmussen, 1999). Such
+mixture techniques can be more broadly seen within the realm of density estimation (Parzen, 1962;
+Rosenblatt, 1956) in which a complex distribution may be estimated using multiple simpler basis
+distributions.
+Histogram (Riemann) Distribution Heads:One such basis common in deep learning applications
+is the piece-wise constant basis, for learning histograms over a finite support set{𝑦1,...,𝑦 𝑛}⊂ ℝ
+via softmax parametrization, i.e.𝑝𝜃(𝑦𝑖|𝜙(𝑥)) = Softmax(𝑖)(𝜙(𝑥)𝑇·𝜃) where𝜃∈ ℝ𝑛, which has led to
+strong results in value-based reinforcement learning (Bellemare et al., 2017; Imani & White, 2018)
+and tabular data (Chen et al., 2022; Hollmann et al., 2025). However, a drawback is that learning
+2
+Decoding-based Regression
+numeric distances between all of the bins requires more data as the size of the vocabulary increases.
+We term these asRiemann heads, following (Hollmann et al., 2025).
+While there have been works on ordinal regression to learn rankings among these bins, such as
+using rank-consistency (Cao et al., 2020) and soft labels / metric-awareness (Diaz & Marathe, 2019),
+we propose a much simpler way, by simply considering the histogram distribution as a special case
+of decoding a sequence of length 1. By extending the sequence length instead, there can be an
+exponential reduction in bin count – e.g. 1000 (=103) bins can be expressed instead using 10 bins
+and 3 decoding steps. While this intuitive idea has been studied in extreme classification problems
+(Wydmuch et al., 2018), it has not been thoroughly examined for numeric regression, which is the
+focus of our work. Below, we introduce decoding-based regression heads.
+Note: To prevent confusion with the term “decoder” which is also a central component of generative
+models like Variational Autoencoders (VAEs) (Kingma & Welling, 2014), we stress a key distinction.
+While both VAE decoders and distributional regression heads map a feature vector to a probability
+distribution, their objectives differ: a VAE decoder models𝑝(𝑥|𝜙(𝑥)) to reconstruct the input𝑥 from a
+latent 𝜙(𝑥), whereas a regression head models𝑝(𝑦|𝜙(𝑥)) to predict a separate target y. Given this
+difference in the output space, we avoid referring to standard distributional heads (e.g., Gaussian) as
+“decoders”.
+3. Decoding-Based Regression
+In this work, we define the decoder head as an autoregressive sequence model, such as a compact
+Transformer decoder. Given a vocabularyV, the Transformer takes the feature vector𝜙(𝑥) as its
+initial context, and generates a discrete sequence of tokens(𝑡1,...,𝑡 𝐾)∈V 𝐾 one token at a time.
+This sequence is a string representation of a number, and by modeling the probability𝑝𝜃(𝑡1,...,𝑡 𝐾|
+𝜙(𝑥)) = ˛ 𝐾
+𝑘=1 𝑝𝜃(𝑡𝑘| 𝜙(𝑥),𝑡 1...𝑡 𝑘−1), the head implicitly defines a probability distribution over a
+discrete set of representable numbers. Below, we discuss natural token representations of numbers.
+3.1. Numeric Token Representations
+Normalized Tokenization:If 𝑦 is restricted to[0, 1] (via scale normalization for example), then in
+Section 3.3 we show any smooth density𝑝(𝑦|𝜙(𝑥)) can be approximated with an increasing level
+of granularity as more tokens are used in the numeric representation, under some “universality”
+assumptions on𝑝𝜃. This can be seen intuitively with a tree-based construction, i.e. for a base𝐵, the
+vocabulary contains<0>, <1>, ..., <𝐵− 1>, and𝑦 is simply represented by its base-𝐵 expansion up
+to a length𝐾. This setting aligns with standard data-science practices of also normalizing𝑦-values
+according to training data or known bounds.
+UnnormalizedTokenization: However, therearecasesinwhichwewouldliketousean unnormalized
+tokenization scheme. Such cases include multi-task regression (Song et al., 2024), in which different
+tasks may have varying𝑦-scales, or express very wide𝑦-ranges for which appropriately normalizing
+𝑦-values for the correct balance between numeric stability and expressiveness would be very tedious.
+In this case, we may simply view normalized tokenizations as “mantissas” and then left-append
+sign and exponent tokens to form a base-𝐵 generalization of the common IEEE-754 floating point
+representation (IEEE, 2019). Given length parameters 𝐸 and 𝑀, our tokenization is therefore
+<𝑠><𝑠𝑒><𝑒1>... <𝑒𝐸><𝑚1>... <𝑚𝑀> where 𝑠𝑒,𝑒 1,𝑒 2,...,𝑒 𝐸 are the sign and base-B representation of
+the exponent and𝑚1,𝑚 2,...,𝑚 𝑀 are the most significant base-B digits of the mantissa. E.g. if (𝐵=10,
+𝐸=3, 𝑀=4), then10−222× 1.23456789 will be represented as<+><-><2><2><2><1><2><3><4>.
+Signs <𝑠>, <𝑠𝑒> can have their own dedicated<->, <+> tokens or optionally reuse the<0>,<1> tokens
+3
+Decoding-based Regression
+fromV; this made little difference in results.
+Note that the vocabulary can additionally contain “special” tokens for representing outputs not
+within a supported numeric range. For example, one can use a token<NaN> to represent non-
+numbers, commonly used in cases where𝑥 may be an invalid input. We mention such cases for useful
+downstream applications, although the scope of this paper assumes𝑦 is always withinℝ.
+Architecture: Anyautoregressivemodelcanbeused, solongasitsupportsconstrainedtokendecoding
+to enforce proper sequences which represent a valid number. By default, we use a small Transformer
+(Vaswani et al., 2017) due to its strong autoregression capabilities, with the initial token embedding
+as𝜙(𝑥). As we show in our experiment section, this Transformer size can be made minimal, with
+negligible contribution to parameter count in comparison to the encoder.
+Since the token space is finite whileℝ is uncountable, this mapping is lossy (i.e. not invertible) and
+introduces a notion ofrounding error. However, for large enough base𝐵 and sequence lengths (both
+normalized and unnormalized), practically any𝑦-value will be within the expressible range and
+rounding errors will be minimal. The trade-off is that the vocabulary size and sequential dependencies
+between tokens will also increase, and learning better numeric representations may thus require
+more training data. While it’s possible to first pretrain these numeric representations as in Hollmann
+et al. (2025) for the histogram distribution, we show that with proper hyperparameter tuning, the
+Transformer decoder can be used out-of-the-box as a randomly initialized regression head.
+3.2. Pointwise Estimation
+In many cases, one may only be interested in a scalar quantity of interest𝑀(𝑝𝜃) of the model’s
+distribution (e.g. its mean). If𝑝𝜃 matches the true distribution𝑝 perfectly, then for a given pointwise
+loss ℓ : ℝ2→ ℝ the goal is then to select𝑀(𝑝) which minimizes 𝔼𝑦∼𝑝(·| 𝑥)[ℓ(𝑀(𝑝),𝑦)]. It is well
+established that for common error functions like L2, L1, and L0, the optimal values are the mean,
+median, and mode of𝑝(·|𝑥), respectively. Lukasik et al. (2024) also leverage this observation to
+enhance LLM decoding.
+To estimate these𝑀(𝑝), the mode can be approximated using e.g. beam search (Graves, 2012), but
+efficiently estimating other common general pointwise representatives𝑀(𝑝) from pure temperature
+samples is a broad topic - for example, one can efficiently approximate the true median from the
+Harrell-Davis estimator (Harrell & Davis, 1982), and more generally we refer the reader to Lehmann
+(1983) on statistical point estimators.
+Especially for unnormalized tokenization, additional care needs to be taken, since in practice, the
+model can have a miniscule but non-zero probability of decoding an arbitrarily large outlier, even if
+the underlying true distribution is bounded. Such outliers can easily sway non-robust estimators such
+as the sample mean, as observed in Song et al. (2024). This issue fundamentally comes from the fact
+that some tokens are more significant than others, prompting the use of alternative tokenizations
+based on coding theory which are robust to corruptions, which we show can be effective in our
+experiment section.
+Alternatively, decoding techniques from the LLM literature can also be used, e.g. top-𝑘 (Fan et al.,
+2018) or top-𝑝 (Holtzman et al., 2020), or even simply decreasing the temperature to increase
+model confidence and thereby filter out possible outliers. One can also avoid decoding altogether
+and use recently proposed RAFT (Chiang et al., 2025; Lukasik et al., 2025) which estimates𝑀(𝑝)
+using a query-based approach using a finite fixed evaluation setY, e.g. for mean, 𝔼𝑦∼𝑝𝜃[𝑦] ≈
+1
+𝑁
+˝
+𝑦′∈Y 𝑝𝜃(𝑦′)· 𝑦′, although the choice ofY may be non-trivial to obtain an unbiased estimate,
+especially over unnormalized tokenizations. This may also defeat the purpose of using a decoding
+4
+Decoding-based Regression
+head, which offers several density estimation benefits, as we discuss below. Overall, the choice of
+method for computing pointwise representations we leave as a hyperparameter to be tuned depending
+on the application.
+3.3. Density Estimation and Theory
+During training, to allow the full probabilistic modeling benefits of using a decoding head, we apply
+the standard cross-entropy loss over all sequence tokens. For a model𝑝𝜃 and target𝑦 =(𝑡1,...,𝑡 𝐾),
+the cross-entropy loss (omitting𝑥 to simplify notation) will be:
+𝐻(𝑦,𝑝 𝜃) =
+𝐾∑︁
+𝑘=1
+∑︁
+b𝑡𝑘∈V
+−1 (b𝑡𝑘 =𝑡𝑘) log𝑝𝜃(b𝑡𝑘|𝑡1,...,𝑡 𝑘−1)
+The expected loss over all𝑦 sampled from the true distribution is then𝔼𝑦∼𝑝[𝐻(𝑦,𝑝 𝜃)].
+Given our tree-based tokenization and training loss, we provide formal guarantees for estimating
+one-dimensional densities on[0, 1]. Note that densities with finite support can be shifted and rescaled
+to have support in[0, 1]. Define𝜆𝑘 :[0, 1)→{ 0, 1}𝑘 be the operation that returns the first𝑘 bits after
+the radix point in the (possibly infinite) binary representation of𝑦. Concretely, if𝑦 = 0.𝑏1𝑏2𝑏3𝑏4...
+then 𝜆𝑘(𝑦) =(𝑏1,...,𝑏 𝑘). We abuse notation and interpret𝜆𝑘’s output either as a sequence or as
+the real number it represents (˝𝑘
+𝑖=1𝑏𝑖2−𝑖) depending on the context. The analysis is presented using
+binary (base-2) representations (e.g.V ={0, 1}) for simplicity, but it holds for arbitrary bases. First,
+we provide an assumption on the learnability of our model and additional definitions:
+Definition 1(𝐾-bit universality). Let 𝐻(𝑝,𝑞) = 𝔼𝑦∼𝑝− log𝑞(𝑦) denote the cross-entropy between discrete
+distributions 𝑝 and𝑞. Note that𝐻(𝑝,𝑝) is just the Shannon entropy of𝑝. Call parametric model𝑝𝜃 𝐾-bit
+universal if for all discrete distributions𝑝 on 𝐾-bit strings (equivalently,2𝐾 categories),
+min
+𝜃
+𝐻(𝑝,𝑝 𝜃) = 𝐻(𝑝,𝑝).
+In other words,𝑝𝜃 is 𝐾-bit universal if it is flexible enough to fit any discrete distribution on2𝐾 categories.
+Definition 2.Define 𝑝𝑘
+𝜃 as probability of the first𝑘 bits under𝑝𝜃, marginalizing out the remaining bits.
+Concretely,
+𝑝𝑘
+𝜃((𝑏1,...,𝑏 𝑘)) =
+∑︁
+{𝑏𝑘+1,...,𝑏𝐾}
+𝑝𝜃((𝑏1,...,𝑏 𝐾)).
+Seen another way,𝑝𝑘
+𝜃 is the distribution over𝑘-bit strings that results from auto-regressive decoding𝑝𝜃
+for exactly𝑘 steps.
+Definition 3.Let 𝑓 :[0, 1]→ ℝ be a density function. With{𝑌1,...,𝑌 𝑁} as i.i.d. draws from𝑓, define
+𝜃∗ as the maximum likelihood estimator on the truncated sequence of𝐾 bits. Concretely,
+𝜃∗(𝑌1,...,𝑌 𝑁) = argmin
+𝜃
+1
+𝑁
+𝑁∑︁
+𝑛=1
+− log𝑝𝜃(𝜆𝐾(𝑌𝑛)).
+Define riskasthe mean integrated squared errorbetweentruedensity 𝑓 andanestimator b𝑓𝑁(𝑌1,...,𝑌 𝑁):
+𝑅(𝑓, b𝑓𝑁) = 𝔼
+𝑌1,...,𝑌𝑁∼𝑓
+∫ 1
+0
+
+𝑓(𝑦)− b𝑓𝑁(𝑦)
+ 2
+𝑑𝑦.
+5
+Decoding-based Regression
+2 4 6 8 10
+0.0
+0.5
+1.0
+1.5
+2.0
+N=1024
+2 4 6 8 10
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+N=16384
+Number of Bits (K)
+Risk
+Theoretical Decoder Riemann
+Figure 2| Lower (↓) is better. Risk (theoretical and empirical) when varying𝐾 and 𝑁 to fit a truncated
+N[0,1](0.5, 0.252) distribution using binary tokenization. Results averaged across 10 runs each.
+We now give our main result below, expressing the distributional fit in terms of bias and variance.
+The proof is deferred to Appendix B.
+Theorem 1. Assume our decoding-based regression model𝑝𝜃 :{0, 1}𝐾→ Δ2𝐾
+is 𝐾-bit universal, and𝑓
+be any twice continuously differentiable density function. If the maximum likelihood estimator at𝑘 is
+𝑓𝑘∗
+𝑁(𝑦) = 2𝑘𝑝𝑘
+𝜃∗(𝑌1,...,𝑌𝑁)(𝜆𝑘(𝑦)) for 𝑦∈[ 0, 1], then the risk can be exactly computed:
+𝑅
+
+𝑓, 𝑓𝑘∗
+𝑁(𝑦)
+
+= 2−2𝑘
+12
+∫ 1
+0
+𝑓′(𝑦)2𝑑𝑦
+|                   {z                   }
+𝐵𝑖𝑎𝑠
++ 2𝑘
+𝑁|{z}
+𝑉𝑎𝑟𝑖𝑎𝑛𝑐𝑒
++ 𝑂(2−4𝑘+ 1/𝑁)|             {z             }
+𝑁𝑒𝑔𝑙𝑖𝑔𝑖𝑏𝑙𝑒
+, ∀𝑘≤ 𝐾.
+Note that this theorem is broad, applicable to both Riemann and decoding heads even if they perform
+inference at a lower token length𝑘 than the maximum length𝐾 used during training. For simplicity,
+let us assume that the maximal length is always used (i.e.𝑘 = 𝐾). Intuitively, this implies that one
+needs a higher resolution𝐾 to capture the curvature of𝑓, but as the number of bins increases, more
+data points𝑁 are required to learn to separate these2𝐾 bins. In Figure 2, for large𝑁=16384, we
+show this trend holds empirically where there is an optimal𝐾≈5 which minimizes the error.
+When 𝑁 is quite small (e.g. 1024) we see that the decoder head significantly deviates from the
+theoretical risk (for the better) when the number of bits is large (>9), while the Riemann head still
+fits it tightly. Recall that we required a “universality” assumption, which says that our model can
+learn any discrete distribution over𝐾-bit strings perfectly. We can decompose this assumption further
+into two pieces: 1) that there exists𝜃∗ in our model class that achieves the minimum cross-entropy
+(i.e. 𝑝𝜃∗ = 𝑝 in Definition 1), and 2) that our SGD-based training procedure is able to find it. An
+explanation for this phenomenon is that in this regime (low sample size and large number of bits, or
+equivalently, a large number of bins), the risk profile of the classical Riemann estimator is dominated
+by the variance term. Few samples land in each bin and as a result the histogram-based density
+estimate for the bins is noisy.
+It is conceivable that a combination of the inductive bias of our model class and the implicit bias of our
+SGD training procedure makes the decoder less likely to fit noise; a concrete example would be that
+the model is biased to learn smooth distributions, and so when asked to fit the highly discontinuous
+6
+Decoding-based Regression
+empirical distribution arising from dropping few samples into a large number of bins, it refuses to,
+instead opting to learn a smooth approximation, and thereby driving down the variance term and
+hence the overall risk. This suggests the decoder head possesses implicit regularization properties
+which make it much more efficient with low training data.
+...
+0 1 0 1
+Figure 3| Visualization of fitting a truncated Gaussian distribution. Each level𝑘 of the binary tree represents
+the empirical fit using𝑘 bits, and each bin gets subdivided into two.
+Taking a closer look at the decoding mechanism, a crucial observation is that𝜆𝑘 essentially discretizes
+the unit interval (and hence𝑓 as well) into bins{𝐵𝑗}2𝑘−1
+𝑗=0 , where 𝐵𝑗 = [𝑗2−𝑘,(𝑗+ 1)2−𝑘) so that
+ℙ(𝑥∈ 𝐵𝑗) =
+∫
+𝐵𝑗
+𝑓(𝑦)𝑑𝑦. We can identify𝑘-bit sequence𝑦 = 0.𝑏1...𝑏 𝑘 with the interval[𝑦,𝑦 + 2−𝑘].
+With a single bit (𝐾 = 1) we learn a histogram estimator on two bins[0, 1/2) and[1/2, 1) representing
+0 and 1. With two bits we refine our prediction using four bins:[0, 1/4),[1/4, 1/2),[1/2, 3/4),
+and[3/4, 1) representing(0, 0),(0, 1),(1, 0),(1, 1) respectively (because, for example(0, 1) means
+0.012 = 1/4).
+We can interpret binary representations in terms of binary trees on2𝐾 leaf nodes where nodes
+represent intervals (the root representing[0, 1)) and left and right children represent the left and
+right halves of the node’s interval. Reading off bits tells us how to traverse this tree, where 0 and 1
+mean traverse the left and right subtrees respectively. For example, to arrive at(0, 1, 1) = 0.0112 = 3/8
+our traversal is:[0, 1)→[ 0, 1/2)→[ 1/4, 1/2)→[ 3/8, 1/2).
+When trained on𝐾-bit sequences, our decoding head𝑝𝜃 simultaneouslylearns 𝐾 histogram estimators
+for 𝑓; 2𝑘𝑝𝑘
+𝜃(𝜆𝑘(𝑦)) is the𝑘-th histogram estimator (over2𝑘 bins). In other words, as we decode bits
+one-by-one auto-regressively, we are iteratively refining our prediction. Figure 3 shows this mechanism
+in detail in the case of fitting a truncated Gaussian distribution.
+Therearealternativestobinaryrepresentations,forexample 𝑝-adicexpansions,oreventhe Stern–Brocot
+tree which uses the mediant to determine the child-parent relationship. An interesting research ques-
+tion left for future work is whether these more exotic representations of real numbers are better
+suited for our sequence-based regression model than the standard representations.
+4. Experiments
+Our main goals for experiments are to:
+• Demonstrate decoder heads can be effective swap-in replacements to common pointwise re-
+7
+Decoding-based Regression
+gression heads.
+• Establish the density estimation capabilities of the decoding-based head over any distribution
+over ℝ.
+• Ablate the effect of decoder head size and sequence-specific methods such as error correction
+on performance.
+To maintain fairness, all neural network methods have access to the same encoder𝜙(𝑥), which is a
+large multi-layer perceptron (MLP) with ReLU activations, with hyperparameter sweeps over number
+of layers (up to 5) and hidden unit sizes (up to 2048). Furthermore, the decoder head uses only
+1 layer and 32 units, making up for less than 10% of the total network parameter count, which
+minimizes its contribution to representation learning as a confounding factor.
+Furthermore, for distributional heads (e.g. decoder, Riemann), we sweep their specific settings (e.g.
+number of bins / tokenization) over reasonable values - additional details are found in Appendix
+C. For the vast majority of tabular regression problems, we found that the process of training and
+tuning only requires at most 20 minutes on a single Nvidia P100 GPU, making the decoder head
+relatively cheap to use. For comparisons, we use relative mean squared error within individual tasks
+and scale-invariant Kendall-Tau correlation for aggregate comparisons.
+4.1. Curve Fitting
+We begin by visually demonstrating the fundamental representation power of tokenization. In Figure
+4, the unnormalized decoder head is able to successfully capture the shapes of various functions with
+which both the Riemann and pointwise head struggle.
+Weierstrass (Smooth)
+Unnormalized Decoder
+Normalized Decoder
+Riemann
+Pointwise
+Ground Truth
+Vertical Asymptote (Hyperbolic) Stepwise (Alternating)
+Weierstrass (Triangular) Vertical Asymptote (T angent) Stepwise (Increasing)
+x
+y
+Figure 4| Visual fit to ground truth is better. Curve fitting plots for various 1D functions. Both models are
+trained over 100K(𝑥,𝑦) points, where𝑥 is uniformly sampled from a bounded range. Note: These results occur
+regardless of xy-scales, which are omitted for brevity. Riemann prediction for “Vertical Asymptote (Tangent)”
+went out of range.
+The issue with using the pointwise head stems from two main factors: (1) requiring𝑦-normalization,
+which leads to numeric instabilities especially with functions with very high or unbounded𝑦-ranges,
+and (2) struggling to model abrupt or high rates of change (i.e. large Lipschitz constants). In contrast,
+the unnormalized decoder head does not encounter these issues due to its ability to express a very
+high range of𝑦-values, with the normalized decoder also performing decently.
+8
+Decoding-based Regression
+Input Dimension
+Regression Head 5 10 15 20
+Unnormalized Decoder 89.56 88.71 87.49 86.11
+Normalized Decoder 89.40 88.54 86.90 86.02
+Pointwise 89.08 88.25 88.06 86.78
+Riemann 88.94 88.30 87.42 86.78
+Table 1| Higher (↑) is better. Mean Kendall-Tau correlations over BBOB functions with (≈100K) training data.
+Individual function results can be seen in Appendix A.2.
+In Table 1, as a sanity check over higher-dimensional functions, synthetic continuous objectives from
+the Black-box Optimization Benchmarking (BBOB) suite (Elhara et al., 2019) can also be sufficiently
+fitted by both the unnormalized and normalized decoder heads just as well as the pointwise and
+Riemann heads.
+4.2. Real-World Regression
+In Figure 5, over real-world OpenML (Vanschoren et al., 2013) regression tasks from OpenML-CTR23
+(Fischer et al., 2023) and AMLB (Gijsbers et al., 2024), using the unnormalized decoder head is
+competitive to using a regular pointwise head given the same training data. In fact, in the majority of
+tasks, the decoder outperforms the pointwise head, and in a few cases, the gap can be quite significant
+(>0.3). Full results in Appendix A.3, Figure 13 also lead to the same conclusion for normalized
+decoder heads.
+1 5 10 15 20 25
+T ask Index
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0Kendall-T au Correlation
+AMLB
+1 5 10 15 20 25 30
+T ask Index
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+OpenML-CTR23
+Unnormalized Decoder Pointwise
+Figure 5| Higher (↑) is better. Kendall-Tau regression scores over AMLB and OpenML-CTR23 tasks using up to
+10K maximum training points. Each bar averaged over 10 runs and bars from the same task (but different
+regressors) are stacked on top of each other and sorted by gap performance gap.
+In Figure 6, both decoding heads outperform the Riemann head in the vast majority of tasks as well,
+suggesting improved sample efficiency from minimizing vocabulary / bin sizes. In order to more
+rigorously validate the sample efficiency hypothesis, in Figure 7, we compare the use of all normalized
+heads (normalized decoder, Riemann histogram, and pointwise), when varying the amount of training
+data. We omit unnormalized decoder results, as it aggregates samples differently. We first observe
+the data inefficiency of using the histogram head on selected regression tasks - in certain cases, the
+histogram head plateaus, unable to even achieve the performance of the decoder head, regardless of
+the amount of training data.
+9
+Decoding-based Regression
+0.0 0.2 0.4 0.6 0.8 1.0
+Riemann Kendall-T au Score
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0Decoder Kendall-T au Score
+AMLB
+0.0 0.2 0.4 0.6 0.8 1.0
+Riemann Kendall-T au Score
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0Decoder Kendall-T au Score
+OpenML-CTR23
+Decoder vs. Riemann Performance Comparison
+Identity (No Difference) Unnormalized Decoder vs. Riemann Normalized Decoder vs. Riemann
+Figure 6| Upper left(↖) is better for decoder heads. Paired scatter plots for comparing both decoders against
+the Riemann head, over real-world regression tasks.
+102 103 104
+2 × 10 2
+3 × 10 2
+4 × 10 2
+T ask ID: 233212
+102 103 104
+10 2
+10 1
+T ask ID: 233215
+102 103 104
+5 × 10 2
+6 × 10 2
+7 × 10 2
+T ask ID: 359930
+102 103 104
+10 3
+10 2
+T ask ID: 359938
+102 103 104
+2 × 10 2
+3 × 10 2
+4 × 10 2
+6 × 10 2
+T ask ID: 359939
+102 103 104
+10 1
+T ask ID: 359948
+102 103 104
+10 2
+T ask ID: 359951
+102 103 104
+10 1
+6 × 10 2
+2 × 10 1
+T ask ID: 360945
+Training Data Size
+Relative Mean Squared Error
+Normalized Decoder Riemann Pointwise
+Figure 7| Lower (↓) is better. Relative mean squared error (MSE) over selected AMLB tasks. Each method
+used a min-max linear scaling normalization on𝑦-values. Full results in Appendix A.1, Figure 11.
+Furthermore, interesting observations can be made when comparing against the standard pointwise
+head as a baseline. In high data regimes (≈104 data points), there are cases in which italso plateaus
+earlier than the decoding head. In low data regimes (≈101 data points), one would expect the
+decoding head to struggle more as it needs to learn numeric token representations, but as it turns out,
+the pointwise head can perform worse due to numeric instabilities of its own. Due to undertraining,
+the pointwise head required appending a sigmoid activation to enforce the normalized output to be
+within [0,1] to avoid extremely high MSE errors.
+4.3. Density Estimation
+In Figure 8, we further see the decoding head’s ability to perform density estimation over various
+shapes. Given unbounded training data it is able to capture the overall distribution𝑝(𝑦|𝑥) well,
+10
+Decoding-based Regression
+although there can be slight outlier noise as shown by lighter points. In Appendix A.6 we show
+that even baseline heads such as Mixture Density Networks (MDNs) (Bishop, 1994) and Riemann
+distributions also suffer from noisy outputs. While one can enforce the sampling to be tighter
+(e.g. lowering temperature) to remove noise, this tighter sampling can unfortunately also reduce
+expressivity. In general, we find that vanilla temperature sampling with temperature≈1.0 is the best
+way to match𝑝(𝑦|𝑥).
+Half Moons
+ Zig-Zag
+ Spiral
+ Hollow Square
+x
+y
+Sample Ground Truth
+Figure 8| Fit to ground truth is better. Density estimation visualization over various shapes using an
+unnormalized decoder head with vanilla temperature sampling. Note that these results occur regardless
+of xy-scales, which are omitted for brevity.
+In Table 2, we display the negative log-likelihood (NLL) on a collection of representative real-world
+datasets from the UCI regression repository (Dua & Graff, 2017) (full results over 25 datasets in
+Appendix A.5). We see that MDN head performance has high variability, at times able to perform
+the best but also extremely poorly depending on the task. Meanwhile both decoding heads remain
+reliable overall (NLL<0.7 always). In comparison, the Riemann head consistently underperforms in
+every task.
+Dataset MDN UD ND R
+Airfoil 0.12±0.11 0.40±0.01 0.34 ±0.01 1.33 ±0.14
+Bike 4.59 ±0.86 0.12 ±0.00 0.10±0.01 0.36±0.05
+Elevators 0.30 ±0.43 0.15 ±0.00 0.13±0.00 1.12±0.02
+Gas 0.68 ±0.25 0.02±0.01 0.02 ±0.00 0.20±0.09
+Housing 0.22±0.13 0.41±0.03 0.38 ±0.03 1.56 ±0.21
+Kin 40K 7.49 ±0.73 0.19 ±0.01 0.12±0.01 0.39±0.03
+Pol 1.49 ±0.41 0.01±0.00 0.01 ±0.00 0.18±0.02
+Protein 1.07 ±0.44 0.34±0.00 0.41±0.01 1.55 ±0.04
+Pumadyn32nm 0.69 ±1.26 0.55±0.00 0.58±0.02 2.32 ±0.03
+Wine 0.05±0.12 0.24±0.01 0.21 ±0.01 1.67 ±0.14
+Yacht 0.21±0.10 0.39±0.02 0.23 ±0.05 1.29 ±0.38
+Table 2| Lower (↓) is better. Avg. NLL (± StdDev) of test examples on UCI datasets over 10 train-test splits.
+Abbreviations: (UD, ND) = (unnormalized, normalized) decoder heads respectively; R = Riemann.
+4.4. Ablation: Role of Decoding Head Size
+We ablate the effect of the decoding head’s size on performance. We first fix the tokenization for the
+normalized decoding head (𝐵=10, 𝐾=4) and then sweep the number of layers, heads, and hidden
+units. In Figure 9, we observe that larger decoding heads do sometimes help, but only up to a certain
+point, at which overfitting can occur. This was also observed over regression over BBOB functions and
+with the unnormalized decoding head, but we omitted these results for brevity.
+11
+Decoding-based Regression
+1 2 3 4
+0.8
+1.0
+1.2
+Bike
+1 2 3 4
+Num. Layers
+1.7
+1.8
+Energy
+1 2 3 4
+1.4
+1.5
+1.6
+Housing
+2 4 6 8
+0.90
+0.95
+1.00
+2 4 6 8
+Num. Heads
+1.70
+1.75
+1.80
+1.85
+2 4 6 8
+1.40
+1.45
+1.50
+500 10000.7
+0.8
+0.9
+500 1000
+Num. Units
+1.7
+1.8
+500 1000
+1.3
+1.4
+NLL
+Figure 9| Lower (↓) is better. NLL over UCI datasets, when varying different axis (layers, heads, units) from a
+fixed default of (3, 4, 128) respectively.
+4.5. Ablation: Error Correction
+One can also improve regression behavior using techniques purely by modifying sequence represen-
+tations. Inspired by the field of coding theory, we can useerror correction, where we may simply
+have the decoding head repeat its output multiple times(𝑡1,...,𝑡 𝐾,𝑡′
+1,...,𝑡 ′
+𝐾,𝑡′′
+1,...,𝑡 ′′
+𝐾,... ) during
+training, and at inference perform majority voting on each location𝑘∈{ 1,...,𝐾 }.
+101 102 103
+10 3
+10 2
+10 1
+100
+101
+102
+T ask ID: 233213
+101 102 103
+10 3
+10 2
+T ask ID: 359934
+101 102 103
+1.1 × 10 2
+1.2 × 10 2
+1.3 × 10 2
+1.4 × 10 2
+1.5 × 10 2
+1.6 × 10 2
+1.7 × 10 2
+1.8 × 10 2
+T ask ID: 359944
+101 102 103
+10 1
+T ask ID: 359945
+Sampling Size
+Relative MSE
+Repeat Count
+1 2 3 4 5
+Figure 10| Lower (↓) is better. Relative MSE over selected AMLB tasks, when varying output repetitions.
+In Figure 10, we focus on the unnormalized case when using mean aggregation, where performance
+can be significantly harmed from extreme outliers. We see that when using regular tokenization
+(repeat count=1), as more samples are drawn, the likelihood of drawing outliers increases the error.
+However, the error can be substantially decreased by training the decoding head to decode the
+same tokens repeatedly and allow better scaling with samples, although repeating too many times
+may make learning more difficult. Not all error correction techniques improve results however - in
+Appendix A.4, we briefly observe negative results applying other types of error correction, and we
+leave exploring the space of such methods for future work.
+12
+Decoding-based Regression
+5. Discussion: Limitations and Extensions
+This work establishes the validity of training decoding heads with cross-entropy losses for regression.
+To minimize confounding factors, our designs remained very simple (e.g. using basic primitives such
+as softmax and vanilla attention mechanisms) yet principled (e.g. digit-by-digit tokenization and
+constrained sampling). We list some limitations of this work, along with more potential areas for
+exploration.
+Modern LLM Architectures:Many modern LLM architectures no longer use vanilla attention mecha-
+nisms, instead opting for sparsity or low-rank approximations. In addition, MLPs have typically been
+replaced by mixtures of experts for memory reduction. It is worth studying further how these changes
+affect the performance of numeric decoding.
+Tokenization and Sampling: Our digit-by-digit tokenization and constrained decoding can be
+considered ideal cases, which modern LLMs only approximately implement. The main sources of
+differences include vocabularies which do not use individual digit tokens, and sampling procedures
+which are Top-P or Top-K, which may accidentally choose invalid tokens. We hypothesize that these
+issues can decrease regression performance.
+IntermediateLanguageandTraining: InmanyLLMuse-casesinvolvingnumericpredictionproblems,
+the decoder not only must return a tokenized number, but also other intermediate language tokens.
+Our work does not address these cases, and it is unclear how fine-tuning on these intermediate
+language tokens may affect training dynamics and numeric prediction performance. Furthermore,
+modern LLM training consists of reinforcement learning (RL), and it remains to be studied how
+reward-based training methods affect regression results.
+Multi-objective Regression: In this paper, we only studied the single-objective regression case.
+However, one may easily modify our paradigm to support multiple objectives𝑝(𝑦(1),...,𝑦 (𝑀)|𝜙(𝑥)),
+e.g. by decoding a concatenated sequence of those objectives. This has the particular benefit of
+modeling objectives autoregressively, which can be difficult to perform with classical techniques. The
+benefit of multi-objective density estimation is even more pronounced, due to the decoder’s universal
+approximation abilities.
+Other Regression Architectures:We did not compare to significantly more complex methods such
+as stochastic networks, which use stochastic activations or weights. Early examples include Sigmoid
+Belief Nets (Neal, 1992; Tang & Salakhutdinov, 2013), which have not seen wide adoption due to their
+complex architectures and expectation-maximization training updates. Bayesian neural networks
+(Goan & Fookes, 2020; Lampinen & Vehtari, 2001; Titterington, 2004) can be seen as more modern
+stochastic networks, but still possess complex inference techniques, e.g. Markov Chain Monte Carlo
+(MCMC) or variational inference. Similarly, Energy-based models (Teh et al., 2003) can be used for
+image-based regression (Gustafsson et al., 2020; Liu et al., 2022) but still see limited use due MCMC
+required at inference time.
+6. Conclusion and Future Work
+We thoroughly investigated the many benefits but also drawbacks of using decoding-based regression.
+We described a natural tokenization scheme for both normalized and unnormalized𝑦-values, and
+theoretically established its risk minimization properties. Empirically, we showed that it can be
+competitive as, or even outperform traditional pointwise heads for regression tasks. Furthermore, it is
+also capable of density estimation over a variety of conditional distributions𝑝(𝑦|𝜙(𝑥)), and can further
+outperform common baseline regression heads such as Gaussian mixtures and histogram distributions.
+We hope this work will also be a valuable reference for the language modeling community and that it
+13
+Decoding-based Regression
+provides a principled explanation for the use of supervised fine-tuning over numeric targets.
+Acknowledgements
+We would like to thank Yutian Chen for his valuable review of the work and Bangding (Jeffrey) Yang
+for technical help. We further thank Yash Akhauri, Aviral Kumar, Bryan Lewandowski, Michal Lukasik,
+Sagi Perel, David Smalling, and Subhashini Venugopalan for useful discussions, and Daniel Golovin
+and Denny Zhou for continuing support.
+References
+Yash Akhauri, Bryan Lewandowski, Cheng-Hsi Lin, Adrian N. Reyes, Grant C. Forbes, Arissa Wong-
+panich, Bangding Yang, Mohamed S. Abdelfattah, Sagi Perel, and Xingyou Song. Performance
+prediction for large systems via text-to-text regression, 2025.
+Yuntao Bai, Saurav Kadavath, Sandipan Kundu, Amanda Askell, Jackson Kernion, Andy Jones,
+Anna Chen, Anna Goldie, Azalia Mirhoseini, Cameron McKinnon, Carol Chen, Catherine Olsson,
+Christopher Olah, Danny Hernandez, Dawn Drain, Deep Ganguli, Dustin Li, Eli Tran-Johnson,
+Ethan Perez, Jamie Kerr, Jared Mueller, Jeffrey Ladish, Joshua Landau, Kamal Ndousse, Kamile
+Lukosiute, Liane Lovitt, Michael Sellitto, Nelson Elhage, Nicholas Schiefer, Noemí Mercado, Nova
+DasSarma, Robert Lasenby, Robin Larson, Sam Ringer, Scott Johnston, Shauna Kravec, Sheer El
+Showk, Stanislav Fort, Tamera Lanham, Timothy Telleen-Lawton, Tom Conerly, Tom Henighan,
+Tristan Hume, Samuel R. Bowman, Zac Hatfield-Dodds, Ben Mann, Dario Amodei, Nicholas Joseph,
+Sam McCandlish, Tom Brown, and Jared Kaplan. Constitutional AI: harmlessness from AI feedback.
+CoRR, abs/2212.08073, 2022. doi: 10.48550/ARXIV.2212.08073.
+Marc G. Bellemare, Will Dabney, and Rémi Munos. A distributional perspective on reinforcement
+learning. In Doina Precup and Yee Whye Teh (eds.),Proceedings of the 34th International Confer-
+ence on Machine Learning, ICML 2017, Sydney, NSW, Australia, 6-11 August 2017, volume 70 of
+Proceedings of Machine Learning Research, pp. 449–458. PMLR, 2017.
+Christopher M. Bishop. Mixture density networks. Technical report, Aston University, 1994.
+Ralph Allan Bradley and Milton E. Terry. Rank analysis of incomplete block designs: I. the method of
+paired comparisons.Biometrika, 39(3/4):324–345, 1952. ISSN 00063444, 14643510.
+Wenzhi Cao, Vahid Mirjalili, and Sebastian Raschka. Rank consistent ordinal regression for neural
+networks with application to age estimation.Pattern Recognit. Lett., 140:325–331, 2020. doi:
+10.1016/J.PATREC.2020.11.008.
+François Charton. Linear algebra with transformers.Trans. Mach. Learn. Res., 2022, 2022.
+Yutian Chen, Xingyou Song, Chansoo Lee, Zi Wang, Richard Zhang, David Dohan, Kazuya Kawakami,
+Greg Kochanski, Arnaud Doucet, Marc’Aurelio Ranzato, Sagi Perel, and Nando de Freitas. Towards
+learning universal hyperparameter optimizers with transformers. In Sanmi Koyejo, S. Mohamed,
+A. Agarwal, Danielle Belgrave, K. Cho, and A. Oh (eds.),Advances in Neural Information Processing
+Systems 35: Annual Conference on Neural Information Processing Systems 2022, NeurIPS 2022, New
+Orleans, LA, USA, November 28 - December 9, 2022, 2022.
+Cheng-Han Chiang, Hung-yi Lee, and Michal Lukasik. TRACT: regression-aware fine-tuning meets
+chain-of-thought reasoning for llm-as-a-judge.CoRR, abs/2503.04381, 2025. doi: 10.48550/
+ARXIV.2503.04381.
+14

@@ -1,0 +1,36 @@
+{
+ "task_description": "a living room of about 6.2m x 4.3m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (6.16, 0.52) (keep the floor in front of it clear); a window 2.37 m wide centred at (6.16, 2.51). the plant (o0000) should be within 0.10 m of the storage rack (o0003)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    4.29,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.160981445312501,
+    0.0,
+    0.0
+   ],
+   [
+    6.160981445312501,
+    4.29,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8000000000000003
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

@@ -1,0 +1,185 @@
+{
+ "floor": [
+  {
+   "assetId": "tv stand-0",
+   "id": "tv stand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.215,
+    "y": 0.4,
+    "z": 2.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     47.5,
+     165.0
+    ],
+    [
+     47.5,
+     335.0
+    ],
+    [
+     -4.5,
+     335.0
+    ],
+    [
+     -4.5,
+     165.0
+    ]
+   ],
+   "object_name": "tv stand-0"
+  },
+  {
+   "assetId": "king size bed-0",
+   "id": "king size bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.2949999999999995,
+    "y": 0.575,
+    "z": 2.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     114.49999999999993,
+     142.5
+    ],
+    [
+     114.49999999999993,
+     357.5
+    ],
+    [
+     344.49999999999994,
+     357.5
+    ],
+    [
+     344.49999999999994,
+     142.5
+    ]
+   ],
+   "object_name": "king size bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 1.2,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     275.0,
+     -4.5
+    ],
+    [
+     275.0,
+     65.5
+    ],
+    [
+     25.0,
+     65.5
+    ],
+    [
+     25.0,
+     -4.5
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "nightstand-0",
+   "id": "nightstand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.1699999999999995,
+    "y": 0.35,
+    "z": 4.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     289.49999999999994,
+     437.5
+    ],
+    [
+     289.49999999999994,
+     512.5
+    ],
+    [
+     344.49999999999994,
+     512.5
+    ],
+    [
+     344.49999999999994,
+     437.5
+    ]
+   ],
+   "object_name": "nightstand-0"
+  },
+  {
+   "assetId": "nightstand-1",
+   "id": "nightstand-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.35,
+    "z": 4.948900000000001
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     212.5,
+     522.3900000000001
+    ],
+    [
+     212.5,
+     467.3900000000001
+    ],
+    [
+     137.5,
+     467.3900000000001
+    ],
+    [
+     137.5,
+     522.3900000000001
+    ]
+   ],
+   "object_name": "nightstand-1"
+  }
+ ],
+ "wall": []
+}

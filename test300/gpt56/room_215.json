@@ -1,0 +1,46 @@
+{
+ "k": 215,
+ "source": "SpatialLM",
+ "room_type": "bathroom",
+ "latency_s": 13.232658958993852,
+ "usage": [
+  {
+   "prompt_tokens": 963,
+   "completion_tokens": 570,
+   "total_tokens": 1533,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 392,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.7,
+     0.4,
+     0.78
+    ],
+    "bottom_center_m": [
+     0.55,
+     1.41,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe fixed cabinet occupies the northeast side, while the entrance is on the southeast portion of the south wall. The toilet is placed against the north wall in the northwest area, clear of both the cabinet and the window, and faces south into the open central area. This preserves an unobstructed route from the door and provides usable space in front of the toilet.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.4, \"depth_m\": 0.7, \"height_m\": 0.78, \"x\": 0.55, \"y\": 1.41, \"z\": 0.0, \"facing_deg\": 270.0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.210 m x 1.760 m x 2.500 m\nfloor polygon (x, y): [[2.125, 1.76], [0.0, 1.76], [0.0, 0.0], [2.21, 0.0], [2.21, 1.24], [2.125, 1.24]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"toilet\", \"description\": \"toilet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.0, 1.485], \"wall_from\": [0.0, 1.76], \"wall_to\": [0.0, 0.0], \"width_m\": 0.55, \"height_m\": 1.4, \"sill_height_m\": 0.9}, {\"type\": \"door\", \"centre_xy\": [1.745, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.21, 0.0], \"width_m\": 0.711, \"height_m\": 2.128}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0001\", \"category\": \"bathroom cabinet\", \"width_m\": 0.981, \"depth_m\": 0.515, \"height_m\": 1.6, \"bottom_centre\": [1.635, 1.502, 0.2], \"facing_deg\": 270.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

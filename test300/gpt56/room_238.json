@@ -1,0 +1,60 @@
+{
+ "k": 238,
+ "source": "SpatialLM",
+ "room_type": "kitchen",
+ "latency_s": 16.76205424987711,
+ "usage": [
+  {
+   "prompt_tokens": 999,
+   "completion_tokens": 701,
+   "total_tokens": 1700,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 500,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.65,
+     0.6,
+     1.9
+    ],
+    "bottom_center_m": [
+     0.325,
+     1.92,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     2.1
+    ],
+    "bottom_center_m": [
+     0.3,
+     2.57,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe refrigerator and tall cupboard are grouped along the window-free left wall, with a small 0.05 m gap satisfying the near constraint. Both face into the room and occupy the rear half, preserving a clear entry zone by the south door, an open central aisle, and access to both windows.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.6,\"depth_m\":0.65,\"height_m\":1.9,\"x\":0.325,\"y\":1.92,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":2.1,\"x\":0.3,\"y\":2.57,\"z\":0.0,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 1.822 m x 3.300 m x 2.750 m\nfloor polygon (x, y): [[1.822, 3.3], [0.0, 3.3], [0.0, 0.0], [1.822, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"},\n{\"id\": \"obj_0001\", \"category\": \"cupboard\", \"description\": \"cupboard\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.8, 3.3], \"wall_from\": [1.822, 3.3], \"wall_to\": [0.0, 3.3], \"width_m\": 0.8, \"height_m\": 1.2, \"sill_height_m\": 0.9}, {\"type\": \"door\", \"centre_xy\": [0.477, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [1.822, 0.0], \"width_m\": 0.8, \"height_m\": 2.0}, {\"type\": \"window\", \"centre_xy\": [1.822, 1.334], \"wall_from\": [1.822, 0.0], \"wall_to\": [1.822, 3.3], \"width_m\": 1.0, \"height_m\": 1.2, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.1}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

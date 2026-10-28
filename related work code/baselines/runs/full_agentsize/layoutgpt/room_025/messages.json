@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: air conditioner, armchair, bookcase, cabinet, carpet, chair, coffee table, combination sofa, computer, desk, drawer chest, floor lamp, footstool, l shaped sofa, loveseat sofa, musical instrument, plants, potted plant, side table, sideboard, sofa, stool, table, tea table, three seat sofa, tv cabinet, tv stand \nOverall furniture frequencies: (air conditioner: 0.0196; armchair: 0.0784; bookcase: 0.0196; cabinet: 0.0196; carpet: 0.0196; chair: 0.0588; coffee table: 0.0588; combination sofa: 0.0196; computer: 0.0196; desk: 0.0196; drawer chest: 0.0392; floor lamp: 0.0196; footstool: 0.0196; l shaped sofa: 0.0196; loveseat sofa: 0.0196; musical instrument: 0.0196; plants: 0.0196; potted plant: 0.0392; side table: 0.1569; sideboard: 0.0392; sofa: 0.0588; stool: 0.0196; table: 0.0196; tea table: 0.0196; three seat sofa: 0.0588; tv cabinet: 0.0196; tv stand: 0.0784)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.88m, max width 4.36m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "chair[obj_0000] {length: 0.88m; height: 0.29m; width: 0.51m; orientation: -180 degrees; left: 4.01m; top: 3.02m; depth: 0.00m;}\ncabinet[obj_0001] {length: 2.66m; height: 1.14m; width: 0.50m; orientation: -90 degrees; left: 2.45m; top: 4.10m; depth: 0.00m;}\ntable[obj_0002] {length: 1.61m; height: 0.52m; width: 0.91m; orientation: -90 degrees; left: 2.73m; top: 2.92m; depth: 0.00m;}\nsofa[obj_0003] {length: 3.71m; height: 0.88m; width: 1.49m; orientation: 90 degrees; left: 2.51m; top: 1.72m; depth: 0.00m;}\nchair[obj_0004] {length: 0.88m; height: 0.29m; width: 0.51m; orientation: -180 degrees; left: 1.01m; top: 3.02m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.84m, max width 4.24m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "coffee table[obj_0000] {length: 2.19m; height: 0.78m; width: 1.19m; orientation: -90 degrees; left: 1.36m; top: 2.69m; depth: 0.00m;}\nfloor lamp[obj_0001] {length: 0.49m; height: 1.62m; width: 0.48m; orientation: -90 degrees; left: 3.09m; top: 4.06m; depth: 0.00m;}\nsideboard[obj_0002] {length: 1.32m; height: 1.09m; width: 0.43m; orientation: 90 degrees; left: 3.84m; top: 0.18m; depth: 0.00m;}\nfootstool[obj_0003] {length: 0.48m; height: 0.36m; width: 0.48m; orientation: -180 degrees; left: 2.70m; top: 2.53m; depth: 0.00m;}\nsideboard[obj_0004] {length: 1.42m; height: 0.70m; width: 0.32m; orientation: -180 degrees; left: 4.72m; top: 2.08m; depth: 0.00m;}\ntv stand[obj_0005] {length: 2.01m; height: 0.49m; width: 0.40m; orientation: -90 degrees; left: 1.33m; top: 4.00m; depth: 0.00m;}\nside table[obj_0006] {length: 0.53m; height: 0.65m; width: 0.53m; orientation: -90 degrees; left: 2.90m; top: 1.44m; depth: 0.00m;}\nside table[obj_0007] {length: 0.38m; height: 0.49m; width: 0.38m; orientation: 133 degrees; left: 0.27m; top: 1.58m; depth: 0.00m;}\nthree seat sofa[obj_0008] {length: 2.50m; height: 0.86m; width: 0.97m; orientation: 90 degrees; left: 1.39m; top: 1.57m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 5.06m, max width 4.23m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "musical instrument[obj_0000] {length: 0.27m; height: 1.05m; width: 0.27m; orientation: 90 degrees; left: 4.10m; top: 0.07m; depth: -0.00m;}\nside table[obj_0001] {length: 0.53m; height: 0.56m; width: 0.45m; orientation: -90 degrees; left: 1.28m; top: 3.58m; depth: 0.00m;}\nloveseat sofa[obj_0002] {length: 2.06m; height: 0.96m; width: 0.90m; orientation: 0 degrees; left: 0.89m; top: 2.26m; depth: 0.00m;}\ntv stand[obj_0003] {length: 2.06m; height: 0.40m; width: 0.42m; orientation: 90 degrees; left: 2.78m; top: 0.22m; depth: 0.00m;}\nside table[obj_0004] {length: 0.53m; height: 0.56m; width: 0.45m; orientation: -90 degrees; left: 4.35m; top: 3.62m; depth: 0.00m;}\nthree seat sofa[obj_0005] {length: 2.49m; height: 0.80m; width: 0.88m; orientation: -90 degrees; left: 2.79m; top: 3.77m; depth: 0.00m;}\ncoffee table[obj_0006] {length: 1.43m; height: 0.40m; width: 0.60m; orientation: -90 degrees; left: 2.78m; top: 2.26m; depth: 0.00m;}\narmchair[obj_0007] {length: 0.86m; height: 1.15m; width: 0.75m; orientation: -180 degrees; left: 4.66m; top: 2.29m; depth: 0.00m;}\npotted plant[obj_0008] {length: 0.21m; height: 0.45m; width: 0.18m; orientation: -90 degrees; left: 4.53m; top: 0.22m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.69m, max width 4.41m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "drawer chest[obj_0000] {length: 0.70m; height: 1.11m; width: 0.43m; orientation: -180 degrees; left: 4.47m; top: 0.77m; depth: 0.00m;}\ndrawer chest[obj_0001] {length: 0.70m; height: 1.11m; width: 0.43m; orientation: -180 degrees; left: 4.47m; top: 1.67m; depth: 0.00m;}\narmchair[obj_0002] {length: 1.06m; height: 0.74m; width: 0.92m; orientation: -180 degrees; left: 4.19m; top: 3.07m; depth: 0.00m;}\nside table[obj_0003] {length: 0.44m; height: 0.44m; width: 0.44m; orientation: -64 degrees; left: 4.09m; top: 2.28m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.69m, max width 4.22m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "coffee table[obj_0000] {length: 0.80m; height: 0.39m; width: 0.80m; orientation: -180 degrees; left: 3.08m; top: 1.98m; depth: 0.00m;}\ntv stand[obj_0001] {length: 1.70m; height: 0.62m; width: 0.45m; orientation: 0 degrees; left: 0.39m; top: 2.06m; depth: 0.00m;}\narmchair[obj_0002] {length: 0.73m; height: 0.82m; width: 0.85m; orientation: -90 degrees; left: 3.06m; top: 3.36m; depth: 0.00m;}\nthree seat sofa[obj_0003] {length: 2.18m; height: 0.64m; width: 0.76m; orientation: -180 degrees; left: 4.26m; top: 1.95m; depth: 0.00m;}\nside table[obj_0004] {length: 0.69m; height: 0.48m; width: 0.63m; orientation: 90 degrees; left: 4.15m; top: 0.53m; depth: 0.00m;}\npotted plant[obj_0005] {length: 0.44m; height: 0.69m; width: 0.41m; orientation: 0 degrees; left: 0.54m; top: 3.37m; depth: 0.00m;}\narmchair[obj_0006] {length: 0.73m; height: 0.82m; width: 0.85m; orientation: 90 degrees; left: 3.11m; top: 0.70m; depth: 0.00m;}\nside table[obj_0007] {length: 0.69m; height: 0.48m; width: 0.63m; orientation: 90 degrees; left: 4.21m; top: 3.44m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.64m, max width 4.26m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "side table[obj_0000] {length: 0.56m; height: 0.68m; width: 0.56m; orientation: -90 degrees; left: 0.30m; top: 0.40m; depth: 0.00m;}\ntv stand[obj_0001] {length: 2.61m; height: 0.55m; width: 0.40m; orientation: -90 degrees; left: 2.67m; top: 4.04m; depth: 0.00m;}\ntea table[obj_0002] {length: 1.24m; height: 0.37m; width: 0.81m; orientation: 90 degrees; left: 1.89m; top: 1.88m; depth: 0.00m;}\nl shaped sofa[obj_0003] {length: 3.67m; height: 0.89m; width: 1.68m; orientation: 90 degrees; left: 2.49m; top: 0.90m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.92m, max width 4.04m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "air conditioner[obj_0000] {length: 0.33m; height: 1.73m; width: 0.33m; orientation: -90 degrees; left: 0.55m; top: 3.71m; depth: 0.00m;}\ncombination sofa[obj_0001] {length: 3.91m; height: 1.17m; width: 2.52m; orientation: 90 degrees; left: 2.47m; top: 1.30m; depth: -0.00m;}\ntv cabinet[obj_0002] {length: 2.59m; height: 0.59m; width: 0.40m; orientation: -90 degrees; left: 2.46m; top: 3.81m; depth: 0.00m;}\ncarpet[obj_0003] {length: 2.11m; height: 0.01m; width: 2.75m; orientation: -180 degrees; left: 2.44m; top: 1.86m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.91m, max width 4.01m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "stool[obj_0000] {length: 0.58m; height: 0.34m; width: 0.47m; orientation: 137 degrees; left: 3.56m; top: 1.49m; depth: 0.01m;}\nplants[obj_0001] {length: 0.73m; height: 1.60m; width: 0.61m; orientation: 0 degrees; left: 4.54m; top: 1.52m; depth: 0.00m;}\nsofa[obj_0002] {length: 1.59m; height: 0.80m; width: 0.95m; orientation: -90 degrees; left: 0.98m; top: 3.48m; depth: 0.00m;}\ncomputer[obj_0003] {length: 0.38m; height: 0.26m; width: 0.34m; orientation: 0 degrees; left: 3.50m; top: 2.92m; depth: 0.77m;}\nsofa[obj_0004] {length: 0.68m; height: 0.86m; width: 0.88m; orientation: 137 degrees; left: 4.20m; top: 0.87m; depth: -0.00m;}\nbookcase[obj_0005] {length: 3.00m; height: 2.45m; width: 0.55m; orientation: -90 degrees; left: 3.41m; top: 3.74m; depth: 0.00m;}\ndesk[obj_0006] {length: 1.24m; height: 0.80m; width: 0.63m; orientation: 0 degrees; left: 3.45m; top: 2.84m; depth: 0.00m;}\nchair[obj_0007] {length: 0.58m; height: 0.87m; width: 0.67m; orientation: 180 degrees; left: 4.14m; top: 2.88m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.90m, max width 4.33m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nside table[obj_0000]: A modern L-shaped desk with a sleek black surface and gold-colored metal frame. The design features an open structure with no drawers or shelves.\nl shaped sofa[obj_0001]: A modern sectional sofa with a gray fabric finish, featuring multiple cushions and black throw pillows arranged for comfort. The design includes a chaise lounge section.\ntv stand[obj_0002]: A sleek, modern media console with a wooden finish and a combination of dark gray and white panels. It features two drawers on the right side and a cabinet on the left side, supported by thin legs.\ncoffee table[obj_0003]: A pair of modern side tables with wooden legs and hexagonal tabletops. One table holds a potted plant while the other has decorative vases.\nFloor polygon (left, top): (3.22, 1.04), (3.22, 4.33), (0.00, 4.33), (0.00, 0.00), (4.90, 0.00), (4.90, 1.04)\ndoor 2.31m wide at left 1.57m, top 4.33m\ndoor 0.82m wide at left 4.51m, top 0.00m\ndoor 0.80m wide at left 4.90m, top 0.54m\ndoor 0.83m wide at left 4.11m, top 1.04m\nConstraint: {\"type\": \"faces\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0002\"}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.1}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0002\"}\nLayout:\n"
+ }
+]

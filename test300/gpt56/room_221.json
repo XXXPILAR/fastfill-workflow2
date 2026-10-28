@@ -1,0 +1,60 @@
+{
+ "k": 221,
+ "source": "SpatialLM",
+ "room_type": "children's bedroom",
+ "latency_s": 25.500378458062187,
+ "usage": [
+  {
+   "prompt_tokens": 947,
+   "completion_tokens": 1257,
+   "total_tokens": 2204,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1034,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.84,
+     1.14,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.06,
+     1.82,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.72,
+     1.2,
+     0.78
+    ],
+    "bottom_center_m": [
+     2.12,
+     0.63,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe two combination pieces are the room’s largest items, so they are placed consecutively along the long right wall. The sofa occupies the lower section, while the compact dining/activity-table combination sits immediately beside it, keeping the requested distance under 0.1 m. Both face into the room, leave a broad central aisle, avoid the window, and keep the narrowed upper area and door approach unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.14,\"depth_m\":0.84,\"height_m\":0.75,\"x\":2.06,\"y\":1.82,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":1.2,\"depth_m\":0.72,\"height_m\":0.78,\"x\":2.12,\"y\":0.63,\"z\":0.0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nchildren's bedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.480 m x 3.150 m x 3.000 m\nfloor polygon (x, y): [[1.4, 3.15], [1.4, 2.56], [0.0, 2.56], [0.0, 0.0], [2.48, 0.0], [2.48, 3.15]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"dining table combination\", \"description\": \"dining table combination\"},\n{\"id\": \"obj_0001\", \"category\": \"combination sofa\", \"description\": \"combination sofa\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.94, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.48, 0.0], \"width_m\": 1.6, \"height_m\": 2.0, \"sill_height_m\": 0.6}, {\"type\": \"door\", \"centre_xy\": [1.94, 3.15], \"wall_from\": [2.48, 3.15], \"wall_to\": [1.4, 3.15], \"width_m\": 0.88, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.1}, {\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

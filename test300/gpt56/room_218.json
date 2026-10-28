@@ -1,0 +1,102 @@
+{
+ "k": 218,
+ "source": "SpatialLM",
+ "room_type": "children's bedroom",
+ "latency_s": 36.630478042177856,
+ "usage": [
+  {
+   "prompt_tokens": 873,
+   "completion_tokens": 1882,
+   "total_tokens": 2755,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1495,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.55,
+     1.0,
+     2.1
+    ],
+    "bottom_center_m": [
+     2.663,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     1.9,
+     0.9,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.1,
+     0.95,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.48
+    ],
+    "bottom_center_m": [
+     1.875,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.48
+    ],
+    "bottom_center_m": [
+     0.325,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.65,
+     0.8,
+     0.02
+    ],
+    "bottom_center_m": [
+     0.5,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe single bed occupies the south side with its headboard against the wall. The two nightstands flank the head of the bed, satisfying the requirement that the bed be between them. The wardrobe is placed against the east wall, facing a usable aisle beside the bed. A small carpet creates a play area in the northwest corner. The central and northeast portions remain open, providing a clear route from the door to the bed, wardrobe, and nightstands.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.0,\"depth_m\":0.55,\"height_m\":2.1,\"x\":2.663,\"y\":1.55,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.9,\"depth_m\":1.9,\"height_m\":0.55,\"x\":1.1,\"y\":0.95,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.48,\"x\":1.875,\"y\":0.225,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.48,\"x\":0.325,\"y\":0.225,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.8,\"depth_m\":0.65,\"height_m\":0.02,\"x\":0.5,\"y\":2.55,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nchildren's bedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.938 m x 2.947 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [2.938, 0.0], [2.938, 2.947], [0.0, 2.947]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"},\n{\"id\": \"obj_0001\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0002\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0003\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0004\", \"category\": \"carpet\", \"description\": \"carpet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [1.88, 2.947], \"wall_from\": [2.938, 2.947], \"wall_to\": [0.0, 2.947], \"width_m\": 0.9, \"height_m\": 2.05}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0001\", \"target_ids\": [\"obj_0003\", \"obj_0002\"]}]\n[/Task Constraints]"
+}

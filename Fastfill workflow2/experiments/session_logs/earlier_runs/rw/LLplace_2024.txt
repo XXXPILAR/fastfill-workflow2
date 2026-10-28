@@ -1,0 +1,629 @@
+LLplace: The 3D Indoor Scene Layout Generation and
+Editing via Large Language Model
+Yixuan Yang1,2∗ Junru Lu2 Zixiang Zhao3 Zhen Luo1
+James J.Q. Yu4 Victor Sanchez2 Feng Zheng1†
+1 Southern University of Science and Technology 2 University of Warwick
+3Xi’an Jiao Tong University 4York University
+Abstract
+Designing 3D indoor layouts is a crucial task with significant applications in virtual
+reality, interior design, and automated space planning. Existing methods for 3D
+layout design either rely on diffusion models, which utilize spatial relationship
+priors, or heavily leverage the inferential capabilities of proprietary Large Lan-
+guage Models (LLMs) , which require extensive prompt engineering and in-context
+exemplars via black-box trials. These methods often face limitations in generaliza-
+tion and dynamic scene editing. In this paper, we introduce LLplace, a novel 3D
+indoor scene layout designer based on lightweight fine-tuned open-source LLM
+Llama3. LLplace circumvents the need for spatial relationship priors and in-context
+exemplars, enabling efficient and credible room layout generation based solely
+on user inputs specifying the room type and desired objects. We curated a new
+dialogue dataset based on the 3D-Front dataset, expanding the original data volume
+and incorporating dialogue data for adding and removing objects. This dataset
+can enhance the LLM’s spatial understanding. Furthermore, through dialogue,
+LLplace activates the LLM’s capability to understand 3D layouts and perform
+dynamic scene editing, enabling the addition and removal of objects. Our approach
+demonstrates that LLplace can effectively generate and edit 3D indoor layouts
+interactively and outperform existing methods in delivering high-quality 3D design
+solutions. Code and dataset will be released.
+1 Introduction
+The design and optimization of 3D indoor object layouts play a crucial role in various applications,
+including interior design Feng et al. [2024], Paschalidou et al. [2021], game design Deitke et al. [2022],
+automated space planning Fu et al. [2024], Huang et al. [2023a], and robotics Yang et al. [2024a],
+Chen et al. [2023]. Effective and reasonable indoor layout design enhances both the functionality and
+aesthetic appeal of living and working spaces, directly impacting the quality of life and productivity
+of their occupants. Despite significant advancements in the field of artificial intelligence, specifically
+in natural language processing and computer vision, the task of flexibly generating and dynamically
+editing 3D indoor layouts from naive texts remains a complex challenge.
+Existing methods for designing indoor scene layouts are primarily categorized into two types. The
+first one is based on diffusion models Ho et al. [2020], which utilize these models along with various
+spatial feature priors to generate 3D layouts. Representative approaches in this category include
+∗Email: arnoldyang97@gmail.com.
+†Corresponding Author.
+Preprint. Under review.
+arXiv:2406.03866v1  [cs.CV]  6 Jun 2024
+Figure 1: Generated results of 3D indoor scenes from LLplace and compared with LayoutGPT and
+GPT-4o. And editing results from LLplace and compared with GPT-4o.
+DiffuScene Tang et al. [2023] and InstructScene Lin and Mu [2024]. The second category relies on the
+inferential capabilities of existing LLMs (e.g., GPT-4 Achiam et al. [2023]), using numerous prompts
+to generate corresponding 3D layouts, such as LayoutGPT Feng et al. [2024] and Holodeck Yang
+et al. [2024b]. DiffuScene Tang et al. [2023] extracts the multidimensional features of objects in
+space and uses diffusion to achieve the self-denosing learning and generation of 3D spatial layouts.
+In contrast, InstructScene Lin and Mu [2024] leverages the positional relationships between objects
+as conditions, constructing a graph model where each node represents an object, then uses graph
+diffusion to generate the layout. On the other hand, LLM-based methods differ from diffusion-based
+models, as they utilize inherent language understanding and generation capabilities to interpret textual
+prompts and translate them into spatial arrangements. Holodeck requires specific spatial relationships
+between objects as prompts to generate the room layout, while LayoutGPT first retrieves relevant
+room layouts from a well-crafted database and then use these as in-context exemplars to guide the
+LLMs in generating the targeting layout. In summary, above existing approaches have obvious
+drawbacks. Firstly, most layout generation models rely on spatial relationship priors or examples
+as model inputs to guide in generation. If users do not provide these relationships or if the system
+cannot retrieve accurate examples, these models cannot achieve convincing results. Herein, these
+prior-inspired strategies significantly constrain the model’s generalization capability when meets
+newly different scenarios, where high-quality priors or exemplars are expensive. Secondly, most
+current LLM-based layout models solely supports one-time static layout generation, while can not
+perform dynamic scene editing. This does not align with the interactive nature intended for LLMs.
+Therefore, we are particularly interested in exploring the potential of LLMs as a dynamic 3D scene
+layout designer that do not rely on strong priors or pre-prepared in-context exemplars.
+Consequently, in this paper, we introduce a novel 3D indoor scene layout designer, LLplace (Large
+Language Model for Indoor Placement). We first carefully design a format-friendly meta prompt
+template towards 3D indoor layout design, then reconstruct regular 3D-Front dataset Fu et al. [2021a]
+for static scene generation and dynamic scenario editing in the format of multi-turn conversations.
+This is to ensure compatibility with the interactive routines of LLMs. Specifically, we opt to fine-tune
+a SOTA open-source LLM, Llama3 Touvron et al. [2023].We employ LoRA Hu et al. [2021] for
+parameter-efficient fine-tuning. In our design pipeline, we first specify the user input as the room type
+and descriptions of objects within the room. We then retrieve 3D assets and corresponding bounding
+boxes from the 3D-Front dataset using the object descriptions. Subsequently, we convert the user
+inputs and corresponding bounding boxes of the corresponding objects into a JSON format that the
+LLM can accept, which is like the general data process in the LLM area Liu et al. [2023], Lu et al.
+[2023]. The entire transcription is finally completed after we embed the user request JSON with our
+meta prompt template. The overall pipeline is not only used for the construction of training data,
+but also for the execution of inference. In accordance with the input JSON format, we also design
+to use JSON to standardize the labels of the training data. The “JSON-in” and “JSON-out” schema
+is beneficial for the coupling of semi-structured natural language requests and auxiliary structured
+programming. Based on the retrieved 3D assets and their bounding boxes, we ask the LLM to report
+its design containing the coordinates and rotation angles of the objects in the room. We go beyond
+traditional static 3D indoor layout generation by also considering dynamic scene editing. We develop
+the aforementioned instructions and labels into dialogues, adding an additional round of editing
+requests, such as adding or removing objects. The LLM then reasonably modifies its further output
+accordingly. In addition, we are able to refactor the user’s input JSON and LLM’s output JSON at
+2
+each turn of the conversation into spatial 3D bounding box layouts, which can then be rendered into a
+series of 3D representations .
+As shown in Figure 1, we compare LLplace with LayoutGPT Feng et al. [2024] and the latest
+GPT-4o model with our meta prompt template. The scenes generated by LLplace are more reasonable
+compared to the other two models without overlapping and wrong rotation problems. In scene
+editing, LLplace can understand the existing 3D scene and add objects to the correct positions. This
+demonstrates that the dynamic understanding and editing capabilities of the LLplace designer are
+not present in the existing LLM-based approaches. The main contribution of the LLplace can be
+summarized as follows:
+• We introduce a novel 3D indoor scene layout designer, LLplace, which is based on a fine-
+tuned open-source LLM model. This designer does not require the use of spatial relationship
+priors or in-context exemplars. Instead, it efficiently generates credible room layouts based
+solely on user inputs specifying the room type and the objects to be placed.
+• We curate a new dialogue dataset based on the 3D-Front dataset, which not only expands
+the original data volume but also includes dialogue data for adding and removing objects,
+enhancing the spatial understanding capabilities of the LLM towards the real physical world.
+• By fine-tuned with this dialogue data, LLplace ensures that the LLM can statically generate
+3D layouts. Also, it activates the LLM’s capability to understand and generate 3D layouts
+via chatting, enabling the dynamic addition and removal of objects within the spatial layout.
+2 Related Work
+Models for 3D indoor scene layout can be broadly classified into three categories: traditional methods
+using prior knowledge, generative models for scene generation, and LLM-based methods.
+Traditional 3D Indoor Scene Design. Early approaches to 3D indoor scene design used autoregres-
+sive models that required supervision with 2D bounding boxes or various visual maps Ritchie et al.
+[2019], Luo et al. [2020], Yang et al. [2021b]. And Purkait et al. [2020], Gao et al. [2023], Yang et al.
+[2021a] use variational auto-encoder (V AE) Kingma and Welling [2013] to model the distribution of
+objects to generate indoor scenes. SceneFormer Wang et al. [2021] introduced the use of transformers
+to add furniture to scenes, marking a significant innovation in the field. Unlike previous methods
+that relied on separate models to predict different object attributes, ATISS Paschalidou et al. [2021]
+demonstrated that a single transformer model could generate more realistic and efficient arrangements.
+However, these traditional models often cannot use textual instructions to specify scene inputs and
+requirements.
+Generative Models for 3D Indoor Scene Design. Using diffusion models for indoor scene design
+has become increasingly popular Tang et al. [2023], Huang et al. [2023b], Fang et al. [2023], Lin and
+Mu [2024]. DiffuScene Tang et al. [2023] extracts the features of various objects and uses a diffusion
+model to generate the characteristics of indoor scenes. Similarly, Ctrl-room Fang et al. [2023]
+generates bounding boxes and then employs ControlNet Zhang et al. [2023] to create panoramas,
+which are converted into textured meshes. InstructScene Lin and Mu [2024] takes a different approach
+by utilizing relationships between objects as priors and applying graph diffusion for scene generation.
+Despite their strengths, diffusion-based models face challenges in achieving real-time interactivity
+and understanding existing scene layouts for further editing. These limitations make it difficult for
+diffusion models to facilitate dynamic scene modifications, which is a capability that shows potential
+in LLM-based models.
+LLM-Based Methods for 3D Indoor Scene Design. LLM-based methods leverage the inferential
+capabilities of LLMs to design 3D indoor layouts. These models use extensive prompts to generate
+corresponding layouts. For instance, Holodeck Yang et al. [2024b] requires users to specify spatial
+relationships between objects as prompts to generate room layouts. Similarly, I-Design Çelen et al.
+[2024] first generates a graph of relationships, which is then used to create 2D design plans. Aguina-
+Kang et al. [2024] represents an entire scene using a program, also requiring numerous prompts and
+spatial relationships to assist in generation. LayoutGPT Feng et al. [2024], uses user inputs to retrieve
+relevant room layouts from a database and employs these as in-context exemplars to guide the GPT
+model in generating new layouts. While these methods demonstrate the capability of LLMs in layout
+design, they still face challenges in terms of flexibility due to their reliance on predefined examples.
+And also these methods do not utilize the inherent conversational capabilities of LLMs to further edit
+3
+scenes after generation. This limits their interactivity and adaptability, as they cannot dynamically
+adjust layouts based on user dialogue.
+3 Method
+The overall pipeline of LLplace is illustrated in Fig. 2. In section 3.1, we define the problem,
+highlighting our goal of not only generating room layouts but also enabling the LLM to understand
+layout distributions and perform layout editing. Next, in section 3.2, we present our approach,
+proposing three strategies for model expansion. Then we detail how to define the input and output
+for the LLM model in section 3.2.1 and explain how to construct effective meta instruction prompts
+to guide layout generation and editing in section 3.2.2. Finally, in section 3.2.3 we describe the
+process of constructing dialogue data that allows for layout generation and scene editing, based on
+the existing 3D-Front dataset.
+3.1 Problem Formulation
+To support LLplace for designing indoor 3D scenes, the system imposes three requirements on user
+instruction I : (1) The type of the room TTT , (2) The specific descriptions DDD1∼N of NNN objects that to
+be placed in the room, and (3) The specific quantity QQQn of the nnn-th object. TTT helps the designer to
+understand the overall objective of the room layout, clarifying whether the user intends to design
+a bedroom, living room, or another type of space. Descriptions of the objects DDD1∼N enable our
+designer to retrieve the most suitable items from an existing 3D database. Together with the specified
+quantities QQQn of each item, these descriptions allow the designer to design a practical room layout.
+Consequently, the user input can be structured as I ={TTT , [QQQn, DDDn]1∼N}.
+Based on the user’s descriptionDDD1∼N, we employ a retrieval moduleRRR to perform text-to-3D searches
+within an aligned text-3D database BBB. In addition to the mesh structures, each object in the database
+has been transformed into the 3D representation and also includes bounding box annotations, denoted
+as bbbbbboooxxx1∼M∈ BBB, where MMM is a far larger number compared with typical object quantity QQQn in an
+user’s normal request. The retrieved 3D information bbbbbboooxxx1∼N of all requested NNN objects serves
+as the core of conditional prompt for the LLplace. The LLM is tasked with generating the central
+coordinate ccc1∼N, and rotation angle data rrr1∼N. Besides, we annotate the meta prompt template of
+static generation as PPPgen, which is a fixed text wrapper of sorting retrieved bbbbbboooxxx1∼N into a fluent text
+instruction, and then guiding the LLM for effective design. The required input and output of LLplace
+can be denoted as follows:
+bbbbbboooxxx1∼N = RRR(DDD1∼N, BBB) (1)
+{I , [cccn, rrrn]1∼N} = LLM[PPPgen(I , bbbbbboooxxx1∼N)] (2)
+For a single room, there are NNN objects to be placed, which is formulated as{bbbbbboooxxxn, cccn, rrrn}∈ Room.
+Each triplet{bbbbbboooxxxn, cccn, rrrn} uniquely determines the position of nnn-th object in 3D space. Particularly,
+bbbbbboooxxxn ={hhhn, wwwn, dddn}, which represents the bounding box size with height, width, and depth. And
+cccn ={xxxn, yyyn, zzzn}, which indicates the 3D coordinate center and represents the centroid coordinates.
+And rrrn is the rotation angle. Moreover, as previously mentioned, our LLplace support further scene
+editing. Let EEE denotes either adding ( +++) or removing (−−−) operation, and E ={EEE, [QQQk, DDDk]1∼K}
+denotes the new editing request over KKK targeting objects:
+bbbbbboooxxx1∼K = RRR(DDD1∼K, BBB|EEE := +++) (3)
+{I± E , [cccn±k, rrrn±k]1∼N±K} = LLM[PPPedit ({I , [cccn, rrrn]1∼N}, E , bbbbbboooxxx1∼K|E:=+)] (4)
+If the kkk-th object is to be removed, the user is allowed to provide a new description DDDk and the
+removing request EEE :=−−−. To add objects, newly bounding box bbbbbboooxxx1∼K will be additionally
+retrieved. The LLM then interactively modifies the existing layout, using the meta prompt template
+of editing PPPedit as the text wrapper similar to the static generation stage. Subsequently, we parse the
+output{I , [cccn, rrrn]1∼N} of static generation and the output{I± E , [cccn±k, rrrn±k]1∼N±K} of dynamic
+editing into layouts, and then render them into 3D representations SSSgen
+3D and SSSedit
+3D , respectively.
+3.2 LLplace
+In this section, we present details of building LLplace. We employ the SOTA open-source model
+Llama33 as a prior foundation. Building on this, we utilize Low-Rank Adaptation (LoRA) for
+3https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct
+4
+Figure 2: The pipeline of LLplace. First, start from the left upper corner, we extract the room type
+and the user’s desired objects from the user input. Then, we retrieve 3D objects and corresponding
+bounding boxes. Next, we wrap the user input, bounding box information, and meta prompt PPPgen into
+an LLM instruction, as shown in the middle upper box. Using the LoRA fine-tuned Llama3 model,
+we obtain the LLM output (the right upper box), which includes the center coordinates and rotation
+angles of the objects. We then combine this output with the input information to convert it into a
+3D layout and render it into a 3D scene (the left bottom corner). To edit the generated 3D scene
+layout, we combine the previous layout, user input, and edit prompt PPPedit into a new instruction. The
+fine-tuned Llama3 model is then applied to generate the new scene, illustrated at the right bottom.
+fine-tuning, aiming to stimulate and refine the model’s abilities in 3D world spatial reasoning and con-
+figuration parameter-effectively. We propose the following steps to foster the LLM’s understanding,
+generating and editing of 3D spaces: (1) Define Input and Output Format. Defining the input and
+output stream of the LLM is a primary task, as appropriate inputs and outputs can significantly aid
+the model in more effectively generating and understanding 3D spatial features; (2) Establish Meta
+Prompt Template for Object Placement. Design instructive meta prompt templates as language
+wrapper to guide and give reasonable constraints to the LLM for appropriate object placements; (3)
+Construct Dialogue-based Training Data. Modify and augment the existing indoor scene layout
+dataset to enhance the LLM’s understanding of spatial positions, and leverage its chatting talents for
+further editing functionality of objects through conversational instructions.
+3.2.1 Define Input and Output Format
+We begin by discussing the input and output specifications of the LLM model during the layout
+generation and scene editing process. As mentioned in Section 3.1, we can use the spatial feature
+triplet{bbbbbboooxxx, ccc, rrr} to represent an object in a 3D space, where bounding box bbbbbboooxxx ={hhh, www, ddd},
+location coordinates ccc ={xxx, yyy, zzz}, in specific. In order to provide a cornerstone for the LLM, when
+we retrieve an appropriate 3D object, we determine the bbbbbboooxxx as an intrinsic feature that is already
+inherent in each 3D object, whereas ccc and rrr represent two other properties that can be freely designed
+in space. Therefore, in LLplace, we merge the bbbbbboooxxx feature as the conditional information with
+user’s description DDD, wrapped through carefully designed meta prompt templates PPP, to feed into the
+LLM for the inference of the spatial information ccc and rrr. The left upper corner of Figure 2 illustrates
+the text-3D retrieval and instruction packing, resulting in the complete LLM’s instruction within the
+orange box at the middle upper part, including the step-by-steptask description and formalized user
+inputs. We standardize the user textual inputs with a series of special delimiters and formatted JSON.
+The room type TTT is wrapped with [Task Room Type]and [/Task Room Type]. And the descriptions
+of requested objects [DDDn, QQQn]1∼N and retrieved bbbbbboooxxx1∼N is correspondingly placed in JSON, attached
+5
+with [Task Objects & Bounding Box Size] and [/Task Objects & Bounding Box Size]. We aim for
+the model to infer from the user’s request and generate the 3D coordinates ccc1∼N and rotation angles
+rrr1∼N of objects in the room space. As demonstrated in the right upper of Figure 2, we guide the
+model to also report design plans with JSON format, sorting given priors and inferred attributes as
+key-value pairs, and suggesting with special delimiters [Task Output] and [/Task Output] for easy
+termination. The “JSON-in” and “JSON-out” schema enhances the stability of following transcription
+from the text output into 3D layout (left bottom corner of Figure 2).
+After generating the indoor scene layout, if the resulting scene is unsatisfactory, the model’s dynamic
+editing capabilities allow for further modifications. The input and output text for layout editing
+are similar to those used in the generation process, as shown in the bottom of Figure 2. To add an
+object kkk to the indoor scene, an additional object description DDDk is used to retrieve the appropriate 3D
+object and its bounding box information bbbbbboooxxxk. The above information, is then formatted into JSON
+and enclosed within the special delimiters [Add Objects] and [/Add Objects]. On the contrary,
+for deleting objects, the designer does not need to search for and describe the exact 3D object
+features. We allow users to describe the objects using plain natural language. We then convert these
+descriptions DDD1∼K into the format required for removing the objects and also placing them within
+special task indicating delimiters [Delete Objects] and [/Delete Objects].
+3.2.2 Establish Meta Prompt Template for Object Placement.
+Incorporating well-defined prompt instructions into the methodology of LLMs profoundly influences
+their capacity to generate and understand spatial layouts. Except for the aforementioned “JSON-in”
+and “JSON-out” schema and tailored component delimiters, we propose several key task statements
+to guide the generation of layouts. Here’s how these guidelines are structured, as briefly demonstrated
+in the middle top of Figure 2 and completely reported in the appendix A.3:
+• (1) Placement at Room Edges: The most important constraint we introduce at first is to
+encourage the placement of objects at the edges of the room whenever possible. This not only
+prevents the layout from being too concentrated in the center of the room but also enhances
+the perception of space, making the room appear larger and more open. This strategy is vital
+for maximizing the utility of space while maintaining an aesthetically pleasing arrangement,
+leading to human-preferred design.
+• (2) Avoiding Overlap in Bounding Boxes: It is crucial to explicitly state in the prompts
+that the bounding boxes of the generated objects should not overlap. This ensures that the
+generated layout maintains both functionality and visual appeal. By preventing physical
+interference between objects, we enhance the usability and aesthetic quality of the space.
+• (3) Alignment of Objects: To maintain order and symmetry in the layout, the prompt should
+encourage the alignment of objects. This alignment is essential for aesthetic consistency
+and functional design, contributing to a harmonious and efficient environment.
+• (4) Setting the Center of 3D Space : To anchor the model’s understanding of space, we
+define the center of the room as coordinates (0, 0, 0).
+Additionally, to familiarize the model with JSON inputs and outputs without biasing its generative
+process, we provide an in-context example that illustrates the format for layout generation. It is worth
+noting that this embedded example is a fixed format illustration, which is not retrieved through any
+existing large scale layout database (e.g., LayoutGPT). To enable the model to perform further layout
+edits, we incorporate additional task statements that guide the editing process. Complete prompt
+templates for generation and editing, which facilitate targeted adjustments and enhancements to the
+generated layouts, are detailed extensively in the appendix A.3.
+3.2.3 Construct Dialogue-based Training Data
+We apply the 3D-Front Fu et al. [2021a] dataset following the previous works InstructScene, Dif-
+fuScene, and LayoutGPT Lin and Mu [2024], Tang et al. [2023], Feng et al. [2024]. We tend to
+reconstruct the 3D-Front dataset into two turns of dialogue, involving a first turn of static generation
+and a second turn of dynamic editing. We fully leverage the defined input and out format in section
+3.2.1 and established meta prompt templates in section 3.2.2 .
+6
+Algorithm 1 Construction of the dialogue data from original 3D-front data.
+Require: The 3D-front data OOODDD,generation prompt PPPgen, and editing prompt PPPedit
+Ensure: Construct the dialogue-based generation and editing data with add and remove operations.
+1: Define the room type TTT , objects quantity QQQ and objects description DDD
+2: Define empty sets LLLgen and LLLedit for collecting generation data and editing data, respectively
+3: for each original data in OOODDD do
+4: Extract design request I ={TTT , [QQQn, DDDn]1∼N}
+5: for object in [QQQn, DDDn]1∼N do
+6: ooobbb jjj = [QQQn, DDDn]
+7: Extract each object’s bounding box bbbbbboooxxxn
+8: Extract each object’s placement coordinates cccn and rotation angle rrrn
+9: end for
+10: Generate the iiinnnpppuuuttt = PPPgen[I , bbbbbboooxxx1∼N] +<|eot_id|>
+11: Generate the lllaaabbbeeelll = [I , [cccn, rrrn]1∼N]
+12: if n > 4 then
+13: Randomly select editable objects ooobbb jjj1∼K = [QQQk, DDDk]1∼K from iiinnnpppuuuttt with probability 0.4
+14: Ensure essential items (table, chair , sofa, bed, lamp) are not selected
+15: Remove ooobbb jjj1∼K and its attributes from iiinnnpppuuuttt and lllaaabbbeeelll to get iiinnnpppuuutttN−K and lllaaabbbeeelllN−K
+16: end if
+17: if Generate editing data for adding objects then
+18: Generate the iiinnnpppuuutttedit = PPPedit (lllaaabbbeeelllN−K, [ooobbb jjj, bbbbbboooxxx]1∼K|add = True) +<|eot_id|>
+19: Generate the lllaaabbbeeellledit = lllaaabbbeeelll
+20: Update the iiinnnpppuuuttt := iiinnnpppuuutttN−K and the lllaaabbbeeelll := lllaaabbbeeelllN−K
+21: end if
+22: if Generate editing data for removing objects then
+23: Generate the iiinnnpppuuutttedit = PPPedit (lllaaabbbeeelll, [ooobbb jjj, bbbbbboooxxx]1∼K|remove = True) +<|eot_id|>
+24: Generate the lllaaabbbeeellledit = lllaaabbbeeelllN−K
+25: end if
+26: Add (iiinnnpppuuuttt, lllaaabbbeeelll) data pair to generation set LLLgen
+27: Add (iiinnnpppuuutttedit, lllaaabbbeeellledit) data pair to generation set LLLedit
+28: end for
+We report our dataset construction algorithm in Alg. 1. In specific, we begin with extracted objects
+[QQQn, DDDn]1∼N according to the design request, along with their attributes, shown as line 5 to 9. We
+then pre-generate complete design input iiinnnpppuuuttt and label lllaaabbbeeelll with line 10 and 11. Afterward,
+we incorporate randomness for editing functionality, and prepare a corrupted subset ( iiinnnpppuuutttN−K,
+lllaaabbbeeelllN−K) using line 12 to 16. For creating addition editing data, we use the subset input iiinnnpppuuutttN−K
+and addition objects ooobbb jjj1∼K. As for removing data, we use the complete set iiinnnpppuuuttt and removing
+objects ooobbb jjj1∼K. Simultaneously, we comprehensively modify the inputs & outputs of both generation
+(the first turn) and editing (the second turn) to contribute a fluent two-round dialogue serving as our
+training set, as shown from line 17 to 25. Particularly, the <|eot_id |> is the end of the turn token of
+the Llama3 model, which means the end of one turn conversation. Although dialogue data is quite
+common in LLM tasks, we are the pioneers in creating a dialogue dataset specifically for indoor scene
+design. By engaging in realistic dialogue scenarios, the model can learn to respond dynamically to
+user requests, simulating real-world interior design consultations.
+Finally, each single data sample is annotated with the names of objects in the room, their corresponding
+3D data, spatial coordinates, the size of each object’s bounding box, and their rotation angles. The
+descriptions of the objects are written by GPT-4V and cross-validated by human experts.
+4 Experiments
+4.1 Experiments Setup
+Dataset Setup. Our constructed dataset contains a total of 5,754 original entries. Through the process
+of random removal and addition, we create an additional 2,944 removal editing instructions and 3,100
+addition editing instructions. We use the same room test set as ATISS Paschalidou et al. [2021] and
+LayoutGPT Feng et al. [2024], consisting of 423 bedroom entries and 53 living room entries. We
+7
+Table 1: The quantitative performance between LLplace and LayoutGPT.
+Method Room Type FID ↓ OOR↓ GPT-4o Func.↑ GPT-4o Layout.↑ GPT-4o Aes.↑
+LayoutGPT Feng et al. [2024]Bedroom 133.7 0.078 8.0 7.5 7.2Livingroom 171.6 0.487 7.2 7.8 7.2Avg. 152.7 0.283 7.6 7.65 7.2
+LLplace Bedroom 95.8 0.056 8.4 8.0 7.5Livingroom157.8 0.472 7.6 7.6 7.2Avg. 126.8 0.264 8.0 7.8 7.35
+Figure 3: The showcases of LLplace in generating the layout of the bedroom and the living room.
+also use 43 bedroom editing entries and 33 living room editing entries in the test dataset. We split the
+rest of the 11,246 data with 566 as the eval set and other data as the training set.
+Training Setup. In our training process, due to resource constraints, we adopt the latest open-source
+model Llama3-8B-Instruct as the base LLM and use LoRA Hu et al. [2021] to fine-tune Llama3, for
+training the LLM’s 3D layout generation and editing understanding capabilities. Specifically, we set
+the LoRA alpha value to 32, the LoRA r value to 8, and the LoRA dropout rate to 0.05. Additionally,
+we set the learning rate to 1e-4 and use a cosine scheduler for optimization, training for 20 epochs.
+All the experiments are conducted on four NVIDIA A100 X 40G GPUs. It takes 18 hours for entire
+training.
+Evaluation Metrics. Existing methods do not provide a completely unified set of evaluation metrics.
+Therefore, in this paper, we introduce three evaluation metrics. The first is the FID metric, as used
+in LayoutGPT Feng et al. [2024], to assess the consistency between the rendered and real scenes.
+Next, we calculate the Object Overlap Rate (OOR) of bounding boxes in the scene to evaluate the
+rationality of the generated scene layout. Finally, we use the GPT-4o model to assess the quality
+of our rendered results. We use a prompt template to make GPT-4o evaluate the generated layouts
+from three perspectives: Functionality and Activity-based Alignment, Layout and Furniture, and
+Aesthetics of the Room’s Layout. Each aspect has a marking score varying from 0 to 10. To maintain
+consistency in rendering, we apply the open-source simple 3D viz renderer for all renderings.
+4.2 Experiment Results
+Quantitative Results. From the OOR values, it is evident that our bounding box position predictions
+yield a more reasonable distribution. Despite the OOR values indicating that the layout generation
+quality for living rooms still lags behind that of bedrooms, compared with LayoutGPT, which requires
+expensive high-quality in-context exemplars, we lead 2.2% and 1.5% OOR values in the bedroom
+and living room scenarios, respectively. The FID values further demonstrate that our method can
+8
+Figure 4: The qualitative results of the LLplace in scene editing.
+produce higher-quality scenes. LLplace achieves the best generation results for bedrooms, and for
+living rooms, obtaining up to 25.9 absolute improvements on average, compared with LayoutGPT.
+Furthermore, the evaluation results using GPT-4o show that our model performs better in rendered
+scenes for Bedrooms and has a similar performance to LayoutGPT in living Rooms, across all three
+evaluation aspects. In terms of functionality, GPT-4o considers our generated room layouts to be
+more practical, marking with a higher 8.0 average score. In terms of layout rationality and aesthetics,
+our model still leads LayoutGPT with 0.15 absolute improvements for both perspectives.
+Qualitative Reports. As shown in Fig. 3, the LLplace can generate reasonable layouts and understand
+the general 3D relationship between objects of the indoor scene. For example, Llplace accurately
+understand the following spatial relations: “the wardrobe should be on the side of the bed ”, “chairs
+should be placed around the table ”, and “the TV stand should be placed in front of the bed or the
+couch”. We also provide further comparison analysis of cases presented in Figure 1 in Appendix A.4,
+across our LLplace and other strong baselines.
+Scene Editing Results. In Figure 4, we demonstrate the scene editing capabilities of LLplace. As
+shown in the figure, we can add objects to an existing scene through language instructions. For
+example, we added a tall bookshelf to the living room. LLplace can analyze the relationships between
+existing objects and place the additional object in a suitable position. If the user wants to delete an
+object, they can do so using simple descriptive keywords as well. For instance, “a TV stand” and “one
+chair” are removed from the scene at the first row. This proves that LLplace, trained with dialogue
+data, possesses scene understanding and editing capabilities that current models cannot achieve. We
+also test the FID and OOR scores of editing random 20 bedroom scenes and 20 living room scenes.
+As shown in Table 2, LLplace maintains a relatively stable performance even after editing, losing
+16.6 FID average score, which is still better than the 152.7 FID score of LayoutGPT in Table 1.
+4.3 Ablation Study
+We apply random 50 bedroom scenes to conduct the ablation study. We test the generation results
+without adding key task instruction introduced in section 3.2.2 and evaluate the object addition
+capability of the model trained only with the original data, excluding dialogue data. We also report
+the FID and OOR values . As shown in the upper half of Table 3, the removal of task instruction leads
+to a significant performance degradation. Nevertheless, involving our carefully designed “JSON-
+in/out” schema and dialogue data during the training promises a comparable performance compared
+with former strong baselines. And the model trained with dialogue data can better understand the
+scene and place the added objects in appropriate locations, as reported in the second row of Table 3.
+5 Conclusion
+In this paper, we propose LLplace, a novel 3D indoor designer. LLplace utilizes LoRA to fine-tune the
+Llama3-8B-Instruct LLM to enable both room layout generation and scene editing through dialogue.
+Specifically, our model does not rely on expensive in-context exemplars and spatial relationship
+9
+Table 2: The FID ↓ and OOR ↓ performance
+after adding objects in the scenes by LLplace.
+Method Room FID ↓ OOR↓
+Generation
+Bedroom 95.8 0.056
+Livingroom 157.8 0.472
+Avg. 126.8 0.264
+Editing
+Bedroom 114.7 0.060
+Livingroom 172.4 0.525
+Avg. 143.4 0.293
+Table 3: The ablation studies of generation with-
+out task instruction and editing without training.
+Method FID ↓ OOR↓
+Task Ins.(TI.) with TI. 95.8 0.056
+w/o TI. 131.5 0.103
+Dialogue Editingwith training 114.7 0.060
+w/o training 142.1 0.072
+priors as existing approaches insist. Instead, we develop general prompt templates, then follow the
+mainstream paradigm of LLMs to extend the 3D-Front dataset into a dialogue dataset containing one
+turn of generation and the other turn of further editing, which manages to foster LLplace with both
+static generation and dynamic editing capabilities. Experimental results demonstrate that LLplace
+outperforms existing LLM-based indoor scene design methods across various metrics.
+References
+Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Aleman,
+Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. Gpt-4 technical report.
+arXiv preprint arXiv:2303.08774, 2023.
+Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stewart Morris, Seung Jean Yoo, Aditya Ganeshan,
+R Kenny Jones, Qiuhong Anna Wei, Kailiang Fu, and Daniel Ritchie. Open-universe indoor
+scene generation using llm program synthesis and uncurated object databases. arXiv preprint
+arXiv:2403.09675, 2024.
+Ata Çelen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton Obukhov, and Xi Wang.
+I-design: Personalized llm interior designer. arXiv preprint arXiv:2404.02838, 2024.
+Sijin Chen, Xin Chen, Chi Zhang, Mingsheng Li, Gang Yu, Hao Fei, Hongyuan Zhu, Jiayuan Fan,
+and Tao Chen. Ll3da: Visual interactive instruction tuning for omni-3d understanding, reasoning,
+and planning. arXiv preprint arXiv:2311.18651, 2023.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador, Winson Han,
+Eric Kolve, Aniruddha Kembhavi, and Roozbeh Mottaghi. Procthor: Large-scale embodied ai
+using procedural generation. Advances in Neural Information Processing Systems , 35:5982–5994,
+2022.
+Chuan Fang, Xiaotao Hu, Kunming Luo, and Ping Tan. Ctrl-room: Controllable text-to-3d room
+meshes generation with layout constraints. arXiv preprint arXiv:2310.03602, 2023.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu,
+Xin Eric Wang, and William Yang Wang. Layoutgpt: Compositional visual planning and generation
+with large language models. Advances in Neural Information Processing Systems , 36, 2024.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng, Chengyue Sun,
+Rongfei Jia, Binqiang Zhao, et al. 3d-front: 3d furnished rooms with layouts and semantics. In
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 10933–10942,
+2021a.
+Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve Maybank, and Dacheng
+Tao. 3d-future: 3d furniture shape with texture. International Journal of Computer Vision, 129:
+3313–3337, 2021b.
+Rao Fu, Jingyu Liu, Xilun Chen, Yixin Nie, and Wenhan Xiong. Scene-llm: Extending language
+model for 3d visual understanding and reasoning. arXiv preprint arXiv:2403.11401, 2024.
+Lin Gao, Jia-Mu Sun, Kaichun Mo, Yu-Kun Lai, Leonidas J Guibas, and Jie Yang. Scenehgn:
+Hierarchical graph networks for 3d indoor scene generation with fine-grained geometry. IEEE
+Transactions on Pattern Analysis and Machine Intelligence, 2023.
+10
+Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffusion probabilistic models. Advances in
+neural information processing systems, 33:6840–6851, 2020.
+Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang,
+and Weizhu Chen. Lora: Low-rank adaptation of large language models. arXiv preprint
+arXiv:2106.09685, 2021.
+Jiangyong Huang, Silong Yong, Xiaojian Ma, Xiongkun Linghu, Puhao Li, Yan Wang, Qing Li,
+Song-Chun Zhu, Baoxiong Jia, and Siyuan Huang. An embodied generalist agent in 3d world.
+arXiv preprint arXiv:2311.12871, 2023a.
+Siyuan Huang, Zan Wang, Puhao Li, Baoxiong Jia, Tengyu Liu, Yixin Zhu, Wei Liang, and Song-
+Chun Zhu. Diffusion-based generation, optimization, and planning in 3d scenes. In Proceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16750–16761,
+2023b.
+Diederik P Kingma and Max Welling. Auto-encoding variational bayes. arXiv preprint
+arXiv:1312.6114, 2013.
+Chenguo Lin and Yadong Mu. Instructscene: Instruction-driven 3d indoor scene synthesis with
+semantic graph prior. arXiv preprint arXiv:2402.04717, 2024.
+Xiao Liu, Xuanyu Lei, Shengyuan Wang, Yue Huang, Zhuoer Feng, Bosi Wen, Jiale Cheng, Pei Ke,
+Yifan Xu, Weng Lam Tam, et al. Alignbench: Benchmarking chinese alignment of large language
+models. arXiv preprint arXiv:2311.18743, 2023.
+Junru Lu, Siyu An, Mingbao Lin, Gabriele Pergola, Yulan He, Di Yin, Xing Sun, and Yunsheng Wu.
+Memochat: Tuning llms to use memos for consistent long-range open-domain conversation. arXiv
+preprint arXiv:2308.08239, 2023.
+Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B Tenenbaum. End-to-end optimization
+of scene layout. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 3754–3763, 2020.
+Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and Sanja Fidler.
+Atiss: Autoregressive transformers for indoor scene synthesis. Advances in Neural Information
+Processing Systems, 34:12013–12026, 2021.
+Pulak Purkait, Christopher Zach, and Ian Reid. Sg-vae: Scene grammar variational autoencoder
+to generate new indoor scenes. In European Conference on Computer Vision , pages 155–171.
+Springer, 2020.
+Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and flexible indoor scene synthesis via deep
+convolutional generative models. In Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pages 6182–6190, 2019.
+Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner. Diffuscene:
+Scene graph denoising diffusion probabilistic model for generative indoor scene synthesis. arXiv
+preprint arXiv:2303.14207, 2023.
+Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée
+Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open and
+efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023.
+Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. Sceneformer: Indoor scene generation
+with transformers. In 2021 International Conference on 3D Vision (3DV) , pages 106–115. IEEE,
+2021.
+Haitao Yang, Zaiwei Zhang, Siming Yan, Haibin Huang, Chongyang Ma, Yi Zheng, Chandrajit
+Bajaj, and Qixing Huang. Scene synthesis via uncertainty-driven attribute synchronization. In
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 5630–5640,
+2021a.
+11
+Ming-Jia Yang, Yu-Xiao Guo, Bin Zhou, and Xin Tong. Indoor scene generation from a collection of
+semantic-segmented depth images. In Proceedings of the IEEE/CVF International Conference on
+Computer Vision, pages 15203–15212, 2021b.
+Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang. Physcene: Physically interactable 3d
+scene synthesis for embodied ai. arXiv preprint arXiv:2404.09465, 2024a.
+Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson Han, Jiajun Wu, Nick
+Haber, Ranjay Krishna, Lingjie Liu, et al. Holodeck: Language guided generation of 3d embodied
+ai environments. In The IEEE/CVF Conference on Computer Vision and Pattern Recognition
+(CVPR 2024), volume 30, pages 20–25. IEEE/CVF, 2024b.
+Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. Adding conditional control to text-to-image
+diffusion models. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,
+pages 3836–3847, 2023.
+A Appendix
+A.1 Details of the Evaluation Metrics
+Object Overlap Rate (OOR).The object overlap rate (OOR) metric quantifies the spatial intersection
+between a set of 3D bounding boxes. It is calculated by determining the volume of intersection
+between each pair of bounding boxes and then dividing this volume by the smaller volume of the two
+boxes. This metric provides a value indicating the degree of overlap, where a value of 0 indicates no
+overlap and a value of 1 indicates complete embedding of the smaller box within the larger one. We
+use the OOR metric to evaluate whether objects within a 3D scene overlap.
+GPT-4o Evaluation. We use an evaluation method similar to that mentioned in I-Design Çelen et al.
+[2024], where GPT-4o acts as the evaluator, scoring our generated room layouts with a maximum
+score of 10. The prompt template we used is shown in Table A.5.
+A.2 Objects Retrieval
+During inference, we chose to perform object retrieval from the 3D-Future dataset Fu et al. [2021b].
+We use the item description data annotated by GPT-4V as mentioned in InstuctScene Lin and Mu
+[2024], and each retrieval was conducted through text matching. This is because our method does not
+require the specific features of 3D objects for training or inference; thus, we opt for the most efficient
+and convenient text-matching retrieval method. Each retrieval yields the file path corresponding to
+the 3D asset and the bounding box dimensions of the object, allowing us to include it in the input for
+scene generation or editing.
+A.3 The Prompt Template
+In this section, we present all our prompt templates, including the meta prompt template, the add
+prompt, and the remove prompt templates. We show the meta prompt template, the removal prompt
+template, and the addition prompt template in Table A.5, Table A.5, and Table A.5, respectively.
+As shown in Table A.5, our complete meta prompt contains a total of 8 rules. Besides the four rules
+mentioned in the main text, the remaining four further standardize the placement rules for our 3D
+scene, such as the placement of chairs and the format of the LLM’s output. In the task instruction
+Table A.5, A.5, we demonstrate in the table how the instructions for editing should be defined.
+A.4 More Qualitative Results
+In Figure 5, we illustrate more generated results of the bedroom and living room. These examples
+demonstrate that our method achieves reasonable results in generating 3D indoor scenes.
+And we compare more generation results with LayoutGPT and GPT-4o+meta prompt in Figure 6.
+As shown in Figure 6, our model produces a more reasonable distribution of 3D objects and outputs
+reasonable rotation angles. LayoutGPT, on the other hand, fails to produce occasional overlaps
+12
+Figure 5: The more showcases of LLplace in generating the 3D scene layouts.
+between objects and issue of object rotation angles, which is a drawback of heavily relying with
+high-quality examples. Besides, although GPT-4o does not produce significant overlap issues, it lacks
+vertical adaptation on the indoor scene task, resulting in less plausible room layouts.
+A.5 Limitations
+Although our method extends the LLM-based 3D scene layout generation task to allow for scene
+editing through dialogue, there are still several limitations that need to be addressed. First, due to
+resource constraints, we can only fine-tune lightweight large language models using LoRA. While
+this leverages the existing knowledge base of the LLM, the inability to fully fine-tune means that
+the LLM’s full potential cannot be activated. Second, our model is limited to a token length of 2048,
+restricting it to once or twice turn scene edits conversation in training and inference. Although we
+can process the new output to the whole layout JSON for the next turn conversation, we hope to apply
+more length tokens to train and inference. In the future, we can consider expanding the dataset to
+construct a larger-scale scene editing dataset. Additionally, we found that even after data cleaning,
+some overlap issues remain in the 3D-Front dataset. Therefore, constructing a larger and cleaner
+dataset would further help in advancing the 3D scene layout task.
+13
+Table 4: Meta Prompt Template for generation task.
+Meta Prompt Template for generation task
+You are a skilled room layout designer. Your task is to arrange [Objects] within a given [Room
+Type] effectively. Follow these guidance to complete your design:
+(1) Extract the [Room Type], [Objects], and [Bounding Box Size] from the provided JSON data.
+(2) Analyze the spatial relationships among [Objects] within the specified [Room Type]. Pay
+special attention to avoiding overlap and consider other spatial factors like accessibility and
+aesthetics.
+(3) Determine and design the precise location of all [Objects] ensuring that their bounding boxes
+do not overlap and that the layout is functional and visually appealing.
+(4) I prefer objects to be placed at the edge (the most important constraint) of the room if possible
+which makes the room look more spacious.
+(5) The objects are usually *aligned*.
+(6) Chairs must be placed near to the table/desk and face to the table/desk.
+(7) The last design output token is the [/Task Output] and only one.
+(8) Report your design with detailed 3D space coordinates and rotation angles for each object in
+JSON format, as follows:
+{
+"object": "object",
+"coordinates": [
+{
+"x": x,
+"y": y,
+"z": z
+}
+],
+"rotate":[
+{
+"angle": r
+}
+]
+}
+The centroid of the room is {"x": 0.00, "y": 0.00, "z": 0.00"}.
+First carefully read this example:
+[Example Room Type]
+Bedroom
+[/Example Room Type]
+[Example Objects and Bounding Box Size]
+/* A fixed example is put here to show the input format*/
+[/Example Objects and Bounding Box Size]
+[Example Output]
+/* A fixed example is put here to show the output format*/
+[/Example Output]
+Now, please proceed with the design task as outlined and provide only the JSON formatted
+output of your design:
+[Task Room Type]
+/*Input room type*/
+[/Task Room Type]
+[Task Objects & Bounding Box Size]
+/* The JSON format input of objects description
+and bounding box size*/
+[/Task Objects & Bounding Box Size]
+14

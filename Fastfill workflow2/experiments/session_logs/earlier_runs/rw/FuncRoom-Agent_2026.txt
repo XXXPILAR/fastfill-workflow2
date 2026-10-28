@@ -1,0 +1,1167 @@
+FuncRoom-Agent: Sequential Feed-Forward 3D Functional Indoor Scene
+Generation
+Hao Feng, Zhi Zuo, MingJian Liang, Jingyu Hu, Xiaowei Hu, Liupengfei Wu, Dian Zhang, Guoxin
+Fang, Zhengzhe Liu*
+Abstract
+WeintroduceFunction-RoomGeneration,anewindoor3D
+scenegenerationsettingthatcreatesroomssupportingexplicit
+functionalgoalsratherthanmerelyvisuallyplausiblelayouts.
+Existingagenticandexecutablemethodsimprovecontrollabil-
+ity, but often depend on costly test-time generate–evaluate–
+revise loops, making functional room generation slow and
+computationally expensive. We address this challenge with
+three technical contributions. First, we design arecursive
+domain-specific languageto effectively organize the hierar-
+chicalobjectcompositionsrequiredbyfunctionalrooms,from
+room structure and major furniture to dense support-surface
+and nested small objects. It represents rooms as staged exe-
+cutableprogramswithexplicitgeometricandfunctionalrela-
+tions. Second, we propose asequential feed-forward scene
+constructionframework that distills recursive construction
+traces into a scene construction expert. At inference time, the
+expert writes executable DSL code stage by stage, and a de-
+terministic executor directly instantiates each stage without
+teacher agents, online critics, or iterative repair. Third, we in-
+troduceScenePRM, an execution-grounded process reward
+framework that improves the expert through reinforcement
+learning with functional, geometric, relational, and future-
+constructability feedback. We further establish a function-
+oriented benchmark and show state-of-the-art performance
+on both general indoor scene generation and function-room
+generation, achieving stronger functional completeness, rela-
+tion correctness, geometric executability, and generation effi-
+ciency.
+Introduction
+Indoor 3D scene generation is important for embodied AI,
+robotics, virtual reality, simulation, and interactive content
+creation. A high-quality indoor scene is not merely a col-
+lection of visually plausible objects; it must organize many
+objectsintoacoherent,usable,andgeometricallyvalidenvi-
+ronment. This is challenging because indoor rooms involve
+denseobjectcompositions,complexspatialrelations,hierar-
+chicalsupportstructures,wall-andceiling-mountedobjects,
+and numerous small functional objects. Major furniture de-
+fines activity zones, while local objects and support-surface
+arrangements determine whether the room can actually sup-
+port a target activity.
+Copyright©2027, Association for the Advancement of Artificial
+Intelligence (www.aaai.org). All rights reserved.
+Existing indoor scene generation methods broadly fol-
+low three paradigms. Data-driven layout synthesis meth-
+ods generate plausible object layouts from learned spatial
+statistics (Paschalidou et al. 2021; Tang et al. 2024), but
+mainly target generic rooms and coarse furniture arrange-
+ments, without explicitly modeling the activity zones, func-
+tionalobjects,anddensesmall-objectcompositionsrequired
+by function-oriented spaces. Language-guided methods use
+general-purposeLLMsorVLMstoinfersceneplansandspa-
+tialconstraints(Yangetal.2024;Sunetal.2025;Yangetal.
+2025b),butthesemodelsarenotspecializedfor3Dconstruc-
+tion and may produce inconsistent scales, invalid support
+or wall-relative relations, collisions, inaccessible objects, or
+non-executable outputs. More recent agentic and executable
+systems improve controllability and validity through code,
+tools, critics, and execution feedback (Yang et al. 2025a;
+Pfaff et al. 2026; Xia et al. 2026; Wang et al. 2026; Yang
+et al. 2026), yet their quality often depends on costly test-
+time generation, evaluation, repair, or optimization loops,
+resulting in slow and computationally expensive inference.
+These limitations motivate a function-oriented representa-
+tion,aspecialized3Dsceneconstructionexpert,andaneffi-
+cient generation paradigm without test-time iterative repair.
+In this paper, we studyFunction-Room Generation:
+given a functional intent and visual context, the goal is to
+generate an executable indoor 3D room that supports the
+specified activities. Beyond visual plausibility, a valid room
+shouldcontaintherequiredfunctionalzonesandobjectsand
+organize them into a usable spatial layout. We introduce
+a function-oriented benchmark that evaluates function-zone
+coverage,functional-objectcoverageandprecision,andgen-
+eration efficiency.
+To address this task, we propose asequential feed-
+forward recursive constructionframework with three
+key components. First, we introduce arecursive domain-
+specific language (DSL)tailored to the hierarchical com-
+position of functional rooms. The DSL represents a room
+as a staged executable program, organizing construction
+from room structure and activity-defining furniture to wall-
+and ceiling-mounted objects, support-surface arrangements,
+and recursively nested local details. It explicitly encodes
+functionalhierarchies,supportrelations,wall-relativeplace-
+ments, geometric constraints, and asset requests, enabling
+complex functional object compositions to be represented
+arXiv:2608.29519v2  [cs.CV]  17 Sep 2026
+in a structured form. Second, we developsequential feed-
+forward scene constructionthrough visual-context super-
+visedfine-tuning.Ageneral-purposemultimodalcodeagent
+first generates recursive DSL construction traces by writ-
+ing, executing, and rendering DSL segments stage by stage.
+The resulting scenes and traces are manually reviewed, and
+then distilled into a compactscene construction expert
+that learns to progressively translate functional intents into
+executable DSL segments conditioned on the current par-
+tial scene and visual context. At inference time, each gen-
+erated executable DSL segment is directly executed by a
+deterministic executor, enabling efficient room construction
+without test-time generate–evaluate–revise loops. Third, we
+introduceScenePRM, an execution-grounded process re-
+ward framework that further optimizes the expert through
+reinforcement learning. ScenePRM evaluates whether inter-
+mediate construction states make valid progress toward a
+complete functional room in terms of functional complete-
+ness,relationcorrectness,supportvalidity,wallconsistency,
+geometric validity, and future constructability. The trained
+expert therefore performs efficient sequential feed-forward
+generation without invoking the teacher agent, ScenePRM,
+or iterative repair at test time.
+We evaluate our method on both general indoor scene
+generation and the proposed Function-Room benchmark,
+demonstrating state-of-the-art performance in functional
+completeness, relation correctness, support validity, and ge-
+ometricexecutability.Moreover,thesequentialfeed-forward
+designreducesgenerationtimeto25minutes,outperforming
+the closest baseline by 24.2% and avoiding the hours-long
+test-time refinement required by several agentic systems.
+Our contributions are summarized as follows:
+•We formulateFunction-Room Generationand estab-
+lishafunction-orientedbenchmarkthatevaluateswhether
+generated 3D indoor scenes satisfy explicit functional
+goals.
+•We design arecursive DSLthat represents functional
+rooms as staged executable programs with explicit func-
+tional hierarchies, support relations, wall-relative place-
+ments, and geometric constraints.
+•We propose asequential feed-forward scene construc-
+tionframeworkthatdistillsmultimodalconstructiontra-
+jectories through visual-context supervised fine-tuning
+intoasceneconstructionexpert,whichgeneratesandex-
+ecutesDSLcodestagebystagewithouttest-timeiterative
+repair.
+•We introduceScenePRM, an execution-grounded pro-
+cess reward framework that further optimizes the scene
+construction expert through reinforcement learning,
+achieving state-of-the-art performance on both function-
+oriented and general indoor scene generation.
+Related Work
+Generic Indoor Layout and LLM/VLM Planning
+Indoorscenegenerationhasbeenwidelystudiedthroughlay-
+out synthesis, scene graphs, and language-guided planning.
+Data-driven methods represent indoor scenes as object sets,
+bounding boxes, or relational graphs, and learn to generate
+plausiblelayoutsconditionedonroomtypes,floorplans,text,
+or partial observations (Paschalidou et al. 2021; Tang et al.
+2024; Hu et al. 2026; Zhai et al. 2023). These methods cap-
+ture common spatial statistics and object co-occurrence pat-
+terns, but they mainly focus on generic layout realism rather
+than functional usability. Recent language-guided methods
+further use general-purpose LLMs or VLMs to infer ob-
+ject lists, spatial constraints, scene graphs, or layout plans
+from natural-language instructions (Feng et al. 2023; Lin
+and Mu 2024; Yang et al. 2024; Sun et al. 2025; Yang et al.
+2025b). Such models provide useful commonsense priors
+and improve text controllability, but they are typically used
+in a zero-shot, prompt-based, or weakly adapted manner. As
+a result, they are not specialized for 3D indoor construc-
+tion and may struggle with scale consistency, support hier-
+archy, wall-relative placement, dense small-object arrange-
+ment, and executable scene structure. In contrast, we train
+a specialized scene construction expert for function-room
+generation, where the goal is to produce usable rooms that
+satisfy explicit functional goals.
+Agentic and Executable Scene Construction
+Recent agentic systems improve 3D scene generation by
+decomposing scene construction into planning, generation,
+evaluation, and refinement stages. Representative methods
+use LLM/VLM agents, generators, critics, renderers, sim-
+ulators, and retrieval tools to improve semantic alignment,
+visual realism, physical plausibility, and simulation readi-
+ness (Yang et al. 2025a; Pfaff et al. 2026; Xia et al. 2026).
+These methods show that multi-agent reasoning and critic-
+guidedrefinementcanproducerichindoorscenes,especially
+forembodiedAIandsimulation.However,theirqualityoften
+depends on test-time tool invocation and iterative generate–
+evaluate–revise loops.
+Executable scene representations provide a complemen-
+tary direction. Recent methods represent indoor scenes as
+code, structured programs, or DSLs to support execution,
+validation, editing, and interaction (Wang et al. 2026; Yang
+etal.2026;Chenetal.2025;Tangetal.2026;Lietal.2026).
+For example, such systems may generate Blender/Python
+programs, structured asset requests, indoor DSL specifica-
+tions,BEV-gridlayoutprograms,orhierarchicalscenetrees.
+These representations improve controllability and validity,
+buttheyareoftenusedasonlineworkspacesforLLMagents:
+programs are written, executed, diagnosed, repaired, or op-
+timized during inference. In contrast, our recursive DSL is
+used as the output language of a learned scene code gener-
+ator. At test time, the controller writes the next executable
+DSL segment conditioned on the current partial scene and
+visual context, and a deterministic executor directly updates
+the scene without iterative repair for the same state.
+Process Supervision for Specialized Scene
+Controllers
+Training long-horizon agents requires assigning credit to in-
+termediatedecisions.Outcomerewardmodelsonlyevaluate
+finalsuccess,whileprocessrewardmodelsprovidestep-level
+Function-Room Generation Framework
+From functional intent and visual context to executable, usable, and geometrically valid indoor 3D rooms.
+(1)  Recursive DSL Representation
+A.  Recursive Construction B.  Recursive DSL (executable program)
+room ( 
+  function=[study, read, write,
+            book_access, quiet_relax],
+  style=soft_modern(warm_wood)
+) {
+  zone(study){
+      desk(pos=(-1.8,-0.2), yaw=30, ...){
+       organizer(...){ 
+             notebook(...);  pens(...); 
+          } ,
+        } ,
+    bookshelf(...){
+         shelf(...),
+    } ,
+  } ,
+}
+Room Structure
+Activity Z ones /
+M a j or Furniture
+W all & Ceiling
+Ob j ects
+Support-Surfac e
+Ob j ects
+N ested Ob j ects
+(2)  Sequential Feed-Forward Scene Construction
+SFT Data Generation Visual-Context SFT of Scene ExpertC. DSL Grounding
+(Example Render)
+Execute & Update
+General-purpos e 
+M ultimodal Code Agent Intent Prompt 𝑝
+Ref. Image General M odelExecute
+Ref. Image (opt.) 𝐼₀Instantiate and 
+place the 3D 
+assets. Partial Scene 𝑆ₜ₋₁Rendered Observation
+Fine-tune o n 
+Data SampleVisual Context 𝑉ₜ₋₁RenderFunctional Goal
+Vₜ = Render( Sₜ ) Scene State φ( 𝑆ₜ₋₁ )
+Executable DSL Level ℓ ₜ  Expert AgentUpdate State
+H istory 𝐻ₜ₋₁
+Step-Level Data Samples SFT Process Expert Agent Output
+desk for office / writing.
+Function Intent
+Local Goal 
+e.g., add ob j ects to 
+east wall.
+Recursive DSL
+e.g., bookcase (
+against = east _ wall,...)
+Partial Scene Recursive 
+Decision
+Recursive Decision 
+e.g., stop or 
+continue to level 4Construction H istory
+Step  1:  Structure
+Step  2:  Structure
+
+Step  t-1:  Structure
+...
+S  →   St t-1
+(3)  ScenePR M :  Execution-Grounded Process Reward M odel ( 4 )  Overall W orkflow
+D esign a  co zy  
+roo m  for foc u sed 
+st u d y,  re a ding ,  
+writing ,  b ook 
+a ccess ,  a nd qu iet 
+re laxa tion ,  wit h  
+w a r m  wood tones 
+a nd a  soft m odern 
+st yl e.
+Input Prompt 
+Reference Image
+Step-by-Step Executio n
+(Feed-Forward)
+Final Functional Room
+Scene Exper t
+(Feed-Forward)
+Generate d
+Recursive DS L
+r oom(
+    f u n ct ion=
+       host_small_party,
+    siz e =(6,5,2.8),
+    o pe nings=
+       [doo r (south,...),
+       window(north,...),
+         ...  ],
+      ...
+     floo r _ma ter ial=
+        warm wood,
+     wall_ma ter ial=
+        neutral painted,
+Step K -1 Step K
+Final Top-down  layout  Room
+Scene Exper t
+(Agent)
+Propose Candidat e
+N ext DSL Actions
+Execute & Rende r
+(Environment)
+Get Process Rewar d
+(ScenePR M )
+Sc o re each tra j ect o r y
+step w ith r ₜ⁽ᵏ⁾
+r ₜ⁽¹⁾ = +0.42
+r ₜ⁽²⁾ = +0.08
+...
+r ₜ⁽ᴷ⁾ = -0.15
+Optimise wit h  GRP O
+(Policy Update)
+U pdate p o lic y  u sin g  
+g r ou p - relati ve
+ad v anta g es Aₜ⁽ᵏ⁾
+Aₜ⁽ᴷ⁾
+4
+0
+Generate candidate
+DSL actions aₜ⁽ᵏ⁾:
+
+aₜ⁽¹⁾: place(...)
+aₜ⁽²⁾: place(...)
+…
+aₜ⁽ᴷ⁾: place(...)
+Step 1 ... Step 2 Generated 3D room
+Observe stat e
+Propose action s
+Learns via RL
+1 ...2 k
+K
+Figure 1: Overview of the proposed Function-Room Generation framework. A recursive DSL enables coarse-to-fine executable
+scene construction, while visual-context SFT distills verified agent-generated traces into a compact scene expert. ScenePRM
+further optimizes the expert with execution-grounded GRPO, enabling sequential feed-forward generation of functional 3D
+rooms at inference time.
+supervision by estimating whether an intermediate decision
+makes meaningful progress toward the goal (Xi et al. 2025;
+Choudhury 2025). Recent agentic RL methods study credit
+assignmentovermulti-turntrajectories,implicitsteprewards,
+and tree-structured rollouts for training LLM agents (Luo
+et al. 2025; Liu et al. 2025; Ji et al. 2025). These methods
+mainlytargetgeneraltool-use,webnavigation,QA,retrieval,
+or code agents.
+Functionalindoorscenegenerationprovidesamorestruc-
+tured source of process supervision: each partial scene can
+be parsed, executed, rendered, and evaluated with geomet-
+ric, relational, visual, and functional checks. We introduce
+ScenePRM to use such execution-grounded feedback for
+training the scene construction expert, while keeping infer-
+ence as sequential feed-forward DSL code generation rather
+than online critic-and-repair.
+Method
+Overview
+GivenafunctionalintentpandareferenceimageI 0,ourgoal
+istogenerateanexecutable3Droomthatsatisfiesfunctional,
+relational, and geometric requirements. As shown in Fig. 1,
+our framework consists of three key components. First, a
+recursive DSLrepresents the room as a staged executable
+program organized into five coarse-to-fine construction lev-
+els.Second,wedevelopsequentialfeed-forwardscenecon-
+struction: a general-purpose multimodal code agent and an
+execution harness are used to bootstrap verified recursive
+DSL construction traces, which are distilled through visual-
+contextSFTintoacompactsceneconstructionexpert.Third,
+ScenePRM-guidedGRPOfurtherimprovestheexpertbyex-
+ecuting, rendering, and comparing candidate stage rollouts
+sampled from the same partial scene. At inference time, the
+expert generates one executable DSL segment from each
+partialscenestate,whichthedeterministicexecutorexecutes
+once, without teacher agents, ScenePRM, test-time search,
+critique, or repair.
+Function-Room Generation Task Formulation
+Given a natural-language functional intentpand an op-
+tional reference imageI0, Function-Room Generation aims
+to generate an executable indoor sceneS=G(p,I 0)that
+supports the specified activities. The prompt describes the
+intended functions, required objects, and appearance pref-
+erences, while the reference image may additionally guide
+room geometry, object composition, spatial organization, or
+visual style.
+Unlikegenericindoorscenegeneration,thetaskevaluates
+whetherthegeneratedscenecontainstherequiredfunctional
+zones and objects, preserves spatial, support, and mounting
+relations, maintains accessibility and circulation, and sat-
+isfies basic geometric constraints such as containment and
+collision avoidance.
+Recursive DSL Representation
+Functional rooms contain objects at multiple dependency
+levels,fromroomstructureandactivity-definingfurnitureto
+mounted objects, support-surface arrangements, and small
+nested details. A flat object list cannot explicitly capture
+these functional and geometric dependencies. We therefore
+introduce a recursive DSL that represents the room as a
+structured executable program.
+Recursive Program TreeWe represent each room as a
+rooted, ordered program tree
+T= (V,E tree),(1)
+whereVcontains function-oriented construction nodes and
+Etree contains their directed parent–child relations. Each
+node is defined as
+ui = (gi,ai,ρi), u i∈V,(2)
+wheregi is a local functional goal,ai is the executable DSL
+segment that realizes it, andρi is the recursive expansion
+decision.
+The goalgi specifies a function group, such as a study
+area,deskarrangement,ortabletopreadinggroup.TheDSL
+segmenta i describes the corresponding objects, semantic
+roles,properties,placements,constraints,assetrequests,and
+spatial or functional relations. The expansion decision is
+ρi∈{expand,leaf},(3)
+whereexpanddecomposes the current function group into
+finer-grained child groups, andleafterminates recursion.
+Forexample,adeskarrangementmaybeexpandedintomon-
+itor,reading-tool,anddesktop-detailgroups.Theorderingof
+childnodesdeterminestheirgenerationandexecutionorder.
+Recursive Construction LevelsThe recursive DSL fol-
+lows five dependency levels: room structure; activity zones
+and major furniture; wall- and ceiling-mounted objects;
+support-surface objects; and recursively nested objects.
+This ordering ensures that dependent geometry already
+exists when an object is generated: mounted objects require
+valid walls, support-surface objects require their support-
+ingfurniture,andnestedobjectsrequiretheirparentobjects.
+The levels define only the dependency order; the scene con-
+struction expert determines which functional groups are re-
+quiredandhowtheyarerecursivelyexpanded.Thecomplete
+grammar, operator semantics, geometric constraints, asset-
+grounding procedure, and executor implementation are pro-
+vided in the supplementary material.
+Sequential Feed-Forward Scene Construction
+Wetrainacompactsceneconstructionexpertbyfirstcollect-
+ing verified recursive DSL construction traces and then dis-
+tilling them through visual-context supervised fine-tuning.
+Recursive Trace ConstructionWe construct recursive
+scene-building traces using a general-purpose multimodal
+code agent coupled with a deterministic execution and ren-
+deringharness.Giventhefunctionalintentp,referenceimage
+I0, current partial sceneSt−1, rendered observationVt−1,
+structured scene stateϕ(S t−1), construction levelℓt, and
+preceding historyHt−1, the agent generates
+(gt,at,ρt) =A(p,I 0,Vt−1,ϕ(St−1),ℓt,Ht−1),(4)
+whereg t specifies the next local functional goal,at is the
+executable DSL segment that realizes this goal, andρt de-
+termines whether the current construction node should be
+recursively expanded.
+Each generated DSL segment is immediately parsed, exe-
+cuted, and rendered:
+(St,et) = Execute(St−1,at), V t = Render(St),
+(5)
+wheree t denotes the execution status. The updated scene
+and rendered observation are then returned to the agent for
+the next construction step. Repeating this process produces
+a state-conditioned trace that progressively constructs the
+room from coarse functional structure to fine local details.
+The generated scenes and traces are manually reviewed
+for functional completeness, relation correctness, geometric
+validity,andexecutionsuccess;invalidsamplesarecorrected
+or discarded. The remaining verified traces are used as su-
+pervision for training the scene construction expert.
+Visual-Context Supervised Fine-TuningWe decompose
+each verified construction trace into step-level training sam-
+ples:
+DSFT ={(x t,y∗
+t )}, y ∗
+t = (g∗
+t,a∗
+t,ρ∗
+t ),(6)
+wherex t contains the functional intent, reference image,
+current rendered observation, structured partial-scene state,
+construction level, and preceding construction history. The
+targety ∗
+t contains the next local functional goal, its exe-
+cutable DSL segment, and the recursive expansion decision.
+We use these state-conditioned code-generation samples
+to distill the general-purpose multimodal code agent into a
+compactsceneconstructionexpert.Thesupervisedobjective
+is
+LSFT =−
+X
+(x,y∗)∈DSFT
+|y∗|X
+j=1
+logπθ
+ 
+y∗
+j|x,y ∗
+<j
+
+.(7)
+This training teaches the expert to generate the next exe-
+cutable DSL segment directly from the current executed
+scene state and visual context, enabling sequential feed-
+forward construction at inference time.
+ScenePRM-Guided Reinforcement Learning
+Supervised fine-tuning enables the compact scene construc-
+tion expert to imitate verified traces, but token-level likeli-
+hood training does not ensure that each generated DSL seg-
+ment advances the target room function. A segment may be
+executable and geometrically plausible while still omitting
+required functional objects, producing incomplete activity
+zones,orintroducingrelationsthathinderlaterconstruction.
+We therefore introduceScenePRM, an execution-grounded
+process reward framework that further optimizes the SFT
+expert using group-relative policy optimization. ScenePRM
+evaluateswhethereachconstructionstagemakesmeasurable
+progress toward a complete, usable, and geometrically valid
+functional room.
+Giventhe acceptedpartial scenebefore constructionlevel
+ℓ, we sampleKcandidate stage rollouts from the current
+policy. Thek-th rollout is defined as
+τ (k)
+ℓ =
+
+y(k)
+t
+
+t∈Iℓ
+, k= 1,...,K,(8)
+where
+y(k)
+t =
+
+g(k)
+t ,a (k)
+t ,ρ (k)
+t
+
+∼π θ
+
+·|x (k)
+t
+
+.(9)
+Here,Iℓ contains the recursive construction steps belonging
+to levelℓ. All candidates start from the same partial scene
+andindependentlygeneratethecontentrequiredatthatlevel.
+Each candidate rollout is executed step by step following
+Eq.5,yieldingaterminalsceneS (k)
+ℓ ,itsrenderedobservation
+V (k)
+ℓ , and a stage-level execution statuse(k)
+ℓ .
+ScenePRM uses a VLM-based evaluator to score each
+successfully executed candidate along four dimensions:
+M={real,func,layout,prompt},
+correspondingtovisualrealism,functionality,layoutquality,
+and prompt following. Its average quality score is
+¯q(k)
+ℓ = 1
+|M|
+X
+m∈M
+Em
+
+p,S (k)
+ℓ ,V (k)
+ℓ ,ℓ
+
+.(10)
+The functionality and layout evaluators jointly assess func-
+tional completeness, relation correctness, support valid-
+ity, wall consistency, geometric validity, and future con-
+structability.
+The stage-level process reward is defined as
+r(k)
+ℓ =
+(
+−1, e (k)
+ℓ ̸=success,
+¯q(k)
+ℓ , e (k)
+ℓ =success.
+(11)
+Thus, execution-failed candidates are directly penalized,
+whilesuccessfulcandidatesarescoredaccordingtothequal-
+ity of the resulting partial scene.
+BecauseallKcandidatesaresampledfromthesamecon-
+struction state, we compute their group-relative advantages
+as
+A(k)
+ℓ = r(k)
+ℓ −µℓ
+σℓ +ϵ ,(12)
+whereµ ℓ andσ ℓ are the mean and standard deviation of the
+candidate rewards at levelℓ. We optimize the scene con-
+struction expert using the standard clipped GRPO objective
+withKLregularizationagainstthefrozenSFTreferencepol-
+icy. During recursive training, the highest-reward candidate
+is used to initialize the next construction level. Candidate
+sampling,ScenePRMevaluation,andcandidateselectionare
+usedonlyduringtrainingandareremovedatinferencetime.
+Sequential Feed-Forward Inference
+Atinferencetime,we retainonlythetrainedsceneconstruc-
+tion expert, deterministic executor, and renderer. Given the
+current construction statext, the expert directly predicts the
+next output(gt,at,ρt), consisting of a local functional goal,
+an executable DSL segment, and a recursive expansion de-
+cision. Following Eq. 5, the DSL segment is executed and
+rendered once, and the updated scene state and visual obser-
+vationconditionthenextprediction.Theexpansiondecision
+determines whether construction continues within the cur-
+rent functional group, recursively expands it, or proceeds to
+the next level.
+We call this processsequential feed-forward inference: it
+is sequential because each prediction depends on the previ-
+ously executed partial scene, and feed-forward because each
+state undergoes one model generation and one determinis-
+tic execution. The teacher agent, ScenePRM, and candidate
+sampling are used only during training.
+Experiments
+Experimental Setup
+Base model and training.We use Qwen3.6-35B-A3B as
+the base model. The model is first trained with supervised
+fine-tuning (SFT) using data generated by Codex with GPT-
+5.5, and is then further optimized with ScenePRM-guided
+agentic reinforcement learning. Complete training and in-
+ference details, including SFT and reinforcement-learning
+hyperparameters and ScenePRM evaluator configurations,
+are provided in the supplementary material.
+Benchmarks.We evaluate our method on two bench-
+marks. On SceneEval (Tam et al. 2026), we follow
+SceneCode (Wang et al. 2026) by using the same 30 room-
+level prompts and report nine metrics covering textual con-
+sistency, physical plausibility, and spatial usability. We also
+construct a Function-Room benchmark with 50 prompts ex-
+cluded from training, each specifying multiple functional
+zones and the furniture and equipment needed to support
+them. Besides function-specific metrics, we use selected
+annotation-freeSceneEvalmetricstoassessthegeneralplau-
+sibilityandvisualqualityofthegeneratedrooms.Benchmark
+construction and evaluation details are provided in the sup-
+plementary material.
+Baselines and evaluation protocol.On SceneEval, we
+compare against HSM, LayoutVLM, SceneWeaver, Scene-
+Smith, SceneCode, and Code as Room. On the Function-
+Room benchmark, we compare against SceneWeaver, Sce-
+neSmith, SceneCode, Code as Room and SAGE. All meth-
+ods use the same prompts and evaluation criteria. For each
+prompt, an LLM identifies the target functional zones, re-
+quired object slots, valid alternatives, and maximum valid
+counts, and a VLM evaluates each generated scene against
+theseprompt-specificrequirements.Toavoidevaluatorreuse,
+ScenePRMusesGPT-5.2onlyasalightweighttraining-time
+process evaluator, whereas all reported Function-Room re-
+sults are computed by a separate GPT-5.5 evaluator that is
+not involved in reward computation, policy optimization, or
+model training. Evaluator configurations are provided in the
+supplementary material.
+User study.We also conduct a blinded user study on the
+Function-Room benchmark to assess perceptual quality and
+practical usability. The study includes 15 participants: five
+Method #Obj CNT↑ATR↑OOR↑OAR↑SUP↑ACC↑NAV↑COL↓OOB↓
+HSM21.2 ±2.4 53.3±9.3 58.1±14.7 22.3±12.3 50.0±10.4 70.9±7.2 85.8±4.8 99.1±1.0 18.4±6.8 7.4±3.6
+LayoutVLM12.6 ±1.7 64.2±8.0 31.1±13.7 27.2±12.1 53.1±14.8 25.7±7.7 93.3±5.2 100.0±0.0 21.1±10.0 5.9±3.5
+SceneWeaver18.4 ±2.3 58.9±11.2 49.3±12.9 27.9±13.6 51.3±10.1 46.4±6.2 86.4±8.4 93.3±5.7 25.9±14.7 1.6±0.3
+SceneSmith62.5 ±25.4 78.8±6.7 71.6±9.4 37.2±13.3 72.4±10.3 66.7±4.0 52.2±8.7 97.8±2.1 18.1±4.8 0.6±0.7
+SceneCode32.2 ±10.3 79.4±6.0 74.0±11.7 32.6±12.6 61.1±12.6 44.3±12.8 74.2±9.1 100.0±0.0 11.3±4.3 0.4±0.9
+Code as Room23.2±5.3 57.2±16.1 59.8±15.5 16.7±13.2 46.9±10.3 27.3±13.7 56.1±6.7 99.9±0.1 28.9±4.3 0.7±0.5
+Ours64.3 ±17.2 82.4±9.5 76.8±11.3 38.1±15.1 74.0±13.9 72.8±8.3 93.5±10.6 100.0±0.0 10.7±7.8 0.3±0.2
+Table 1: Room-level quantitative results on SceneEval.
+Method FZC↑FOC↑FOP↑ACC↑SUP↑NAV↑OOB↓COL↓Real.↑Aesth.↑Func.↑Gen. Time↓
+SAGE 43.6 48.7 56.5 53.0 52.4 98.1 13.9 16.8 5.3 5.5 4.7 2h16m
+SceneWeaver 45.0 73.4 61.4 35.4 51.6 97.6 12.5 38.1 4.3 4.7 5.6 1h14m
+SceneSmith 68.8 69.4 44.7 51.6 51.2 93.6 23.1 18.9 6.2 7.5 6.8 4h15m
+SceneCode 47.5 50.3 58.3 51.4 51.7100.033.7 15.6 5.6 6.4 5.1 6h16m
+Code as Room 72.9 82.5 63.2 33.5 59.8 99.9 15.7 37.1 5.5 5.8 6.2 33m
+Ours82.5 86.3 65.7 69.1 68.8 100.0 11.2 14.5 7.4 8.3 7.9 25m
+Table2:QuantitativeresultsontheFunction-Roombenchmark.Real.,Aesth.,andFunc.denotetheuser-studyscoresforrealism,
+aesthetics, and functionality, respectively. Generation time is recorded in seconds and converted into hours and minutes for
+readability.
+Method SFT Scene-level RLScenePRM FZC↑FOC↑FOP↑
+A 50.8 55.2 34.7
+B✓58.9 69.4 44.2
+C✓ ✓76.4 73.0 51.9
+D✓ ✓82.5 86.3 65.7
+Table 3: Ablation study on the Function-Room benchmark.
+professional interior designers and ten non-experts. Partici-
+pants view each functional prompt and its generated scenes
+without method names, model identities, or generation de-
+tails,andratethemintermsofrealism,aesthetics,andfunc-
+tionality. This protocol provides an evaluator-independent
+assessment separate from both the training-time ScenePRM
+evaluatorandtheautomaticbenchmarkevaluator.Theaggre-
+gatedReal.,Aesth.,andFunc.scoresarereportedinTable2,
+withfullproceduresandinstructionsprovidedinthesupple-
+mentary material.
+Function Room Evaluation Metrics
+For each benchmark prompt, we construct a fixed set of
+functional zones, functional-object slots, valid alternatives,
+andrelevantobjectcategories.Theseannotationsareinitially
+proposed by an LLM and then manually reviewed and cor-
+rected.Theresultingannotationsarefrozenandsharedacross
+all evaluated methods.Function Zone Coverage (FZC)
+measures the coverage of the annotated functional zones.
+FunctionalObjectCoverage(FOC)measuresthecoverage
+oftheannotatedfunctional-objectslots,allowingpredefined
+functionallyequivalentalternatives.FunctionalObjectPre-
+Method FZC↑FOC↑FOP↑ACC↑SUP↑NAV↑OOB↓COL↓
+One-shot 37.6 34.3 45.6 28.5 39.2 76.7 45.1 48.2
+Staged 42.3 40.9 38.6 30.3 44.1 89.4 39.2 40.5
+Recursive 49.5 58.8 40.4 34.6 46.2 95.4 36.7 37.9
+Table 4: Ablation study on the Function-Room benchmark.
+cision (FOP)measures the proportion of generated objects
+that are valid and relevant under the fixed prompt-specific
+annotation, while penalizing irrelevant or excessive objects.
+Generation Time (GT)measures the wall-clock time re-
+quired to complete scene generation under a unified config-
+uration. Detailed definitions and the annotation protocol are
+provided in the supplementary material.
+Quantitative Results on SceneEval
+Table 1 reports the room-level results on SceneEval. Our
+method achieves the best CNT, ATR, OOR, OAR, SUP, and
+ACCscores,tiesforthebestNAVscore,andobtainsthelow-
+est COL and OOB rates. Notably, it generates an average of
+64.3objectsperroom,thehighestamongtheevaluatedmeth-
+ods, while maintaining the strongest accessibility, collision
+avoidance, and boundary compliance. This result indicates
+that the proposed recursive construction process supports
+densefunctionalcompositionswithoutsacrificinggeometric
+usability.
+Quantitative Results on Function Rooms
+As shown in Table 2, our method achieves the highest
+FZC, FOC, and FOP scores of 82.5, 86.3, and 65.7, respec-
+Text Prompt: 
+A room for conducting 
+vision examinations, 
+supporting distance-
+vision testing, and 
+result recording.
+Text Prompt: 
+A room for 
+recreational bowling, 
+supporting repeated 
+ball delivery, lane-
+based play, and 
+waiting between 
+turns.
+Text Prompt: 
+A room for magnetic 
+resonance imaging, 
+supporting patient 
+preparation, safe 
+transfer into the 
+scanning area, and 
+technical control.
+Scene Weaver Scene Smith Code as Room Scene Code SAGE Ours
+Figure 2: Qualitative comparison on the Function-Room benchmark. Each column corresponds to a different scene-generation
+method, and each row presents results generated from the same functional prompt.
+tively, demonstrating improved functional-zone complete-
+ness,required-objectcoverage,andcontentprecision.Italso
+achievesthebestACCandSUPscores,tiesforthebestNAV
+score, and obtains the lowest OOB and COL rates. In the
+blinded user study, our method receives the highest realism,
+aesthetics, and functionality scores of 7.4, 8.3, and 7.9. It
+requires only 25 minutes per scene, making it the fastest
+evaluated method.
+Ablation Study
+Training component ablation.Table 3 shows that SFT
+mainly improves functional-object coverage. Starting from
+the SFT model, the standard RL baseline samples complete
+constructiontracesandoptimizesthepolicyusingonlyfinal-
+scenerewards.Itmainlyimprovesfunctional-zonecoverage,
+whereas ScenePRM further raises FZC, FOC, and FOP by
+6.1, 13.3, and 13.8 points, respectively, demonstrating the
+benefitofprocess-levelsupervisionoveroutcome-onlytrain-
+ing.
+Agentic construction strategy ablation.Table 4 evalu-
+atesthegeneral-purposemultimodalcodeagentonthesame
+50promptswithouttask-specificSFTorreinforcementlearn-
+ing. Staged construction improves functional coverage over
+one-shotgeneration,whilerecursiveconstructionfurtherim-
+provesFZC,FOC,andallreportedspatialmetrics.One-shot
+obtains a higher FOP largely because it generates substan-
+tially fewer objects, favoring precision at the cost of much
+lower coverage. These pre-training results are not directly
+comparable to those of the trained scene expert. Qualitative
+comparisons are provided in the supplementary material.
+Qualitative Results
+Qualitative Results. Figure 2 presents representative quali-
+tative comparisons. Typical baseline errors include a floor
+lamp blocking the line of sight required for vision testing, a
+sofafacingthewallratherthanthebowlingactivityarea,and
+misalignment between the MRI scanner and patient bench.
+Our method generally produces more complete functional
+regions and more appropriate object orientations and spatial
+relations. More examples are provided in the supplementary
+material.
+Conclusion
+We introducedFunction-Room Generation, a new setting
+that shifts indoor 3D scene generation from generic visual
+plausibility toward explicit functional usability. Our frame-
+work combines a recursive DSL for representing hierarchi-
+cal functional object compositions, sequential feed-forward
+scene construction, and ScenePRM-guided reinforcement
+learning with execution-grounded process feedback. By dis-
+tilling multimodal construction traces and training a spe-
+cialized scene construction expert, our method moves costly
+planning, evaluation, and refinement from inference time
+to training time, enabling direct and efficient generation
+without iterative repair. Experiments on SceneEval and the
+proposedFunction-Roombenchmarkdemonstrateimproved
+functional completeness, spatial and support relations, per-
+ceptualquality,andgenerationefficiency.Wehopethiswork
+provides a step toward indoor scene generation systems that
+produce environments not only plausible in appearance, but
+also structured around how they are intended to be used.
+Supplementary Material
+FuncRoom-Agent: Sequential Feed-Forward 3D Functional Indoor Scene Generation
+Recursive DSL: Grammar, Operator Semantics, Constraints, Asset Grounding, and Deterministic
+Execution
+Overview
+Functional indoor scenes contain hierarchical dependencies that cannot be adequately represented by a flat object list. Archi-
+tectural elements define the valid construction space; major furniture establishes functional activity zones; wall- and ceiling-
+mountedobjectsdependonexistingarchitecturalsurfaces;tabletopobjectsdependonpreviouslyinstantiatedsupportfurniture;
+and nested small objects depend on containers, trays, shelves, or other local parent objects. The recursive domain-specific
+language (DSL) therefore represents a room as a staged executable program with explicit functional, geometric, support, and
+dependency relations.
+A scene is represented as a rooted and ordered recursive program tree. Each construction node contains three conceptual
+components: a local functional goal, an executable DSL segment that realizes that goal, and a recursive decision indicating
+whether the node should be expanded into finer-grained child groups or terminated as a leaf. The local functional goal may
+correspondtoaroom-levelfunction,anactivityzone,afurniturearrangement,asupport-surfacearrangement,oranestedgroup
+of manipulable objects. Child order is significant because it determines generation and execution order.
+The recursive program is executed from coarse to fine according to five dependency levels:
+1. room structure;
+2. activity zones and major furniture;
+3. wall- and ceiling-mounted objects;
+4. support-surface objects;
+5. recursively nested objects.
+This ordering ensures that every object is generated and grounded using geometry that already exists in the partial scene.
+For example, a tabletop object is not placed until its supporting table has been instantiated, and an object inside a tray is
+not instantiated until both the table and tray exist. The five levels specify dependency order rather than a fixed tree depth. A
+functionalgroupmaycontainseveralrecursivelyexpandedsubgroupsatthesameconstructionlevel,andasupport-basedchain
+may continue for multiple local depths.
+DSL Data Model and Grammar
+The DSL has two complementary representations. The model-level representation is the recursive action predicted at each
+construction step:
+1ConstructionStep:
+2local_goal
+3executable_action
+4recursive_decision
+Listing 1: Model-level recursive construction output.
+The recursive decision takes one of two values:
+1expand
+2leaf
+expandindicates that the current functional group should be decomposed into one or more child groups.leafindicates
+that no further local expansion is required.
+Thesecondrepresentationistheserializedstagedtraceconsumedbytheexecutorandusedinthesupplementarydemonstration:
+1SceneProgram:
+2schema_version
+3case_id
+4room_id
+5task
+6function_goal
+7room_style
+8room_stage
+9furniture_stage
+10mounted_object_stage
+11small_object_stage
+12nested_small_object_stage
+Listing 2: Top-level staged scene-program grammar.
+The room stage defines the root geometric and functional context:
+1RoomStage:
+2parent_id
+3room_geometry
+4controller_design_brief
+5
+6RoomGeometry:
+7length_m
+8width_m
+9wall_height_m
+10wall_thickness_m
+11openings
+12floor_material_description
+13wall_material_description
+14
+15Opening:
+16opening_id
+17opening_type
+18wall_direction
+19center_world
+20width
+21height
+22sill_height
+23clearance_bbox_min
+24clearance_bbox_max
+25wall_start
+26wall_end
+27position_along_wall
+The room-level design brief stores function-aware planning information:
+1ControllerDesignBrief:
+2function
+3room_style
+4object_plan
+5layout_intent
+6avoid
+7critic_checklist
+Each later stage contains zero or more functional zones:
+1Stage:
+2zones
+3
+4Zone:
+5zone_id
+6parent_id
+7description
+8objects
+Each object follows the general structure below:
+1Object:
+2object_id
+3parent_id
+4object_type
+5category
+6name
+7description
+8dimensions
+9axis_semantics
+10placement
+11asset_reuse_key optional
+12depends_on optional
+13reference_objects optional
+14layout_constraints optional
+Listing 3: General object record used by the staged trace.
+Thedimensionsfield stores planner-space dimensions:
+1dimensions = [size_x, size_y, size_z]
+Their interpretation is made explicit byaxis_semantics:
+1AxisSemantics:
+2frame
+3x
+4y
+5z
+6allow_axis_swap
+For globally placed furniture, the coordinate frame is normallyworld_footprint, where the first two dimensions
+correspond to world-space footprint axes and the third dimension corresponds to height. For support-surface objects, the frame
+issupport_local, where the first two dimensions are interpreted relative to the support surface.
+The DSL deliberately separates functional hierarchy, execution dependency, and physical relation:
+1parent_id
+2recursive or functional ownership
+3
+4depends_on
+5mandatory execution precedence
+6
+7reference_objects
+8semantic or spatial relations to existing objects
+9
+10placement.support
+11geometric support used to compute the final transform
+A node may therefore belong to one functional zone while being geometrically positioned relative to a different previously
+instantiated object.
+Placement Operators
+The executor supports a compact set of deterministic placement operators. Each operator maps planner-level parameters to a
+world-space rigid transformation.
+World-Space PlacementWorld-space placement is used primarily for major furniture and free-standing objects:
+1place_world(
+2object,
+3translation,
+4yaw
+5)
+Its serialized form is:
+1placement:
+2translation: [x, y, z]
+3yaw_degrees: angle
+The translation denotes the planner-space object center in the room coordinate system. The executor normalizes the selected
+assetaxes,scalestheassettotherequesteddimensions,andthenappliesthespecifiedyawandtranslation.Forafloor-supported
+object, the vertical coordinate is normally selected so that its lower surface coincides with the floor, up to a small numerical
+contact tolerance.
+Support-Surface PlacementThe support-local operator places an object relative to an existing support object:
+1place_on_support(
+2object,
+3support_object,
+4surface_hint,
+5support_uv,
+6height_offset,
+7yaw,
+8support_relation
+9)
+Its serialized form is:
+1placement:
+2placement_frame: support_local
+3support:
+4object_id
+5surface_hint
+6support_relation
+7support_uv: [u, v]
+8height_offset_m
+9yaw_degrees
+support_uvis a normalized coordinate on the selected support surface. The executor converts this coordinate into a point
+in the support object’s local frame and then transforms it into world space. Thesurface_hintdisambiguates the geometric
+surface, such astabletop,shelf_top,tray_interior, orcontainer_interior. Thesupport_relation
+specifies the intended contact semantics, includingresting_on,resting_inside, andsits_on_top_of.
+Forresting_on, the child object’s bottom is aligned with the support surface plus the specified height offset. For
+resting_inside, the object is additionally checked against the usable interior bounds of the parent container or tray.
+Wall-andCeiling-RelativePlacementThepaperrequiresexplicitwall-relativeplacementsandwallconsistency.Thesupplied
+demonstration does not contain a mounted-object chain, so the following operators specify the required semantics rather than
+asserting implementation-specific serialized field names:
+1mount_on_wall(
+2object,
+3wall,
+4wall_local_position,
+5normal_offset,
+6orientation
+7)
+8
+9mount_on_ceiling(
+10object,
+11ceiling_local_position,
+12vertical_offset,
+13orientation
+14)
+Thewalloperatorconvertsatwo-dimensionalwall-localcoordinateintoworldspaceusingthewalltangent,wallnormal,and
+vertical direction. The transformed mounting footprint must remain within the usable wall polygon and must not intersect door,
+window,orreservedclearanceregions.Theceilingoperatorsimilarlyplacesanobjectrelativetotheceilingplaneandvalidates
+containment,attachment,andcollisionconstraints.Theexactserializedfieldnamesshouldbealignedwiththereleasedexecutor
+implementation.
+Relation OperatorA relation edge connects an object to an already instantiated reference object:
+1relate(
+2source_object,
+3reference_object,
+4relationship
+5)
+Examplesincludesits_on_top_of,next_to,faces,aligned_with,against,andresting_inside.Some
+relations directly determine placement, whereas others are validation-only constraints.
+Geometric and Relational Constraints
+Roomcontainment.Thetransformedobjectboundsmustremaininsidetheusableroomvolume.Architecturalelementsand
+explicitly permitted mounted objects may use specialized boundary rules, but free-standing furniture and manipulable objects
+must not extend beyond the room boundary.
+Opening clearance.Doors and windows define reserved clearance volumes. A newly placed object must not intersect the
+correspondingclearanceregionunlessitisexplicitlypermittedbeloworbesidetheopening.Doorclearancepreservestheentry
+passage and, when represented, the swing-clear region.
+Collision avoidance.The executor tests each new object against previously committed objects. Intersections are rejected
+except for relation-authorized contact pairs, including an object resting on a support, an object inside a container, or a mounted
+object contacting its mounting surface.
+Support validity.For aresting_onrelation, the support object must already exist, the selected support surface must be
+valid, the child bottom must coincide with the support surface within tolerance, and the projected child footprint must have
+adequate overlap with the usable support region. Forresting_inside, the child bounds must additionally remain within
+the parent interior.
+Orientationconstraints.Theorientation_lockrecordconstrainstheobject’slong-axisdirectionandfacingdirection:
+1orientation_lock:
+2long_axis
+3faces
+4allow_axis_swap
+Ifallow_axis_swapis true, the executor may swap the two horizontal asset axes before scaling. This handles asset
+libraries whose native width and depth conventions differ from the planner convention.
+Dimension constraints.Planner dimensions define the intended occupied volume. After axis normalization and scaling,
+groundeddimensionsmustremainwithindimension_tolerance_m.Thesameaxisconventionmustbeusedfordimension
+validation, placement, collision tests, and relation checks.
+Functional clearance and accessibility.The executor also preserves designated circulation and work regions, such as entry
+paths,clearancearoundcentralworktables,accessinfrontofstorage,andtransitionsbetweenfunctionalzones.Theseconstraints
+are provided through the room-levellayout_intent,avoid, andcritic_checklistfields.
+Recursive parent, dependency, and reference relations.parent_idcaptures recursive or functional ownership.
+depends_onspecifies mandatory execution precedence.reference_objectsstores explicit semantic or spatial edges,
+andplacement.supportidentifiestheexactsupportgeometryusedforgrounding.Theexecutorbuildsadependencygraph
+from these fields and rejects unresolved references or cycles.
+Asset Grounding Procedure
+DSL objects describe semantic intent and target geometry rather than directly identifying a fixed mesh. Asset grounding maps
+each object request to a concrete 3D asset.
+Asset request construction.The executor constructs a request from the object’sobject_type,category,name,
+description,dimensions,axis_semantics, and optionalasset_reuse_key.
+Asset reuse.Whenasset_reuse_keyis present, the executor first checks whether an asset has already been grounded
+under the same key. Matching objects reuse the same base asset whenever possible while retaining independent transforms.
+Candidate retrieval and filtering.If no reusable asset is available, candidates are retrieved using the semantic fields and
+optional style context. Candidates that fail basic category, topology, dimension, support-surface, or interior-space requirements
+are removed.
+Axis normalization and dimension matching.Each candidate is converted into the planner coordinate convention. The
+executor determines the native horizontal and vertical axes, applies an allowed axis permutation, aligns the vertical axis with
+scene height, and computes the required scale. Candidates whose proportions or support geometry cannot satisfy the planner
+tolerance are rejected.
+Deterministic ranking.Remaining candidates are ranked using a fixed ordering based on semantic compatibility, dimension
+compatibility, axis compatibility, required support or interior geometry, reuse preference, and a stable asset identifier. Ties are
+resolved using the stable identifier. Identical DSL input, asset-library state, and executor configuration therefore produce the
+same grounded asset.
+Instantiation.Afterselection,theexecutorloadsorreusestheasset,normalizesitsaxes,appliesscale,computestheplacement
+transform, constructs collision and support metadata, validates constraints, and commits the instance to the scene state.
+Deterministic Executor
+At inference time, each generated DSL segment is parsed and executed once. The updated partial scene is then rendered and
+returned to the scene expert for the next feed-forward construction step. The executor does not perform an iterative generate–
+evaluate–repair loop for the same state.
+1Input:
+2previous_scene_state
+3executable_dsl_segment
+4
+51. Parse the DSL segment.
+62. Validate required fields and identifiers.
+73. Register zones, objects, and reserved regions.
+84. Build dependency edges from:
+9stage order,
+10parent references,
+11depends_on,
+12support objects,
+13relation references.
+145. Reject cycles and unresolved references.
+156. Compute a stable topological execution order.
+167. For each object in that order:
+17construct the asset request;
+18resolve or reuse an asset;
+19normalize axes and dimensions;
+20compute the world-space transform;
+21evaluate geometric constraints;
+22evaluate relational constraints;
+23commit the object if all hard checks pass.
+248. Update the structured scene state.
+259. Return the updated scene and execution status.
+Listing 4: Reference deterministic execution procedure.
+Execution is transactional at the DSL-segment level. If parsing fails, a required dependency is missing, or a hard constraint
+is violated, the segment returns a failure status without partially committing an invalid update. Determinism is obtained
+throughfixedcoordinateconventions,stabledependencyordering,stableasset-rankingtiebreakers,fixedgeometrictolerances,
+deterministic transform computation, deterministic collision and support tests, and transactional updates.
+Demonstration JSON and Excerpt Policy
+The complete scene JSON for the battery-recycling room contains substantially more zones, objects, and recursive branches
+than can be included conveniently in the supplementary material. The demonstration JSON reproduced in Listing 5 is included
+in full, but it is itself an excerpt constructed by selecting two representative recursive chains from the much longer complete
+scene JSON.
+The two selected chains demonstrate complementary forms of recursion:
+1. a room-to-zone-to-furniture-to-supported-container chain; and
+2. a room-to-worktable-to-tray-to-nested-object chain.
+The_commentfields were inserted after generation solely to improve readability and explain the selected fields. They are
+not part of the generation-time DSL schema, are not produced by the scene expert, and are not consumed by the deterministic
+executor. Theparent_idfield is shown as an explicit projection of the recursive generation hierarchy, while the remaining
+DSL fields are taken from the generated staged traces. An empty stage in the demonstration does not imply that the stage is
+unsupported;forexample,mounted_object_stageisemptybecauseneitherdisplayedrecursivechaincontainsamounted
+object.
+Analysis of the First Recursive Chain
+The first displayed chain is:
+1battery_recycling_room
+2‘-- north_sorting_wall
+3‘-- north_sorting_cubby_shelf
+4‘-- sorting_bin_yellow
+This chain refines a room-level function into a north-wall sorting zone, a major storage object, and a supported sorting
+container. Thenorth_sorting_wallzone is a child of the room. The cubby shelf is a major furniture object inside the
+zone, and the yellow sorting bin is recursively associated with the shelf.
+The bin identifies the shelf in three distinct ways:
+1parent_id:
+2north_sorting_cubby_shelf
+3
+4depends_on:
+5north_sorting_cubby_shelf
+6
+7reference_objects:
+8north_sorting_cubby_shelf
+9relationship = sits_on_top_of
+Here,parent_idexposes the recursive chain,depends_onguarantees that the shelf is instantiated first, and
+sits_on_top_ofspecifies the physical relation that must be geometrically validated.
+Thenumericalvaluesencodeexactsupportcontact.Theshelfcenterheightis0.41 m,anditsheightis0.82 m.Itstopsurface
+is therefore
+ztop
+shelf = 0.41 + 0.82
+2 = 0.82 m.
+The bin center height is1.03 m, and its height is0.42 m. Its bottom surface is
+zbottom
+bin = 1.03− 0.42
+2 = 0.82 m.
+The two contact heights coincide, directly realizing thesits_on_top_ofrelation.
+This chain also shows that recursive depth and construction stage are not identical: the shelf and sorting bin both appear in
+the furniture-stage excerpt even though the bin is recursively associated with the shelf.
+Analysis of the Second Recursive Chain
+The second displayed chain is:
+1battery_recycling_room
+2‘-- central_inspection_area
+3‘-- central_inspection_worktable
+4‘-- central_inspection_worktable_tools
+5‘-- worktable_clear_inspection_tray
+6‘-- inspection_tray_nested_batteries

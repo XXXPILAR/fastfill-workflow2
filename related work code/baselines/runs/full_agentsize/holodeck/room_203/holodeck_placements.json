@@ -1,0 +1,190 @@
+{
+ "floor": [
+  {
+   "assetId": "tv cabinet-1",
+   "id": "tv cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.96939990234375,
+    "y": 0.29,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     224.43999023437502,
+     45.0
+    ],
+    [
+     224.43999023437502,
+     235.0
+    ],
+    [
+     169.43999023437502,
+     235.0
+    ],
+    [
+     169.43999023437502,
+     45.0
+    ]
+   ],
+   "object_name": "tv cabinet-1"
+  },
+  {
+   "assetId": "tv cabinet-0",
+   "id": "tv cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.1,
+    "y": 0.275,
+    "z": 4.707034423828125
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     295.0,
+     496.70344238281245
+    ],
+    [
+     295.0,
+     444.70344238281245
+    ],
+    [
+     125.0,
+     444.70344238281245
+    ],
+    [
+     125.0,
+     496.70344238281245
+    ]
+   ],
+   "object_name": "tv cabinet-0"
+  },
+  {
+   "assetId": "sofa-0",
+   "id": "sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.123800048828125,
+    "y": 0.425,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     559.8800048828125,
+     15.0
+    ],
+    [
+     559.8800048828125,
+     265.0
+    ],
+    [
+     664.8800048828125,
+     265.0
+    ],
+    [
+     664.8800048828125,
+     15.0
+    ]
+   ],
+   "object_name": "sofa-0"
+  },
+  {
+   "assetId": "coffee table-0",
+   "id": "coffee table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.9,
+    "y": 0.21,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     555.0,
+     -4.5
+    ],
+    [
+     555.0,
+     65.5
+    ],
+    [
+     425.0,
+     65.5
+    ],
+    [
+     425.0,
+     -4.5
+    ]
+   ],
+   "object_name": "coffee table-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "air conditioner-0",
+   "id": "air conditioner-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.063800048828125,
+    "y": 2.04,
+    "z": 4.797034423828125
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     258.8800048828125,
+     469.20344238281245
+    ],
+    [
+     258.8800048828125,
+     492.20344238281245
+    ],
+    [
+     153.8800048828125,
+     492.20344238281245
+    ],
+    [
+     153.8800048828125,
+     469.20344238281245
+    ],
+    [
+     258.8800048828125,
+     469.20344238281245
+    ]
+   ],
+   "object_name": "air conditioner-0"
+  }
+ ]
+}

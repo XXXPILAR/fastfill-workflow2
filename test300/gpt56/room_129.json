@@ -1,0 +1,88 @@
+{
+ "k": 129,
+ "source": "MansionWorld",
+ "room_type": "dorm room 3",
+ "latency_s": 19.826965332962573,
+ "usage": [
+  {
+   "prompt_tokens": 885,
+   "completion_tokens": 971,
+   "total_tokens": 1856,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 646,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.18,
+     0.75,
+     0.6
+    ],
+    "bottom_center_m": [
+     0.45,
+     0.09,
+     1.45
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.55,
+     1.2,
+     2.2
+    ],
+    "bottom_center_m": [
+     1.725,
+     1.2,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.18,
+     0.75,
+     0.6
+    ],
+    "bottom_center_m": [
+     1.35,
+     0.09,
+     1.45
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.04,
+     0.75,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.55,
+     1.98,
+     1.25
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe shared wardrobe is the largest object, so it is placed against the right wall, leaving a usable central aisle and keeping the left-wall door approach clear. Both shelf sets are mounted side by side on the bottom wall at reachable height. The art panel is centered on the upper-left portion of the opposite wall, away from the wardrobe. This arrangement preserves clear circulation from the door through the middle of the room.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.75,\"depth_m\":0.18,\"height_m\":0.6,\"x\":0.45,\"y\":0.09,\"z\":1.45,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":1.2,\"depth_m\":0.55,\"height_m\":2.2,\"x\":1.725,\"y\":1.2,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":0.75,\"depth_m\":0.18,\"height_m\":0.6,\"x\":1.35,\"y\":0.09,\"z\":1.45,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.75,\"depth_m\":0.04,\"height_m\":0.5,\"x\":0.55,\"y\":1.98,\"z\":1.25,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndorm room 3\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.000 m x 2.000 m x 3.000 m\nfloor polygon (x, y): [[0.0, 0.0], [2.0, 0.0], [2.0, 2.0], [0.0, 2.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"wall shelf\", \"description\": \"A set of three wooden shelves.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0001\", \"category\": \"shared wardrobe\", \"description\": \"shared wardrobe\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"wall shelf\", \"description\": \"A set of three wooden shelves.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0003\", \"category\": \"wall art panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.0, 1.403], \"wall_from\": [0.0, 2.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.024, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

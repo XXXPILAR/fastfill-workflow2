@@ -1,0 +1,1195 @@
+{
+  "requests": 4,
+  "failed_requests": 4,
+  "failed_requests_strict": 4,
+  "failed_requests_scope": "strict: no layout, or a hard check not passed, unknown included (with assets: the runtime did not succeed); hard_violation_requests counts only violated hard checks",
+  "hard_violation_requests": 0,
+  "validation": {
+    "model": {
+      "rooms": 4,
+      "rooms_with_collision": 0,
+      "collision_pairs": 0,
+      "fixed_collision_pairs": 0,
+      "clean_rooms": 4,
+      "clean_room_rate": 1.0,
+      "clean_rooms_with_hard_unknown": 4,
+      "rooms_without_hard_unknown": 0,
+      "clean_room_rate_known_only": null
+    },
+    "ground_truth": {
+      "rooms": 4,
+      "rooms_with_collision": 2,
+      "collision_pairs": 3,
+      "fixed_collision_pairs": 0,
+      "clean_rooms": 2,
+      "clean_room_rate": 0.5,
+      "clean_rooms_with_hard_unknown": 2,
+      "rooms_without_hard_unknown": 0,
+      "clean_room_rate_known_only": null
+    },
+    "scope": "requests with a validated layout; ground_truth: their labels as written, same validator"
+  },
+  "inference_failed_requests": 0,
+  "system_failed_requests": null,
+  "over_capacity_requests": 0,
+  "target_validation_checks": {
+    "boundary": {
+      "pass": 16,
+      "violation": 0,
+      "unknown": 0
+    },
+    "ceiling": {
+      "pass": 16,
+      "violation": 0,
+      "unknown": 0
+    },
+    "constraint": {
+      "pass": 6,
+      "violation": 0,
+      "unknown": 0
+    },
+    "floor_lower_bound": {
+      "pass": 16,
+      "violation": 0,
+      "unknown": 0
+    },
+    "floor_support": {
+      "pass": 8,
+      "violation": 0,
+      "unknown": 0
+    },
+    "mesh_unchecked": {
+      "pass": 0,
+      "violation": 0,
+      "unknown": 4
+    },
+    "openings_unchecked": {
+      "pass": 0,
+      "violation": 0,
+      "unknown": 4
+    },
+    "physics_unchecked": {
+      "pass": 0,
+      "violation": 0,
+      "unknown": 4
+    },
+    "schema": {
+      "pass": 4,
+      "violation": 0,
+      "unknown": 0
+    },
+    "solver_unchecked": {
+      "pass": 0,
+      "violation": 0,
+      "unknown": 4
+    },
+    "support_unknown": {
+      "pass": 0,
+      "violation": 0,
+      "unknown": 5
+    },
+    "wall_support": {
+      "pass": 3,
+      "violation": 0,
+      "unknown": 0
+    }
+  },
+  "target_validation_not_run": 0,
+  "stage_denominator": 4,
+  "stage_failures": {
+    "model_schema": 0,
+    "target_geometry": 4,
+    "asset_resolution": null,
+    "actual_first_pass": null
+  },
+  "model": {
+    "schema_success": 1.0,
+    "requested_ids_exactly_once": 1.0,
+    "positive_valid_size": 1.0,
+    "target_geometry_valid": 0.0,
+    "reference": {
+      "bottom_center_error_m": {
+        "mean": 2.2893611962889713,
+        "valid_objects": 16,
+        "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+      },
+      "log_size_error": {
+        "mean": 0.1340246385984467,
+        "valid_objects": 12,
+        "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+      },
+      "yaw_error_rad": {
+        "mean": 0.3351153060604736,
+        "valid_objects": 16,
+        "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+      },
+      "bev_iou": {
+        "mean": 0.03707329972055748,
+        "valid_objects": 12,
+        "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+      },
+      "log_size_error_plain_convention": {
+        "mean": 0.1340246385984467,
+        "valid_objects": 12,
+        "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+      },
+      "yaw_error_rad_plain_convention": {
+        "mean": 0.3351153060604736,
+        "valid_objects": 16,
+        "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+      },
+      "box_equivalent_objects": 0,
+      "yaw_error_rad_by_symmetry_order": {
+        "2": {
+          "mean": 0.3351153060604736,
+          "valid_objects": 16
+        }
+      }
+    }
+  },
+  "baselines": {
+    "room_center_position": {
+      "bottom_center_error_m": {
+        "mean": 2.0543172669843934,
+        "valid_objects": 16
+      }
+    },
+    "category_mean_position": {
+      "bottom_center_error_m": {
+        "mean": 2.190506027646411,
+        "valid_objects": 16
+      }
+    },
+    "category_median_size": {
+      "log_size_error": {
+        "mean": 0.5105229668142856,
+        "valid_objects": 12
+      }
+    },
+    "uniform_yaw": {
+      "yaw_error_rad": {
+        "mean": 0.7853981633974483,
+        "valid_objects": 16
+      }
+    },
+    "category_fallback_objects": 24,
+    "requests": 4,
+    "scope": "all evaluation rows with valid labels, independent of model parsing",
+    "fit": "evaluation_set_leave_one_out"
+  },
+  "baselines_paired": {
+    "room_center_position": {
+      "bottom_center_error_m": {
+        "mean": 2.0543172669843934,
+        "valid_objects": 16
+      }
+    },
+    "category_mean_position": {
+      "bottom_center_error_m": {
+        "mean": 2.190506027646411,
+        "valid_objects": 16
+      }
+    },
+    "category_median_size": {
+      "log_size_error": {
+        "mean": 0.5105229668142856,
+        "valid_objects": 12
+      }
+    },
+    "uniform_yaw": {
+      "yaw_error_rad": {
+        "mean": 0.7853981633974483,
+        "valid_objects": 16
+      }
+    },
+    "category_fallback_objects": 24,
+    "requests": 4,
+    "scope": "requests with a layout scored against the labels: the model reference's own objects",
+    "fit": "evaluation_set_leave_one_out"
+  },
+  "collapse": {
+    "predicted": {
+      "bev_overlap_rate_iou_gt_0.3": 0.03225806451612903,
+      "bev_overlap_rate_iou_gt_0.3_room_mean": 0.041666666666666664,
+      "duplicate_stacking_rate_lt_0.10m": 0.0,
+      "mean_nearest_wall_distance_m": 0.4072063354492188,
+      "central_quarter_fraction": 0.125,
+      "collapse_score": 0.15725806451612903,
+      "out_of_room_fraction": 0.0,
+      "footprint_outside_fraction": 0.0,
+      "door_blocking_fraction_of_floor_objects": 0.0,
+      "objects": 16,
+      "pairs": 31,
+      "same_category_pairs": 1
+    },
+    "predicted_matched": {
+      "bev_overlap_rate_iou_gt_0.3": 0.0,
+      "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+      "duplicate_stacking_rate_lt_0.10m": null,
+      "mean_nearest_wall_distance_m": 0.48132511393229177,
+      "central_quarter_fraction": 0.16666666666666666,
+      "collapse_score": 0.16666666666666666,
+      "out_of_room_fraction": 0.0,
+      "footprint_outside_fraction": 0.0,
+      "door_blocking_fraction_of_floor_objects": 0.0,
+      "objects": 12,
+      "pairs": 25,
+      "same_category_pairs": 0
+    },
+    "ground_truth": {
+      "bev_overlap_rate_iou_gt_0.3": 0.0,
+      "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+      "duplicate_stacking_rate_lt_0.10m": null,
+      "mean_nearest_wall_distance_m": 0.5385879543701172,
+      "central_quarter_fraction": 0.4166666666666667,
+      "collapse_score": 0.4166666666666667,
+      "out_of_room_fraction": 0.0,
+      "footprint_outside_fraction": 0.0,
+      "door_blocking_fraction_of_floor_objects": 0.25,
+      "objects": 12,
+      "pairs": 25,
+      "same_category_pairs": 0
+    },
+    "requests": 4,
+    "scope": "predicted: every requested object (a legal exchange of IDs cannot change it); ground truth: request slots whose labels form a trustworthy upright box (complete position and size, finite yaw); predicted_matched: the predicted objects the reference matching assigns to those slots, the same objects as ground truth, so compare predicted_matched with ground_truth"
+  },
+  "by_source": {
+    "IL3D_3dfront": {
+      "requests": 1,
+      "model": {
+        "schema_success": 1.0,
+        "requested_ids_exactly_once": 1.0,
+        "positive_valid_size": 1.0,
+        "target_geometry_valid": 0.0,
+        "reference": {
+          "bottom_center_error_m": {
+            "mean": 2.8676325388446693,
+            "valid_objects": 7,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error": {
+            "mean": 0.12856332319890754,
+            "valid_objects": 7,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad": {
+            "mean": 0.4502949470145368,
+            "valid_objects": 7,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "bev_iou": {
+            "mean": 0.029211994255625377,
+            "valid_objects": 7,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error_plain_convention": {
+            "mean": 0.12856332319890754,
+            "valid_objects": 7,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad_plain_convention": {
+            "mean": 0.4502949470145368,
+            "valid_objects": 7,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "box_equivalent_objects": 0,
+          "yaw_error_rad_by_symmetry_order": {
+            "2": {
+              "mean": 0.4502949470145368,
+              "valid_objects": 7
+            }
+          }
+        }
+      },
+      "baselines": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 2.8328595075208267,
+            "valid_objects": 7
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 3.0709627139578375,
+            "valid_objects": 7
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": 0.5206483537892101,
+            "valid_objects": 7
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 7
+          }
+        },
+        "category_fallback_objects": 12,
+        "requests": 1,
+        "scope": "all evaluation rows with valid labels, independent of model parsing"
+      },
+      "baselines_paired": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 2.8328595075208267,
+            "valid_objects": 7
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 3.0709627139578375,
+            "valid_objects": 7
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": 0.5206483537892101,
+            "valid_objects": 7
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 7
+          }
+        },
+        "category_fallback_objects": 12,
+        "requests": 1,
+        "scope": "requests with a layout scored against the labels: the model reference's own objects"
+      },
+      "collapse": {
+        "predicted": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.4981285714285714,
+          "central_quarter_fraction": 0.14285714285714285,
+          "collapse_score": 0.14285714285714285,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 7,
+          "pairs": 21,
+          "same_category_pairs": 0
+        },
+        "predicted_matched": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.4981285714285714,
+          "central_quarter_fraction": 0.14285714285714285,
+          "collapse_score": 0.14285714285714285,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 7,
+          "pairs": 21,
+          "same_category_pairs": 0
+        },
+        "ground_truth": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.5469862857142856,
+          "central_quarter_fraction": 0.2857142857142857,
+          "collapse_score": 0.2857142857142857,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.2857142857142857,
+          "objects": 7,
+          "pairs": 21,
+          "same_category_pairs": 0
+        },
+        "requests": 1,
+        "scope": "predicted: every requested object (a legal exchange of IDs cannot change it); ground truth: request slots whose labels form a trustworthy upright box (complete position and size, finite yaw); predicted_matched: the predicted objects the reference matching assigns to those slots, the same objects as ground truth, so compare predicted_matched with ground_truth"
+      },
+      "validation": {
+        "model": {
+          "rooms": 1,
+          "rooms_with_collision": 0,
+          "collision_pairs": 0,
+          "fixed_collision_pairs": 0,
+          "clean_rooms": 1,
+          "clean_room_rate": 1.0,
+          "clean_rooms_with_hard_unknown": 1,
+          "rooms_without_hard_unknown": 0,
+          "clean_room_rate_known_only": null
+        }
+      },
+      "target_validation_checks": {
+        "boundary": {
+          "pass": 7,
+          "violation": 0,
+          "unknown": 0
+        },
+        "ceiling": {
+          "pass": 7,
+          "violation": 0,
+          "unknown": 0
+        },
+        "constraint": {
+          "pass": 1,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_lower_bound": {
+          "pass": 7,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_support": {
+          "pass": 7,
+          "violation": 0,
+          "unknown": 0
+        },
+        "mesh_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "openings_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "physics_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "schema": {
+          "pass": 1,
+          "violation": 0,
+          "unknown": 0
+        },
+        "solver_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        }
+      }
+    },
+    "MansionWorld": {
+      "requests": 1,
+      "model": {
+        "schema_success": 1.0,
+        "requested_ids_exactly_once": 1.0,
+        "positive_valid_size": 1.0,
+        "target_geometry_valid": 0.0,
+        "reference": {
+          "bottom_center_error_m": {
+            "mean": 1.1084893780187342,
+            "valid_objects": 4,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error": {
+            "mean": null,
+            "valid_objects": 0,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad": {
+            "mean": 0.39269908169872414,
+            "valid_objects": 4,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "bev_iou": {
+            "mean": null,
+            "valid_objects": 0,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error_plain_convention": {
+            "mean": null,
+            "valid_objects": 0,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad_plain_convention": {
+            "mean": 0.39269908169872414,
+            "valid_objects": 4,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "box_equivalent_objects": 0,
+          "yaw_error_rad_by_symmetry_order": {
+            "2": {
+              "mean": 0.39269908169872414,
+              "valid_objects": 4
+            }
+          }
+        }
+      },
+      "baselines": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 1.6655483452388238,
+            "valid_objects": 4
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 1.6811370988076895,
+            "valid_objects": 4
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": null,
+            "valid_objects": 0
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 4
+          }
+        },
+        "category_fallback_objects": 4,
+        "requests": 1,
+        "scope": "all evaluation rows with valid labels, independent of model parsing"
+      },
+      "baselines_paired": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 1.6655483452388238,
+            "valid_objects": 4
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 1.6811370988076895,
+            "valid_objects": 4
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": null,
+            "valid_objects": 0
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 4
+          }
+        },
+        "category_fallback_objects": 4,
+        "requests": 1,
+        "scope": "requests with a layout scored against the labels: the model reference's own objects"
+      },
+      "collapse": {
+        "predicted": {
+          "bev_overlap_rate_iou_gt_0.3": 0.16666666666666666,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.16666666666666666,
+          "duplicate_stacking_rate_lt_0.10m": 0.0,
+          "mean_nearest_wall_distance_m": 0.18485000000000001,
+          "central_quarter_fraction": 0.0,
+          "collapse_score": 0.16666666666666666,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 4,
+          "pairs": 6,
+          "same_category_pairs": 1
+        },
+        "predicted_matched": {
+          "bev_overlap_rate_iou_gt_0.3": null,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": null,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": null,
+          "central_quarter_fraction": null,
+          "collapse_score": null,
+          "out_of_room_fraction": null,
+          "footprint_outside_fraction": null,
+          "door_blocking_fraction_of_floor_objects": null,
+          "objects": 0,
+          "pairs": 0,
+          "same_category_pairs": 0
+        },
+        "ground_truth": {
+          "bev_overlap_rate_iou_gt_0.3": null,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": null,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": null,
+          "central_quarter_fraction": null,
+          "collapse_score": null,
+          "out_of_room_fraction": null,
+          "footprint_outside_fraction": null,
+          "door_blocking_fraction_of_floor_objects": null,
+          "objects": 0,
+          "pairs": 0,
+          "same_category_pairs": 0
+        },
+        "requests": 1,
+        "scope": "predicted: every requested object (a legal exchange of IDs cannot change it); ground truth: request slots whose labels form a trustworthy upright box (complete position and size, finite yaw); predicted_matched: the predicted objects the reference matching assigns to those slots, the same objects as ground truth, so compare predicted_matched with ground_truth"
+      },
+      "validation": {
+        "model": {
+          "rooms": 1,
+          "rooms_with_collision": 0,
+          "collision_pairs": 0,
+          "fixed_collision_pairs": 0,
+          "clean_rooms": 1,
+          "clean_room_rate": 1.0,
+          "clean_rooms_with_hard_unknown": 1,
+          "rooms_without_hard_unknown": 0,
+          "clean_room_rate_known_only": null
+        }
+      },
+      "target_validation_checks": {
+        "boundary": {
+          "pass": 4,
+          "violation": 0,
+          "unknown": 0
+        },
+        "ceiling": {
+          "pass": 4,
+          "violation": 0,
+          "unknown": 0
+        },
+        "constraint": {
+          "pass": 1,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_lower_bound": {
+          "pass": 4,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_support": {
+          "pass": 1,
+          "violation": 0,
+          "unknown": 0
+        },
+        "mesh_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "openings_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "physics_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "schema": {
+          "pass": 1,
+          "violation": 0,
+          "unknown": 0
+        },
+        "solver_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 1
+        },
+        "wall_support": {
+          "pass": 3,
+          "violation": 0,
+          "unknown": 0
+        }
+      }
+    },
+    "SpatialLM": {
+      "requests": 2,
+      "model": {
+        "schema_success": 1.0,
+        "requested_ids_exactly_once": 1.0,
+        "positive_valid_size": 1.0,
+        "target_geometry_valid": 0.0,
+        "reference": {
+          "bottom_center_error_m": {
+            "mean": 2.424478771327184,
+            "valid_objects": 5,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error": {
+            "mean": 0.14167048015780156,
+            "valid_objects": 5,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad": {
+            "mean": 0.1277967882141846,
+            "valid_objects": 5,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "bev_iou": {
+            "mean": 0.04807912737146242,
+            "valid_objects": 5,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error_plain_convention": {
+            "mean": 0.14167048015780156,
+            "valid_objects": 5,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad_plain_convention": {
+            "mean": 0.1277967882141846,
+            "valid_objects": 5,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "box_equivalent_objects": 0,
+          "yaw_error_rad_by_symmetry_order": {
+            "2": {
+              "mean": 0.1277967882141846,
+              "valid_objects": 5
+            }
+          }
+        }
+      },
+      "baselines": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 1.275373267629843,
+            "valid_objects": 5
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 1.3653618098813913,
+            "valid_objects": 5
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": 0.496347425049391,
+            "valid_objects": 5
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 5
+          }
+        },
+        "category_fallback_objects": 8,
+        "requests": 2,
+        "scope": "all evaluation rows with valid labels, independent of model parsing"
+      },
+      "baselines_paired": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 1.275373267629843,
+            "valid_objects": 5
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 1.3653618098813913,
+            "valid_objects": 5
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": 0.496347425049391,
+            "valid_objects": 5
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 5
+          }
+        },
+        "category_fallback_objects": 8,
+        "requests": 2,
+        "scope": "requests with a layout scored against the labels: the model reference's own objects"
+      },
+      "collapse": {
+        "predicted": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.4578002734375001,
+          "central_quarter_fraction": 0.2,
+          "collapse_score": 0.2,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 5,
+          "pairs": 4,
+          "same_category_pairs": 0
+        },
+        "predicted_matched": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.4578002734375001,
+          "central_quarter_fraction": 0.2,
+          "collapse_score": 0.2,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 5,
+          "pairs": 4,
+          "same_category_pairs": 0
+        },
+        "ground_truth": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.5268302904882813,
+          "central_quarter_fraction": 0.6,
+          "collapse_score": 0.6,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.2,
+          "objects": 5,
+          "pairs": 4,
+          "same_category_pairs": 0
+        },
+        "requests": 2,
+        "scope": "predicted: every requested object (a legal exchange of IDs cannot change it); ground truth: request slots whose labels form a trustworthy upright box (complete position and size, finite yaw); predicted_matched: the predicted objects the reference matching assigns to those slots, the same objects as ground truth, so compare predicted_matched with ground_truth"
+      },
+      "validation": {
+        "model": {
+          "rooms": 2,
+          "rooms_with_collision": 0,
+          "collision_pairs": 0,
+          "fixed_collision_pairs": 0,
+          "clean_rooms": 2,
+          "clean_room_rate": 1.0,
+          "clean_rooms_with_hard_unknown": 2,
+          "rooms_without_hard_unknown": 0,
+          "clean_room_rate_known_only": null
+        }
+      },
+      "target_validation_checks": {
+        "boundary": {
+          "pass": 5,
+          "violation": 0,
+          "unknown": 0
+        },
+        "ceiling": {
+          "pass": 5,
+          "violation": 0,
+          "unknown": 0
+        },
+        "constraint": {
+          "pass": 4,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_lower_bound": {
+          "pass": 5,
+          "violation": 0,
+          "unknown": 0
+        },
+        "mesh_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 2
+        },
+        "openings_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 2
+        },
+        "physics_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 2
+        },
+        "schema": {
+          "pass": 2,
+          "violation": 0,
+          "unknown": 0
+        },
+        "solver_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 2
+        },
+        "support_unknown": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 5
+        }
+      }
+    }
+  },
+  "by_constraints": {
+    "with_constraints": {
+      "requests": 4,
+      "model": {
+        "schema_success": 1.0,
+        "requested_ids_exactly_once": 1.0,
+        "positive_valid_size": 1.0,
+        "target_geometry_valid": 0.0,
+        "reference": {
+          "bottom_center_error_m": {
+            "mean": 2.2893611962889713,
+            "valid_objects": 16,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error": {
+            "mean": 0.1340246385984467,
+            "valid_objects": 12,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad": {
+            "mean": 0.3351153060604736,
+            "valid_objects": 16,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "bev_iou": {
+            "mean": 0.03707329972055748,
+            "valid_objects": 12,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "log_size_error_plain_convention": {
+            "mean": 0.1340246385984467,
+            "valid_objects": 12,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "yaw_error_rad_plain_convention": {
+            "mean": 0.3351153060604736,
+            "valid_objects": 16,
+            "scope": "parsed predictions with valid labels; schema failures included in success denominator"
+          },
+          "box_equivalent_objects": 0,
+          "yaw_error_rad_by_symmetry_order": {
+            "2": {
+              "mean": 0.3351153060604736,
+              "valid_objects": 16
+            }
+          }
+        }
+      },
+      "baselines": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 2.0543172669843934,
+            "valid_objects": 16
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 2.190506027646411,
+            "valid_objects": 16
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": 0.5105229668142856,
+            "valid_objects": 12
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 16
+          }
+        },
+        "category_fallback_objects": 24,
+        "requests": 4,
+        "scope": "all evaluation rows with valid labels, independent of model parsing"
+      },
+      "baselines_paired": {
+        "room_center_position": {
+          "bottom_center_error_m": {
+            "mean": 2.0543172669843934,
+            "valid_objects": 16
+          }
+        },
+        "category_mean_position": {
+          "bottom_center_error_m": {
+            "mean": 2.190506027646411,
+            "valid_objects": 16
+          }
+        },
+        "category_median_size": {
+          "log_size_error": {
+            "mean": 0.5105229668142856,
+            "valid_objects": 12
+          }
+        },
+        "uniform_yaw": {
+          "yaw_error_rad": {
+            "mean": 0.7853981633974483,
+            "valid_objects": 16
+          }
+        },
+        "category_fallback_objects": 24,
+        "requests": 4,
+        "scope": "requests with a layout scored against the labels: the model reference's own objects"
+      },
+      "collapse": {
+        "predicted": {
+          "bev_overlap_rate_iou_gt_0.3": 0.03225806451612903,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.041666666666666664,
+          "duplicate_stacking_rate_lt_0.10m": 0.0,
+          "mean_nearest_wall_distance_m": 0.4072063354492188,
+          "central_quarter_fraction": 0.125,
+          "collapse_score": 0.15725806451612903,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 16,
+          "pairs": 31,
+          "same_category_pairs": 1
+        },
+        "predicted_matched": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.48132511393229177,
+          "central_quarter_fraction": 0.16666666666666666,
+          "collapse_score": 0.16666666666666666,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.0,
+          "objects": 12,
+          "pairs": 25,
+          "same_category_pairs": 0
+        },
+        "ground_truth": {
+          "bev_overlap_rate_iou_gt_0.3": 0.0,
+          "bev_overlap_rate_iou_gt_0.3_room_mean": 0.0,
+          "duplicate_stacking_rate_lt_0.10m": null,
+          "mean_nearest_wall_distance_m": 0.5385879543701172,
+          "central_quarter_fraction": 0.4166666666666667,
+          "collapse_score": 0.4166666666666667,
+          "out_of_room_fraction": 0.0,
+          "footprint_outside_fraction": 0.0,
+          "door_blocking_fraction_of_floor_objects": 0.25,
+          "objects": 12,
+          "pairs": 25,
+          "same_category_pairs": 0
+        },
+        "requests": 4,
+        "scope": "predicted: every requested object (a legal exchange of IDs cannot change it); ground truth: request slots whose labels form a trustworthy upright box (complete position and size, finite yaw); predicted_matched: the predicted objects the reference matching assigns to those slots, the same objects as ground truth, so compare predicted_matched with ground_truth"
+      },
+      "validation": {
+        "model": {
+          "rooms": 4,
+          "rooms_with_collision": 0,
+          "collision_pairs": 0,
+          "fixed_collision_pairs": 0,
+          "clean_rooms": 4,
+          "clean_room_rate": 1.0,
+          "clean_rooms_with_hard_unknown": 4,
+          "rooms_without_hard_unknown": 0,
+          "clean_room_rate_known_only": null
+        }
+      },
+      "target_validation_checks": {
+        "boundary": {
+          "pass": 16,
+          "violation": 0,
+          "unknown": 0
+        },
+        "ceiling": {
+          "pass": 16,
+          "violation": 0,
+          "unknown": 0
+        },
+        "constraint": {
+          "pass": 6,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_lower_bound": {
+          "pass": 16,
+          "violation": 0,
+          "unknown": 0
+        },
+        "floor_support": {
+          "pass": 8,
+          "violation": 0,
+          "unknown": 0
+        },
+        "mesh_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 4
+        },
+        "openings_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 4
+        },
+        "physics_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 4
+        },
+        "schema": {
+          "pass": 4,
+          "violation": 0,
+          "unknown": 0
+        },
+        "solver_unchecked": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 4
+        },
+        "support_unknown": {
+          "pass": 0,
+          "violation": 0,
+          "unknown": 5
+        },
+        "wall_support": {
+          "pass": 3,
+          "violation": 0,
+          "unknown": 0
+        }
+      }
+    }
+  },
+  "latency_ms": {
+    "fastfill_p50": null,
+    "fastfill_p95": null,
+    "fastfill_observed_requests": 0,
+    "fastfill_by_outcome": {
+      "success": {
+        "requests": 0,
+        "p50": null,
+        "p95": null
+      },
+      "failure": {
+        "requests": 0,
+        "p50": null,
+        "p95": null
+      }
+    },
+    "fastfill_scope": "All observed checkpoint generations, including failures; supplied prediction generation time is unknown",
+    "evaluation_wall_time_p50": 4.858165979385376,
+    "evaluation_wall_time_p95": 12.632404314354059
+  },
+  "projection": "full",
+  "skipped_non_rectangular_rooms": 0,
+  "projections": {},
+  "baseline": "supplied_predictions",
+  "head_outputs": null,
+  "saved_head_outputs": null,
+  "subset_limit": null,
+  "evaluation_matching": "exchangeable_groups",
+  "commit_scope": "not_attempted",
+  "runtime_budget": {
+    "asset_retries": 2,
+    "repair_calls": 0,
+    "repair_step_m": 0.25,
+    "max_seconds": 10.0
+  },
+  "required_levels": [
+    "bbox"
+  ],
+  "geometry_level": "upright_obb_bev_iou",
+  "source_root_modified": false,
+  "checkpoint": null,
+  "checkpoint_binding": null,
+  "max_length": null,
+  "max_length_source": null,
+  "grid_decode": null,
+  "predictions_sha256": "1210052676881eb0aab741380e3f9306dd675733b5aadb4d5779bf57a1c84edc",
+  "data_path": "/Users/zhangyang/Downloads/fastfill-v4/Fastfill workflow2/experiments/simple20_robot/rows.jsonl",
+  "data_sha256": "8cf546d9c47508ccfe34627b3087e3ff9e77c01b226b267ce2c1fbaf16284282",
+  "implementation_sha256": "296fe1f060dd2f6918c64889acd9515f905cdc78cbd480fcb31f8cb704db205c",
+  "code_commit": null,
+  "code_dirty": null,
+  "head_outputs_manifest": null
+}

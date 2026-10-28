@@ -1,0 +1,74 @@
+{
+ "k": 205,
+ "source": "SpatialLM",
+ "room_type": "bedroom",
+ "latency_s": 40.161245375173166,
+ "usage": [
+  {
+   "prompt_tokens": 916,
+   "completion_tokens": 2091,
+   "total_tokens": 3007,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1823,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.55,
+     0.9,
+     2.2
+    ],
+    "bottom_center_m": [
+     1.8,
+     3.03,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.5,
+     0.45,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.08,
+     1.05,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     1.0,
+     2.0,
+     1.85
+    ],
+    "bottom_center_m": [
+     1.88,
+     1.1,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe multifunctional bed is the largest item, so it runs along the right wall, leaving a clear passage from the door along the left side. Its accessible side faces into the room, with the chair positioned beside its integrated work area. The wardrobe occupies the rear wall beyond the door zone, facing toward the open central aisle. This arrangement keeps the window unobstructed, preserves door clearance, and provides access to all furniture.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.9,\"depth_m\":0.55,\"height_m\":2.2,\"x\":1.8,\"y\":3.03,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":0.45,\"depth_m\":0.5,\"height_m\":0.85,\"x\":1.08,\"y\":1.05,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":2,\"depth_m\":1,\"height_m\":1.85,\"x\":1.88,\"y\":1.1,\"z\":0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.380 m x 3.305 m x 2.797 m\nfloor polygon (x, y): [[2.38, 3.305], [0.6, 3.305], [0.6, 2.72], [0.0, 2.72], [0.0, 0.0], [2.38, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"},\n{\"id\": \"obj_0001\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0002\", \"category\": \"multifunctional combination bed\", \"description\": \"multifunctional combination bed\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.0, 2.25], \"wall_from\": [0.0, 2.72], \"wall_to\": [0.0, 0.0], \"width_m\": 0.88, \"height_m\": 2.6}, {\"type\": \"window\", \"centre_xy\": [1.075, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.38, 0.0], \"width_m\": 1.45, \"height_m\": 1.7, \"sill_height_m\": 0.65}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0002\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,38 @@
+{
+ "task_description": "a laundry room of about 6.9m x 6.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the cabinet (o0002) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.883154,
+    0.0,
+    0.0
+   ],
+   [
+    6.883154,
+    6.935139,
+    0.0
+   ],
+   [
+    0.0,
+    6.935139,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {}
+ }
+}

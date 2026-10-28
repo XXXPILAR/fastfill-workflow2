@@ -1,0 +1,1507 @@
+ReSpace: Text-Driven Autoregressive 3D Indoor Scene Synthesis and Editing
+Martin JJ. Bucher
+Stanford University
+Iro Armeni
+Stanford University
+respace.mnbucher.com
+add tufted 
+dark gray sofa
+add modern
+spherical lamp
+remove plant 
+with black planter
+replace bookcase
+with wooden wardrobe
+Figure 1. We introduce a text-driven framework for 3D indoor scene synthesis and editing—supporting addition, removal, and swapping.
+Abstract
+Scene synthesis and editing has emerged as a promising di-
+rection in computer graphics. Current trained approaches
+for 3D indoor scene generation either oversimplify object
+semantics through one-hot class encodings (e.g., ‘chair’ or
+‘table’), require masked diffusion for editing, ignore room
+boundaries, or rely on floor plan renderings that fail to cap-
+ture complex layouts. LLM-based methods enable richer
+semantics via natural language, but lack editing function-
+ality, are limited to rectangular layouts, or rely on weak
+spatial reasoning from implicit world models. We introduce
+RESPACE, a generative framework for autoregressive text-
+driven 3D indoor scene synthesis and editing. Our approach
+features a compact structured scene representation with ex-
+plicit room boundaries that enables asset-agnostic deploy-
+ment and frames scene manipulation as a next-token predic-
+tion task, supporting object addition, removal, and swapping
+via natural language. We employ supervised fine-tuning with
+a preference alignment stage to train a specialized language
+model for object addition that accounts for user instructions,
+spatial geometry, object semantics, and scene-level composi-
+tion. We further introduce a voxelization-based evaluation
+metric capturing fine-grained geometric violations beyond
+3D bounding boxes. Experiments surpass state-of-the-art
+on object addition and achieve superior human-perceived
+quality on the application of full scene synthesis, despite not
+being trained on it.
+1. Introduction
+Scene synthesis for 3D environments has been a long stand-
+ing challenge in computer graphics for many decades. In
+particular, indoor scenes have been of interest due to the wide
+range of applications in virtual and mixed reality, robotics,
+entertainment, retail, virtual staging, interior design, and
+more. As the manual creation and editing of such scenes
+requires substantial human effort and expertise, significant
+effort has been put on automating this process. With early
+approaches revolving around heuristics-based methods and
+procedural modeling [19, 42, 43, 62, 63, 72], recent effort
+has shifted towards deep generative models, i.e., learning the
+distribution of indoor scenes directly from data. For instance,
+autoregressive models [40, 48, 57] learn to stochastically
+predict a sequence of objects for full scene generation or
+completion. Another line of work explores diffusion-based
+models for scene synthesis [ 26, 36, 55] by learning how
+to gradually denoise object properties from random noise.
+Methods based on scene graphs have also been proposed,
+either by assuming a high-level scene graph as input or by
+generating a scene graph in a first stage and then obtaining
+object properties via diffusion [33, 76]. With the recent ad-
+vent of instruction-tuned Large Language Models (LLMs),
+agent-based approaches have been pursued, relying primar-
+ily on the inherent world model of LLMs [ 9, 17, 53, 67].
+However, existing methods face several limitations: they
+simplify object semantics via one-hot class labels, ignore
+room boundaries or rely on fixed-resolution floor plans re-
+gardless of scene complexity, depend on zero-shot LLMs or
+external optimization algorithms given nascent spatial foun-
+dation models, and lack direct natural language modification
+capabilities. While full scene synthesis from scratch is a use-
+ful benchmark, practical interior design is inherently iterative
+— users refine and adjust scenes progressively, making fine-
+grained text-driven editing a more valuable capability than
+one-shot generation. Yet, existing methods for explicit 3D
+scene representations lack fine-grained text-driven editing
+with semantic modularity, where individual objects can be
+1
+arXiv:2506.02459v6  [cs.CV]  29 Jun 2026
+added, removed, or swapped independently while preserving
+scene context.
+We propose RESPACE, a novel framework leveraging
+natural language for intuitive scene synthesis and editing
+through text commands for object addition, removal, and
+swapping. We frame scene manipulation as a next-token
+prediction task, enabled by a structured scene representation
+(SSR) in a JSON format that represents spatial information
+(i.e., room boundaries, object semantics, and precise place-
+ment) explicitly, and train a specialized model, SG-LLM,
+for object addition. SG-LLM takes a short object prompt
+as input and performs single object placement as output.
+It is prompted by a zero-shot LLM that serves as the user
+interface, decomposing user instructions into atomic addi-
+tions/removals. For removals, the zero-shot LLM handles
+these directly through SSR text editing. We decouple 3D
+asset selection from the SSR using a stochastic sampler that
+matches both size and semantics from an existing catalog.
+Example prompt-output pairs are shown in Fig. 2 alongside
+a summary. For evaluation, we introduce a voxelization-
+based metric capturing fine-grained geometric interactions
+beyond bounding boxes, quantifying realistic placements
+such as chairs partially under tables (Fig. 4 (C)). After Su-
+pervised Fine-Tuning (SFT) on instructions, we explore this
+metric—alongside other constraints—as verifiable reward
+for preference alignment on SG-LLM. As an application,
+and to compare with methods that only perform full scene
+synthesis, SG-LLM processes autoregressively object lists
+generated by the zero-shot LLM. Experiments on the 3D-
+FRONT [20] dataset demonstrate a new state-of-the-art for
+object placement and superior human-perceived quality for
+full scene synthesis. Code and dataset are available here. In
+summary, our contributions are as follows:
+• We present RESPACE, a novel method for controllable
+indoor scene synthesis and editing, framing object addition
+and removal via next-token prediction.
+• We present a supervised fine-tuning pipeline for object
+addition that surpasses state-of-the-art on placement and
+achieves strong results for full scene synthesis, with ex-
+ploratory preference-alignment experiments using Rein-
+forcement Learning with Verifiable Rewards (RLVR).
+• We introduce a lightweight and interpretable structured
+scene representation with natural-language object descrip-
+tions and explicit numerical values for scene boundaries
+and object positioning, enabling direct editing and asset-
+agnostic deployment across 3D catalogs.
+• We propose the V oxelization-Based Loss (VBL), a novel
+evaluationmetric capturing fine-grained geometric inter-
+actions beyond 3D bounding boxes (e.g., chair/table).
+2. Related Work
+3D Indoor Scene Synthesis.Early approaches relied on
+heuristics and procedural modeling [19, 42, 43, 62, 63, 72].
+Table 1. Comparison of key properties across recent methods.
+Method Non-Rect.
+Layouts
+Explicit
+Semantics
+Text
+Editing
+Trained
+Placement
+Asset
+Sampling
+ATISS [40]✓ ✓✓✗ ✗✓ ✓✓✗
+Mi-Diff [26]✓ ✓✓✗ ✗✓ ✓✓✗
+LayoutGPT [17]✗✓ ✓✓✗ ✗ ✗
+LayoutVLM [53]✗✓ ✓✓✗ ✗ ✗
+InstructScene [33]✗ ✗ ✗✓ ✓✓✗
+Ctrl-Room [16]✓ ✓✓✗ ✗✓ ✓✓✗
+SceneWeaver [68]✗✓ ✓✓✗✓ ✓✓✗
+EditRoom [79]✗ ✗✓ ✓✓ ✓ ✓✓✗
+DirectLayout [47]✗✓ ✓✓✗✓ ✓✓✗
+ReSpace (ours)✓ ✓✓ ✓ ✓✓ ✓ ✓✓ ✓ ✓✓ ✓ ✓✓
+With deep learning’s emergence, transformers [40, 48, 58]
+and diffusion models [ 26, 36, 55, 61] gained prominence.
+Deep Priors [ 57] introduced CNN-based attribute predic-
+tion, while Fast&Flexible [ 48] developed a chained CNN
+pipeline conditionable on floor plan images. SceneFormer
+[58] proposed autoregressive transformers conditioned on
+floor plans and text descriptions, while ATISS [ 40] pio-
+neered treating scenes as unordered object sets. FOR-
+EST2SEQ [54] explores ordering strategies for autoregres-
+sive synthesis to improve placement quality. Recent ad-
+vances include diffusion-based approaches like DiffuScene
+[55], Mi-Diff [26] (supporting floor plan conditioning via
+PointNet features), PhyScene [65] (focusing on physically
+interactable synthesis), and LEGO-Net [61] (via rearrange-
+ment). Alternative approaches generate unified scene rep-
+resentations: Text2Room [ 24] extracts textured meshes
+from 2D models, DreamScene [ 32] uses Gaussian-based
+text-to-3D generation, and Set-the-Scene [12] enables con-
+trollable NeRF scenes. Human-centric approaches include
+MIME [71] and SUMMON [70], while scene graph methods
+[14, 33, 35, 75, 76] like InstructScene [33] and EchoScene
+[76] use intermediate graph representations, with EditRoom
+[79] extending graph diffusion to language-guided layout
+editing. Despite these advances, most methods either gener-
+ate unified representations limiting asset flexibility, focus on
+end-to-end synthesis without granular editing capabilities,
+or lack explicit 3D boundary handling for complex layouts
+and intuitive text-driven manipulation.
+Language-based Scene Synthesis.Early work like CLIP-
+Layout [34] explored text-prompted synthesis using CLIP
+[44] embeddings. With instruction-tuned LLMs, agent-based
+approaches evolved: LayoutGPT [17] pioneered zero-shot
+placement via CSS-based representation, while I-Design
+[9], Holodeck [67], and Open-Universe [1] employ multi-
+agent systems to construct scene graphs or DSL instances
+before separate layout optimization. LayoutVLM [53] gener-
+ates text-based layouts with constraints before optimization,
+LLPlace [66] retrieves assets via text prompts before us-
+ing a fine-tuned LLM for placement, and SceneCraft [ 28]
+targets scene generation via iterative code generation with vi-
+sual feedback. SceneWeaver [68] uses an LLM-based agent
+2
+framework for text-driven scene synthesis. DirectLayout
+[47] generates numerical 3D layouts directly from text via
+LLM spatial reasoning with CoT-grounded rewards. Room-
+Dreamer [51] edits a scanned indoor mesh by generating
+text-guided coherent geometry and textures via diffusion
+and joint mesh optimization, without explicit object-level
+semantic layout modeling. CASAGPT [18] targets cuboid
+arrangement for interior design but lacks natural language
+semantics. More recently, Ctrl-Room [16] separates layout
+and appearance generation, achieving controllable text-to-
+3D room generation with mask-guided editing, with further
+recent advances in instruction-driven synthesis [3, 10, 69].
+However, recent methods either require separate optimiza-
+tion stages, focus on open-domain generation, or lack ex-
+plicit semantics or editing capabilities. Table 1 summarizes
+key properties across most similar recent methods. Unlike
+prior work, our approach uses a specialized trained LLM for
+indoor scene synthesis, directly predicting object semantics
+and positioning while supporting probabilistic asset sam-
+pling. This remains fully generative [ 8] while extending
+beyond rectangular floor plans to non-convex geometries.
+Preference Alignment and Test-Time Compute Scaling.
+LLM development has evolved from pre-training only (GPT-
+3 [6] era) to dual-stage pipelines with instruction-tuning
+and preference alignment. Nominal works include Instruct-
+GPT [39], FLAN [60], Reinforcement Learning from Hu-
+man Feedback (RLHF) [ 11], Direct Preference Optimiza-
+tion (DPO) [ 45], Rejection sampling Fine-Tuning (RFT)
+[15, 73, 74], and, most recently, Group Relative Policy Op-
+timization (GRPO) [49] and RLVR [31, 52]. Recent work
+has also focused on increasing test-time compute [ 50] via
+self-consistency [59], Best-of-N, and reward models [5]. For-
+mulating scene synthesis via language modeling, we employ
+preference alignment with verifiable rewards on this task.
+3. RESPACE
+We introduce RESPACE, a method for autoregressive in-
+door scene generation and editing via natural language that
+sequentially adds and removes objects to empty or partial
+scenes (Fig. 2).
+Problem Statement.Given a user instruction ui in natu-
+ral language, our goal is to learn the conditional distribution
+ˆSi ∼p θ(Si|ui) with input scene Si and modified scene
+ˆSi. Let S={S 1,S 2,...,S N} be a collection of indoor
+scenes, where each scene Si = (T,B,O) is composed by
+its room typeT∈T , room boundariesB={B top,B bottom},
+and unordered set of objects O={O 1,O 2,...,O K}. Un-
+like previous work, our bounds are defined as ordered
+point sets bi∈R 3 forming closed rectilinear polygons —
+Btop ={b 1,b 2,...bM} for the ceiling andBbottom for the floor.
+Further, each object in the sceneOi = (di,hi,ti,ri) is rep-
+resented as a labeled 3D bounding box with asset description
+di, sizehi∈R 3, positionti∈R 3, and orientationri∈R 4.
+The object description di captures fine-grained object se-
+mantics such as material, color, and style explicitly via text.
+Rotations are given as quaternions. We formulate the task of
+3D scene synthesis as learning a generative model such that
+a scene withK objects can be autoregressively composed
+from previously placed objects {Oj<i}, natural language
+promptpi, room boundariesB, and room typeT.
+3.1. Structured Scene Representation
+Given a scene Si = (T,B,O) , we propose a Structured
+Scene Representation (SSR) that follows a nested dictionary
+schema. This is inspired by hierarchical DSLs as seen in
+prior work on neurosymbolic representations and shape pro-
+grams [2, 56, 77], as well as structured representations in
+Structured3D [78] and SpatialLM [37], but follows a simpler
+structure for 3D indoor scenes. Let the room type be given
+as a short text string, let boundariesBtop andBbottom be given
+as a nested list of 3D coordinates, and let the set of objects
+be a flat list, with each object defined as a dictionary with
+its compact textual description, size, position, and rotation.
+A full example of our SSR is given in 6.12 (Supp.), with
+a snippet also in Fig.2. Note that the 3D asset choice is
+detached from the actual scene representation. Thus, SSR is
+anabstractionover any scene instance and allows to swap
+assets without changing the underlying SSR. This choice,
+in contrast to neural scene or voxel-based methods [38, 41],
+is lightweight (∼KBs ), and directly editable. Further, it is
+extensible, e.g., by representing doors/windows or adding
+spatial relationships between objects for more fine-grained
+scene graphs.
+3.2. Scene Synthesis via Autoregressive Modeling
+Given an SSR instance, we can tokenize a sceneSi intoN
+text tokenstj such thatTok(Si) =U={t 1,...,t N}. Let
+Upr be the sequence of tokens for the existing scene that
+composes an SSR, and letUi be the token sequence for the
+current object. Let pi represent the object prompt for the
+next object to add. Note that Tok(Si) =U pr +U i, where
+the complete scene tokenization is the concatenation of the
+existing scene tokens and the new object tokens. We can for-
+mulate a generative model for autoregressive scene synthesis
+and completion as a conditional next-token prediction task:
+pθ
+ 
+Oi|pi,{Oj<i},T,B
+
+=
+MY
+j=0
+pθ
+ 
+tj|pi,Upr,t<j
+
+(1)
+thus, during inference, sampling the next object for the scene
+involves sampling M tokens from pθ(x) until the end-of-
+sequence (EOS) token is chosen. Let,pθ(x) be represented
+by an LLM and let this specially trained model for autoregres-
+sive object addition be denoted as SG-LLM (Scene Graph
+LLM). We show our pipeline in Fig. 2 for an example scene,
+where the full input string for SG-LLM is composed in step
+3
+{
+  "room_type": "bedroom",
+  "bounds_top": [ [ -1.55, 2.6, 2.0 ], [ ...
+  "bounds_bottom": [ -1.55, 0.0, 2.0 ], [ ...
+  "objects": [
+    {
+      "desc": "A modern and contemporary ...
+      "size": [ 0.8, 0.84, 0.71 ],
+      "pos": [ 0.07, 1.87, 0.25 ],
+      "rot": [ 0, 0, 0, 1 ],
+      "sampled_asset_jid": "31f491b...
+      ...
+    },
+    ...
+(A) Prompt Creation
+...
+(B) Decoding + Concat
+(C) Asset Sampling
+SG-LLM
+Zero-Shot
+LLM
+Asset Sampling Engine3D Asset Catalog
+Scene Before
+ Scene After
+modern gray fabric
+bed with headboard
+add object
+remove 
+object
+...
+score = 0.23
+score = 0.15
+large plant with 
+ceramic vase
+gray modern 
+wooden dresser
+autoregressively add more objects
+...
+Structured Scene Representation
+prompts for object addition
+(n+1)-th iter
+sample 
+response
+user 
+prompt
+{
+  "room_type": "bedroom",
+  "bounds_top": [ [ -1.55, 2.6, 2.0 ], [ ...
+  "bounds_bottom": [ -1.55, 0.0, 2.0 ], [ ...
+  "objects": [
+    {
+      "desc": "A modern and contemporary ...
+      "size": [ 0.8, 0.84, 0.71 ],
+      "pos": [ 0.07, 1.87, 0.25 ],
+      "rot": [ 0, 0, 0, 1 ],
+      "sampled_asset_jid": "31f491b...
+      ...
+    },
+    ...
+Structured Scene Representation
+Tokenization
+🔥
+❄ ❄
+SigLIP
+ SigLIP
+score = 0.00
+“create a
+modern bedroom
+with 7 objects”
+Figure 2.ReSpace:Given a text instruction and an existing scene in SSR, a zero-shot LLM emits sequential add/remove commands.
+Addition is done via our specially trained SG-LLM (pθ), removal via zero-shot SSR editing.
+Input Image Asset Description for SSR Object Prompts for SG-LLM instructions
+GPT-4o
+ GPT-4o
+Figure 3. Example of description and prompt bank for an asset.
+(A) from the existing SSR and a single object prompt. After
+tokenization, forward pass in the LLM, and response sam-
+pling, tokens get decoded and concatenated with the existing
+object list in step (B). Lastly, a 3D asset is sampled in step
+(C) via asset sampling engine. This process can be repeated
+K times to iteratively add more objects, given K object
+prompts. With object addition formulated as next-token pre-
+diction, SG-LLM is trained via supervised fine-tuning (SFT)
+and can be refined via RLVR (see 6.2 in Supp.).
+3.3. Stochastic Asset Sampling
+We can retrieve assets for added objects from a given 3D
+asset catalog using the descriptions and sizes of each ob-
+ject defined in the SSR. Prior work uses greedy selection
+via closest 3D bounding box match, filtered by class label
+[9, 17, 26, 40, 55, 66]. In contrast, we formalize asset re-
+trieval as a probabilistic process where each 3D asset mesh
+mi is drawn from a distribution parameterized by semantic
+and geometric constraints: mi ∼g ϕ(di,hi), where di is
+the natural language description and hi is the target size.
+The distributiongϕ computes scores as weighted combina-
+tions of semantic and geometric similarities: score(mj) =
+λ·simsem(di,dj)+(1−λ)·sim geo(hi,hj), where simsem uses
+L2-normalized SigLIP embeddings for text-to-asset match-
+ing and simgeo measures size compatibility via Gaussian
+similarity: exp(−∥si−sj∥2/(2σ2)). The final distribution
+is obtained through temperature-scaled softmax with nu-
+cleus sampling (top-p) and top-k filtering. For deterministic
+‘greedy’ retrieval, we can setmi =argmaxmjgϕ(di,hi).
+3.4. Removal/Full Scenes via Zero-Shot Learning
+Our method enables sceneeditingvia autoregressive addition
+and removal using a zero-shot LLM. For removal, this LLM
+directly modifies the SSR JSON. For full scene generation,
+we leverage the LLM’s inherentworld modelto generate
+object prompt listsPi ={p 1,...,p K}∼LLM ZS (ui) from
+user instruction ui, which SG-LLM processes autoregres-
+sively. While a unified model would be preferable, we delib-
+erately specialize SG-LLM for object addition, the sub-task
+where frontier zero-shot reasoning fails (Sec. 4), while dele-
+gating removal and instruction decomposition to a zero-shot
+LLM, where it already suffices. This division focuses trained
+capacity where it is needed and avoids mode collapse from
+task/class imbalance. System prompts are in 6.13 (Supp.).
+3.5. Voxelization-Based Loss for Layout Violations
+Representing scenes via SSR follows previous work in that
+objects are simplified as a collection of positioned 3D bound-
+ing boxes, visualized in Fig. 4 (A) with blue boxes for objects
+and red cubes for ceiling and floor room bounds. Existing
+work on indoor scene synthesis does not study layout vi-
+olations extensively — reporting only the ratio of scenes
+with objects partially out-of-bounds [9], or object intersec-
+tions via Intersection-over-Union [ 26] or average volume
+intersection [9] on 3D bounding boxes. However, bounding-
+box-based metrics cannot accurately evaluate realistic object
+placement (e.g., chair partially under table in Fig. 4 (A)) or
+provide fine-grained violation signals.
+We introduce the V oxelization-Based Loss (VBL), a
+geometry-awareevaluation metricdefined as follows. We
+voxelize the scene boundary mesh B with fixed voxel
+size G to create a uniform grid VS, and similarly vox-
+elize each object mesh Oj into a binary occupancy grid
+Vj∈{0,1} xj×yj×zj , where each voxel indicates whether
+that spatial location is occupied by the object. To quantify
+layout violations, we define two complementary sub-metrics:
+(1) Out-of-Bounds Loss (OOB) counts voxels outside scene
+boundaries as OOBj =P
+iVj(i)− P
+iVj(i)·V S(i), with
+total OOB= P
+j OOBj, and (2) Mesh Boundary Loss
+(MBL) measures voxel overlap between unique object pairs
+(Om,On) as MBL(m,n) =P
+iVm(i)·Vn(i), computed once
+per unique pair with total MBL= P
+m<n MBL(m,n). The
+4
+Figure 4.(A)Scene with 3D bounding boxes in blue and bounds
+in red.(B)Scene with 3D meshes.(C)Scene with voxels.(D)
+Examples of OOB/MBL voxel violations. Note how desk/chair
+interact smoothly in mesh space compared to their bounding boxes,
+while the lamp is largely OOB as box but only minor as mesh.
+complete VBL is the sum: VBL=OOB+MBL . OOB and
+MBL capture orthogonal failure modes — objects outside
+boundaries have high OOB but low MBL since they rarely
+intersect with other objects — making it crucial to minimize
+both. Fig. 4 visualizes these violations with OOB voxels
+in red and MBL voxels in purple. Since MBL scales sub-
+quadratically with object count, we implement a horizontal
+2D intersection check for early stopping, skipping full 3D
+voxel computation when 2D projections of object pairs show
+zero overlap, significantly reducing computation time for
+scenes with many spatially distant objects. We empirically
+find that a voxel size of G= 0.05m provides an optimal
+trade-off between computational efficiency and accuracy.
+4. Experiments
+We conduct experiments on four tasks: (i) single object ad-
+dition on partial scenes via prompt-based instructions; (ii)
+object removal via zero-shot LLM; (iii) autoregressive edit-
+ing sequences chaining additions and removals to simulate
+realistic multi-step user interactions; and (iv) full scene syn-
+thesis as an application, enabling comparison with a broader
+set of baselines. We further perform ablation studies on
+scene complexity, prompt complexity, test-time compute
+scaling via Best-of-N (BoN) sampling, and asset-agnostic
+spatial reasoning.
+Scene-Prompt Dataset.We partition 3D-FRONT [ 20]
+into ‘bed’ (bedrooms), ‘liv’ (living rooms and
+dining rooms), and ‘all’ splits (with 6328/500/500,
+3830/500/500, and 12055/500/500 train/val/test samples
+respectively) after filtering out noisy samples via our
+voxelization-based method. Since the dataset lacks textual
+descriptions, we use GPT-4o [27] as a vision-language model
+bedroomlivingroomallfailure case
+comfortable 
+aesthetic bed
+functional brown
+wine cabinet
+plush black
+sofa
+minimalist
+bed
+Figure 5. Qualitative results on single instructions, with our method
+performing the strongest. For ours, we use ReSpace/A†. We show
+a failure case on the last row.
+to generate detailed descriptions dj for each object from pro-
+vided 3D-FUTURE [21] renderings, following vision-based
+approaches for labeling [1, 46]. We then create 10 unique,
+concise prompts per object to form our prompt bankP(o)
+(see Fig. 3). The prompt bank provides data augmentation
+with varying levels of detail for the same object—for ex-
+ample, a bed might have prompts ranging from “bed" (one
+word) to “modern king-size platform bed" (four words). Dur-
+ing training, we sample pi∼Unif(P(o)) for each object,
+ensuring the model learns a robust prompt-to-object distri-
+bution across different prompt styles. During training, we
+dynamically generate instruction triples, and include empty
+rooms (10%), scenes with a final object placement missing
+(10%), and partial scenes with random number of existing
+objects (80%). We create fixed test sets with 500 instructions
+and corresponding object prompts using three random seeds.
+More details are outlined in 6.1 (Supp.).
+4.1. Experimental Settings
+Baselines and Implementation.We compare against
+trained 3D indoor scene synthesis baselines: (i) ATISS [40],
+a transformer-based auto-regressive model; and (ii) MiDiffu-
+sion [26] (Mi-Diff), a mixed discrete-continuous diffusion
+model. Both take a 256×256 top-down orthographic projec-
+tion of the floor plan as input condition. ATISS is natively
+autoregressive and supports single object-addition via one-
+hot class label conditioning; for Mi-Diff, we follow their
+masking strategy and enable de-noising for a single object
+only.We select baselines on a single criterion: support
+for floor-plan–conditioned object placement, the regime
+our task and VBL metric require.ATISS and Mi-Diff
+condition on arbitrary (incl. non-rectangular) floor plans and
+serve as our primary baselines; LayoutGPT [ 17] and Lay-
+outVLM [53] support only rectangular plans and are evalu-
+ated on a rectangular-only subset for full scene synthesis. We
+exclude InstructScene, EditRoom, OptiScene, and Direct-
+Layout as none conditions on an explicit (non-rectangular)
+floor-plan boundary, making a VBL-based comparison ill-
+defined. Note that LayoutVLM requires a predefined set of
+5
+objects with bounding boxes as input, whereas our method
+generates the object list from scratch. For fair comparison,
+we use greedy asset selection, as baselines only support de-
+terministic retrieval. We define a high-quality placement
+filter requiring VBL<10 −5, PMS>0.85 , and relative size
+L2<0.5 , used both as a binary reward signal for RLVR
+training of SG-LLM and as accuracy criterion for evaluation
+on editing sequences. Full implementation details, includ-
+ing prompt-to-class-label mapping, are in 6.3, details on
+stochastic assets are in 6.4 (Supp.).
+Evaluation Metrics.We use our introduced V oxelization-
+Based Loss (VBL) (see Section 3.5) as the main evaluation
+metric, and follow previous work [26, 33, 40] by rendering
+a top-down projection for each scene, computing Fréchet
+Inception Distance (FID) [ 23], FIDCLIP [30], and Kernel
+Inception Distance (KID) [ 4] between the train split and
+generated scenes. For train split scenes, we compute a set
+of min(N,5000) renderings for instructions (partial scenes)
+and full scenes respectively. We also report Prompt Match-
+ing Score (PMS) to measure how many wordswj from the
+promptpi are captured via the descriptiondi of thesampled
+3D asset: PMS(pi,di) = 1
+|pi|
+P
+wj∈pi 1 wj∈di, with higher
+recall indicating better instruction-following capabilities. We
+use the postfixes ‘/B’, ‘/L’, and ‘/A’ to denote the training
+room split for SG-LLM, and denote with ReSpace/A† the
+model with additional preference alignment (details in 6.2).
+4.2. Prompt-Driven Scene Editing and Synthesis
+Object Addition.We present results for object addition
+in Table 2, reportingdeltaVBL to quantify layout changes
+after insertion. Our method consistently outperforms base-
+lines across all metrics and datasets. This advantage is not
+limited to trained baselines: fine-grained placement is also
+notsolved by frontier zero-shot prompting, where replacing
+SG-LLM with GPT-5.4-mini under identical SSR prompting
+yields VBL∆=39.78 vs. 11.21 on ‘all’ (∼3.5× worse)
+and PMS=0.57 vs. 0.87, despite the frontier model being
+orders of magnitude larger than our 1.5B SG-LLM — scale
+does not substitute for task-specific spatial reasoning. The
+model trained on ‘all’ performs stronger even on ‘bed’
+and ‘liv’ subsets, indicating that diverse training scenes
+help generalization. We further study preference alignment
+with verifiable rewards as an empirical exploration, finding it
+prone to reward hacking, e.g., shrinking object sizes to triv-
+ially lower VBL (6.2). While GRPO improves on OOB, it
+does not consistently outperform SFT on MBL, and does not
+yield a meaningful improvement in human-perceived scene
+quality. DPO achieves the strongest layout violation metrics,
+yet this does not translate to human preference, likely due to
+overfitting to single-object placement rewards at the cost of
+broader scene coherence. RFT is the most stable across auto-
+matic metrics and human evaluation, with a modest but con-
+sistent preference over SFT (58.8%) and a win over DPO; we
+OOB: 0.79 / MBL: 0.0
+ATISS
+OOB: 0.09 / MBL: 0.0
+Mi-Diff
+OOB: 0.01 / MBL: 0.04
+ReSpace (ours)
+ GT
+OOB: 0.05 / MBL: 0.02
+ OOB: 0.61 / MBL: 0.16
+ OOB: 0.0 / MBL: 0.0
+Figure 6. Qualitative results on full scenes (with ReSpace/A†).
+adopt it for our final model ReSpace/A†, with full compari-
+son in 6.7. Fig. 5 shows qualitative results for single object
+additions, with our method sometimes exceeding ground-
+truth placements (e.g., sofa in third row). The last row shows
+a failure case with out-of-bounds placement. Beyond geom-
+etry, our strong OOB margin validates explicit boundaries
+over fixed-resolution floor plans for non-rectangular lay-
+outs, while PMS, our text-faithfulness measure, separates
+ReSpace from all baselines (≥0.87 vs≤0.57), evidencing
+better prompt adherence beyond geometric validity.
+Object Removal.We additionally experiment with object
+removal using the same test instructions, re-merging the in-
+tended (ground-truth) object into the scene and prompting
+the system toremoveit given solely the object prompt. Since
+duplicate assets share the same description di, a removal
+is counted correct only if all assets matching the prompt
+are removed 1:1; we report accuracy as (# correct/# all),
+with 90.9%±0.6 on ‘bed’, 75.2%±1.0 on ‘liv’, and
+87.3%±0.7 on ‘all’ using a zero-shot Llama-3.1-8B. Ac-
+curacy drops with SSR length (95% at<200 words to<35%
+at>500 words), reflecting the 8B model’s long-context lim-
+its rather than semantic ambiguity: swapping in a stronger
+frontier model (GPT-5.4-mini) raises removal to99.8%±0.2
+with no systematic failure pattern (see 6.11). Removal, an
+identification-and-deletion task, thus scales with the zero-
+shot capabilities of existing LLMs and needs no training.
+Autoregressive Editing Sequences.We evaluate ReSpace
+on synthetic autoregressive editing sequences of 1–10 in-
+structions to simulate realistic user interactions, where a
+user iteratively adds and removes objects from a scene. Se-
+quences are generated via random orderings of additions
+(p=0.8) and removals (p=0.2) applied to 3×200 test scenes.
+Per-step accuracy for addition uses our high-quality place-
+ment filter defined in Section 4.1, noting that it does not
+account for valid placements deviating significantly in bound-
+ing box size from the ground truth. For removals we use the
+same criterion as in Section 4.2. Fig. 7 (Top-left) shows per-
+step accuracy binned by sequence length for BoN={1,8} .
+Ground-truth additions pose an imperfect upper bound as
+they do not always satisfy the strict filter either. The results
+show that with a single trial for additions, accuracy decreases
+with longer sequences as placement errors compound. How-
+ever, increasing test-time compute shows consistently higher
+6
+Table 2. Quantitative evaluation onsingle object additionover a hold-out test set of 3×500 instructions with 3 random seeds. KID and
+layout violations (OOB, MBL, VBL) are scaled by10 3 for readability. Best values arebold, second best underlined .
+Layout Violations Scene Renderings Prompting
+Method OOB ∆
+×1e3 ↓MBL ∆
+×1e3 ↓VBL ∆
+×1e3 ↓FID↓FID CLIP ↓KID ×1e3 ↓PMS↑
+‘bed’
+ATISS97.70 ±6.0 13.54 ±0.5 111.24 ±5.4 36.18 ±.3 1.74 ±.0 0.19 ±.0 0.58 ±.0
+Mi-Diff64.04 ±5.3 14.27 ±1.5 78.31 ±4.1 36.12 ±.3 1.76 ±.1 0.05 ±.0 0.57 ±.0
+ReSpace/B11.77 ±3.7 4.45 ±0.5 16.23 ±4.0 35.23 ±.3 1.64 ±.0 −0.06 ±.0 0.88 ±.0
+ReSpace/A † 10.75 ±2.6 3.91 ±0.7 14.66 ±2.4 35.35 ±.2 1.66 ±.0 −0.03 ±.1 0.89 ±.0
+‘liv’
+ATISS63.87 ±6.9 11.43 ±3.8 75.30 ±5.8 32.26 ±.1 1.48 ±.0 0.71 ±.3 0.58 ±.0
+Mi-Diff43.88 ±7.6 12.87 ±1.4 56.75 ±8.8 33.30 ±.3 1.53 ±.0 1.06 ±.2 0.56 ±.0
+ReSpace/L10.68 ±0.5 4.27 ±0.3 14.95 ±0.7 31.94 ±.0 1.40 ±.0 0.21 ±.1 0.84 ±.0
+ReSpace/A † 7.51 ±1.7 3.11 ±0.9 10.62 ±2.5 31.84 ±.0 1.41 ±.0 1.41 ±.0 0.87 ±.0
+‘all’
+ATISS121.66 ±8.6 14.48 ±1.0 136.14 ±8.7 36.40 ±.0 1.77 ±.0 0.22 ±.1 0.57 ±.0
+Mi-Diff40.51 ±5.5 18.19 ±0.6 58.70 ±4.9 36.14 ±.2 1.72 ±.0 0.07 ±.1 0.56 ±.0
+ReSpace/A † 7.61 ±1.8 3.60 ±1.0 11.21 ±2.3 35.41 ±.3 1.66 ±.0 −0.06 ±.1 0.87 ±.0
+accuracy if we allow for more trials (BoN=8) and/or include
+rotation augmentation (rotate x4, pick best).
+Full Scene Synthesis.Beyond object-level editing, we
+evaluate the application of full scene synthesis, to compare
+our work with this objective. Unlike end-to-end trained
+baselines, our method relies on prompts from a zero-shot
+LLM informed with: (1) 3D-FRONT object classes, (2) floor
+area to object count priors, and (3) few-shot prompt exam-
+ples. While Table 4 (non-rect.; Supp.) and Table 3 show
+higher FID/KID scores for ours, indicating a slightly larger
+gap to the original training distribution, ReSpace achieves
+substantially lower layout violation metrics. A current limi-
+tation is that object counts are fixed by the zero-shot LLM
+prior to placement and not adapted afterward, and we do
+not filter for over-population, so a room can be overfilled
+relative to its floor area; in our target interactive setting, a
+human-in-the-loop can guide or adjust the outcome.
+To validate our approach against all baselines including
+those restricted to rectangular layouts (LayoutGPT, Lay-
+outVLM), we conducted a comprehensive human evaluation
+study on a rectangular-only subset using ReSpace/A† with
+B1+R+S8 (see 4.3 (iii)). With 334 participants performing
+10,307 pairwise comparisons across 100 scenes,ReSpace
+achieves a win rate of 75.3%— more than 18 percent-
+age points above second-placed Mi-Diff (56.7%). While
+ReSpace achieves substantially lower layout violation met-
+rics, FID/KID scores are slightly higher or on par with base-
+lines, reflecting a distribution shift from training data. This
+confirms that closing the gap to the training distribution is
+not sufficient on its own; the user study suggests that hu-
+man preference reflects a balance between layout quality
+and proximity to a reference distribution of indoor scenes,
+validating our design choices and highlighting the impor-
+tance of human evaluation as a complementary signal to
+metrics alone. Details on the study and Bradley-Terry rank-
+ings are in 6.9. Numerical results are in Tab. 3. Fig. 6 and
+11 show qualitative outputs. Lastly, runtime analysis shows
+that ReSpace achieves competitive runtime while supporting
+richer capabilities than all baselines (see 6.10 for details).
+4.3. Discussion
+(i) Scene Complexity.We study the effect of room size and
+existing object count on addition by clustering the number
+of objects per scene and aggregating them into uniform bins.
+We show the trend on Delta VBL for this in Fig. 7 (Top-
+right). As object count grows, the SSR context lengthens,
+increasing the long-context reasoning demands on SG-LLM.
+However, scenes with higher object count are also larger,
+with potentially more free space. We argue that an ideal
+model has uniform performance across varying object count,
+floor area, and scene density, and can see that ours performs
+much stronger compared to the baselines.
+(ii) Prompt Complexity.We aggregate prompts for full
+scene synthesis by word count and report PMS per bin in
+Fig. 7 (Bottom-left). Longer prompts impose more simulta-
+neous constraints on SG-LLM (e.g., color, material, shape,
+and style), and a slight but consistent negative correlation
+with PMS is confirmed, suggesting that instruction-following
+becomes marginally harder as prompt complexity increases.
+(iii) Scaling Test-Time Compute.We explore three scal-
+ing axes on the ‘bed’ split: BoN sampling ( B8; N=8),
+rotation (+R; with×4 rotated variants per addition), and
+shuffling (+S8; with 8 random object orderings). For BoN
+and rotation, candidates are merged and filtered by highest
+PMS then lowest VBL; for shuffling, scenes are generated
+independently and selected by lowest VBL. As shown in
+Fig. 7 (Bottom-right), bothB8 andB1+R halve VBL over
+B1 with modest PMS gains, while shuffling yields a further
+7
+Table 3. Quantitative evaluation onrectangular-only scenesfrom the ‘all’ split with subset of 3×257 scenes. Metrics follow Table 2.
+Layout Violations Scene Renderings Prompt
+Method OOB ×1e3 ↓MBL ×1e3 ↓VBL ×1e3 ↓FID↓FID CLIP ↓KID ×1e3 ↓PMS↑
+‘rect’
+LayoutGPT1199.7 ±57.6 84.2 ±06.0 1284.0 ±63.3 106.75 ±.5 9.17 ±.1 38.97 ±1. n/a
+ATISS403.8 ±03.9 88.1 ±06.4 491.9 ±07.9 70.69 ±.8 4.22 ±.0 2.71 ±.7 n/a
+Mi-Diff236.0 ±31.7 74.9 ±07.2 310.8 ±26.4 69.75 ±.6 4.06 ±.1 1.37 ±.5 n/a
+LayoutVLM78.6 ±02.2 84.3 ±03.6 162.9 ±05.2 80.04 ±.6 5.91 ±.1 6.33 ±.4 n/a
+ReSpace/A † 70.5 ±10.9 66.6 ±06.2 137.1 ±17.1 70.15 ±.4 4.38 ±.1 1.62 ±.2 0.71 ±.0
+ReSpace/A
+†
+S8+R 4.6±00.6 11.2 ±06.1 15.8 ±06.8 69.24 ±1. 4.34 ±.1 1.96 ±.4 0.90 ±.0
+1 2 3 4 5 6 7 8 9 10
+Instruction Length
+0.00
+0.20
+0.40
+0.60
+0.80
+1.00Sequence Accuracy
+Seq. Accuracy  'all' dataset
+BoN=1
+BoN=1 + ROT
+BoN=8
+BoN=8 + ROT
+Ground Truth
+1-4 5-8 9-12 13-16 17-20 21-24
+# of objects
+25.0
+50.0
+75.0
+100.0
+125.0
+150.0 VBL
+Delta VBL  'all' dataset
+ATISS
+Mi-Diff
+ReSpace/A
+Floor Area
+15
+20
+25
+30
+35
+40
+45
+Mean Floor Area (m²)
+1 2 3 4 5 6
+Prompt Word Count
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0PMS
+PMS Variability / Full
+Bedroom
+Livingroom
+All
+6s 10s 25s 140s
+Runtime Per Scene (log scale, seconds)
+0
+20
+40
+60
+80
+100
+120
+140
+Total VBL ×103 
+Test-Time Compute Scaling / Full
+VBL ×103 
+PMS 
+B1
+B8
+B1+R
+B8+R
+B1+S8 B8+S8
+B1+R+S8
+B8+R+S8
+0.00
+0.20
+0.40
+0.60
+0.80
+PMS 
+Figure 7.(Top-left)Editing accuracy on autoregressive editing
+(L≤10 ).(Top-right)Delta VBL vs. # of objects; with more
+uniform performance for ours.(Bottom-left)PMS vs. prompt
+word count, with slight negative correlation.(Bottom-right)Test-
+Time Scaling: impact on VBL and PMS vs. runtime.
+∼2.5× reduction. Gains quickly saturate after, placing them
+on the Pareto front of quality vs. runtime. A human evalu-
+ation study (see 6.8) confirms thatB1+R+S8 achieves the
+strongest winrate.
+(iv) Asset-Agnostic Spatial Reasoning.We emphasize
+that we use VBL primarily asevaluationmetric, for best
+model selection on the validation split, and as a binary reward
+signal during RLVR, since we cannot backpropagate through
+it. Unlike bounding boxes, VBL captures fine-grained geo-
+metric interactions, which matter for learning correct spatial
+semantics even if infrequent across the full dataset. Sup-
+ported by human evaluations (6.9), this suggests that this
+choice encodes sufficient spatial constraints for effective
+scene arrangement, even without explicit geometric model-
+ing, validating a key hypothesis: SG-LLM can learn effective
+spatial reasoning purely from structured text, enabling de-
+ployment across arbitrary asset catalogs without requiring
+visual input or mesh-based geometry — critical for real-
+world scenarios where available physical inventory may vary
+and asset catalogs can be swapped.
+(v) Limitations.While ReSpace demonstrates the poten-
+tial of a semantically rich scene abstraction that is indepen-
+dent of any specific 3D asset catalog, the current formulation
+reflects design choices that define the scope of this work and
+suggest directions for future extensions. The autoregressive
+placement can lead to sequences where early object place-
+ments constrain later additions, motivating exploration of
+more globally optimized placement. Our experiments also fo-
+cus on single-room scenes and furniture, leaving extensions
+to multi-room and architectural elements (e.g., doors/win-
+dows). In addition, scene size is bounded by compute, not
+method: the released dataset has up to 50 objects, while our
+3K-token context (given our available compute) exposes up
+to∼21 objects at training. Finally, position and pose editing
+is currently achieved by removal followed by re-addition,
+with native in-place spatial edits a natural extension.
+5. Conclusion
+We introduced RESPACE, a framework for text-driven 3D
+indoor scene synthesis and editing with autoregressive lan-
+guage models. Our structured scene representation encodes
+explicit boundaries and positioning alongside textual descrip-
+tions for objects, while our specialized SG-LLM surpasses
+state-of-the-art on object addition metrics. By leveraging a
+zero-shot LLM for object removal and prompt generation,
+we demonstrate superior human-perceived scene quality for
+full scene synthesis without end-to-end training. We fur-
+ther evaluate ReSpace on autoregressive editing sequences
+mimicking realistic user interactions, analyzing performance
+across varying sequence lengths and compounding errors.
+This paradigm opens several promising research directions:
+developing a single model that handles all scene synthesis
+and editing tasks while maintaining prompt-following capa-
+bilities; exploring scaling laws with larger context windows
+and model sizes as more training data becomes available;
+incorporating local correction via optimization after each
+autoregressive step to eliminate layout violations while pre-
+serving generative diversity; and investigating advanced test-
+time compute techniques such as Monte Carlo Tree Search
+to optimize full scene synthesis using PMS and VBL as
+verifiable rewards, moving beyond greedy addition.
+8
+References
+[1] Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stew-
+art Morris, Seung Jean Yoo, Aditya Ganeshan, R Kenny
+Jones, Qiuhong Anna Wei, Kailiang Fu, and Daniel Ritchie.
+Open-universe indoor scene generation using llm program
+synthesis and uncurated object databases.arXiv preprint
+arXiv:2403.09675, 2024. 2, 5
+[2] Armen Avetisyan, Christopher Xie, Henry Howard-Jenkins,
+Tsun-Yi Yang, Samir Aroudj, Suvam Patra, Fuyang Zhang,
+Duncan Frost, Luke Holland, Campbell Orme, et al. Scene-
+script: Reconstructing scenes with an autoregressive struc-
+tured language model. InEuropean Conference on Computer
+Vision, pages 247–263. Springer, 2024. 3
+[3] Tongyuan Bai, Wangyuanfan Bai, Dong Chen, Tieru Wu,
+Manyi Li, and Rui Ma. Freescene: Mixed graph diffusion
+for 3d scene synthesis from free prompts. InProceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 5893–5903, 2025. 3
+[4] Mikołaj Bi´nkowski, Danica J Sutherland, Michael Arbel, and
+Arthur Gretton. Demystifying mmd gans.arXiv preprint
+arXiv:1801.01401, 2018. 6
+[5] Bradley Brown, Jordan Juravsky, Ryan Ehrlich, Ronald Clark,
+Quoc V Le, Christopher Ré, and Azalia Mirhoseini. Large
+language monkeys: Scaling inference compute with repeated
+sampling.arXiv preprint arXiv:2407.21787, 2024. 3
+[6] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Sub-
+biah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan,
+Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language
+models are few-shot learners.Advances in neural information
+processing systems, 33:1877–1901, 2020. 3
+[7] Martin Juan José Bucher and Marco Martini. Fine-
+tuned’small’llms (still) significantly outperform zero-shot
+generative ai models in text classification.arXiv preprint
+arXiv:2406.08660, 2024. 16
+[8] Martin Juan José Bucher, Michael Anton Kraus, Romana
+Rust, and Siyu Tang. Performance-based generative design
+for parametric modeling of engineering structures using deep
+conditional generative models.Automation in Construction,
+156:105128, 2023. 3
+[9] Ata Çelen, Guo Han, Konrad Schindler, Luc Van Gool, Iro
+Armeni, Anton Obukhov, and Xi Wang. I-design: Personal-
+ized llm interior designer.arXiv preprint arXiv:2404.02838,
+2024. 1, 2, 4
+[10] Jeongjun Choi, Yeonsoo Park, and H Jin Kim. Scenenat:
+Masked generative modeling for language-guided indoor
+scene synthesis.arXiv preprint arXiv:2601.07218, 2026. 3
+[11] Paul F Christiano, Jan Leike, Tom Brown, Miljan Martic,
+Shane Legg, and Dario Amodei. Deep reinforcement learning
+from human preferences.Advances in neural information
+processing systems, 30, 2017. 3
+[12] Dana Cohen-Bar, Elad Richardson, Gal Metzer, Raja Giryes,
+and Daniel Cohen-Or. Set-the-scene: Global-local training
+for generating controllable nerf scenes. InProceedings of
+the IEEE/CVF International Conference on Computer Vision,
+pages 2920–2929, 2023. 2
+[13] Manuel Dahnert, Ji Hou, Matthias Nießner, and Angela Dai.
+Panoptic 3d scene reconstruction from a single rgb image.
+Advances in Neural Information Processing Systems, 34:8282–
+8293, 2021. 13
+[14] Helisa Dhamo, Fabian Manhardt, Nassir Navab, and Federico
+Tombari. Graph-to-3d: End-to-end generation and manipu-
+lation of 3d scenes using scene graphs. InProceedings of
+the IEEE/CVF International Conference on Computer Vision,
+pages 16352–16361, 2021. 2
+[15] Hanze Dong, Wei Xiong, Deepanshu Goyal, Yihan Zhang,
+Winnie Chow, Rui Pan, Shizhe Diao, Jipeng Zhang, Kashun
+Shum, and Tong Zhang. Raft: Reward ranked finetuning
+for generative foundation model alignment.arXiv preprint
+arXiv:2304.06767, 2023. 3
+[16] Chuan Fang, Yuan Dong, Kunming Luo, Xiaotao Hu, Rakesh
+Shrestha, and Ping Tan. Ctrl-room: Controllable text-to-3d
+room meshes generation with layout constraints. In2025
+International Conference on 3D Vision (3DV), pages 692–
+701. IEEE, 2025. 2, 3
+[17] Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Ar-
+jun Akula, Xuehai He, Sugato Basu, Xin Eric Wang, and
+William Yang Wang. Layoutgpt: Compositional visual plan-
+ning and generation with large language models.Advances
+in Neural Information Processing Systems, 36:18225–18250,
+2023. 1, 2, 4, 5
+[18] Weitao Feng, Hang Zhou, Jing Liao, Li Cheng, and Wenbo
+Zhou. Casagpt: cuboid arrangement and scene assembly for
+interior design. InProceedings of the Computer Vision and
+Pattern Recognition Conference, pages 29173–29182, 2025.
+3
+[19] Matthew Fisher, Manolis Savva, Yangyan Li, Pat Hanrahan,
+and Matthias Nießner. Activity-centric scene synthesis for
+functional 3d scene modeling.ACM Transactions on Graph-
+ics (TOG), 34(6):1–13, 2015. 1, 2
+[20] Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming
+Wang, Cao Li, Qixun Zeng, Chengyue Sun, Rongfei Jia,
+Binqiang Zhao, et al. 3d-front: 3d furnished rooms with
+layouts and semantics. InProceedings of the IEEE/CVF
+International Conference on Computer Vision, pages 10933–
+10942, 2021. 2, 5, 13
+[21] Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang
+Zhao, Steve Maybank, and Dacheng Tao. 3d-future: 3d furni-
+ture shape with texture.International Journal of Computer
+Vision, 129:3313–3337, 2021. 5, 13, 14
+[22] Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Ab-
+hinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha
+Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, et al.
+The llama 3 herd of models.arXiv preprint arXiv:2407.21783,
+2024. 16
+[23] Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bern-
+hard Nessler, and Sepp Hochreiter. Gans trained by a two
+time-scale update rule converge to a local nash equilibrium.
+Advances in neural information processing systems, 30, 2017.
+6
+[24] Lukas Höllein, Ang Cao, Andrew Owens, Justin Johnson,
+and Matthias Nießner. Text2room: Extracting textured 3d
+meshes from 2d text-to-image models. InProceedings of
+the IEEE/CVF International Conference on Computer Vision,
+pages 7909–7920, 2023. 2
+9
+[25] Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu,
+Yuanzhi Li, Shean Wang, Lu Wang, Weizhu Chen, et al. Lora:
+Low-rank adaptation of large language models.ICLR, 1(2):3,
+2022. 16
+[26] Siyi Hu, Diego Martin Arroyo, Stephanie Debats, Fabian
+Manhardt, Luca Carlone, and Federico Tombari. Mixed
+diffusion for 3d indoor scene synthesis.arXiv preprint
+arXiv:2405.21066, 2024. 1, 2, 4, 5, 6
+[27] Aaron Hurst, Adam Lerer, Adam P Goucher, Adam Perelman,
+Aditya Ramesh, Aidan Clark, AJ Ostrow, Akila Welihinda,
+Alan Hayes, Alec Radford, et al. Gpt-4o system card.arXiv
+preprint arXiv:2410.21276, 2024. 5, 13, 14
+[28] Vikram Kumaran, Jonathan Rowe, Bradford Mott, and James
+Lester. Scenecraft: Automating interactive narrative scene
+generation in digital games with large language models. In
+Proceedings of the AAAI Conference on Artificial Intelligence
+and Interactive Digital Entertainment, pages 86–96, 2023. 2
+[29] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng,
+Lianmin Zheng, Cody Hao Yu, Joseph Gonzalez, Hao Zhang,
+and Ion Stoica. Efficient memory management for large
+language model serving with pagedattention. InProceedings
+of the 29th symposium on operating systems principles, pages
+611–626, 2023. 16
+[30] Tuomas Kynkäänniemi, Tero Karras, Miika Aittala, Timo
+Aila, and Jaakko Lehtinen. The role of imagenet classes in
+fréchet inception distance. InThe Eleventh International
+Conference on Learning Representations. 6
+[31] Nathan Lambert, Jacob Morrison, Valentina Pyatkin, Shengyi
+Huang, Hamish Ivison, Faeze Brahman, Lester James V Mi-
+randa, Alisa Liu, Nouha Dziri, Shane Lyu, et al. T\" ulu 3:
+Pushing frontiers in open language model post-training.arXiv
+preprint arXiv:2411.15124, 2024. 3
+[32] Haoran Li, Haolin Shi, Wenli Zhang, Wenjun Wu, Yong Liao,
+Lin Wang, Lik-hang Lee, and Peng Yuan Zhou. Dreamscene:
+3d gaussian-based text-to-3d scene generation via formation
+pattern sampling. InEuropean Conference on Computer
+Vision, pages 214–230. Springer, 2024. 2
+[33] Chenguo Lin and Yadong Mu. Instructscene: Instruction-
+driven 3d indoor scene synthesis with semantic graph prior.
+arXiv preprint arXiv:2402.04717, 2024. 1, 2, 6
+[34] Jingyu Liu, Wenhan Xiong, Ian Jones, Yixin Nie, Anchit
+Gupta, and Barlas O˘guz. Clip-layout: Style-consistent indoor
+scene synthesis with semantic furniture embedding.arXiv
+preprint arXiv:2303.03565, 2023. 2
+[35] Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B
+Tenenbaum. End-to-end optimization of scene layout. InPro-
+ceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition, pages 3754–3763, 2020. 2
+[36] Léopold Maillard, Nicolas Sereyjol-Garros, Tom Durand,
+and Maks Ovsjanikov. Debara: Denoising-based 3d room
+arrangement generation.Advances in Neural Information
+Processing Systems, 37:109202–109232, 2024. 1, 2
+[37] Yongsen Mao, Junhao Zhong, Chuan Fang, Jia Zheng, Rui
+Tang, Hao Zhu, Ping Tan, and Zihan Zhou. Spatiallm: Train-
+ing large language models for structured indoor modeling.
+arXiv preprint arXiv:2506.07491, 2025. 3
+[38] Ben Mildenhall, Pratul P Srinivasan, Matthew Tancik,
+Jonathan T Barron, Ravi Ramamoorthi, and Ren Ng. Nerf:
+Representing scenes as neural radiance fields for view syn-
+thesis.Communications of the ACM, 65(1):99–106, 2021.
+3
+[39] Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Car-
+roll Wainwright, Pamela Mishkin, Chong Zhang, Sandhini
+Agarwal, Katarina Slama, Alex Ray, et al. Training language
+models to follow instructions with human feedback.Advances
+in neural information processing systems, 35:27730–27744,
+2022. 3, 15
+[40] Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten
+Kreis, Andreas Geiger, and Sanja Fidler. Atiss: Autoregres-
+sive transformers for indoor scene synthesis.Advances in
+Neural Information Processing Systems, 34:12013–12026,
+2021. 1, 2, 4, 5, 6
+[41] Songyou Peng, Michael Niemeyer, Lars Mescheder, Marc
+Pollefeys, and Andreas Geiger. Convolutional occupancy
+networks. InComputer Vision–ECCV 2020: 16th European
+Conference, Glasgow, UK, August 23–28, 2020, Proceedings,
+Part III 16, pages 523–540. Springer, 2020. 3
+[42] Pulak Purkait, Christopher Zach, and Ian Reid. Sg-vae: Scene
+grammar variational autoencoder to generate new indoor
+scenes. InEuropean Conference on Computer Vision, pages
+155–171. Springer, 2020. 1, 2
+[43] Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and
+Song-Chun Zhu. Human-centric indoor scene synthesis using
+stochastic grammar. InProceedings of the IEEE Conference
+on Computer Vision and Pattern Recognition, pages 5899–
+5908, 2018. 1, 2
+[44] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,
+Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning
+transferable visual models from natural language supervi-
+sion. InInternational conference on machine learning, pages
+8748–8763. PmLR, 2021. 2
+[45] Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D
+Manning, Stefano Ermon, and Chelsea Finn. Direct prefer-
+ence optimization: Your language model is secretly a reward
+model.Advances in Neural Information Processing Systems,
+36:53728–53741, 2023. 3, 15
+[46] Deepika Raghu, Martin Juan José Bucher, and Cather-
+ine De Wolf. Towards a ‘resource cadastre’for a circular
+economy–urban-scale building material detection using street
+view imagery and computer vision.Resources, Conservation
+and Recycling, 198:107140, 2023. 5
+[47] Xingjian Ran, Yixuan Li, Linning Xu, Mulin Yu, and Bo Dai.
+Direct numerical layout generation for 3d indoor scene syn-
+thesis via spatial reasoning.Advances in Neural Information
+Processing Systems, 38:125055–125081, 2026. 2, 3
+[48] Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and flexible
+indoor scene synthesis via deep convolutional generative mod-
+els. InProceedings of the IEEE/CVF conference on computer
+vision and pattern recognition, pages 6182–6190, 2019. 1, 2
+[49] Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junxiao
+Song, Xiao Bi, Haowei Zhang, Mingchuan Zhang, YK Li,
+Y Wu, et al. Deepseekmath: Pushing the limits of mathe-
+matical reasoning in open language models.arXiv preprint
+arXiv:2402.03300, 2024. 3, 15
+10
+[50] Charlie Snell, Jaehoon Lee, Kelvin Xu, and Aviral Ku-
+mar. Scaling llm test-time compute optimally can be more
+effective than scaling model parameters.arXiv preprint
+arXiv:2408.03314, 2024. 3
+[51] Liangchen Song, Liangliang Cao, Hongyu Xu, Kai Kang,
+Feng Tang, Junsong Yuan, and Yang Zhao. Roomdreamer:
+Text-driven 3d indoor scene synthesis with coherent geometry
+and texture.arXiv preprint arXiv:2305.11337, 2023. 3
+[52] Yi Su, Dian Yu, Linfeng Song, Juntao Li, Haitao Mi,
+Zhaopeng Tu, Min Zhang, and Dong Yu. Crossing the reward
+bridge: Expanding rl with verifiable rewards across diverse
+domains.arXiv preprint arXiv:2503.23829, 2025. 3
+[53] Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam
+Bhat, Federico Tombari, Manling Li, Nick Haber, and Jiajun
+Wu. Layoutvlm: Differentiable optimization of 3d layout via
+vision-language models.arXiv preprint arXiv:2412.02193,
+2024. 1, 2, 5
+[54] Qi Sun, Hang Zhou, Wengang Zhou, Li Li, and Houqiang
+Li. Forest2seq: Revitalizing order prior for sequential indoor
+scene synthesis. InEuropean Conference on Computer Vision,
+pages 251–268. Springer, 2024. 2
+[55] Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus
+Thies, and Matthias Nießner. Diffuscene: Denoising diffusion
+models for generative indoor scene synthesis. InProceedings
+of the IEEE/CVF conference on computer vision and pattern
+recognition, pages 20507–20518, 2024. 1, 2, 4
+[56] Yonglong Tian, Andrew Luo, Xingyuan Sun, Kevin Ellis,
+William T Freeman, Joshua B Tenenbaum, and Jiajun Wu.
+Learning to infer and execute 3d shape programs.arXiv
+preprint arXiv:1901.02875, 2019. 3
+[57] Kai Wang, Manolis Savva, Angel X Chang, and Daniel
+Ritchie. Deep convolutional priors for indoor scene synthesis.
+ACM Transactions on Graphics (TOG), 37(4):1–14, 2018. 1,
+2
+[58] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner.
+Sceneformer: Indoor scene generation with transformers. In
+2021 International Conference on 3D Vision (3DV), pages
+106–115. IEEE, 2021. 2
+[59] Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed
+Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou.
+Self-consistency improves chain of thought reasoning in lan-
+guage models.arXiv preprint arXiv:2203.11171, 2022. 3
+[60] Jason Wei, Maarten Bosma, Vincent Y Zhao, Kelvin Guu,
+Adams Wei Yu, Brian Lester, Nan Du, Andrew M Dai, and
+Quoc V Le. Finetuned language models are zero-shot learners.
+arXiv preprint arXiv:2109.01652, 2021. 3
+[61] Qiuhong Anna Wei, Sijie Ding, Jeong Joon Park, Rahul
+Sajnani, Adrien Poulenard, Srinath Sridhar, and Leonidas
+Guibas. Lego-net: Learning regular rearrangements of ob-
+jects in rooms. InProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, pages 19037–
+19047, 2023. 2
+[62] Tomer Weiss, Alan Litteneker, Noah Duncan, Masaki Nakada,
+Chenfanfu Jiang, Lap-Fai Yu, and Demetri Terzopoulos. Fast
+and scalable position-based layout synthesis.IEEE Trans-
+actions on Visualization and Computer Graphics, 25(12):
+3231–3243, 2018. 1, 2
+[63] Ken Xu, James Stewart, and Eugene Fiume. Constraint-based
+automatic placement for scene composition. InGraphics
+Interface, pages 25–34. Citeseer, 2002. 1, 2
+[64] An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo
+Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang,
+Haoran Wei, et al. Qwen2. 5 technical report.arXiv preprint
+arXiv:2412.15115, 2024. 16
+[65] Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang.
+Physcene: Physically interactable 3d scene synthesis for em-
+bodied ai. InProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, pages 16262–
+16272, 2024. 2
+[66] Yixuan Yang, Junru Lu, Zixiang Zhao, Zhen Luo, James JQ
+Yu, Victor Sanchez, and Feng Zheng. Llplace: The 3d indoor
+scene layout generation and editing via large language model.
+arXiv preprint arXiv:2406.03866, 2024. 2, 4
+[67] Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Al-
+varo Herrasti, Winson Han, Jiajun Wu, Nick Haber, Ranjay
+Krishna, Lingjie Liu, et al. Holodeck: Language guided gen-
+eration of 3d embodied ai environments. InProceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 16227–16237, 2024. 1, 2
+[68] Yandan Yang, Baoxiong Jia, Shujie Zhang, and Siyuan
+Huang. Sceneweaver: All-in-one 3d scene synthesis with
+an extensible and self-reflective agent.arXiv preprint
+arXiv:2509.20414, 2025. 2
+[69] Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi
+Gao, Jinyu Yang, Victor Sanchez, and Feng Zheng. Optiscene:
+Llm-driven indoor scene layout generation via scaled human-
+aligned data synthesis and multi-stage preference optimiza-
+tion.Advances in Neural Information Processing Systems,
+38:42499–42529, 2026. 3
+[70] Sifan Ye, Yixing Wang, Jiaman Li, Dennis Park, C Karen
+Liu, Huazhe Xu, and Jiajun Wu. Scene synthesis from human
+motion. InSIGGRAPH Asia 2022 Conference Papers, pages
+1–9, 2022. 2
+[71] Hongwei Yi, Chun-Hao P Huang, Shashank Tripathi, Lea
+Hering, Justus Thies, and Michael J Black. Mime: Human-
+aware 3d scene generation. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition,
+pages 12965–12976, 2023. 2
+[72] Lap Fai Yu, Sai Kit Yeung, Chi Keung Tang, Demetri Ter-
+zopoulos, Tony F Chan, and Stanley J Osher. Make it home:
+automatic optimization of furniture arrangement.ACM Trans-
+actions on Graphics (TOG)-Proceedings of ACM SIGGRAPH
+2011, v. 30,(4), July 2011, article no. 86, 30(4), 2011. 1, 2
+[73] Zheng Yuan, Hongyi Yuan, Chengpeng Li, Guanting Dong,
+Keming Lu, Chuanqi Tan, Chang Zhou, and Jingren Zhou.
+Scaling relationship on learning mathematical reasoning with
+large language models.arXiv preprint arXiv:2308.01825,
+2023. 3
+[74] Eric Zelikman, Yuhuai Wu, Jesse Mu, and Noah Goodman.
+Star: Bootstrapping reasoning with reasoning.Advances in
+Neural Information Processing Systems, 35:15476–15488,
+2022. 3
+[75] Guangyao Zhai, Evin Pınar Örnek, Shun-Cheng Wu, Yan
+Di, Federico Tombari, Nassir Navab, and Benjamin Busam.
+11
+Commonscenes: Generating commonsense 3d indoor scenes
+with scene graph diffusion.Advances in Neural Information
+Processing Systems, 36:30026–30038, 2023. 2
+[76] Guangyao Zhai, Evin Pınar Örnek, Dave Zhenyu Chen, Ruo-
+tong Liao, Yan Di, Nassir Navab, Federico Tombari, and
+Benjamin Busam. Echoscene: Indoor scene generation via
+information echo over scene graph diffusion. InEuropean
+Conference on Computer Vision, pages 167–184. Springer,
+2024. 1, 2
+[77] Yunzhi Zhang, Zizhang Li, Matt Zhou, Shangzhe Wu, and
+Jiajun Wu. The scene language: Representing scenes
+with programs, words, and embeddings.arXiv preprint
+arXiv:2410.16770, 2024. 3
+[78] Jia Zheng, Junfei Zhang, Jing Li, Rui Tang, Shenghua Gao,
+and Zihan Zhou. Structured3d: A large photo-realistic dataset
+for structured 3d modeling. InEuropean Conference on
+Computer Vision, pages 519–535. Springer, 2020. 3
+[79] Kaizhi Zheng, Xiaotong Chen, Xuehai He, Jing Gu, Linjie Li,
+Zhengyuan Yang, Kevin Lin, Jianfeng Wang, Lijuan Wang,
+and Xin Wang. Editroom: Llm-parameterized graph diffusion
+for composable 3d room layout editing. InInternational Con-
+ference on Learning Representations, pages 86791–86808,
+2025. 2
+12
+6. Appendix
+This Appendix provides the following:
+• Details on the preprocessing of the 3D-FRONT dataset,
+instruction generation, and the creation of our SSR-
+3DFRONT dataset (Section 6.1),
+• Details on preference alignment via RLVR, including
+GRPO, DPO, and RFT (Section 6.2),
+• Implementation details for training our SG-LLM (Sec-
+tion 6.3),
+• Details on stochastic asset sampling with qualitative results
+(Section 6.4),
+• Quantitative results on full scene synthesis (Section 6.5),
+• Additional qualitative samples for full scene synthesis
+(Section 6.6),
+• User Study 1: human evaluation of preference alignment
+methods (Section 6.7),
+• User Study 2: human evaluation of test-time compute
+scaling (Section 6.8),
+• User Study 3: human evaluation of ReSpace vs. baselines
+(Section 6.9),
+• Runtime analysis on full scene synthesis (Section 6.10),
+• Removal operation analysis (Section 6.11),
+• Example of full SSR instance (Section 6.12), and
+• Prompts for zero-shot LLM for command decomposition
+and removal (Section 6.13).
+6.1. Dataset Preprocessing for SSR-3DFRONT
+Our training data curation is based on the 3D-FRONT [20]
+dataset, which includes ∼19K synthetic indoor scenes of
+varying size and density, alongside positioned objects ref-
+erenced from 3D-FUTURE [ 21], a furniture asset catalog
+providing textured 3D meshes and renderings for each asset.
+In order to bring the scenes from the 3D-FRONT dataset
+[20] into our Structured Scene Representation (SSR), we
+proceed as follows: First, we leverage an existing dataset
+of postprocessed 3D room meshes from 3D-FRONT from
+[13] that has simplified wall geometry and closed holes,
+which facilitates the room boundary extraction. We run a
+custom line search algorithm (pseudo-code shown in Algo-
+rithm 1) on each room mesh to extract an ordered set of
+3D vertices forming a rectilinear polygon for the floor and
+ceiling. These set of vertices build the room boundaries
+Btop andBbottom. Next, we convert the scenes into JSON,
+resembling our proposed SSR (see Section 3.1). We define 3
+room types: ‘bedroom’ for bedrooms, ‘livingroom’
+for living rooms, dining rooms and living/dining rooms, and
+‘other’ for all remaining rooms. We only consider scenes
+that have valid scene boundaries with|{bi}|≥4 , an object
+count of 3≤ |{oi}| ≤50, and VBL<0.1 . The latter
+filters out “invalid" scenes that contain too many object or
+boundary collisions (see Section 3.5). Since a few scenes
+have only a single malpositioned object, we further check
+for scene validity if a single object already violates this filter
+(via VBL≥0.1 ), and keep the modified scene if removing
+that object makes the scene valid. We shift all scenes to the
+origin (0,0,0) . In total, this results in 13055 valid scenes
+after preprocessing. Our dataset is available here.
+Algorithm 1Rectilinear Polygon Corner Extraction
+Require:Mesh verticesV∈R n×3
+Ensure:Corner verticesCforming rectilinear polygon
+1:P←unique(V[:,[0,1]])▷Project to unique 2D points
+2:(x 0,y 0)←arg min v:vx=min(P[:,0]) vy, dir←’north’ ,
+curr←(x 0,y 0),C←[]
+3:repeat
+4:S←getSortedAxisPoints(P,curr,dir)▷Points on
+same axis, sorted by direction
+5:i←indexOf(curr,S) + 1
+6:while¬isCornerPoint(P,S[i],dir)doi←i+ 1
+7:end while
+8:curr←S[i] , dir←getNextDirection(P,curr,dir) ,
+C.append(curr)
+9:untilcurr =(x 0,y 0)
+10:returnC
+6.1.1. Prompts for Asset Description and Prompt Bank
+As mentioned in Section 4, the raw 3D-FRONT dataset does
+not contain textual descriptions of assets or scenes, and we
+leverage GPT-4o [27] as a Vision-Language Model (VLM)
+to generate sentence-level descriptions dj for each object
+oj in the catalog. We query the VLM by attaching a ren-
+dering of the asset with a prompt that includes the provided
+class label. After obtaining sentence-level descriptions for
+each generation, we leverage the same VLM to generate
+10 unique, concise prompts (2-5 words in noun phrase for-
+mat) for each asset description dj. This approach serves
+two purposes: (i) it covers diverse prompting styles with
+varying levels of detail and word order, and (ii) it prevents
+trivial overfitting on our small dataset by avoiding repetition
+of identical prompts that lead to memorization rather than
+generalization. We provide the full prompt for extracting
+visual properties in textual form for each asset in the 3D-
+FUTURE dataset [21] in Figure 8 and for prompt generation
+in Figure9. For asset descriptions, we leverage the content
+provided in the ‘summary’ as it seemed to best capture
+dense semantics that refer to style, color, material, etc.
+6.1.2. Instruction Generation for SG-LLM
+Given the full scenes, we impose dynamic instruction
+generations based on a stochastic recipe. Let P(o) =
+{p1,...,p K} be the fixed prompt bank for object o (we
+set K= 10 ). During training, we turn S into an in-
+struction tuple: I=
+  ˆS, p, o add
+
+, where the model
+must learn to add object oadd to the partial scene ˆS= 
+T,B, ˆO
+
+when conditioned on the natural-language prompt
+13
+User Prompt
+Please provide a concise JSON object of the furniture
+item in the image using ‘style’, ‘color’, ‘material’,
+‘characteristics’, and ‘summary’ as keys. Describe the
+style, noting any blends of design elements. Specify the
+materials used for different components (if applicable).
+List the key characteristics, including the shape, design
+features, and any distinctive elements or decorative
+accents. If there are multiple values for a key, use a
+list of strings. DO NOT build a nested JSON. The summary
+compactly captures the essence of the furniture’s style,
+functionality, and aesthetic appeal, emphasizing its
+unique attributes. This description should clearly
+differentiate this piece from others while succinctly
+capturing its essential properties and we will use it
+for object retrieval, so it should be as accurate as
+possible, keyword-heavy, but just be one extremely short
+sentence. You are an interior designer EXPERT. Hint: It’s
+a {ASSET_OBJECT_CATEGORY_LABEL}. Only output the JSON as a
+plain string and nothing else.
+Figure 8. Prompt for GPT-4o [ 27] for extracting various object
+properties for each asset including a sentence-level asset descrip-
+tion, given a rendering of an object in the 3D-FUTURE dataset
+[21].
+User Prompt
+The list below contains a sentence referring to a single
+piece of furniture. Your task it to create a list of 10
+short descriptions that vary in length. Each description
+refers to the subject with a maximum of 3-4 additional
+descriptive words that reference the color, style, shape,
+etc. All your sentences should be in ‘noun phrase’. You
+MUST include a variety of lengths in your descriptions,
+ensuring a few samples are very short (1-2 words max)
+and others are longer (4-5 words). Have at least one
+sample with only one word, except if you need to be more
+specific for the subject, e.g., use ‘Coffee Table’, not
+just ‘Table’, if present. Use mostly basic properties such
+as color or material, but also include a few creative and
+diverse versions to increase robustness in our ML training
+dataset.
+The sentence is:
+- {ASSET_DESCRIPTION}
+Just output a plain list and nothing else. You have only
+one list of 10 descriptions. You MUST always point to the
+referenced object above and not hallucinate other furniture
+or be overly generic by using ‘furniture’ or ‘piece’. Every
+list contains the descriptions in increasing word length.
+Just output the final JSON object as a plain string without
+any key. Never use markdown or```json.
+Figure 9. Prompt for GPT-4o [ 27] for generating a prompt bank
+with a list of 10 unique prompts, given a sentence-level asset de-
+scription.
+p. To generate a tuple, we first draw a random permu-
+tation for the order of objects π∼Unif(S N ), then uni-
+formly sample the prompt p∼Unif
+ 
+P(oadd)
+
+for ob-
+ject oadd. Let Z∈ {Z0,Z 1,Z 2} be the instruction type:
+Z0 (‘zero_start’), Z1 (‘full_scene’), and Z2
+(‘random’), withZ0 teaching the model to start from an
+empty room given only the prompt,Z1 teaching ‘scene com-
+pletion’ as the final contains all objects from the scene but
+oadd, andZ2 teaching robust object placements on arbitrary,
+shuffled partial scenes. ForZ0 we set ˆO=∅, o add =o π(1).
+ForZ1 we set ˆO={o π(1),...,o π(N−1)}, oadd =o π(N) .
+ForZ2 we draw a drop count M∼Unif{0,...,N−1} ,
+put L=N−M and define oadd =o π(L), ˆO=
+{oπ(1),...,o π(L−1)}. Instruction type is sampled as Z∼
+Cat(w0,w 1,w 2) with fixedw0 =w 1 = 0.1, w2 = 0.8 and
+the conditional distribution factorizes as
+p(I|S) =
+2X
+z=0
+wzp(I|Z=z,S),
+p(I|Z=z,S) =
+
+
+
+1{z=0}
+N|P(o add)| (z= 0)
+1{z=1}
+N!|P(o add)| (z= 1)
+1{z=2}
+N!N|P(o add)| (z= 2)
+Thus, for Z2, we choose one of N! permutations, one
+of N drop counts, and one of |P(oadd)| prompts. Fixed
+weightsw0 =w 1 = 0.1 guarantee at least 20% exposure to
+the empty-room and near-complete-room edge cases even
+for very large scenes. Since we have have empty or full
+scenes with 1
+N probability (and partial scenes otherwise),
+their likelihood decreases inversely proportional with higher
+object count. Imposing minimum exposure via fixed weights
+ensures the model learns these edge cases as well. We per-
+form random data augmentation on train/val samples by (i)
+rotating each scene by θ∈ {0,90,180,270} ◦, (ii) cycli-
+cally shifting room bounds in a round-robin fashion, and (iii)
+slightly perturbingx− andz−components of every position
+and size vector of each object with a uniform delta with
+v′ =v+δ andδ∼U(−0.02,0.02) for coordinate valuesv.
+6.2. Preference Alignment via RLVR
+After training via SFT, we experiment with preference align-
+ment on our existing base model. SG-LLM is trained via
+SFT on single object addition with synthetic triples (scene,
+prompt,obj_add), where the existing scene is passed as SSR
+together with an object-level prompt as input, and the output
+obj_addrepresents the next placed object. Given the object-
+level prompt, the placed object, the current scene, and the
+known ground-truth object, we can deterministically assign
+verifiable rewardsfor a single object placement — enabling
+preference alignment directly on our SFT model without
+human intervention. We define high-quality placement as:
+F(ai) =1
+
+
+PMS(ai)≥0.85
+∧VBL(a i)<10 −5
+∧
+
+sai−s GT
+ai
+sGTai
+
+2
+<0.5
+
+,(2)
+where PMS(ai) measures prompt-following quality defined
+as Prompt Matching Score (see Section 4.1), VBL(ai) quan-
+tifies layout violations via our voxelization-based loss (see
+14

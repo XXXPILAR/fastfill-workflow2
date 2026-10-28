@@ -1,0 +1,25 @@
+plan for bedroom: Place the king-size bed as the primary anchor along a long wall, leaving a clear circulation path through the room. Position the TV stand on the opposite wall, centered with the bed so the bed faces it. Place the wardrobe along a remaining wall, away from the main circulation zone. Put the two nightstands on opposite sides of the bed, with nightstand-1 against the wall and nightstand-0 placed flush beside the bed with a gap of no more than 10 cm. The nightstands should be aligned with each other.
+
+king size bed-0 | edge  
+wardrobe-0 | edge | far, king size bed-0  
+tv stand-0 | edge | far, king size bed-0 | in front of, king size bed-0 | center aligned, king size bed-0  
+nightstand-0 | edge | right of, king size bed-0 | near, king size bed-0  
+nightstand-1 | edge | left of, king size bed-0 | center aligned, nightstand-0
+Number of solutions found: 20
+room 34: ok missing=0 on_rule=0 497s 1 calls
+plan for room: I will use the long walls of the 900 cm × 300 cm room for the large tables and mirror, preserving a clear central circulation path. Table-0 will be the primary anchor, with chairs arranged around it. Chair-3 and chair-1 will define the two sides of chair-0, placing chair-0 between them. Chair-2 will be positioned near table-1 while facing chair-3. Pillow-0 will be placed immediately beside chair-3, within 10 cm, and lamp-0 will remain near the room edge to keep the center open.
+
+table-0 | edge
+table-1 | edge | far, table-0 | center aligned, table-0
+mirror-0 | edge
+chair-3 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-1 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-0 | middle | near, table-0 | around, table-0 | face to, table-0 | right of, chair-3 | left of, chair-1
+chair-2 | middle | near, table-1 | around, table-1 | face to, table-1 | face to, chair-3
+pillow-0 | middle | near, chair-3
+lamp-0 | edge | near, table-1
+Number of solutions found: 30
+
+wall object constraint plan for room:
+mirror-0 | above, table-0 | 120
+room 0: ok missing=0 on_rule=0 86s 2 calls

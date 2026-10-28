@@ -1,0 +1,429 @@
+{
+ "k": 93,
+ "source": "InternScenes_scannet",
+ "room_type": "apartment",
+ "latency_s": 105.28776679094881,
+ "usage": [
+  {
+   "prompt_tokens": 1475,
+   "completion_tokens": 5694,
+   "total_tokens": 7169,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 4075,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0012 (toilet paper) floats at z=0.65 m with nothing under it; put it on a surface or the floor",
+  "obj_0017 (ledge) floats at z=1.10 m with nothing under it; put it on a surface or the floor",
+  "obj_0018 (ledge) floats at z=1.20 m with nothing under it; put it on a surface or the floor",
+  "obj_0015 (mat) and obj_0022 (table) intersect (0.085 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.1,
+     0.16,
+     0.04
+    ],
+    "bottom_center_m": [
+     2.9,
+     2.62,
+     1.26
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.22,
+     0.32,
+     0.42
+    ],
+    "bottom_center_m": [
+     0.18,
+     1.25,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.4
+    ],
+    "bottom_center_m": [
+     1.28,
+     1.2,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     2.0,
+     1.1,
+     0.5
+    ],
+    "bottom_center_m": [
+     2.369,
+     4.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.35,
+     0.3,
+     0.2
+    ],
+    "bottom_center_m": [
+     2.1,
+     4.15,
+     0.5
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.22
+    ],
+    "bottom_center_m": [
+     1.58,
+     0.07,
+     1.16
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     1.7,
+     0.75,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.4,
+     4.78,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.4,
+     0.85,
+     1.0
+    ],
+    "bottom_center_m": [
+     0.2,
+     1.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.25,
+     0.32,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.2,
+     2.05,
+     0.74
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.95,
+     1.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.06,
+     0.08,
+     0.1
+    ],
+    "bottom_center_m": [
+     1.82,
+     0.07,
+     1.16
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.28,
+     0.13,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.55,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.08,
+     0.12,
+     0.12
+    ],
+    "bottom_center_m": [
+     0.04,
+     3.25,
+     0.65
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.68,
+     0.4,
+     0.78
+    ],
+    "bottom_center_m": [
+     0.45,
+     3.1,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.1,
+     0.13,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.9,
+     2.8,
+     1.26
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.35,
+     0.55,
+     0.02
+    ],
+    "bottom_center_m": [
+     0.45,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.24
+    ],
+    "bottom_center_m": [
+     2.06,
+     0.07,
+     1.16
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.14,
+     0.95,
+     0.06
+    ],
+    "bottom_center_m": [
+     1.875,
+     0.07,
+     1.1
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.14,
+     0.7,
+     0.06
+    ],
+    "bottom_center_m": [
+     2.899,
+     2.75,
+     1.2
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.28,
+     0.13,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.55,
+     0.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.03,
+     0.03,
+     0.19
+    ],
+    "bottom_center_m": [
+     2.27,
+     0.07,
+     1.16
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.5,
+     1.0,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.719,
+     1.85,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.6,
+     0.7,
+     0.74
+    ],
+    "bottom_center_m": [
+     0.3,
+     2.225,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.35,
+     0.22,
+     0.12
+    ],
+    "bottom_center_m": [
+     0.25,
+     2.4,
+     0.74
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.45,
+     0.35,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.55,
+     4.55,
+     0.5
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.32,
+     0.65,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.35,
+     3.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.28,
+     0.4,
+     0.42
+    ],
+    "bottom_center_m": [
+     2.2,
+     5.2,
+     0.5
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.28,
+     0.13,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.55,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe room is long and narrow, so the bed and bathtub occupy opposite sides of the upper end while preserving a central aisle. The bed faces a low stand at its foot. The toilet and bath accessories form a compact bathroom zone along the left side. The desk and chair use the lower-right wall, while a cabinet and small table use the lower-left wall without obstructing the entrance. Shoes remain beside, but outside, the doorway path. Small belongings are grouped on the cabinet, table, bed, and wall ledges; the stopcock is positioned directly between the two bottles, and the towel is next to its specified box.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.16,\"depth_m\":0.1,\"height_m\":0.04,\"x\":2.9,\"y\":2.62,\"z\":1.26,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.32,\"depth_m\":0.22,\"height_m\":0.42,\"x\":0.18,\"y\":1.25,\"z\":1.0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.4,\"x\":1.28,\"y\":1.2,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":1.1,\"depth_m\":2.0,\"height_m\":0.5,\"x\":2.369,\"y\":4.65,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.3,\"depth_m\":0.35,\"height_m\":0.2,\"x\":2.1,\"y\":4.15,\"z\":0.5,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.22,\"x\":1.58,\"y\":0.07,\"z\":1.16,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.75,\"depth_m\":1.7,\"height_m\":0.55,\"x\":0.4,\"y\":4.78,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":0.85,\"depth_m\":0.4,\"height_m\":1.0,\"x\":0.2,\"y\":1.4,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0008\",\"width_m\":0.32,\"depth_m\":0.25,\"height_m\":0.4,\"x\":0.2,\"y\":2.05,\"z\":0.74,\"facing_deg\":0},{\"id\":\"obj_0009\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.85,\"x\":1.95,\"y\":1.85,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0010\",\"width_m\":0.08,\"depth_m\":0.06,\"height_m\":0.1,\"x\":1.82,\"y\":0.07,\"z\":1.16,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.13,\"depth_m\":0.28,\"height_m\":0.1,\"x\":2.55,\"y\":0.3,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.12,\"depth_m\":0.08,\"height_m\":0.12,\"x\":0.04,\"y\":3.25,\"z\":0.65,\"facing_deg\":0},{\"id\":\"obj_0013\",\"width_m\":0.4,\"depth_m\":0.68,\"height_m\":0.78,\"x\":0.45,\"y\":3.1,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":0.13,\"depth_m\":0.1,\"height_m\":0.12,\"x\":2.9,\"y\":2.8,\"z\":1.26,\"facing_deg\":180},{\"id\":\"obj_0015\",\"width_m\":0.55,\"depth_m\":0.35,\"height_m\":0.02,\"x\":0.45,\"y\":2.55,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0016\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.24,\"x\":2.06,\"y\":0.07,\"z\":1.16,\"facing_deg\":90},{\"id\":\"obj_0017\",\"width_m\":0.95,\"depth_m\":0.14,\"height_m\":0.06,\"x\":1.875,\"y\":0.07,\"z\":1.1,\"facing_deg\":90},{\"id\":\"obj_0018\",\"width_m\":0.7,\"depth_m\":0.14,\"height_m\":0.06,\"x\":2.899,\"y\":2.75,\"z\":1.2,\"facing_deg\":180},{\"id\":\"obj_0019\",\"width_m\":0.13,\"depth_m\":0.28,\"height_m\":0.1,\"x\":2.55,\"y\":0.65,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0020\",\"width_m\":0.03,\"depth_m\":0.03,\"height_m\":0.19,\"x\":2.27,\"y\":0.07,\"z\":1.16,\"facing_deg\":90},{\"id\":\"obj_0021\",\"width_m\":1.0,\"depth_m\":0.5,\"height_m\":0.75,\"x\":2.719,\"y\":1.85,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0022\",\"width_m\":0.7,\"depth_m\":0.6,\"height_m\":0.74,\"x\":0.3,\"y\":2.225,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0023\",\"width_m\":0.22,\"depth_m\":0.35,\"height_m\":0.12,\"x\":0.25,\"y\":2.4,\"z\":0.74,\"facing_deg\":0},{\"id\":\"obj_0024\",\"width_m\":0.35,\"depth_m\":0.45,\"height_m\":0.1,\"x\":2.55,\"y\":4.55,\"z\":0.5,\"facing_deg\":270},{\"id\":\"obj_0025\",\"width_m\":0.65,\"depth_m\":0.32,\"height_m\":0.55,\"x\":2.35,\"y\":3.4,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0026\",\"width_m\":0.4,\"depth_m\":0.28,\"height_m\":0.42,\"x\":2.2,\"y\":5.2,\"z\":0.5,\"facing_deg\":270},{\"id\":\"obj_0027\",\"width_m\":0.13,\"depth_m\":0.28,\"height_m\":0.1,\"x\":2.55,\"y\":1.0,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\napartment\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.969 m x 5.781 m x unknown\nfloor polygon (x, y): [[0.0, 5.742], [0.0, 0.039], [0.039, 0.0], [2.93, 0.0], [2.969, 0.039], [2.969, 5.742], [2.93, 5.781], [0.039, 5.781]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"towel\", \"description\": \"towel\"},\n{\"id\": \"obj_0001\", \"category\": \"backpack\", \"description\": \"backpack\"},\n{\"id\": \"obj_0002\", \"category\": \"bin\", \"description\": \"bin\"},\n{\"id\": \"obj_0003\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0004\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0005\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0006\", \"category\": \"bathtub\", \"description\": \"bathtub\"},\n{\"id\": \"obj_0007\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0008\", \"category\": \"backpack\", \"description\": \"backpack\"},\n{\"id\": \"obj_0009\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0010\", \"category\": \"stopcock\", \"description\": \"stopcock\"},\n{\"id\": \"obj_0011\", \"category\": \"shoe\", \"description\": \"shoe\"},\n{\"id\": \"obj_0012\", \"category\": \"toilet paper\", \"description\": \"toilet paper\"},\n{\"id\": \"obj_0013\", \"category\": \"toilet\", \"description\": \"toilet\"},\n{\"id\": \"obj_0014\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0015\", \"category\": \"mat\", \"description\": \"mat\"},\n{\"id\": \"obj_0016\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0017\", \"category\": \"ledge\", \"description\": \"ledge\"},\n{\"id\": \"obj_0018\", \"category\": \"ledge\", \"description\": \"ledge\"},\n{\"id\": \"obj_0019\", \"category\": \"shoe\", \"description\": \"shoe\"},\n{\"id\": \"obj_0020\", \"category\": \"toothbrush\", \"description\": \"toothbrush\"},\n{\"id\": \"obj_0021\", \"category\": \"desk\", \"description\": \"desk\"},\n{\"id\": \"obj_0022\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0023\", \"category\": \"case\", \"description\": \"case\"},\n{\"id\": \"obj_0024\", \"category\": \"clothes\", \"description\": \"clothes\"},\n{\"id\": \"obj_0025\", \"category\": \"stand\", \"description\": \"stand\"},\n{\"id\": \"obj_0026\", \"category\": \"backpack\", \"description\": \"backpack\"},\n{\"id\": \"obj_0027\", \"category\": \"shoe\", \"description\": \"shoe\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.695, 0.0], \"wall_from\": [0.039, 0.0], \"wall_to\": [2.93, 0.0], \"width_m\": 0.936, \"height_m\": 2.095}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0010\", \"target_ids\": [\"obj_0005\", \"obj_0016\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0003\", \"target_id\": \"obj_0025\"}, {\"type\": \"near\", \"object_id\": \"obj_0014\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.2}]\n[/Task Constraints]"
+}

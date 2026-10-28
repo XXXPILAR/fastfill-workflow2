@@ -1,0 +1,62 @@
+{
+ "k": 264,
+ "source": "SpatialLM",
+ "room_type": "bedroom",
+ "latency_s": 19.023163500009105,
+ "usage": [
+  {
+   "prompt_tokens": 879,
+   "completion_tokens": 892,
+   "total_tokens": 1771,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 674,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0000 (desk) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     1.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.613,
+     2.354,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.0,
+     0.9,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.712,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe single bed takes most of the room, so it runs north–south against the east wall while remaining clear of the south-wall doorway. The compact desk sits against the north wall, immediately beside the bed with a 0.049 m gap, satisfying the near constraint without overlap. The open strip west of the bed provides circulation from the door to both the bed and the desk.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.2,\"depth_m\":0.45,\"height_m\":0.75,\"x\":0.613,\"y\":2.354,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":0.9,\"depth_m\":2.0,\"height_m\":0.55,\"x\":1.712,\"y\":1.25,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.222 m x 2.579 m x 2.800 m\nfloor polygon (x, y): [[2.162, 2.579], [0.013, 2.579], [0.013, 2.319], [0.0, 2.319], [0.0, 0.0], [2.222, 0.0], [2.222, 1.108], [2.162, 1.108]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"desk\", \"description\": \"desk\"},\n{\"id\": \"obj_0001\", \"category\": \"bed\", \"description\": \"bed\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.555, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.222, 0.0], \"width_m\": 0.886, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.1}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

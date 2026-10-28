@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.3,
+    "z": 1.005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     435.0,
+     -4.5
+    ],
+    [
+     435.0,
+     205.5
+    ],
+    [
+     265.0,
+     205.5
+    ],
+    [
+     265.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 1.1,
+    "z": 3.2749999999999995
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     430.0,
+     362.49999999999994
+    ],
+    [
+     430.0,
+     292.49999999999994
+    ],
+    [
+     220.0,
+     292.49999999999994
+    ],
+    [
+     220.0,
+     362.49999999999994
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "nightstand-0",
+   "id": "nightstand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.3,
+    "z": 0.205
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     255.0,
+     -4.5
+    ],
+    [
+     255.0,
+     45.5
+    ],
+    [
+     195.0,
+     45.5
+    ],
+    [
+     195.0,
+     -4.5
+    ]
+   ],
+   "object_name": "nightstand-0"
+  },
+  {
+   "assetId": "nightstand-1",
+   "id": "nightstand-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.75,
+    "y": 0.3,
+    "z": 0.205
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     505.0,
+     -4.5
+    ],
+    [
+     505.0,
+     45.5
+    ],
+    [
+     445.0,
+     45.5
+    ],
+    [
+     445.0,
+     -4.5
+    ]
+   ],
+   "object_name": "nightstand-1"
+  }
+ ],
+ "wall": []
+}

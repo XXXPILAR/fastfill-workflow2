@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.245,
+    "y": 0.275,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     219.5,
+     60.0
+    ],
+    [
+     219.5,
+     220.0
+    ],
+    [
+     429.5,
+     220.0
+    ],
+    [
+     429.5,
+     60.0
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "chair-0",
+   "id": "chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.6,
+    "y": 0.425,
+    "z": 3.0699999999999994
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.0,
+     339.49999999999994
+    ],
+    [
+     290.0,
+     274.49999999999994
+    ],
+    [
+     230.0,
+     274.49999999999994
+    ],
+    [
+     230.0,
+     339.49999999999994
+    ]
+   ],
+   "object_name": "chair-0"
+  }
+ ],
+ "wall": []
+}

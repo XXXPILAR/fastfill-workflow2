@@ -1,0 +1,88 @@
+{
+ "k": 267,
+ "source": "SpatialLM",
+ "room_type": "living room",
+ "latency_s": 50.902181666111574,
+ "usage": [
+  {
+   "prompt_tokens": 1538,
+   "completion_tokens": 2587,
+   "total_tokens": 4125,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2263,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.95,
+     2.8,
+     0.85
+    ],
+    "bottom_center_m": [
+     4.685,
+     6.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.4,
+     1.8,
+     0.55
+    ],
+    "bottom_center_m": [
+     8.32,
+     6.35,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.36,
+     1.2,
+     1.05
+    ],
+    "bottom_center_m": [
+     10.75,
+     4.04,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     2.1,
+     1.7,
+     0.78
+    ],
+    "bottom_center_m": [
+     7.95,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe main upper room is the largest uninterrupted area, so it holds the sofa and TV cabinet as a facing pair along opposite side walls, preserving a broad central walkway. The compact dining combination occupies the lower alcove while maintaining clearance to the large door on its east side and the south window. The shallow shoe cabinet is placed against the north wall of the connecting hall, away from all door openings.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":2.8,\"depth_m\":0.95,\"height_m\":0.85,\"x\":4.685,\"y\":6.35,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":1.8,\"depth_m\":0.4,\"height_m\":0.55,\"x\":8.32,\"y\":6.35,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":1.2,\"depth_m\":0.36,\"height_m\":1.05,\"x\":10.75,\"y\":4.04,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":1.7,\"depth_m\":2.1,\"height_m\":0.78,\"x\":7.95,\"y\":1.45,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 13.795 m x 8.240 m x 2.880 m\nfloor polygon (x, y): [[12.534, 3.02], [12.534, 2.15], [13.795, 2.15], [13.795, 4.22], [8.52, 4.22], [8.52, 8.24], [4.21, 8.24], [4.21, 4.221], [0.0, 4.22], [0.0, 3.14], [7.045, 3.14], [7.045, 0.0], [9.98, 0.0], [9.98, 2.67], [11.56, 2.67], [11.56, 3.02]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"combination sofa\", \"description\": \"combination sofa\"},\n{\"id\": \"obj_0001\", \"category\": \"tv cabinet\", \"description\": \"tv cabinet\"},\n{\"id\": \"obj_0002\", \"category\": \"shoe cabinet\", \"description\": \"shoe cabinet\"},\n{\"id\": \"obj_0003\", \"category\": \"dining table combination\", \"description\": \"dining table combination\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [13.165, 2.15], \"wall_from\": [12.534, 2.15], \"wall_to\": [13.795, 2.15], \"width_m\": 1.26, \"height_m\": 2.35, \"sill_height_m\": 0.2}, {\"type\": \"door\", \"centre_xy\": [13.795, 3.5], \"wall_from\": [13.795, 2.15], \"wall_to\": [13.795, 4.22], \"width_m\": 1.2, \"height_m\": 2.128}, {\"type\": \"door\", \"centre_xy\": [3.485, 4.22], \"wall_from\": [4.21, 4.221], \"wall_to\": [0.0, 4.22], \"width_m\": 0.87, \"height_m\": 2.128}, {\"type\": \"door\", \"centre_xy\": [0.475, 4.22], \"wall_from\": [4.21, 4.221], \"wall_to\": [0.0, 4.22], \"width_m\": 0.87, \"height_m\": 2.128}, {\"type\": \"door\", \"centre_xy\": [1.568, 3.14], \"wall_from\": [0.0, 3.14], \"wall_to\": [7.045, 3.14], \"width_m\": 0.907, \"height_m\": 2.128}, {\"type\": \"door\", \"centre_xy\": [2.785, 3.14], \"wall_from\": [0.0, 3.14], \"wall_to\": [7.045, 3.14], \"width_m\": 0.83, \"height_m\": 2.128}, {\"type\": \"door\", \"centre_xy\": [4.808, 3.14], \"wall_from\": [0.0, 3.14], \"wall_to\": [7.045, 3.14], \"width_m\": 0.907, \"height_m\": 2.128}, {\"type\": \"window\", \"centre_xy\": [8.304, 0.0], \"wall_from\": [7.045, 0.0], \"wall_to\": [9.98, 0.0], \"width_m\": 1.46, \"height_m\": 1.85, \"sill_height_m\": 0.66}, {\"type\": \"door\", \"centre_xy\": [9.98, 1.68], \"wall_from\": [9.98, 0.0], \"wall_to\": [9.98, 2.67], \"width_m\": 1.92, \"height_m\": 2.4}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0001\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0002\"}]\n[/Task Constraints]"
+}

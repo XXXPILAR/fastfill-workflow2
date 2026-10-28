@@ -1,0 +1,117 @@
+{
+ "floor": [
+  {
+   "assetId": "sofa-0",
+   "id": "sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.243017558270659,
+    "y": 0.43,
+    "z": 3.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     671.8017558270659,
+     237.5
+    ],
+    [
+     671.8017558270659,
+     482.5
+    ],
+    [
+     776.8017558270659,
+     482.5
+    ],
+    [
+     776.8017558270659,
+     237.5
+    ]
+   ],
+   "object_name": "sofa-0"
+  },
+  {
+   "assetId": "coffee table-0",
+   "id": "coffee table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.0,
+    "y": 0.21,
+    "z": 3.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     642.5,
+     287.5
+    ],
+    [
+     642.5,
+     432.5
+    ],
+    [
+     557.5,
+     432.5
+    ],
+    [
+     557.5,
+     287.5
+    ],
+    [
+     642.5,
+     287.5
+    ]
+   ],
+   "object_name": "coffee table-0"
+  },
+  {
+   "assetId": "sofa-2",
+   "id": "sofa-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.500000000000001,
+    "y": 0.43,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     502.50000000000006,
+     300.0
+    ],
+    [
+     502.50000000000006,
+     540.0
+    ],
+    [
+     397.50000000000006,
+     540.0
+    ],
+    [
+     397.50000000000006,
+     300.0
+    ]
+   ],
+   "object_name": "sofa-2"
+  }
+ ],
+ "wall": []
+}

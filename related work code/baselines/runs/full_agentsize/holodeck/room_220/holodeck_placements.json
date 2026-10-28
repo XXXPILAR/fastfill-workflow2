@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0885089950561526,
+    "y": 1.1,
+    "z": 2.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     273.85089950561525,
+     120.0
+    ],
+    [
+     273.85089950561525,
+     280.0
+    ],
+    [
+     343.85089950561525,
+     280.0
+    ],
+    [
+     343.85089950561525,
+     120.0
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "wardrobe-1",
+   "id": "wardrobe-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 1.1,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     165.0,
+     -4.5
+    ],
+    [
+     165.0,
+     65.5
+    ],
+    [
+     35.0,
+     65.5
+    ],
+    [
+     35.0,
+     -4.5
+    ]
+   ],
+   "object_name": "wardrobe-1"
+  },
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.455,
+    "y": 0.425,
+    "z": 2.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     95.5,
+     115.0
+    ],
+    [
+     95.5,
+     365.0
+    ],
+    [
+     -4.5,
+     365.0
+    ],
+    [
+     -4.5,
+     115.0
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  }
+ ],
+ "wall": []
+}

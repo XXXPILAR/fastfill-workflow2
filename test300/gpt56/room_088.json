@@ -1,0 +1,606 @@
+{
+ "k": 88,
+ "source": "InternScenes_gen",
+ "room_type": "kitchen",
+ "latency_s": 388.07917595794424,
+ "usage": [
+  {
+   "prompt_tokens": 1816,
+   "completion_tokens": 6638,
+   "total_tokens": 8454,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 4416,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     0.76,
+     0.25,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.5,
+     0.68,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.38,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.16,
+     0.16,
+     0.42
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.58,
+     0.85
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.24
+    ],
+    "bottom_center_m": [
+     0.06,
+     1.85,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.025
+    ],
+    "bottom_center_m": [
+     1.89,
+     0.43,
+     0.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     0.88,
+     0.25,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.16
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.25,
+     0.85
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     1.0,
+     0.25,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.25
+    ],
+    "bottom_center_m": [
+     0.06,
+     1.97,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.23,
+     0.23,
+     0.025
+    ],
+    "bottom_center_m": [
+     1.89,
+     0.43,
+     0.925
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.24
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.09,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.4,
+     0.5,
+     0.32
+    ],
+    "bottom_center_m": [
+     0.95,
+     0.38,
+     0.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.24,
+     0.42,
+     0.08
+    ],
+    "bottom_center_m": [
+     1.45,
+     0.42,
+     0.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     1.12,
+     0.25,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.23
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.21,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.25
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.33,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     0.76,
+     0.48,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.6,
+     1.45,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.325,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.025
+    ],
+    "bottom_center_m": [
+     1.89,
+     0.43,
+     0.95
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.24
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.45,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.26
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.57,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.23
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.69,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.25
+    ],
+    "bottom_center_m": [
+     0.44,
+     1.85,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.24
+    ],
+    "bottom_center_m": [
+     0.44,
+     1.97,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.5,
+     1.0,
+     1.0
+    ],
+    "bottom_center_m": [
+     0.25,
+     2.28,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.26
+    ],
+    "bottom_center_m": [
+     0.44,
+     2.09,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.68,
+     0.78,
+     2.05
+    ],
+    "bottom_center_m": [
+     0.34,
+     1.24,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     0.88,
+     0.48,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.24
+    ],
+    "bottom_center_m": [
+     0.44,
+     2.21,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.03,
+     0.45,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.48,
+     0.015,
+     1.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.15
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.25,
+     1.01
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.16,
+     0.12,
+     0.32
+    ],
+    "bottom_center_m": [
+     1.65,
+     0.09,
+     0.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.14
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.25,
+     1.16
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.25,
+     2.05,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.21,
+     0.21,
+     0.025
+    ],
+    "bottom_center_m": [
+     1.89,
+     0.43,
+     0.975
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     1.12,
+     0.48,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     1.0,
+     0.48,
+     1.22
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.25
+    ],
+    "bottom_center_m": [
+     0.44,
+     2.33,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.25,
+     0.25,
+     0.16
+    ],
+    "bottom_center_m": [
+     0.25,
+     2.05,
+     1.18
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.24
+    ],
+    "bottom_center_m": [
+     0.44,
+     2.45,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.26
+    ],
+    "bottom_center_m": [
+     0.44,
+     2.57,
+     1.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe two shelves and refrigerator form a compact storage run along the left wall, with the refrigerator positioned between the shelves as required. A base cabinet occupies the lower wall while stopping well before the door approach; it supports the microwave, faucet, cookware, and stacked plates. Cups and the can are grouped on the microwave, while bottles and stacked pots use the larger shelf. The center and right side remain open for circulation from the door, and the wall mirror is placed beyond the cabinet without obstructing either window.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":0.76,\"y\":0.25,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.68,\"depth_m\":0.5,\"height_m\":0.85,\"x\":0.25,\"y\":0.38,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.16,\"depth_m\":0.16,\"height_m\":0.42,\"x\":0.25,\"y\":0.58,\"z\":0.85,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.24,\"x\":0.06,\"y\":1.85,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.025,\"x\":1.89,\"y\":0.43,\"z\":0.9,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":0.88,\"y\":0.25,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.16,\"x\":0.25,\"y\":0.25,\"z\":0.85,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":1,\"y\":0.25,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.25,\"x\":0.06,\"y\":1.97,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0009\",\"width_m\":0.23,\"depth_m\":0.23,\"height_m\":0.025,\"x\":1.89,\"y\":0.43,\"z\":0.925,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.24,\"x\":0.06,\"y\":2.09,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0011\",\"width_m\":0.5,\"depth_m\":0.4,\"height_m\":0.32,\"x\":0.95,\"y\":0.38,\"z\":0.9,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.42,\"depth_m\":0.24,\"height_m\":0.08,\"x\":1.45,\"y\":0.42,\"z\":0.9,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":1.12,\"y\":0.25,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0014\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.23,\"x\":0.06,\"y\":2.21,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0015\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.25,\"x\":0.06,\"y\":2.33,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0016\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":0.76,\"y\":0.48,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0017\",\"width_m\":1.45,\"depth_m\":0.6,\"height_m\":0.9,\"x\":1.325,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0018\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.025,\"x\":1.89,\"y\":0.43,\"z\":0.95,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.24,\"x\":0.06,\"y\":2.45,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0020\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.26,\"x\":0.06,\"y\":2.57,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0021\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.23,\"x\":0.06,\"y\":2.69,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0022\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.25,\"x\":0.44,\"y\":1.85,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0023\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.24,\"x\":0.44,\"y\":1.97,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0024\",\"width_m\":1,\"depth_m\":0.5,\"height_m\":1,\"x\":0.25,\"y\":2.28,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0025\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.26,\"x\":0.44,\"y\":2.09,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0026\",\"width_m\":0.78,\"depth_m\":0.68,\"height_m\":2.05,\"x\":0.34,\"y\":1.24,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0027\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":0.88,\"y\":0.48,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0028\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.24,\"x\":0.44,\"y\":2.21,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0029\",\"width_m\":0.45,\"depth_m\":0.03,\"height_m\":0.65,\"x\":2.48,\"y\":0.015,\"z\":1.15,\"facing_deg\":90},{\"id\":\"obj_0030\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.15,\"x\":0.25,\"y\":0.25,\"z\":1.01,\"facing_deg\":0},{\"id\":\"obj_0031\",\"width_m\":0.12,\"depth_m\":0.16,\"height_m\":0.32,\"x\":1.65,\"y\":0.09,\"z\":0.9,\"facing_deg\":90},{\"id\":\"obj_0032\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.14,\"x\":0.25,\"y\":0.25,\"z\":1.16,\"facing_deg\":0},{\"id\":\"obj_0033\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.18,\"x\":0.25,\"y\":2.05,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0034\",\"width_m\":0.21,\"depth_m\":0.21,\"height_m\":0.025,\"x\":1.89,\"y\":0.43,\"z\":0.975,\"facing_deg\":90},{\"id\":\"obj_0035\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":1.12,\"y\":0.48,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0036\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":1,\"y\":0.48,\"z\":1.22,\"facing_deg\":90},{\"id\":\"obj_0037\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.25,\"x\":0.44,\"y\":2.33,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0038\",\"width_m\":0.25,\"depth_m\":0.25,\"height_m\":0.16,\"x\":0.25,\"y\":2.05,\"z\":1.18,\"facing_deg\":0},{\"id\":\"obj_0039\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.24,\"x\":0.44,\"y\":2.45,\"z\":1,\"facing_deg\":0},{\"id\":\"obj_0040\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.26,\"x\":0.44,\"y\":2.57,\"z\":1,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.779 m x 3.279 m x unknown\nfloor polygon (x, y): [[2.779, 0.0], [2.779, 3.279], [0.0, 3.279], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0001\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0002\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0003\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0004\", \"category\": \"plate\", \"description\": \"plate\"},\n{\"id\": \"obj_0005\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0006\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0007\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0008\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0009\", \"category\": \"plate\", \"description\": \"plate\"},\n{\"id\": \"obj_0010\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0011\", \"category\": \"microwave\", \"description\": \"microwave\"},\n{\"id\": \"obj_0012\", \"category\": \"pan\", \"description\": \"pan\"},\n{\"id\": \"obj_0013\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0014\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0015\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0016\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0017\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0018\", \"category\": \"plate\", \"description\": \"plate\"},\n{\"id\": \"obj_0019\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0020\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0021\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0022\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0023\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0024\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0025\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0026\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"},\n{\"id\": \"obj_0027\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0028\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0029\", \"category\": \"mirror\", \"description\": \"mirror\"},\n{\"id\": \"obj_0030\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0031\", \"category\": \"faucet\", \"description\": \"faucet\"},\n{\"id\": \"obj_0032\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0033\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0034\", \"category\": \"plate\", \"description\": \"plate\"},\n{\"id\": \"obj_0035\", \"category\": \"can\", \"description\": \"can\"},\n{\"id\": \"obj_0036\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0037\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0038\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0039\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0040\", \"category\": \"bottle\", \"description\": \"bottle\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [2.779, 0.985], \"wall_from\": [2.779, 0.0], \"wall_to\": [2.779, 3.279], \"width_m\": 0.345, \"height_m\": 2.306}, {\"type\": \"window\", \"centre_xy\": [2.779, 2.511], \"wall_from\": [2.779, 0.0], \"wall_to\": [2.779, 3.279], \"width_m\": 0.971, \"height_m\": 1.348, \"sill_height_m\": 1.105}, {\"type\": \"window\", \"centre_xy\": [1.143, 3.279], \"wall_from\": [2.779, 3.279], \"wall_to\": [0.0, 3.279], \"width_m\": 1.46, \"height_m\": 1.349, \"sill_height_m\": 1.105}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0026\", \"target_ids\": [\"obj_0024\", \"obj_0001\"]}]\n[/Task Constraints]"
+}

@@ -1,0 +1,486 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_110",
+ "room_type": "department meeting room 1",
+ "room": {
+  "width": 10.0,
+  "length": 10.0,
+  "height": 3.2
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 45
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "throw pillow",
+   "asset_key": "throw_pillow_2bea1cfc",
+   "description": "A large white pillow with golden edges.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "lounge side table",
+   "asset_key": "lounge_side_table_ef709374",
+   "description": "A round wooden table holding a blue and white owl statue.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "freestanding planter",
+   "asset_key": "freestanding_planter_ad847731",
+   "description": "A wooden planter with some strawberries.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "mobile whiteboard",
+   "asset_key": "mobile_whiteboard_19fef438",
+   "description": "A whiteboard with a black marker.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_1bf0e000",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "side credenda",
+   "asset_key": "side_credenda_89b72d4d",
+   "description": "Long wood cabinet with metal frame and drawers.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_9f5973df",
+   "description": "A black office chair with a tall mesh back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "conference table",
+   "asset_key": "conference_table_1dcb0593",
+   "description": "A long white table with two black spines.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "storage box",
+   "asset_key": "storage_box_1295d8d9",
+   "description": "A red microwave oven.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "mobile whiteboard",
+   "asset_key": "mobile_whiteboard_19fef438",
+   "description": "A whiteboard with a black marker.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "trash recycling bin",
+   "asset_key": "trash_recycling_bin_c5a943ee",
+   "description": "A pair of white drawers in the black dresser.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "storage box",
+   "asset_key": "storage_box_1295d8d9",
+   "description": "A red microwave oven.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_1bf0e000",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "small planter",
+   "asset_key": "small_planter_234d7bea",
+   "description": "A plant sitting in a round flower pot.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "wall monitor",
+   "asset_key": "wall_monitor_ea3f1077",
+   "description": "An image of a mountain lake in a white frame.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "freestanding planter",
+   "asset_key": "freestanding_planter_ad847731",
+   "description": "A wooden planter with some strawberries.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "magazine",
+   "asset_key": "magazine_06923a81",
+   "description": "A light brown hardback book with atom depicted in gold on the cover.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_9f5973df",
+   "description": "A black office chair with a tall mesh back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "magazine",
+   "asset_key": "magazine_06923a81",
+   "description": "A light brown hardback book with atom depicted in gold on the cover.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_9f5973df",
+   "description": "A black office chair with a tall mesh back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "lounge sofa",
+   "asset_key": "lounge_sofa_555b60f2",
+   "description": "A grey three seater sofa.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_023"
+  },
+  {
+   "id": "obj_0024",
+   "type": "freestanding planter",
+   "asset_key": "freestanding_planter_ad847731",
+   "description": "A wooden planter with some strawberries.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_024"
+  },
+  {
+   "id": "obj_0025",
+   "type": "coat stand",
+   "asset_key": "coat_stand_5142d454",
+   "description": "The coatrack is wooden with a round bottom.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_025"
+  },
+  {
+   "id": "obj_0026",
+   "type": "lounge side table",
+   "asset_key": "lounge_side_table_ef709374",
+   "description": "A round wooden table holding a blue and white owl statue.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_026"
+  },
+  {
+   "id": "obj_0027",
+   "type": "coat stand",
+   "asset_key": "coat_stand_5142d454",
+   "description": "The coatrack is wooden with a round bottom.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_027"
+  },
+  {
+   "id": "obj_0028",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_028"
+  },
+  {
+   "id": "obj_0029",
+   "type": "trash recycling bin",
+   "asset_key": "trash_recycling_bin_c5a943ee",
+   "description": "A pair of white drawers in the black dresser.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_029"
+  },
+  {
+   "id": "obj_0030",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_1bf0e000",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_030"
+  },
+  {
+   "id": "obj_0031",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_031"
+  },
+  {
+   "id": "obj_0032",
+   "type": "sideboard table",
+   "asset_key": "sideboard_table_bcb11f81",
+   "description": "A long narrow wooden table on metal legs.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_032"
+  },
+  {
+   "id": "obj_0033",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_033"
+  },
+  {
+   "id": "obj_0034",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_9f5973df",
+   "description": "A black office chair with a tall mesh back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_034"
+  },
+  {
+   "id": "obj_0035",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_035"
+  },
+  {
+   "id": "obj_0036",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_9f5973df",
+   "description": "A black office chair with a tall mesh back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_036"
+  },
+  {
+   "id": "obj_0037",
+   "type": "storage cabinet",
+   "asset_key": "storage_cabinet_b8e2903e",
+   "description": "A rectangular set of five dark gray shelves with two drawers beneath them.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_037"
+  },
+  {
+   "id": "obj_0038",
+   "type": "storage cabinet",
+   "asset_key": "storage_cabinet_b8e2903e",
+   "description": "A rectangular set of five dark gray shelves with two drawers beneath them.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_038"
+  },
+  {
+   "id": "obj_0039",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_9f5973df",
+   "description": "A black office chair with a tall mesh back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_039"
+  },
+  {
+   "id": "obj_0040",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_040"
+  },
+  {
+   "id": "obj_0041",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_041"
+  },
+  {
+   "id": "obj_0042",
+   "type": "acoustic panel",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_042"
+  },
+  {
+   "id": "obj_0043",
+   "type": "tray",
+   "asset_key": "tray_7d1e2b34",
+   "description": "Carved brown tray with handle and tall sides.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_043"
+  },
+  {
+   "id": "obj_0044",
+   "type": "wall clock",
+   "asset_key": "wall_clock_db6ce2ad",
+   "description": "A black and white rouund clock with red hands and gears at the center of the circle.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_044"
+  }
+ ]
+}

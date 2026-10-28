@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "platform-0",
+   "id": "platform-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.7,
+    "y": 0.1,
+    "z": 0.605
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     835.0,
+     -4.5
+    ],
+    [
+     835.0,
+     125.5
+    ],
+    [
+     705.0,
+     125.5
+    ],
+    [
+     705.0,
+     -4.5
+    ]
+   ],
+   "object_name": "platform-0"
+  },
+  {
+   "assetId": "kitchen lower cabinet-0",
+   "id": "kitchen lower cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 5.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     485.0
+    ],
+    [
+     65.5,
+     615.0
+    ],
+    [
+     -4.5,
+     615.0
+    ],
+    [
+     -4.5,
+     485.0
+    ]
+   ],
+   "object_name": "kitchen lower cabinet-0"
+  },
+  {
+   "assetId": "table-0",
+   "id": "table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.38,
+    "y": 0.45,
+    "z": 3.85
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     80.5,
+     305.0
+    ],
+    [
+     80.5,
+     465.0
+    ],
+    [
+     -4.5,
+     465.0
+    ],
+    [
+     -4.5,
+     305.0
+    ]
+   ],
+   "object_name": "table-0"
+  },
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.425,
+    "z": 2.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     175.0
+    ],
+    [
+     55.5,
+     265.0
+    ],
+    [
+     -4.5,
+     265.0
+    ],
+    [
+     -4.5,
+     175.0
+    ]
+   ],
+   "object_name": "cabinet-0"
+  }
+ ],
+ "wall": []
+}

@@ -1,0 +1,103 @@
+{
+ "task_description": "a living dining room of about 7.2m x 10.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.85 m wide centred at (6.63, 5.38) (keep the floor in front of it clear); a door 0.80 m wide centred at (7.17, 7.53) (keep the floor in front of it clear); a door 0.80 m wide centred at (6.65, 8.06) (keep the floor in front of it clear); a door 0.85 m wide centred at (6.15, 7.49) (keep the floor in front of it clear); a window 1.66 m wide centred at (1.26, 10.02); a door 2.00 m wide centred at (0.00, 8.48) (keep the floor in front of it clear); a door 0.98 m wide centred at (0.00, 6.06) (keep the floor in front of it clear); a door 2.25 m wide centred at (3.87, 0.00) (keep the floor in front of it clear). the dining table (o0001) should be between the dining chair (o0005) and the dining chair (o0009). the dining chair (o0005) should face the coffee table (o0008)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.99033,
+    0.23999999999999977,
+    0.0
+   ],
+   [
+    5.9071,
+    0.23999999999999977,
+    0.0
+   ],
+   [
+    5.9071,
+    5.3766,
+    0.0
+   ],
+   [
+    7.1701999999999995,
+    5.3766,
+    0.0
+   ],
+   [
+    7.1701999999999995,
+    8.0558,
+    0.0
+   ],
+   [
+    6.1471,
+    8.0558,
+    0.0
+   ],
+   [
+    6.1471,
+    6.7085,
+    0.0
+   ],
+   [
+    2.595,
+    6.7085,
+    0.0
+   ],
+   [
+    2.595,
+    10.0207,
+    0.0
+   ],
+   [
+    0.0,
+    10.0207,
+    0.0
+   ],
+   [
+    0.0,
+    5.3766,
+    0.0
+   ],
+   [
+    1.8806000000000003,
+    5.3766,
+    0.0
+   ],
+   [
+    1.8806000000000003,
+    0.23999999999999977,
+    0.0
+   ],
+   [
+    2.74127,
+    0.23999999999999977,
+    0.0
+   ],
+   [
+    2.74127,
+    0.0,
+    0.0
+   ],
+   [
+    4.99033,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {}
+ }
+}

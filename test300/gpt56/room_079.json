@@ -1,0 +1,256 @@
+{
+ "k": 79,
+ "source": "InternScenes_gen",
+ "room_type": "bedroom",
+ "latency_s": 87.7697866668459,
+ "usage": [
+  {
+   "prompt_tokens": 1441,
+   "completion_tokens": 4707,
+   "total_tokens": 6148,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3719,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     0.55,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.55,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.2,
+     1.2,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.45,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.55,
+     1.0,
+     0.55
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.38,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     5.78,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.38,
+     1.0,
+     0.55
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.35,
+     0.8,
+     1.7
+    ],
+    "bottom_center_m": [
+     4.55,
+     6.1,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.55
+    ],
+    "bottom_center_m": [
+     5.78,
+     1.0,
+     0.55
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.55,
+     1.4,
+     0.75
+    ],
+    "bottom_center_m": [
+     3.25,
+     6.1,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.18,
+     0.28,
+     0.05
+    ],
+    "bottom_center_m": [
+     2.0,
+     6.05,
+     1.7
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     1.6,
+     2.7,
+     0.02
+    ],
+    "bottom_center_m": [
+     3.15,
+     3.7,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.12,
+     1.1,
+     0.65
+    ],
+    "bottom_center_m": [
+     3.25,
+     6.25,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.25,
+     0.25,
+     1.45
+    ],
+    "bottom_center_m": [
+     3.85,
+     2.1,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     2.2,
+     1.2,
+     0.55
+    ],
+    "bottom_center_m": [
+     4.85,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.18,
+     0.28,
+     0.05
+    ],
+    "bottom_center_m": [
+     4.55,
+     6.05,
+     1.7
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.35,
+     0.8,
+     1.7
+    ],
+    "bottom_center_m": [
+     2.0,
+     6.1,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe two beds occupy the broad rectangular lower portion of the room, with clear bedside access and an open central route from the door. Three compact shelves serve as bedside stands; three lamps sit on them, while a floor lamp serves the remaining side. The carpet defines the clear shared area beyond the bed feet. Because most perimeter walls contain windows or the door, the table and two taller shelves form a media/storage group across the wider middle section; the table is positioned directly between the specified shelves, and the TV stands on it. The doorway and the route into the upper portion remain unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.55,\"depth_m\":0.45,\"height_m\":0.55,\"x\":0.55,\"y\":1.0,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":1.2,\"depth_m\":2.2,\"height_m\":0.55,\"x\":1.45,\"y\":1.55,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.55,\"x\":0.55,\"y\":1.0,\"z\":0.55,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.55,\"x\":2.38,\"y\":1.0,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.55,\"x\":5.78,\"y\":1.0,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.55,\"x\":2.38,\"y\":1.0,\"z\":0.55,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.8,\"depth_m\":0.35,\"height_m\":1.7,\"x\":4.55,\"y\":6.1,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.55,\"x\":5.78,\"y\":1.0,\"z\":0.55,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":1.4,\"depth_m\":0.55,\"height_m\":0.75,\"x\":3.25,\"y\":6.1,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":0.28,\"depth_m\":0.18,\"height_m\":0.05,\"x\":2.0,\"y\":6.05,\"z\":1.7,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":2.7,\"depth_m\":1.6,\"height_m\":0.02,\"x\":3.15,\"y\":3.7,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":1.1,\"depth_m\":0.12,\"height_m\":0.65,\"x\":3.25,\"y\":6.25,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0012\",\"width_m\":0.25,\"depth_m\":0.25,\"height_m\":1.45,\"x\":3.85,\"y\":2.1,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":1.2,\"depth_m\":2.2,\"height_m\":0.55,\"x\":4.85,\"y\":1.55,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0014\",\"width_m\":0.28,\"depth_m\":0.18,\"height_m\":0.05,\"x\":4.55,\"y\":6.05,\"z\":1.7,\"facing_deg\":270},{\"id\":\"obj_0015\",\"width_m\":0.8,\"depth_m\":0.35,\"height_m\":1.7,\"x\":2.0,\"y\":6.1,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.274 m x 8.774 m x unknown\nfloor polygon (x, y): [[6.274, 0.0], [6.269, 5.338], [2.838, 8.769], [0.5, 8.774], [0.5, 2.774], [0.0, 2.774], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0001\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0002\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0003\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0004\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0005\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0006\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0007\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0008\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0009\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0010\", \"category\": \"carpet\", \"description\": \"carpet\"},\n{\"id\": \"obj_0011\", \"category\": \"tv\", \"description\": \"tv\"},\n{\"id\": \"obj_0012\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0013\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0014\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0015\", \"category\": \"shelf\", \"description\": \"shelf\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [6.272, 2.551], \"wall_from\": [6.274, 0.0], \"wall_to\": [6.269, 5.338], \"width_m\": 4.776, \"height_m\": 1.43, \"sill_height_m\": 1.139}, {\"type\": \"window\", \"centre_xy\": [4.392, 7.216], \"wall_from\": [6.269, 5.338], \"wall_to\": [2.838, 8.769], \"width_m\": 2.195, \"height_m\": 1.436, \"sill_height_m\": 1.136}, {\"type\": \"window\", \"centre_xy\": [1.692, 8.771], \"wall_from\": [2.838, 8.769], \"wall_to\": [0.5, 8.774], \"width_m\": 1.932, \"height_m\": 1.421, \"sill_height_m\": 1.144}, {\"type\": \"door\", \"centre_xy\": [0.5, 4.843], \"wall_from\": [0.5, 8.774], \"wall_to\": [0.5, 2.774], \"width_m\": 0.863, \"height_m\": 2.066}, {\"type\": \"window\", \"centre_xy\": [3.781, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [6.274, 0.0], \"width_m\": 1.359, \"height_m\": 1.405, \"sill_height_m\": 1.152}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0008\", \"target_ids\": [\"obj_0015\", \"obj_0006\"]}]\n[/Task Constraints]"
+}

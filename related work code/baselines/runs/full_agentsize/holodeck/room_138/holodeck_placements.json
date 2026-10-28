@@ -1,0 +1,154 @@
+{
+ "floor": [
+  {
+   "assetId": "balcony storage bench-0",
+   "id": "balcony storage bench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 0.275,
+    "z": 0.23
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     160.0,
+     -4.5
+    ],
+    [
+     160.0,
+     50.5
+    ],
+    [
+     39.99999999999999,
+     50.5
+    ],
+    [
+     39.99999999999999,
+     -4.5
+    ]
+   ],
+   "object_name": "balcony storage bench-0"
+  },
+  {
+   "assetId": "balcony floor lantern-0",
+   "id": "balcony floor lantern-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.13,
+    "y": 0.275,
+    "z": 0.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     30.5,
+     22.5
+    ],
+    [
+     30.5,
+     57.5
+    ],
+    [
+     -4.5,
+     57.5
+    ],
+    [
+     -4.5,
+     22.5
+    ]
+   ],
+   "object_name": "balcony floor lantern-0"
+  },
+  {
+   "assetId": "balcony floor lantern-1",
+   "id": "balcony floor lantern-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.87,
+    "y": 0.275,
+    "z": 0.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     169.5,
+     22.5
+    ],
+    [
+     169.5,
+     57.5
+    ],
+    [
+     204.5,
+     57.5
+    ],
+    [
+     204.5,
+     22.5
+    ]
+   ],
+   "object_name": "balcony floor lantern-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "balcony wall shelf-0",
+   "id": "balcony wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 1.65,
+    "z": 0.12
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     140.0,
+     0.0
+    ],
+    [
+     140.0,
+     22.0
+    ],
+    [
+     60.0,
+     22.0
+    ],
+    [
+     60.0,
+     0.0
+    ],
+    [
+     140.0,
+     0.0
+    ]
+   ],
+   "object_name": "balcony wall shelf-0"
+  }
+ ]
+}

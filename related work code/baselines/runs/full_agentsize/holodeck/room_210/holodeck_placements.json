@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.8,
+    "y": 0.275,
+    "z": 1.8895556640625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     255.0,
+     293.95556640625
+    ],
+    [
+     255.0,
+     83.95556640625
+    ],
+    [
+     105.0,
+     83.95556640625
+    ],
+    [
+     105.0,
+     293.95556640625
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "nightstand-1",
+   "id": "nightstand-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.42,
+    "y": 0.26,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     218.0,
+     25.0
+    ],
+    [
+     218.0,
+     75.0
+    ],
+    [
+     266.0,
+     75.0
+    ],
+    [
+     266.0,
+     25.0
+    ]
+   ],
+   "object_name": "nightstand-1"
+  },
+  {
+   "assetId": "nightstand-0",
+   "id": "nightstand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.7,
+    "y": 0.26,
+    "z": 2.6995556640625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     95.0,
+     293.95556640625
+    ],
+    [
+     95.0,
+     245.95556640625
+    ],
+    [
+     45.0,
+     245.95556640625
+    ],
+    [
+     45.0,
+     293.95556640625
+    ]
+   ],
+   "object_name": "nightstand-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 1.05,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     215.0,
+     -4.5
+    ],
+    [
+     215.0,
+     65.5
+    ],
+    [
+     85.0,
+     65.5
+    ],
+    [
+     85.0,
+     -4.5
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  }
+ ],
+ "wall": []
+}

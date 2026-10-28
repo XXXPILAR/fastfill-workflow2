@@ -1,0 +1,65 @@
+{
+ "task_description": "a bedroom of about 6.2m x 6.6m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.00 m wide centred at (6.20, 3.90) (keep the floor in front of it clear). the multifunctional combination bed (o0001) should face the shower room (o0003)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    6.200000000000003,
+    6.599999999999998,
+    0.0
+   ],
+   [
+    0.0,
+    6.599999999999998,
+    0.0
+   ],
+   [
+    0.0,
+    4.099999999999998,
+    0.0
+   ],
+   [
+    0.5,
+    4.099999999999998,
+    0.0
+   ],
+   [
+    0.5,
+    3.599999999999998,
+    0.0
+   ],
+   [
+    0.0,
+    3.599999999999998,
+    0.0
+   ],
+   [
+    0.0,
+    0.09999999999999787,
+    0.0
+   ],
+   [
+    1.0,
+    0.09999999999999787,
+    0.0
+   ],
+   [
+    1.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.200000000000003,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.0
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

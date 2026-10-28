@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: baking cabinet, baking station cabinet, bar cart, base kitchen cabinets, built in oven, coffee machine station, cooking range with oven, cutlery set, cutting board, dining chair, dining table, dining wall art, dishwasher, floor cabinet with drawers, floor pantry cabinet, floor standing pantry cabinet, free standing pantry cabinet, freestanding fridge, freestanding kitchen cart, freestanding wine rack, island bar stool, kitchen base cabinet run, kitchen cabinets, kitchen countertop island, kitchen island, kitchen island with countertop, kitchen tall pantry unit, kitchen utensil holder stand, kitchen wall clock, microwave oven, oven and microwave unit, oven with stove, oven with stove cooktop, picture frame, portable kitchen cart, range oven, refrigerator, rolling kitchen cart, sideboard cabinet, tall pantry cabinet, trash and recycling bins \nOverall furniture frequencies: (baking cabinet: 0.0179; baking station cabinet: 0.0179; bar cart: 0.0179; base kitchen cabinets: 0.0179; built in oven: 0.0179; coffee machine station: 0.0179; cooking range with oven: 0.0; cutlery set: 0.0179; cutting board: 0.0179; dining chair: 0.0714; dining table: 0.0357; dining wall art: 0.0536; dishwasher: 0.0893; floor cabinet with drawers: 0.0357; floor pantry cabinet: 0.0179; floor standing pantry cabinet: 0.0179; free standing pantry cabinet: 0.0179; freestanding fridge: 0.0179; freestanding kitchen cart: 0.0179; freestanding wine rack: 0.0; island bar stool: 0.0536; kitchen base cabinet run: 0.0179; kitchen cabinets: 0.0179; kitchen countertop island: 0.0357; kitchen island: 0.0893; kitchen island with countertop: 0.0; kitchen tall pantry unit: 0.0179; kitchen utensil holder stand: 0.0179; kitchen wall clock: 0.0179; microwave oven: 0.0179; oven and microwave unit: 0.0179; oven with stove: 0.0179; oven with stove cooktop: 0.0179; picture frame: 0.0179; portable kitchen cart: 0.0179; range oven: 0.0179; refrigerator: 0.0179; rolling kitchen cart: 0.0179; sideboard cabinet: 0.0179; tall pantry cabinet: 0.0357; trash and recycling bins: 0.0)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "kitchen island[obj_0000] {length: 1.59m; height: 0.84m; width: 0.65m; orientation: 90 degrees; left: 3.30m; top: 1.20m; depth: 0.00m;}\nkitchen utensil holder stand[obj_0001] {length: 0.12m; height: 0.02m; width: 0.12m; orientation: -90 degrees; left: 4.20m; top: 0.90m; depth: 0.00m;}\nbase kitchen cabinets[obj_0002] {length: 3.59m; height: 2.00m; width: 0.65m; orientation: -180 degrees; left: 5.72m; top: 2.10m; depth: 0.00m;}\noven and microwave unit[obj_0003] {length: 0.78m; height: 0.68m; width: 0.78m; orientation: -90 degrees; left: 1.50m; top: 4.65m; depth: 0.00m;}\ntall pantry cabinet[obj_0004] {length: 0.96m; height: 1.81m; width: 0.75m; orientation: -90 degrees; left: 2.40m; top: 4.67m; depth: 0.00m;}\ntall pantry cabinet[obj_0005] {length: 1.18m; height: 2.12m; width: 0.74m; orientation: -90 degrees; left: 5.40m; top: 4.68m; depth: 0.00m;}\nfreestanding kitchen cart[obj_0006] {length: 0.87m; height: 1.05m; width: 0.62m; orientation: 0 degrees; left: 0.27m; top: 2.10m; depth: 0.00m;}\nkitchen island[obj_0007] {length: 1.94m; height: 0.93m; width: 0.63m; orientation: -90 degrees; left: 1.50m; top: 1.20m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "kitchen wall clock[obj_0000] {length: 0.31m; height: 0.31m; width: 0.01m; orientation: -90 degrees; left: 5.70m; top: 4.95m; depth: 1.55m;}\nisland bar stool[obj_0001] {length: 0.45m; height: 1.11m; width: 0.51m; orientation: -90 degrees; left: 2.10m; top: 1.40m; depth: 0.00m;}\ndining table[obj_0002] {length: 0.90m; height: 0.76m; width: 1.78m; orientation: -90 degrees; left: 4.80m; top: 1.40m; depth: 0.00m;}\ndining wall art[obj_0003] {length: 0.64m; height: 0.56m; width: 0.01m; orientation: 90 degrees; left: 5.30m; top: 0.05m; depth: 1.35m;}\ndining chair[obj_0004] {length: 0.45m; height: 0.84m; width: 0.51m; orientation: -90 degrees; left: 2.98m; top: 3.81m; depth: 0.00m;}\ndining wall art[obj_0005] {length: 0.64m; height: 0.56m; width: 0.01m; orientation: 90 degrees; left: 4.40m; top: 0.05m; depth: 1.35m;}\nisland bar stool[obj_0006] {length: 0.45m; height: 1.11m; width: 0.51m; orientation: -90 degrees; left: 0.95m; top: 1.40m; depth: 0.00m;}\ndining chair[obj_0007] {length: 0.45m; height: 0.84m; width: 0.51m; orientation: -90 degrees; left: 1.82m; top: 2.59m; depth: 0.00m;}\nsideboard cabinet[obj_0008] {length: 1.74m; height: 0.75m; width: 0.40m; orientation: 90 degrees; left: 3.35m; top: 0.27m; depth: 0.00m;}\ndining wall art[obj_0009] {length: 0.64m; height: 0.56m; width: 0.01m; orientation: 90 degrees; left: 3.20m; top: 0.05m; depth: 1.35m;}\nisland bar stool[obj_0010] {length: 0.45m; height: 1.11m; width: 0.51m; orientation: -90 degrees; left: 3.25m; top: 1.40m; depth: 0.00m;}\nkitchen tall pantry unit[obj_0011] {length: 0.99m; height: 1.99m; width: 0.51m; orientation: -90 degrees; left: 4.75m; top: 4.68m; depth: 0.00m;}\nkitchen base cabinet run[obj_0012] {length: 2.12m; height: 0.85m; width: 0.55m; orientation: -180 degrees; left: 5.65m; top: 3.70m; depth: 0.00m;}\ndining chair[obj_0013] {length: 0.45m; height: 0.84m; width: 0.51m; orientation: -90 degrees; left: 2.98m; top: 2.59m; depth: 0.00m;}\ncutting board[obj_0014] {length: 0.47m; height: 0.02m; width: 0.32m; orientation: -180 degrees; left: 5.58m; top: 3.18m; depth: 0.85m;}\npicture frame[obj_0015] {length: 0.50m; height: 0.49m; width: 0.10m; orientation: 90 degrees; left: 3.14m; top: 0.32m; depth: 0.74m;}\ncutlery set[obj_0016] {length: 0.38m; height: 0.08m; width: 0.19m; orientation: -90 degrees; left: 5.02m; top: 2.05m; depth: 0.77m;}\ndining chair[obj_0017] {length: 0.45m; height: 0.84m; width: 0.51m; orientation: -90 degrees; left: 1.82m; top: 3.81m; depth: 0.00m;}\nfreestanding fridge[obj_0018] {length: 1.04m; height: 1.75m; width: 0.63m; orientation: -90 degrees; left: 3.55m; top: 4.61m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "kitchen countertop island[obj_0000] {length: 1.51m; height: 1.20m; width: 1.03m; orientation: 0 degrees; left: 0.47m; top: 3.00m; depth: 0.00m;}\nrolling kitchen cart[obj_0001] {length: 0.91m; height: 1.11m; width: 0.65m; orientation: 0 degrees; left: 0.28m; top: 4.50m; depth: 0.00m;}\nbuilt in oven[obj_0002] {length: 0.78m; height: 0.68m; width: 0.78m; orientation: 90 degrees; left: 3.00m; top: 0.35m; depth: 0.00m;}\nfloor pantry cabinet[obj_0003] {length: 1.09m; height: 1.99m; width: 0.61m; orientation: -180 degrees; left: 5.74m; top: 3.60m; depth: 0.00m;}\nkitchen countertop island[obj_0004] {length: 1.51m; height: 1.20m; width: 1.03m; orientation: -90 degrees; left: 1.80m; top: 4.53m; depth: 0.00m;}\ndishwasher[obj_0005] {length: 0.98m; height: 1.46m; width: 0.90m; orientation: 90 degrees; left: 0.60m; top: 0.41m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "baking station cabinet[obj_0000] {length: 0.91m; height: 0.79m; width: 0.75m; orientation: -180 degrees; left: 5.67m; top: 3.30m; depth: 0.00m;}\nfloor cabinet with drawers[obj_0001] {length: 0.82m; height: 1.15m; width: 0.89m; orientation: -180 degrees; left: 5.60m; top: 4.50m; depth: 0.00m;}\nkitchen island[obj_0002] {length: 1.51m; height: 1.20m; width: 1.03m; orientation: 90 degrees; left: 1.50m; top: 1.20m; depth: 0.00m;}\ndishwasher[obj_0003] {length: 0.94m; height: 0.94m; width: 0.73m; orientation: -180 degrees; left: 5.68m; top: 2.10m; depth: 0.00m;}\nfloor cabinet with drawers[obj_0004] {length: 1.27m; height: 0.87m; width: 0.80m; orientation: -180 degrees; left: 5.65m; top: 0.90m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bar cart[obj_0000] {length: 0.88m; height: 0.94m; width: 0.59m; orientation: -180 degrees; left: 5.75m; top: 3.90m; depth: 0.00m;}\ndining table[obj_0001] {length: 2.31m; height: 0.74m; width: 1.28m; orientation: -90 degrees; left: 4.20m; top: 4.41m; depth: 0.00m;}\nfree standing pantry cabinet[obj_0002] {length: 1.02m; height: 2.05m; width: 0.57m; orientation: 90 degrees; left: 4.20m; top: 0.24m; depth: 0.00m;}\nkitchen cabinets[obj_0003] {length: 3.59m; height: 2.00m; width: 0.65m; orientation: 90 degrees; left: 1.80m; top: 0.28m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "refrigerator[obj_0000] {length: 1.14m; height: 1.75m; width: 0.73m; orientation: -180 degrees; left: 5.68m; top: 3.00m; depth: 0.00m;}\ndishwasher[obj_0001] {length: 1.01m; height: 0.89m; width: 0.70m; orientation: 90 degrees; left: 0.60m; top: 0.31m; depth: 0.00m;}\nfloor standing pantry cabinet[obj_0002] {length: 1.02m; height: 2.05m; width: 0.57m; orientation: -180 degrees; left: 5.76m; top: 0.60m; depth: 0.00m;}\noven with stove cooktop[obj_0003] {length: 0.84m; height: 0.64m; width: 0.76m; orientation: 0 degrees; left: 0.33m; top: 1.50m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "range oven[obj_0000] {length: 0.86m; height: 0.91m; width: 0.77m; orientation: -90 degrees; left: 1.80m; top: 4.66m; depth: 0.00m;}\nportable kitchen cart[obj_0001] {length: 0.91m; height: 1.11m; width: 0.65m; orientation: 0 degrees; left: 0.90m; top: 3.00m; depth: 0.00m;}\nkitchen island[obj_0002] {length: 1.51m; height: 1.20m; width: 1.03m; orientation: -180 degrees; left: 1.80m; top: 3.00m; depth: 0.00m;}\ndishwasher[obj_0003] {length: 0.94m; height: 0.94m; width: 0.73m; orientation: -90 degrees; left: 0.90m; top: 4.68m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dishwasher[obj_0000] {length: 0.94m; height: 0.94m; width: 0.73m; orientation: -180 degrees; left: 5.68m; top: 1.50m; depth: 0.00m;}\nmicrowave oven[obj_0001] {length: 0.66m; height: 0.29m; width: 0.46m; orientation: -90 degrees; left: 2.70m; top: 4.81m; depth: 0.00m;}\ncoffee machine station[obj_0002] {length: 1.02m; height: 1.54m; width: 0.65m; orientation: -180 degrees; left: 5.72m; top: 2.70m; depth: 0.00m;}\nkitchen island[obj_0003] {length: 1.59m; height: 0.84m; width: 0.65m; orientation: -180 degrees; left: 5.72m; top: 4.20m; depth: 0.00m;}\noven with stove[obj_0004] {length: 0.84m; height: 0.64m; width: 0.76m; orientation: 90 degrees; left: 1.50m; top: 0.33m; depth: 0.00m;}\nbaking cabinet[obj_0005] {length: 0.99m; height: 1.58m; width: 0.57m; orientation: 90 degrees; left: 2.70m; top: 0.24m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kitchen\nRoom Size: max length 6.00m, max width 5.00m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\ntall pantry cabinet[obj_0000]: floor-to-ceiling tall pantry cabinet with multiple doors\nfreestanding wine rack[obj_0001]: wooden freestanding wine rack with storage shelves\ncooking range with oven[obj_0002]: modern stainless steel cooking range with built-in oven\ntrash and recycling bins[obj_0003]: stainless steel pull-out trash and recycling bins unit\nkitchen island with countertop[obj_0004]: large kitchen island with storage cabinets and solid surface countertop\ntall pantry cabinet[obj_0005]: floor-to-ceiling tall pantry cabinet with multiple doors\nFloor polygon (left, top): (6.00, 0.00), (6.00, 5.00), (0.00, 5.00), (0.00, 0.00)\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0001\", \"max_distance_m\": 0.2}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0005\"}\nLayout:\n"
+ }
+]

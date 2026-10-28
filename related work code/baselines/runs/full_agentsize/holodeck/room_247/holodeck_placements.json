@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "bar-0",
+   "id": "bar-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0767442783676757,
+    "y": 0.525,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     77.67442783676756,
+     145.0
+    ],
+    [
+     77.67442783676756,
+     275.0
+    ],
+    [
+     137.67442783676756,
+     275.0
+    ],
+    [
+     137.67442783676756,
+     145.0
+    ]
+   ],
+   "object_name": "bar-0"
+  },
+  {
+   "assetId": "bar chair-0",
+   "id": "bar chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.5,
+    "z": 2.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     197.5
+    ],
+    [
+     55.5,
+     252.5
+    ],
+    [
+     -4.5,
+     252.5
+    ],
+    [
+     -4.5,
+     197.5
+    ]
+   ],
+   "object_name": "bar chair-0"
+  }
+ ],
+ "wall": []
+}

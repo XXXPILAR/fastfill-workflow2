@@ -1,0 +1,49 @@
+{
+ "task_description": "a bathroom of about 5.0m x 3.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.00 m wide centred at (0.50, 3.00) (keep the floor in front of it clear). the small potted plant (o0015) should be on top of the low bathroom storage bench (o0002)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    3.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.0
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {}
+ }
+}

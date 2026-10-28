@@ -1,0 +1,72 @@
+{
+ "task_description": "a restroom f3 of about 7.0m x 6.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 0.91 m wide centred at (4.00, 5.48); a door 1.02 m wide centred at (1.40, 0.00) (keep the floor in front of it clear). the small potted plant (o0012) should be on top of the vanity counter (o0003). the toilet suite (o0020) should be between the waste bin floor (o0004) and the waste bin floor (o0017)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.0,
+    6.0,
+    0.0
+   ],
+   [
+    4.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.0,
+    2.0,
+    0.0
+   ],
+   [
+    7.0,
+    2.0,
+    0.0
+   ],
+   [
+    7.0,
+    6.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.2
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {},
+  "o0018-0": {},
+  "o0019-0": {},
+  "o0020-0": {}
+ }
+}

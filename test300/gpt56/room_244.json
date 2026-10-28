@@ -1,0 +1,60 @@
+{
+ "k": 244,
+ "source": "SpatialLM",
+ "room_type": "study room",
+ "latency_s": 16.605607916833833,
+ "usage": [
+  {
+   "prompt_tokens": 873,
+   "completion_tokens": 747,
+   "total_tokens": 1620,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 499,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.45,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.0,
+     1.05,
+     1.8
+    ],
+    "bottom_center_m": [
+     0.525,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe multifunctional combination bed is the dominant piece, so it is placed lengthwise against the left wall, clear of the entrance and with space below the window line. The chair sits beside the bed unit and faces its accessible side, allowing it to serve an integrated desk or study surface. The room’s right side remains open as a walkway from the door to the chair and window.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.5, \"depth_m\": 0.55, \"height_m\": 0.85, \"x\": 1.45, \"y\": 1.5, \"z\": 0.0, \"facing_deg\": 180}, {\"id\": \"obj_0001\", \"width_m\": 1.05, \"depth_m\": 2.0, \"height_m\": 1.8, \"x\": 0.525, \"y\": 1.55, \"z\": 0.0, \"facing_deg\": 90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.768 m x 3.053 m x 2.700 m\nfloor polygon (x, y): [[2.768, 3.053], [0.0, 3.053], [0.0, 0.0], [2.768, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"multifunctional combination bed\", \"description\": \"multifunctional combination bed\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.46, 3.053], \"wall_from\": [2.768, 3.053], \"wall_to\": [0.0, 3.053], \"width_m\": 1.608, \"height_m\": 1.624, \"sill_height_m\": 0.688}, {\"type\": \"door\", \"centre_xy\": [2.198, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.768, 0.0], \"width_m\": 0.884, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

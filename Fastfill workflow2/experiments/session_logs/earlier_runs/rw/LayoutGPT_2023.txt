@@ -1,0 +1,761 @@
+LayoutGPT: Compositional Visual Planning and
+Generation with Large Language Models
+Weixi Feng1˚ Wanrong Zhu1˚ Tsu-jui Fu1 Varun Jampani2 Arjun Akula2
+Xuehai He3 Sugato Basu2 Xin Eric Wang3 William Yang Wang1
+1University of California, Santa Barbara
+2Google
+3University of California, Santa Cruz
+https://github.com/weixi-feng/LayoutGPT
+[2D Spatial Reasoning] A carrot and some onion next to 
+a knife on a cutting board.
+[2D Numerical Reasoning] There are three elephants 
+standing beside a pool of water.
+LayoutGPT  
++ GLIGEN
+StableDiffusion 
+(v2.1)
+Attend-and- 
+Excite
+[3D Living Room] Room Type: Living Room;           
+                              Room Size: 7.7m x 3.6m
+LayoutGPTATISS
+[3D Bedroom] Room Type: Bedroom;  
+                         Room Size: 3.0m x 4.8m
+LayoutGPTATISS
+Furnitures 
+Overlapped
+Furnitures 
+Out-of-Boundary
+LayoutGPT  
++ GLIGEN
+StableDiffusion 
+(v2.1)
+Attend-and- 
+Excite
+Figure 1: Generated layouts from LayoutGPT in 2D images and 3D indoor scenes. LayoutGPT can
+serve as a visual planner to reflect challenging numerical and spatial concepts in visual spaces.
+Abstract
+Attaining a high degree of user controllability in visual generation often requires
+intricate, fine-grained inputs like layouts. However, such inputs impose a substan-
+tial burden on users when compared to simple text inputs. To address the issue,
+we study how Large Language Models (LLMs) can serve as visual planners by
+generating layouts from text conditions, and thus collaborate with visual gener-
+ative models. We propose LayoutGPT, a method to compose in-context visual
+demonstrations in style sheet language to enhance the visual planning skills of
+LLMs. LayoutGPT can generate plausible layouts in multiple domains, ranging
+from 2D images to 3D indoor scenes. LayoutGPT also shows superior performance
+in converting challenging language concepts like numerical and spatial relations to
+layout arrangements for faithful text-to-image generation. When combined with
+a downstream image generation model, LayoutGPT outperforms text-to-image
+models/systems by 20-40% and achieves comparable performance as human users
+in designing visual layouts for numerical and spatial correctness. Lastly, Layout-
+GPT achieves comparable performance to supervised methods in 3D indoor scene
+synthesis, demonstrating its effectiveness and potential in multiple visual domains.
+˚equal contribution, correspondence to {weixifeng, wanrongzhu}@cs.ucsb.edu
+37th Conference on Neural Information Processing Systems (NeurIPS 2023).
+arXiv:2305.15393v2  [cs.CV]  28 Oct 2023
+1 Introduction
+Can Large Language Models (LLMs) comprehend visual concepts and generate plausible arrangments
+in visual spaces? Recently, LLMs have shown significant advancement in various reasoning skills
+[50, 49] that remain challenging to visual generative models. For instance, text-to-image generation
+(T2I) models suffer from generating objects with specified counts, positions, and attributes [10, 24].
+3D scene synthesis models face challenges in preserving furniture within pre-defined room sizes [30].
+Addressing these issues necessitates the development of compositional skills that effectively arrange
+components in a coherent manner, accurately reflecting object specifications and interactions.
+Visual layout is an essential symbolic representation that has been widely studied as it reflects the
+compositions of a visual space [33, 53, 45, 34]. For instance, layout generation models [21, 25, 17,
+53, 23] can be combined with region-controlled image generation methods [56, 27] to improve image
+compositionality [52]. But unlike LLMs, these models are restricted to discrete categories or have
+limited reasoning skills for complicated text conditions. Recently, LLMs like ChatGPT [ 37], are
+adopted as a centralized module of frameworks or systems where multiple foundational computer
+vision models are integrated. Through defined action items or API calls, LLMs can interact with
+visual generative models to extend the systems’ capability into image generation tasks. [51].
+Despite the advancement, existing approaches that involve the collaboration between LLMs and
+image generation models are either limited to executing the latter through program generation or
+using LLMs for language data augmentation for image editing [3]. Current LLM-based systems fail
+to improve the compositional faithfulness of a generated image by simply using T2I models through
+API calls. While one could additionally integrate models that synthesize images with the guidance of
+layouts [56, 27], keypoints [27], or sketches [20, 57], users still have to create fine-grained inputs on
+their own, leading to extra efforts and degraded efficiency compared to pure language instructions.
+To address these challenges, we introduce LayoutGPT, a training-free approach that injects visual
+commonsense into LLMs and enables them to generate desirable layouts based on text conditions.
+Despite being trained without any image data, LLMs can learn visual commonsense through in-context
+demonstrations and then apply the knowledge to infer visual planning for novel samples. Specifically,
+we observe that representing image layouts is highly compatible with how style sheet language
+formats images on a webpage. Therefore, as LLMs are trained with program data, constructing
+layouts as structured programs may enhance LLMs’ ability to “imagine” object locations from merely
+language tokens. Our programs not only enable stable and consistent output structures but also
+strengthen LLMs’ understanding of the visual concepts behind each individual attribute value. When
+combined with a region-controlled image generation model [27], LayoutGPT outperforms existing
+methods by 20-40% and achieves comparable performance as human users in generating plausible
+image layouts and obtaining images with the correct object counts or spatial relations.
+In addition, we extend LayoutGPT from 2D layout planning to 3D indoor scene synthesis. With a
+slight expansion of the style attributes, LayoutGPT can understand challenging 3D concepts such as
+depth, furniture sizes, and practical and coherent furniture arrangements for different types of rooms.
+We show that LayoutGPT performs comparably to a state-of-the-art (SOTA) supervised method. Our
+experimental results suggest that LLMs have the potential to handle more complicated visual inputs.
+Our contribution can be summarized as the following points:
+• We propose LayoutGPT, a program-guided method to adopt LLMs for layout-based visual
+planning in multiple domains. LayoutGPT addresses the inherent multimodal reasoning
+skills of LLMs and can improve end-user efficiency.
+• We propose Numerical and Spatial Reasoning (NSR-1K) benchmark that includes prompts
+characterizing counting and positional relations for text-to-image generation.
+• Experimental results show that LayoutGPT effectively improves counting and spatial rela-
+tions faithfulness in 2D image generation and achieves strong performance in 3D indoor
+scene synthesis. Our experiments suggest that the reasoning power of LLMs can be leveraged
+for visual generation and handling more complicated visual representations.
+2
+2 Related Work
+Image Layout Generation Layout generation has been an important task for automatic graphical
+design for various scenarios, including indoor scenes [40, 46], document layouts [59, 60, 15], and
+graphical user interface [8]. Previous work has proposed various types of models that need to be
+trained from scratch before generating layouts. LayoutGAN [ 25] is a GAN-based framework to
+generate both class and geometric labels of wireframe boxes for a fixed number of scene elements.
+LayoutV AE [21] generates image layouts conditioned on an input object label set. Transformer-
+based methods are proposed to enhance flexibility in the layout generation process. For instance,
+LayoutTransformer [17] adopts self-attention to learn contextual relations between elements and
+achieve layout completion based on a partial layout input. BLT [23] proposes a hierarchical sampling
+policy so that any coordinate values can be modified at the sampling stage to enable flexible and
+controlled generation. However, existing methods are restricted to class labels and fail to reason over
+numerical and spatial concepts in text conditions. In contrast, LayoutGPT can convert challenging
+textual concepts to 2D layouts and generate free-form, detailed descriptions for each region.
+Compositional Image Generation Recent studies have shown that text-to-image generation (T2I)
+models suffer from compositional issues such as missing objects, incorrect spatial relations, and
+incorrect attributes [24, 2]. StructureDiffusion [10] proposes to adjust text embeddings by utilizing
+prior knowledge from linguistic structures. Attend-and-Excite [4] optimizes attention regions so that
+objects attend on separate regions. Another line of work strives to introduce extra conditions as inputs.
+For example, ReCo [56], GLIGEN [27], and Layout-Guidance [6] can generate images based on
+bounding box inputs and regional captions. [52] combines a layout generator and a region-controlled
+method to achieve accurate generation results. While we focus on layout generation, we also employ
+layout-to-image models to generate final images and show the effectiveness of LayoutGPT.
+Indoor Scene Synthesis Indoor scene synthesis aims at generating reasonable furniture layouts in
+a 3D space that satisfies room functionality. Early work adopting autoregressive models requires
+supervision of 2D bounding boxes and other visual maps [40]. Later, SceneFormer [47] proposes
+to apply a set of transformers to add furniture to scenes. While previous work adopts separate
+models to predict different object attributes, ATISS [38] demonstrates that a single transformer model
+can generate more realistic arrangments while being more efficient. In this work, we investigate
+leveraging LLMs to achieve scene synthesis without any fine-tuning.
+LLMs for Vision Language inputs have been an essential part of many vision language tasks
+[43, 11, 28, 14]. With the strong generalization ability of contemporary LLMs, recent work attempts
+to adapt the power of LLMs on multimodal tasks [31, 55]. For instance, multimodal chain-of-thought
+[58] trained a model to incorporate visual inputs as rationales for question answering. [22] proposes
+to learn translation parameters to map embeddings between visual and language domains such that an
+LLM can ground on both modalities. VisProg [18] and ViperGPT [44] use LLMs to design modular
+pseudocode instructions or executable Python programs to achieve visual reasoning. LLMScore [32]
+leverages LLMs to evaluate text-to-image models. Visual ChatGPT [51] proposes a prompt manager
+that supports the execution of various image generation models. In this work, we directly involve
+LLMs in the generation process by leveraging LLMs to design visual layouts through in-context
+learning and structured representations.
+3 Method
+3.1 Overview
+Given a condition C, the goal of layout generation is to predict a set of tuples O “ toj|j “
+1, 2,...,n u where each tuple oj denotes the layout information of a 2D or 3D bounding box of object
+j. In image planning, C is the input text prompt, oj consists of a categorycj, bounding box location
+tj “pxj,y jqP R2 and bounding box size sj “pwj,h jqP R2, i.e. oj “pcj, tj, sjq. Similarly, in
+3D scene synthesis, C specifies the room type and room size, oj consists of categorycj, location
+tjP R3, size sjP R3, and orientation rjP R, i.e. oj“pcj, tj, sj, rjq. Whilecj can be modeled as
+a discrete value, our method directly predicts the category text.
+3
+a clock on the wall saying it is 2:41 in the afternoon
+Task Instruction:/* Task Description;Format Definition; Available object categories (for scene synthesis); … *//* first in-context exemplar*/Prompt: a clock on the wall saying it is 2:41 in the afternoon.Layout: clock {    height: 81px;     width: 93px;     top: 119px;     left: 15px; }/* second in-context exemplar*/…/* inference condition*/Prompt: a tower of a building that has a clock on it.Layout: 
+Visualization
+LLM
+Layout-to-ImageModel
+Input Condition 𝓒𝒋Image Layout Generation: “A tower of a building that has a clock on it”Scene Synthesis: “Room Type: Bedroom, Room size: 3.5m x 3.8m”
+Retrieve in-context exemplars using 𝑓(#|#)
+Parse into layouts
+Input promptOutput layouts in CSS format
+Indoor Scene Synthesis
+Text-conditioned Image Generation
+CSS StructureNormalizeto “px”
+Scene SynthesisCondition:Room Type: BedroomRoom Size: length 256px, width 278pxLayout:double_bed {    length: 213px;     width: 250px;     height: 113px;     left: 125px;     top: 108px;     depth: 56px;    orientation: 90 degrees;}
+Newly defined properties
+/* LLM Output*/tower {    height: 149px;     width: 56px;     top: 65px;     left: 100px; }…
+Figure 2: The overview process of our LayoutGPT framework performing 2D layout planning for
+text-conditioned image generation or 3D layout planning for scene synthesis.
+3.2 LayoutGPT Prompt Construction
+As is shown in Fig. 2, LayoutGPT prompts consist of three main components: task instructions, and
+in-context exemplars in CSS structures with normalization.
+CSS Structures In autoregressive layout generation, oj is usually modeled as a plain sequence of
+values, i.e. (c1,x 1,y 1,w 1,h 1,c 2,x 2,... ) [17, 23]. However, such a sequence can be challenging for
+LLMs to understand due to underspecified meaning of each value. Therefore, we seek a structured
+format that specifies the physical meaning of each value for LLMs to interpret spatial knowledge. We
+realize that image layouts are highly similar to how CSS (short for Cascading Style Sheets) formats
+the layout of a webpage and defines various properties of the img tag in HTML. For instance,xj,y j
+corresponds to the standard properties left and top, while wj,h j corresponds to width and
+height in CSS. As LLMs like GPT-3.5/4 are trained with code snippets, formatting image/scene
+layouts in CSS structures potentially enhances the LLMs’ interpretation of the spatial meaning behind
+each value. Therefore, as is shown in Fig. 2, we place category namecj as the selector and map other
+attribute values into the declaration section following standard CSS styles.
+Task Instructions & Normalization Similar to previous work in improving the prompting ability of
+LLMs [48, 42, 37], we prepend task instructions to the prompt to specify the task goal, define the
+standard format, unit for values, etc. Besides, as the common length unit of CSS is pixels (px), we
+normalize each property value based on a fixed scalar and rescale the value to a maximum of 256px.
+As will be shown in later sections (Sec. 4.4 & 5.4), all three components play important roles in
+injecting visual commonsense into LLMs and improving generation accuracy.
+3.3 In-Context Exemplars Selection
+Following previous work [ 1, 54], we select supporting demonstration exemplars for in-context
+learning based on retrieval results. Given a test condition Cj and a support set of demonstrations
+D “ tpCk, okq|k “ 1, 2,... u, we define a function fpCk, Cjq P R that measures the distances
+between two conditions. For 2D text-conditioned image layout generation, we adopt the CLIP [39]
+model to extract text features of Cj (usually a caption) and the image feature of Ck and measure the
+cosine similarity between them. For the 3D scene synthesis task where each room has lengthrl and
+widthrw, we measure distance withfpCk, Cjq“} rlk´rlj}2`}rwk´rwj}2. We select supporting
+demonstrations with the top-k least distance measures and construct them as exemplars following the
+CSS structure in Fig. 2. These supporting examples are provided to GPT-3.5/4 in reverse order, with
+the most similar example presented last.
+4
+Table 1: Dataset statistics and examples of the NSR-1K benchmark for image layout planning and
+text-to-image (T2I) generation with an emphasis on numerical and spatial reasoning.
+Task Type Example Prompt # Train # Val # Test
+T2I NumericalReasoning
+Single Category“There are two giraffes in the photo. ” 14890 - 114
+Two Categories“Three potted plants with one vase in the picture. ”7402 - 197
+Comparison “A picture of three cars with a few fire hydrants, the number of carsis more than that of fire hydrants. ” 7402 - 100
+Natural “A fenced in pasture with four horses standing around eating grass. ”9004 - 351
+T2I Spatial
+Reasoning Two Categories“A dog to the right of a bench. ” 360 - 199
+Natural “A black cat laying on top of a bed next to pillows. ”378 84
+3.4 Image and Scene Generation
+For text-conditioned image synthesis, we utilize a layout-to-image generation model to generate
+images based on the generated layouts. As for each object layout in 3D scene synthesis, we retrieve a
+3D object based on the predicted category, location, orientation, and size following [38]. We directly
+render the scene with the retrieved 3D objects. See Sec. 4 & Sec. 5 for more details.
+4 LayoutGPT for Text-Conditioned Image Synthesis
+In this section, we provide an extensive evaluation of LayoutGPT for 2D text-to-image (T2I) synthesis
+and compare it with SOTA T2I models/systems. An ablation study is conducted to demonstrate
+the effect of individual components from LayoutGPT. We also showcase qualitative results and
+application scenarios of our method.
+4.1 Experiment Setup
+Datasets & BenchmarksTo evaluate the generations in terms of specified counts and spatial locations,
+we propose NSR-1K, a benchmark that includes template-based and human-written (natural) prompts
+from MSCOCO [29]. Table 1 summarizes our dataset statistics with examples. For template-based
+prompts, we apply a set of filters to obtain images with only 1-2 types of object and then create
+prompts based on object categories and bounding box information. As for natural prompts, we
+extract COCO captions with keywords to suit the task of numerical reasoning (e.g. “four”) or spatial
+reasoning (e.g. “on top of”) and ensure that all objects from the bounding box annotations are
+mentioned in the caption to avoid hallucination. Each prompt from NSR-1K is guaranteed to have a
+corresponding ground truth image and layout annotations. Detailed benchmark construction processes
+are described in Appendix B.1.
+Evaluation Metrics To evaluate generated layouts, we report precision, recall, and accuracy based on
+generated bounding box counts and spatial positions [9, 16]. For spatial reasoning, each prompt falls
+into one of the four types of relations ({left, right, top, below}) and we use the bounding box center
+for evaluation following PaintSkills [7]. To evaluate generated images, we first obtain bounding boxes
+from GLIP [26] detection results and then compute average accuracy based on the bounding box
+counts or spatial relations. We also report CLIP cosine similarity between text prompts and generated
+images for reference. Detailed metric descriptions are listed in Appendix B.2.
+Baselines As we consider both layout evaluation and image evaluation, we compare LayoutGPT with
+end-to-end T2I models (Stable Diffusion [41], Attend-and-Excite [4])2 and two-stage systems that
+generate layouts first and then apply GLIGEN [27] as the layout-to-image model. We also evaluate
+ground truth layouts and human-drawn layouts as the theoretical upper bounds. The human-drawn
+layouts are collected through crowdsourcing, in which we specifically ask human annotators to draw
+layouts given text prompts. We slightly modify LayoutTransformer [17] as a baseline for supervised
+conditional layout generation. Detailed descriptions of baseline setups and human annotating are
+discussed in the Appendix A and E.
+2Attend-and-Excite uses Stable Diffusion (SD) as the generative backbone. For both end-to-end T2I models,
+we report results on SD v1.4 and SD v2.1.
+5
+Table 2: Comparison of our LayoutGPT with baseline methods in terms of counting and spatial
+correctness. Line 5-11 generates layout and adopts GLIGEN [27] for layout-guided image generation.
+“Human” (line 11) denotes layouts collected from human users given text prompts. Text in bold shows
+the best results of LayoutGPT.
+Numerical Reasoning Spatial Reasoning
+Layout Eval. Image Eval. Layout Eval. Image Eval.
+Methods Precision RecallAccuracy Acc. (GLIP) CLIP Sim.AccuracyAcc. (GLIP) CLIP Sim.
+TextÝÑImage1 Stable Diffusion (v1.4) [41] - - - 32.22 0.256 - 16.89 0.2522 Stable Diffusion (v2.1) - - - 42.44 0.256 - 17.81 0.2563 Attend-and-Excite (SD v1.4) [4] - - - 38.96 0.258 - 24.38 0.2634 Attend-and-Excite (SD v2.1) - - - 45.74 0.254 - 26.86 0.264
+TextÑLayoutÑImage5 LayoutTransformer [17] 75.70 61.69 22.26 40.55 0.247 6.36 28.13 0.2416 LayoutGPT (GPT-3.5) 94.81 96.49 86.33 51.20 0.258 82.54 52.86 0.2647 LayoutGPT (Codex) 90.19 88.29 72.02 46.64 0.254 74.63 45.58 0.2628 LayoutGPT (GPT-3.5, chat) 81.84 85.47 75.51 54.40 0.261 85.87 56.75 0.2689 LayoutGPT (GPT-4) 78.36 86.29 78.43 55.64 0.261 91.73 60.64 0.268
+10 GT layouts 100.00 100.00 100.00 53.23 0.256 100.00 62.54 0.26111 Human 99.26 96.52 92.56 56.07 0.258 91.17 51.94 0.258
+Three clocks at a train station under a concrete arch (Numerical)
+Stable Diffusion LayoutGPT LayoutGPT+GLIGEN Human+GLIGEN Stable Diffusion LayoutGPT LayoutGPT+GLIGEN Human+GLIGEN
+A yellow surfboard sits next to a bicycle on a brick sidewalk (Spatial) A cat is sitting on a basket under a bench (Spatial)
+Two teddy bears and a stuffed snowman wearing hats (Numerical)
+Figure 3: Qualitative comparison between Stable Diffusion, LayoutGPT, and human annotations
+regarding numerical (top row) and spatial reasoning (bottom row) skills.
+4.2 Evaluation Results
+Quantitative Results As shown in Table 2, among the variants of LayoutGPT (#6-#9), GPT-3.5
+achieves the best performance in numerical reasoning while GPT-4 performs the best in generating
+correct spatial positions. LayoutGPT outperforms LayoutTransformer (#5) by large margins, proving
+the strong cross-modal reasoning skills of LLMs. As for image-level evaluation, LayoutGPT surpasses
+end-to-end T2I models (#1-#3) by 20-40% in GLIP-based accuracy and relatively 1-6% in CLIP
+similarity. Therefore, using layouts as an intermediate representation indeed leads to more reliable
+and faithful generation outcomes. In addition, LayoutGPT achieves similar layout accuracy as human
+users (numerical #6 vs. #11 (86.33% v.s. 92.56%); spatial #9 vs. #11 (91.73% v.s. 91.17%)), which
+implies its potential to spare users from drawing layouts manually. The discrepancy between layout
+accuracy and GLIP-based accuracy suggests that the bottleneck mainly stems from layout-guided
+image generation and GLIP grounding results.
+In addition, LayoutGPT binds attributes to each object’s bounding box with 100% accuracy on HRS
+[2] color prompts. We further evaluate the attribute correctness rate (accuracy) on the final generated
+images when combining LayoutGPT with GLIGEN/ReCo. As shown in Table 3, our system largely
+improves the color correctness over Stable Diffusion with multiple objects.
+Qualitative results We show the qualitative results of LayoutGPT and baselines in Fig. 3. LayoutGPT
+can understand visual commonsense such as the clock sizes at a train station (top left) or complex
+spatial relations between multiple objects (bottom right), while SD fails to generate correct numbers
+or positions. Besides, LayoutGPT demonstrates a similar layout design to human users (bottom left).
+Fig. 11 in the Appendix visualizes the results of attribute binding using LayoutGPT and ReCo [56].
+6
+Table 3: Color binding accuracy evaluated on prompts from HRS-Bench [2]. We follow the benchmark
+and use a hue-based classifier to identify the color of generated objects.
+Models Attribute binding Accuracy (%)
+Prompts w/ 2 objectsPrompts w/ 3 objects Prompts w/ 4 objects Overall
+SD1.4 18.57 10.10 11.36 12.84
+Attend-and-Excite 31.43 19.19 20.45 22.96
+LayoutGPT + GLIGEN 22.86 19.19 14.77 18.68
+LayoutGPT + ReCo [56] 40.00 37.37 34.09 36.96
+A bathroom featuring a sink and toilet
+ Diﬀerent kinds of doughnuts in a 
+display case
+A big brown cow walking down a 
+sidewalk near homes
+A bathroom featuring a sink and toilet
+A cat is lying on top of a suitcase.a black and white cat lying on its side with its eyes closeda purple suitcase with a design of a blue, yellow, and white flower
+A big brown cow walking down a sidewalk near home
+Grey and black cat sitting under a bench.a grey and black cat with its tail tucked in and its head down, looking at the viewera wooden bench with two legs
+A cat is sitting on a basket under a bench.a black and white cat with its tail curled up in the basketa light brown basket with a handle on the sidea wooden bench with a curved backrest
+Different kinds of doughnuts in a display case
+Dense layout Planning 
+Text-basedInpainting
+LayoutGPT+GLIGENLayoutGPT+GLIGENLayoutGPT+GLIGEN
+Figure 4: Dense layout planning: LayoutGPT can generate rich objects or categories in complex
+scenes for MSCOCO 2017 Panoptic prompts [29]. Text-based inpainting: LayoutGPT can generate
+free-form regional descriptions that are not mentioned in the global prompt.
+4.3 Application Scenarios
+By utilizing LLMs as layout generators, LayoutGPT can be applied to a diverse set of scenarios for
+accurate and creative image generation.
+Dense Layout Planning: In Fig. 4 (top), we apply random in-context examples from COCO17
+panoptic annotations with 6„15 bounding boxes per image. LayoutGPT can be applied to scenarios
+that imply numerous objects (e.g. different kinds of donuts) or various categories (e.g. bathroom or
+street view). Though only a few objects are mentioned in the prompts, LayoutGPT predicts layouts
+for the whole scene and imagines common objects that are usually visible in each scene.
+Text-based Inpainting: In addition, the inherent language generation ability of LLMs enables our
+method to generate fine-grained regional descriptions from coarse global prompts (Fig. 4 bottom).
+LayoutGPT can enrich the description of each object with details that are not mentioned in the prompt,
+producing suitable outputs for models like ReCo [56].
+Counterfactual Scenarios: We test LayoutGPT on counterfactual prompts provided by GPT-4 [35].
+The in-context examples are randomly drawn from MSCOCO 2017[29], which greatly differs from
+the counterfactual prompts. As shown in Fig. 5, LayoutGPT manages to generate reasonable layouts
+on these challenging prompts and handles the relationship between objects well.
+4.4 Ablation Study
+Component Analysis Table 4 presents the component analysis of our CSS-style prompt on spatial
+reasoning prompts. Comparisons between line 1-3 entails that the task instructions (#2) and CSS
+format (#3) effectively improve layout accuracy. Format in-context exemplars in CSS structures
+7
+Table 4: Ablation study of LayoutGPT (GPT-3.5) on spatial reasoning prompts. “w/ Instr.”: with
+prepended task instructions. “w/ CSS”: format in-context demonstrations in CSS style. “w/ Norm.”:
+normalizing attribute values to integers by a fixed size.
+w/Instr. w/CSS w/Norm.
+Layout-to-Image
+Model
+Layout Eval Image Eval
+Acc. Acc. (GLIP) CLIP Sim
+1 55.12 34.35 0.259
+2 ✓
+GLIGEN [27]
+78.23 47.92 0.263
+3 ✓ 80.82 51.38 0.264
+4 ✓ 44.10 26.43 0.257
+5 ✓ ✓ 81.84 52.08 0.264
+6 ✓ ✓ 73.36 44.88 0.262
+7 ✓ ✓ 76.61 47.56 0.263
+8 ✓ ✓ ✓ 82.54 52.86 0.264
+9 ✓ ✓ ✓ Layout-Guidance [6] 82.54 31.02 0.258
+10 GT layouts 100.00 33.92 0.257
+a rubber duck ﬂoating on the surface of a 
+desert oasis, surrounded by cacti
+a row of crabs collaborating to carry a 
+hammock made of interwined licorice strands
+a rooster perched atop a giant typewriter, 
+proudly announcing the sunrise in a new font
+a friendly octopus using its tentacles to swing 
+from the tree to tree in a dense forest
+Figure 5: Qualitative examples of LayoutGPT’s performance on counterfactual prompts.
+show a more significant effect on accuracy. Pairwise comparisons of line 5-7 support the argument
+that the CSS style is the most essential component. While solely applying normalization degrades
+accuracy in line 4, line 5&8 shows that it slightly improves the performance when combined with
+other components.
+Model-Agnostic Property We show that LayoutGPT is agnostic to layout-guided image generation
+models in line 9-10 in Table 4. We feed the same generated layouts from LayoutGPT to Layout-
+Guidance [6] and compute image-level metrics. Compared to using ground truth layouts ( #10),
+LayoutGPT (#9) shows a minor gap in GLIP-based accuracy and a comparable CLIP similarity
+score. The discrepancy in GLIP-based accuracy is similar to that in Table 2, implying that the layouts
+generated by our method are agnostic to the downstream model.
+5 LayoutGPT for Indoor Scene Synthesis
+5.1 Task Setup
+Datasets & Benchmarks For indoor scene synthesis, we use an updated version of the 3D-FRONT
+dataset [12, 13] following ATISS [38]. After applying the same pre-processing operations, we end up
+with 4273 bedroom scenes and 841 scenes for the living room. We only use rectangular floor plans of
+the test set for evaluation since LayoutGPT is not compatible with irregular ones. Hence, we end up
+with 3397/453/423 for train/val/test split of bedroom scenes and 690/98/53 for train/val/test split of
+living room scenes.
+Evaluation Metrics We follow prior work [ 38] to report KL divergence between the furniture
+category distributions of predicted and ground truth scenes. We also render scene images from four
+camera angles for each scene and report FID scores [19]. In addition, we report out-of-bound rates,
+i.e. the percentage of scenes with furniture exceeding the floor plan boundary.
+5.2 Evaluation Results
+Quantitative Results The evaluation results are recorded in Table 5. We provide a random baseline
+for comparison denoted as “Random Scenes”, in which the scene is randomly sampled from the
+in-context exemplars for each inference run.3
+3Notice that while the scenes in “Random Scenes” are sampled from the training set, the out-of-boundary
+rate is larger than 0 since the 3D-FRONT dataset contains a small portion of scenes with out-of-bound furniture.
+8
+Table 5: Comparison of LayoutGPT with ATISS on indoor scene synthesis. “Random Scenes” means
+randomly sampling one training scene from the in-context demonstrations for each inference room
+sample. (* denotes results reproduced by us)
+Models Bedrooms Living Rooms
+Out of bounds (Ó) KL Div. (Ó) FID (Ó) Out of bounds (Ó) KL Div. (Ó) FID (Ó)
+Random Scenes 11.16 0.0142 23.76 9.43 0.1239 79.61
+ATISS*[17] 49.88 0.0113 30.02 83.02 0.1054 85.40
+LayoutGPT (GPT-3.5) 43.26 0.0995 28.37 73.58 0.1405 76.34
+LayoutGPT (GPT-3.5, chat) 57.21 0.0846 29.66 81.13 0.2077 89.40
+LayoutGPT (GPT-4) 51.06 0.1417 29.88 64.15 0.1613 78.60
+ATISS
+LayoutGPT
+Master Bedroom Living room
+ Living & Dining roomMaster Bedroom
+Overlapped 
+furniture
+Overlapped 
+furniture
+Out of bound Out of bound
+Figure 6: Visualization of LayoutGPT across different types of rooms with different floor plan sizes.
+For both bedrooms and living rooms planning, LayoutGPT attains lower out-of-bound rates than
+ATISS (bedrooms: 43.26% vs. 49.88%; living rooms: 64.16% vs. 83.02%), which verifies Layout-
+GPT’s spatial reasoning ability in 3D environments. In addition, LayoutGPT has lower FID compared
+to ATISS (bedrooms: 28.37 vs. 30.02; living rooms: 76.34 vs. 85.40), which indicates that the
+planned scene has higher quality. Noted here that the living room split contains much more objects
+on average (11 for living rooms vs. 5 in bedrooms) and is a low-resource split with only 690 training
+scenes. Therefore, while living rooms are challenging for both methods, LayoutGPT shows more
+significant improvement over ATISS as supervised methods tend to overfit in early epochs.
+Meanwhile, ATISS performs better in terms of KL divergence, which means that the overall furniture
+distribution predicted by ATISS is closer to the test split. We observe that LayoutGPT tends to avoid
+furnitures that are extremely rarely seen in each scene (e.g. coffee tables for bedrooms) as these
+objects appear less frequently in the in-context demonstrations. The limited in-context demonstration
+size also restricts LayoutGPT to have a universal observation of the furniture distributions.
+Qualitative Results As shown in Fig. 6, LayoutGPT manages to understand common 3D concepts,
+such as “the pendant lamp should be suspended from the ceiling” and “nightstands should be placed
+by the headboard of the bed” (bottom row). When given a floor plan size for both living and dining
+rooms, LayoutGPT can also generate complicated 3D planning with dining tables and chairs on one
+side, and a sofa, a coffee table, and a TV stand on the other side (bottom right).
+5.3 Application Scenarios
+Text-guided Synthesis: LayoutGPT can follow text captions to arrange furniture in the scene (see
+Fig. 7). When the captions enumerate a complete list of furniture, LayoutGPT strictly follows the
+captions to generate the furniture and achieve a KL Div. value close to zero.
+Partial Scene Completion: Thanks to the autoregressive decoding mechanism, LayoutGPT can
+complete a scene with partial arrangments such that the additional furniture remains coherent with the
+existing ones. Through in-context demonstrations, LayoutGPT learns critical (visual) commonsense
+such as visual symmetric (e.g. nightstands in Fig. 8 (a)), positional relations (e.g. stool at the end of
+the bed in Fig. 8 (b)), and room functions (e.g. desks and chairs in the dining area in Fig. 8 (d)).
+9
+“A bedroom with a double bed, a 
+wardrobe, two tables, a cabinet and a 
+pendant lamp.”
+Room Size: max length 214px, max 
+width 306px
+“A bedroom with a double bed, two 
+wardrobes and a pendant lamp.”
+Room Size: max length 262px, max 
+width 207px
+“A living room with three coffee 
+tables, a tv stand, a multi seat sofa, a 
+dining table, four dining chairs, a 
+console table and two pendant lamps.”
+Room Size: max length 256px, max 
+width 490px
+“A living room with a multi seat sofa, 
+a coffee table, a tv stand, a dining 
+table, four dining chairs, a ceiling 
+lamp and a pendant lamp.”
+Room Size: max length 413px, max 
+width 256px
+Figure 7: Generation of 3D scenes based on text captions that enumerate the furniture.
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+PartialCompletedPartialCompletedPartialCompletedBedroom, 3.8m ×3.3mMaster Bedroom, 5.0 m ×3.0mLiving & Dining room, 3.6 m ×6.8m
+Bedroom, 3.5m ×4.2mLiving & Dining room, 5.1m ×3.3mLiving & Dining room, 5.4m ×3.9m(a) (b) (c)
+(d) (e) (f)
+(a) (b) (c) (d)
+Figure 8: LayoutGPT can successfully complete a partial scene for different rooms. We provide three
+starting objects for bedrooms and seven objects for living rooms.
+5.4 Ablation Study
+Table 6: Ablation studies on LayoutGPT on the bedroom split for
+3D indoor scene synthesis.
+w/
+Instr.
+w/
+CSS
+w/
+Norm.
+Out of
+Bound Ó KL Div. Ó FID Ó
+1 55.32 0.1070 56.83
+2 ✓ 54.85 0.1153 58.85
+3 ✓ 51.77 0.0776 55.62
+4 ✓ 46.57 0.1276 58.24
+5 ✓ ✓ 51.30 0.0741 57.64
+6 ✓ ✓ 46.81 0.0913 58.61
+7 ✓ ✓ 43.74 0.0848 57.70
+8 ✓ ✓ ✓ 43.26 0.0995 56.66
+Similar to Sec. 4.4, we study the
+effect of task instructions, CSS
+structure, and normalization on
+indoor scene synthesis (see Table
+6). In contrast to our conclusion
+for 2D planning in Sec. 4.4, com-
+parisons between line 1-4 show
+that normalization ( #4) is the
+most critical component for sup-
+pressing the out-of-bound rate
+while the CSS structure is also
+effective. We observe that LLMs
+occasionally copy attribute val-
+ues directly from in-context ex-
+emplars even though the room
+sizes are different. Therefore,
+normalizing all exemplars to the same scale can reduce the out-of-bound rate. CSS style facili-
+tates LLMs to understand the physical meaning behind each attribute value and hence leads to almost
+the best result when combined with normalization (#7).
+6 Conclusion
+In this work, we address a new direction of generative model collaborations. Specifically, we are
+interested in how Large Language Models (LLMs) can collaborate with visual generative models.
+To this end, we propose LayoutGPT, an approach that turns an LLM into a visual planner through
+in-context learning and CSS style prompts. LayoutGPT can generate plausible visual arrangements in
+both image space and 3D indoor scenes. LayoutGPT can effectively improve image compositions by
+generating accurate layouts and achieves comparable performance in indoor scene synthesis compared
+to supervised methods. Besides, LayoutGPT can improve user efficiency in image generation and
+serve as an essential part of a unified system for all types of multimodal tasks.
+10
+Acknowledgments
+The work was funded by an unrestricted gift from Google and a gift from the Robert N. Noyce Trust
+to the University of California via the Noyce Initiative. We would like to thank Google and the
+Robert N. Noyce Trust for their generous sponsorship. The views and conclusions contained in this
+document are those of the authors and should not be interpreted as representing the sponsors’ official
+policy, expressed or inferred.
+References
+[1] Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson,
+Karel Lenc, Arthur Mensch, Katie Millican, Malcolm Reynolds, Roman Ring, Eliza Rutherford,
+Serkan Cabi, Tengda Han, Zhitao Gong, Sina Samangooei, Marianne Monteiro, Jacob Menick,
+Sebastian Borgeaud, Andy Brock, Aida Nematzadeh, Sahand Sharifzadeh, Mikolaj Binkowski,
+Ricardo Barreira, Oriol Vinyals, Andrew Zisserman, and Karen Simonyan. Flamingo: a visual
+language model for few-shot learning. ArXiv, abs/2204.14198, 2022. 4
+[2] Eslam Mohamed Bakr, Pengzhan Sun, Xiaogian Shen, Faizan Farooq Khan, Li Erran Li, and
+Mohamed Elhoseiny. HRS-Bench: Holistic, Reliable and Scalable Benchmark for Text-to-
+Image Models. In Proceedings of the IEEE/CVF International Conference on Computer Vision
+(ICCV), pages 20041–20053, October 2023. 3, 6, 7, 19
+[3] Tim Brooks, Aleksander Holynski, and Alexei A Efros. Instructpix2pix: Learning to follow
+image editing instructions. CVPR2023, 2022. 2
+[4] Hila Chefer, Yuval Alaluf, Yael Vinker, Lior Wolf, and Daniel Cohen-Or. Attend-and-excite:
+Attention-based semantic guidance for text-to-image diffusion models. ACM Transactions on
+Graphics (TOG), 42(4):1–10, 2023. 3, 5, 6, 21
+[5] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde, Jared Kaplan, Harrison
+Edwards, Yura Burda, Nicholas Joseph, Greg Brockman, Alex Ray, Raul Puri, Gretchen
+Krueger, Michael Petrov, Heidy Khlaaf, Girish Sastry, Pamela Mishkin, Brooke Chan, Scott
+Gray, Nick Ryder, Mikhail Pavlov, Alethea Power, Lukasz Kaiser, Mohammad Bavarian,
+Clemens Winter, Philippe Tillet, Felipe Petroski Such, David W. Cummings, Matthias Plappert,
+Fotios Chantzis, Elizabeth Barnes, Ariel Herbert-V oss, William H. Guss, Alex Nichol, Igor
+Babuschkin, S. Arun Balaji, Shantanu Jain, Andrew Carr, Jan Leike, Joshua Achiam, Vedant
+Misra, Evan Morikawa, Alec Radford, Matthew M. Knight, Miles Brundage, Mira Murati, Katie
+Mayer, Peter Welinder, Bob McGrew, Dario Amodei, Sam McCandlish, Ilya Sutskever, and
+Wojciech Zaremba. Evaluating large language models trained on code. ArXiv, abs/2107.03374,
+2021. 15
+[6] Minghao Chen, Iro Laina, and Andrea Vedaldi. Training-free layout control with cross-attention
+guidance. arXiv preprint arXiv:2304.03373, 2023. 3, 8
+[7] Jaemin Cho, Abhay Zala, and Mohit Bansal. Dall-eval: Probing the reasoning skills and social
+biases of text-to-image generation models. In Proceedings of the IEEE/CVF International
+Conference on Computer Vision, pages 3043–3054, 2023. 5, 16
+[8] Biplab Deka, Zifeng Huang, Chad Franzen, Joshua Hibschman, Daniel Afergan, Yang Li,
+Jeffrey Nichols, and Ranjitha Kumar. Rico: A mobile app dataset for building data-driven
+design applications. In Proceedings of the 30th annual ACM symposium on user interface
+software and technology, pages 845–854, 2017. 3
+[9] Alaaeldin El-Nouby, Shikhar Sharma, Hannes Schulz, Devon Hjelm, Layla El Asri,
+Samira Ebrahimi Kahou, Yoshua Bengio, and Graham W.Taylor. Tell, Draw, and Repeat:
+Generating and Modifying Images Based on Continual Linguistic Instruction. In International
+Conference on Computer Vision (ICCV), 2019. 5
+[10] Weixi Feng, Xuehai He, Tsu-Jui Fu, Varun Jampani, Arjun Akula, Pradyumna Narayana, Sugato
+Basu, Xin Eric Wang, and William Yang Wang. Training-free structured diffusion guidance for
+compositional text-to-image synthesis. ICLR, 2023. 2, 3
+[11] Stella Frank, Emanuele Bugliarello, and Desmond Elliott. Vision-and-language or vision-for-
+language? on cross-modal influence in multimodal transformers. In Proceedings of the 2021
+Conference on Empirical Methods in Natural Language Processing, pages 9847–9857, 2021. 3
+11
+[12] Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng, Chengyue
+Sun, Rongfei Jia, Binqiang Zhao, et al. 3d-front: 3d furnished rooms with layouts and semantics.
+In Proceedings of the IEEE/CVF International Conference on Computer Vision, 2021. 8
+[13] Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve Maybank, and Dacheng
+Tao. 3d-future: 3d furniture shape with texture. International Journal of Computer Vision,
+129:3313–3337, 2021. 8
+[14] Tsu-Jui Fu*, Linjie Li*, Zhe Gan, Kevin Lin, William Yang Wang, Lijuan Wang, and Zicheng
+Liu. An Empirical Study of End-to-End Video-Language Transformers with Masked Visual
+Modeling. In Conference on Computer Vision and Pattern Recognition (CVPR), 2023. 3
+[15] Tsu-Jui Fu, William Yang Wang, Daniel McDuff, and Yale Song. DOC2PPT: Automatic
+Presentation Slides Generation from Scientific Documents. In Association for the Advancement
+of Artificial Intelligence (AAAI), 2022. 3
+[16] Tsu-Jui Fu, Xin Eric Wang, Scott Grafton, Miguel Eckstein, and William Yang Wang. SSCR:
+Iterative Language-Based Image Editing via Self-Supervised Counterfactual Reasoning. In
+Conference on Empirical Methods in Natural Language Processing (EMNLP), 2020. 5
+[17] Kamal Gupta, Justin Lazarow, Alessandro Achille, Larry S Davis, Vijay Mahadevan, and
+Abhinav Shrivastava. Layouttransformer: Layout generation and completion with self-attention.
+In Proceedings of the IEEE/CVF International Conference on Computer Vision, pages 1004–
+1014, 2021. 2, 3, 4, 5, 6, 9
+[18] Tanmay Gupta and Aniruddha Kembhavi. Visual programming: Compositional visual reasoning
+without training. CVPR 2023, 2022. 3
+[19] Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp Hochreiter.
+Gans trained by a two time-scale update rule converge to a local nash equilibrium. Advances in
+neural information processing systems, 30, 2017. 8
+[20] Lianghua Huang, Di Chen, Yu Liu, Yujun Shen, Deli Zhao, and Jingren Zhou. Composer: Cre-
+ative and controllable image synthesis with composable conditions. In International Conference
+on Machine Learning, 2023. 2
+[21] Akash Abdu Jyothi, Thibaut Durand, Jiawei He, Leonid Sigal, and Greg Mori. Layoutvae:
+Stochastic scene layout generation from a label set. In Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision, pages 9895–9904, 2019. 2, 3
+[22] Jing Yu Koh, Ruslan Salakhutdinov, and Daniel Fried. Grounding language models to images
+for multimodal generation. In International Conference on Machine Learning, 2023. 3
+[23] Xiang Kong, Lu Jiang, Huiwen Chang, Han Zhang, Yuan Hao, Haifeng Gong, and Irfan Essa.
+Blt: bidirectional layout transformer for controllable layout generation. In Computer Vision–
+ECCV 2022: 17th European Conference, Tel Aviv, Israel, October 23–27, 2022, Proceedings,
+Part XVII, pages 474–490. Springer, 2022. 2, 3, 4
+[24] Kimin Lee, Hao Liu, Moonkyung Ryu, Olivia Watkins, Yuqing Du, Craig Boutilier, Pieter
+Abbeel, Mohammad Ghavamzadeh, and Shixiang Shane Gu. Aligning text-to-image models
+using human feedback. arXiv preprint arXiv:2302.12192, 2023. 2, 3
+[25] Jianan Li, Tingfa Xu, Jianming Zhang, Aaron Hertzmann, and Jimei Yang. LayoutGAN:
+Generating graphic layouts with wireframe discriminator. In International Conference on
+Learning Representations, 2019. 2, 3
+[26] Liunian Harold Li, Pengchuan Zhang, Haotian Zhang, Jianwei Yang, Chunyuan Li, Yiwu
+Zhong, Lijuan Wang, Lu Yuan, Lei Zhang, Jenq-Neng Hwang, et al. Grounded language-image
+pre-training. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 10965–10975, 2022. 5, 17
+[27] Yuheng Li, Haotian Liu, Qingyang Wu, Fangzhou Mu, Jianwei Yang, Jianfeng Gao, Chunyuan
+Li, and Yong Jae Lee. Gligen: Open-set grounded text-to-image generation. 2023 IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR), 2023. 2, 3, 5, 6, 8, 21
+[28] Zhuowan Li, Cihang Xie, Benjamin Van Durme, and Alan Yuille. Localization vs. semantics:
+How can language benefit visual representation learning? arXiv preprint arXiv:2212.00281,
+2022. 3
+12
+[29] Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr
+Dollár, and C Lawrence Zitnick. Microsoft coco: Common objects in context. In Computer
+Vision–ECCV 2014: 13th European Conference, Zurich, Switzerland, September 6-12, 2014,
+Proceedings, Part V 13, pages 740–755. Springer, 2014. 5, 7, 21
+[30] Jingyu Liu, Wenhan Xiong, Ian Jones, Yixin Nie, Anchit Gupta, and Barlas O˘guz. Clip-layout:
+Style-consistent indoor scene synthesis with semantic furniture embedding. arXiv preprint
+arXiv:2303.03565, 2023. 2
+[31] Pan Lu, Baolin Peng, Hao Cheng, Michel Galley, Kai-Wei Chang, Ying Nian Wu, Song-Chun
+Zhu, and Jianfeng Gao. Chameleon: Plug-and-play compositional reasoning with large language
+models. arXiv preprint arXiv:2304.09842, 2023. 3
+[32] Yujie Lu, Xianjun Yang, Xiujun Li, Xin Eric Wang, and William Yang Wang. LLMScore:
+Unveiling the power of large language models in text-to-image synthesis evaluation. In Thirty-
+seventh Conference on Neural Information Processing Systems (NeurIPS), 2023. 3
+[33] Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B Tenenbaum. End-to-end optimization
+of scene layout. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 3754–3763, 2020. 2
+[34] Wan-Duo Kurt Ma, JP Lewis, W Bastiaan Kleijn, and Thomas Leung. Directed diffusion: Direct
+control of object placement through attention guidance. arXiv preprint arXiv:2302.13153, 2023.
+2
+[35] OpenAI. Gpt-4 technical report. arXiv preprint arXiv:2303.08774, 2023. 7, 15
+[36] Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin,
+Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John Schulman, Jacob Hilton,
+Fraser Kelton, Luke E. Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul Francis
+Christiano, Jan Leike, and Ryan J. Lowe. Training language models to follow instructions with
+human feedback. ArXiv, abs/2203.02155, 2022. 15
+[37] Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin,
+Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to
+follow instructions with human feedback. Advances in Neural Information Processing Systems,
+35:27730–27744, 2022. 2, 4
+[38] Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and Sanja
+Fidler. Atiss: Autoregressive transformers for indoor scene synthesis. Advances in Neural
+Information Processing Systems, 34:12013–12026, 2021. 3, 5, 8, 20
+[39] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agar-
+wal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, and Ilya
+Sutskever. Learning transferable visual models from natural language supervision. In Interna-
+tional Conference on Machine Learning, 2021. 4
+[40] Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and flexible indoor scene synthesis via deep
+convolutional generative models. In Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pages 6182–6190, 2019. 3
+[41] Robin Rombach, A. Blattmann, Dominik Lorenz, Patrick Esser, and Björn Ommer. High-
+resolution image synthesis with latent diffusion models. 2022 IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR), pages 10674–10685, 2021. 5, 6, 21
+[42] Victor Sanh, Albert Webson, Colin Raffel, Stephen Bach, Lintang Sutawika, Zaid Alyafeai,
+Antoine Chaffin, Arnaud Stiegler, Arun Raja, Manan Dey, M Saiful Bari, Canwen Xu, Urmish
+Thakker, Shanya Sharma Sharma, Eliza Szczechla, Taewoon Kim, Gunjan Chhablani, Nihal
+Nayak, Debajyoti Datta, Jonathan Chang, Mike Tian-Jian Jiang, Han Wang, Matteo Manica,
+Sheng Shen, Zheng Xin Yong, Harshit Pandey, Rachel Bawden, Thomas Wang, Trishala
+Neeraj, Jos Rozen, Abheesht Sharma, Andrea Santilli, Thibault Fevry, Jason Alan Fries, Ryan
+Teehan, Teven Le Scao, Stella Biderman, Leo Gao, Thomas Wolf, and Alexander M Rush.
+Multitask prompted training enables zero-shot task generalization. In International Conference
+on Learning Representations, 2022. 4
+[43] Sebastian Schuster, Ranjay Krishna, Angel Chang, Li Fei-Fei, and Christopher D Manning.
+Generating semantically precise scene graphs from textual descriptions for improved image
+retrieval. In Proceedings of the fourth workshop on vision and language, pages 70–80, 2015. 3
+13
+[44] Dídac Surís, Sachit Menon, and Carl V ondrick. Vipergpt: Visual inference via python execution
+for reasoning. In Proceedings of the IEEE/CVF International Conference on Computer Vision,
+2023. 3
+[45] Bo Wang, Tao Wu, Minfeng Zhu, and Peng Du. Interactive image synthesis with panoptic
+layout generation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 7783–7792, 2022. 2
+[46] Kai Wang, Yu-An Lin, Ben Weissmann, Manolis Savva, Angel X Chang, and Daniel Ritchie.
+Planit: Planning and instantiating indoor scenes with relation graph and spatial prior networks.
+ACM Transactions on Graphics (TOG), 38(4):1–15, 2019. 3
+[47] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. Sceneformer: Indoor scene
+generation with transformers. In 2021 International Conference on 3D Vision (3DV), pages
+106–115. IEEE, 2021. 3
+[48] Jason Wei, Maarten Bosma, Vincent Zhao, Kelvin Guu, Adams Wei Yu, Brian Lester, Nan
+Du, Andrew M. Dai, and Quoc V Le. Finetuned language models are zero-shot learners. In
+International Conference on Learning Representations, 2022. 4
+[49] Jason Wei, Yi Tay, Rishi Bommasani, Colin Raffel, Barret Zoph, Sebastian Borgeaud, Dani
+Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, Ed H. Chi, Tatsunori Hashimoto,
+Oriol Vinyals, Percy Liang, Jeff Dean, and William Fedus. Emergent abilities of large language
+models. Transactions on Machine Learning Research, 2022. Survey Certification. 2
+[50] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, brian ichter, Fei Xia, Ed H. Chi,
+Quoc V Le, and Denny Zhou. Chain of thought prompting elicits reasoning in large language
+models. In Alice H. Oh, Alekh Agarwal, Danielle Belgrave, and Kyunghyun Cho, editors,
+Advances in Neural Information Processing Systems, 2022. 2
+[51] Chenfei Wu, Shengming Yin, Weizhen Qi, Xiaodong Wang, Zecheng Tang, and Nan Duan.
+Visual chatgpt: Talking, drawing and editing with visual foundation models. arXiv preprint
+arXiv:2303.04671, 2023. 2, 3
+[52] Qiucheng Wu, Yujian Liu, Handong Zhao, Trung Bui, Zhe Lin, Yang Zhang, and Shiyu Chang.
+Harnessing the spatial-temporal attention of diffusion models for high-fidelity text-to-image
+synthesis. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,
+pages 7766–7776, 2023. 2, 3
+[53] Cheng-Fu Yang, Wan-Cyuan Fan, Fu-En Yang, and Yu-Chiang Frank Wang. Layouttransformer:
+Scene layout generation with conceptual and spatial diversity. In Proceedings of the IEEE/CVF
+conference on computer vision and pattern recognition, pages 3732–3741, 2021. 2
+[54] Zhengyuan Yang, Zhe Gan, Jianfeng Wang, Xiaowei Hu, Yumao Lu, Zicheng Liu, and Lijuan
+Wang. An empirical study of gpt-3 for few-shot knowledge-based vqa. In AAAI Conference on
+Artificial Intelligence, 2021. 4
+[55] Zhengyuan Yang, Linjie Li, Jianfeng Wang, Kevin Lin, Ehsan Azarnasab, Faisal Ahmed,
+Zicheng Liu, Ce Liu, Michael Zeng, and Lijuan Wang. Mm-react: Prompting chatgpt for
+multimodal reasoning and action. arXiv preprint arXiv:2303.11381, 2023. 3
+[56] Zhengyuan Yang, Jianfeng Wang, Zhe Gan, Linjie Li, Kevin Lin, Chenfei Wu, Nan Duan,
+Zicheng Liu, Ce Liu, Michael Zeng, et al. Reco: Region-controlled text-to-image generation. In
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages
+14246–14255, 2023. 2, 3, 6, 7
+[57] Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. Adding conditional control to text-to-image
+diffusion models. In Proceedings of the IEEE/CVF International Conference on Computer
+Vision, pages 3836–3847, 2023. 2
+[58] Zhuosheng Zhang, Aston Zhang, Mu Li, Hai Zhao, George Karypis, and Alex Smola. Multi-
+modal chain-of-thought reasoning in language models. arXiv preprint arXiv:2302.00923, 2023.
+3
+[59] Xinru Zheng, Xiaotian Qiao, Ying Cao, and Rynson WH Lau. Content-aware generative
+modeling of graphic design layouts. ACM Transactions on Graphics (TOG), 38(4):1–15, 2019.
+3
+[60] Xu Zhong, Jianbin Tang, and Antonio Jimeno Yepes. Publaynet: largest dataset ever for
+document layout analysis. In 2019 International Conference on Document Analysis and
+Recognition (ICDAR), pages 1015–1022. IEEE, 2019. 3
+14

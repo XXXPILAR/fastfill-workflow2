@@ -1,0 +1,1690 @@
+SLayR: Scene Layout Generation with Rectified Flow
+Cameron Braunstein1,3,4 Hevra Petekkaya1,4 Jan Eric Lenssen2 Mariya Toneva3 Eddy Ilg4
+1Saarland University, Saarland Informatics Campus
+2Max Planck Institute for Informatics, Saarland Informatics Campus
+3Max Planck Institute for Software Systems, Saarland Informatics Campus
+4Computer Vision and Machine Perception Lab, University of Technology Nuremberg
+braunstein@cs.uni-saarland.de, eddy.ilg@utn.de
+Method
+Prompt
+SLayR
+Scene Layout
+Layout-to-Image
+Generated Image
+Hotel Room
+person
+coffee table
+ceiling
+wall
+floor
+curtain
+sconce
+table
+windowpane
+wall
+sofa
+bed
+book
+desk
+cushion
+sofa
+lamp
+cushion
+ Highway
+treemountain
+road
+road car
+sky
+grass
+ Dining Room
+curtain
+windowpane
+chair
+lamp
+wall
+chair
+wall wall
+cabinet
+painting
+ceiling lamp
+chair
+plantchairchair
+chair
+curtain
+floor
+table
+2.0 2.5 3.0 3.5 4.0 4.5
+Plausibility Average (Likert Scale)
+2.6
+2.7
+2.8
+2.9
+3.0
+3.1
+3.2
+3.3
+3.4
+Variety Average (Likert Scale)
+Ours
+(4M)
+LayoutTransformer
+(23M)
+GPT4o
+No Layout
+LayoutDM
+(95M)
+LayoutFlow
+(15M)
+SOTA Trade-off
+Average Human Evaluation of Generated Images
+Figure 1. Left: We introduce SLayR, a method for scene layout generation via rectified flow. Middle: SLayR generates interpretable
+and editable scene layouts, which can be rendered using a layout-to-image generator. Right: Our method sets a new state of the art in
+generating more varied and plausible scenes than other methods and LLMs.
+Abstract
+We introduce SLayR, Scene Layout Generation with
+Rectified flow, a novel transformer-based model for text-
+to-layout generation which can then be paired with exist-
+ing layout-to-image models to produce images. SLayR ad-
+dresses a domain in which current text-to-image pipelines
+struggle: generating scene layouts that are of significant va-
+riety and plausibility, when the given prompt is ambiguous
+and does not provide constraints on the scene. SLayR sur-
+passes existing baselines including LLMs in unconstrained
+generation, and can generate layouts from an open caption
+set. To accurately evaluate the layout generation, we intro-
+duce a new benchmark suite, including numerical metrics
+and a carefully designed repeatable human-evaluation pro-
+cedure that assesses the plausibility and variety of gener-
+ated images. We show that our method sets a new state of
+the art for achieving both at the same time, while being at
+least 3× times smaller in the number of parameters.
+1. Introduction
+Recent advances in text-to-image modeling have focused on
+training denoising diffusion models [12, 43, 44] to generate
+images from a prompt encoding and image noise [6, 37–40,
+55], as well as incorporating finer-grained control modali-
+ties [13, 18, 30, 31, 34, 42, 49, 57]. Building upon these
+advancements, prior works have demonstrated the editabil-
+ity and interpretability advantages of a multistage text-to-
+layout-to-image model, where the user can view and manip-
+ulate an intermediate layout consisting of bounding boxes
+for object-level scene elements [1, 7, 8, 23, 54, 60, 61].
+These works use LLMs as text-to-layout generators, and fo-
+cus on parsing multi-object prompts (e.g. two dogs next to a
+cat). However, a closer inspection reveals that these models
+do not generate high variety (see Figure 1, right) or collapse
+entirely (see Figure 2), when presented with prompts that
+have few constraints and leave a high degree of ambiguity.
+This motivates us to propose a novel light-weight text-
+to-layout generation model for expanding unconstrained
+prompts (e.g. a park, a beach) into a variety of plausible
+1
+arXiv:2412.05003v2  [cs.CV]  12 Mar 2025
+Ours LayoutGPT Ours LayoutGPT
+person
+manhole
+road
+car
+car
+car
+car
+building
+building
+sidewalk
+car
+carcar
+sky
+building
+street
+skyscraper
+skyscraper
+building
+river
+building
+skyscraper
+building
+skyscraper
+building
+skyscraper skyscraper
+river
+tree
+skyscraper
+Figure 2. Degenerated layouts from unconstrained prompts of a
+skyscraper, and a street from LayoutGPT [7] vs. our layouts. Lay-
+outGPT shows to produce degenerate scenes 2/3rds of the times
+while our produces detailed plausible scene layouts.
+scene layouts (see Figure 1, left and middle). The model
+cannot rely on the prompt to deliver guiding information,
+and must instead have extensive knowledge about the gen-
+eral distribution of scene structures. Given a CLIP [36]
+embedding of a global scene prompt, we generate the lay-
+out using rectified flow [27], with a Diffusion Transformer
+(DiT) [35]. We test our model’s performance across a set of
+layout-to-image generation models [22, 23, 46, 50]. Since
+the domain of unconstrained text-to-layout generation is
+largely unexamined for non-LLM approaches, we also eval-
+uate a comprehensive set of baseline architectures adapted
+from UI/document generation.
+We pair SLayR with several available layout-to-image
+model generation models and achieve optimal scores in
+CMMD [15], FID [11], KID [3], VQA [26], HPSv2 [48],
+and ImageReward [52]. As these metrics evaluate only the
+quality of the images and not the layouts, we furthermore
+introduce a set of novel metrics to statistically assess the
+plausibility and variety of scene layouts. To validate our
+findings, we introduce a comprehensive, repeatable human-
+evaluation study. We show that, across all examined text-to-
+layout-to-image pipelines, our model yields the best trade-
+off in generating images that are both diverse and plausible,
+while being significantly more light-weight than its com-
+petitors. Our approach can be conditioned on partial lay-
+outs and directional constraints, and enjoys the native edit-
+ing capabilities of the two-stage pipeline. In summary, our
+contributions are:
+• We propose the first general purpose model for text-to-
+layout generation using rectified flow, which can generate
+complex scene layouts with varying number and types of
+objects from a generic text prompt, supports partial lay-
+out conditioning, directional constraints, and can scale to
+open scene captions.
+• We establish a comprehensive suite of numerical met-
+rics for generated layout evaluation and a well-designed
+human-evaluation study that can be used to assess the lay-
+out quality and be repeated by others.
+• We demonstrate that our method can successfully inte-
+grate into a text-to-layout-to-image pipeline, yielding the
+state-of-the-art in achieving both variety and plausibility.
+Upon publication, the source code and models will be made
+available to the community.
+2. Related Work
+LLMs in Scene Layout Generation. In 2D layout gener-
+ation, LLM-Grounded Diffusion [23] and LayoutGPT [7]
+generate scene layouts from multi-object prompts, with a
+bounding box for each object in the prompt, using prompt
+templates that facilitate in-context learning. We found that
+directly plugging in single-word prompts into these tem-
+plates yields degenerate solutions (layouts with a single
+bounding box labeled with the prompt) in approximately
+2/3 of queries (see Figure 2). Therefore, to reasonably mea-
+sure an LLM’s aptitude for our task and to encourage chain-
+of-thought reasoning [47] we adapt LLM-Grounded Diffu-
+sion’s template with in-context examples to our domain as
+a baseline. We note here also that GPT4o is a vastly larger
+model that was trained on much larger corpora of data than
+other baselines.
+Adapting UI Generation. Our task of scene layout gener-
+ation is distinct from User Interface (UI) generation: scene
+and object captions are from open sets, whereas UI layouts
+lack global captions and have labels from a small fixed set.
+Nevertheless, they can serve as interesting baselines, and
+we adapt several of these models using their conditional
+generation capabilities. We use LayoutTransformer [10] as
+a representative for autoregressive transformer approaches,
+which completes a partial sequence of object bounding
+boxes to form an image layout. Works such as Layout-
+Former++ [16] extend LayoutTransformer with added con-
+ditioning, but this is not the focus of our assessment of
+adapted UI generation, and these baselines are considered
+redundant. We also adapt LayoutDM [14] and LayoutFlow
+[9] as representative baselines for diffusion-based methods
+for UI generation [4, 20, 56]. For GAN-based approaches
+[21], while LayoutGAN++ [17] supports inter-bounding-
+box relationships, the Lagrange multiplier constraint formu-
+lation cannot be adapted to support global conditioning. In
+contrast to our method, UI generation models by design do
+not extend into the open world scenario.
+Rectified Flow. Diffusion modeling has inspired numer-
+ous variants and improvements, one of which is rectified
+flow [27]. Prior works on the related text-to-image gen-
+eration task [6, 28] have successfully leveraged it in their
+pipelines, with the added benefit of not requiring a noise
+schedule like DDIM [44] or DDPM [12]-based approaches,
+motivating us to use it for our task.
+Layout-to-Image Generation . We demonstrate that
+SLayR integrates well into downstream conditional diffu-
+sion models to form a complete text-to-image pipeline, with
+the added benefits of an interpretable and controllable in-
+termediate layout phase. To control for the effect which
+the image generator has on the final generated image, we
+evaluate our layouts across multiple layout-to-image mod-
+2
+bj
+i cj
+i αj
+i
+∼ N (0, 1)
+Noisy Tokens
+. . .
+Prompt: Dining Room
+CLIP
+Input
+AdaLN Transformer
+t = 0
+AdaLN Transformer
+t =...
+. . .T iterations
+AdaLN Transformer
+t = 1
+Layout Generation
+Denoised Tokens
+. . .
+Layout Visualization
+panda
+table
+lamp
+Text Queries
+Explicit Intermediate Representation
+Layout-to-Image Generator
+Edited Layout Generation
+Edit
+Image Generation
+Figure 3. Method Overview. Our layout generation model takes a set of noisy tokens and a prompt encoded as a global CLIP embedding
+as input. The tokens are partitioned into bounding box information bj
+i , reduced clip embeddings cj
+i and opacitiesαj
+i , that are subsequently
+denoised using a transformer. For visualization purposes, the user can query the generated layout with labels and edit boxes by adding,
+moving or removing them. Finally, the generated layout is passed through an off-the-shelf layout-to-image generator.
+els. Although there are a wide variety of such models,
+[2, 5, 45, 51, 53, 58] we select four which are publically
+available and have been used successfully with LLM-driven
+layouts [7, 23] or have shown SOTA performance: In-
+stanceDiffusion [46], GLIGEN [22], BoxDiff [50], and
+LMD+ [23].
+3. Method
+The central part of our work is the text-to-layout genera-
+tion module, which we combine with the existing layout-
+to-image generators [22, 23, 46, 50] to form a complete
+text-to-image pipeline. An overview is provided in Fig. 3.
+3.1. Rectified Flow Preliminaries
+We briefly recap the basics of rectified flow introduced in
+[27]. Let I be a set of training sample indices and{xi}i∈I
+the ground-truth samples whose distribution we would like
+to learn using our model v. We linearly interpolate be-
+tween Gaussian noise xi(0) and samples xi(1)≡ xi across
+timestepst∈ [0, 1] as follows:
+xi(t) = (1−t)· xi(0) +t· xi(1). (1)
+The model v is trained to take (xi(t),t ) as input and to
+predict the derivative of the path between xi(0) and xi(1),
+which according to Equation 1 is xi(1)− xi(0). The model
+is trained with the following objective:
+minv
+Z 1
+0
+Ei[||(xi(1)− xi(0))−v(xi(t),t )||2]dt (2)
+using stochastic gradient descent. This optimization is car-
+ried out across all available samples of the ground-truth dis-
+tribution. Following [27], noisy values xi(0) are resampled
+at each epoch. The end result is a network v which is ef-
+fective at predicting the direction from a noisy sample at an
+intermediate timestep towards the target distribution. Since
+a single evaluation may be noisy, the inference is performed
+by integrating overT timesteps:
+xi(1) = xi(0) +
+TX
+t=1
+v(xi(t− 1
+T ), t
+T )· 1
+T . (3)
+3.2. Layout Representation
+We start with defining a scene representation as the basis
+for our generative architecture. A training sample (xi,P i)
+is composed of a global image caption prompt Pi and a set
+ofJ object tokens xi ={xj
+i∈ Rd+5}j∈J. The token rep-
+resentation of any single object is composed of
+xj
+i = (bj
+i∥ cj
+i∥αj
+i ), (4)
+where bj
+i = (x,y,w,h )∈ R4 encodes the bounding box
+coordinates, cj
+i ∈ Rd is a PCA-reduced CLIP [36] em-
+bedding, and αj
+i ∈ R is an opacity value that defines the
+existence of a specific bounding box.
+3.3. Our Model Architecture
+Our rectified flow model is built from multihead AdaLN
+transformer blocks, which can process tokens {xj
+i}j∈J to
+iteratively denoise them [35]. The timestept, bounding box
+coordinates bj
+i(t), and opacity valuesαj
+i (t) are sinusoidally
+encoded. The timestept and a linear projection of the global
+labelPi’s CLIP encoding are passed as conditioning of the
+adaptive layer normalization of the transformer blocks. The
+tokens represent the objects in the layout and are processed
+all at once.
+3
+Inference begins at t = 0 with the set of tokens
+{xj
+i (t)}j∈J≡{ xj
+i (1)}j∈J initialized from Gaussian noise.
+Our model then iteratively processes and updates the tokens
+fromt = 0 tot = 1 overT iterations using Eq. (3) based
+on the global prompt conditioning Pi. As the output of the
+transformer blocks represents the rate of change of xj
+i (t),
+we use a linear layer to downproject the output back to the
+dimension of xj
+i (t) before sinusoidal encoding.
+Using Eq. (3) to sum over all timesteps yields the final
+layout{xj
+i (1)}j∈J with PCA-reduced CLIP embeddings,
+bounding boxes, and opacities. Tokens with αj
+i (1) < 0.5
+are considered unused and discarded. For image genera-
+tion, we unproject each cj
+i (1) from the PCA space into the
+CLIP feature space and pass the embeddings directly into
+the downstream image generation module. We decode la-
+bels into text for visualization purposes only, where the de-
+coding can be achieved through label queries from the user
+or from a label bank.
+3.4. Partial Conditioning and Constraints
+We explain how we adapt the RePaint [29, 41] technique
+for rectified flow to enable partial layout conditioning in
+the supplemental material. As we show in Sec. 5.5, our
+model can accommodate partial layouts where only some
+boxes or labels are given. Additionally, we can impose
+inter-bounding box positional constraints by adding a di-
+rectional drift on the bounding boxes during inference. We
+provide a brief sketch here and further details in the sup-
+plement. Let yi be the partial layout, M be a conditioning
+mask, and di be a vector specifying all drift conditions, all
+with the same dimension asxi(t). During inference, we ini-
+tialize xi(0) from Gaussian noise, and at timestept, we first
+apply the rectifed flow inference step:
+xi(t
+T )← xi(t− 1
+T ) +v(xi(t− 1
+T ), t
+T,P i)· 1
+T , (5)
+then compute time-adjusted partial conditioning:
+yi(t
+T )← yi· t
+T + xi(0)· 1−t
+T , (6)
+and finally apply conditioning:
+xi(t
+T )← xi(t
+T )⊙ (1−M) + yi(t
+T )⊙M + di. (7)
+In addition to handling unconstrained or explicitly con-
+strained prompts, following prior work [7], we integrate the
+ability to extract constraints from complex text prompts us-
+ing LLMs by leveraging the LMM to extract the objects and
+positional constraints from them. We show that this inte-
+gration allows us to perform well in spatial and numerical
+reasoning tasks in Sec. 5.4.
+3.5. Training
+To construct a training sample from the ground-truth image
+layouti, we create cj
+i and bj
+i for each bounding boxj, and
+initializeαj
+i := 1. To ensure a consistent amount of tokens,
+we pad the samples by adding tokens with αj
+i bj
+i := 0, and
+cj
+i to the null string embedding.
+We now treat {xj
+i}j∈J ≡ { xj
+i (1)}j∈J, sample
+{xj
+i (0)}j∈J from Gaussian noise, draw t uniformly from
+[0, 1], and compute the set of tokens {xj
+i (t)}j∈J by adapt-
+ing the formula from Eq. (1), which are then passed to
+the model as input. We refer to the output of the model as
+v({xj
+i (t)}j∈J,t,P i) and compute the training loss derived
+from Eq. (2):
+L =
+X
+i∈I,j∈J
+||xj
+i (1)− xj
+i(0)−v({xj
+i (t)}j∈J,t,P i)j||2.
+(8)
+4. Novel Metrics
+4.1. Human Evaluation of Generated Images
+To compliment generated image metrics [3, 11, 15, 26, 48,
+52] which we measure in Sec. 5.2, we argue that the true
+plausibility and variety of images can only be assessed by
+humans and therefore introduce a human-evaluation study.
+To conduct the evaluation, we survey 60 participants by
+presenting them images from text-to-layout-to-image mod-
+els with different text-to-layout baselines. For each method,
+each participant rates 10 collections for their plausibility,
+and different 10 collections for their variety, on a Likert
+scale (1 to 5, where 1 corresponds to very implausible/very
+low variance, and 5 corresponds to very plausible/very high
+variance). For plausibility, we instructed participants to
+consider the overall realism of the collection, as well as
+how effectively it depicts the global text prompt. For va-
+riety, we instructed users to consider the spatial arrange-
+ment of objects in an image and implied camera angle in
+addition to overall image appearance. We control for the
+choice of layout-to-image generator by running our evalua-
+tion once for each of our tested layout-to-image generators
+(InstanceDiffusion [46], GLIGEN [22], BoxDiff [50], and
+LMD+ [23]). We provide the full details of the study in
+the supplemental material. The study was approved by the
+Ethics Review Board of our institution, ensuring compli-
+ance with ethical standards.
+4.2. Generated Layout Metrics
+In the following, we introduce four metrics to assess the
+generated scenes layouts’ plausibility and variety.
+Object Numeracy. Our metric ONum assesses whether
+generated layouts contain the objects at the expected fre-
+4
+quencies. We sample across a collection of global prompts
+({Pi}). The probability distribution for expected occur-
+rences of the object-label ℓ in layouts generated from the
+global prompt Pi is written qℓ
+i , and the ground-truth prob-
+ability distribution ispℓ
+i. Our metric is the normalized sum
+of KL-divergence between these two distributions:
+ONum :=
+P
+i,ℓKL(pℓ
+i||qℓ
+i)
+|{Pi}| (9)
+where lower scores indicate that the model produces layouts
+with more plausible object numeracy.
+Positional Likelihoods. We introduce l(1)
+Pos, and l(2)
+Pos to
+measure how plausible the objects in a generated layout are
+arranged. Let m index all bounding boxes of object-labelℓ
+for prompti. For each object-label ℓ, we obtain a distribu-
+tionkℓ
+i with KDE of the object’s bounding box(bℓ
+i)m in all
+layouts with global prompti. We compute the average like-
+lihood over all objects and all global prompts, to measure
+the first-order positional likelihood:
+l(1)
+Pos =
+P
+i,ℓ,mkℓ
+i((bℓ
+i)m)
+|{(bℓ
+i)m}| . (10)
+A higher value for l(1)
+Pos means that object bounding boxes
+are placed in reasonable locations in the layout.
+We also want to measure the likelihood of spatial rela-
+tionships between objects. Letm∗ index all bounding boxes
+of object-labelℓ′. For each object-label pair (ℓ,ℓ′), we ob-
+tain a distribution estimated with KDE kℓ,ℓ′
+i for the differ-
+ence in the bounding box dimensions. We compute the
+average likelihood over all objects and all global prompts
+from our distributions to measure the second order posi-
+tional likelihood:
+l(2)
+Pos =
+P
+i,ℓ̸=ℓ′,m,m∗kℓ,ℓ′
+i ((bℓ
+i)m− (bℓ′
+i )m∗)
+|{(bℓ
+i)m}|(|{(bℓ
+i)m}| + 1)/2 . (11)
+A higher value forl(2)
+Pos means that pairs of objects are plau-
+sibly positioned relative to one another. We conduct a grid
+search across bandwidths with 5-fold cross validation to op-
+timize the KDE bandwidths for bothl(1)
+Pos andl(2)
+Pos.
+Positional Variance. Our metric σ2
+Pos measures the vari-
+ety of bounding boxes. For every bounding box (bℓ
+i)m,
+we find the bounding box in layouts with global prompt i
+and object label ℓ that is closest in Euclidean distance to
+the bounding box. We now redefine {m∗} as the set of in-
+dices of bounding boxes in other samples which minimize
+the term||(bℓ
+i)m− (bℓ′
+i )m∗||. We compute all of these Eu-
+clidean distances and take the average:
+σ2
+Pos =
+P
+i,ℓ,m
+P
+{m∗}||(bℓ
+i)m− (bℓ′
+i )m∗||
+P
+i,ℓ,m|{m∗}| (12)
+If this metric is small, it means that the variance is low.
+Adapting UI Generation Metrics. Typical UI generation
+metrics must be reconsidered with shift in domain. Align-
+ment [19] and Overlap [21] scores are not salient, as real
+world images often have misaligned or overlapping bound-
+ing boxes. The layout-FID [11] metric requires a GAN dis-
+criminator to compute, which we do not have in this new
+domain. We compute a standard max IoU (mIoU) [17] av-
+eraged across sampled scene categories.
+5. Experiments
+5.1. Experimental Setting
+For a fair comparison, we train all models on the ADE20K
+dataset [59], which contains approximately 27K images and
+ground-truth layouts for indoor and outdoor scenes and a
+rich collection of object arrangements. The sample captions
+reflect the scene category with no additional constraints
+(e.g., beach, lecture room ). We use the top 30 largest
+bounding boxes per sample, as this is the default maxi-
+mum number of bounding boxes supported by InstanceD-
+iffusion [46], padding samples with fewer bounding boxes.
+For evaluation, we use the15 highest represented categories
+and add in five randomly selected categories to include the
+dataset’s long tail distribution. For each evaluated model,
+we generate 30 layouts for all 20 selected prompts, and an
+image conditioned on each layout and corresponding global
+prompt. The size of this collection of images is feasible to
+assess with our human evaluation.
+We adapt LayoutTransformer [10], LayoutDM [14] and
+LayoutFlow [9] from the UI generation setting by treat-
+ing the global caption as a scene-wide bounding box and
+conditioning the model on this bounding box during infer-
+ence. As we demonstrate in Fig. 2, existing LLM-based
+approaches [7, 23] do not succeed off-the-shelf in our task.
+However, by adjusting the template of LLM-Grounded Dif-
+fusion [23] with relevant in-context-learning examples from
+ADE20K, we avoid degenerate solutions to have a fair com-
+parison. For the underlying LLM, we select the recent
+large-scale LLM GPT4o [32].
+5.2. Generated Image Evaluation
+Text-to-Image Metrics. To evaluate the generated im-
+ages, we apply the established image generation metrics
+CMMD [15], FID [11], KID [3], VQA [26], HPSv2 [48],
+and ImageReward [52]. CMMD, FID and KID compare
+the distribution of generated images with a ground-truth
+distribution, while VQA, HSPv2 and ImageReward assess
+general image quality and alignment with a global caption.
+Since the conditioned image generator may itself lead to bi-
+ases in image generation quality, for CMMD, FID and KID
+we establish the ground-truth images by running the layout-
+5
+“Living Room” “Roof Garden” “Street”
+No Layout
+LayoutDiffusion
+windowpane
+fence
+first floor
+first floor
+windowpane
+windowpanewindowpane
+beach
+wall
+shower stall
+pot
+paper
+first floor
+bath sponge
+first floor
+locker room
+signboardfirst floor
+rug
+wall
+wall
+floor
+caravansary
+toilet brush
+slippers
+locker room
+sink
+paper
+first floorcushion
+double door
+basket
+valve
+pot air conditioner
+toilet brush
+courtroom
+floor
+tree
+mirror
+wall
+fountain
+towel
+counter
+windowpane
+figurine
+tree
+toilet brush
+headboard
+signboard
+first floor
+paper
+signboard
+cushion
+basket
+double door
+first floor
+sink
+pot
+headboard
+person
+windowpane
+fountain
+fountain
+water
+person
+crossGPT4o
+sofa
+coffee table
+television
+rug
+lampbookshelf
+window
+plant
+painting
+ceiling
+floor
+wall
+sofa
+coffee table
+television
+rug
+lamp
+window
+bookshelf
+plant
+painting
+ceiling
+floor
+wall
+sofa
+coffee table
+television
+floor lamp
+bookshelf
+paintingceiling
+floor
+wall
+sky
+building
+plant plant
+bench
+treetree
+flower bed
+table chairchair
+path
+sky
+building
+garden
+plant plant
+bench
+table
+flower pot flower pot
+tree treefence
+path
+sky
+building
+floor
+plant plant
+bench
+table
+chair
+umbrella
+fence
+tree tree
+person
+flower pot flower pot
+road
+sidewalk
+building building
+car car
+tree tree
+lamp post
+person
+road
+sidewalk
+building building
+tree
+car car
+streetlight streetlight
+person
+bicycle
+road
+sidewalk
+building buildingsky
+tree tree
+car car
+person
+lamp post lamp postLayoutTransformer
+floorceiling
+wall
+cabinet
+fireplace painting
+painting
+painting paintingpainting
+painting
+painting
+painting
+painting
+painting
+painting
+wall
+ceiling
+floor
+cushion
+lamp cushion
+cushion candlestick
+book
+lightlight
+wall ceiling
+wall
+table windowpane
+curtain
+curtainwindowpane
+cabinet
+fan curtain step
+cabinet
+cabinet
+wall
+plant
+plantplantplant
+plant
+plant
+pot
+plant
+flower flowerflower
+flower
+flower
+flower
+flower
+flowerflower
+flower
+flower
+flowerflower
+flower
+flower
+plant
+pot
+road tree
+car
+tree
+sidewalk
+tree
+railing
+plant plant stairs
+stairs
+sidewalk postbox
+plant
+building
+sidewalk
+stairs
+railingsignboard
+streetlight
+plant
+pot
+pot
+building
+road
+minibike
+streetlight
+traffic light
+umbrella
+car
+vending machine
+trade name
+road
+sidewalk
+ashcanOurs
+cabinet
+armchair
+wall
+table
+cushion armchair
+sofa
+painting
+cushion
+ceiling
+painting
+coffee table
+cushion cabinetsofa
+painting
+cushion
+wall
+decoration
+wall
+cushion
+armchair
+painting
+door
+screen door
+ceiling
+sofa
+chair
+wall light
+floor
+cushion
+painting
+armchair coffee table
+lamp
+wall
+painting
+painting
+light
+painting
+ceiling
+wall
+floor coffee table
+wall
+cushion
+light
+lamp
+vase
+curtain
+plant
+curtain
+windowpane
+sofa
+wall
+armchair
+plant
+plant
+buildingsky
+building
+plant
+wall
+building
+building
+plant
+pot
+wall
+floor
+plant
+clock
+plant
+plant
+door
+plant
+plant
+ceiling
+plant
+plant
+plant
+plant
+plant
+building
+floor
+armchair
+plant
+plant
+plant
+sky
+building
+person
+sidewalk sidewalk
+building
+building
+person
+building
+streetlight
+building
+road
+sidewalk
+tree
+bench
+person
+car
+car
+tree
+car
+signboard
+pole
+car
+signboard
+road
+signboard
+sidewalk car
+building
+sky building
+car
+car
+building
+car
+signboard
+car
+sky
+car
+building
+car
+sidewalk
+car
+sidewalk
+building
+plant
+stairs
+building
+building
+plant
+road
+plant
+Figure 4. Qualitative comparison (Best viewed up close). Layout objects that are depicted in the generated image are highlighted and
+labeled. From a visual inspection, having no layout produces scenes of little variation in content. LayoutFlow’s layouts do not appear to
+capture scene structure. GPT4o’s layouts lack variety. Layout Transformer produces layouts with implausible arrangements of objects,
+leading to images which do not depict the global prompt accurately. Our method creates plausible and varied layouts, leading to images
+that are diverse and look realistic. These observations are supported by our human evaluation in Fig. 5. Zoomed-in versions of these
+layouts for printing are available in the supplemental.
+6
+Model CMMD (↓) FID (↓) KID (10−2) (↓) VQA (↑) HSPv2 (↑) ImageReward (↑)
+LayoutDiffusion 0.61 1.08 1.92 0.34 0.19 −2.11
+LayoutFlow 0.25 0.80 0.88 0.80 0.23 −1.01
+LayoutTransformer 0.06 0.44 0.30 0.75 0.23 −1.00
+GPT4 0.09 0.94 0.45 0.88 0.25 −0.51
+Ours 0.03 0.17 0.27 0.88 0.25 −0.32
+Table 1. Image Metrics Comparison We evaluate traditional metrics and compare the images generated from layouts of different layout
+generators. To avoid biases of the image generator, we show the best score among the layout-to-image genators InstanceDiffusion [46],
+GLIGEN [22], BoxDiff [50], and LMD+ [23] for each layout generator. Our method can achieve optimal performance across all measured
+metrics and achieves state of the art.
+to-image generator on the ground-truth layouts. Further-
+more, as different image generators are also biased towards
+different layout generators, for each layout generator we
+choose the optimal score over the possible combinations of
+layout and image generator. The results are shown in Tab. 1.
+As visible, our method outperforms all other methods and
+achieves state of the art.
+Human Evaluation. As shown in Fig. 5, our model
+achieves a state-of-the-art balance in image plausibility and
+variety as well. We display the approximate number of
+model parameters added to the full text-to-layout-to-image
+pipeline by the layout generators that can be locally run.
+Our model is the smallest by over a factor 3.
+Visual Results. We provide a qualitative overview of the
+generated layouts and the final images in Fig. 4. Due to
+space limitations, we display the baselines that performed
+best in Tab. 1. We label bounding boxes by querying with
+all text labels present within ADE20K. From a visual in-
+spection, LayoutTransformer struggles with arranging ob-
+jects spatially, leading to images with unclear structure that
+do not depict the global prompt. GPT4o layouts appear
+somewhat flat, while struggling to make a variety of lay-
+outs. Our method appears to produce both plausible and
+diverse images across a range of global prompts of indoor
+and outdoor settings.
+5.3. Layout Evaluation and Inference Speed
+We evaluate our method on the layout metrics proposed in
+section Sec. 4.2 in Tab. 2. While LayoutTransformer out-
+performs our model on the variety measureσ2
+Pos, we observe
+in Fig. 4 that the layouts lack plausibility. For example, the
+floor in the leftmost example appears at the top and the ash-
+can on the rightmost example is significantly too large.
+We also measure the average time it takes for each model
+to generate a batch of 30 layout samples on an Nvidia
+A6000 GPU in Tab. 2. As we do not have direct access
+to GPT4o, we query it sequentially through an API. Our
+method ranks second in speed. Although LayoutFlow’s de-
+fault settings enable faster inference, we observe no defini-
+2.0 2.5 3.0 3.5 4.0 4.5
+Plausibility Average (Likert Scale)
+2.7
+2.8
+2.9
+3.0
+3.1
+3.2
+3.3Variety Average (Likert Scale)
+Ours
+(4M)LayoutTransformer
+(23M)
+GPT4o
+No Layout
+LayoutDM
+(95M)
+LayoutFlow
+(15M)
+SOTA Trade-off
+Layout-to-Image Model: InstanceDiffusion
+2.5 3.0 3.5 4.0 4.5
+Plausibility Average (Likert Scale)
+2.5
+2.6
+2.7
+2.8
+2.9
+3.0
+3.1
+3.2Variety Average (Likert Scale)
+Ours
+(4M)
+LayoutTransformer
+(23M)
+GPT4o
+No Layout
+LayoutDM
+(95M)
+LayoutFlow
+(15M)
+SOTA Trade-off
+.
+Layout-to-Image Model: LMD+
+2.0 2.5 3.0 3.5 4.0 4.5
+Plausibility Average (Likert Scale)
+2.6
+2.8
+3.0
+3.2
+3.4
+3.6Variety Average (Likert Scale)
+Ours
+(4M)
+LayoutTransformer
+(23M)
+GPT4o
+No Layout
+LayoutDM
+(95M)
+LayoutFlow
+(15M)
+SOTA Trade-off
+Layout-to-Image Model: GLIGEN
+2.0 2.5 3.0 3.5 4.0 4.5
+Plausibility Average (Likert Scale)
+2.6
+2.8
+3.0
+3.2
+3.4Variety Average (Likert Scale)
+Ours
+(4M)
+LayoutTransformer
+(23M)
+GPT4o
+No Layout
+LayoutDM
+(95M)
+LayoutFlow
+(15M)
+SOTA Trade-off
+Layout-to-Image Model: BoxDiff
+Human Evaluation of Generated Images
+Figure 5. Human Survey Results. Our method offers a supe-
+rior trade-off between plausibility and variety across all measured
+layout-to-image generators, while being a much smaller model.
+The error bars indicate the standard errors of the means and show
+that the results are statistically significant.
+tive improvement in its layout statistics when the number of
+inference steps are raised to match our model’s speed.
+5.4. Scaling to MSCOCO
+MSCOCO contains approximately 125K samples that con-
+sist of an image, the annotated scene layout, and five al-
+ternative global captions that are full sentence descriptions
+(e.g. ”A black cat laying on top of a bed next to pillows”).
+We explore how our model scales to MSCOCO [25] by
+training on this dataset using the same architecture and hy-
+perparameters as our main model. We provide some quali-
+tative examples in Fig. 7 and show that we are able to gen-
+erate appealing images for the complex prompts with our
+method.
+7
+Partial Conditioning Generated Layout Generated Image Partial Conditioning Generated Layout Generated Image
+mountain
+mountain
+sky
+mountain
+mountain
+mountain
+sky
+mountain
+tree
+wall
+mountain
+plant
+embankment
+plant
+door
+sky
+building
+road
+The scene should con-
+tain these objects:
+• ceiling • wall (2x)
+• curtain • sink
+• floor • bathtub
+• windowpane
+wall
+bathtub
+floor
+windowpane
+curtainwall
+sink
+ceilinglight
+countertop
+toilet
+plant
+Figure 6. Disentangled Generation. We show examples of two modes of disentangled generation for scenes with the prompt Snowy
+Mountain, and Bathroom, respectively. As visible, our model is able to complete the initial layouts well.
+Model ONum σ2
+Pos l(1)
+Pos l(2)
+Pos mIoU Time (s)
+GPT4 3.71 93 4.17 1.42 0.10 111.0
+LayoutDiffusion 2.12 65 1.47 0.71 0.00 138.0
+LayoutFlow 3.01 142 1.48 0.72 0.01 0.5
+LayoutFlow (More steps) 2.96 143 1.44 0.65 0.01 15.5
+LayoutTransformer 0.90 231 3.09 1.21 0.15 25.0
+Ours 1.14 187 4.76 1.93 0.17 15.5
+Table 2. Layout Metrics, and Inference Speed. A comparison
+of our metrics introduced in Sec. 4.2. ONum is scaled by 102.
+Our method achieves the best on mIoU, l(1)
+Pos , and l(2)
+Pos , and is be-
+hind LayoutTransformer in ONum andσ2
+Pos. The closer inspection
+in Sec. 5.2 reveals that LayoutTransformer falls short in terms of
+plausibility and image quality, indicating that it generates a large
+variety but implausible layouts.
+clock
+clock
+sandwich
+fork
+cup
+fork
+sandwich
+knife
+cup
+person
+cup sandwich
+cup
+cup
+cup
+sandwich
+sandwich
+dining table fork
+person
+person
+person
+person person
+person
+person
+car
+frisbee
+car
+person
+car
+bus
+Figure 7. MSCOCO Trained Model: Layouts and generated im-
+ages from the prompts: An image with two clocks , The food is
+ready to be eaten on the table, A group of teens playing frisbee in
+a park, and A car to the left of a bus
+5.5. Additional Model Features
+At last, we present the additional features that our model
+offers that make it appealing for use in an end-to-end image
+generation pipeline. In Fig. 6, we show examples of our
+model’s performance in different partial layout generation
+settings. This feature gives users even more fine-grained
+control over the image generation process.
+Furthermore, we demonstrate how our pipeline allows
+for editing of generated images in Fig. 8. This is accom-
+plished through modifying the intermediate scene layout,
+and rerunning InstanceDiffusion with the original seed and
+global prompt. We observe that the edits are not totally iso-
+lated to the altered objects and leave it for future work to
+develop improved conditional diffusion models.
+User Action Image Layout Generated Image
+A layout for a “Con-
+ference Room” with a
+“plant” is generated.
+The generated image
+has a plant in the cor-
+rect position.
+chair floor
+plant
+wall
+ceiling
+chair
+chair
+chair
+chair table
+counterchair
+wall
+cushion
+door
+chair
+chair
+door
+wall
+The “plant” is moved.
+The generated image
+is faithful to the new
+layout.
+chair floor
+plant
+wall
+ceiling
+chair
+chair
+chair
+chair table
+counterchair
+wall
+cushion
+door
+chair
+chair
+door
+wall
+The “plant” bounding
+box is removed en-
+tirely. The plant is
+also removed in the
+generated image.
+chair floor
+wall
+ceiling
+chair
+chair
+chair
+chair table
+counterchair
+wall
+cushion
+door
+chair
+chair
+door
+wall
+We place a “painting”
+in place of the “plant”.
+The generated image
+now contains a paint-
+ing where the plant
+has been.
+chair floor
+painting
+wall
+ceiling
+chair
+chair
+chair
+chair table
+counterchair
+wall
+cushion
+door
+chair
+chair
+door
+wall
+Figure 8. Editing. We show how our pipeline enables user editing
+of images by altering the intermediate scene layout representation.
+Individual objects can be easily moved, removed, and replaced.
+8
+6. Conclusion
+We have introduced a text-to-image generation pipeline
+with an intermediate human-interpretable and controllable
+layout representation. With a substantially smaller model,
+we achieve state-of-the-art performance in generated image
+quality metrics among competing baselines, as well as state
+of the art when considering both of the axes plausibility and
+variety. In addition, we have introduced a suite of metrics
+for scene layouts and generated images for reliable eval-
+uation. Both of these contributions together enable further
+exploration of image generation pipelines with intermediate
+explicit representations in the future.
+7. Acknowledgements
+We thank Tom Fischer, Raza Yunus, and Julian Chibane for
+their feedback on the draft. Funded in part by the Deutsche
+Forschungsgemeinschaft (DFG, German Research Founda-
+tion) – GRK 2853/1 “Neuroexplicit Models of Language,
+Vision, and Action” - project number 471607914.
+References
+[1] Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stewart
+Morris, Seung Jean Yoo, Aditya Ganeshan, R. Kenny Jones,
+Qiuhong Anna Wei, Kailiang Fu, and Daniel Ritchie. Open-
+universe indoor scene generation using llm program synthe-
+sis and uncurated object databases, 2024. 1
+[2] Omer Bar-Tal, Lior Yariv, Yaron Lipman, and Tali Dekel.
+Multidiffusion: Fusing diffusion paths for controlled image
+generation, 2023. 3
+[3] Mikołaj Bi ´nkowski, Danica J. Sutherland, Michael Arbel,
+and Arthur Gretton. Demystifying mmd gans, 2021. 2, 4,
+5
+[4] Shang Chai, Liansheng Zhuang, and Fengying Yan. Lay-
+outdm: Transformer-based diffusion model for layout gener-
+ation, 2023. 2
+[5] Minghao Chen, Iro Laina, and Andrea Vedaldi. Training-free
+layout control with cross-attention guidance, 2023. 3
+[6] Patrick Esser, Sumith Kulal, Andreas Blattmann, Rahim
+Entezari, Jonas M ¨uller, Harry Saini, Yam Levi, Dominik
+Lorenz, Axel Sauer, Frederic Boesel, Dustin Podell, Tim
+Dockhorn, Zion English, Kyle Lacey, Alex Goodwin, Yan-
+nik Marek, and Robin Rombach. Scaling rectified flow trans-
+formers for high-resolution image synthesis, 2024. 1, 2
+[7] Weixi Feng, Wanrong Zhu, Tsu jui Fu, Varun Jampani, Ar-
+jun Akula, Xuehai He, Sugato Basu, Xin Eric Wang, and
+William Yang Wang. Layoutgpt: Compositional visual plan-
+ning and generation with large language models, 2023. 1, 2,
+3, 4, 5
+[8] Gege Gao, Weiyang Liu, Anpei Chen, Andreas Geiger, and
+Bernhard Sch ¨olkopf. Graphdreamer: Compositional 3d
+scene synthesis from scene graphs, 2024. 1
+[9] Julian Jorge Andrade Guerreiro, Naoto Inoue, Kento Ma-
+sui, Mayu Otani, and Hideki Nakayama. Layoutflow: Flow
+matching for layout generation, 2024. 2, 5
+[10] Kamal Gupta, Justin Lazarow, Alessandro Achille, Larry
+Davis, Vijay Mahadevan, and Abhinav Shrivastava. Lay-
+outtransformer: Layout generation and completion with self-
+attention, 2021. 2, 5
+[11] Martin Heusel, Hubert Ramsauer, Thomas Unterthiner,
+Bernhard Nessler, and Sepp Hochreiter. Gans trained by a
+two time-scale update rule converge to a local nash equilib-
+rium, 2018. 2, 4, 5
+[12] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffu-
+sion probabilistic models, 2020. 1, 2
+[13] Drew A. Hudson, Daniel Zoran, Mateusz Malinowski, An-
+drew K. Lampinen, Andrew Jaegle, James L. McClelland,
+Loic Matthey, Felix Hill, and Alexander Lerchner. Soda:
+Bottleneck diffusion models for representation learning,
+2023. 1
+[14] Naoto Inoue, Kotaro Kikuchi, Edgar Simo-Serra, Mayu
+Otani, and Kota Yamaguchi. Layoutdm: Discrete diffusion
+model for controllable layout generation, 2023. 2, 5
+[15] Sadeep Jayasumana, Srikumar Ramalingam, Andreas Veit,
+Daniel Glasner, Ayan Chakrabarti, and Sanjiv Kumar. Re-
+thinking fid: Towards a better evaluation metric for image
+generation, 2024. 2, 4, 5
+[16] Zhaoyun Jiang, Jiaqi Guo, Shizhao Sun, Huayu Deng,
+Zhongkai Wu, Vuksan Mijovic, Zijiang James Yang, Jian-
+Guang Lou, and Dongmei Zhang. Layoutformer++: Con-
+ditional graphic layout generation via constraint serializa-
+tion and decoding space restriction. In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 18403–18412, 2023. 2
+[17] Kotaro Kikuchi, Edgar Simo-Serra, Mayu Otani, and Kota
+Yamaguchi. Constrained graphic layout generation via latent
+optimization. In Proceedings of the 29th ACM International
+Conference on Multimedia, page 88–96. ACM, 2021. 2, 5
+[18] Mingi Kwon, Jaeseok Jeong, and Youngjung Uh. Diffusion
+models already have a semantic latent space, 2023. 1
+[19] Hsin-Ying Lee, Lu Jiang, Irfan Essa, Phuong B Le, Haifeng
+Gong, Ming-Hsuan Yang, and Weilong Yang. Neural design
+network: Graphic layout generation with constraints, 2020.
+5
+[20] Elad Levi, Eli Brosh, Mykola Mykhailych, and Meir Perez.
+Dlt: Conditioned layout generation with joint discrete-
+continuous diffusion layout transformer, 2023. 2
+[21] Jianan Li, Jimei Yang, Aaron Hertzmann, Jianming Zhang,
+and Tingfa Xu. Layoutgan: Generating graphic layouts with
+wireframe discriminators, 2019. 2, 5
+[22] Yuheng Li, Haotian Liu, Qingyang Wu, Fangzhou Mu, Jian-
+wei Yang, Jianfeng Gao, Chunyuan Li, and Yong Jae Lee.
+Gligen: Open-set grounded text-to-image generation, 2023.
+2, 3, 4, 7
+[23] Long Lian, Boyi Li, Adam Yala, and Trevor Darrell. Llm-
+grounded diffusion: Enhancing prompt understanding of
+text-to-image diffusion models with large language models,
+2024. 1, 2, 3, 4, 5, 7
+[24] Youwei Liang, Junfeng He, Gang Li, Peizhao Li, Arseniy
+Klimovskiy, Nicholas Carolan, Jiao Sun, Jordi Pont-Tuset,
+Sarah Young, Feng Yang, Junjie Ke, Krishnamurthy Dj Dvi-
+jotham, Katie Collins, Yiwen Luo, Yang Li, Kai J Kohlhoff,
+9
+Deepak Ramachandran, and Vidhya Navalpakkam. Rich hu-
+man feedback for text-to-image generation, 2024. 12
+[25] Tsung-Yi Lin, Michael Maire, Serge Belongie, Lubomir
+Bourdev, Ross Girshick, James Hays, Pietro Perona, Deva
+Ramanan, C. Lawrence Zitnick, and Piotr Doll ´ar. Microsoft
+coco: Common objects in context, 2015. 7
+[26] Zhiqiu Lin, Deepak Pathak, Baiqi Li, Jiayao Li, Xide Xia,
+Graham Neubig, Pengchuan Zhang, and Deva Ramanan.
+Evaluating text-to-visual generation with image-to-text gen-
+eration, 2024. 2, 4, 5
+[27] Xingchao Liu, Chengyue Gong, and Qiang Liu. Flow
+straight and fast: Learning to generate and transfer data with
+rectified flow, 2022. 2, 3, 27
+[28] Xingchao Liu, Xiwen Zhang, Jianzhu Ma, Jian Peng, and
+Qiang Liu. Instaflow: One step is enough for high-quality
+diffusion-based text-to-image generation, 2024. 2
+[29] Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher
+Yu, Radu Timofte, and Luc Van Gool. Repaint: Inpainting
+using denoising diffusion probabilistic models, 2022. 4, 15
+[30] Grace Luo, Trevor Darrell, Oliver Wang, Dan B Goldman,
+and Aleksander Holynski. Readout guidance: Learning con-
+trol from diffusion features, 2024. 1
+[31] Rameshwar Mishra and A V Subramanyam. Image synthesis
+with graph conditioning: Clip-guided diffusion models for
+scene graphs, 2024. 1
+[32] OpenAI, Josh Achiam, Steven Adler, Sandhini Agarwal,
+et al. Gpt-4 technical report, 2024. 5
+[33] Mayu Otani, Riku Togashi, Yu Sawai, Ryosuke Ishigami,
+Yuta Nakashima, Esa Rahtu, Janne Heikkil ¨a, and Shin’ichi
+Satoh. Toward verifiable and reproducible human evaluation
+for text-to-image generation, 2023. 12
+[34] Yong-Hyun Park, Mingi Kwon, Jaewoong Choi, Junghyo Jo,
+and Youngjung Uh. Understanding the latent space of diffu-
+sion models through the lens of riemannian geometry, 2023.
+1
+[35] William Peebles and Saining Xie. Scalable diffusion models
+with transformers, 2023. 2, 3
+[36] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,
+Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen
+Krueger, and Ilya Sutskever. Learning transferable visual
+models from natural language supervision, 2021. 2, 3
+[37] Aditya Ramesh, Mikhail Pavlov, Gabriel Goh, Scott Gray,
+Chelsea V oss, Alec Radford, Mark Chen, and Ilya Sutskever.
+Zero-shot text-to-image generation, 2021. 1
+[38] Robin Rombach, Andreas Blattmann, Dominik Lorenz,
+Patrick Esser, and Bj¨orn Ommer. High-resolution image syn-
+thesis with latent diffusion models, 2022.
+[39] Chitwan Saharia, William Chan, Saurabh Saxena, Lala
+Li, Jay Whang, Emily Denton, Seyed Kamyar Seyed
+Ghasemipour, Burcu Karagol Ayan, S. Sara Mahdavi,
+Rapha Gontijo Lopes, Tim Salimans, Jonathan Ho, David J
+Fleet, and Mohammad Norouzi. Photorealistic text-to-image
+diffusion models with deep language understanding, 2022.
+[40] Axel Sauer, Frederic Boesel, Tim Dockhorn, Andreas
+Blattmann, Patrick Esser, and Robin Rombach. Fast high-
+resolution image synthesis with latent adversarial diffusion
+distillation, 2024. 1
+[41] Philipp Schr ¨oppel, Christopher Wewer, Jan Eric Lenssen,
+Eddy Ilg, and Thomas Brox. Neural point cloud diffusion
+for disentangled 3d shape and appearance generation, 2024.
+4
+[42] Guibao Shen, Luozhou Wang, Jiantao Lin, Wenhang Ge,
+Chaozhe Zhang, Xin Tao, Yuan Zhang, Pengfei Wan,
+Zhongyuan Wang, Guangyong Chen, Yijun Li, and Ying-
+Cong Chen. Sg-adapter: Enhancing text-to-image generation
+with scene graph guidance, 2024. 1
+[43] Jascha Sohl-Dickstein, Eric A. Weiss, Niru Mah-
+eswaranathan, and Surya Ganguli. Deep unsupervised
+learning using nonequilibrium thermodynamics, 2015. 1
+[44] Jiaming Song, Chenlin Meng, and Stefano Ermon. Denois-
+ing diffusion implicit models, 2022. 1, 2, 27
+[45] Tristan Sylvain, Pengchuan Zhang, Y . Bengio, R Devon
+Hjelm, and Shikhar Sharma. Object-centric image genera-
+tion from layouts, 2020. 3
+[46] Xudong Wang, Trevor Darrell, Sai Saketh Rambhatla, Rohit
+Girdhar, and Ishan Misra. Instancediffusion: Instance-level
+control for image generation, 2024. 2, 3, 4, 5, 7
+[47] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten
+Bosma, Brian Ichter, Fei Xia, Ed Chi, Quoc Le, and Denny
+Zhou. Chain-of-thought prompting elicits reasoning in large
+language models, 2023. 2, 22
+[48] Xiaoshi Wu, Yiming Hao, Keqiang Sun, Yixiong Chen, Feng
+Zhu, Rui Zhao, and Hongsheng Li. Human preference score
+v2: A solid benchmark for evaluating human preferences of
+text-to-image synthesis, 2023. 2, 4, 5
+[49] Yang Wu, Pengxu Wei, and Liang Lin. Scene graph to
+image synthesis via knowledge consensus. Proceedings
+of the AAAI Conference on Artificial Intelligence , 37(3):
+2856–2865, 2023. 1
+[50] Jinheng Xie, Yuexiang Li, Yawen Huang, Haozhe Liu, Wen-
+tian Zhang, Yefeng Zheng, and Mike Zheng Shou. Boxdiff:
+Text-to-image synthesis with training-free box-constrained
+diffusion, 2023. 2, 3, 4, 7
+[51] Zhexiao Xiong, Wei Xiong, Jing Shi, He Zhang, Yizhi Song,
+and Nathan Jacobs. Groundingbooth: Grounding text-to-
+image customization, 2024. 3
+[52] Jiazheng Xu, Xiao Liu, Yuchen Wu, Yuxuan Tong, Qinkai
+Li, Ming Ding, Jie Tang, and Yuxiao Dong. Imagere-
+ward: Learning and evaluating human preferences for text-
+to-image generation, 2023. 2, 4, 5
+[53] Zhengyuan Yang, Jianfeng Wang, Zhe Gan, Linjie Li, Kevin
+Lin, Chenfei Wu, Nan Duan, Zicheng Liu, Ce Liu, Michael
+Zeng, and Lijuan Wang. Reco: Region-controlled text-to-
+image generation, 2022. 3
+[54] Xuening Yuan, Hongyu Yang, Yueming Zhao, and Di Huang.
+Dreamscape: 3d scene creation via gaussian splatting joint
+correlation modeling, 2024. 1
+[55] Chenshuang Zhang, Chaoning Zhang, Mengchun Zhang,
+and In So Kweon. Text-to-image diffusion models in gen-
+erative ai: A survey, 2023. 1
+[56] Junyi Zhang, Jiaqi Guo, Shizhao Sun, Jian-Guang Lou, and
+Dongmei Zhang. Layoutdiffusion: Improving graphic layout
+generation by discrete diffusion probabilistic models, 2023.
+2
+10
+[57] Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. Adding
+conditional control to text-to-image diffusion models, 2023.
+1
+[58] Bo Zhao, Lili Meng, Weidong Yin, and Leonid Sigal. Image
+generation from layout, 2019. 3
+[59] Bolei Zhou, Hang Zhao, Xavier Puig, Tete Xiao, Sanja Fi-
+dler, Adela Barriuso, and Antonio Torralba. Semantic under-
+standing of scenes through the ade20k dataset, 2018. 5
+[60] Xiaoyu Zhou, Xingjian Ran, Yajiao Xiong, Jinlin He, Zhi-
+wei Lin, Yongtao Wang, Deqing Sun, and Ming-Hsuan Yang.
+Gala3d: Towards text-to-3d complex scene generation via
+layout-guided generative gaussian splatting, 2024. 1
+[61] Bas ¸ak Melis¨Ocal, Maxim Tatarchenko, Sezer Karaoglu, and
+Theo Gevers. Sceneteller: Language-to-3d scene generation,
+2024. 1
+11
+Supplementary Material
+The supplementary material is structured as follows.
+First, we present the full details of the human evaluation
+study performed to judge the generation quality in Sec. 8.
+Next, we introduce details about our partial conditioning
+procedure in Sec. 9. We further provide detailed informa-
+tion about training data and hyperparameters in Sec. 10,
+discussions about LayoutTransformer and GPT4o temper-
+atures in Sec. 11 and 12, respectively, and the GPT4o query
+template in Sec. 13. Last, we provide a comparison between
+rectified flow and DDIM in Sec. 14 and high-resolution re-
+sults in Sec. 15 and Sec. 16.
+8. Human Evaluation Details
+Study Goal. Although our method achieves optimal per-
+formance in Tab. 1, we aim to confirm that these met-
+rics, which were designed for measuring the quality of text-
+to-image models, are applicable to text-to-layout-to-image
+models. We also want to control for the effect which the
+layout-to-image model could have on the final quality, and
+assess how effective the underlying layouts are in the im-
+age generation process. To this end, we provide a human-
+evaluation study that can be repeated by others.
+In general, we want a text-to-layout model to generate
+layouts that appear plausible and are also of a large vari-
+ety. However, assessing human opinions for these criteria
+directly on layouts is challenging: the evaluators require
+time to understand the layout diagrams and explain them,
+and furthermore, assessments are hard to make without ac-
+tually seeing the image. To make the study effective, we
+measure the effect of our model on the downstream gener-
+ated images. Image qualities that are assessed in other stud-
+ies (for example, the overall quality and aesthetic appeal of
+the image in Liang et al. [24]) are highly dependent on the
+conditioned image generator. Therefore, we consider these
+misleading for our case and introduce a suitable study in the
+following.
+Design Principles. We follow the design principles pre-
+sented by Otani et al. [33] in their work on human evalu-
+ation of text-to-image generation: 1) the (evaluation) task
+should be simple , and 2) results should be interpretable .
+Following these principles, we show participants only im-
+ages, and omit the underlying image layouts entirely, which
+may take some effort to understand. To make the results
+interpretable, participants rate these images for their plau-
+sibility and variety on a Likert scale (as specifically recom-
+mended in Otani et al. [33]) from 1 to 5. This way, average
+ratings for different layout generation models can be mean-
+ingfully compared to each other, which would be more diffi-
+cult in other systems (e.g. using non-numbered ranking). To
+ensure cost efficiency, our survey must be small enough that
+the data can be collected quickly and repeatedly through-
+out the model development, and thus we show participants
+collections of images rather than individual pairs. We kept
+all of these constraints in mind when designing our study,
+which is explained in further detail below.
+Study Description. Our study was developed using
+Qualtrics, a standard survey platform. Each participant an-
+swers ten plausibility questions and ten variety questions,
+meaning they rate 80 image collections in total. We survey
+60 participants. The prompts, image collection index, and
+the order in which the collections are displayed to partici-
+pants is randomized to control for any potential effects of a
+fixed ordering.
+Survey data is selected as described in Sec. 5.1. As
+shown in Fig. 10, each survey question shows collections
+of three images from each of the four methods listed above,
+where every image on the screen has the same global
+prompt. Given the instructions from Fig. 9, the participant
+must rate each collection for either their plausibility or va-
+riety. Ratings are on a Likert scale ( 1 to 5, where 1 corre-
+sponds to very implausible/very low variance, and 5 corre-
+sponds to very plausible/very high variance). For plausibil-
+ity, we instructed participants to consider the overall real-
+ism of the collection, as well as how effectively it depicts
+the global text prompt. For variety, we instructed users to
+consider the spatial arrangement of objects in an image and
+implied camera angle in addition to overall image appear-
+ance.
+Participant Selection and Ethics. Participants were re-
+cruited through Connect CloudResearch, a crowdsourcing
+service built on Amazon Mechanical Turk that implements
+rigorous quality control procedures to enhance the reliabil-
+ity of the participant pool in line with the study recom-
+mendations given by Otani et al. [33]. The study was ap-
+proved by the Ethics Review Board of our institution, en-
+suring compliance with ethical standards. Prior to engaging
+in the tasks, all participants provided informed consent. The
+study was designed to be completed within 15 minutes by
+each participant, who were compensated at an hourly rate
+of 13.02 USD. This results in a total cost of 245 USD per
+run. Participants were anonymized, and we did not collect
+any personally-identifiable information.
+12
+Section 1: Plausibility
+“For the following section of the survey, you will be asked to rate collections of images based on
+how plausible they appear to be, from very implausible to very plausible. An image is considered
+plausible if objects within the image are realistically and organically placed, and it is a reasonable
+match to the presented caption. The images do not have to be photorealistic to be considered plau-
+sible. You will perform ratings on 10 categories of images, and each page will contain 4 collections
+that you must rate separately.”
+Section 2: Variety
+“For the following section of the survey, you will be asked to rate collections of images based on their
+perceived variance, from very low variance to very high variance . When judging the variance,
+consider criteria such as the differences in the spatial arrangement of objects, the differences in
+camera perspective, and the differences in theoverall image appearance across the collection. You
+will perform ratings on 10 categories of images, and each page will contain 4 collections that you
+must rate separately.”
+Figure 9. Full instructions to participants for both sections of the survey. Our instructions clearly define the task and give users detailed
+information on what to assess
+13
+Figure 10. An example question page from our survey. Users must rate collections of 3 images from very implausible to very plausible.
+The underlying layout generators for the collections shown are (from top to bottom): No Layout, GPT4o, LayoutTransformer, and our
+method. Collection order was randomized for each question presented to the participant. Users click the button
+14

@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "tub-0",
+   "id": "tub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.7,
+    "y": 0.3,
+    "z": 0.38
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     360.0,
+     -4.5
+    ],
+    [
+     360.0,
+     80.5
+    ],
+    [
+     180.0,
+     80.5
+    ],
+    [
+     180.0,
+     -4.5
+    ]
+   ],
+   "object_name": "tub-0"
+  },
+  {
+   "assetId": "shower room-0",
+   "id": "shower room-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.5,
+    "y": 1.1,
+    "z": 0.605
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     515.0,
+     -4.5000000000000036
+    ],
+    [
+     515.0,
+     125.5
+    ],
+    [
+     385.0,
+     125.5
+    ],
+    [
+     385.0,
+     -4.5000000000000036
+    ]
+   ],
+   "object_name": "shower room-0"
+  },
+  {
+   "assetId": "shower room-1",
+   "id": "shower room-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.844999999999998,
+    "y": 1.1,
+    "z": 1.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     534.4999999999998,
+     45.0
+    ],
+    [
+     534.4999999999998,
+     195.0
+    ],
+    [
+     634.4999999999998,
+     195.0
+    ],
+    [
+     634.4999999999998,
+     45.0
+    ]
+   ],
+   "object_name": "shower room-1"
+  }
+ ],
+ "wall": []
+}

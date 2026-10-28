@@ -1,0 +1,74 @@
+{
+ "k": 242,
+ "source": "SpatialLM",
+ "room_type": "bathroom",
+ "latency_s": 20.710502000059932,
+ "usage": [
+  {
+   "prompt_tokens": 901,
+   "completion_tokens": 980,
+   "total_tokens": 1881,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 665,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.84
+    ],
+    "bottom_center_m": [
+     1.801,
+     1.2,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.68,
+     0.38,
+     0.78
+    ],
+    "bottom_center_m": [
+     1.686,
+     1.74,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.7,
+     1.6,
+     0.56
+    ],
+    "bottom_center_m": [
+     1.226,
+     2.318,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe tub is the largest fixture, so it runs along the north wall with its accessible side facing south. The toilet and hand sink are arranged consecutively along the east wall, keeping the required small gaps between sink, toilet, and tub. This leaves the west and central portions of the room open for entry, circulation, and access to all fixtures without obstructing the door.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.5, \"depth_m\": 0.45, \"height_m\": 0.84, \"x\": 1.801, \"y\": 1.2, \"z\": 0.0, \"facing_deg\": 180}, {\"id\": \"obj_0001\", \"width_m\": 0.38, \"depth_m\": 0.68, \"height_m\": 0.78, \"x\": 1.686, \"y\": 1.74, \"z\": 0.0, \"facing_deg\": 180}, {\"id\": \"obj_0002\", \"width_m\": 1.6, \"depth_m\": 0.7, \"height_m\": 0.56, \"x\": 1.226, \"y\": 2.318, \"z\": 0.0, \"facing_deg\": 270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.026 m x 2.668 m x 2.800 m\nfloor polygon (x, y): [[2.026, 0.0], [2.026, 2.668], [0.0, 2.668], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"hand sink\", \"description\": \"hand sink\"},\n{\"id\": \"obj_0001\", \"category\": \"toilet\", \"description\": \"toilet\"},\n{\"id\": \"obj_0002\", \"category\": \"tub\", \"description\": \"tub\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.0, 0.511], \"wall_from\": [0.0, 2.668], \"wall_to\": [0.0, 0.0], \"width_m\": 0.807, \"height_m\": 2.128}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}, {\"type\": \"near\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0001\", \"max_distance_m\": 0.2}, {\"type\": \"against_wall\", \"object_id\": \"obj_0002\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0002\", \"max_distance_m\": 0.1}]\n[/Task Constraints]"
+}

@@ -1,0 +1,1062 @@
+{
+ "test300": {
+  "ground truth": {
+   "rooms": 300,
+   "legal": 46.333333333333336,
+   "constraints": 99.66044142614601,
+   "all_constraints_rooms": 99.33333333333333,
+   "0.4": {
+    "rooms_ok": 29.0,
+    "robot_ok": 55.333333333333336,
+    "doors_linked": 94.8936170212766,
+    "required_reached": 87.3015873015873,
+    "items_reached": 79.9710773680405,
+    "openable_free": 70.22058823529412,
+    "furniture_reached": 82.37424547283702
+   },
+   "0.5": {
+    "rooms_ok": 27.0,
+    "robot_ok": 52.0,
+    "doors_linked": 91.91489361702128,
+    "required_reached": 82.41758241758242,
+    "items_reached": 75.05422993492408,
+    "openable_free": 70.22058823529412,
+    "furniture_reached": 78.10865191146881
+   },
+   "0.6": {
+    "rooms_ok": 26.0,
+    "robot_ok": 48.0,
+    "doors_linked": 89.36170212765957,
+    "required_reached": 74.11477411477412,
+    "items_reached": 65.0759219088937,
+    "openable_free": 70.22058823529412,
+    "furniture_reached": 70.86519114688129
+   }
+  },
+  "FastFill base (spread)": {
+   "rooms": 297,
+   "legal": 19.865319865319865,
+   "constraints": 42.294520547945204,
+   "all_constraints_rooms": 28.282828282828284,
+   "0.4": {
+    "rooms_ok": 6.734006734006734,
+    "robot_ok": 41.07744107744108,
+    "doors_linked": 73.70689655172414,
+    "required_reached": 74.96977025392987,
+    "items_reached": 83.11688311688312,
+    "openable_free": 60.96654275092937,
+    "furniture_reached": 75.55555555555556
+   },
+   "0.5": {
+    "rooms_ok": 6.734006734006734,
+    "robot_ok": 38.04713804713805,
+    "doors_linked": 66.37931034482759,
+    "required_reached": 68.19830713422007,
+    "items_reached": 75.79693034238488,
+    "openable_free": 60.96654275092937,
+    "furniture_reached": 69.51781970649895
+   },
+   "0.6": {
+    "rooms_ok": 6.397306397306397,
+    "robot_ok": 32.996632996633,
+    "doors_linked": 60.775862068965516,
+    "required_reached": 62.636033857315596,
+    "items_reached": 64.1086186540732,
+    "openable_free": 60.96654275092937,
+    "furniture_reached": 63.312368972746334
+   }
+  },
+  "FastFill D (spread)": {
+   "rooms": 297,
+   "legal": 19.19191919191919,
+   "constraints": 42.294520547945204,
+   "all_constraints_rooms": 26.262626262626263,
+   "0.4": {
+    "rooms_ok": 5.3872053872053876,
+    "robot_ok": 41.07744107744108,
+    "doors_linked": 77.15517241379311,
+    "required_reached": 73.855421686747,
+    "items_reached": 85.50884955752213,
+    "openable_free": 59.479553903345725,
+    "furniture_reached": 75.02099076406381
+   },
+   "0.5": {
+    "rooms_ok": 5.3872053872053876,
+    "robot_ok": 35.69023569023569,
+    "doors_linked": 68.10344827586206,
+    "required_reached": 66.86746987951807,
+    "items_reached": 72.01327433628319,
+    "openable_free": 59.479553903345725,
+    "furniture_reached": 68.17800167926113
+   },
+   "0.6": {
+    "rooms_ok": 5.3872053872053876,
+    "robot_ok": 30.976430976430976,
+    "doors_linked": 59.48275862068966,
+    "required_reached": 62.53012048192771,
+    "items_reached": 66.03982300884955,
+    "openable_free": 59.479553903345725,
+    "furniture_reached": 63.68597816960537
+   }
+  },
+  "FastFill E (spread)": {
+   "rooms": 297,
+   "legal": 16.835016835016834,
+   "constraints": 38.52739726027397,
+   "all_constraints_rooms": 26.5993265993266,
+   "0.4": {
+    "rooms_ok": 5.05050505050505,
+    "robot_ok": 43.77104377104377,
+    "doors_linked": 77.15517241379311,
+    "required_reached": 72.31222385861561,
+    "items_reached": 91.5057915057915,
+    "openable_free": 56.954887218045116,
+    "furniture_reached": 71.150019896538
+   },
+   "0.5": {
+    "rooms_ok": 5.05050505050505,
+    "robot_ok": 41.41414141414141,
+    "doors_linked": 68.10344827586206,
+    "required_reached": 68.92488954344624,
+    "items_reached": 87.64478764478764,
+    "openable_free": 56.954887218045116,
+    "furniture_reached": 66.77278153601273
+   },
+   "0.6": {
+    "rooms_ok": 5.05050505050505,
+    "robot_ok": 36.36363636363637,
+    "doors_linked": 61.63793103448276,
+    "required_reached": 63.47569955817379,
+    "items_reached": 76.64092664092664,
+    "openable_free": 56.954887218045116,
+    "furniture_reached": 61.40071627536808
+   }
+  },
+  "GPT-5.6 one-shot": {
+   "rooms": 284,
+   "legal": 91.54929577464789,
+   "constraints": 98.17184643510055,
+   "all_constraints_rooms": 96.47887323943662,
+   "0.4": {
+    "rooms_ok": 69.36619718309859,
+    "robot_ok": 76.7605633802817,
+    "doors_linked": 97.73755656108597,
+    "required_reached": 92.83783783783784,
+    "items_reached": 86.53846153846153,
+    "openable_free": 91.36546184738955,
+    "furniture_reached": 90.47120418848168
+   },
+   "0.5": {
+    "rooms_ok": 65.14084507042253,
+    "robot_ok": 71.83098591549296,
+    "doors_linked": 96.38009049773756,
+    "required_reached": 90.13513513513513,
+    "items_reached": 85.33653846153847,
+    "openable_free": 91.36546184738955,
+    "furniture_reached": 86.64921465968587
+   },
+   "0.6": {
+    "rooms_ok": 60.563380281690144,
+    "robot_ok": 67.25352112676056,
+    "doors_linked": 95.02262443438914,
+    "required_reached": 84.05405405405405,
+    "items_reached": 79.92788461538461,
+    "openable_free": 91.36546184738955,
+    "furniture_reached": 81.15183246073299
+   }
+  },
+  "LayoutGPT": {
+   "rooms": 300,
+   "legal": 18.333333333333332,
+   "constraints": 61.120543293718164,
+   "all_constraints_rooms": 50.0,
+   "0.4": {
+    "rooms_ok": 13.0,
+    "robot_ok": 36.666666666666664,
+    "doors_linked": 91.06382978723404,
+    "required_reached": 65.21197007481297,
+    "items_reached": 80.83462132921174,
+    "openable_free": 36.95652173913044,
+    "furniture_reached": 68.7773795300677
+   },
+   "0.5": {
+    "rooms_ok": 12.666666666666666,
+    "robot_ok": 34.666666666666664,
+    "doors_linked": 86.38297872340425,
+    "required_reached": 57.1072319201995,
+    "items_reached": 72.95208655332303,
+    "openable_free": 36.95652173913044,
+    "furniture_reached": 60.49382716049383
+   },
+   "0.6": {
+    "rooms_ok": 11.666666666666666,
+    "robot_ok": 29.666666666666668,
+    "doors_linked": 82.12765957446808,
+    "required_reached": 50.249376558603494,
+    "items_reached": 64.45131375579598,
+    "openable_free": 36.95652173913044,
+    "furniture_reached": 53.84309040223019
+   }
+  },
+  "Holodeck": {
+   "rooms": 300,
+   "legal": 62.333333333333336,
+   "constraints": 64.17657045840407,
+   "all_constraints_rooms": 47.0,
+   "0.4": {
+    "rooms_ok": 26.333333333333332,
+    "robot_ok": 66.66666666666667,
+    "doors_linked": 91.06382978723404,
+    "required_reached": 90.45977011494253,
+    "items_reached": 88.05606337599025,
+    "openable_free": 82.2550831792976,
+    "furniture_reached": 89.98403830806066
+   },
+   "0.5": {
+    "rooms_ok": 25.333333333333332,
+    "robot_ok": 62.333333333333336,
+    "doors_linked": 88.93617021276596,
+    "required_reached": 86.4367816091954,
+    "items_reached": 83.12004875076173,
+    "openable_free": 82.2550831792976,
+    "furniture_reached": 86.07342378292098
+   },
+   "0.6": {
+    "rooms_ok": 24.666666666666668,
+    "robot_ok": 57.666666666666664,
+    "doors_linked": 87.23404255319149,
+    "required_reached": 82.52873563218391,
+    "items_reached": 73.55271176112127,
+    "openable_free": 82.2550831792976,
+    "furniture_reached": 81.92338387869114
+   }
+  },
+  "LayoutVLM": {
+   "rooms": 300,
+   "legal": 62.666666666666664,
+   "constraints": 89.9830220713073,
+   "all_constraints_rooms": 83.33333333333333,
+   "0.4": {
+    "rooms_ok": 37.333333333333336,
+    "robot_ok": 55.333333333333336,
+    "doors_linked": 89.36170212765957,
+    "required_reached": 82.4462061155153,
+    "items_reached": 82.46869409660107,
+    "openable_free": 81.72231985940246,
+    "furniture_reached": 74.66487935656836
+   },
+   "0.5": {
+    "rooms_ok": 35.333333333333336,
+    "robot_ok": 50.666666666666664,
+    "doors_linked": 88.51063829787235,
+    "required_reached": 75.42468856172141,
+    "items_reached": 68.51520572450805,
+    "openable_free": 81.72231985940246,
+    "furniture_reached": 66.15281501340482
+   },
+   "0.6": {
+    "rooms_ok": 34.0,
+    "robot_ok": 47.666666666666664,
+    "doors_linked": 87.65957446808511,
+    "required_reached": 69.42242355605889,
+    "items_reached": 60.58437686344663,
+    "openable_free": 81.72231985940246,
+    "furniture_reached": 61.293565683646115
+   }
+  },
+  "workflow v4 (draft + local repair)": {
+   "rooms": 50,
+   "legal": 62.0,
+   "constraints": 97.05882352941177,
+   "all_constraints_rooms": 94.0,
+   "0.4": {
+    "rooms_ok": 34.0,
+    "robot_ok": 46.0,
+    "doors_linked": 86.36363636363636,
+    "required_reached": 80.76923076923077,
+    "items_reached": 83.38983050847457,
+    "openable_free": 76.06837606837607,
+    "furniture_reached": 76.74858223062382
+   },
+   "0.5": {
+    "rooms_ok": 26.0,
+    "robot_ok": 36.0,
+    "doors_linked": 84.0909090909091,
+    "required_reached": 75.48076923076923,
+    "items_reached": 76.61016949152543,
+    "openable_free": 76.06837606837607,
+    "furniture_reached": 72.4007561436673
+   },
+   "0.6": {
+    "rooms_ok": 26.0,
+    "robot_ok": 36.0,
+    "doors_linked": 79.54545454545455,
+    "required_reached": 68.75,
+    "items_reached": 70.84745762711864,
+    "openable_free": 76.06837606837607,
+    "furniture_reached": 64.27221172022685
+   }
+  },
+  "ours A: all at once + critic loop": {
+   "rooms": 45,
+   "legal": 86.66666666666667,
+   "constraints": 96.73913043478261,
+   "all_constraints_rooms": 95.55555555555556,
+   "0.4": {
+    "rooms_ok": 37.77777777777778,
+    "robot_ok": 44.44444444444444,
+    "doors_linked": 92.3076923076923,
+    "required_reached": 82.8125,
+    "items_reached": 86.50519031141869,
+    "openable_free": 73.58490566037736,
+    "furniture_reached": 78.93700787401575
+   },
+   "0.5": {
+    "rooms_ok": 33.333333333333336,
+    "robot_ok": 37.77777777777778,
+    "doors_linked": 92.3076923076923,
+    "required_reached": 76.5625,
+    "items_reached": 80.27681660899654,
+    "openable_free": 73.58490566037736,
+    "furniture_reached": 71.85039370078741
+   },
+   "0.6": {
+    "rooms_ok": 26.666666666666668,
+    "robot_ok": 31.11111111111111,
+    "doors_linked": 89.74358974358974,
+    "required_reached": 67.1875,
+    "items_reached": 70.93425605536332,
+    "openable_free": 73.58490566037736,
+    "furniture_reached": 63.77952755905512
+   }
+  },
+  "ours C: by group": {
+   "rooms": 44,
+   "legal": 95.45454545454545,
+   "constraints": 98.9010989010989,
+   "all_constraints_rooms": 97.72727272727273,
+   "0.4": {
+    "rooms_ok": 50.0,
+    "robot_ok": 52.27272727272727,
+    "doors_linked": 92.10526315789474,
+    "required_reached": 85.34031413612566,
+    "items_reached": 87.37201365187714,
+    "openable_free": 81.13207547169812,
+    "furniture_reached": 77.91164658634538
+   },
+   "0.5": {
+    "rooms_ok": 47.72727272727273,
+    "robot_ok": 50.0,
+    "doors_linked": 89.47368421052632,
+    "required_reached": 80.10471204188482,
+    "items_reached": 82.93515358361775,
+    "openable_free": 81.13207547169812,
+    "furniture_reached": 73.69477911646587
+   },
+   "0.6": {
+    "rooms_ok": 34.09090909090909,
+    "robot_ok": 36.36363636363637,
+    "doors_linked": 86.84210526315789,
+    "required_reached": 74.3455497382199,
+    "items_reached": 68.9419795221843,
+    "openable_free": 81.13207547169812,
+    "furniture_reached": 69.27710843373494
+   }
+  },
+  "ours C_final: by group + whole-room loop": {
+   "rooms": 44,
+   "legal": 95.45454545454545,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 47.72727272727273,
+    "robot_ok": 50.0,
+    "doors_linked": 92.10526315789474,
+    "required_reached": 87.43455497382199,
+    "items_reached": 88.35616438356165,
+    "openable_free": 83.9622641509434,
+    "furniture_reached": 80.32128514056225
+   },
+   "0.5": {
+    "rooms_ok": 47.72727272727273,
+    "robot_ok": 50.0,
+    "doors_linked": 89.47368421052632,
+    "required_reached": 80.6282722513089,
+    "items_reached": 83.21917808219177,
+    "openable_free": 83.9622641509434,
+    "furniture_reached": 74.8995983935743
+   },
+   "0.6": {
+    "rooms_ok": 31.818181818181817,
+    "robot_ok": 34.09090909090909,
+    "doors_linked": 86.84210526315789,
+    "required_reached": 75.39267015706807,
+    "items_reached": 68.83561643835617,
+    "openable_free": 83.9622641509434,
+    "furniture_reached": 69.87951807228916
+   }
+  },
+  "ours staged (old time budget)": {
+   "rooms": 20,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 40.0,
+    "robot_ok": 40.0,
+    "doors_linked": 100.0,
+    "required_reached": 78.89908256880734,
+    "items_reached": 88.37209302325581,
+    "openable_free": 78.33333333333333,
+    "furniture_reached": 73.72881355932203
+   },
+   "0.5": {
+    "rooms_ok": 35.0,
+    "robot_ok": 35.0,
+    "doors_linked": 94.73684210526316,
+    "required_reached": 71.55963302752293,
+    "items_reached": 80.62015503875969,
+    "openable_free": 78.33333333333333,
+    "furniture_reached": 67.37288135593221
+   },
+   "0.6": {
+    "rooms_ok": 35.0,
+    "robot_ok": 35.0,
+    "doors_linked": 94.73684210526316,
+    "required_reached": 69.72477064220183,
+    "items_reached": 76.74418604651163,
+    "openable_free": 78.33333333333333,
+    "furniture_reached": 66.10169491525424
+   }
+  },
+  "workflow2 simple (one place, one check, one review)": {
+   "rooms": 17,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 52.94117647058823,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 100.0,
+    "required_reached": 80.0,
+    "items_reached": 80.0,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 79.76878612716763
+   },
+   "0.5": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 93.75,
+    "required_reached": 76.25,
+    "items_reached": 80.0,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 74.56647398843931
+   },
+   "0.6": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 93.75,
+    "required_reached": 72.5,
+    "items_reached": 74.66666666666667,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 69.94219653179191
+   }
+  },
+  "workflow2 simple + robot 0.5 m (prompt, search zones, tiered critic)": {
+   "rooms": 20,
+   "legal": 95.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 75.0,
+    "robot_ok": 80.0,
+    "doors_linked": 100.0,
+    "required_reached": 97.14285714285714,
+    "items_reached": 99.2248062015504,
+    "openable_free": 100.0,
+    "furniture_reached": 90.08264462809917
+   },
+   "0.5": {
+    "rooms_ok": 70.0,
+    "robot_ok": 75.0,
+    "doors_linked": 100.0,
+    "required_reached": 95.23809523809524,
+    "items_reached": 95.34883720930233,
+    "openable_free": 100.0,
+    "furniture_reached": 87.60330578512396
+   },
+   "0.6": {
+    "rooms_ok": 50.0,
+    "robot_ok": 50.0,
+    "doors_linked": 94.73684210526316,
+    "required_reached": 79.04761904761905,
+    "items_reached": 86.04651162790698,
+    "openable_free": 100.0,
+    "furniture_reached": 74.3801652892562
+   }
+  },
+  "workflow2 simple + robot 0.5 m + 2 drafts + resize": {
+   "rooms": 20,
+   "legal": 90.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 75.0,
+    "robot_ok": 85.0,
+    "doors_linked": 100.0,
+    "required_reached": 93.39622641509433,
+    "items_reached": 98.48484848484848,
+    "openable_free": 100.0,
+    "furniture_reached": 88.98305084745763
+   },
+   "0.5": {
+    "rooms_ok": 70.0,
+    "robot_ok": 75.0,
+    "doors_linked": 100.0,
+    "required_reached": 77.35849056603773,
+    "items_reached": 78.03030303030303,
+    "openable_free": 100.0,
+    "furniture_reached": 74.57627118644068
+   },
+   "0.6": {
+    "rooms_ok": 45.0,
+    "robot_ok": 45.0,
+    "doors_linked": 100.0,
+    "required_reached": 68.86792452830188,
+    "items_reached": 71.21212121212122,
+    "openable_free": 100.0,
+    "furniture_reached": 65.2542372881356
+   }
+  }
+ },
+ "workflow2's 17 rooms": {
+  "ground truth": {
+   "rooms": 17,
+   "legal": 41.1764705882353,
+   "constraints": 96.66666666666667,
+   "all_constraints_rooms": 94.11764705882354,
+   "0.4": {
+    "rooms_ok": 17.647058823529413,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 100.0,
+    "required_reached": 87.5,
+    "items_reached": 94.23076923076923,
+    "openable_free": 62.22222222222222,
+    "furniture_reached": 82.02247191011236
+   },
+   "0.5": {
+    "rooms_ok": 17.647058823529413,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 100.0,
+    "required_reached": 78.125,
+    "items_reached": 92.3076923076923,
+    "openable_free": 62.22222222222222,
+    "furniture_reached": 76.96629213483146
+   },
+   "0.6": {
+    "rooms_ok": 17.647058823529413,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 93.75,
+    "required_reached": 57.8125,
+    "items_reached": 71.15384615384616,
+    "openable_free": 62.22222222222222,
+    "furniture_reached": 59.550561797752806
+   }
+  },
+  "FastFill base (spread)": {
+   "rooms": 17,
+   "legal": 17.647058823529413,
+   "constraints": 33.333333333333336,
+   "all_constraints_rooms": 29.41176470588235,
+   "0.4": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 87.5,
+    "required_reached": 62.5,
+    "items_reached": 61.36363636363637,
+    "openable_free": 60.416666666666664,
+    "furniture_reached": 72.0
+   },
+   "0.5": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 81.25,
+    "required_reached": 52.77777777777778,
+    "items_reached": 56.81818181818182,
+    "openable_free": 60.416666666666664,
+    "furniture_reached": 64.57142857142857
+   },
+   "0.6": {
+    "rooms_ok": 0.0,
+    "robot_ok": 17.647058823529413,
+    "doors_linked": 81.25,
+    "required_reached": 48.611111111111114,
+    "items_reached": 52.27272727272727,
+    "openable_free": 60.416666666666664,
+    "furniture_reached": 58.285714285714285
+   }
+  },
+  "FastFill D (spread)": {
+   "rooms": 17,
+   "legal": 11.764705882352942,
+   "constraints": 43.333333333333336,
+   "all_constraints_rooms": 41.1764705882353,
+   "0.4": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 87.5,
+    "required_reached": 66.66666666666667,
+    "items_reached": 78.94736842105263,
+    "openable_free": 58.333333333333336,
+    "furniture_reached": 72.88135593220339
+   },
+   "0.5": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 23.529411764705884,
+    "doors_linked": 87.5,
+    "required_reached": 62.121212121212125,
+    "items_reached": 65.78947368421052,
+    "openable_free": 58.333333333333336,
+    "furniture_reached": 64.40677966101696
+   },
+   "0.6": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 17.647058823529413,
+    "doors_linked": 81.25,
+    "required_reached": 56.06060606060606,
+    "items_reached": 60.526315789473685,
+    "openable_free": 58.333333333333336,
+    "furniture_reached": 58.75706214689266
+   }
+  },
+  "FastFill E (spread)": {
+   "rooms": 17,
+   "legal": 5.882352941176471,
+   "constraints": 33.333333333333336,
+   "all_constraints_rooms": 29.41176470588235,
+   "0.4": {
+    "rooms_ok": 0.0,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 93.75,
+    "required_reached": 69.0909090909091,
+    "items_reached": 88.88888888888889,
+    "openable_free": 52.083333333333336,
+    "furniture_reached": 73.93617021276596
+   },
+   "0.5": {
+    "rooms_ok": 0.0,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 81.25,
+    "required_reached": 60.0,
+    "items_reached": 88.88888888888889,
+    "openable_free": 52.083333333333336,
+    "furniture_reached": 62.234042553191486
+   },
+   "0.6": {
+    "rooms_ok": 0.0,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 81.25,
+    "required_reached": 56.36363636363637,
+    "items_reached": 77.77777777777777,
+    "openable_free": 52.083333333333336,
+    "furniture_reached": 59.57446808510638
+   }
+  },
+  "GPT-5.6 one-shot": {
+   "rooms": 17,
+   "legal": 82.3529411764706,
+   "constraints": 96.66666666666667,
+   "all_constraints_rooms": 94.11764705882354,
+   "0.4": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 64.70588235294117,
+    "doors_linked": 100.0,
+    "required_reached": 86.84210526315789,
+    "items_reached": 90.41095890410959,
+    "openable_free": 85.41666666666667,
+    "furniture_reached": 89.6969696969697
+   },
+   "0.5": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 100.0,
+    "required_reached": 81.57894736842105,
+    "items_reached": 83.56164383561644,
+    "openable_free": 85.41666666666667,
+    "furniture_reached": 86.06060606060606
+   },
+   "0.6": {
+    "rooms_ok": 35.294117647058826,
+    "robot_ok": 41.1764705882353,
+    "doors_linked": 100.0,
+    "required_reached": 72.36842105263158,
+    "items_reached": 68.4931506849315,
+    "openable_free": 85.41666666666667,
+    "furniture_reached": 78.78787878787878
+   }
+  },
+  "LayoutGPT": {
+   "rooms": 17,
+   "legal": 23.529411764705884,
+   "constraints": 60.0,
+   "all_constraints_rooms": 47.05882352941177,
+   "0.4": {
+    "rooms_ok": 0.0,
+    "robot_ok": 11.764705882352942,
+    "doors_linked": 93.75,
+    "required_reached": 65.21739130434783,
+    "items_reached": 95.45454545454545,
+    "openable_free": 17.02127659574468,
+    "furniture_reached": 74.15730337078652
+   },
+   "0.5": {
+    "rooms_ok": 0.0,
+    "robot_ok": 11.764705882352942,
+    "doors_linked": 87.5,
+    "required_reached": 56.52173913043478,
+    "items_reached": 90.9090909090909,
+    "openable_free": 17.02127659574468,
+    "furniture_reached": 67.97752808988764
+   },
+   "0.6": {
+    "rooms_ok": 0.0,
+    "robot_ok": 5.882352941176471,
+    "doors_linked": 87.5,
+    "required_reached": 47.82608695652174,
+    "items_reached": 90.9090909090909,
+    "openable_free": 17.02127659574468,
+    "furniture_reached": 62.92134831460674
+   }
+  },
+  "Holodeck": {
+   "rooms": 17,
+   "legal": 52.94117647058823,
+   "constraints": 43.333333333333336,
+   "all_constraints_rooms": 29.41176470588235,
+   "0.4": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 58.8235294117647,
+    "doors_linked": 93.75,
+    "required_reached": 98.59154929577464,
+    "items_reached": 92.85714285714286,
+    "openable_free": 88.63636363636364,
+    "furniture_reached": 96.1038961038961
+   },
+   "0.5": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 93.75,
+    "required_reached": 91.54929577464789,
+    "items_reached": 82.85714285714286,
+    "openable_free": 88.63636363636364,
+    "furniture_reached": 90.9090909090909
+   },
+   "0.6": {
+    "rooms_ok": 5.882352941176471,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 93.75,
+    "required_reached": 90.14084507042253,
+    "items_reached": 80.0,
+    "openable_free": 88.63636363636364,
+    "furniture_reached": 88.96103896103897
+   }
+  },
+  "LayoutVLM": {
+   "rooms": 17,
+   "legal": 58.8235294117647,
+   "constraints": 86.66666666666667,
+   "all_constraints_rooms": 76.47058823529412,
+   "0.4": {
+    "rooms_ok": 29.41176470588235,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 93.75,
+    "required_reached": 85.71428571428571,
+    "items_reached": 85.91549295774648,
+    "openable_free": 79.16666666666667,
+    "furniture_reached": 87.23404255319149
+   },
+   "0.5": {
+    "rooms_ok": 23.529411764705884,
+    "robot_ok": 41.1764705882353,
+    "doors_linked": 93.75,
+    "required_reached": 82.85714285714286,
+    "items_reached": 80.28169014084507,
+    "openable_free": 79.16666666666667,
+    "furniture_reached": 85.1063829787234
+   },
+   "0.6": {
+    "rooms_ok": 23.529411764705884,
+    "robot_ok": 41.1764705882353,
+    "doors_linked": 93.75,
+    "required_reached": 68.57142857142857,
+    "items_reached": 73.2394366197183,
+    "openable_free": 79.16666666666667,
+    "furniture_reached": 77.12765957446808
+   }
+  },
+  "workflow v4 (draft + local repair)": {
+   "rooms": 17,
+   "legal": 82.3529411764706,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 41.1764705882353,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 100.0,
+    "required_reached": 78.75,
+    "items_reached": 75.3623188405797,
+    "openable_free": 77.08333333333333,
+    "furniture_reached": 79.3103448275862
+   },
+   "0.5": {
+    "rooms_ok": 29.41176470588235,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 100.0,
+    "required_reached": 75.0,
+    "items_reached": 66.66666666666667,
+    "openable_free": 77.08333333333333,
+    "furniture_reached": 76.4367816091954
+   },
+   "0.6": {
+    "rooms_ok": 29.41176470588235,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 93.75,
+    "required_reached": 66.25,
+    "items_reached": 53.6231884057971,
+    "openable_free": 77.08333333333333,
+    "furniture_reached": 66.0919540229885
+   }
+  },
+  "ours A: all at once + critic loop": {
+   "rooms": 17,
+   "legal": 94.11764705882354,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 93.75,
+    "required_reached": 78.66666666666667,
+    "items_reached": 90.47619047619048,
+    "openable_free": 75.0,
+    "furniture_reached": 80.70175438596492
+   },
+   "0.5": {
+    "rooms_ok": 35.294117647058826,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 93.75,
+    "required_reached": 74.66666666666667,
+    "items_reached": 82.53968253968254,
+    "openable_free": 75.0,
+    "furniture_reached": 74.26900584795321
+   },
+   "0.6": {
+    "rooms_ok": 29.41176470588235,
+    "robot_ok": 29.41176470588235,
+    "doors_linked": 93.75,
+    "required_reached": 64.0,
+    "items_reached": 74.60317460317461,
+    "openable_free": 75.0,
+    "furniture_reached": 64.91228070175438
+   }
+  },
+  "ours C: by group": {
+   "rooms": 16,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 56.25,
+    "robot_ok": 56.25,
+    "doors_linked": 100.0,
+    "required_reached": 75.34246575342466,
+    "items_reached": 80.32786885245902,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 75.625
+   },
+   "0.5": {
+    "rooms_ok": 56.25,
+    "robot_ok": 56.25,
+    "doors_linked": 100.0,
+    "required_reached": 72.6027397260274,
+    "items_reached": 78.68852459016394,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 73.125
+   },
+   "0.6": {
+    "rooms_ok": 43.75,
+    "robot_ok": 43.75,
+    "doors_linked": 93.33333333333333,
+    "required_reached": 71.23287671232876,
+    "items_reached": 70.49180327868852,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 72.5
+   }
+  },
+  "ours C_final: by group + whole-room loop": {
+   "rooms": 16,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 56.25,
+    "robot_ok": 56.25,
+    "doors_linked": 100.0,
+    "required_reached": 80.82191780821918,
+    "items_reached": 86.88524590163935,
+    "openable_free": 79.16666666666667,
+    "furniture_reached": 83.125
+   },
+   "0.5": {
+    "rooms_ok": 56.25,
+    "robot_ok": 56.25,
+    "doors_linked": 100.0,
+    "required_reached": 76.71232876712328,
+    "items_reached": 85.24590163934427,
+    "openable_free": 79.16666666666667,
+    "furniture_reached": 77.5
+   },
+   "0.6": {
+    "rooms_ok": 43.75,
+    "robot_ok": 43.75,
+    "doors_linked": 93.33333333333333,
+    "required_reached": 73.97260273972603,
+    "items_reached": 75.40983606557377,
+    "openable_free": 79.16666666666667,
+    "furniture_reached": 75.625
+   }
+  },
+  "ours staged (old time budget)": {
+   "rooms": 17,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 41.1764705882353,
+    "robot_ok": 41.1764705882353,
+    "doors_linked": 100.0,
+    "required_reached": 78.04878048780488,
+    "items_reached": 89.33333333333333,
+    "openable_free": 75.0,
+    "furniture_reached": 72.94117647058823
+   },
+   "0.5": {
+    "rooms_ok": 35.294117647058826,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 93.75,
+    "required_reached": 71.95121951219512,
+    "items_reached": 85.33333333333333,
+    "openable_free": 75.0,
+    "furniture_reached": 67.05882352941177
+   },
+   "0.6": {
+    "rooms_ok": 35.294117647058826,
+    "robot_ok": 35.294117647058826,
+    "doors_linked": 93.75,
+    "required_reached": 69.51219512195122,
+    "items_reached": 80.0,
+    "openable_free": 75.0,
+    "furniture_reached": 65.29411764705883
+   }
+  },
+  "workflow2 simple (one place, one check, one review)": {
+   "rooms": 17,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 52.94117647058823,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 100.0,
+    "required_reached": 80.0,
+    "items_reached": 80.0,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 79.76878612716763
+   },
+   "0.5": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 93.75,
+    "required_reached": 76.25,
+    "items_reached": 80.0,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 74.56647398843931
+   },
+   "0.6": {
+    "rooms_ok": 47.05882352941177,
+    "robot_ok": 47.05882352941177,
+    "doors_linked": 93.75,
+    "required_reached": 72.5,
+    "items_reached": 74.66666666666667,
+    "openable_free": 72.91666666666667,
+    "furniture_reached": 69.94219653179191
+   }
+  },
+  "workflow2 simple + robot 0.5 m (prompt, search zones, tiered critic)": {
+   "rooms": 17,
+   "legal": 94.11764705882354,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 82.3529411764706,
+    "robot_ok": 88.23529411764706,
+    "doors_linked": 100.0,
+    "required_reached": 97.43589743589743,
+    "items_reached": 100.0,
+    "openable_free": 100.0,
+    "furniture_reached": 93.75
+   },
+   "0.5": {
+    "rooms_ok": 76.47058823529412,
+    "robot_ok": 82.3529411764706,
+    "doors_linked": 100.0,
+    "required_reached": 94.87179487179488,
+    "items_reached": 93.93939393939394,
+    "openable_free": 100.0,
+    "furniture_reached": 90.3409090909091
+   },
+   "0.6": {
+    "rooms_ok": 52.94117647058823,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 93.75,
+    "required_reached": 75.64102564102564,
+    "items_reached": 78.78787878787878,
+    "openable_free": 100.0,
+    "furniture_reached": 73.29545454545455
+   }
+  },
+  "workflow2 simple + robot 0.5 m + 2 drafts + resize": {
+   "rooms": 17,
+   "legal": 100.0,
+   "constraints": 100.0,
+   "all_constraints_rooms": 100.0,
+   "0.4": {
+    "rooms_ok": 82.3529411764706,
+    "robot_ok": 82.3529411764706,
+    "doors_linked": 100.0,
+    "required_reached": 91.13924050632912,
+    "items_reached": 97.10144927536231,
+    "openable_free": 100.0,
+    "furniture_reached": 85.71428571428571
+   },
+   "0.5": {
+    "rooms_ok": 82.3529411764706,
+    "robot_ok": 82.3529411764706,
+    "doors_linked": 100.0,
+    "required_reached": 82.27848101265823,
+    "items_reached": 82.6086956521739,
+    "openable_free": 100.0,
+    "furniture_reached": 80.0
+   },
+   "0.6": {
+    "rooms_ok": 52.94117647058823,
+    "robot_ok": 52.94117647058823,
+    "doors_linked": 100.0,
+    "required_reached": 72.15189873417721,
+    "items_reached": 73.91304347826087,
+    "openable_free": 100.0,
+    "furniture_reached": 68.0
+   }
+  }
+ }
+}

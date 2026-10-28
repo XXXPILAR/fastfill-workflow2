@@ -1,0 +1,102 @@
+{
+ "k": 107,
+ "source": "MansionWorld",
+ "room_type": "study room",
+ "latency_s": 40.89997187489644,
+ "usage": [
+  {
+   "prompt_tokens": 1065,
+   "completion_tokens": 2048,
+   "total_tokens": 3113,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1648,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     1.0,
+     0.78
+    ],
+    "bottom_center_m": [
+     0.225,
+     3.3,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.34,
+     0.48,
+     0.3
+    ],
+    "bottom_center_m": [
+     1.8,
+     0.9,
+     1.45
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.42,
+     0.9,
+     1.45
+    ],
+    "bottom_center_m": [
+     1.79,
+     0.9,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.72,
+     1.4,
+     0.75
+    ],
+    "bottom_center_m": [
+     1.0,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.12,
+     0.6,
+     0.45
+    ],
+    "bottom_center_m": [
+     0.16,
+     3.3,
+     0.78
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe executive desk occupies the wider lower portion of the room, leaving circulation space around it and a clear route from the door through the narrow transition at y = 3. The tall storage cabinet is placed against the right wall, away from the window, with the microwave centered safely on top. The credenza is placed against the left wall in the upper area, while preserving the doorway zone; the framed photo rests on its top. All furniture is wall-aligned, and the window and door remain unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.0,\"depth_m\":0.45,\"height_m\":0.78,\"x\":0.225,\"y\":3.3,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.48,\"depth_m\":0.34,\"height_m\":0.3,\"x\":1.8,\"y\":0.9,\"z\":1.45,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":0.9,\"depth_m\":0.42,\"height_m\":1.45,\"x\":1.79,\"y\":0.9,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":1.4,\"depth_m\":0.72,\"height_m\":0.75,\"x\":1.0,\"y\":2.0,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.6,\"depth_m\":0.12,\"height_m\":0.45,\"x\":0.16,\"y\":3.3,\"z\":0.78,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.000 m x 4.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [2.0, 0.0], [2.0, 3.0], [3.0, 3.0], [3.0, 4.0], [0.0, 4.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"desk return credenza\", \"description\": \"A set of pinewood drawers.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"storage box\", \"description\": \"A red microwave oven.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0002\", \"category\": \"floor storage cabinet\", \"description\": \"A rectangular set of five dark gray shelves with two drawers beneath them.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"executive desk\", \"description\": \"A light wooden table with rounded corners and four skinny legs with white accents at the top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"framed photo\", \"description\": \"A blue painting in a black frame.\", \"support_parent\": \"obj_0000\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.587, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.0, 0.0], \"width_m\": 1.128, \"height_m\": 1.532, \"sill_height_m\": 0.6}, {\"type\": \"door\", \"centre_xy\": [3.0, 3.5], \"wall_from\": [3.0, 3.0], \"wall_to\": [3.0, 4.0], \"width_m\": 0.998, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0004\", \"parent_id\": \"obj_0000\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

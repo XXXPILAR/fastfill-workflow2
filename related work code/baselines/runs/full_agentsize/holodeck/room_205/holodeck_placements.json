@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "multifunctional combination bed-0",
+   "id": "multifunctional combination bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.9,
+    "z": 0.6050089573004737
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     225.0,
+     -4.499104269952639
+    ],
+    [
+     225.0,
+     125.50089573004736
+    ],
+    [
+     15.0,
+     125.50089573004736
+    ],
+    [
+     15.0,
+     -4.499104269952639
+    ]
+   ],
+   "object_name": "multifunctional combination bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.0750009765625,
+    "y": 1.05,
+    "z": 1.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     172.50009765625,
+     130.0
+    ],
+    [
+     172.50009765625,
+     260.0
+    ],
+    [
+     242.50009765625,
+     260.0
+    ],
+    [
+     242.50009765625,
+     130.0
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "chair-0",
+   "id": "chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 0.425,
+    "z": 3.040010653374734
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     164.0,
+     335.0010653374734
+    ],
+    [
+     164.0,
+     273.0010653374734
+    ],
+    [
+     106.0,
+     273.0010653374734
+    ],
+    [
+     106.0,
+     335.0010653374734
+    ]
+   ],
+   "object_name": "chair-0"
+  }
+ ],
+ "wall": []
+}

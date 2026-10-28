@@ -1,0 +1,153 @@
+{
+ "floor": [
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 0.425,
+    "z": 0.43
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.0,
+     -4.5
+    ],
+    [
+     230.0,
+     90.5
+    ],
+    [
+     40.0,
+     90.5
+    ],
+    [
+     40.0,
+     -4.5
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  },
+  {
+   "assetId": "bookshelf-0",
+   "id": "bookshelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.15500000000000003,
+    "y": 0.9,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     35.5,
+     105.0
+    ],
+    [
+     35.5,
+     195.0
+    ],
+    [
+     -4.499999999999998,
+     195.0
+    ],
+    [
+     -4.499999999999998,
+     105.0
+    ]
+   ],
+   "object_name": "bookshelf-0"
+  },
+  {
+   "assetId": "desk-0",
+   "id": "desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 0.375,
+    "z": 2.2725000000000004
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     210.0,
+     267.25000000000006
+    ],
+    [
+     210.0,
+     187.25000000000006
+    ],
+    [
+     60.0,
+     187.25000000000006
+    ],
+    [
+     60.0,
+     267.25000000000006
+    ]
+   ],
+   "object_name": "desk-0"
+  },
+  {
+   "assetId": "chair-0",
+   "id": "chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 0.525,
+    "z": 1.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     172.5,
+     97.5
+    ],
+    [
+     172.5,
+     172.5
+    ],
+    [
+     97.5,
+     172.5
+    ],
+    [
+     97.5,
+     97.5
+    ],
+    [
+     172.5,
+     97.5
+    ]
+   ],
+   "object_name": "chair-0"
+  }
+ ],
+ "wall": []
+}

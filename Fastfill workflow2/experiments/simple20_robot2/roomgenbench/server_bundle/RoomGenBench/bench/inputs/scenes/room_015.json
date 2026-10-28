@@ -1,0 +1,199 @@
+{
+ "scene_key": "room_015",
+ "room_type": "bedroom",
+ "building_style": "",
+ "prompt": "",
+ "room": {
+  "dimensions": {
+   "width": 2.75999,
+   "length": 3.85488,
+   "height": 2.8
+  },
+  "position": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "ceiling_height": 2.8,
+  "walls": [
+   {
+    "id": "wall_0",
+    "start_point": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.75999,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_1",
+    "start_point": {
+     "x": 2.75999,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.75999,
+     "y": 3.85488,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_2",
+    "start_point": {
+     "x": 2.75999,
+     "y": 3.85488,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 3.85488,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_3",
+    "start_point": {
+     "x": 0.0,
+     "y": 3.85488,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   }
+  ],
+  "doors": [
+   {
+    "id": "opening_2",
+    "wall_id": "wall_2",
+    "position_on_wall": 0.806014,
+    "width": 0.9,
+    "height": 2.2,
+    "door_type": "door"
+   }
+  ],
+  "windows": [
+   {
+    "id": "opening_0",
+    "wall_id": "wall_0",
+    "position_on_wall": 0.495437,
+    "width": 2.816,
+    "height": 1.8,
+    "sill_height": 0.45
+   },
+   {
+    "id": "opening_1",
+    "wall_id": "wall_0",
+    "position_on_wall": 0.495437,
+    "width": 2.708,
+    "height": 1.6,
+    "sill_height": 0.55
+   }
+  ]
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "nightstand",
+   "description": "A modern nightstand with a sleek design, featuring a wooden frame and a gray panel on the front. It has four angled legs for stability.",
+   "asset_key": "nightstand_d13f1683",
+   "position": {
+    "x": 0.211,
+    "y": 0.9064,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -89.9
+   },
+   "dimensions": {
+    "width": 0.5536799430847168,
+    "length": 0.42107200622558594,
+    "height": 0.6266829371452332
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0001",
+   "type": "king size bed",
+   "description": "A modern bed with a wooden base and a padded headboard. It features a neatly arranged bedding set with gray pillows and a black throw blanket.",
+   "asset_key": "king_size_bed_eb53c3cd",
+   "position": {
+    "x": 1.5475,
+    "y": 2.1179,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.1
+   },
+   "dimensions": {
+    "width": 1.9014272689819336,
+    "length": 2.232576847076416,
+    "height": 1.0829732418060303
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0002",
+   "type": "nightstand",
+   "description": "A modern nightstand with a sleek design, featuring a wooden frame and a gray panel on the front. It has four angled legs for stability.",
+   "asset_key": "nightstand_d13f1683",
+   "position": {
+    "x": 1.6329,
+    "y": 3.3731,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.1
+   },
+   "dimensions": {
+    "width": 0.5352723002433777,
+    "length": 0.4053269028663635,
+    "height": 0.5480732321739197
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0003",
+   "type": "wardrobe",
+   "description": "A large wooden wardrobe with two sections, each featuring double doors with vertical slats and silver handles. The interior appears to have shelves or compartments.",
+   "asset_key": "wardrobe_ae2132a5",
+   "position": {
+    "x": 1.371,
+    "y": 0.3137,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.09999999999999377
+   },
+   "dimensions": {
+    "width": 1.906566858291626,
+    "length": 0.6240962147712708,
+    "height": 2.387772560119629
+   },
+   "place_id": "floor"
+  }
+ ]
+}

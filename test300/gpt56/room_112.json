@@ -1,0 +1,60 @@
+{
+ "k": 112,
+ "source": "MansionWorld",
+ "room_type": "study room",
+ "latency_s": 12.762479458004236,
+ "usage": [
+  {
+   "prompt_tokens": 911,
+   "completion_tokens": 546,
+   "total_tokens": 1457,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 338,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.7,
+     1.5,
+     0.76
+    ],
+    "bottom_center_m": [
+     0.35,
+     2.1,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.06,
+     0.4,
+     0.4
+    ],
+    "bottom_center_m": [
+     1.0,
+     3.97,
+     1.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe executive desk is the main space-consuming object, so it is placed against the long left wall, away from the window and the door approach. It faces into the room, leaving clear space in front for access. The wall clock is mounted on the upper wall section, visible from the desk while keeping the door area unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.5,\"depth_m\":0.7,\"height_m\":0.76,\"x\":0.35,\"y\":2.1,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.4,\"depth_m\":0.06,\"height_m\":0.4,\"x\":1.0,\"y\":3.97,\"z\":1.9,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.000 m x 4.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [2.0, 0.0], [2.0, 3.0], [3.0, 3.0], [3.0, 4.0], [0.0, 4.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"executive desk\", \"description\": \"A wooden rectangular desk on four metal feet.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"wall clock\", \"description\": \"A round gray wall clock.\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.131, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.0, 0.0], \"width_m\": 1.128, \"height_m\": 1.532, \"sill_height_m\": 0.8}, {\"type\": \"door\", \"centre_xy\": [3.0, 3.5], \"wall_from\": [3.0, 3.0], \"wall_to\": [3.0, 4.0], \"width_m\": 0.998, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,92 @@
+{
+ "task_description": "a kitchen of about 4.2m x 4.2m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 0.79 m wide centred at (3.62, 0.88); a window 1.52 m wide centred at (4.25, 3.46); a door 1.50 m wide centred at (1.11, 0.00) (keep the floor in front of it clear). the refrigerator (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    1.8571680000000002,
+    0.0,
+    0.0
+   ],
+   [
+    1.8571680000000002,
+    1.5782420000000001,
+    0.0
+   ],
+   [
+    2.097168,
+    1.5782420000000001,
+    0.0
+   ],
+   [
+    2.097168,
+    0.8782420000000002,
+    0.0
+   ],
+   [
+    4.249746,
+    0.8782420000000002,
+    0.0
+   ],
+   [
+    4.249746,
+    4.2292179999999995,
+    0.0
+   ],
+   [
+    2.097168,
+    4.2292179999999995,
+    0.0
+   ],
+   [
+    2.097168,
+    2.459218,
+    0.0
+   ],
+   [
+    0.0,
+    2.459218,
+    0.0
+   ],
+   [
+    0.0,
+    2.061347,
+    0.0
+   ],
+   [
+    0.4003129999999999,
+    2.061347,
+    0.0
+   ],
+   [
+    0.4003129999999999,
+    2.432002,
+    0.0
+   ],
+   [
+    0.500313,
+    2.432002,
+    0.0
+   ],
+   [
+    0.500313,
+    1.9613470000000002,
+    0.0
+   ],
+   [
+    0.0,
+    1.9613470000000002,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {}
+ }
+}

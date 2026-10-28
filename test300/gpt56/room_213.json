@@ -1,0 +1,146 @@
+{
+ "k": 213,
+ "source": "SpatialLM",
+ "room_type": "living room",
+ "latency_s": 101.6263200410176,
+ "usage": [
+  {
+   "prompt_tokens": 1507,
+   "completion_tokens": 5475,
+   "total_tokens": 6982,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 4922,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0001 (dining table combination) stands in front of a door; keep about 0.8 m in front of every door free"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.3,
+     0.8,
+     0.95
+    ],
+    "bottom_center_m": [
+     2.47,
+     0.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     1.1,
+     1.9,
+     0.76
+    ],
+    "bottom_center_m": [
+     4.3,
+     3.1,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.5,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     6.1,
+     2.15,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.55
+    ],
+    "bottom_center_m": [
+     4.3,
+     3.1,
+     0.76
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.9,
+     2.4,
+     0.85
+    ],
+    "bottom_center_m": [
+     8.34,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.15,
+     0.25,
+     0.35
+    ],
+    "bottom_center_m": [
+     2.47,
+     0.15,
+     0.95
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.5,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     7.25,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.5,
+     1.6,
+     1.05
+    ],
+    "bottom_center_m": [
+     6.2,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining combination occupies the upper-left central area, with enough clearance from the doors for circulation; the flowers rest on its tabletop. The combination sofa uses the long right wall, while the bar sits nearer the room’s center and lower circulation zone. One bar chair faces the bar, and the second is placed at the bar’s end facing the sofa as required. The shoe cabinet fits on the short solid section of the lower wall between door openings, with the ornaments displayed on top. Clear routes remain along the upper door wall, around the dining area, and from the lower entrances.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.8,\"depth_m\":0.3,\"height_m\":0.95,\"x\":2.47,\"y\":0.15,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":1.9,\"depth_m\":1.1,\"height_m\":0.76,\"x\":4.3,\"y\":3.1,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.45,\"depth_m\":0.5,\"height_m\":1,\"x\":6.1,\"y\":2.15,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.55,\"x\":4.3,\"y\":3.1,\"z\":0.76,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":2.4,\"depth_m\":0.9,\"height_m\":0.85,\"x\":8.34,\"y\":2.4,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0005\",\"width_m\":0.25,\"depth_m\":0.15,\"height_m\":0.35,\"x\":2.47,\"y\":0.15,\"z\":0.95,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.45,\"depth_m\":0.5,\"height_m\":1,\"x\":7.25,\"y\":2.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":1.6,\"depth_m\":0.5,\"height_m\":1.05,\"x\":6.2,\"y\":1.55,\"z\":0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 9.900 m x 4.480 m x 2.800 m\nfloor polygon (x, y): [[8.79, 4.48], [2.3, 4.48], [2.3, 1.5], [0.0, 1.5], [0.0, 0.0], [9.9, 0.0], [9.9, 1.2], [8.79, 1.2]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"shoe cabinet\", \"description\": \"shoe cabinet\"},\n{\"id\": \"obj_0001\", \"category\": \"dining table combination\", \"description\": \"dining table combination\"},\n{\"id\": \"obj_0002\", \"category\": \"bar chair\", \"description\": \"bar chair\"},\n{\"id\": \"obj_0003\", \"category\": \"flowers\", \"description\": \"flowers\"},\n{\"id\": \"obj_0004\", \"category\": \"combination sofa\", \"description\": \"combination sofa\"},\n{\"id\": \"obj_0005\", \"category\": \"ornaments\", \"description\": \"ornaments\"},\n{\"id\": \"obj_0006\", \"category\": \"bar chair\", \"description\": \"bar chair\"},\n{\"id\": \"obj_0007\", \"category\": \"bar\", \"description\": \"bar\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [6.995, 4.48], \"wall_from\": [8.79, 4.48], \"wall_to\": [2.3, 4.48], \"width_m\": 2.75, \"height_m\": 2.247}, {\"type\": \"door\", \"centre_xy\": [3.79, 4.48], \"wall_from\": [8.79, 4.48], \"wall_to\": [2.3, 4.48], \"width_m\": 1.76, \"height_m\": 2.15}, {\"type\": \"door\", \"centre_xy\": [2.3, 3.146], \"wall_from\": [2.3, 4.48], \"wall_to\": [2.3, 1.5], \"width_m\": 1.76, \"height_m\": 2.4}, {\"type\": \"door\", \"centre_xy\": [0.0, 0.635], \"wall_from\": [0.0, 1.5], \"wall_to\": [0.0, 0.0], \"width_m\": 1.12, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [1.13, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [9.9, 0.0], \"width_m\": 1.62, \"height_m\": 2.15}, {\"type\": \"door\", \"centre_xy\": [3.475, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [9.9, 0.0], \"width_m\": 0.937, \"height_m\": 2.219}, {\"type\": \"door\", \"centre_xy\": [7.122, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [9.9, 0.0], \"width_m\": 0.937, \"height_m\": 2.219}, {\"type\": \"door\", \"centre_xy\": [8.158, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [9.9, 0.0], \"width_m\": 0.937, \"height_m\": 2.219}, {\"type\": \"door\", \"centre_xy\": [9.445, 1.2], \"wall_from\": [9.9, 1.2], \"wall_to\": [8.79, 1.2], \"width_m\": 0.91, \"height_m\": 2.219}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0006\", \"target_id\": \"obj_0004\"}]\n[/Task Constraints]"
+}

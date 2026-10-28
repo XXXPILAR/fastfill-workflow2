@@ -1,0 +1,374 @@
+{
+ "k": 135,
+ "source": "MansionWorld",
+ "room_type": "dining room",
+ "latency_s": 88.54397033411078,
+ "usage": [
+  {
+   "prompt_tokens": 1721,
+   "completion_tokens": 4761,
+   "total_tokens": 6482,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3381,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0001 (bench seat) and obj_0005 (dining table) intersect (0.034 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0005 (dining table) and obj_0007 (bench seat) intersect (0.034 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0005 (dining table) and obj_0008 (dining chair) intersect (0.275 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0005 (dining table) and obj_0010 (dining chair) intersect (0.027 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0005 (dining table) and obj_0020 (dining chair) intersect (0.027 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.42
+    ],
+    "bottom_center_m": [
+     5.72,
+     4.15,
+     1.15
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.45,
+     1.15,
+     0.46
+    ],
+    "bottom_center_m": [
+     4.0,
+     3.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.4,
+     1.1,
+     0.78
+    ],
+    "bottom_center_m": [
+     0.2,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     0.75,
+     0.86
+    ],
+    "bottom_center_m": [
+     4.65,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.06,
+     0.52,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.65,
+     4.97,
+     1.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     1.0,
+     2.8,
+     0.76
+    ],
+    "bottom_center_m": [
+     3.0,
+     2.9,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.52
+    ],
+    "bottom_center_m": [
+     0.2,
+     2.0,
+     0.78
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.45,
+     1.15,
+     0.46
+    ],
+    "bottom_center_m": [
+     2.0,
+     3.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.0,
+     3.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.16
+    ],
+    "bottom_center_m": [
+     4.65,
+     1.55,
+     0.86
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.9
+    ],
+    "bottom_center_m": [
+     2.3,
+     2.05,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.5,
+     1.6,
+     0.86
+    ],
+    "bottom_center_m": [
+     0.25,
+     4.05,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.5,
+     1.1,
+     1.2
+    ],
+    "bottom_center_m": [
+     5.75,
+     1.7,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.17
+    ],
+    "bottom_center_m": [
+     3.0,
+     2.9,
+     0.76
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.4,
+     0.9,
+     1.35
+    ],
+    "bottom_center_m": [
+     5.78,
+     2.9,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.06,
+     0.45,
+     0.45
+    ],
+    "bottom_center_m": [
+     0.8,
+     4.97,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.12,
+     0.4,
+     0.35
+    ],
+    "bottom_center_m": [
+     0.25,
+     4.05,
+     0.86
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.06,
+     0.45,
+     0.45
+    ],
+    "bottom_center_m": [
+     1.4,
+     4.97,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.4
+    ],
+    "bottom_center_m": [
+     5.75,
+     1.7,
+     1.2
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.06,
+     0.45,
+     0.45
+    ],
+    "bottom_center_m": [
+     3.6,
+     4.97,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.7,
+     2.05,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.4,
+     1.1,
+     1.15
+    ],
+    "bottom_center_m": [
+     5.78,
+     4.15,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.06,
+     0.45,
+     0.45
+    ],
+    "bottom_center_m": [
+     4.45,
+     4.97,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.38
+    ],
+    "bottom_center_m": [
+     5.78,
+     2.9,
+     1.35
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining table occupies the central open area, with two benches and three chairs grouped around it. The required chair is centered between the two benches along the table’s north side. Storage and display furniture are distributed along the west and east walls, preserving circulation around the table and keeping the window wall unobstructed. The serving trolley remains near the dining group, while all supported decorations are placed fully on their designated furniture. Wall decorations use the uninterrupted north wall above normal furniture height.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.42,\"x\":5.72,\"y\":4.15,\"z\":1.15,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":1.15,\"depth_m\":0.45,\"height_m\":0.46,\"x\":4.0,\"y\":3.7,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":1.1,\"depth_m\":0.4,\"height_m\":0.78,\"x\":0.2,\"y\":2.0,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":0.75,\"depth_m\":0.45,\"height_m\":0.86,\"x\":4.65,\"y\":1.55,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.52,\"depth_m\":0.06,\"height_m\":0.55,\"x\":2.65,\"y\":4.97,\"z\":1.75,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":2.8,\"depth_m\":1.0,\"height_m\":0.76,\"x\":3.0,\"y\":2.9,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0006\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.52,\"x\":0.2,\"y\":2.0,\"z\":0.78,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":1.15,\"depth_m\":0.45,\"height_m\":0.46,\"x\":2.0,\"y\":3.7,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0008\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.9,\"x\":3.0,\"y\":3.7,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.16,\"x\":4.65,\"y\":1.55,\"z\":0.86,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.9,\"x\":2.3,\"y\":2.05,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":1.6,\"depth_m\":0.5,\"height_m\":0.86,\"x\":0.25,\"y\":4.05,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":1.1,\"depth_m\":0.5,\"height_m\":1.2,\"x\":5.75,\"y\":1.7,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0013\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.17,\"x\":3.0,\"y\":2.9,\"z\":0.76,\"facing_deg\":0},{\"id\":\"obj_0014\",\"width_m\":0.9,\"depth_m\":0.4,\"height_m\":1.35,\"x\":5.78,\"y\":2.9,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0015\",\"width_m\":0.45,\"depth_m\":0.06,\"height_m\":0.45,\"x\":0.8,\"y\":4.97,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0016\",\"width_m\":0.4,\"depth_m\":0.12,\"height_m\":0.35,\"x\":0.25,\"y\":4.05,\"z\":0.86,\"facing_deg\":0},{\"id\":\"obj_0017\",\"width_m\":0.45,\"depth_m\":0.06,\"height_m\":0.45,\"x\":1.4,\"y\":4.97,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0018\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.4,\"x\":5.75,\"y\":1.7,\"z\":1.2,\"facing_deg\":180},{\"id\":\"obj_0019\",\"width_m\":0.45,\"depth_m\":0.06,\"height_m\":0.45,\"x\":3.6,\"y\":4.97,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0020\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.9,\"x\":3.7,\"y\":2.05,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0021\",\"width_m\":1.1,\"depth_m\":0.4,\"height_m\":1.15,\"x\":5.78,\"y\":4.15,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0022\",\"width_m\":0.45,\"depth_m\":0.06,\"height_m\":0.45,\"x\":4.45,\"y\":4.97,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0023\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.38,\"x\":5.78,\"y\":2.9,\"z\":1.35,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndining room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.000 m x 5.000 m x 3.000 m\nfloor polygon (x, y): [[0.0, 0.0], [4.0, 0.0], [4.0, 1.0], [6.0, 1.0], [6.0, 5.0], [0.0, 5.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"vase\", \"description\": \"vase\", \"support_parent\": \"obj_0021\"},\n{\"id\": \"obj_0001\", \"category\": \"bench seat\", \"description\": \"bench seat\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"console table\", \"description\": \"console table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"serving trolley\", \"description\": \"serving trolley\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"wall clock\", \"description\": \"A black wall clock.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0005\", \"category\": \"dining table\", \"description\": \"dining table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"table lamp\", \"description\": \"table lamp\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0007\", \"category\": \"bench seat\", \"description\": \"bench seat\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"dining chair\", \"description\": \"dining chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"stack of plates\", \"description\": \"stack of plates\", \"support_parent\": \"obj_0003\"},\n{\"id\": \"obj_0010\", \"category\": \"dining chair\", \"description\": \"dining chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"buffet sideboard\", \"description\": \"buffet sideboard\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"storage cabinet\", \"description\": \"storage cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"stack of plates\", \"description\": \"stack of plates\", \"support_parent\": \"obj_0005\"},\n{\"id\": \"obj_0014\", \"category\": \"display shelf\", \"description\": \"display shelf\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0015\", \"category\": \"wall art small\", \"description\": \"wooden model of a frog and bird on a plaque, mounted on a white wall.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0016\", \"category\": \"picture frame\", \"description\": \"picture frame\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0017\", \"category\": \"wall art small\", \"description\": \"wooden model of a frog and bird on a plaque, mounted on a white wall.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0018\", \"category\": \"decorative jar\", \"description\": \"decorative jar\", \"support_parent\": \"obj_0012\"},\n{\"id\": \"obj_0019\", \"category\": \"wall art small\", \"description\": \"wooden model of a frog and bird on a plaque, mounted on a white wall.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0020\", \"category\": \"dining chair\", \"description\": \"dining chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0021\", \"category\": \"display shelf\", \"description\": \"display shelf\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0022\", \"category\": \"wall art small\", \"description\": \"wooden model of a frog and bird on a plaque, mounted on a white wall.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0023\", \"category\": \"vase\", \"description\": \"vase\", \"support_parent\": \"obj_0014\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.123, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [4.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [3.092, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [4.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 0.6}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0016\", \"parent_id\": \"obj_0011\"}, {\"type\": \"between\", \"object_id\": \"obj_0008\", \"target_ids\": [\"obj_0007\", \"obj_0001\"]}]\n[/Task Constraints]"
+}

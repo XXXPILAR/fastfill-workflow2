@@ -1,0 +1,9 @@
+plan for bedroom: Place the king-size bed as the primary anchor along a long wall, leaving circulation space toward the opposite side of the room. Position the TV stand against the opposite wall, centered with the bed so the bed faces it. Place the two nightstands on opposite sides of the bed, with nightstand-0 immediately adjacent—within 10 cm—and nightstand-1 against the wall. Put the wardrobe along a remaining wall, away from the main circulation path.
+
+king size bed-0 | edge
+wardrobe-0 | edge
+tv stand-0 | edge | in front of, king size bed-0 | center aligned, king size bed-0
+nightstand-0 | edge | left of, king size bed-0 | side of, king size bed-0
+nightstand-1 | edge | right of, king size bed-0 | side of, king size bed-0
+Number of solutions found: 20
+room 34: ok missing=0 on_rule=0 99s 1 calls

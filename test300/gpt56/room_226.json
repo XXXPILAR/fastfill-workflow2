@@ -1,0 +1,60 @@
+{
+ "k": 226,
+ "source": "SpatialLM",
+ "room_type": "kitchen",
+ "latency_s": 14.521097249817103,
+ "usage": [
+  {
+   "prompt_tokens": 955,
+   "completion_tokens": 685,
+   "total_tokens": 1640,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 476,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.68,
+     0.65,
+     1.85
+    ],
+    "bottom_center_m": [
+     2.56,
+     1.362,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.65,
+     0.6,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.235,
+     1.347,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe refrigerator and washing machine are grouped along the long lower wall, where they do not conflict with either door or the window. Both face into the room, leaving a continuous aisle along the upper side for access between the two doors. The refrigerator is placed first against the required wall, with the washing machine beside it and a small installation gap.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.65,\"depth_m\":0.68,\"height_m\":1.85,\"x\":2.56,\"y\":1.362,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.6,\"depth_m\":0.65,\"height_m\":0.85,\"x\":3.235,\"y\":1.347,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.865 m x 2.502 m x 2.400 m\nfloor polygon (x, y): [[5.865, 2.502], [0.0, 2.502], [0.0, 1.201], [1.163, 0.0], [2.209, 1.022], [5.865, 1.022]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"},\n{\"id\": \"obj_0001\", \"category\": \"washing machine\", \"description\": \"washing machine\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.075, 2.502], \"wall_from\": [5.865, 2.502], \"wall_to\": [0.0, 2.502], \"width_m\": 1.58, \"height_m\": 2.25}, {\"type\": \"window\", \"centre_xy\": [3.349, 2.502], \"wall_from\": [5.865, 2.502], \"wall_to\": [0.0, 2.502], \"width_m\": 0.702, \"height_m\": 0.8, \"sill_height_m\": 1.4}, {\"type\": \"door\", \"centre_xy\": [0.0, 1.851], \"wall_from\": [0.0, 2.502], \"wall_to\": [0.0, 1.201], \"width_m\": 1.301, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

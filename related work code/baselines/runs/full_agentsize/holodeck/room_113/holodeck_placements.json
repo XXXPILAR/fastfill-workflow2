@@ -1,0 +1,426 @@
+{
+ "floor": [
+  {
+   "assetId": "tall storage cabinet-0",
+   "id": "tall storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.95,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     250.0
+    ],
+    [
+     55.5,
+     350.0
+    ],
+    [
+     -4.5,
+     350.0
+    ],
+    [
+     -4.5,
+     250.0
+    ]
+   ],
+   "object_name": "tall storage cabinet-0"
+  },
+  {
+   "assetId": "tall storage cabinet-1",
+   "id": "tall storage cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.745,
+    "y": 0.95,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     244.5,
+     0.0
+    ],
+    [
+     244.5,
+     100.0
+    ],
+    [
+     304.5,
+     100.0
+    ],
+    [
+     304.5,
+     0.0
+    ]
+   ],
+   "object_name": "tall storage cabinet-1"
+  },
+  {
+   "assetId": "lab workbench-0",
+   "id": "lab workbench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.62,
+    "y": 0.45,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     219.5,
+     205.0
+    ],
+    [
+     219.5,
+     395.0
+    ],
+    [
+     304.5,
+     395.0
+    ],
+    [
+     304.5,
+     205.0
+    ]
+   ],
+   "object_name": "lab workbench-0"
+  },
+  {
+   "assetId": "mobile lab cart-0",
+   "id": "mobile lab cart-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.745,
+    "y": 0.475,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     244.5,
+     402.5
+    ],
+    [
+     244.5,
+     497.5
+    ],
+    [
+     304.5,
+     497.5
+    ],
+    [
+     304.5,
+     402.5
+    ]
+   ],
+   "object_name": "mobile lab cart-0"
+  },
+  {
+   "assetId": "support desk-0",
+   "id": "support desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.375,
+    "z": 4.695
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     235.0,
+     504.5
+    ],
+    [
+     235.0,
+     434.5
+    ],
+    [
+     115.0,
+     434.5
+    ],
+    [
+     115.0,
+     504.5
+    ]
+   ],
+   "object_name": "support desk-0"
+  },
+  {
+   "assetId": "support chair-0",
+   "id": "support chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.45,
+    "z": 3.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     185.0,
+     340.0
+    ],
+    [
+     185.0,
+     410.0
+    ],
+    [
+     115.0,
+     410.0
+    ],
+    [
+     115.0,
+     340.0
+    ],
+    [
+     185.0,
+     340.0
+    ]
+   ],
+   "object_name": "support chair-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall whiteboard-0",
+   "id": "wall whiteboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.97,
+    "y": 1.9,
+    "z": 2.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     300.0,
+     165.0
+    ],
+    [
+     300.0,
+     285.0
+    ],
+    [
+     296.0,
+     285.0
+    ],
+    [
+     296.0,
+     165.0
+    ],
+    [
+     300.0,
+     165.0
+    ]
+   ],
+   "object_name": "wall whiteboard-0"
+  },
+  {
+   "assetId": "wall cabinet-0",
+   "id": "wall cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.185,
+    "y": 2.375,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     135.0,
+     100.0
+    ],
+    [
+     135.0,
+     200.0
+    ],
+    [
+     100.0,
+     200.0
+    ],
+    [
+     100.0,
+     100.0
+    ],
+    [
+     135.0,
+     100.0
+    ]
+   ],
+   "object_name": "wall cabinet-0"
+  },
+  {
+   "assetId": "wall shelf-0",
+   "id": "wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.25,
+    "y": 1.75,
+    "z": 4.865
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     175.0,
+     475.0
+    ],
+    [
+     175.0,
+     500.0
+    ],
+    [
+     75.0,
+     500.0
+    ],
+    [
+     75.0,
+     475.0
+    ],
+    [
+     175.0,
+     475.0
+    ]
+   ],
+   "object_name": "wall shelf-0"
+  },
+  {
+   "assetId": "wall cabinet-1",
+   "id": "wall cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 2.375,
+    "z": 4.815
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     300.0,
+     465.0
+    ],
+    [
+     300.0,
+     500.0
+    ],
+    [
+     200.0,
+     500.0
+    ],
+    [
+     200.0,
+     465.0
+    ],
+    [
+     300.0,
+     465.0
+    ]
+   ],
+   "object_name": "wall cabinet-1"
+  },
+  {
+   "assetId": "wall shelf-1",
+   "id": "wall shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 1.75,
+    "z": 4.865
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     300.0,
+     475.0
+    ],
+    [
+     300.0,
+     500.0
+    ],
+    [
+     200.0,
+     500.0
+    ],
+    [
+     200.0,
+     475.0
+    ],
+    [
+     300.0,
+     475.0
+    ]
+   ],
+   "object_name": "wall shelf-1"
+  }
+ ]
+}

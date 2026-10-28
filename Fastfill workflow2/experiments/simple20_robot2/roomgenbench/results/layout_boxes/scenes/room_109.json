@@ -1,0 +1,130 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_109",
+ "room_type": "study room",
+ "room": {
+  "width": 6.0,
+  "length": 3.0,
+  "height": 3.2
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 9
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "low credenza",
+   "asset_key": "low_credenza_81979f47",
+   "description": "The table is wooden with shelves, drawers, and a cabinet.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "meeting table round",
+   "asset_key": "meeting_table_round_5e337c57",
+   "description": "A round all brown kitchen table.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "executive task chair",
+   "asset_key": "executive_task_chair_d5ec9351",
+   "description": "A black office chair from minecraft.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "notepad",
+   "asset_key": "notepad_82a1440f",
+   "description": "Paper scroll with lines of handwriting.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "wall clock",
+   "asset_key": "wall_clock_d920bfce",
+   "description": "A black wall clock.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "desk organizer",
+   "asset_key": "desk_organizer_504518fc",
+   "description": "A wooden crate with compartments that is used to hold things.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "executive desk",
+   "asset_key": "executive_desk_d1716999",
+   "description": "A dark colored wooden desk with drawers on both sides.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "wall art",
+   "asset_key": "wall_art_d35422eb",
+   "description": "A white rectangular poster with black blue and orange marks and irregular writing.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "visitor chair",
+   "asset_key": "visitor_chair_0f4bfe6d",
+   "description": "This is a black folding chair.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  }
+ ]
+}

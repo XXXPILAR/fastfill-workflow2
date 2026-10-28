@@ -1,0 +1,37 @@
+{
+ "task_description": "a kitchen of about 4.0m x 5.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the freestanding pantry cabinet (o0005) should be against a wall. the freestanding pantry cabinet (o0005) should be within 0.30 m of the rolling kitchen cart (o0001). the oven and stove unit (o0004) should be against a wall. the kitchen cabinet lower (o0003) should be within 0.10 m of the oven and stove unit (o0002)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.0,
+    0.0,
+    0.0
+   ],
+   [
+    4.0,
+    5.0,
+    0.0
+   ],
+   [
+    0.0,
+    5.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {}
+ }
+}

@@ -1,0 +1,102 @@
+{
+ "k": 295,
+ "source": "Structured3D",
+ "room_type": "living room",
+ "latency_s": 49.64786458294839,
+ "usage": [
+  {
+   "prompt_tokens": 1208,
+   "completion_tokens": 2619,
+   "total_tokens": 3827,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2226,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.4,
+     1.4,
+     0.76
+    ],
+    "bottom_center_m": [
+     3.52,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.9,
+     2.15,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.52,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.7,
+     4.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     0.85
+    ],
+    "bottom_center_m": [
+     4.3,
+     4.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.65,
+     1.0,
+     0.42
+    ],
+    "bottom_center_m": [
+     3.52,
+     3.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe sofa is the largest object and is centered in the lower portion of the room, where the polygon provides a quiet, uninterrupted seating zone. It faces north toward obj_0004, used as a coffee table. Obj_0000 is a narrow console table behind the sofa, so the sofa lies between the two tables as required. The two chairs are placed beyond the coffee table and face back toward the sofa, creating a compact conversation group. Their placement leaves clear routes along the upper part of the room between all four doors.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.4,\"depth_m\":0.4,\"height_m\":0.76,\"x\":3.52,\"y\":0.35,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":2.15,\"depth_m\":0.9,\"height_m\":0.85,\"x\":3.52,\"y\":2.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":0.85,\"x\":2.7,\"y\":4.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":0.85,\"x\":4.3,\"y\":4.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":1.0,\"depth_m\":0.65,\"height_m\":0.42,\"x\":3.52,\"y\":3.55,\"z\":0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.980 m x 6.180 m x 2.800 m\nfloor polygon (x, y): [[5.98, 4.2], [5.98, 6.18], [0.0, 6.18], [0.0, 4.4], [2.056, 4.4], [2.056, 0.0], [4.98, 0.0], [4.98, 4.2]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0001\", \"category\": \"sofa\", \"description\": \"sofa\"},\n{\"id\": \"obj_0002\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0003\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0004\", \"category\": \"table\", \"description\": \"table\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.98, 4.87], \"wall_from\": [5.98, 4.2], \"wall_to\": [5.98, 6.18], \"width_m\": 0.8, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [0.0, 4.835], \"wall_from\": [0.0, 6.18], \"wall_to\": [0.0, 4.4], \"width_m\": 0.8, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [0.884, 4.4], \"wall_from\": [0.0, 4.4], \"wall_to\": [2.056, 4.4], \"width_m\": 1.6, \"height_m\": 2.112}, {\"type\": \"window\", \"centre_xy\": [3.518, 0.0], \"wall_from\": [2.056, 0.0], \"wall_to\": [4.98, 0.0], \"width_m\": 1.724, \"height_m\": 1.8, \"sill_height_m\": 0.45}, {\"type\": \"door\", \"centre_xy\": [5.5, 4.2], \"wall_from\": [4.98, 4.2], \"wall_to\": [5.98, 4.2], \"width_m\": 0.8, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0001\", \"target_ids\": [\"obj_0004\", \"obj_0000\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0004\"}]\n[/Task Constraints]"
+}

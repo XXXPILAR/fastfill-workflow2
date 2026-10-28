@@ -1,0 +1,67 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_200",
+ "room_type": "guest room",
+ "room": {
+  "width": 2.932903381347656,
+  "length": 1.5122006835937505,
+  "height": 2.7799
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 2
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "washing machine",
+   "asset_key": "washing_machine_946b6d2c",
+   "description": "washing machine",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  }
+ ]
+}

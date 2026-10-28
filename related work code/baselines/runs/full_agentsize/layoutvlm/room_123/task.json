@@ -1,0 +1,42 @@
+{
+ "task_description": "a clean utility room of about 3.0m x 5.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.05 m wide centred at (1.16, 5.00) (keep the floor in front of it clear). the tall clean storage cabinet (o0009) should be against a wall. the clean linen cart (o0006) should be within 0.20 m of the tall clean storage cabinet (o0009). the utility sink cabinet (o0005) should be against a wall. the mobile clean supply cart (o0000) should be within 0.30 m of the mobile clean supply cart (o0003)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.0,
+    5.0,
+    0.0
+   ],
+   [
+    0.0,
+    5.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.2
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {}
+ }
+}

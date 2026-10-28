@@ -1,0 +1,62 @@
+{
+ "k": 234,
+ "source": "SpatialLM",
+ "room_type": "bathroom",
+ "latency_s": 25.295941333053634,
+ "usage": [
+  {
+   "prompt_tokens": 999,
+   "completion_tokens": 1255,
+   "total_tokens": 2254,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1034,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0000 (toilet) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.66,
+     0.38,
+     0.78
+    ],
+    "bottom_center_m": [
+     1.24,
+     2.163,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.05,
+     0.62,
+     1.8
+    ],
+    "bottom_center_m": [
+     1.514,
+     1.46,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe fixed cabinet occupies the lower-left area, while the entrance and its approach need to remain clear along the lower-right side. The toilet is placed against the far wall beneath the window; its height remains below the window sill. The slim screen stands against the right wall immediately beside the toilet without intersecting it, satisfying the near relationship while preserving a central access aisle from the door.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.38,\"depth_m\":0.66,\"height_m\":0.78,\"x\":1.24,\"y\":2.163,\"z\":0.0,\"facing_deg\":270.0},{\"id\":\"obj_0001\",\"width_m\":0.62,\"depth_m\":0.05,\"height_m\":1.8,\"x\":1.514,\"y\":1.46,\"z\":0.0,\"facing_deg\":180.0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 1.539 m x 2.493 m x 2.500 m\nfloor polygon (x, y): [[1.539, 2.493], [0.0, 2.493], [0.0, 0.0], [1.539, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"toilet\", \"description\": \"toilet\"},\n{\"id\": \"obj_0001\", \"category\": \"screen\", \"description\": \"screen\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.798, 2.493], \"wall_from\": [1.539, 2.493], \"wall_to\": [0.0, 2.493], \"width_m\": 1.113, \"height_m\": 1.56, \"sill_height_m\": 0.9}, {\"type\": \"door\", \"centre_xy\": [1.065, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [1.539, 0.0], \"width_m\": 0.769, \"height_m\": 2.2}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0002\", \"category\": \"bathroom cabinet\", \"width_m\": 0.91, \"depth_m\": 0.557, \"height_m\": 1.65, \"bottom_centre\": [0.278, 0.455, 0.35], \"facing_deg\": 0.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.2}]\n[/Task Constraints]"
+}

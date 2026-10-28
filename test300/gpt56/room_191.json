@@ -1,0 +1,88 @@
+{
+ "k": 191,
+ "source": "SpatialLM",
+ "room_type": "living room",
+ "latency_s": 36.541695000138134,
+ "usage": [
+  {
+   "prompt_tokens": 1301,
+   "completion_tokens": 2196,
+   "total_tokens": 3497,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1827,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.9,
+     2.4,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.0,
+     3.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.35,
+     0.9,
+     1.05
+    ],
+    "bottom_center_m": [
+     5.275,
+     2.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.6,
+     1.1,
+     0.42
+    ],
+    "bottom_center_m": [
+     2.0,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.52
+    ],
+    "bottom_center_m": [
+     3.45,
+     3.575,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe fixed TV cabinet establishes the main viewing direction from the north side of the room toward the south wall. The sofa is therefore placed against the uninterrupted north wall of the main rectangular area, facing the TV, with the coffee table centered in front of it. The side table sits beside the sofa without obstructing access to the upper-right doorway. The shoe cabinet is placed against the clear middle section of the east wall, away from the nearby doors. A broad route remains open from the large west opening through the room, while the south and upper-right door approaches remain unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":2.4,\"depth_m\":0.9,\"height_m\":0.85,\"x\":2.0,\"y\":3.55,\"z\":0.0,\"facing_deg\":270.0},{\"id\":\"obj_0001\",\"width_m\":0.9,\"depth_m\":0.35,\"height_m\":1.05,\"x\":5.275,\"y\":2.5,\"z\":0.0,\"facing_deg\":180.0},{\"id\":\"obj_0002\",\"width_m\":1.1,\"depth_m\":0.6,\"height_m\":0.42,\"x\":2.0,\"y\":2.25,\"z\":0.0,\"facing_deg\":270.0},{\"id\":\"obj_0003\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.52,\"x\":3.45,\"y\":3.575,\"z\":0.0,\"facing_deg\":270.0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.450 m x 5.200 m x 2.640 m\nfloor polygon (x, y): [[3.8, 5.2], [3.8, 4.0], [0.0, 4.0], [0.0, 0.0], [5.45, 0.0], [5.45, 5.2]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"sofa\", \"description\": \"sofa\"},\n{\"id\": \"obj_0001\", \"category\": \"shoe cabinet\", \"description\": \"shoe cabinet\"},\n{\"id\": \"obj_0002\", \"category\": \"coffee table\", \"description\": \"coffee table\"},\n{\"id\": \"obj_0003\", \"category\": \"side table\", \"description\": \"side table\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [3.8, 4.694], \"wall_from\": [3.8, 5.2], \"wall_to\": [3.8, 4.0], \"width_m\": 0.96, \"height_m\": 2.05}, {\"type\": \"door\", \"centre_xy\": [0.0, 2.352], \"wall_from\": [0.0, 4.0], \"wall_to\": [0.0, 0.0], \"width_m\": 2.095, \"height_m\": 2.251}, {\"type\": \"door\", \"centre_xy\": [3.17, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [5.45, 0.0], \"width_m\": 0.84, \"height_m\": 2.05}, {\"type\": \"door\", \"centre_xy\": [4.737, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [5.45, 0.0], \"width_m\": 1.225, \"height_m\": 2.125}, {\"type\": \"door\", \"centre_xy\": [5.45, 4.723], \"wall_from\": [5.45, 0.0], \"wall_to\": [5.45, 5.2], \"width_m\": 0.96, \"height_m\": 2.05}, {\"type\": \"door\", \"centre_xy\": [4.81, 5.2], \"wall_from\": [5.45, 5.2], \"wall_to\": [3.8, 5.2], \"width_m\": 0.82, \"height_m\": 2.05}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0001\", \"category\": \"tv cabinet\", \"width_m\": 2.725, \"depth_m\": 0.351, \"height_m\": 0.721, \"bottom_centre\": [1.363, 0.175, 0.25], \"facing_deg\": 90.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

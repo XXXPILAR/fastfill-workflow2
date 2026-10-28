@@ -1,0 +1,186 @@
+{
+ "k": 266,
+ "source": "SpatialLM",
+ "room_type": "living room with dining area",
+ "latency_s": 81.97255879105069,
+ "usage": [
+  {
+   "prompt_tokens": 1625,
+   "completion_tokens": 4350,
+   "total_tokens": 5975,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3614,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.68,
+     0.75,
+     2.05
+    ],
+    "bottom_center_m": [
+     5.287,
+     6.95,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.44,
+     0.44,
+     0.47
+    ],
+    "bottom_center_m": [
+     2.2,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.38,
+     0.38,
+     1.2
+    ],
+    "bottom_center_m": [
+     4.18,
+     8.15,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     1.1,
+     0.4
+    ],
+    "bottom_center_m": [
+     4.4,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.55,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     4.0,
+     5.35,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.55,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     3.2,
+     4.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.85,
+     1.5,
+     0.76
+    ],
+    "bottom_center_m": [
+     3.2,
+     5.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.55,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     2.4,
+     5.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.08,
+     1.4,
+     0.8
+    ],
+    "bottom_center_m": [
+     5.587,
+     2.4,
+     0.9
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.55,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     3.2,
+     6.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.5,
+     0.8,
+     0.36
+    ],
+    "bottom_center_m": [
+     3.0,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining group occupies the wider upper-central area, with the table aligned lengthwise and positioned between the two end chairs as required. The other two chairs flank the table, while the refrigerator sits against the right wall near the dining area without obstructing circulation.\n\nThe living zone is in the lower part of the room. The wall-mounted TV faces west toward two separated coffee tables, with the stool at the side of this grouping. The plant occupies a corner of the upper nook. Clear space is maintained in front of the large southern entrance, the upper doors, and along the right-side route connecting the living, dining, and upper areas.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.75,\"depth_m\":0.68,\"height_m\":2.05,\"x\":5.287,\"y\":6.95,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.44,\"depth_m\":0.44,\"height_m\":0.47,\"x\":2.2,\"y\":2.4,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.38,\"depth_m\":0.38,\"height_m\":1.2,\"x\":4.18,\"y\":8.15,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":1.1,\"depth_m\":0.6,\"height_m\":0.4,\"x\":4.4,\"y\":2.4,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.48,\"depth_m\":0.55,\"height_m\":0.86,\"x\":4.0,\"y\":5.35,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0005\",\"width_m\":0.48,\"depth_m\":0.55,\"height_m\":0.86,\"x\":3.2,\"y\":4.25,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":1.5,\"depth_m\":0.85,\"height_m\":0.76,\"x\":3.2,\"y\":5.35,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":0.48,\"depth_m\":0.55,\"height_m\":0.86,\"x\":2.4,\"y\":5.35,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0008\",\"width_m\":1.4,\"depth_m\":0.08,\"height_m\":0.8,\"x\":5.587,\"y\":2.4,\"z\":0.9,\"facing_deg\":180},{\"id\":\"obj_0009\",\"width_m\":0.48,\"depth_m\":0.55,\"height_m\":0.86,\"x\":3.2,\"y\":6.45,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":0.8,\"depth_m\":0.5,\"height_m\":0.36,\"x\":3.0,\"y\":2.4,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room with dining area\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.627 m x 9.766 m x 2.800 m\nfloor polygon (x, y): [[1.938, 7.827], [1.938, 4.73], [1.198, 4.73], [1.198, 4.97], [1.698, 4.97], [1.698, 6.072], [0.0, 6.072], [0.0, 3.55], [1.938, 3.55], [1.938, 0.0], [5.627, 0.0], [5.627, 7.827], [5.227, 7.827], [5.227, 8.067], [5.627, 8.067], [5.627, 9.766], [3.935, 9.766], [3.935, 7.827]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"},\n{\"id\": \"obj_0001\", \"category\": \"stool\", \"description\": \"stool\"},\n{\"id\": \"obj_0002\", \"category\": \"plants\", \"description\": \"plants\"},\n{\"id\": \"obj_0003\", \"category\": \"coffee table\", \"description\": \"coffee table\"},\n{\"id\": \"obj_0004\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0005\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0006\", \"category\": \"dining table\", \"description\": \"dining table\"},\n{\"id\": \"obj_0007\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0008\", \"category\": \"tv\", \"description\": \"tv\"},\n{\"id\": \"obj_0009\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0010\", \"category\": \"coffee table\", \"description\": \"coffee table\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.41, 6.072], \"wall_from\": [1.698, 6.072], \"wall_to\": [0.0, 6.072], \"width_m\": 0.816, \"height_m\": 2.4}, {\"type\": \"door\", \"centre_xy\": [0.0, 5.381], \"wall_from\": [0.0, 6.072], \"wall_to\": [0.0, 3.55], \"width_m\": 0.816, \"height_m\": 2.4}, {\"type\": \"door\", \"centre_xy\": [0.0, 4.172], \"wall_from\": [0.0, 6.072], \"wall_to\": [0.0, 3.55], \"width_m\": 0.816, \"height_m\": 2.4}, {\"type\": \"door\", \"centre_xy\": [0.603, 3.55], \"wall_from\": [0.0, 3.55], \"wall_to\": [1.938, 3.55], \"width_m\": 0.816, \"height_m\": 2.4}, {\"type\": \"door\", \"centre_xy\": [3.649, 0.0], \"wall_from\": [1.938, 0.0], \"wall_to\": [5.627, 0.0], \"width_m\": 2.522, \"height_m\": 2.4}, {\"type\": \"door\", \"centre_xy\": [4.66, 9.766], \"wall_from\": [5.627, 9.766], \"wall_to\": [3.935, 9.766], \"width_m\": 1.05, \"height_m\": 2.3}, {\"type\": \"door\", \"centre_xy\": [2.788, 7.827], \"wall_from\": [3.935, 7.827], \"wall_to\": [1.938, 7.827], \"width_m\": 1.7, \"height_m\": 2.55}, {\"type\": \"door\", \"centre_xy\": [2.445, 7.827], \"wall_from\": [3.935, 7.827], \"wall_to\": [1.938, 7.827], \"width_m\": 0.85, \"height_m\": 2.4}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0006\", \"target_ids\": [\"obj_0005\", \"obj_0009\"]}]\n[/Task Constraints]"
+}

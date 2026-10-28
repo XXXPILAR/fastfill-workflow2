@@ -1,0 +1,983 @@
+SDesc3D: Towards Layout-Aware 3D Indoor Scene Generation
+from Short Descriptions
+Jie Feng
+jiefeng0109@163.com
+Xidian University
+China
+Jiawei Shen
+jiaweishen@stu.xidian.edu.cn
+Xidian University
+China
+Junjia Huang
+huangjj77@mail2.sys.edu.cn
+Sun Yat-sen University
+China
+Junpeng Zhang
+junpengzhang@xidian.edu.cn
+Xidian University
+China
+Mingtao Feng
+mintfeng@hnu.edu.cn
+Xidian University
+China
+Weisheng Dong
+wsdong@mail.xidian.edu.cn
+Xidian University
+China
+Guanbin Li∗
+liguanbin@mail.sysu.edu.cn
+Sun Yat-sen University
+China
+On
+ Poor Detail Richness
+Low Structural Plausibility
+HSM Reason3D
+ SDesc3D(Ours)
+Working
+Sleeping
+Watching
+Eating
+Organizing
+Next to
+Next to
+Next to
+On top of
+Relationship ProrFunctionality-based spatial anchoring
+“A cozy 
+bedroom” 
+A cozy bedroom
+Figure 1: Short descriptions condense semantics, making 3D indoor scene generation challenging in terms of physical plausibility
+and detail preservation. To address this, SDesc3D leverages object coherence priors and functionality-based spatial anchoring,
+achieving superior performance under such a challenging condition.
+Abstract
+3D indoor scene generation conditioned on short textual descrip-
+tions provides a promising avenue for interactive 3D environment
+construction without the need for labor-intensive layout specifi-
+cation. Despite recent progress in text-conditioned 3D scene gen-
+eration, existing works suffer from poor physical plausibility and
+insufficient detail richness in such semantic condensation cases,
+largely due to their reliance on explicit semantic cues about com-
+positional objects and their spatial relationships. This limitation
+highlights the need for enhanced 3D reasoning capabilities, particu-
+larly in terms of prior integration and spatial anchoring. Motivated
+by this, we propose SDesc3D, a short-text conditioned 3D indoor
+scene generation framework, that leverages multi-view structural
+∗Corresponding author.
+priors and regional functionality implications to enable 3D layout
+reasoning under sparse textual guidance. Specifically, we introduce
+a Multi-view scene prior augmentation that enriches underspeci-
+fied textual inputs with aggregated multi-view structural knowl-
+edge, shifting from inaccessible semantic relation cues to multi-
+view relational prior aggregation. Building on this, we design a
+Functionality-aware layout grounding, employing regional func-
+tionality grounding for implicit spatial anchors and conducting
+hierarchical layout reasoning to enhance scene organization and se-
+mantic plausibility. Furthermore, an Iterative reflection-rectification
+scheme is employed for progressive structural plausibility refine-
+ment via self-rectification. Extensive experiments show that our
+method outperforms existing approaches on short-text conditioned
+3D indoor scene generation. Code will be publicly available.
+arXiv:2604.01972v3  [cs.CV]  8 Apr 2026
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Trovato et al.
+CCS Concepts
+•Computing methodologies → Scene understanding;Intelli-
+gent agents; Multi-agent planning.
+Keywords
+3D indoor scene generation, 3D layout reasoning, Multi-view prior
+augmentation, Regional functionality partition.
+1 Introduction
+Driven by the increasing demand for immersive interactions, 3D
+indoor scene generation has emerged as a cornerstone across di-
+verse fields, from virtual content creation to embodied AI research,
+thanks to its ability to efficiently create interactive and scalable
+3D environments while significantly reducing the manual effort
+required for scene modeling. In particular, recent advances in text-
+conditioned 3D scene generation offer great potential by enabling
+users to convert natural language descriptions into detailed 3D
+layouts and scenes. Pioneering works in this field have explored
+autoregressive[36] and diffusion[30] models to enforce semantic
+coherence between textual descriptions and generated scenes, how-
+ever, the generated scene diveristy is significantly constrained by
+the limited availability of large-scale 3D indoor scene datasets. With
+the emergence of large language models (LLMs), LLM-guided 3D
+scene generation has emerged as a new paradigm, which expands
+scene diversity by leveraging common-sense knowledge from text
+for reasoning about spatial layouts [2, 23].
+Generating 3D indoor scenes from short descriptions, such as
+"a cozy bedroom", provides a promising avenue for interactive 3D
+environment construction without the need for labor-intensive lay-
+out specification. Despite recent advancements in LLM-guided 3D
+scene generation, existing approaches fail to handle such a challeng-
+ing case with intense semantic condensation, due to their reliance
+on detailed scene descriptions that explicitly convey the semantic
+concepts of compositional elements as well as their corresponding
+spatial relationships. As illustrated in Fig. 1, when spatial relation-
+ships are omitted from a detailed scene description, the generated
+scenes often exhibit structurally implausible or physically invalid
+object arrangements. Furthermore, if details about the composi-
+tional elements are also omitted, the richness and fidelity of the
+generated scenes deteriorate noticeably. This highlights the critical
+gap in semantic richness and physical plausibility between seman-
+tic condensation in short textual description and the requirements
+for faithful 3D indoor scene generation.
+Compensating for the lack of explicit semantic guidance on ob-
+ject relationships plays a crucial role in short-text conditioned 3D
+indoor scene generation. To achieve this, RoomPlanner [ 29] ex-
+plores LLM-based description augmentation to expand short scene
+descriptions into executable and detailed descriptions, however, its
+performance remains limited by the reasoning capabilities of LLMs.
+In contrast, Scenethesis [20] utilizes an image generation model to
+extracts scene layouts from the generated images conditioned on
+augmented descriptions, thereby improving realism and physical
+plausibility through structural knowledge acquired from large-scale
+pretrained image generation models. Despite the potential of inte-
+grating auxiliary knowledge, using a single-view generated images
+remain limited in capturing the full 3D object arrangements, as view
+perspective, partial occlusion and fully missing object visibility can
+obscure crucial spatial relationships. This limitation motivates the
+use of multi-view priors to bridge the semantic gap arising from
+inaccessible semantic guidance.
+In this paper, we propose SDesc3D, a short-text conditioned
+3D indoor scene generation framework, that leverages multi-view
+structural priors and regional functionality implications to enable
+3D layout reasoning under sparse textual guidance. First, we pro-
+pose Multi-view scene prior augmentation (MSPA) to enriches short
+textual descriptions with priors aggregated from external multi-
+view scene resources. Our MSPA constructs a semantic scene prior
+memory by encoding multi-view indoor scenes into relational rep-
+resentations. For a given short scene description, relevant priors
+are retrieved to augment the description, providing generalized
+guidance on plausible spatial relationships for guiding subsequent
+3D layout reasoning. With augmented scene description provides
+cues on possible object compositions and their coherence, plausible
+spatial arrangements remains unconstrained, due to the lack of
+spatial anchoring. To this end, we highligt that short scene descrip-
+tion and augmented priors provide valuable implications about
+the regional functionalities of the targeted scene, offering valuable
+cues on scene structure and organization at a coarser granular-
+ity, as illustrated in Figure 1. Building on this insight, we propose
+Functionality-aware Layout Grounding (FLG), where functionality
+zones are inferred by aggregating objects and leveraged as spa-
+tial anchors for reasoning about object-wise spatial arrangements.
+Furthermore, to maintain physical plausibility, we introduce an Iter-
+ative reflection-rectification (IRR) scheme that progressively refines
+the layout through a multi-stage and feedback-driven process.
+Our main contributions are summarized as follows:
+• We propose Multi-view scene prior augmentation to enrich
+short descriptions with aggregated multi-view structural
+knowledge, shifting guidance from inaccessible semantic
+relation cues to multi-view relational prior aggregation.
+• Our Functionality-aware layout grounding constructs a hi-
+erarchical layout reasoning process that leveraging regional
+functionalities for implicit spatial anchoring, leading to im-
+proved scene organization and semantic plausibility.
+• An Iterative reflection-rectification scheme is designed for
+progressively layout refinement by leveraging feedback from
+each refinement stage to improve physical plausibility while
+presenting over-deterministic corrections via continous re-
+evaluating.
+• Extensive experiments show that our method outperforms
+existing approaches on short-text conditioned 3D indoor
+scene generation, with enhanced physicial plausibility and
+improved detail richness.
+2 Related Work
+2.1 Text-conditioned 3D Indoor Scene
+Generation
+Early 3D indoor scene generation mainly followed a data-driven
+layout synthesis paradigm [15, 17, 38], where plausible indoor en-
+vironments were produced by learning object co-occurrence pat-
+terns and spatial priors from scene datasets. While effective under
+restricted data distributions, such methods offered only limited
+SDesc3D: Towards Layout-Aware 3D Indoor Scene Generation from Short Descriptions Conference acronym ’XX, June 03–05, 2018, Woodstock, NY
+Multi-view Scene Prior Augmentation
+VLM
+Embedding
+&Indexing
+Scene Prior Memory
+Offline Construction
+Online Retrieval
+Query
+Encoding
+ Augmented 
+Scene Description
+External Multi-view Resources
+“A cozy bedroom” 
+Short User Prompt 
+Functionality-aware Layout Grounding
+sleeping
+working
+relaxingstorage
+Explicit Structure
+Top-view Rendering
+Functional Zone Structure
+Diagnosis Agent
+{"issue_type": "object_collision",
+  "collision_description": "The
+lamp base is colliding with the
+cabinet edge, causing the lamp to
+tilt outward.",
+  "affected_objects": ["lamp",
+"cabinet"],
+  "likely_cause": "The lamp is
+placed too close to the cabinet
+boundary with insufficient
+support under the base.",
+  "repair_suggestion": "Move the
+lamp inward onto the cabinet top
+and keep the base fully
+supported.",}
+Collision RefinementClearance Refinement
+Iterative Reflection Rectification
+Multi-view
+Scene
+Descriptions
+Functionality  Partition Dominant Object GroundingAccessory Placement 
+Scene-level 
+Semantic Retrieval
+ Generalized Prior 
+Retrieval 
+“A cozy bedroom” 
+ Diagnostic suggestions
+Figure 2: Overview of our SDesc3D Framework. Given a short user descriptions, SDesc3D first performs Multi-view Scene
+Prior Augmentation to retrieve scene priors for sparse semantic completion. Next, Functionality-aware Layout Grounding
+leverages regional functionality implications to reason about a hierarchical layout in a coarse-fine manner. Finally, Iterative
+reflection-rectification is adopted to iteratively suppress residual physical and structural errors.
+support for text-conditioned generation [5], as scene composition
+was driven primarily by dataset regularities rather than explicit
+linguistic intent.
+With the development of large language models (LLMs) and
+vision-language models (VLMs), text-conditioned 3D indoor scene
+generation has evolved into a more open paradigm involving lan-
+guage understanding, asset retrieval, layout planning, and constraint-
+aware optimization. Representative methods include LayoutGPT [10],
+which maps natural language to layout representations through
+in-context learning; Holodeck [35], which integrates language un-
+derstanding, asset retrieval, and spatial constraint optimization into
+an open-vocabulary generation pipeline; LayoutVLM [27], which
+combines VLMs with differentiable optimization to improve se-
+mantic consistency and physical plausibility; and Reason3D [2] ,
+which unifies scene planning, object retrieval, and constraint-aware
+placement within a stronger reasoning framework. Despite these
+advances, most existing methods [1, 3, 11, 37] still rely on the same
+implicit premise: the input text already specifies the key structural
+cues required for generation, including candidate objects, spatial
+relations, and other layout-relevant constraints. In contrast, this
+work focuses on brighing the critical gap in semantic richness and
+physical plausibility between semantic condensation in short tex-
+tual description and the requirements for faithful 3D indoor scene
+generation.
+2.2 Hierarchical Reasoning for Progressive
+Generation
+Prior work [ 7, 14, 28, 30, 34, 39] on controllable 3D scene gen-
+erationhas progressively moved from implicit scene modeling to-
+ward explicit layout representations. Early methods[18, 21, 22] were
+largely formulated at the object and relation levels, using scene
+graphs, relation graphs, or programmatic structures to encode ob-
+ject attributes, inter-object relations, and local spatial constraints,
+thereby improving structural interpretability and object-level con-
+trollability. Imaginarium [41] further extends this line by intro-
+ducing scene-graph optimization after vision-guided 3D layout
+recovery, strengthening post-generation structural correction.
+To improve structural organization in complex indoor scenes,
+subsequent works introduces hierarchical and multi-scale modeling
+that progressively unfolds scene generation in a coarse-to-fine man-
+ner. Architect [32] adopts hierarchical 2D inpainting for progressive
+large-scale 3D scene generation, HSM [23] models cross-scale sup-
+port regions and object compositions through hierarchical scene
+motifs, and HiScene [ 8] treats a scene as a hierarchy of decom-
+posable entities to preserve consistency between global structure
+and local instances. Compared with purely local relation-based
+formulations, these methods strengthen multi-level structural or-
+ganization in progressive generation. However, their hierarchical
+mechanisms remain largely grounded in support relations, local
+compositional patterns, or structural priors, and are therefore better
+suited to organizing existing layout elements than to revealing the
+intermediate structure required for layout reasoning under sparse
+descriptions. Under short scene descriptions, stable spatial anchors
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Trovato et al.
+are often absent, while the implicit functionality cues embedded in
+text remain underexploited.
+2.3 Post-reasoning Layout Optimization
+After an initial layout is generated, residual geometric conflicts
+and local inconsistencies may still remain, making post-reasoning
+layout optimization necessary for improving physical plausibility.
+Early approaches [4, 24, 31, 40] mainly treat this stage as local post-
+hoc repair, resolving explicit violations such as object penetration,
+boundary overflow and unstable placement through collision han-
+dling, constraint solving, or rule-based geometric adjustment. For
+example, PhyScene [34] improves layout feasibility with physical
+and interaction constraints, while FirePlace [14] further rectifies
+object placement through geometric constraint construction and
+solving. Despite their effectiveness, these methods still focus on
+exposed local defects in a single shot rather than optimizing the
+intermediate layout for progressive refinement.
+More recent methods [13, 19, 25] introduce feedback and tool-
+assisted refinement. SceneWeaver [33] integrates iterative scene
+synthesis with a LLM-based refinement tool, while DisCo-Layout [12]
+decouples semantic and physical refinement via multi-agent collab-
+oration. However, their refinement remains largely violation-driven,
+with correction solely applied to defects revealed at current step. As
+a result, existing one-shot and iterative adjustment may improve
+local feasibility, yet still compromise scene-level structure and se-
+mantic consistency. In this work, we formulate post-reasoning
+layout optimization as a multi-step reflection-rectification process
+while preserving the global scene structure.
+3 Methodology
+We begin by formulating the task of 3D indoor scene generation
+conditioned on a short description. Given a short scene description
+𝑑, such as "a cozy bedroom", which only provides the scene type, the
+goal is to generate a 3D indoor scene𝑠 without relying on explicit de-
+scription about the internal compositional object instances and their
+spatial relationships. This necessitates strong reasoning abilities
+in inferring compositional objects and their spatial arrangements,
+while ensuring alignment with physical and functional plausibility
+under minimal guidance from a condensed description.
+To achieve this goal, we introduce SDesc3D, a short-text con-
+ditioned 3D indoor scene generation framework, that leverages
+multi-view structural priors and regional functionality implications
+to enable 3D layout reasoning under sparse textual guidance. As
+illustrated in Figure 2, our SDesc3D consists of three core compo-
+nents: Multi-view Scene Prior Augmentation, Functionality-aware
+Layout Grounding and Iterative Reflection-Rectification. Given a
+short scene description𝑑, multi-view scene prior augmentation pro-
+duces an augmented scene description with assistance of multi-view
+scene priors (Section 3.1). Based on the augmented scene descrip-
+tion𝑑aug, functionality-aware layout grounding is then employed to
+construct an initial layoutG0 in a hierarchical manner (Section 3.2).
+Subsequently, the obtained functionality-aware layoutG0 is passed
+to our Iterative Reflection-Rectification for progressive refinement
+(Section 3.3).
+3.1 Multi-view Scene Prior Augmentation
+A core obstacle in 3D indoor scene generation conditioned on short
+and under-specified descriptions is the absence of semantic cues
+regarding detailed composition and object relationships, necessi-
+tating the demands on auxiliary priors in 3D layout reasoning.
+Visual guidance has shown promising capability in providing scene
+priors [20], however, it suffers from unsatisfactory scene under-
+standing, due to partial occlusion and fully missing object visibility
+from a single-view perspective. To mitigate this issue, we propose
+Multi-view scene prior augmentation (MSPA), which enriches short
+textual descriptions with priors aggregated from multi-view images.
+Instead of extracting object arrangements directly from a gener-
+ated image, MSPA constructs a semantic scene prior memory by
+encoding multi-view indoor scenes from external resources into
+relational representations. Given a short scene description, relevant
+priors are retrieved based on semantic or generalized similarity and
+used to augment the description, providing generalized guidance
+on plausible spatial relationships for guiding subsequent 3D layout
+reasoning.
+Offline Multi-view Scene Prior Construction.To provide
+guidance on object relationships that is otherwise inaccessible, a
+multi-view scene prior memory is constructed from external scene
+resources. Specifically, we collect multi-view indoor images from
+ScanNet [6] and SpatialGen [ 9]. For the 𝑖-th collected scene, we
+sample𝑁 images from distinct perspectives and group them into a
+multi-view observation unitV𝑖, providing a comprehensive view
+of object relationships in the scene. Then we employ the vision-
+language model Gemini-3 Flash to jointly parse the observation
+unitV 𝑖 into three complementary types of textual descriptions,
+{I𝑖
+sum,I 𝑖
+rel,I 𝑖
+scale}=Φ vlm(V𝑖),(1)
+whereI(𝑖)
+sum encodes a brief summary on the scene type, andI(𝑖)
+rel
+contains detailed textual descriptions on object relationships.I(𝑖)
+scale
+captures the relative object scales in the given scene.
+Based on these parsed descriptions, each scene’s type summary,
+object relationships and scale information are organized into a
+structured scene entry 𝜏𝑖, which serves as the basic unit of the
+scene prior memory. Inspired by [10], we encode each structured
+scene entry in the structural programming language, for exploring
+the spatial reasoning capabilities of LLMs. By traversing all collected
+multi-view scenes, a scene prior memory is constructed as
+M={(𝜏 𝑖,𝑧 𝑖)}|M|
+𝑖=1 ,(2)
+where𝑧𝑖 refers to the embedding of 𝑖-th entry’s summary 𝜏𝑖 for
+indexing. By this way, the constructed memoryM stores both multi-
+view scene priors and their semantic embeddings, thus supporting
+efficient similarity-based retrieval from short scene descriptions in
+our next stage.
+Retrieval-based Online Prior Augmentation.Given a short
+scene description𝑑, we propose augmenting the condensed descrip-
+tion with retrieved scene priors from the constructed scene prior
+memoryM. To achieve this, we first define a scene-level seman-
+tic retrieval score based on the semantic similarity between the
+scene summary of each memory entry𝑧𝑖 and the given short scene
+description𝑑,
+𝑠𝑟𝑒𝑡(𝑑,𝜏 𝑖)=cos(𝑑,𝑧 𝑖),(3)
+SDesc3D: Towards Layout-Aware 3D Indoor Scene Generation from Short Descriptions Conference acronym ’XX, June 03–05, 2018, Woodstock, NY
+where we omit the explicit embedding operator applied to𝑑 for ease
+of notation. Then, the top-𝐾 memory entries with highest retrieval
+scores are collected to construct an aggregated scene prior pack-
+age for description augmentation, denoted asP𝑎𝑢𝑔. This package
+provides rich semantic guidance on compositional objects and ob-
+ject arrangements, drawing from the memory entries with similar
+scene-level semantic similarities.
+While scene-level semantic similarity-based retrieval often yields
+effective priors, it can also aggregate misleading priors from unre-
+lated scenes due to limited scene-type coverage inM. When no suf-
+ficient semantic similarity is found,i.e., when max|M|
+𝑖=1 𝑠𝑟𝑒𝑡(𝑑,𝜏 𝑖)≤
+𝜃𝑟𝑒𝑡 with𝜃𝑟𝑒𝑡 being a pre-set threshold, we propose an alternative
+retrieval scheme to aggregate generalized object relationships from
+the prior memory instead. To this end, we define a generalized
+prior retrieval score based on the Best matching-25 (BM25) ranking
+function [26] as
+𝑠𝑟𝑒𝑡(𝑑,𝜏 𝑖)=BM25(𝑑,𝜏 𝑖),(4)
+where the short description𝑑 is temporarily enriched with potential
+objects and used to quantify its relationship with𝜏𝑖 based on the
+term occurrences. By adopting this retrieval score, priors with
+possibly similar compositional objects are aggregated to provide
+generalized knowledge on their spatial relationships. Similarly, a
+prior packageP𝑎𝑢𝑔 is constructed by selecting memory entries with
+top-K retrieval scores.
+Finally, the augmented scene description is constructed by com-
+bining the given short description with the retrieved prior package,
+𝑑aug =(𝑑,P aug),(5)
+bridging the semantic gap arising from inaccessible semantic guid-
+ance by enhanced scene priors on plausible layouts as well as gen-
+eralized object spatial relationships.
+3.2 Functionality-aware Layout Grounding
+While our MSPA enriches the scene description with detailed se-
+mantic priors about compositional object instances and their spatial
+relationships, layout reasoning remains a challenging problem, due
+to the absence of spatial anchors in textual descriptions. Beyond
+these explicit spatial relationships, the augmented description also
+provides valuable implications about the regional functionalities
+of the targeted scene, offering valuable cues on scene structure
+and organization at a coarser granularity. Building on this insight,
+we propose Functionality-aware Layout Grounding (FLG), where
+functionality zones are inferred by aggregating objects and lever-
+aged as spatial anchors for reasoning about object-wise spatial
+arrangements. Specifically, we partition the scene into functionality
+zones at a coarse semantic granularity. At a finer level, each zone
+is composed of one or more dominant objects, along with optional
+accessories, capturing both the core and supplementary elements
+that characterize the zone’s intended function.
+To obtain such a hierarchical layout conditioned on the aug-
+mented description𝑑aug, we start with extracting functionality cues
+from the augmented description𝑑aug and grounding extracted func-
+tionalities into spatial regions via an LLM agent. This formulates a
+process as
+(Z,F)=Φ layout(𝑑aug),(6)
+whereZ refers to the set of functionality zones, with each zoneZ𝑖
+associated with a functionality typeF 𝑖.
+Then, starting from an empty layoutO0 =∅ , dominant objects
+are progressively arranged by traversing all functionality zones,
+O𝑡 =Φ layout(𝑑aug,Z 𝑡,F 𝑖,𝐶(Z 𝑡)|O 𝑡−1),∀𝑡∈{1,···,|Z|},(7)
+whereZ𝑡 serves as a spatial anchor for local arrangement of dom-
+inating objects, and𝐶(Z 𝑡) refers to boundary constraint derived
+fromZ𝑡 . Since the functionality partition in real scenes does not
+strictly adhere to rigid boundaries, the constraint𝐶(Z 𝑡) is defined
+in a relaxed manner to allow flexible object arrangement across
+adjacent functionality zones. For each functionality zoneZ𝑡 , the
+constraint𝐶(Z 𝑡) is composed of two spatially expanded boundaries
+with decreasing priorities,
+𝐶(Z 𝑡)={𝐶 buf(Z𝑡),𝐶 int(Z𝑡)},s.t.𝐶 buf(Z𝑡)⊂𝐶 int(Z𝑡),(8)
+where𝐶buf(Z𝑡) creates an additional buffer for handling inter-
+object clearance. The remaining𝐶int(Z𝑡) constructs an interactive
+space between adjacent functionality zones, and object arrangement
+is permitted with lower priority if the targeted space is unoccupied.
+Subsequently, with the dominant object layout ˆO=O |Z| , we
+apply a finer-grained layout reasoning to arrange the accessories se-
+mantically linked with each dominant object, thus complementing
+its supporting functionality:
+A𝑡 =Φ layout(𝑑aug, ˆO𝑡,𝐶( ˆO𝑡),𝑆( ˆO𝑡)|A 𝑡−1),∀𝑡∈{1,···,| ˆO|},
+(9)
+whereA0 =∅ , and an additional set of accessory arrangement
+criteria𝑆( ˆO𝑡) is employed by following the identical settings from
+HSM [23]. The final accessory layout is then denoted as ˆA=A | ˆO| .
+Finally, a scene layout conditioned on the augmented scene
+description is constructed as
+G0 ={Z, ˆO, ˆA,H,R}(10)
+whereH encodes the hierarchical relationships of the generated
+layout, andR captures the inter-object relationship at each semantic
+granularity. By this functionality-aware and hierarchical reasoning
+design, the obtained layout demonstrates well-grounded function-
+ality, enhanced spatial anchoring and improved scene richness.
+3.3 Iterative Reflection-Rectification
+Through our MSPA and FLG, the initial layout generated from a
+condensed scene descrition exhibits strong semantic plausibility
+and rich compositional objects, while it may not fully ensure physi-
+cial plausibilty, resulting in geometric violations such as object
+penetration, insufficient clearance and out-of-bound placement.
+To maintain physical plausibility, existing approaches commonly
+employ a single-pass post-reasoning refinement to adjust object
+arrangements based on geometric criteria, which can introduce
+over-deterministic corrections and compromise scene integrity. In
+contrast, we introduce an Iterative reflection-rectification (IRR)
+scheme that progressively refines the layout through a multi-stage
+and feedback-driven process. To achieve this, our IRR incorporates
+an LLM-guided diagnosis agent for identifying potential geometric
+violations and providing refinement suggestions at each interme-
+diate layout, after which rectifications by a set of external tools
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Trovato et al.
+Table 1: Quantitative comparison under the short-text 3D indoor scene generation setting. Compared with HSM and Reason3D,
+our method achieves improved overall performance.
+Method Collision (%)↓OOB (%)↓ OP↑AO↑DR↑ZO↑CR↑FC↑AI-Avg↑
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+HSM (3DV 2026) [23] 9.36% 8.67% 9.318.839.348.96 7.83 7.47 8.32 8.61 7.73 7.48 8.51 7.96 8.51 8.22
+Reason3D (AAAI 2026) [2] 18.62% 12.55% 8.87 8.32 9.328.997.87 7.94 8.81 8.63 7.69 7.43 8.07 7.86 8.44 8.20
+Ours 5.36% 7.70% 9.158.899.26 8.718.21 8.24 9.67 9.04 9.02 8.56 9.03 9.01 9.06 8.74
+HSMReason3DSDesc3D(Ours)
+ A classical dining roomA bright kitchen A modern living room A tidy laundry room A cozy bathroom
+Figure 3: Qualitive comparison on the scenes generated on five different short descriptions. Our method achieves better overall
+scene quality than the compared approaches in terms of physical plausibility and detail richness.
+is applied according for continous re-evaluting in the subsequent
+stage.
+At each intermediate stage𝑡, to complement the obtained layout
+G𝑡−1 in structured programming language with auxiliary visual
+guidance, a top-down view imageI 𝑡−1 is rendered, providing global
+contextual cues and spatial awareness that facilitate informed diag-
+nose regarding structural violations. The intermediate layoutG𝑡−1 ,
+together with the rendered imageI 𝑡−1 , is then fed to our LLM-
+guided diagnosis agent Φdiag(···) for producing a textual diagnosis
+report,
+D𝑡 =Φ diag(G 𝑡−1,I 𝑡−1,T 0:𝑡−1),(11)
+where the refinement trace T 0:𝑡−1 , containing the historical di-
+agnoses and refinement feedbacks, is also incorporated to enable
+history-aware evaluation and stablize the refinement trajectory.
+Since the obtained textual diagnosis alone cannot serve as a
+qualitive indicator, we define a layout penalty score by parsing the
+identified violations inD 𝑡 as
+𝑝D𝑡 =𝜆 𝑝𝑒𝑛𝑁𝑝𝑒𝑛+𝜆 𝑐𝑙𝑟𝑁𝑐𝑙𝑟+𝜆 𝑜𝑜𝑏𝑁𝑜𝑜𝑏,(12)
+where𝑁𝑝𝑒𝑛 ,𝑁𝑐𝑙𝑟 , and𝑁𝑜𝑜𝑏 denote the number of penetration pairs,
+object pairs with insufficient local clearance, and out-of-bound
+objects inD𝑡 , respectively. The corresponding weighting factors,
+𝜆pen,𝜆clr and𝜆oob, control the relative importance of each violation
+type.
+For an intermediate layout with a layout penalty score greater
+than a pre-set threshold,𝑝D𝑡≥𝜃 𝑝, a set of external rectification
+tools are applied to correct geometric violations. In this work, we
+employ a clearance refinement tool to resolve improper distances
+among neighboring objects, based on the suggestions associated in
+the diagnosis reportD𝑡 . At the same time, a collision refinement
+tool is adopted for handling the object penetration and out-of-bound
+issues. The iterative refinement continues until either the layout
+penalty score falls below the threshold,𝑝D𝑡 <𝜏 𝑝, or the maximum
+number of refinement steps is reached, at which point the final lay-
+out is produced. Despite the simplicity of our adopted rectification
+tools, the effectiveness of our IRR is ensured, as it enables progres-
+sive error identification and correction across multiple refinement
+steps. Additional details on our rectification tools are provided in
+the supplementary material.
+SDesc3D: Towards Layout-Aware 3D Indoor Scene Generation from Short Descriptions Conference acronym ’XX, June 03–05, 2018, Woodstock, NY
+4 Experiment
+4.1 Implementation and evaluation details
+For fair comparison, SDesc3D is evaluated under the same short-text
+setting, room-boundary constraints and shared 3D assets with the
+compared LLM-guided baselines. All methods use a unified room
+scale configuration and a common object retrieval space constructed
+from Habitat Synthetic Scenes Dataset (HSSD-200) [16], ensuring
+consistency in both asset sourcing and scene composition. For
+performance evaluation, we evaluate 50 test scenes and repeat each
+scene 10 times, reporting average results per-scene and over all
+scenes. For ablation study, we repeatedly evaluate the representative
+scene “A cozy bedroom” for 20 runs and report averaged metrics.
+Implementation details.Following [ 2], SDesc3D is instanti-
+ated with Gemini 3 Flash. The multi-view prior memory is con-
+structed from 144 reference scenes, each associated with 6 views.
+For each input short description, the top-3 most relevant priors
+are retrieved for augmentation. The temperature is set to 0.3 for
+suggestion generation and 0.7 for all other LLM agents. For layout
+quality evaluation in Equation (12), we use a threshold 𝜃𝑝 = 3.5,
+with𝜆pen = 0.3,𝜆clr = 0.2and 𝜆oob = 0.5. Additional details are
+provided in the supplementary material.
+Evaluation metrics.We evaluate the generated scenes from
+four complementary perspectives: physical plausibility, structural
+and semantic alignment, functional composition completeness, and
+scene richness. Collision (%) and OOB (%) measure the degree
+of inter-object collision and the proportion of out-of-bound ob-
+jects, respectively. To assess whether short-text intent is effectively
+grounded into fine-grained scene structure, we further employ
+Gemini 3 Flash and GPT-5.4 as independent AI judges. Semantic
+evaluation is organized into three categories: physical and structural
+plausibility, including Object Placement(OP) and Alignment and
+Order(AO); functional composition, including Functional Complete-
+ness(FC), Zone Organization(ZO), and Cross-zone Relation(CR);
+and scene richness, including Detail Richness(DR). The mean of all
+semantic scores is reported as AI-Avg. We further conduct a user
+study with 20 participants. For each of the two paired score sets
+composed of AI-Avg and User-Avg on the same scenes, we report
+both 𝑃𝑒𝑎𝑟𝑠𝑜𝑛 and𝑆𝑝𝑒𝑎𝑟𝑚𝑎𝑛 correlation coefficients to quantify
+the consistency between automatic evaluation and human judg-
+ment. Additional details on evaluation metrics are provided in the
+supplementary material.
+Table 2: User study of different methods under the short-text
+3D indoor scene generation setting. Our method achieves the
+best results across all evaluated metrics.
+Method OP↑AO↑DR↑ZO↑CR↑FC↑User-Avg↑
+HSM (3DV 2026) [23] 7.26 7.72 7.46 7.40 7.52 7.49 7.48
+Reason3D (AAAI 2026) [2] 7.15 7.40 7.36 7.00 6.94 7.44 7.22
+Ours8.64 8.85 8.69 8.74 8.77 8.56 8.71
+4.2 Main Results
+Qualitative Comparison.As shown in Fig. 3, under short-text
+inputs, both HSM and Reason3D fail to consistently recover in-
+door layouts with sufficient completeness and clear organization.
+Reason3D largely remains at a coarse-grained generation level dom-
+inated by a few major furniture items, often resulting in missing
+auxiliary objects, insufficient functional support, and weak cross-
+region structure. Although HSM is able to generate more objects,
+it still frequently produces loose object compositions, ambiguous
+functional boundaries, and local configurations that are not fully
+aligned with the intended scene semantics. In contrast, our method
+recovers more complete object sets from concise prompts and fur-
+ther establishes clearer functional partitioning and more coherent
+spatial organization, while maintaining better local arrangement
+stability and global layout consistency. This advantage comes from
+the joint effect of multi-view scene prior augmentation(MSPA),
+functionality-aware layout grounding(FLG) and iterative reflection-
+rectification(IRR), which together enable more effective object com-
+pletion and layout structuring from sparse semantics, thereby sub-
+stantially improving generation quality in the short-text setting.
+Quantitative Comparison.Table 1 shows that our method
+achieves the best physical plausibility, reducing Collision and OOB
+to 5.36% and 7.70%, respectively, both substantially lower than those
+of HSM and Reason3D. More importantly, under both AI judges,
+our method performs best on DR, ZO, CR, FC, and AI-Avg, with
+the most consistent gains observed on ZO, CR, and FC. These re-
+sults show that our method not only recovers missing objects and
+fine-grained details from short-text inputs, but also more effectively
+establishes clear functional partitioning, coherent cross-zone rela-
+tions, and complete scene structure. In contrast, although HSM and
+Reason3D obtain slightly better results on a few OP or AO scores,
+such advantages are largely confined to local placement quality; our
+method is stronger in functional composition, scene richness, and
+overall structural recovery, which are more critical for fine-grained
+layout modeling under short-text conditions.
+The user ratings in Table 2 further support this trend. Our method
+ranks first on all human evaluation criteria, indicating that human
+judgments likewise favor its advantages in object completeness,
+region-level organization, and overall coherence.
+4.3 Ablation Study
+We conduct a cumulative ablation over three key components:
+MSPA, FLG, and IRR. Table 3 shows that these modules play succes-
+sive roles in short-text scene generation: MSPA mainly compensates
+for missing scene priors under sparse semantics, FLG further es-
+tablishes region-level structural organization, and IRR primarily
+improves physical plausibility and placement precision in the final
+layouts.
+MSPA.Relative to the base configuration without MSPA, FLG,
+or IRR, introducing MSPA markedly reduces Collision/OOB from
+38.66%/26.72% to 19.56%/13.67%, while improving AI-Avg from
+6.36/6.15 to 8.18/7.74. Meanwhile, OP increases from 7.41/7.02 to
+7.85/7.42, and FC from 4.78/4.56 to 8.31/7.53; the remaining struc-
+tural and functional metrics also improve consistently. These results
+indicate that MSPA is necessary for recovering missing scene priors
+and restoring the basic scene structure under short-text input.
+FLG.Building on MSPA, enabling FLG yields stable performance
+gains. Collision/OOB further decrease to 14.28%/8.33%, while AI-
+Avg improves to 9.04/8.45. Meanwhile, ZO increases from 8.12/7.76
+to 9.16/8.71, and CR from 8.14/7.68 to 9.44/8.36; the remaining
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Trovato et al.
+Table 3: Ablation study of our SDesc3D framework under the short-text 3D indoor scene generation setting. MSPA, FLG, and
+IRR are added progressively to analyze their individual and joint contributions. Each added component consistently improves
+the results, with the complete model performing best across nearly all metrics.
+MSPA FLG IRR Collision (%)↓OOB (%)↓ DR↑OP↑ZO↑CR↑FC↑ AI-Avg↑
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+Gemini
+3-flash
+GPT
+5.4
+38.66% 26.72% 7.43 7.26 7.41 7.02 6.13 6.05 6.05 5.88 4.78 4.56 6.36 6.15
+✓19.56% 13.67% 8.48 8.30 7.85 7.42 8.12 7.76 8.14 7.68 8.31 7.53 8.18 7.74
+✓ ✓14.28% 8.33% 9.05 8.89 8.04 7.65 9.16 8.71 9.44 8.36 9.52 8.62 9.04 8.45
+✓ ✓ ✓5.44% 6.73% 9.21 9.03 9.25 8.98 9.54 9.21 9.53 8.88 9.88 8.76 9.48 8.97
+Table 4: Correlation Coefficient between User and AI Scores.
+The results suggest a positive correlation between user judg-
+ments and AI-based evaluations.
+Metric User-AI Score Pair 1 User-AI Score Pair 2
+Pearson𝑟0.81 0.76
+Spearman𝜌0.73 0.69
+structural and functional metrics also continue to improve. This
+shows that FLG provides the critical intermediate structure between
+high-level scene intent and fine-grained layout recovery, thereby
+strengthening both region-level organization and cross-zone struc-
+tural reasoning.
+IRR.Further enabling IRR leads to additional improvements in
+both physical plausibility and final layout quality. Collision/OOB
+further decrease from 14.28%/8.33% to 5.44%/6.73% while AI-Avg
+improves from 9.04/8.45 to 9.48/8.97. Meanwhile, OP increases from
+8.04/7.65 to 9.25/8.98, and FC from 9.52/8.62 to 9.88/8.76; the re-
+maining structural and functional metrics also continue to improve.
+These results show that IRR effectively resolves residual physical
+conflicts and local instability, while further improving final layout
+quality.
+Human-AI score correlation.In Table 4, both the Pearson 𝑟
+and Spearman 𝜌 between user ratings and AI scores are signifi-
+cantly positive, indicating strong agreement between automatic
+semantic evaluation and human judgment and thereby supporting
+the reliability of the automatic analysis.
+4.4 Comparison on Long-text Conditioned
+Generation
+As shown in Figure 4, under long-text inputs, all methods bene-
+fit from richer object, attribute, and spatial-relation constraints,
+leading to more complete indoor scenes. In this setting, SDesc3D
+performs comparably to HSM and Reason3D, recovering the major
+object compositions and local relations described in the text while
+maintaining clear scene organization and semantic consistency.
+These results indicate that although SDesc3D is primarily designed
+for structural semantic recovery under short-text conditions, its
+effectiveness is not limited to semantically condensed inputs. When
+richer layout cues are provided, multi-view scene prior augmen-
+tation and functionality-aware layout grounding remain effective,
+suggesting that the framework generalizes well to more descriptive
+input conditions and continues to support fine-grained, structured
+scene generation.
+Table 5: Model comparison results. The results indicate that
+our SDesc3D framework exhibits strong robustness across
+different foundation models.
+Model GPT5.4 Gemini3-flash
+GPT5.4 8.72 8.89
+Gemini3-flash 8.74 9.06
+Qwen3 8.67 8.94
+Claude-sonnet-4-6 8.70 9.03
+(a) HSM (b) Reason3D
+ (c) Ours
+A gym-purpose basement featuring a treadmill and an exercise bike positioned against
+one wall, with a tall mirror mounted on a wall directly facing the exercise bike.
+Figure 4: Qualitative comparison of HSM, Reason3D, and our
+method under the long-text setting.
+4.5 Analysis on Different LLM Backends.
+We further investigate the performance robustness of SDesc3D
+across different LLM backends. As present in Table 5, when the rea-
+soning backend is replaced with GPT-5.4, Gemini 3 Flash, Qwen3,
+and Claude-sonnet-4-6, the generated scenes remain in a consis-
+tently high-performing range under both AI judges with only lim-
+ited variations, indicating that the effectiveness of the proposed
+framework does not rely on a single reasoning model and instead
+generalizes well across different backends.
+4.6 Extending SDesc3D for Indoor Scene Editing
+As shown in Fig. 5, SDesc3D also exhibits strong potential for exten-
+sion to 3D indoor scene editing. Enabled by fine-grained functional
+partitioning and structured scene representation, the framework
+supports localized editing operations while preserving overall lay-
+out consistency and spatial organization stability. This suggests
+that SDesc3D does not merely produce a one-shot static layout,
+but instead captures a fine-grained scene structure with persistent
+manipulability, thereby providing an extensible representational
+basis for interactive 3D indoor content creation.
+SDesc3D: Towards Layout-Aware 3D Indoor Scene Generation from Short Descriptions Conference acronym ’XX, June 03–05, 2018, Woodstock, NY
+Initial Scene Add a mirror next to thebookshelf.
+Delete a lamp inthe scene.
+Move the armchair from the rightside of the sofa to the left.
+Figure 5: Examples of scene editing results of object addition,
+deletion and relocation by SDesc3D. Without additional treat-
+ments, SDesc3D handles these editing actions with plausible
+results.
+5 Conclusion
+In our work, we present SDesc3D for indoor layout reasoning con-
+ditioned on short scene descriptions. To compensate for the lack of
+explicit semantic guidance on object relationships, our multi-view
+scene prior augmentation to enrich short descriptions with ag-
+gregated multi-view structural knowledge, shifting guidance from
+inaccessible semantic relation cues to multi-view relational prior
+aggregation. Our functionality-aware layout grounding constructs
+a hierarchical layout reasoning process that leveraging regional
+functionalities for implicit spatial anchoring, leading to improved
+scene organization and semantic plausibility. Experiments validates
+the superiority of SDesc3D with enhanced physicial plausibility and
+improved detail richness. With its functionality partitioning and
+hierarchical scene representation, SDesc3D can also be extended
+for text-based scene editing without additional treatments.
+References
+[1] Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stewart Morris, Seung Jean Yoo,
+Aditya Ganeshan, R. Kenny Jones, Qiuhong Anna Wei, Kailiang Fu, and Daniel
+Ritchie. 2024. Open-Universe Indoor Scene Generation using LLM Program
+Synthesis and Uncurated Object Databases.arXiv preprint arXiv:2403.09675
+(2024).
+[2] Frédéric Berdoz, Luca A. Lanzendörfer, Nick Tuninga, and Roger Wattenhofer.
+2026. Text-to-Scene with Large Reasoning Models. InProceedings of the AAAI
+Conference on Artificial Intelligence, Vol. 40. 2435–2443.
+[3] Ata Celen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton
+Obukhov, and Xi Wang. 2024. I-Design: Personalized LLM Interior Designer. In
+Computer Vision – ECCV 2024 Workshops.
+[4] Adrian Chang, Kai Wang, Yuanbo Li, Manolis Savva, Angel X. Chang, and Daniel
+Ritchie. 2025. Learning Object Placement Programs for Indoor Scene Synthesis
+with Iterative Self Training.arXiv preprint arXiv:2503.04496(2025).
+[5] Angel X. Chang, Manolis Savva, and Christopher D. Manning. 2014. Learning
+Spatial Knowledge for Text to 3D Scene Generation. InProceedings of the 2014
+Conference on Empirical Methods in Natural Language Processing. 2028–2038.
+[6] Angela Dai, Angel X. Chang, Manolis Savva, Maciej Halber, Thomas Funkhouser,
+and Matthias Nießner. 2017. ScanNet: Richly-Annotated 3D Reconstructions
+of Indoor Scenes. InProceedings of the IEEE Conference on Computer Vision and
+Pattern Recognition. 5828–5839.
+[7] Wei Deng, Mengshi Qi, and Huadong Ma. 2025. Global-Local Tree Search in
+VLMs for 3D Indoor Scene Generation. InProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition. 8975–8984.
+[8] Wenqi Dong, Bangbang Yang, Zesong Yang, Yuan Li, Tao Hu, Hujun Bao, Yuewen
+Ma, and Zhaopeng Cui. 2025. HiScene: Creating Hierarchical 3D Scenes with Iso-
+metric View Generation. InProceedings of the 33rd ACM International Conference
+on Multimedia. 9783–9792.
+[9] Chuan Fang, Heng Li, Yixun Liang, Jia Zheng, Yongsen Mao, Yuan Liu, Rui Tang,
+Zihan Zhou, and Ping Tan. 2026. SPATIALGEN: Layout-guided 3D Indoor Scene
+Generation. InProceedings of the International Conference on 3D Vision (3DV).
+[10] Weixi Feng, Wanrong Zhu, Tsu-Jui Fu, Varun Jampani, Arjun Akula, Xuehai
+He, Sugato Basu, Xin Eric Wang, and William Yang Wang. 2023. LayoutGPT:
+Compositional Visual Planning and Generation with Large Language Models. In
+Advances in Neural Information Processing Systems.
+[11] Rao Fu, Zehao Wen, Zichen Liu, and Srinath Sridhar. 2024. AnyHome: Open-
+Vocabulary Generation of Structured and Textured 3D Homes. InComputer Vision
+– ECCV 2024. 52–70.
+[12] Jialin Gao, Donghao Zhou, Mingjian Liang, Lihao Liu, Chi-Wing Fu, Xiaowei
+Hu, and Pheng-Ann Heng. 2025. DisCo-Layout: Disentangling and Coordinating
+Semantic and Physical Refinement in a Multi-Agent Framework for 3D Indoor
+Layout Synthesis.arXiv preprint arXiv:2510.02178(2025).
+[13] Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A. Ross,
+Cordelia Schmid, and Alireza Fathi. 2024. SceneCraft: An LLM Agent for Syn-
+thesizing 3D Scenes as Blender Code. InProceedings of the 41st International
+Conference on Machine Learning. 19252–19282.
+[14] Ian Huang, Yanan Bao, Karen Truong, Howard Zhou, Cordelia Schmid, Leonidas
+Guibas, and Alireza Fathi. 2025. FirePlace: Geometric Refinements of LLM Com-
+mon Sense Reasoning for 3D Object Placement. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition. 13466–13476.
+[15] Shi-Sheng Huang, Hongbo Fu, and Shi-Min Hu. 2016. Structure Guided Interior
+Scene Synthesis via Graph Matching.Graphical Models85 (2016), 46–55.
+[16] Mukul Khanna, Yongsen Mao, Hanxiao Jiang, Sanjay Haresh, Brennan Shacklett,
+Dhruv Batra, Alexander Clegg, Eric Undersander, Angel X. Chang, and Manolis
+Savva. 2024. Habitat Synthetic Scenes Dataset (HSSD-200): An Analysis of 3D
+Scene Scale and Realism Tradeoffs for ObjectGoal Navigation. InProceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition. 16384–16393.
+[17] Manyi Li, Akshay Gadi Patil, Kai Xu, Siddhartha Chaudhuri, Owais Khan, Ariel
+Shamir, Changhe Tu, Baoquan Chen, Daniel Cohen-Or, and Hao (Richard) Zhang.
+2019. GRAINS: Generative Recursive Autoencoders for INdoor Scenes.ACM
+Transactions on Graphics38, 2 (2019), 12:1–12:16.
+[18] Chenguo Lin and Yadong Mu. 2024. InstructScene: Instruction-Driven 3D In-
+door Scene Synthesis with Semantic Graph Prior. InThe Twelfth International
+Conference on Learning Representations.
+[19] Yangkai Lin, Jiabao Lei, and Kui Jia. 2025. SceneLCM: End-to-End Layout-Guided
+Interactive Indoor Scene Generation with Latent Consistency Model.arXiv
+preprint arXiv:2506.07091(2025).
+[20] Lu Ling, Chen-Hsuan Lin, Tsung-Yi Lin, Yifan Ding, Yu Zeng, Yichen Sheng,
+Yunhao Ge, Ming-Yu Liu, Aniket Bera, and Max Li. 2026. Scenethesis: A Language
+and Vision Agentic Framework for 3D Scene Generation. InThe Fourteenth
+International Conference on Learning Representations (ICLR 2026).
+[21] Libin Liu, Shen Chen, Sen Jia, Jingzhe Shi, Can Jin, Zongkai Wu, Jenq-Neng
+Hwang, and Lei Li. 2025. Graph Canvas for Controllable 3D Scene Generation. In
+Proceedings of the 33rd ACM International Conference on Multimedia. 2536–2545.
+[22] Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B. Tenenbaum. 2020. End-
+to-End Optimization of Scene Layout. InProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR). 3754–3763.
+[23] Hou In Derek Pun, Hou In Ivan Tam, Austin T. Wang, Xiaoliang Huo, Angel X.
+Chang, and Manolis Savva. 2026. HSM: Hierarchical Scene Motifs for Multi-Scale
+Indoor Scene Generation. InProceedings of the International Conference on 3D
+Vision (3DV).
+[24] Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and Song-Chun Zhu. 2018.
+Human-Centric Indoor Scene Synthesis Using Stochastic Grammar. InProceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 5899–
+5908.
+[25] Xingjian Ran, Yixuan Li, Linning Xu, Mulin Yu, and Bo Dai. 2025. Direct Numer-
+ical Layout Generation for 3D Indoor Scene Synthesis via Spatial Reasoning. In
+Advances in Neural Information Processing Systems.
+[26] Stephen E. Robertson, Steve Walker, Susan Jones, Micheline Hancock-Beaulieu,
+and Mike Gatford. 1995. Okapi at TREC-3. InProceedings of the Third Text
+REtrieval Conference (TREC-3). 109–126.
+[27] Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat, Federico Tombari,
+Manling Li, Nick Haber, and Jiajun Wu. 2025. LayoutVLM: Differentiable Opti-
+mization of 3D Layout via Vision-Language Models. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition. 29469–29478.
+[28] Weilin Sun, Xinran Li, Manyi Li, Kai Xu, Xiangxu Meng, and Lei Meng. 2025.
+Hierarchically-Structured Open-Vocabulary Indoor Scene Synthesis with Pre-
+trained Large Language Model. InProceedings of the AAAI Conference on Artificial
+Intelligence.
+[29] Wenzhuo Sun, Mingjian Liang, Wenxuan Song, Xuelian Cheng, and Zongyuan
+Ge. 2025. RoomPlanner: Explicit Layout Planner for Easier LLM-Driven 3D Room
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Trovato et al.
+Generation.arXiv preprint arXiv:2511.17048(2025).
+[30] Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias
+Nießner. 2024. DiffuScene: Denoising Diffusion Models for Generative Indoor
+Scene Synthesis. InProceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition. 20507–20518.
+[31] Kai Wang, Yu-An Lin, Ben Weissmann, Manolis Savva, Angel X. Chang, and
+Daniel Ritchie. 2019. PlanIT: Planning and Instantiating Indoor Scenes with
+Relation Graph and Spatial Prior Networks.ACM Transactions on Graphics38, 4
+(2019), 132:1–132:15.
+[32] Yian Wang, Xiaowen Qiu, Jiageng Liu, Zhehuan Chen, Jiting Cai, Yufei Wang,
+Tsun-Hsuan Wang, Zhou Xian, and Chuang Gan. 2024. ARCHITECT: Generating
+Vivid and Interactive 3D Scenes with Hierarchical 2D Inpainting. InAdvances in
+Neural Information Processing Systems 37 (NeurIPS 2024).
+[33] Yandan Yang, Baoxiong Jia, Shujie Zhang, and Siyuan Huang. 2025. SceneWeaver:
+All-in-One 3D Scene Synthesis with an Extensible and Self-Reflective Agent. In
+Advances in Neural Information Processing Systems.
+[34] Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang. 2024. PhyScene:
+Physically Interactable 3D Scene Synthesis for Embodied AI. InProceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR).
+16262–16272.
+[35] Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson
+Han, Jiajun Wu, Nick Haber, Ranjay Krishna, Lingjie Liu, Chris Callison-Burch,
+Mark Yatskar, Aniruddha Kembhavi, and Christopher Clark. 2024. Holodeck:
+Language Guided Generation of 3D Embodied AI Environments. InProceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 16227–
+16237.
+[36] Zhaoda Ye, Yang Liu, and Yuxin Peng. 2024. MAAN: Memory-Augmented Auto-
+regressive Network for Text-driven 3D Indoor Scene Generation.IEEE Transac-
+tions on Multimedia(2024), 1–14.
+[37] Guangyao Zhai, Evin Pinar Ornek, Shun-Cheng Wu, Yan Di, Federico Tombari,
+Nassir Navab, and Benjamin Busam. 2023. CommonScenes: Generating Com-
+monsense 3D Indoor Scenes with Scene Graph Diffusion. InAdvances in Neural
+Information Processing Systems.
+[38] Song-Hai Zhang, Shao-Kui Zhang, Wei-Yu Xie, Cheng-Yang Luo, Yong-Liang
+Yang, and Hongbo Fu. 2022. Fast 3D Indoor Scene Synthesis by Learning Spatial
+Relation Priors of Objects.IEEE Transactions on Visualization and Computer
+Graphics28, 9 (2022), 3082–3092.
+[39] Yunzhi Zhang, Zizhang Li, Matt Zhou, Shangzhe Wu, and Jiajun Wu. 2025. The
+Scene Language: Representing Scenes with Programs, Words, and Embeddings. In
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition
+(CVPR). 24625–24634.
+[40] Zaiwei Zhang, Zhenpei Yang, Chongyang Ma, Linjie Luo, Alexander Huth, Eti-
+enne Vouga, and Qixing Huang. 2020. Deep Generative Modeling for Scene
+Synthesis via Hybrid Representations.ACM Transactions on Graphics39, 3 (2020),
+17:1–17:21.
+[41] Xiaoming Zhu, Xu Huang, Qinghongbing Xie, Zhi Deng, Junsheng Yu, Yirui
+Guan, Zhongyuan Liu, Lin Zhu, Qijun Zhao, Ligang Liu, and Long Zeng. 2025.
+Imaginarium: Vision-guided High-Quality 3D Scene Layout Generation.ACM
+Transactions on Graphics44, 6 (2025), 1–24.

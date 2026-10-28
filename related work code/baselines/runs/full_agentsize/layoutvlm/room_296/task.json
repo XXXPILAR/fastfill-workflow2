@@ -1,0 +1,48 @@
+{
+ "task_description": "a bedroom of about 3.2m x 5.4m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (1.35, 4.96) (keep the floor in front of it clear); a door 0.80 m wide centred at (0.00, 4.95) (keep the floor in front of it clear); a door 1.76 m wide centred at (1.57, 0.00) (keep the floor in front of it clear). the bed (o0003) should be between the cabinet (o0005) and the cabinet (o0001). the bed (o0003) should face the cabinet (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    3.1579490000000003,
+    0.0,
+    0.0
+   ],
+   [
+    3.1579490000000003,
+    4.285664000000001,
+    0.0
+   ],
+   [
+    1.35375,
+    4.285664000000001,
+    0.0
+   ],
+   [
+    1.35375,
+    5.434102,
+    0.0
+   ],
+   [
+    0.0,
+    5.434102,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.7
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {}
+ }
+}

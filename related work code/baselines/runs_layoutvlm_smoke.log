@@ -1,0 +1,78 @@
+/Users/zhangyang/Downloads/fastfill-v4/baselines/LayoutVLM/src/layoutvlm/constraints.py:15: UserWarning: WARNING: Could not import oriented_iou_loss from third_party.Rotated_IoU. This is likely due to CUDA not being available or the CUDA extension not being compiled. The bbox_overlap_loss function will use a simplified fallback that may be less accurate. Original error: No module named 'sort_vertices'
+  warnings.warn(
+Fra:1 Mem:58.75M (Peak 58.75M) | Time:00:00.22 | Rendering 1 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.36 | Rendering 25 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.46 | Rendering 50 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.51 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/baselines/runs/layoutvlm_smoke/room_034/group_0/top_down_rendering.png'
+Time: 00:00.62 (Saving: 00:00.07)
+
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.13 | Rendering 25 / 64 samples
+Fra:1 Mem:58.94M (Peak 58.94M) | Time:00:00.23 | Rendering 50 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.94M) | Time:00:00.28 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/baselines/runs/layoutvlm_smoke/room_034/group_0/side_rendering_45_3.png'
+Time: 00:00.32 (Saving: 00:00.03)
+
+Placing unplaced assets -- group 0
+Info: Deleted 2 data-block(s)
+White background set up.
+No texture found for the object.
+HDRI file not found: /Users/zhangyang/Downloads/fastfill-v4/baselines/LayoutVLM/./data/HDRIs/studio_small_08_4k.exr
+no CUDA devices found
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/baselines/runs/layoutvlm_smoke/room_034/group_0/top_down_rendering.png
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/baselines/runs/layoutvlm_smoke/room_034/group_0/top_down_rendering.png
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/baselines/runs/layoutvlm_smoke/room_034/group_0/side_rendering_45_3.png
+Info: Deleted 2 data-block(s)
+assets given to grad_solver dict_keys(['walls_0', 'walls_1', 'walls_2', 'walls_3', 'wardrobe_0', 'nightstand_A_0', 'tv_stand_0', 'nightstand_B_0', 'king_size_bed_0', 'fixed_pointtt_0', 'fixed_pointtt_1', 'fixed_pointtt_2', 'fixed_pointtt_3', 'fixed_pointtt_4'])
+Wall(walls_0, c1=[3.4, 0.0, 0.0], c2=[3.4, 5.1789, 0.0] )
+Wall(walls_1, c1=[3.4, 5.1789, 0.0], c2=[0.0, 5.1789, 0.0] )
+Wall(walls_2, c1=[0.0, 5.1789, 0.0], c2=[0.0, 0.0, 0.0] )
+Wall(walls_3, c1=[0.0, 0.0, 0.0], c2=[3.4, 0.0, 0.0] )
+AssetInstance(wardrobe_0, xyz=[2.22  4.865 1.225], rot=[ 0.01256604 -0.999921  ], dim=[0.63 2.36 2.45], onCeiling=False)
+AssetInstance(nightstand_A_0, xyz=[0.23  3.35  0.285], rot=[0.9998766  0.01570732], dim=[0.46 0.55 0.57], onCeiling=False)
+AssetInstance(tv_stand_0, xyz=[3.17  1.9   0.345], rot=[-0.9998224  -0.01884844], dim=[0.46 1.95 0.69], onCeiling=False)
+AssetInstance(nightstand_B_0, xyz=[0.24 0.44 0.32], rot=[0.9998766  0.01570732], dim=[0.48 0.57 0.64], onCeiling=False)
+AssetInstance(king_size_bed_0, xyz=[1.18 1.9  0.65], rot=[0.99940294 0.03455064], dim=[2.36 2.25 1.3 ], onCeiling=False)
+AssetInstance(fixed_pointtt_0, xyz=[1.18 1.9  0.65], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_1, xyz=[0.23  3.35  0.285], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_2, xyz=[0.24 0.44 0.32], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_3, xyz=[3.17  1.9   0.345], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_4, xyz=[2.22  4.865 1.225], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+constraint point_towards with instance_ids ['king_size_bed_0', 'tv_stand_0'] conflicts with existing constraint
+constraint point_towards with instance_ids ['tv_stand_0', 'king_size_bed_0'] conflicts with existing constraint
+constraint align_with with instance_ids ['nightstand_A_0', 'king_size_bed_0'] conflicts with existing constraint
+constraint align_with with instance_ids ['nightstand_B_0', 'king_size_bed_0'] conflicts with existing constraint
+constraint align_with with instance_ids ['wardrobe_0', 'king_size_bed_0'] conflicts with existing constraint
+optimization progress:   0%|          | 0/400 [00:00<?, ?it/s]optimization progress:   0%|          | 1/400 [00:00<01:19,  5.05it/s]
+  0%|          | 0/400 [00:00<?, ?it/s][A
+  1%|▏         | 5/400 [00:00<00:07, 49.49it/s][A
+  5%|▌         | 21/400 [00:00<00:04, 87.40it/s][A
+ 10%|█         | 41/400 [00:00<00:03, 107.64it/s][A
+ 15%|█▌        | 60/400 [00:00<00:02, 132.87it/s][A
+ 18%|█▊        | 74/400 [00:00<00:02, 120.63it/s][A
+ 23%|██▎       | 91/400 [00:00<00:02, 120.88it/s][A
+ 28%|██▊       | 111/400 [00:00<00:02, 126.03it/s][A
+ 33%|███▎      | 131/400 [00:01<00:02, 128.78it/s][A
+ 38%|███▊      | 151/400 [00:01<00:01, 130.54it/s][A
+ 43%|████▎     | 171/400 [00:01<00:01, 130.68it/s][A
+ 48%|████▊     | 191/400 [00:01<00:01, 132.70it/s][A
+ 53%|█████▎    | 211/400 [00:01<00:01, 133.69it/s][A
+ 58%|█████▊    | 231/400 [00:01<00:01, 134.52it/s][A
+ 63%|██████▎   | 251/400 [00:01<00:01, 133.20it/s][A
+ 68%|██████▊   | 271/400 [00:02<00:00, 133.89it/s][A
+ 73%|███████▎  | 291/400 [00:02<00:00, 133.25it/s][A
+ 78%|███████▊  | 311/400 [00:02<00:00, 132.79it/s][A
+ 83%|████████▎ | 331/400 [00:02<00:00, 132.97it/s][A
+ 88%|████████▊ | 351/400 [00:02<00:00, 133.51it/s][A
+ 93%|█████████▎| 371/400 [00:02<00:00, 133.24it/s][A
+ 98%|█████████▊| 391/400 [00:03<00:00, 133.39it/s][A100%|█████████▉| 399/400 [00:03<00:00, 128.66it/s]
+optimization progress:   0%|          | 1/400 [00:05<38:28,  5.78s/it]
+Iteration 0, Total Loss: 0.041159018874168396, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 4.115901947021484
+Iteration 100, Total Loss: 9.191997378366068e-05, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 0.009191997349262238
+Iteration 200, Total Loss: 1.2447847439034376e-05, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 0.0012447847984731197
+Iteration 300, Total Loss: 1.5830091797397472e-05, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 0.0015830091433599591
+Iteration 398, Total Loss: 1.7935082723852247e-05, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 0.0017935083014890552
+Found better solution at iteration 220
+All assets have already been placed.
+room 34: ValueError: LayoutVLM placed no pose for obj_0000 in 316s

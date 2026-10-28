@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bed, carpet, chair, clothes rack, combination sofa, desk, desk lamp, dining chair, dining table combination, mirror, nightstand, stool, wardrobe, washing cabinet, washing machine \nOverall furniture frequencies: (bed: 0.1667; carpet: 0.1333; chair: 0.1667; clothes rack: 0.0333; combination sofa: 0.0333; desk: 0.0333; desk lamp: 0.0333; dining chair: 0.0333; dining table combination: 0.0667; mirror: 0.0333; nightstand: 0.0333; stool: 0.0667; wardrobe: 0.1333; washing cabinet: 0.0333; washing machine: 0.0)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 3.10m, max width 1.30m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "washing cabinet[obj_0000] {length: 1.00m; height: 2.50m; width: 0.55m; orientation: 0 degrees; left: 0.27m; top: 0.50m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 3.37m, max width 2.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "carpet[obj_0000] {length: 1.87m; height: 0.02m; width: 1.86m; orientation: 90 degrees; left: 1.47m; top: 0.97m; depth: 0.00m;}\nchair[obj_0001] {length: 0.49m; height: 0.79m; width: 0.61m; orientation: -90 degrees; left: 1.36m; top: 0.94m; depth: 0.00m;}\nwardrobe[obj_0002] {length: 0.86m; height: 2.50m; width: 0.55m; orientation: 90 degrees; left: 0.43m; top: 0.27m; depth: 0.00m;}\nbed[obj_0003] {length: 1.75m; height: 0.96m; width: 2.00m; orientation: 90 degrees; left: 2.59m; top: 1.00m; depth: -0.00m;}\ndining table combination[obj_0004] {length: 1.00m; height: 2.50m; width: 0.55m; orientation: 90 degrees; left: 1.36m; top: 0.27m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 3.12m, max width 2.66m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "clothes rack[obj_0000] {length: 0.74m; height: 1.73m; width: 0.51m; orientation: -90 degrees; left: 0.49m; top: 2.40m; depth: -0.00m;}\ndining chair[obj_0001] {length: 0.45m; height: 0.84m; width: 0.62m; orientation: -55 degrees; left: 0.75m; top: 0.59m; depth: -0.00m;}\nbed[obj_0002] {length: 1.30m; height: 1.05m; width: 2.25m; orientation: 180 degrees; left: 1.99m; top: 2.00m; depth: 0.00m;}\ndesk[obj_0003] {length: 1.71m; height: 0.76m; width: 0.50m; orientation: 90 degrees; left: 1.06m; top: 0.25m; depth: 0.00m;}\ncarpet[obj_0004] {length: 1.38m; height: 0.00m; width: 1.38m; orientation: 180 degrees; left: 1.28m; top: 1.33m; depth: -0.00m;}\ndesk lamp[obj_0005] {length: 0.36m; height: 0.52m; width: 0.13m; orientation: 129 degrees; left: 0.39m; top: 0.16m; depth: 0.76m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 2.67m, max width 2.68m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "combination sofa[obj_0000] {length: 2.64m; height: 2.51m; width: 2.63m; orientation: 180 degrees; left: 1.36m; top: 1.31m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 3.30m, max width 2.91m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "chair[obj_0000] {length: 0.56m; height: 0.68m; width: 0.63m; orientation: 90 degrees; left: 2.85m; top: 2.32m; depth: -0.00m;}\nbed[obj_0001] {length: 1.56m; height: 1.12m; width: 2.05m; orientation: -90 degrees; left: 1.78m; top: 1.88m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 2.97m, max width 3.06m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "carpet[obj_0000] {length: 1.63m; height: 0.01m; width: 1.63m; orientation: -90 degrees; left: 1.65m; top: 1.11m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 1.95m; height: 2.70m; width: 0.57m; orientation: 0 degrees; left: 0.28m; top: 2.09m; depth: -0.00m;}\nnightstand[obj_0002] {length: 0.60m; height: 1.04m; width: 0.45m; orientation: -90 degrees; left: 0.95m; top: 2.83m; depth: -0.00m;}\nbed[obj_0003] {length: 1.70m; height: 1.08m; width: 2.21m; orientation: -90 degrees; left: 1.99m; top: 1.95m; depth: 0.00m;}\ndining table combination[obj_0004] {length: 1.64m; height: 2.00m; width: 0.40m; orientation: 90 degrees; left: 1.95m; top: 0.20m; depth: 0.00m;}\nchair[obj_0005] {length: 0.49m; height: 0.79m; width: 0.61m; orientation: -90 degrees; left: 1.64m; top: 0.53m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 3.44m, max width 2.99m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "stool[obj_0000] {length: 0.90m; height: 0.42m; width: 0.77m; orientation: 90 degrees; left: 2.22m; top: 1.43m; depth: -0.00m;}\nwardrobe[obj_0001] {length: 3.45m; height: 2.78m; width: 0.55m; orientation: -90 degrees; left: 1.72m; top: 2.71m; depth: -0.00m;}\nmirror[obj_0002] {length: 0.80m; height: 2.35m; width: 0.03m; orientation: 180 degrees; left: 3.43m; top: 1.79m; depth: -0.00m;}\nstool[obj_0003] {length: 0.42m; height: 0.44m; width: 0.42m; orientation: -90 degrees; left: 0.57m; top: 0.50m; depth: 0.00m;}\ncarpet[obj_0004] {length: 1.49m; height: 0.05m; width: 1.50m; orientation: -80 degrees; left: 1.86m; top: 1.64m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 3.86m, max width 2.97m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "chair[obj_0000] {length: 0.54m; height: 0.87m; width: 0.62m; orientation: -15 degrees; left: 3.12m; top: 1.83m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 1.92m; height: 2.65m; width: 0.56m; orientation: 0 degrees; left: 0.28m; top: 2.02m; depth: -0.00m;}\nbed[obj_0002] {length: 1.60m; height: 0.92m; width: 2.11m; orientation: -90 degrees; left: 1.98m; top: 1.92m; depth: 0.00m;}\nchair[obj_0003] {length: 0.54m; height: 0.87m; width: 0.62m; orientation: 19 degrees; left: 3.12m; top: 0.58m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: guest room\nRoom Size: max length 2.93m, max width 1.51m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nchair[obj_0000]: chair\nwashing machine[obj_0001]: washing machine\nFloor polygon (left, top): (2.93, 0.00), (2.93, 1.51), (0.00, 1.51), (0.00, 0.00)\nwindow 1.98m wide at left 1.45m, top 1.51m\ndoor 1.86m wide at left 1.51m, top 0.00m\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}\nLayout:\n"
+ }
+]

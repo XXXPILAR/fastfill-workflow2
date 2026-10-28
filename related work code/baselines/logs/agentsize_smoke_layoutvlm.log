@@ -1,0 +1,71 @@
+/Users/zhangyang/Downloads/fastfill-v4/baselines/LayoutVLM/src/layoutvlm/constraints.py:15: UserWarning: WARNING: Could not import oriented_iou_loss from third_party.Rotated_IoU. This is likely due to CUDA not being available or the CUDA extension not being compiled. The bbox_overlap_loss function will use a simplified fallback that may be less accurate. Original error: No module named 'sort_vertices'
+  warnings.warn(
+Fra:1 Mem:58.75M (Peak 58.75M) | Time:00:00.41 | Rendering 1 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.55 | Rendering 25 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.65 | Rendering 50 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.70 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/baselines/runs/agentsize_smoke/layoutvlm/room_041/group_0/top_down_rendering.png'
+Time: 00:00.79 (Saving: 00:00.07)
+
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.12 | Rendering 25 / 64 samples
+Fra:1 Mem:58.94M (Peak 58.94M) | Time:00:00.22 | Rendering 50 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.94M) | Time:00:00.27 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/baselines/runs/agentsize_smoke/layoutvlm/room_041/group_0/side_rendering_45_3.png'
+Time: 00:00.31 (Saving: 00:00.03)
+
+Placing unplaced assets -- group 0
+Info: Deleted 2 data-block(s)
+White background set up.
+No texture found for the object.
+HDRI file not found: /Users/zhangyang/Downloads/fastfill-v4/baselines/LayoutVLM/./data/HDRIs/studio_small_08_4k.exr
+no CUDA devices found
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/baselines/runs/agentsize_smoke/layoutvlm/room_041/group_0/top_down_rendering.png
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/baselines/runs/agentsize_smoke/layoutvlm/room_041/group_0/top_down_rendering.png
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/baselines/runs/agentsize_smoke/layoutvlm/room_041/group_0/side_rendering_45_3.png
+Info: Deleted 2 data-block(s)
+assets given to grad_solver dict_keys(['walls_0', 'walls_1', 'walls_2', 'walls_3', 'seat_0', 'tray_0', 'mirror_0', 'bin_0', 'fixed_pointtt_0', 'fixed_pointtt_1', 'fixed_pointtt_2', 'fixed_pointtt_3', 'fixed_pointtt_4'])
+Wall(walls_0, c1=[0.0, 0.0, 0.0], c2=[6.24399, 0.0, 0.0] )
+Wall(walls_1, c1=[6.24399, 0.0, 0.0], c2=[6.24399, 4.140398, 0.0] )
+Wall(walls_2, c1=[6.24399, 4.140398, 0.0], c2=[0.0, 4.140398, 0.0] )
+Wall(walls_3, c1=[0.0, 4.140398, 0.0], c2=[0.0, 0.0, 0.0] )
+AssetInstance(seat_0, xyz=[1.1  2.6  0.45], rot=[0.9996842  0.02513009], dim=[0.85 0.85 0.9 ], onCeiling=False)
+AssetInstance(tray_0, xyz=[2.15  2.6   0.275], rot=[0.9997582  0.02198938], dim=[0.65 0.65 0.55], onCeiling=False)
+AssetInstance(mirror_0, xyz=[6.215 2.6   0.8  ], rot=[-0.9997582  -0.02198938], dim=[0.05 0.65 1.6 ], onCeiling=False)
+AssetInstance(bin_0, xyz=[0.65 3.65 0.25], rot=[0.9998224  0.01884844], dim=[0.45 0.45 0.5 ], onCeiling=False)
+AssetInstance(fixed_pointtt_0, xyz=[1.1  2.6  0.45], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_1, xyz=[2.15  2.6   0.275], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_2, xyz=[0.65 3.65 0.25], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_3, xyz=[0. 0. 0.], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+AssetInstance(fixed_pointtt_4, xyz=[6.215 2.6   0.8  ], rot=[0.99999505 0.00314159], dim=[0.01 0.01 0.01], onCeiling=False)
+optimization progress:   0%|          | 0/400 [00:00<?, ?it/s]optimization progress:   0%|          | 1/400 [00:00<01:05,  6.08it/s]
+  0%|          | 0/400 [00:00<?, ?it/s][A
+  3%|▎         | 11/400 [00:00<00:04, 81.27it/s][A
+  8%|▊         | 31/400 [00:00<00:02, 127.17it/s][A
+ 13%|█▎        | 51/400 [00:00<00:02, 144.73it/s][A
+ 18%|█▊        | 71/400 [00:00<00:02, 153.88it/s][A
+ 23%|██▎       | 91/400 [00:00<00:01, 156.75it/s][A
+ 28%|██▊       | 111/400 [00:00<00:01, 161.57it/s][A
+ 33%|███▎      | 131/400 [00:00<00:01, 164.08it/s][A
+ 38%|███▊      | 151/400 [00:00<00:01, 165.60it/s][A
+ 43%|████▎     | 171/400 [00:01<00:01, 166.55it/s][A
+ 48%|████▊     | 191/400 [00:01<00:01, 164.88it/s][A
+ 53%|█████▎    | 211/400 [00:01<00:01, 165.54it/s][A
+ 58%|█████▊    | 231/400 [00:01<00:01, 167.62it/s][A
+ 63%|██████▎   | 251/400 [00:01<00:00, 168.88it/s][A
+ 68%|██████▊   | 271/400 [00:01<00:00, 169.16it/s][A
+ 73%|███████▎  | 291/400 [00:01<00:00, 169.10it/s][A
+ 78%|███████▊  | 311/400 [00:01<00:00, 168.11it/s][A
+ 83%|████████▎ | 331/400 [00:02<00:00, 169.32it/s][A
+ 88%|████████▊ | 351/400 [00:02<00:00, 169.04it/s][A
+ 93%|█████████▎| 371/400 [00:02<00:00, 169.26it/s][A
+ 98%|█████████▊| 391/400 [00:02<00:00, 169.32it/s][A100%|█████████▉| 399/400 [00:02<00:00, 162.76it/s]
+optimization progress:   0%|          | 1/400 [00:04<31:44,  4.77s/it]
+Iteration 0, Total Loss: 0.0030882367864251137, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 0.30882367491722107
+Iteration 100, Total Loss: 2.6130351354902714e-11, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: 2.6130351216124836e-09
+Iteration 200, Total Loss: -2.3841812968328213e-09, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: -2.3841812435421161e-07
+Iteration 300, Total Loss: -2.3841812968328213e-09, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: -2.3841812435421161e-07
+Iteration 398, Total Loss: -2.3841812968328213e-09, Overlap Loss: 0.0, Existing Constraint Loss: 0, New Constraint Loss: -2.3841812435421161e-07
+Found better solution at iteration 220
+All assets have already been placed.
+room 41: ok in 47s

@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.467,
+    "y": 0.9,
+    "z": 0.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     106.70000000000002,
+     5.0
+    ],
+    [
+     106.70000000000002,
+     85.0
+    ],
+    [
+     186.70000000000002,
+     85.0
+    ],
+    [
+     186.70000000000002,
+     5.0
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  },
+  {
+   "assetId": "cupboard-0",
+   "id": "cupboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 1.0,
+    "z": 2.9949228515625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     170.0,
+     334.49228515625
+    ],
+    [
+     170.0,
+     264.49228515625
+    ],
+    [
+     100.0,
+     264.49228515625
+    ],
+    [
+     100.0,
+     334.49228515625
+    ]
+   ],
+   "object_name": "cupboard-0"
+  }
+ ],
+ "wall": []
+}

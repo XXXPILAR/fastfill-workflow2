@@ -1,0 +1,130 @@
+{
+ "k": 245,
+ "source": "SpatialLM",
+ "room_type": "living room",
+ "latency_s": 78.99877308309078,
+ "usage": [
+  {
+   "prompt_tokens": 1508,
+   "completion_tokens": 4151,
+   "total_tokens": 5659,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3659,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.65,
+     1.2,
+     0.42
+    ],
+    "bottom_center_m": [
+     1.9,
+     2.1,
+     0.02
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.42,
+     0.75,
+     1.8
+    ],
+    "bottom_center_m": [
+     3.731,
+     0.43,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.44,
+     1.6,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.22,
+     2.1,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     2.2,
+     2.3,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.75,
+     2.1,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.9,
+     2.45,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.45,
+     2.1,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     1.6,
+     1.8,
+     0.78
+    ],
+    "bottom_center_m": [
+     1.72,
+     6.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.42,
+     0.75,
+     1.8
+    ],
+    "bottom_center_m": [
+     3.731,
+     3.89,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe living group occupies the main lower rectangular area: the sofa is placed along the right side facing the TV cabinet on the left, with the carpet and coffee table centered between them. Two wine cabinets use the remaining sections of the right wall without blocking the large bottom entrance or the side doors. The compact dining combination is placed in the upper-left area, leaving circulation space along its left side and clear approach zones for the upper and left-side doors. The narrow right-hand extension remains open as a passage between its doors.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.2,\"depth_m\":0.65,\"height_m\":0.42,\"x\":1.9,\"y\":2.1,\"z\":0.02,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.75,\"depth_m\":0.42,\"height_m\":1.8,\"x\":3.731,\"y\":0.43,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":1.6,\"depth_m\":0.44,\"height_m\":0.55,\"x\":0.22,\"y\":2.1,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":2.3,\"depth_m\":2.2,\"height_m\":0.02,\"x\":1.75,\"y\":2.1,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":2.45,\"depth_m\":0.9,\"height_m\":0.85,\"x\":3.45,\"y\":2.1,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0005\",\"width_m\":1.8,\"depth_m\":1.6,\"height_m\":0.78,\"x\":1.72,\"y\":6.55,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.75,\"depth_m\":0.42,\"height_m\":1.8,\"x\":3.731,\"y\":3.89,\"z\":0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.942 m x 9.178 m x 3.000 m\nfloor polygon (x, y): [[5.937, 7.084], [4.712, 7.084], [4.712, 5.522], [2.836, 5.522], [2.836, 9.178], [0.0, 9.178], [0.0, 0.0], [3.941, 0.0], [3.941, 4.37], [5.942, 4.37]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"coffee table\", \"description\": \"coffee table\"},\n{\"id\": \"obj_0001\", \"category\": \"wine cabinet\", \"description\": \"wine cabinet\"},\n{\"id\": \"obj_0002\", \"category\": \"tv cabinet\", \"description\": \"tv cabinet\"},\n{\"id\": \"obj_0003\", \"category\": \"carpet\", \"description\": \"carpet\"},\n{\"id\": \"obj_0004\", \"category\": \"combination sofa\", \"description\": \"combination sofa\"},\n{\"id\": \"obj_0005\", \"category\": \"dining table combination\", \"description\": \"dining table combination\"},\n{\"id\": \"obj_0006\", \"category\": \"wine cabinet\", \"description\": \"wine cabinet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.359, 7.084], \"wall_from\": [5.937, 7.084], \"wall_to\": [4.712, 7.084], \"width_m\": 0.8, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [3.513, 5.522], \"wall_from\": [4.712, 5.522], \"wall_to\": [2.836, 5.522], \"width_m\": 0.874, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [1.418, 9.178], \"wall_from\": [2.836, 9.178], \"wall_to\": [0.0, 9.178], \"width_m\": 2.836, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [0.0, 8.428], \"wall_from\": [0.0, 9.178], \"wall_to\": [0.0, 0.0], \"width_m\": 1.5, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [0.0, 4.986], \"wall_from\": [0.0, 9.178], \"wall_to\": [0.0, 0.0], \"width_m\": 1.288, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [0.0, 3.795], \"wall_from\": [0.0, 9.178], \"wall_to\": [0.0, 0.0], \"width_m\": 0.8, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [1.787, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [3.941, 0.0], \"width_m\": 2.335, \"height_m\": 2.31}, {\"type\": \"door\", \"centre_xy\": [5.402, 4.37], \"wall_from\": [3.941, 4.37], \"wall_to\": [5.942, 4.37], \"width_m\": 1.046, \"height_m\": 2.6}, {\"type\": \"door\", \"centre_xy\": [5.938, 6.3], \"wall_from\": [5.942, 4.37], \"wall_to\": [5.937, 7.084], \"width_m\": 0.8, \"height_m\": 2.6}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0004\", \"target_id\": \"obj_0002\"}]\n[/Task Constraints]"
+}

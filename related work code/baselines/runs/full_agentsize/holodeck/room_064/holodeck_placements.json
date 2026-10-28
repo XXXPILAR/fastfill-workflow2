@@ -1,0 +1,494 @@
+{
+ "floor": [
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.38625,
+    "y": 0.89,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     494.625,
+     224.5
+    ],
+    [
+     494.625,
+     325.5
+    ],
+    [
+     582.625,
+     325.5
+    ],
+    [
+     582.625,
+     224.5
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  },
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.25,
+    "y": 0.45,
+    "z": 4.07
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     470.0,
+     442.0
+    ],
+    [
+     470.0,
+     372.0
+    ],
+    [
+     380.0,
+     372.0
+    ],
+    [
+     380.0,
+     442.0
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "oven-0",
+   "id": "oven-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.45,
+    "z": 4.07
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     360.0,
+     442.0
+    ],
+    [
+     360.0,
+     372.0
+    ],
+    [
+     290.0,
+     372.0
+    ],
+    [
+     290.0,
+     442.0
+    ]
+   ],
+   "object_name": "oven-0"
+  },
+  {
+   "assetId": "cabinet-2",
+   "id": "cabinet-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.45,
+    "z": 4.07
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     270.0,
+     442.0
+    ],
+    [
+     270.0,
+     372.0
+    ],
+    [
+     180.0,
+     372.0
+    ],
+    [
+     180.0,
+     442.0
+    ]
+   ],
+   "object_name": "cabinet-2"
+  },
+  {
+   "assetId": "stove-0",
+   "id": "stove-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.25,
+    "y": 0.46,
+    "z": 4.045
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     168.0,
+     442.0
+    ],
+    [
+     168.0,
+     367.0
+    ],
+    [
+     82.0,
+     367.0
+    ],
+    [
+     82.0,
+     442.0
+    ]
+   ],
+   "object_name": "stove-0"
+  },
+  {
+   "assetId": "cabinet-4",
+   "id": "cabinet-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     245.0
+    ],
+    [
+     65.5,
+     355.0
+    ],
+    [
+     -4.5,
+     355.0
+    ],
+    [
+     -4.5,
+     245.0
+    ]
+   ],
+   "object_name": "cabinet-4"
+  },
+  {
+   "assetId": "cabinet-6",
+   "id": "cabinet-6 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     110.0
+    ],
+    [
+     65.5,
+     240.0
+    ],
+    [
+     -4.5,
+     240.0
+    ],
+    [
+     -4.5,
+     110.0
+    ]
+   ],
+   "object_name": "cabinet-6"
+  },
+  {
+   "assetId": "table-0",
+   "id": "table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.375,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     180.0,
+     200.0
+    ],
+    [
+     180.0,
+     350.0
+    ],
+    [
+     270.0,
+     350.0
+    ],
+    [
+     270.0,
+     200.0
+    ],
+    [
+     180.0,
+     200.0
+    ]
+   ],
+   "object_name": "table-0"
+  },
+  {
+   "assetId": "bin-0",
+   "id": "bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.5,
+    "y": 0.275,
+    "z": 4.22
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     72.5,
+     442.0
+    ],
+    [
+     72.5,
+     402.0
+    ],
+    [
+     27.5,
+     402.0
+    ],
+    [
+     27.5,
+     442.0
+    ]
+   ],
+   "object_name": "bin-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "cabinet-5",
+   "id": "cabinet-5 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.185,
+    "y": 1.8,
+    "z": 3.0859375
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     35.0,
+     258.59375
+    ],
+    [
+     35.0,
+     358.59375
+    ],
+    [
+     0.0,
+     358.59375
+    ],
+    [
+     0.0,
+     258.59375
+    ],
+    [
+     35.0,
+     258.59375
+    ]
+   ],
+   "object_name": "cabinet-5"
+  },
+  {
+   "assetId": "cabinet-1",
+   "id": "cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.2421875,
+    "y": 1.8,
+    "z": 4.19
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     464.21875,
+     402.5
+    ],
+    [
+     464.21875,
+     437.5
+    ],
+    [
+     384.21875,
+     437.5
+    ],
+    [
+     384.21875,
+     402.5
+    ],
+    [
+     464.21875,
+     402.5
+    ]
+   ],
+   "object_name": "cabinet-1"
+  },
+  {
+   "assetId": "cabinet-3",
+   "id": "cabinet-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.2421875,
+    "y": 1.8,
+    "z": 4.19
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     254.21875,
+     402.5
+    ],
+    [
+     254.21875,
+     437.5
+    ],
+    [
+     194.21875,
+     437.5
+    ],
+    [
+     194.21875,
+     402.5
+    ],
+    [
+     254.21875,
+     402.5
+    ]
+   ],
+   "object_name": "cabinet-3"
+  },
+  {
+   "assetId": "towel-0",
+   "id": "towel-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.025,
+    "y": 1.35,
+    "z": 1.8359375
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     3.0,
+     161.09375
+    ],
+    [
+     3.0,
+     206.09375
+    ],
+    [
+     0.0,
+     206.09375
+    ],
+    [
+     0.0,
+     161.09375
+    ],
+    [
+     3.0,
+     161.09375
+    ]
+   ],
+   "object_name": "towel-0"
+  }
+ ]
+}

@@ -1,0 +1,664 @@
+{
+ "k": 110,
+ "source": "MansionWorld",
+ "room_type": "department meeting room 1",
+ "latency_s": 737.925355500076,
+ "usage": [
+  {
+   "prompt_tokens": 2853,
+   "completion_tokens": 6073,
+   "total_tokens": 8926,
+   "prompt_tokens_details": {
+    "cached_tokens": 2688,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3612,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0004 (mobile whiteboard) and obj_0040 (acoustic panel) intersect (0.030 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.22,
+     0.6,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.62,
+     7.2,
+     0.85
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.7,
+     9.97,
+     1.45
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.5,
+     6.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.75
+    ],
+    "bottom_center_m": [
+     9.65,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.55,
+     1.4,
+     1.8
+    ],
+    "bottom_center_m": [
+     0.275,
+     9.2,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.22,
+     1.05,
+     0.4
+    ],
+    "bottom_center_m": [
+     4.35,
+     9.89,
+     1.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.5,
+     2.4,
+     0.85
+    ],
+    "bottom_center_m": [
+     5.35,
+     9.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.66,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     4.0,
+     5.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     1.4,
+     4.0,
+     0.75
+    ],
+    "bottom_center_m": [
+     5.7,
+     7.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.4,
+     0.5,
+     0.3
+    ],
+    "bottom_center_m": [
+     6.7,
+     0.3,
+     1.55
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.55,
+     1.4,
+     1.8
+    ],
+    "bottom_center_m": [
+     2.275,
+     3.8,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.38,
+     0.4,
+     0.65
+    ],
+    "bottom_center_m": [
+     9.05,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.4,
+     0.5,
+     0.3
+    ],
+    "bottom_center_m": [
+     7.85,
+     0.3,
+     1.55
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.22,
+     1.05,
+     0.4
+    ],
+    "bottom_center_m": [
+     7.05,
+     9.89,
+     1.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.42
+    ],
+    "bottom_center_m": [
+     8.25,
+     9.68,
+     0.8
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.08,
+     1.2,
+     1.0
+    ],
+    "bottom_center_m": [
+     8.95,
+     9.96,
+     1.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.65,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.2,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     1.5,
+     8.1,
+     0.55
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.66,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     7.4,
+     8.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.2,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     1.5,
+     6.5,
+     0.55
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.55,
+     9.97,
+     1.45
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.4,
+     9.97,
+     1.45
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.66,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     5.2,
+     8.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.9,
+     2.4,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.45,
+     7.2,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.75
+    ],
+    "bottom_center_m": [
+     9.7,
+     5.65,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     1.8
+    ],
+    "bottom_center_m": [
+     6.4,
+     2.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.5,
+     8.1,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     1.8
+    ],
+    "bottom_center_m": [
+     9.45,
+     3.0,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.25,
+     9.97,
+     1.45
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.38,
+     0.4,
+     0.65
+    ],
+    "bottom_center_m": [
+     9.6,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.22,
+     1.05,
+     0.4
+    ],
+    "bottom_center_m": [
+     5.75,
+     9.89,
+     2.35
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.03,
+     5.65,
+     1.35
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.5,
+     2.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     8.25,
+     9.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.03,
+     6.65,
+     1.35
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.66,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     6.4,
+     5.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.03,
+     7.65,
+     1.35
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.66,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     6.3,
+     8.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.55,
+     1.0,
+     1.55
+    ],
+    "bottom_center_m": [
+     6.7,
+     0.275,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.55,
+     1.0,
+     1.55
+    ],
+    "bottom_center_m": [
+     7.85,
+     0.275,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.66,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     4.0,
+     8.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.03,
+     8.65,
+     1.35
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.5,
+     5.03,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.06,
+     0.7,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.5,
+     5.03,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.3,
+     0.5,
+     0.16
+    ],
+    "bottom_center_m": [
+     5.35,
+     9.7,
+     0.85
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.07,
+     0.45,
+     0.45
+    ],
+    "bottom_center_m": [
+     0.035,
+     9.5,
+     2.3
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe conference table is centered in the broad upper portion of the room, with chairs arranged on both long sides; the required three-chair sequence is on the north side, while the opposing pair satisfies the face-to-face constraint. The west side forms a lounge group with the sofa, two side tables, pillow, and reading materials. Storage cabinets and support items occupy the compact southeast area, while the credenza and sideboard use the north edge. The mobile whiteboards are parked at peripheral walls, leaving the entry route from the south door into the meeting area unobstructed. Wall-mounted acoustic panels, shelves, monitor, and clock are distributed along solid north, west, and recessed south wall sections, clear of the east-wall windows.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.6,\"depth_m\":0.22,\"height_m\":0.18,\"x\":0.62,\"y\":7.2,\"z\":0.85,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":0.7,\"y\":9.97,\"z\":1.45,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":0.55,\"x\":1.5,\"y\":6.5,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":0.75,\"x\":9.65,\"y\":9.5,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":1.4,\"depth_m\":0.55,\"height_m\":1.8,\"x\":0.275,\"y\":9.2,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":1.05,\"depth_m\":0.22,\"height_m\":0.4,\"x\":4.35,\"y\":9.89,\"z\":1.65,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":2.4,\"depth_m\":0.5,\"height_m\":0.85,\"x\":5.35,\"y\":9.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":0.62,\"depth_m\":0.66,\"height_m\":1.08,\"x\":4,\"y\":5.75,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":4,\"depth_m\":1.4,\"height_m\":0.75,\"x\":5.7,\"y\":7.2,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.5,\"depth_m\":0.4,\"height_m\":0.3,\"x\":6.7,\"y\":0.3,\"z\":1.55,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":1.4,\"depth_m\":0.55,\"height_m\":1.8,\"x\":2.275,\"y\":3.8,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0011\",\"width_m\":0.4,\"depth_m\":0.38,\"height_m\":0.65,\"x\":9.05,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.5,\"depth_m\":0.4,\"height_m\":0.3,\"x\":7.85,\"y\":0.3,\"z\":1.55,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":1.05,\"depth_m\":0.22,\"height_m\":0.4,\"x\":7.05,\"y\":9.89,\"z\":1.65,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.42,\"x\":8.25,\"y\":9.68,\"z\":0.8,\"facing_deg\":270},{\"id\":\"obj_0015\",\"width_m\":1.2,\"depth_m\":0.08,\"height_m\":1,\"x\":8.95,\"y\":9.96,\"z\":1.2,\"facing_deg\":270},{\"id\":\"obj_0016\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":0.75,\"x\":2.65,\"y\":9.5,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0017\",\"width_m\":0.28,\"depth_m\":0.2,\"height_m\":0.04,\"x\":1.5,\"y\":8.1,\"z\":0.55,\"facing_deg\":0},{\"id\":\"obj_0018\",\"width_m\":0.62,\"depth_m\":0.66,\"height_m\":1.08,\"x\":7.4,\"y\":8.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0019\",\"width_m\":0.28,\"depth_m\":0.2,\"height_m\":0.04,\"x\":1.5,\"y\":6.5,\"z\":0.55,\"facing_deg\":0},{\"id\":\"obj_0020\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":1.55,\"y\":9.97,\"z\":1.45,\"facing_deg\":270},{\"id\":\"obj_0021\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":2.4,\"y\":9.97,\"z\":1.45,\"facing_deg\":270},{\"id\":\"obj_0022\",\"width_m\":0.62,\"depth_m\":0.66,\"height_m\":1.08,\"x\":5.2,\"y\":8.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0023\",\"width_m\":2.4,\"depth_m\":0.9,\"height_m\":0.85,\"x\":0.45,\"y\":7.2,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0024\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":0.75,\"x\":9.7,\"y\":5.65,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0025\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":1.8,\"x\":6.4,\"y\":2.5,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0026\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":0.55,\"x\":1.5,\"y\":8.1,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0027\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":1.8,\"x\":9.45,\"y\":3,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0028\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":3.25,\"y\":9.97,\"z\":1.45,\"facing_deg\":270},{\"id\":\"obj_0029\",\"width_m\":0.4,\"depth_m\":0.38,\"height_m\":0.65,\"x\":9.6,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0030\",\"width_m\":1.05,\"depth_m\":0.22,\"height_m\":0.4,\"x\":5.75,\"y\":9.89,\"z\":2.35,\"facing_deg\":270},{\"id\":\"obj_0031\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":0.03,\"y\":5.65,\"z\":1.35,\"facing_deg\":0},{\"id\":\"obj_0032\",\"width_m\":2,\"depth_m\":0.5,\"height_m\":0.8,\"x\":8.25,\"y\":9.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0033\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":0.03,\"y\":6.65,\"z\":1.35,\"facing_deg\":0},{\"id\":\"obj_0034\",\"width_m\":0.62,\"depth_m\":0.66,\"height_m\":1.08,\"x\":6.4,\"y\":5.75,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0035\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":0.03,\"y\":7.65,\"z\":1.35,\"facing_deg\":0},{\"id\":\"obj_0036\",\"width_m\":0.62,\"depth_m\":0.66,\"height_m\":1.08,\"x\":6.3,\"y\":8.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0037\",\"width_m\":1,\"depth_m\":0.55,\"height_m\":1.55,\"x\":6.7,\"y\":0.275,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0038\",\"width_m\":1,\"depth_m\":0.55,\"height_m\":1.55,\"x\":7.85,\"y\":0.275,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0039\",\"width_m\":0.62,\"depth_m\":0.66,\"height_m\":1.08,\"x\":4,\"y\":8.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0040\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":0.03,\"y\":8.65,\"z\":1.35,\"facing_deg\":0},{\"id\":\"obj_0041\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":0.5,\"y\":5.03,\"z\":1.4,\"facing_deg\":90},{\"id\":\"obj_0042\",\"width_m\":0.7,\"depth_m\":0.06,\"height_m\":0.85,\"x\":1.5,\"y\":5.03,\"z\":1.4,\"facing_deg\":90},{\"id\":\"obj_0043\",\"width_m\":0.5,\"depth_m\":0.3,\"height_m\":0.16,\"x\":5.35,\"y\":9.7,\"z\":0.85,\"facing_deg\":270},{\"id\":\"obj_0044\",\"width_m\":0.45,\"depth_m\":0.07,\"height_m\":0.45,\"x\":0.035,\"y\":9.5,\"z\":2.3,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndepartment meeting room 1\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 10.000 m x 10.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 10.0], [0.0, 5.0], [2.0, 5.0], [2.0, 2.0], [6.0, 2.0], [6.0, 0.0], [10.0, 0.0], [10.0, 10.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"throw pillow\", \"description\": \"A large white pillow with golden edges.\", \"support_parent\": \"obj_0023\"},\n{\"id\": \"obj_0001\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0002\", \"category\": \"lounge side table\", \"description\": \"A round wooden table holding a blue and white owl statue.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"freestanding planter\", \"description\": \"A wooden planter with some strawberries.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"mobile whiteboard\", \"description\": \"A whiteboard with a black marker.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0006\", \"category\": \"side credenda\", \"description\": \"Long wood cabinet with metal frame and drawers.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"meeting chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"conference table\", \"description\": \"A long white table with two black spines.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"storage box\", \"description\": \"A red microwave oven.\", \"support_parent\": \"obj_0037\"},\n{\"id\": \"obj_0010\", \"category\": \"mobile whiteboard\", \"description\": \"A whiteboard with a black marker.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"trash recycling bin\", \"description\": \"A pair of white drawers in the black dresser.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"storage box\", \"description\": \"A red microwave oven.\", \"support_parent\": \"obj_0038\"},\n{\"id\": \"obj_0013\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0014\", \"category\": \"small planter\", \"description\": \"A plant sitting in a round flower pot.\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0015\", \"category\": \"wall monitor\", \"description\": \"An image of a mountain lake in a white frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0016\", \"category\": \"freestanding planter\", \"description\": \"A wooden planter with some strawberries.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"magazine\", \"description\": \"A light brown hardback book with atom depicted in gold on the cover.\", \"support_parent\": \"obj_0026\"},\n{\"id\": \"obj_0018\", \"category\": \"meeting chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0019\", \"category\": \"magazine\", \"description\": \"A light brown hardback book with atom depicted in gold on the cover.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0020\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0021\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0022\", \"category\": \"meeting chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0023\", \"category\": \"lounge sofa\", \"description\": \"A grey three seater sofa.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0024\", \"category\": \"freestanding planter\", \"description\": \"A wooden planter with some strawberries.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0025\", \"category\": \"coat stand\", \"description\": \"The coatrack is wooden with a round bottom.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0026\", \"category\": \"lounge side table\", \"description\": \"A round wooden table holding a blue and white owl statue.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0027\", \"category\": \"coat stand\", \"description\": \"The coatrack is wooden with a round bottom.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0028\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0029\", \"category\": \"trash recycling bin\", \"description\": \"A pair of white drawers in the black dresser.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0030\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0031\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0032\", \"category\": \"sideboard table\", \"description\": \"A long narrow wooden table on metal legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0033\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0034\", \"category\": \"meeting chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0035\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0036\", \"category\": \"meeting chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0037\", \"category\": \"storage cabinet\", \"description\": \"A rectangular set of five dark gray shelves with two drawers beneath them.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0038\", \"category\": \"storage cabinet\", \"description\": \"A rectangular set of five dark gray shelves with two drawers beneath them.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0039\", \"category\": \"meeting chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0040\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0041\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0042\", \"category\": \"acoustic panel\", \"description\": \"The plaque has a design in the middle of the board.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0043\", \"category\": \"tray\", \"description\": \"Carved brown tray with handle and tall sides.\", \"support_parent\": \"obj_0006\"},\n{\"id\": \"obj_0044\", \"category\": \"wall clock\", \"description\": \"A black and white rouund clock with red hands and gears at the center of the circle.\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [3.839, 2.0], \"wall_from\": [2.0, 2.0], \"wall_to\": [6.0, 2.0], \"width_m\": 1.943, \"height_m\": 2.1}, {\"type\": \"window\", \"centre_xy\": [10.0, 1.958], \"wall_from\": [10.0, 0.0], \"wall_to\": [10.0, 10.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [10.0, 4.536], \"wall_from\": [10.0, 0.0], \"wall_to\": [10.0, 10.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [10.0, 8.621], \"wall_from\": [10.0, 0.0], \"wall_to\": [10.0, 10.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0014\", \"parent_id\": \"obj_0032\"}, {\"type\": \"between\", \"object_id\": \"obj_0036\", \"target_ids\": [\"obj_0022\", \"obj_0018\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0007\", \"target_id\": \"obj_0039\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0024\"}]\n[/Task Constraints]"
+}

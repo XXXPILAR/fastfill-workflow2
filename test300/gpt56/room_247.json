@@ -1,0 +1,60 @@
+{
+ "k": 247,
+ "source": "SpatialLM",
+ "room_type": "kitchen",
+ "latency_s": 12.895254916977137,
+ "usage": [
+  {
+   "prompt_tokens": 923,
+   "completion_tokens": 578,
+   "total_tokens": 1501,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 374,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.42,
+     0.38,
+     0.95
+    ],
+    "bottom_center_m": [
+     0.71,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.45,
+     0.9,
+     1.05
+    ],
+    "bottom_center_m": [
+     0.225,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bar is the larger fixed piece, so it is placed lengthwise against the straight left wall, away from the window. The bar chair sits directly in front of it, facing the bar with a small gap that satisfies the near constraint. This arrangement preserves a clear passage along the right side of the narrow kitchen.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.38,\"depth_m\":0.42,\"height_m\":0.95,\"x\":0.71,\"y\":1.25,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.9,\"depth_m\":0.45,\"height_m\":1.05,\"x\":0.225,\"y\":1.25,\"z\":0.0,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 1.420 m x 3.264 m x 2.300 m\nfloor polygon (x, y): [[1.42, 2.063], [1.42, 3.264], [0.177, 3.264], [0.177, 3.026], [0.0, 3.026], [0.0, 0.0], [0.887, 0.0], [0.887, 0.36], [1.42, 0.36], [1.42, 1.913], [1.327, 1.913], [1.327, 2.063]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"bar chair\", \"description\": \"bar chair\"},\n{\"id\": \"obj_0001\", \"category\": \"bar\", \"description\": \"bar\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.69, 3.264], \"wall_from\": [1.42, 3.264], \"wall_to\": [0.177, 3.264], \"width_m\": 0.82, \"height_m\": 1.3, \"sill_height_m\": 1.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0001\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.1}]\n[/Task Constraints]"
+}

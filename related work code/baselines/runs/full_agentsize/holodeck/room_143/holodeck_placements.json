@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "bathtub-0",
+   "id": "bathtub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.75,
+    "y": 0.29,
+    "z": 0.855
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     117.5,
+     -4.5
+    ],
+    [
+     117.5,
+     175.5
+    ],
+    [
+     32.5,
+     175.5
+    ],
+    [
+     32.5,
+     -4.5
+    ]
+   ],
+   "object_name": "bathtub-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.75,
+    "y": 0.39,
+    "z": 2.655
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     99.0,
+     304.5
+    ],
+    [
+     99.0,
+     226.5
+    ],
+    [
+     51.0,
+     226.5
+    ],
+    [
+     51.0,
+     304.5
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "tall storage cabinet-0",
+   "id": "tall storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.845,
+    "y": 0.9,
+    "z": 2.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     164.5,
+     247.5
+    ],
+    [
+     164.5,
+     292.5
+    ],
+    [
+     204.5,
+     292.5
+    ],
+    [
+     204.5,
+     247.5
+    ]
+   ],
+   "object_name": "tall storage cabinet-0"
+  }
+ ],
+ "wall": []
+}

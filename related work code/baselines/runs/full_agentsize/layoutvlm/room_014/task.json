@@ -1,0 +1,59 @@
+{
+ "task_description": "a living dining room of about 7.7m x 7.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (5.09, 6.05) (keep the floor in front of it clear); a door 0.82 m wide centred at (7.68, 6.57) (keep the floor in front of it clear); a door 0.55 m wide centred at (6.54, 7.57) (keep the floor in front of it clear); a door 0.80 m wide centred at (5.91, 7.92) (keep the floor in front of it clear); a door 1.42 m wide centred at (3.30, 7.92) (keep the floor in front of it clear); a window 3.22 m wide centred at (2.21, 0.00). the dining table (o0007) should be between the dining chair (o0002) and the dining chair (o0000). the dining chair (o0001) should face the sideboard (o0003). the sideboard (o0003) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.3522,
+    0.0,
+    0.0
+   ],
+   [
+    4.3522,
+    6.0478000000000005,
+    0.0
+   ],
+   [
+    7.6837,
+    6.0478000000000005,
+    0.0
+   ],
+   [
+    7.6837,
+    7.0083,
+    0.0
+   ],
+   [
+    6.543200000000001,
+    7.0083,
+    0.0
+   ],
+   [
+    6.543200000000001,
+    7.9237,
+    0.0
+   ],
+   [
+    0.0,
+    7.9237,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {}
+ }
+}

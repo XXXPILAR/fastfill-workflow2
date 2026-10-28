@@ -1,0 +1,297 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_081",
+ "room_type": "diningroom",
+ "room": {
+  "width": 5.704606056213379,
+  "length": 5.704607009887695,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 24
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "book",
+   "asset_key": "book_e7e694c5",
+   "description": "book",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "book",
+   "asset_key": "book_e7e694c5",
+   "description": "book",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "plate",
+   "asset_key": "plate_9012c45d",
+   "description": "plate",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_023"
+  }
+ ]
+}

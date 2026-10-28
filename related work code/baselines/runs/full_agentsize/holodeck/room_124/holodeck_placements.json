@@ -1,0 +1,602 @@
+{
+ "floor": [
+  {
+   "assetId": "exam table-0",
+   "id": "exam table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.15,
+    "y": 0.4,
+    "z": 2.645
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     415.0,
+     304.5
+    ],
+    [
+     415.0,
+     224.5
+    ],
+    [
+     215.0,
+     224.5
+    ],
+    [
+     215.0,
+     304.5
+    ]
+   ],
+   "object_name": "exam table-0"
+  },
+  {
+   "assetId": "doctor desk-0",
+   "id": "doctor desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.05,
+    "y": 0.375,
+    "z": 0.355
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     180.0,
+     -4.5
+    ],
+    [
+     180.0,
+     75.5
+    ],
+    [
+     30.0,
+     75.5
+    ],
+    [
+     30.0,
+     -4.5
+    ]
+   ],
+   "object_name": "doctor desk-0"
+  },
+  {
+   "assetId": "tall storage cabinet-0",
+   "id": "tall storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.45,
+    "y": 0.9,
+    "z": 0.28
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     275.0,
+     -4.5
+    ],
+    [
+     275.0,
+     60.5
+    ],
+    [
+     215.0,
+     60.5
+    ],
+    [
+     215.0,
+     -4.5
+    ]
+   ],
+   "object_name": "tall storage cabinet-0"
+  },
+  {
+   "assetId": "low storage cabinet-0",
+   "id": "low storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.375,
+    "z": 0.255
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     395.0,
+     -4.5
+    ],
+    [
+     395.0,
+     55.5
+    ],
+    [
+     305.0,
+     55.5
+    ],
+    [
+     305.0,
+     -4.5
+    ]
+   ],
+   "object_name": "low storage cabinet-0"
+  },
+  {
+   "assetId": "visitor chair-0",
+   "id": "visitor chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.425,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     107.5
+    ],
+    [
+     65.5,
+     172.5
+    ],
+    [
+     -4.5,
+     172.5
+    ],
+    [
+     -4.5,
+     107.5
+    ]
+   ],
+   "object_name": "visitor chair-0"
+  },
+  {
+   "assetId": "visitor chair-1",
+   "id": "visitor chair-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.05,
+    "y": 0.425,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     137.5,
+     175.0
+    ],
+    [
+     137.5,
+     105.0
+    ],
+    [
+     72.5,
+     105.0
+    ],
+    [
+     72.5,
+     175.0
+    ],
+    [
+     137.5,
+     175.0
+    ]
+   ],
+   "object_name": "visitor chair-1"
+  },
+  {
+   "assetId": "mobile medical trolley-0",
+   "id": "mobile medical trolley-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.45,
+    "z": 2.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     212.5,
+     304.5
+    ],
+    [
+     212.5,
+     249.5
+    ],
+    [
+     137.5,
+     249.5
+    ],
+    [
+     137.5,
+     304.5
+    ]
+   ],
+   "object_name": "mobile medical trolley-0"
+  },
+  {
+   "assetId": "step stool-0",
+   "id": "step stool-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.55,
+    "y": 0.25,
+    "z": 2.745
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     485.0,
+     304.5
+    ],
+    [
+     485.0,
+     244.5
+    ],
+    [
+     425.0,
+     244.5
+    ],
+    [
+     425.0,
+     304.5
+    ]
+   ],
+   "object_name": "step stool-0"
+  },
+  {
+   "assetId": "sharps container floor-0",
+   "id": "sharps container floor-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.95,
+    "y": 0.25,
+    "z": 2.845
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     615.0,
+     304.5
+    ],
+    [
+     615.0,
+     264.5
+    ],
+    [
+     575.0,
+     264.5
+    ],
+    [
+     575.0,
+     304.5
+    ]
+   ],
+   "object_name": "sharps container floor-0"
+  },
+  {
+   "assetId": "magazine rack floor-0",
+   "id": "magazine rack floor-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.155,
+    "y": 0.6,
+    "z": 2.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     35.5,
+     202.5
+    ],
+    [
+     35.5,
+     287.5
+    ],
+    [
+     -4.5,
+     287.5
+    ],
+    [
+     -4.5,
+     202.5
+    ]
+   ],
+   "object_name": "magazine rack floor-0"
+  },
+  {
+   "assetId": "waste bin-0",
+   "id": "waste bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.55,
+    "y": 0.175,
+    "z": 0.155
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     472.5,
+     -4.5
+    ],
+    [
+     472.5,
+     35.5
+    ],
+    [
+     437.5,
+     35.5
+    ],
+    [
+     437.5,
+     -4.5
+    ]
+   ],
+   "object_name": "waste bin-0"
+  },
+  {
+   "assetId": "waste bin-1",
+   "id": "waste bin-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.7,
+    "y": 0.175,
+    "z": 2.845
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     87.5,
+     304.5
+    ],
+    [
+     87.5,
+     264.5
+    ],
+    [
+     52.5,
+     264.5
+    ],
+    [
+     52.5,
+     304.5
+    ]
+   ],
+   "object_name": "waste bin-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "notice board-0",
+   "id": "notice board-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.05,
+    "y": 1.6,
+    "z": 2.97
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     165.0,
+     296.0
+    ],
+    [
+     165.0,
+     300.0
+    ],
+    [
+     45.0,
+     300.0
+    ],
+    [
+     45.0,
+     296.0
+    ],
+    [
+     165.0,
+     296.0
+    ]
+   ],
+   "object_name": "notice board-0"
+  },
+  {
+   "assetId": "wall cabinet-0",
+   "id": "wall cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.05,
+    "y": 1.8,
+    "z": 0.17
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     145.0,
+     0.0
+    ],
+    [
+     145.0,
+     32.0
+    ],
+    [
+     65.0,
+     32.0
+    ],
+    [
+     65.0,
+     0.0
+    ],
+    [
+     145.0,
+     0.0
+    ]
+   ],
+   "object_name": "wall cabinet-0"
+  },
+  {
+   "assetId": "wall cabinet-1",
+   "id": "wall cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 1.8,
+    "z": 0.17
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     390.0,
+     0.0
+    ],
+    [
+     390.0,
+     32.0
+    ],
+    [
+     310.0,
+     32.0
+    ],
+    [
+     310.0,
+     0.0
+    ],
+    [
+     390.0,
+     0.0
+    ]
+   ],
+   "object_name": "wall cabinet-1"
+  },
+  {
+   "assetId": "wall clock-0",
+   "id": "wall clock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.1499999999999995,
+    "y": 2.25,
+    "z": 2.9650000000000003
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     329.99999999999994,
+     295.0
+    ],
+    [
+     329.99999999999994,
+     300.0
+    ],
+    [
+     299.99999999999994,
+     300.0
+    ],
+    [
+     299.99999999999994,
+     295.0
+    ],
+    [
+     329.99999999999994,
+     295.0
+    ]
+   ],
+   "object_name": "wall clock-0"
+  }
+ ]
+}

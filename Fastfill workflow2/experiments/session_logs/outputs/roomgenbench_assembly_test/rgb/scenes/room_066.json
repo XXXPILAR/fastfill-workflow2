@@ -1,0 +1,431 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_066",
+ "room_type": "room",
+ "room": {
+  "width": 5.15625,
+  "length": 5.625,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -0.8096104433943876,
+    0.586967571460931,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    -0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_8",
+   "normal": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 38
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "bag",
+   "asset_key": "bag_9b4e473e",
+   "description": "bag",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "monitor",
+   "asset_key": "monitor_9796809f",
+   "description": "monitor",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "plant",
+   "asset_key": "plant_baf0bf92",
+   "description": "plant",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "cushion",
+   "asset_key": "cushion_db894fbf",
+   "description": "cushion",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "book",
+   "asset_key": "book_e7e694c5",
+   "description": "book",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "monitor",
+   "asset_key": "monitor_9796809f",
+   "description": "monitor",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "tissue box",
+   "asset_key": "tissue_box_4c4d5172",
+   "description": "tissue box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "vase",
+   "asset_key": "vase_28e4e605",
+   "description": "vase",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "basket",
+   "asset_key": "basket_c9be014f",
+   "description": "basket",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_023"
+  },
+  {
+   "id": "obj_0024",
+   "type": "hat",
+   "asset_key": "hat_10e58660",
+   "description": "hat",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_024"
+  },
+  {
+   "id": "obj_0025",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_025"
+  },
+  {
+   "id": "obj_0026",
+   "type": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "description": "couch",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_026"
+  },
+  {
+   "id": "obj_0027",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_027"
+  },
+  {
+   "id": "obj_0028",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_028"
+  },
+  {
+   "id": "obj_0029",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_029"
+  },
+  {
+   "id": "obj_0030",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_030"
+  },
+  {
+   "id": "obj_0031",
+   "type": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "description": "couch",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_031"
+  },
+  {
+   "id": "obj_0032",
+   "type": "flowerpot",
+   "asset_key": "flowerpot_2bac1d10",
+   "description": "flowerpot",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_032"
+  },
+  {
+   "id": "obj_0033",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_033"
+  },
+  {
+   "id": "obj_0034",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_034"
+  },
+  {
+   "id": "obj_0035",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_035"
+  },
+  {
+   "id": "obj_0036",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_036"
+  },
+  {
+   "id": "obj_0037",
+   "type": "tissue box",
+   "asset_key": "tissue_box_4c4d5172",
+   "description": "tissue box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_037"
+  }
+ ]
+}

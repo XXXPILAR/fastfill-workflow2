@@ -1,0 +1,154 @@
+{
+ "floor": [
+  {
+   "assetId": "shower-0",
+   "id": "shower-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.455,
+    "y": 1.05,
+    "z": 1.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     95.5,
+     145.0
+    ],
+    [
+     95.5,
+     245.0
+    ],
+    [
+     -4.5,
+     245.0
+    ],
+    [
+     -4.5,
+     145.0
+    ]
+   ],
+   "object_name": "shower-0"
+  },
+  {
+   "assetId": "sink-0",
+   "id": "sink-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.95,
+    "y": 0.425,
+    "z": 0.26
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.5,
+     -4.5
+    ],
+    [
+     230.5,
+     56.5
+    ],
+    [
+     159.5,
+     56.5
+    ],
+    [
+     159.5,
+     -4.5
+    ]
+   ],
+   "object_name": "sink-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.98819,
+    "y": 0.39,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     158.819,
+     66.0
+    ],
+    [
+     158.819,
+     114.0
+    ],
+    [
+     238.819,
+     114.0
+    ],
+    [
+     238.819,
+     66.0
+    ]
+   ],
+   "object_name": "toilet-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "shelf-0",
+   "id": "shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.23319,
+    "y": 1.525,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     234.319,
+     60.0
+    ],
+    [
+     234.319,
+     120.0
+    ],
+    [
+     214.319,
+     120.0
+    ],
+    [
+     214.319,
+     60.0
+    ],
+    [
+     234.319,
+     60.0
+    ]
+   ],
+   "object_name": "shelf-0"
+  }
+ ]
+}

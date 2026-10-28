@@ -1,0 +1,12 @@
+plan for bedroom: Place the bed first as the main anchor, positioned along the long axis of the narrow room and kept near a wall to preserve open floor space. Place the two dressers at the room’s edge on opposite sides of the bed so that the bed is physically between them. Mount the mirror against the wall above one dresser and align it with that dresser. Place the cabinet against a wall near the foot or side of the bed without obstructing circulation. Put the two lamps near the bed on opposite sides and align them with each other. Finally, place the plant at the edge of the room, away from the main circulation path.
+
+bed-0 | edge
+dresser-0 | edge | left of, bed-0
+dresser-1 | edge | right of, bed-0
+mirror-0 | edge | near, dresser-0 | center aligned, dresser-0
+cabinet-0 | edge | far, bed-0
+lamp-0 | edge | near, bed-0 | left of, bed-0
+lamp-1 | edge | near, bed-0 | right of, bed-0 | center aligned, lamp-0
+plant-0 | edge | far, bed-0 | far, cabinet-0
+Number of solutions found: 30
+room 2: ok missing=5 on_rule=1 171s 1 calls

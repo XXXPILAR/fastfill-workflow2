@@ -1,0 +1,470 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_108",
+ "room_type": "study room",
+ "room": {
+  "width": 8.0,
+  "length": 6.0,
+  "height": 3.2
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 45
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "tall bookshelf",
+   "asset_key": "tall_bookshelf_da6b9602",
+   "description": "It is a tall set of shelves made of wood and metal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "lounge armchair",
+   "asset_key": "lounge_armchair_3c60e71c",
+   "description": "A white armchair with a quilted upholstered pattern.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "file stack",
+   "asset_key": "file_stack_8db951fe",
+   "description": "A purple and blue book.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "decorative tray",
+   "asset_key": "decorative_tray_7d1e2b34",
+   "description": "Carved brown tray with handle and tall sides.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "round side table",
+   "asset_key": "round_side_table_0ea74081",
+   "description": "A round side table made of wood that has a thick surface, and a metal stand below it.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "framed certificate",
+   "asset_key": "framed_certificate_9fc909e7",
+   "description": "A paper degree in a wooden frame.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "book",
+   "asset_key": "book_a3ef7c8d",
+   "description": "A brown book with silver corners.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "remote control",
+   "asset_key": "remote_control_78274509",
+   "description": "A black television remote control with the regular buttons and a four-directional grey button pad, with the words not for home use written on the back.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "coat stand",
+   "asset_key": "coat_stand_5142d454",
+   "description": "The coatrack is wooden with a round bottom.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "tall bookshelf",
+   "asset_key": "tall_bookshelf_da6b9602",
+   "description": "It is a tall set of shelves made of wood and metal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "coffee table lounge",
+   "asset_key": "coffee_table_lounge_e2bf8ce5",
+   "description": "coffee table lounge",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "lounge sofa",
+   "asset_key": "lounge_sofa_17930fd4",
+   "description": "Light gray fabric sofa with six cushions.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "sideboard credenza",
+   "asset_key": "sideboard_credenza_2ffc6b5f",
+   "description": "A black cabinet with grey doors.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "waste bin",
+   "asset_key": "waste_bin_24eaeb9b",
+   "description": "A small cylindrical gray trash can with a black step opener and a large black hinge on top.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "magazine",
+   "asset_key": "magazine_76318934",
+   "description": "a notebook with stickers and a Pok\u00e9mon drawing on it.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "lounge armchair",
+   "asset_key": "lounge_armchair_3c60e71c",
+   "description": "A white armchair with a quilted upholstered pattern.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "waste bin",
+   "asset_key": "waste_bin_24eaeb9b",
+   "description": "A small cylindrical gray trash can with a black step opener and a large black hinge on top.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "book",
+   "asset_key": "book_6f5c20ce",
+   "description": "A leather hardback book with a black band and lock around it.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "hardcover book",
+   "asset_key": "hardcover_book_4e28cf32",
+   "description": "Hardcover book with blue and silver cover.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "executive desk",
+   "asset_key": "executive_desk_e38cfad9",
+   "description": "A dark brown desk.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "ceramic mug",
+   "asset_key": "ceramic_mug_5351ae8d",
+   "description": "A black ceramic mug with its inside painted yellow.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "small vase",
+   "asset_key": "small_vase_75043e59",
+   "description": "a white vase",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "printer stand",
+   "asset_key": "printer_stand_22c86d24",
+   "description": "A square wooden table with two shelves.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "notepad",
+   "asset_key": "notepad_87e7befe",
+   "description": "A red notepad decorated with a slug in the lower corner.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_023"
+  },
+  {
+   "id": "obj_0024",
+   "type": "floor lamp",
+   "asset_key": "floor_lamp_43e81065",
+   "description": "A floor lamp with a black base and white lampshade.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_024"
+  },
+  {
+   "id": "obj_0025",
+   "type": "pedestal cabinet",
+   "asset_key": "pedestal_cabinet_7667e8a1",
+   "description": "A wooden cabinet that has four drawers on it.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_025"
+  },
+  {
+   "id": "obj_0026",
+   "type": "office printer",
+   "asset_key": "office_printer_df560c96",
+   "description": "A square black and metal coffee maker with a red lever.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_026"
+  },
+  {
+   "id": "obj_0027",
+   "type": "guest chair",
+   "asset_key": "guest_chair_b79f13e5",
+   "description": "guest chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_027"
+  },
+  {
+   "id": "obj_0028",
+   "type": "small vase",
+   "asset_key": "small_vase_75043e59",
+   "description": "a white vase",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_028"
+  },
+  {
+   "id": "obj_0029",
+   "type": "console table",
+   "asset_key": "console_table_d0765d49",
+   "description": "a small wooden console table with a Japanese Torii gate design.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_029"
+  },
+  {
+   "id": "obj_0030",
+   "type": "guest chair",
+   "asset_key": "guest_chair_b79f13e5",
+   "description": "guest chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_030"
+  },
+  {
+   "id": "obj_0031",
+   "type": "desk organizer",
+   "asset_key": "desk_organizer_504518fc",
+   "description": "A wooden crate with compartments that is used to hold things.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_031"
+  },
+  {
+   "id": "obj_0032",
+   "type": "magazine",
+   "asset_key": "magazine_461a72d8",
+   "description": "A red and blue hardback book titled 'akbar's dream'.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_032"
+  },
+  {
+   "id": "obj_0033",
+   "type": "file stack",
+   "asset_key": "file_stack_8cf88917",
+   "description": "a colorful stack of blocks with various creatures, such as a frog, bird, and green monster, sitting on top.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_033"
+  },
+  {
+   "id": "obj_0034",
+   "type": "guest chair",
+   "asset_key": "guest_chair_b79f13e5",
+   "description": "guest chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_034"
+  },
+  {
+   "id": "obj_0035",
+   "type": "picture frame",
+   "asset_key": "picture_frame_1571b9df",
+   "description": "A black and white painting of a robed person standing in a raft.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_035"
+  },
+  {
+   "id": "obj_0036",
+   "type": "floor lamp",
+   "asset_key": "floor_lamp_43e81065",
+   "description": "A floor lamp with a black base and white lampshade.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_036"
+  },
+  {
+   "id": "obj_0037",
+   "type": "pedestal cabinet",
+   "asset_key": "pedestal_cabinet_7667e8a1",
+   "description": "A wooden cabinet that has four drawers on it.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_037"
+  },
+  {
+   "id": "obj_0038",
+   "type": "round side table",
+   "asset_key": "round_side_table_0ea74081",
+   "description": "A round side table made of wood that has a thick surface, and a metal stand below it.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_038"
+  },
+  {
+   "id": "obj_0039",
+   "type": "guest chair",
+   "asset_key": "guest_chair_b79f13e5",
+   "description": "guest chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_039"
+  },
+  {
+   "id": "obj_0040",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_5a96686d",
+   "description": "A black chair with a fabric seat on a black metal frame.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_040"
+  },
+  {
+   "id": "obj_0041",
+   "type": "magazine",
+   "asset_key": "magazine_1db42f65",
+   "description": "A box for an atari game.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_041"
+  },
+  {
+   "id": "obj_0042",
+   "type": "round meeting table",
+   "asset_key": "round_meeting_table_e4c458a8",
+   "description": "A wooden round kitchen table.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_042"
+  },
+  {
+   "id": "obj_0043",
+   "type": "ceramic mug",
+   "asset_key": "ceramic_mug_515e71f8",
+   "description": "White coffee mug model",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_043"
+  },
+  {
+   "id": "obj_0044",
+   "type": "manager task chair",
+   "asset_key": "manager_task_chair_72d42732",
+   "description": "A all white office chair with a dark black  backing.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_044"
+  }
+ ]
+}

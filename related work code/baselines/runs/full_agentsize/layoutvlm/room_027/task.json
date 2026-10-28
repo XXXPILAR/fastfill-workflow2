@@ -1,0 +1,53 @@
+{
+ "task_description": "a other room of about 2.0m x 3.7m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.84 m wide centred at (0.60, 2.49) (keep the floor in front of it clear). the children cabinet (o0001) should be against a wall. the children cabinet (o0000) should be within 0.10 m of the children cabinet (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.0476799999999997,
+    0.0,
+    0.0
+   ],
+   [
+    2.0476799999999997,
+    3.6646799999999997,
+    0.0
+   ],
+   [
+    1.35988,
+    3.6646799999999997,
+    0.0
+   ],
+   [
+    1.35988,
+    3.0570899999999996,
+    0.0
+   ],
+   [
+    0.6021399999999995,
+    3.0570899999999996,
+    0.0
+   ],
+   [
+    0.6021399999999995,
+    1.61701,
+    0.0
+   ],
+   [
+    0.0,
+    1.61701,
+    0.0
+   ]
+  ],
+  "wall_height": 3.0
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {}
+ }
+}

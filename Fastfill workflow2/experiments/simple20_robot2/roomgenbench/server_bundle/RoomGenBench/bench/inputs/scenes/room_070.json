@@ -1,0 +1,281 @@
+{
+ "scene_key": "room_070",
+ "room_type": "bathroom",
+ "building_style": "",
+ "prompt": "",
+ "room": {
+  "dimensions": {
+   "width": 2.7099571228027344,
+   "length": 2.2099571228027344,
+   "height": 2.8
+  },
+  "position": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "ceiling_height": 2.8,
+  "walls": [
+   {
+    "id": "wall_0",
+    "start_point": {
+     "x": 2.7099571228027344,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.695439338684082,
+     "y": 0.2888956069946289,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_1",
+    "start_point": {
+     "x": 2.695439338684082,
+     "y": 0.2888956069946289,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 1.2524328231811523,
+     "y": 1.7524328231811523,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_2",
+    "start_point": {
+     "x": 1.2524328231811523,
+     "y": 1.7524328231811523,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.7888956069946289,
+     "y": 2.195439338684082,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_3",
+    "start_point": {
+     "x": 0.7888956069946289,
+     "y": 2.195439338684082,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 2.2099571228027344,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_4",
+    "start_point": {
+     "x": 0.0,
+     "y": 2.2099571228027344,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_5",
+    "start_point": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.7099571228027344,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   }
+  ],
+  "doors": [
+   {
+    "id": "opening_3",
+    "wall_id": "wall_5",
+    "position_on_wall": 0.270695,
+    "width": 0.8175,
+    "height": 2.3398,
+    "door_type": "door"
+   }
+  ],
+  "windows": [
+   {
+    "id": "opening_0",
+    "wall_id": "wall_1",
+    "position_on_wall": 0.681176,
+    "width": 1.9909,
+    "height": 1.1377,
+    "sill_height": 0.8207
+   },
+   {
+    "id": "opening_1",
+    "wall_id": "wall_3",
+    "position_on_wall": 0.54462,
+    "width": 0.6468,
+    "height": 1.1245,
+    "sill_height": 0.8273
+   },
+   {
+    "id": "opening_2",
+    "wall_id": "wall_4",
+    "position_on_wall": 0.162457,
+    "width": 0.6508,
+    "height": 1.1104,
+    "sill_height": 0.8343
+   }
+  ]
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "sink",
+   "description": "sink",
+   "asset_key": "sink_6f2b8356",
+   "position": {
+    "x": 0.425,
+    "y": 1.929,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 178.9
+   },
+   "dimensions": {
+    "width": 0.6704258322715759,
+    "length": 0.5456562042236328,
+    "height": 1.0206990242004395
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0001",
+   "type": "shelf",
+   "description": "shelf",
+   "asset_key": "shelf_7347b908",
+   "position": {
+    "x": 0.327,
+    "y": 2.037,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 178.9
+   },
+   "dimensions": {
+    "width": 0.6179890036582947,
+    "length": 0.33060476183891296,
+    "height": 0.8124764561653137
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0002",
+   "type": "toilet",
+   "description": "toilet",
+   "asset_key": "toilet_ea092410",
+   "position": {
+    "x": 1.58,
+    "y": 0.461,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 38.09999999999997
+   },
+   "dimensions": {
+    "width": 0.4942118525505066,
+    "length": 0.7841582298278809,
+    "height": 0.8302802443504333
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0003",
+   "type": "bottle",
+   "description": "bottle",
+   "asset_key": "bottle_afcac354",
+   "position": {
+    "x": 0.17,
+    "y": 1.93,
+    "z": 1.9624764561653136
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.09999999999999377
+   },
+   "dimensions": {
+    "width": 0.0814509242773056,
+    "length": 0.08357075601816177,
+    "height": 0.21077343821525574
+   },
+   "place_id": "obj_0001"
+  },
+  {
+   "id": "obj_0004",
+   "type": "bottle",
+   "description": "bottle",
+   "asset_key": "bottle_afcac354",
+   "position": {
+    "x": 0.33,
+    "y": 1.93,
+    "z": 1.9624764561653136
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.09999999999999377
+   },
+   "dimensions": {
+    "width": 0.06977399438619614,
+    "length": 0.07346338778734207,
+    "height": 0.1729530543088913
+   },
+   "place_id": "obj_0001"
+  },
+  {
+   "id": "obj_0005",
+   "type": "bottle",
+   "description": "bottle",
+   "asset_key": "bottle_afcac354",
+   "position": {
+    "x": 0.48,
+    "y": 1.93,
+    "z": 1.9624764561653136
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.400000000000026
+   },
+   "dimensions": {
+    "width": 0.07467702031135559,
+    "length": 0.06316283345222473,
+    "height": 0.15432019531726837
+   },
+   "place_id": "obj_0001"
+  }
+ ]
+}

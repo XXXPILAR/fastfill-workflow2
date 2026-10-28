@@ -1,0 +1,387 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_063",
+ "room_type": "room",
+ "room": {
+  "width": 6.484375,
+  "length": 7.65625,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    -0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 34
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "basket",
+   "asset_key": "basket_c9be014f",
+   "description": "basket",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "refrigerator",
+   "asset_key": "refrigerator_a473593d",
+   "description": "refrigerator",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "backpack",
+   "asset_key": "backpack_d49f2e76",
+   "description": "backpack",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "dishwasher",
+   "asset_key": "dishwasher_35f1e81b",
+   "description": "dishwasher",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "description": "couch",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "kettle",
+   "asset_key": "kettle_95188fa6",
+   "description": "kettle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "can",
+   "asset_key": "can_7e9219a0",
+   "description": "can",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_023"
+  },
+  {
+   "id": "obj_0024",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_024"
+  },
+  {
+   "id": "obj_0025",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_025"
+  },
+  {
+   "id": "obj_0026",
+   "type": "stool",
+   "asset_key": "stool_377a599d",
+   "description": "stool",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_026"
+  },
+  {
+   "id": "obj_0027",
+   "type": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "description": "couch",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_027"
+  },
+  {
+   "id": "obj_0028",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_028"
+  },
+  {
+   "id": "obj_0029",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_029"
+  },
+  {
+   "id": "obj_0030",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_030"
+  },
+  {
+   "id": "obj_0031",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_031"
+  },
+  {
+   "id": "obj_0032",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_032"
+  },
+  {
+   "id": "obj_0033",
+   "type": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "description": "couch",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_033"
+  }
+ ]
+}

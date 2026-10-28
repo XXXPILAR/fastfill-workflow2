@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bed, book, bookcase, carpet, certificate frames, chair, coffee machine, coffee table, cushion, desk, desk chair, desk lamp, desk organizer, dining table combination, entrance cabinet, executive desk, executive task chair, floor planter, flower stand, framed photo, guest chair, long work desk, meeting sofa, notebook, ornaments, pen, pen holder, plants, reading armchair, reading side table, side credenza, side table, sideboard console, small potted plant, smartphone, sofa, stack of files, storage basket, storage cabinet low, storage credenza, tall bookcase, throw pillow yellow, wall art, wall clock, wall shelf, wall whiteboard, wardrobe \nOverall furniture frequencies: (bed: 0.029; book: 0.0145; bookcase: 0.0725; carpet: 0.0145; certificate frames: 0.058; chair: 0.0435; coffee machine: 0.0; coffee table: 0.0145; cushion: 0.0145; desk: 0.0435; desk chair: 0.029; desk lamp: 0.0145; desk organizer: 0.0145; dining table combination: 0.029; entrance cabinet: 0.0145; executive desk: 0.0145; executive task chair: 0.0; floor planter: 0.029; flower stand: 0.0145; framed photo: 0.0145; guest chair: 0.029; long work desk: 0.0145; meeting sofa: 0.0145; notebook: 0.0725; ornaments: 0.0435; pen: 0.0435; pen holder: 0.029; plants: 0.029; reading armchair: 0.0145; reading side table: 0.0145; side credenza: 0.0145; side table: 0.0145; sideboard console: 0.0; small potted plant: 0.0145; smartphone: 0.0145; sofa: 0.0145; stack of files: 0.0; storage basket: 0.0145; storage cabinet low: 0.0145; storage credenza: 0.0; tall bookcase: 0.0145; throw pillow yellow: 0.0145; wall art: 0.0; wall clock: 0.029; wall shelf: 0.0; wall whiteboard: 0.0; wardrobe: 0.058)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 4.00m, max width 4.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "smartphone[obj_0000] {length: 0.07m; height: 0.01m; width: 0.14m; orientation: 38 degrees; left: 0.79m; top: 0.57m; depth: 0.70m;}\npen[obj_0001] {length: 0.01m; height: 0.01m; width: 0.13m; orientation: -96 degrees; left: 0.53m; top: 0.57m; depth: 0.71m;}\nwall clock[obj_0002] {length: 0.21m; height: 0.21m; width: 0.12m; orientation: -180 degrees; left: 3.93m; top: 2.60m; depth: 1.90m;}\nnotebook[obj_0003] {length: 0.17m; height: 0.26m; width: 0.05m; orientation: -90 degrees; left: 0.53m; top: 0.16m; depth: 0.70m;}\ncertificate frames[obj_0004] {length: 0.29m; height: 0.23m; width: 0.01m; orientation: 90 degrees; left: 1.80m; top: 0.04m; depth: 1.35m;}\nguest chair[obj_0005] {length: 0.52m; height: 0.78m; width: 0.49m; orientation: 0 degrees; left: 1.60m; top: 1.20m; depth: 0.00m;}\nfloor planter[obj_0006] {length: 0.39m; height: 1.03m; width: 0.39m; orientation: -180 degrees; left: 3.74m; top: 2.75m; depth: 0.00m;}\ndesk organizer[obj_0007] {length: 0.72m; height: 0.23m; width: 0.46m; orientation: -90 degrees; left: 1.81m; top: 0.48m; depth: 0.71m;}\nmeeting sofa[obj_0008] {length: 1.57m; height: 0.85m; width: 0.77m; orientation: -90 degrees; left: 1.50m; top: 3.55m; depth: 0.00m;}\ncertificate frames[obj_0009] {length: 0.29m; height: 0.23m; width: 0.01m; orientation: 90 degrees; left: 1.40m; top: 0.04m; depth: 1.35m;}\nexecutive desk[obj_0010] {length: 2.04m; height: 0.70m; width: 0.66m; orientation: 90 degrees; left: 1.30m; top: 0.40m; depth: 0.00m;}\nside credenza[obj_0011] {length: 1.68m; height: 0.80m; width: 0.48m; orientation: 0 degrees; left: 0.31m; top: 1.70m; depth: 0.00m;}\nnotebook[obj_0012] {length: 0.17m; height: 0.25m; width: 0.04m; orientation: -39 degrees; left: 0.53m; top: 0.40m; depth: 0.70m;}\ncertificate frames[obj_0013] {length: 0.29m; height: 0.23m; width: 0.01m; orientation: 90 degrees; left: 1.00m; top: 0.04m; depth: 1.35m;}\nfloor planter[obj_0014] {length: 0.39m; height: 1.03m; width: 0.39m; orientation: 0 degrees; left: 0.26m; top: 2.85m; depth: 0.00m;}\npen[obj_0015] {length: 0.03m; height: 0.01m; width: 0.12m; orientation: 167 degrees; left: 1.81m; top: 0.16m; depth: 0.70m;}\nguest chair[obj_0016] {length: 0.52m; height: 0.78m; width: 0.49m; orientation: 0 degrees; left: 1.00m; top: 1.20m; depth: 0.00m;}\ncertificate frames[obj_0017] {length: 0.29m; height: 0.23m; width: 0.01m; orientation: 90 degrees; left: 0.60m; top: 0.04m; depth: 1.35m;}\npen[obj_0018] {length: 0.15m; height: 0.01m; width: 0.01m; orientation: 100 degrees; left: 0.53m; top: 0.48m; depth: 0.70m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 4.00m, max width 4.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "pen holder[obj_0000] {length: 0.07m; height: 0.15m; width: 0.07m; orientation: 42 degrees; left: 2.15m; top: 3.52m; depth: 0.80m;}\nnotebook[obj_0001] {length: 0.17m; height: 0.25m; width: 0.04m; orientation: 80 degrees; left: 1.86m; top: 3.81m; depth: 0.80m;}\ndesk chair[obj_0002] {length: 0.63m; height: 0.96m; width: 0.60m; orientation: 0 degrees; left: 1.20m; top: 3.00m; depth: 0.00m;}\nnotebook[obj_0003] {length: 0.17m; height: 0.26m; width: 0.05m; orientation: 0 degrees; left: 1.86m; top: 3.63m; depth: 0.80m;}\nnotebook[obj_0004] {length: 0.23m; height: 0.06m; width: 0.16m; orientation: 26 degrees; left: 0.73m; top: 3.69m; depth: 0.80m;}\ntall bookcase[obj_0005] {length: 0.90m; height: 1.89m; width: 0.38m; orientation: -90 degrees; left: 3.05m; top: 3.74m; depth: 0.00m;}\nsmall potted plant[obj_0006] {length: 0.31m; height: 0.43m; width: 0.31m; orientation: 0 degrees; left: 2.15m; top: 3.69m; depth: 0.80m;}\nbook[obj_0007] {length: 0.23m; height: 0.06m; width: 0.16m; orientation: 88 degrees; left: 2.54m; top: 1.98m; depth: 0.59m;}\nstorage basket[obj_0008] {length: 0.46m; height: 0.25m; width: 0.26m; orientation: -90 degrees; left: 2.94m; top: 3.70m; depth: 1.90m;}\npen holder[obj_0009] {length: 0.08m; height: 0.16m; width: 0.08m; orientation: -104 degrees; left: 0.73m; top: 3.52m; depth: 0.80m;}\ndesk lamp[obj_0010] {length: 0.33m; height: 0.40m; width: 0.18m; orientation: 0 degrees; left: 0.45m; top: 3.69m; depth: 0.80m;}\ndesk chair[obj_0011] {length: 0.63m; height: 0.96m; width: 0.60m; orientation: 0 degrees; left: 0.40m; top: 3.00m; depth: 0.00m;}\nreading armchair[obj_0012] {length: 0.84m; height: 1.00m; width: 0.91m; orientation: -90 degrees; left: 3.00m; top: 2.80m; depth: 0.00m;}\nlong work desk[obj_0013] {length: 2.26m; height: 0.79m; width: 0.49m; orientation: -90 degrees; left: 1.30m; top: 3.68m; depth: 0.00m;}\nframed photo[obj_0014] {length: 0.67m; height: 0.33m; width: 0.04m; orientation: 0 degrees; left: 0.20m; top: 1.70m; depth: 0.88m;}\nreading side table[obj_0015] {length: 0.45m; height: 0.59m; width: 0.46m; orientation: -90 degrees; left: 2.60m; top: 2.00m; depth: 0.00m;}\nstorage cabinet low[obj_0016] {length: 1.56m; height: 0.88m; width: 0.48m; orientation: 0 degrees; left: 0.31m; top: 1.50m; depth: 0.00m;}\nthrow pillow yellow[obj_0017] {length: 0.18m; height: 0.14m; width: 0.05m; orientation: -114 degrees; left: 3.25m; top: 2.59m; depth: 0.48m;}\nwall clock[obj_0018] {length: 0.21m; height: 0.21m; width: 0.12m; orientation: -180 degrees; left: 3.93m; top: 1.80m; depth: 2.10m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 3.84m, max width 4.13m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "ornaments[obj_0000] {length: 0.12m; height: 0.21m; width: 0.11m; orientation: 180 degrees; left: 3.79m; top: 3.15m; depth: 0.76m;}\nornaments[obj_0001] {length: 0.25m; height: 0.13m; width: 0.19m; orientation: 180 degrees; left: 3.73m; top: 2.75m; depth: 0.76m;}\nbed[obj_0002] {length: 1.54m; height: 1.06m; width: 2.11m; orientation: 0 degrees; left: 1.06m; top: 2.33m; depth: -0.00m;}\nwardrobe[obj_0003] {length: 0.95m; height: 2.45m; width: 0.66m; orientation: 90 degrees; left: 2.68m; top: 1.30m; depth: 0.00m;}\nornaments[obj_0004] {length: 0.32m; height: 0.31m; width: 0.25m; orientation: 180 degrees; left: 3.73m; top: 3.48m; depth: 0.76m;}\ndesk[obj_0005] {length: 1.54m; height: 0.80m; width: 0.51m; orientation: 180 degrees; left: 3.58m; top: 3.36m; depth: 0.00m;}\nchair[obj_0006] {length: 0.43m; height: 0.70m; width: 0.43m; orientation: 0 degrees; left: 3.35m; top: 3.38m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 3.85m, max width 3.30m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "sofa[obj_0000] {length: 1.38m; height: 0.88m; width: 0.75m; orientation: -90 degrees; left: 1.32m; top: 2.39m; depth: 0.00m;}\nbookcase[obj_0001] {length: 3.25m; height: 2.64m; width: 0.44m; orientation: -90 degrees; left: 1.63m; top: 3.08m; depth: -0.00m;}\nchair[obj_0002] {length: 0.79m; height: 0.84m; width: 0.66m; orientation: -135 degrees; left: 3.36m; top: 2.03m; depth: 0.00m;}\nwardrobe[obj_0003] {length: 1.88m; height: 2.67m; width: 0.51m; orientation: 0 degrees; left: 0.26m; top: 1.99m; depth: 0.00m;}\ndesk[obj_0004] {length: 1.50m; height: 1.13m; width: 0.65m; orientation: -135 degrees; left: 2.94m; top: 1.62m; depth: -0.00m;}\ncoffee table[obj_0005] {length: 0.79m; height: 0.35m; width: 0.47m; orientation: 90 degrees; left: 1.31m; top: 1.58m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 3.39m, max width 3.60m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dining table combination[obj_0000] {length: 2.42m; height: 1.27m; width: 1.79m; orientation: 0 degrees; left: 1.35m; top: 1.77m; depth: 0.00m;}\nbookcase[obj_0001] {length: 3.61m; height: 2.50m; width: 0.43m; orientation: 0 degrees; left: 0.22m; top: 1.80m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 3.36m, max width 3.54m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "carpet[obj_0000] {length: 1.13m; height: 0.02m; width: 0.94m; orientation: 180 degrees; left: 2.10m; top: 0.87m; depth: -0.00m;}\nchair[obj_0001] {length: 0.63m; height: 1.00m; width: 0.67m; orientation: -39 degrees; left: 1.98m; top: 0.98m; depth: -0.00m;}\nwardrobe[obj_0002] {length: 1.32m; height: 2.33m; width: 0.61m; orientation: 180 degrees; left: 3.06m; top: 2.61m; depth: 0.46m;}\ndining table combination[obj_0003] {length: 1.50m; height: 2.11m; width: 2.45m; orientation: 180 degrees; left: 2.14m; top: 0.75m; depth: 0.00m;}\nside table[obj_0004] {length: 0.39m; height: 1.27m; width: 0.39m; orientation: -90 degrees; left: 3.03m; top: 1.71m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 4.55m, max width 3.30m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "plants[obj_0000] {length: 0.56m; height: 0.90m; width: 0.61m; orientation: 180 degrees; left: 4.00m; top: 3.02m; depth: -0.00m;}\nflower stand[obj_0001] {length: 1.55m; height: 1.38m; width: 0.49m; orientation: -90 degrees; left: 0.88m; top: 3.13m; depth: -0.00m;}\nbookcase[obj_0002] {length: 0.72m; height: 2.61m; width: 0.35m; orientation: 180 degrees; left: 4.37m; top: 2.83m; depth: 0.00m;}\nplants[obj_0003] {length: 0.51m; height: 1.09m; width: 0.47m; orientation: 180 degrees; left: 3.93m; top: 0.26m; depth: 0.00m;}\nentrance cabinet[obj_0004] {length: 2.39m; height: 1.64m; width: 0.32m; orientation: 90 degrees; left: 2.42m; top: 0.16m; depth: 0.00m;}\ncushion[obj_0005] {length: 1.54m; height: 0.45m; width: 0.45m; orientation: 0 degrees; left: 4.32m; top: 1.70m; depth: 0.50m;}\ndesk[obj_0006] {length: 2.16m; height: 0.82m; width: 1.46m; orientation: 0 degrees; left: 0.79m; top: 1.00m; depth: 0.00m;}\nbookcase[obj_0007] {length: 1.53m; height: 0.50m; width: 0.37m; orientation: 180 degrees; left: 4.32m; top: 1.69m; depth: -0.00m;}\nbookcase[obj_0008] {length: 0.93m; height: 2.61m; width: 0.35m; orientation: 180 degrees; left: 4.37m; top: 0.47m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 3.20m, max width 3.60m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 3.60m; height: 2.45m; width: 0.66m; orientation: 180 degrees; left: 2.97m; top: 1.80m; depth: 0.00m;}\nbed[obj_0001] {length: 1.50m; height: 0.95m; width: 2.34m; orientation: -90 degrees; left: 0.75m; top: 2.43m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: study room\nRoom Size: max length 4.00m, max width 4.00m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nexecutive desk[obj_0000]: A double wooden desk with three drawers on one side and three open shelves on the other side.\nwall art[obj_0001]: A white rectangular poster with black blue and orange marks and irregular writing.\nsideboard console[obj_0002]: A desk made out of three different materials.\nstorage credenza[obj_0003]: A light brown wooden console table with 4 cabinets, on 4 cylindrical wooden legs.\ncoffee machine[obj_0004]: A black coffee maker for espresso.\nframed photo[obj_0005]: A blue painting in a black frame.\nwall shelf[obj_0006]: A set of shelves with one rectangular wooden board and two rusted bookenders.\nwall art[obj_0007]: A white rectangular poster with black blue and orange marks and irregular writing.\nexecutive task chair[obj_0008]: A black office chair with a tall mesh back.\nwall whiteboard[obj_0009]: A poster of blueprints for a picture frame.\nwall shelf[obj_0010]: A set of shelves with one rectangular wooden board and two rusted bookenders.\nstack of files[obj_0011]: A stack of colorful, pixelated-style books in different colors.\nFloor polygon (left, top): (0.00, 0.00), (4.00, 0.00), (4.00, 4.00), (0.00, 4.00)\ndoor 1.04m wide at left 3.41m, top 4.00m\nwindow 1.48m wide at left 0.00m, top 2.80m\nwindow 1.48m wide at left 0.00m, top 1.21m\nConstraint: {\"type\": \"on\", \"object_id\": \"obj_0004\", \"parent_id\": \"obj_0002\"}\nLayout:\n"
+ }
+]

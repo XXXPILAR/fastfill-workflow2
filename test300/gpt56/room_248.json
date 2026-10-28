@@ -1,0 +1,118 @@
+{
+ "k": 248,
+ "source": "SpatialLM",
+ "room_type": "dining room",
+ "latency_s": 57.57603600015864,
+ "usage": [
+  {
+   "prompt_tokens": 1647,
+   "completion_tokens": 3085,
+   "total_tokens": 4732,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2588,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0000 (dining table), obj_0002 (dining chair), obj_0004 (dining chair) violates constraint"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.9,
+     1.8,
+     0.75
+    ],
+    "bottom_center_m": [
+     6.25,
+     5.9,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.5,
+     0.44,
+     0.88
+    ],
+    "bottom_center_m": [
+     6.25,
+     4.7,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.5,
+     0.44,
+     0.88
+    ],
+    "bottom_center_m": [
+     5.269,
+     6.14,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     1.0
+    ],
+    "bottom_center_m": [
+     9.396,
+     3.6,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.5,
+     0.44,
+     0.88
+    ],
+    "bottom_center_m": [
+     5.269,
+     5.66,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.5,
+     0.44,
+     0.88
+    ],
+    "bottom_center_m": [
+     6.25,
+     7.1,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining group occupies the broad central-right area, away from the many door openings. The table is oriented north-south, with two closely spaced chairs on its west side; this places the table between obj_0004 and obj_0002 along the y-axis while keeping those chairs 0.48 m apart. Obj_0004 backs against the west wall and faces the table. The remaining chairs sit at the table ends, with obj_0005 facing obj_0001. The shoe cabinet is against the lower east wall, clear of both the fixed TV cabinet and the nearby entrance paths. Wide circulation remains available east of the table and toward the large north doorway.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.8,\"depth_m\":0.9,\"height_m\":0.75,\"x\":6.25,\"y\":5.9,\"z\":0.0,\"facing_deg\":0.0},{\"id\":\"obj_0001\",\"width_m\":0.44,\"depth_m\":0.5,\"height_m\":0.88,\"x\":6.25,\"y\":4.7,\"z\":0.0,\"facing_deg\":90.0},{\"id\":\"obj_0002\",\"width_m\":0.44,\"depth_m\":0.5,\"height_m\":0.88,\"x\":5.269,\"y\":6.14,\"z\":0.0,\"facing_deg\":0.0},{\"id\":\"obj_0003\",\"width_m\":1.0,\"depth_m\":0.35,\"height_m\":1.0,\"x\":9.396,\"y\":3.6,\"z\":0.0,\"facing_deg\":180.0},{\"id\":\"obj_0004\",\"width_m\":0.44,\"depth_m\":0.5,\"height_m\":0.88,\"x\":5.269,\"y\":5.66,\"z\":0.0,\"facing_deg\":0.0},{\"id\":\"obj_0005\",\"width_m\":0.44,\"depth_m\":0.5,\"height_m\":0.88,\"x\":6.25,\"y\":7.1,\"z\":0.0,\"facing_deg\":270.0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndining room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 9.571 m x 8.884 m x 2.800 m\nfloor polygon (x, y): [[5.786, 2.948], [5.786, 0.0], [9.571, 0.0], [9.571, 8.884], [5.019, 8.884], [5.019, 4.254], [0.0, 4.254], [0.0, 2.912], [3.814, 2.912], [3.814, 1.884], [5.546, 1.884], [5.546, 2.708], [4.924, 2.708], [4.924, 2.948]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"dining table\", \"description\": \"dining table\"},\n{\"id\": \"obj_0001\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0002\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0003\", \"category\": \"shoe cabinet\", \"description\": \"shoe cabinet\"},\n{\"id\": \"obj_0004\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0005\", \"category\": \"dining chair\", \"description\": \"dining chair\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [6.598, 0.0], \"wall_from\": [5.786, 0.0], \"wall_to\": [9.571, 0.0], \"width_m\": 1.528, \"height_m\": 2.2}, {\"type\": \"door\", \"centre_xy\": [8.554, 0.0], \"wall_from\": [5.786, 0.0], \"wall_to\": [9.571, 0.0], \"width_m\": 0.815, \"height_m\": 2.2}, {\"type\": \"door\", \"centre_xy\": [7.108, 8.884], \"wall_from\": [9.571, 8.884], \"wall_to\": [5.019, 8.884], \"width_m\": 3.223, \"height_m\": 2.404}, {\"type\": \"door\", \"centre_xy\": [4.214, 4.254], \"wall_from\": [5.019, 4.254], \"wall_to\": [0.0, 4.254], \"width_m\": 0.815, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [0.637, 4.254], \"wall_from\": [5.019, 4.254], \"wall_to\": [0.0, 4.254], \"width_m\": 0.815, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [0.578, 2.912], \"wall_from\": [0.0, 2.912], \"wall_to\": [3.814, 2.912], \"width_m\": 0.815, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [3.153, 2.912], \"wall_from\": [0.0, 2.912], \"wall_to\": [3.814, 2.912], \"width_m\": 0.815, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [4.78, 1.884], \"wall_from\": [3.814, 1.884], \"wall_to\": [5.546, 1.884], \"width_m\": 1.528, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0002\", \"category\": \"tv cabinet\", \"width_m\": 4.291, \"depth_m\": 0.35, \"height_m\": 0.416, \"bottom_centre\": [9.399, 6.466, 0.2], \"facing_deg\": 180.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0000\", \"target_ids\": [\"obj_0002\", \"obj_0004\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0005\", \"target_id\": \"obj_0001\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0004\"}, {\"type\": \"near\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0004\", \"max_distance_m\": 0.5}]\n[/Task Constraints]"
+}

@@ -1,0 +1,945 @@
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D
+Indoor Scene Generation
+Song Tang
+The Hong Kong University of Science
+and Technology (Guangzhou)
+Kaiyong Zhao
+XGRIDS
+Yuliang Li
+XGRIDS
+Qingsong Yan
+XGRIDS
+Penglei Sun
+The Hong Kong University of Science
+and Technology (Guangzhou)
+Junyi Zou
+XGRIDS
+Qiang Wang∗
+Harbin Institute of Technology
+(Shenzhen)
+Xiaowen Chu∗
+The Hong Kong University of Science
+and Technology (Guangzhou)
+Abstract
+Automatically generating interactive 3D indoor scenes from nat-
+ural language is crucial for virtual reality, gaming, and embodied
+AI. However, existing LLM-based approaches often suffer from
+spatial errors and collisions, in part because common scene rep-
+resentations—raw coordinates or verbose code—are difficult for
+models to reason about 3D spatial relationships and physical con-
+straints. We propose SpatialGrammar, a domain-specific language
+that represents gravity-aligned indoor layouts as BEV grid place-
+ments with deterministic compilation to valid 3D geometry, en-
+abling verifiable constraint checking. Building on this represen-
+tation, we develop (1) SG-Agent, a closed-loop system that uses
+compiler feedback to iteratively refine scenes and enforce collision
+constraints, and (2) SG-Mini, a 104M-parameter model trained en-
+tirely on compiler-validated synthetic data. Across 159 test scenes
+spanning five scenarios of different complexity, SG-Agent improves
+spatial fidelity and physical plausibility over prior methods, while
+SG-Mini performs competitively against larger LLM-based baselines
+on single-shot generation scenarios. Our project page is available
+at https://xgrids-3d.github.io/SpatialGrammar/
+1 Introduction
+The automated generation of interactive 3D indoor scenes from
+natural language is increasingly important for virtual reality, gam-
+ing, and embodied AI, where agents require diverse, physically
+grounded environments for training and evaluation [23, 25]. Com-
+pared with generating a single object or a static rendering, scene
+generation must produce a coherent environment with many ob-
+jects, explicit identities, and controllable spatial relationships—properties
+essential for procedural manipulation, reuse, and physical simula-
+tion [10, 29].
+Despite recent progress, LLM-based structured scene generation
+still suffers from spatial inaccuracies and collisions, and often strug-
+gles with complex natural-language constraints. A major reason
+is representational: common scene formats are either too geomet-
+ric (e.g., raw 6-DoF coordinates and poses) or too verbose (e.g.,
+long code or deeply nested structures), making it difficult for mod-
+els to reason reliably about 3D spatial relationships and physical
+∗Corresponding author.
+Figure 1: The LLM agent generates complete 3D indoor scenes,
+including furniture layout and wall structure, by writing in
+our proposed SpatialGrammar DSL.
+constraints. Existing approaches—whether directly predicting co-
+ordinates [7, 27] or generating intermediate representations like
+JSON or Python [3, 10, 29]—remain either spatially unintuitive or
+unreliable when post-processing must enforce geometric validity.
+This raises a central question: can we design a representation that
+is both spatially intuitive for LLMs and reliably executable under
+physical constraints?
+We address this question by encoding strong geometric and
+physical priors directly into the representation, rather than forcing
+LLMs to internalize full 3D physics. Inspired by Bird’s-Eye View
+(BEV) representations in autonomous driving [12, 24, 26], we ob-
+serve that indoor environments share a similar structure: gravity
+aligns most objects with a common ground plane, and many layout
+decisions are naturally expressed in 2D. Based on this observa-
+tion, we propose SpatialGrammar, a domain-specific language that
+reframes 6-DoF pose generation as intuitive BEV grid placement
+with gravity-aligned orientation, while supporting hierarchical sub-
+layouts (e.g., tabletop arrangements, shelves, chessboards) through
+face-anchored local frames—the same mechanism also enables wall-
+mounted objects and ceiling attachments by anchoring grids to
+vertical or overhead faces. A companion architectural DSL specifies
+floorplans as wall segments with openings. Crucially, SpatialGram-
+mar is deterministically compilable into valid 3D geometry, enabling
+verifiable constraint checking (e.g., collisions and support) during
+generation. This turns scene creation into iterative program editing:
+the model operates on compact DSL text while the compiler handles
+geometric details and provides actionable feedback.
+This representation has two practical and research-relevant im-
+plications. First, because compilation provides explicit, structured
+arXiv:2604.27555v1  [cs.AI]  30 Apr 2026
+Tang et al.
+feedback about constraint violations (e.g., "object A overlaps object
+B"), we can close the loop between generation and execution: we in-
+stantiate this as SG-Agent, a tool-augmented system that iteratively
+proposes and refines SpatialGrammar programs using compiler
+feedback and rendering-based scene feedback, improving reliabil-
+ity when satisfying spatial constraints and user edits. Second, the
+same compiler that executes SpatialGrammar also serves as a scal-
+able validator for data synthesis. This makes it possible to train a
+lightweight model without human annotation or reliance on closed-
+source frontier LLMs: we construct a fully synthetic pipeline and
+train SG-Mini, a 104M-parameter small language model specialized
+for SpatialGrammar generation.
+In summary, we make three contributions. (1) We introduceSpa-
+tialGrammar, a deterministically compilable domain-specific lan-
+guage that represents indoor layouts as BEV grid placements, sup-
+porting hierarchical arrangements while remaining spatially intu-
+itive. (2) We developSG-Agent, a closed-loop system that leverages
+compiler feedback to improve constraint satisfaction and scene qual-
+ity under natural-language instructions. (3) We present a compiler-
+validated synthetic training pipeline and demonstrateSG-Mini, a
+104M-parameter model that performs competitively against larger
+LLM-based baselines on single-shot generation scenarios, validat-
+ing the model-friendliness of our DSL design.
+2 Related Work
+Text-to-3D scene generation broadly follows two directions: im-
+plicit methods based on neural rendering and diffusion [9, 14, 15, 17]
+prioritize visual fidelity but typically entangle semantics and ge-
+ometry in implicit fields, making object-level identities, editability,
+and physical verification difficult.
+In contrast, explicit and structured methods aim to produce in-
+teractive environments with manipulable objects. Some works di-
+rectly predict continuous object poses from language [27], which
+can make it difficult to reliably satisfy discrete spatial constraints
+and avoid collisions without explicit verification. Other pipelines
+use visual intermediates or search to infer 3D placements, e.g.,
+by generating 2D images and lifting to 3D [ 7] or by hierarchical
+VLM-guided search [4]. Another line generates intermediate struc-
+tured specifications—such as scene graphs, JSON, or executable
+programs—to improve modularity and enable editing [3, 5, 16, 18,
+29]. SceneCraft [10] generates Blender code with VLM-based feed-
+back for iterative refinement. DirectLayout [22] uses BEV layout
+as an intermediate representation before lifting to 3D, sharing the
+insight that BEV abstraction benefits spatial reasoning, though
+without hierarchical sub-layouts or a compilable DSL for formal
+verification. OptiScene [28] trains scene generation models via SFT
+and DPO with injected spatial violations as hard negatives, a strat-
+egy conceptually related to our Error Chain method; our approach
+differs by chaining multiple error types (semantic, spatial, collision,
+and syntax) to produce compounding failure patterns that more
+closely mimic real model failures. Despite these advances, most rep-
+resentations remain either spatially unintuitive or token-inefficient,
+and many pipelines still require additional post-processing to en-
+force geometric validity.
+Recent work also explores richer settings: AnyHome [ 6] and
+Open-Universe [1] target open-vocabulary generation with diverse
+Figure 2: Each row shows DSL code (left), semantic interme-
+diate representation (middle), and final render (right). Top:
+LLMSLI places furniture on a BEV grid with a sub-layout
+attaching a TV onto the stand. Bottom: LLMSLB defines walls
+and openings, with a sub-layout mounting an air conditioner
+on the wall.
+Figure 3: Sub-layout examples for hierarchical scene con-
+trol. Each column shows (top to bottom) the LLMSLI content,
+semantic 3D box layout, and final rendered scene for three
+scenarios: a chessboard with pieces, an office desk with sup-
+plies, and a refrigerator with items on its front door.
+asset databases; Procedural Scene Programs [8] study automated er-
+ror correction via program search; FirePlace [11] and SpatialLM [13]
+combine language models with geometric constraints for structured
+indoor understanding. Across these lines of work, a recurring chal-
+lenge is to simultaneously achieve (i)deterministic executability
+and verifiable physical validity, (ii)fine-grained controllability and
+editabilityfor complex constraints, and (iii)spatially intuitive repre-
+sentationsthat are token-efficient for language models.
+3 Methodology
+Our methodology centers onSpatialGrammar, a Domain-Specific
+Language that reduces cognitive load for 3D scene generation by en-
+coding physical priors into the representation. We first present the
+language design (§3.1), demonstrating how Bird’s-Eye View abstrac-
+tion and recursive sub-layouts transform complex 3D coordinate
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D Indoor Scene Generation
+Figure 4: Modular asset composition based on our sub-layout
+system. Using descriptive string identifiers to retrieve assets
+from external asset databases, the sub-layout system com-
+poses a multi-layered bookshelf with items placed on each
+shelf surface.
+generation into intuitive 2D text generation. Building upon this
+foundation, we develop an agentic workflow (§3.2) that realizes con-
+versational 3D scene creation, enabling an AI agent to interpret nat-
+ural language, iteratively refine layouts through reliable closed-loop
+feedback, and output validated scenes. Finally, we propose a self-
+sufficient training pipeline (§3.3) that exploits the language’s struc-
+tured nature to automatically synthesize training data through a
+complete three-stage process—pre-training, supervised fine-tuning
+(SFT), and direct preference optimization (DPO)—enabling special-
+ized Small Language Models to master this task without human
+annotation.
+3.1 The SpatialGrammar Language
+SpatialGrammar comprises two tightly coupled DSLs: LLMSLI (Large
+Language Model Spatial Layout Indoor) for furniture and object
+arrangements, and LLMSLB (Large Language Model Spatial Layout
+Building) for architectural structures. LLMSLB extends the same
+design principles and abstractions used in LLMSLI to the building
+envelope, while LLMSLI remains the core component for indoor
+scene layout. In this subsection, we therefore first detail LLMSLI,
+showing how its Bird’s-Eye View (BEV) design turns 3D scene
+specification into intuitive 2D symbolic layout that LLMs can easily
+generate.
+3.1.1 BEV-Based Representation.The core insight of LLMSLI is
+dimensional reduction: rather than forcing LLMs to reason about
+full 3D coordinates(𝑥,𝑦,𝑧,pitch,yaw,roll) , we abstract scenes into
+a 2D Bird’s-Eye View (BEV) grid. This reduces the problem from
+6-DOF pose generation to intuitive 2D spatial layout, where the
+LLM specifies object placements on a grid analogous to arranging
+furniture on a floor plan. In the root BEV grid, objects are implicitly
+placed on the floor, so the LLM never has to predict metric heights
+directly. More complex height variations, such as objects on tables
+or shelves, are handled by the sub-layout system and discussed
+in detail in §3.1.3. The compiler then performs the geometric con-
+version: given integer(𝑟𝑜𝑤,𝑐𝑜𝑙) indices and a global grid size 𝑔
+defined in the LLMSLI header, it maps each cell to planar coordi-
+nates(𝑥,𝑦)=(𝑖·𝑔,𝑗·𝑔) and uses the object’s 3D box dimensions
+to place its center in𝑧 such that the bottom face exactly touches
+the supporting surface. The model therefore only predicts discrete
+grid indices and yaw angles, while the compiler recovers precise 3D
+poses. This design embeds physical priors about gravity, support
+surfaces, and permissible rotations, and greatly reduces cognitive
+load without sacrificing expressiveness: a living room layout that
+would require hundreds of tokens in JSON format with explicit
+(𝑥,𝑦,𝑧) coordinates becomes a compact 2D grid where spatial re-
+lationships are immediately visible (see Figure 2, top row, for a
+concrete example).
+3.1.2 Compact Expression for Object Control.Within the BEV grid
+established above, each object is specified through a compact syntax
+that controls three essential properties: semantics, pose, and size.
+Semanticssupport two retrieval modes. Anumerical modemaps
+integer codes to object types through a curated vocabulary (e.g., 1
+for sofa, 2 for coffee table), keeping the grid representation terse and
+well-suited for SLM training. Anopen-vocabulary modeuses descrip-
+tive string identifiers (e.g., vintage_globe, table_round_wood) to
+retrieve assets from external databases such as PolyHaven and Un-
+real Engine Fab, preserving the LLM’s open-vocabulary strengths
+for richer, style-specific scene authoring. Both modes share the
+same compilation pipeline; the identifier is simply resolved to a
+3D asset with calibrated default dimensions. Figure 4 demonstrates
+the open-vocabulary mode in a complex bookshelf scenario.Pose
+is controlled via the @yaw notation, where the LLM specifies an
+integer yaw angle in degrees (e.g.,@0, @39, @156); any angle is valid,
+not only axis-aligned multiples.Sizecan optionally be specified via
+[L×W×H] notation, but most objects use sensible defaults from the
+vocabulary, avoiding unnecessary numbers in typical scenes. Fig-
+ure 2 illustrates this object-level control, where a concise LLMSLI
+snippet (e.g., 4@180(TV_on_top)) is compiled into a full 3D scene
+layout. Formally, each cell in the BEV grid is represented as:
+𝑜=
+(
+(id,𝑖,𝑗,𝜃)∈V×Z 2×[0,2𝜋)if occupied
+0if empty (1)
+where id∈V is the furniture code,(𝑖,𝑗) are discrete grid indices,
+and𝜃 is the yaw angle. For occupied cells, the compilerC deter-
+ministically maps to a 3D bounding box:
+C(𝑜)=B=
+
+c
+s
+R
+
+=
+
+(𝑖·𝑔, 𝑗·𝑔, ℎ(id))
+s(id)
+Rot𝑧(𝜃)
+
+(2)
+where𝑔 is the grid cell size,ℎ(id) computes vertical placement based
+on object type,s(id) denotes the default 3D box size retrieved from
+the object vocabulary, and Rot𝑧(𝜃) represents yaw-only rotation.
+Empty cells (𝑜= 0) are ignored during compilation, allowing flexible
+spatial layouts.
+3.1.3 Sub-Layouts for Complex Expression.Real-world indoor scenes
+contain not just individual objects but rich hierarchies of objects
+on top of other objects, such as office desks covered with supplies,
+chessboards densely filled with pieces, and refrigerator doors lined
+with condiments. LLMSLI captures these structures throughrecur-
+sive sub-layoutsthat extend the BEV grid concept hierarchically.
+Tang et al.
+The primary mechanism is theONsub-layout: for any parent ob-
+ject, we attach a local BEV grid to one of its faces and place child
+objects on that grid. In the main layout, this is triggered by an-
+notations such as 62@30(B_on_top), where B_on_top denotes a
+sub-layout B anchored on the top face of the object with code 62;
+other faces are addressed analogously via _on_bottom, _on_left,
+_on_right, _on_front, and _on_back. Most everyday relations in
+indoor scenes are expressed in this way, including objects on office
+desks, chessboards, and refrigerator doors, as illustrated by the
+TV_on_top example in Figure 2 and the more complex ON sub-
+layout examples in Figure 3. Throughout, the LLM only reasons
+about local grids, while the compiler composes these local frames
+into global 3D poses. For a nesting chain 𝑜1 ⊃𝑜 2 ⊃ ··· ⊃𝑜𝑘,
+where𝑜1 is the root object in world space and 𝑜𝑖 (for𝑖> 1) are
+specified in their respective parent’s local frame, the deepest child’s
+world-space bounding box is:
+Bworld
+𝑘 =B 1⊕B local
+2 ⊕···⊕B local
+𝑘 (3)
+where the transformation operator⊕ composes parent and child
+frames as:
+B𝑝⊕B local
+𝑐 =
+
+cworld
+𝑐
+s𝑐
+Rworld
+𝑐
+
+=
+
+c𝑝+R𝑝·c local
+𝑐
+s𝑐
+R𝑝·R local
+𝑐
+
+(4)
+Here, eachB local
+𝑖 is compiled from the DSL specification using Eq. 2,
+with the local grid scaled to fit the parent’s surface, and the operator
+⊕ simply accumulates centers and orientations along the nesting
+chain to propagate local sub-layouts into consistent world-space
+coordinates. Notably, by combining modular assets—e.g., decompos-
+ing a bookshelf into a base unit and stackable shelf layers—the ON
+sub-layout mechanism naturally extends to “inside” arrangements
+such as placing items on individual shelf compartments, without
+requiring a separate containment primitive. Figure 4 demonstrates
+this: each modular_bookshelf_layer serves as a parent surface
+for the objects placed upon it, enabling fine-grained control over
+multi-layered interior structures through the same recursive com-
+position.
+3.1.4 Extension to Architectural Structures.While the LLMSLI lan-
+guage described above handles furniture and object arrangements,
+complete scene generation also requires architectural elements such
+as walls, openings, and ceilings. We extendSpatialGrammarwith
+LLMSLB (Large Language Model Spatial Layout Building), which
+follows the same BEV-based design philosophy but adapts vocab-
+ulary and syntax for structural elements. As shown in Figure 2
+(bottom row), LLMSLB specifies walls via symbol codes (e.g., w for
+wall, d for door, c for window) on a BEV grid, with openings placed
+along wall edges. Face-anchored sub-layouts such as AC_on_inner
+enable wall-mounted objects like air conditioners. This architec-
+tural extension maintains the same cognitive simplicity of designing
+a floor plan on a 2D grid, while the compiler automatically gener-
+ates proper 3D geometry. The unified BEV abstraction across both
+LLMSLI and LLMSLB enables end-to-end scene generation, from
+architectural shells to furnished interiors, all within a coherent
+framework.
+3.2 Agent-Driven Scene Creation and
+Refinement
+Having establishedSpatialGrammaras a compact and expressive
+representation, we now build a complete agentic workflow for con-
+versational 3D scene generation (Figure 5), implemented by a tool-
+augmented assistant that we refer to asSG-Agent. The language’s
+structured nature enables reliable translation to 3D geometry, while
+its spatial intuitiveness supports iterative refinement through mul-
+timodal feedback, yielding a system that integrates smoothly with
+existing design tools and downstream applications.
+3.2.1 Reliable Scene Generation.The core of our workflow is the
+SpatialGrammar Compiler, a deterministic rule-based translator
+that converts DSL text into precise 3D bounding boxes with 6-DOF
+poses. Grid indices map to exact (𝑥,𝑦) coordinates, yaw angles
+to rotation matrices, and sub-layouts recursively inherit parent
+transformations, so any syntactically valid program yields a ge-
+ometrically valid scene. This eliminates unreliability common in
+prior LLM-based pipelines, where layout outputs must pass through
+learned decoders or optimization stages that can introduce addi-
+tional errors. The compiled boxes are rendered in theDraft Engine,
+a lightweight 3D sandbox built on Ursina Engine that provides
+real-time visualization, physics-based collision checks, and screen-
+shot capture for multimodal feedback. The engine supports two
+rendering modes: asemantic box viewfor debugging and collision
+analysis, and anasset-mapped viewwith retrieved 3D models for
+visual assessment. The agent can treat it as ground truth and focus
+on high-level spatial reasoning rather than low-level coordinate
+arithmetic.
+3.2.2 Closed-Loop Refinement.The Draft Engine enables a closed-
+loop refinement mechanism through multimodal feedback. After
+each generation step, the agent receives two types of feedback:sym-
+bolic feedbackfrom collision detection (e.g., "Sofa overlaps with
+coffee table at position (3,4)") andvisual feedbackfrom rendered
+screenshots analyzed by the agent. Symbolic signals provide precise,
+actionable diagnostics that guide targeted code corrections, while
+the agent (equipped with vision-language capabilities) interprets
+rendered images to assess global aesthetics, functional layout coher-
+ence (e.g., whether a sofa faces the TV), and spatial balance—aspects
+that are difficult to express symbolically. The agent follows a ReAct-
+style [30] iterative loop, reasoning about user requirements and
+current feedback and then acting by modifying the SpatialGram-
+mar code, until collision-free and visually satisfactory results are
+achieved. Because the compiler and Draft Engine are deterministic
+and reliable, this loop converges in only a few iterations (typically
+2–3 even for complex scenes). Importantly, the Draft Engine serves
+as averification oracle—it detects and reports collisions but does not
+automatically reposition objects; all layout corrections are made by
+the agent editing the DSL code.
+3.2.3 Collaborative Scene Editing.Our workflow is orchestrated
+through the Model Context Protocol (MCP) [2], which exposes the
+Draft Engine’s capabilities as callable tools, enabling human-in-the-
+loop editing where users refine scenes through natural language
+while the agent updates the DSL and visualizes changes in real
+time. A dual-mode asset pipeline maps either numerical codes or
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D Indoor Scene Generation
+Figure 5: Overview of the SpatialGrammar agentic workflow. A user issues a request in the chat terminal, then the agent uses
+MCP tools to consult the DSL textbook and specifications, writes an initial SpatialGrammar script, and calls the compiler to
+obtain a semantic 3D box layout. After asset retrieval, this layout is loaded into the Draft Engine, which provides real-time
+visualization, physics-based collision checks, and screenshots for multimodal analysis. The agent iteratively edits the DSL
+based on symbolic and visual feedback until the scene is satisfactory, then exports the validated script to professional engines
+such as Unreal Engine for high-fidelity rendering.
+open-vocabulary string identifiers to 3D models from curated li-
+braries or external databases (PolyHaven, Unreal Engine Fab) for
+downstream rendering. As shown in Figure 3,SG-Agentcan pre-
+cisely place named chess pieces on specific squares in response
+to natural-language commands (e.g., “put a white queen on d4”),
+demonstrating fine-grained controllability over both spatial layout
+and object identity.
+3.3 Synthetic Data based SLMs Training
+While commercial LLMs (e.g., GPT-4, Claude) can generateSpa-
+tialGrammarthrough few-shot prompting, their computational
+expense and closed-source nature hinder widespread adoption. We
+instead train specialized Small Language Models (SLMs) that match
+or exceed commercial model performance on our tasks, while using
+fewer parameters and achieving faster inference. In particular, we fo-
+cus on a 104M-parameter SLM,SG-Mini, which we describe in detail
+below. Two properties ofSpatialGrammarmake such self-sufficient
+training possible: it ismodel-friendly, with intuitive BEV rep-
+resentations, structured syntax, and token-efficient encoding that
+simplify learning, andcompiler-friendly, with a deterministic
+compiler that provides automatic correctness checks and supports
+programmatic generation of diverse, validated training data. Build-
+ing on these properties, we construct a three-stage training pipeline
+consisting of pre-training, supervised fine-tuning (SFT), and direct
+preference optimization (DPO) [21], entirely from synthetic data
+and without human annotation. Algorithm 1 outlines the complete
+workflow.
+3.3.1 Self-Sufficient Training.We first construct a synthetic data
+engine that exploits SpatialGrammar’s structured nature to pro-
+grammatically generate training samples. It defines parameterized
+templates for common scene types (living rooms, bedrooms, offices)
+with configurable constraints on object counts and spatial relation-
+ships, then systematically varies these parameters and samples
+from furniture vocabularies to produce diverse scene descriptions
+paired with corresponding SpatialGrammar code. The compiler
+serves as an automatic correctness oracle: every generated pro-
+gram is validated by compilation and collision checking, ensuring
+the training set contains only valid, physically plausible scenes
+and avoiding the noise and inconsistencies of human-annotated
+datasets. For each scene, we also synthesize reasoning traces that
+mirror expert spatial reasoning, decomposing user requests into
+subgoals and justifying object placements. These reasoning traces
+are included in the pre-training corpus as supplementary language
+modeling data, exposing the model to spatial reasoning patterns
+during next-token prediction, but arenotused as supervision tar-
+gets in SFT or DPO—the model learns to generate code directly
+from prompts without producing explicit chain-of-thought at infer-
+ence time, keeping output compact for the 104M-parameter budget.
+Tang et al.
+Algorithm 1Self-Sufficient Training Pipeline
+Require: Scene logic definitionsS, NL template libraryT , base
+model𝜋 0
+Ensure:Trained SLM𝜋 ∗
+1:// Step 1: Programmatic SFT Data Generation
+2:D sft←∅
+3:foreach scene logic specification𝑐∈Sdo
+4: Generate DSL code𝑠, prompt𝑥, and reasoning𝑟 from𝑐 and
+templatesT
+5:ifC(𝑠)≠⊥andCollisionFree(𝑠)then
+6:D sft←D sft∪{(𝑥,𝑟,𝑠)}
+7:end if
+8:end for
+9:// Step 2: Pre-training Data Extraction
+10:D pre←{𝑥,𝑟,𝑠|(𝑥,𝑟,𝑠)∈D sft}
+11:// Stage 1: Pre-training on mixed corpus
+12:𝜋 pre←PreTrain(𝜋 0,D pre)
+13:// Stage 2: SFT on (prompt, code) pairs only
+14:D sft-pairs←{(𝑥,𝑠)|(𝑥,𝑟,𝑠)∈D sft}{Exclude𝑟}
+15:𝜋 sft←SFT(𝜋 pre,D sft-pairs)
+16:// Step 3: Generate DPO pairs via Error Chain
+17:D dpo←∅
+18:foreach(𝑥,𝑠 𝑤)inD sft-pairs do
+19:𝑠 𝑙←ErrorChain(𝑠 𝑤)
+20:D dpo←D dpo∪{(𝑥,𝑠 𝑤,𝑠𝑙)}
+21:end for
+22:// Stage 3: DPO on preference pairs
+23:𝜋 ∗←DPO(𝜋 sft,D dpo)
+24:return𝜋 ∗
+For a single living room scenario, the engine can generate tens of
+thousands of pre-training samples and a few thousand SFT samples
+within minutes, demonstrating the pipeline’s scalability.
+3.3.2 Error Chain Method.Direct Preference Optimization (DPO) [ 21]
+requires paired samples of preferred and dispreferred responses
+to the same prompt. Given a prompt𝑥 (e.g., "design a cozy living
+room") and paired responses, a valid scene𝑦𝑤 and a rejection𝑦𝑙 ,
+we optimize the model to prefer𝑦𝑤 over𝑦𝑙 :
+L(𝜋 𝜃)=−E (𝑥,𝑦 𝑤,𝑦 𝑙)∼D ErrorChain
+h
+log𝜎
+
+𝛽log
+𝜋𝜃(𝑦 𝑤|𝑥)
+𝜋𝜃(𝑦 𝑙|𝑥)
+i
+(5)
+where𝛽 controls the strength of preference, andDErrorChain denotes
+the dataset generated by our Error Chain method. The quality of
+rejections𝑦𝑙 is critical: while generating high-quality chosen sam-
+ples is straightforward using our validated synthetic data, creating
+meaningfulrejected samples, i.e., responses that are plausible but
+subtly flawed, poses a significant challenge. Random corruptions
+produce trivially bad outputs that provide weak learning signals;
+we need rejections that capture realistic failure modes. We intro-
+duce theError Chainmethod to systematically generate such
+samples. Starting from a valid scene, we apply a sequence of con-
+trolled error injections: (1)semantic errors(e.g., replacing a sofa
+with a random incompatible object like a bathtub in a living room),
+(2)spatial relationship errors(e.g., placing a TV behind a sofa in-
+stead of in front), (3)collision errors(e.g., overlapping furniture
+positions), and (4)syntax errors(e.g., malformed grid coordinates
+or missing delimiters). Each error type targets a distinct failure
+mode observed in LLM-generated spatial layouts. Crucially, we
+chain multiple errors together by injecting 2–3 errors per sample
+to create rejections that appear superficially reasonable but contain
+compounding issues, closely mimicking how undertrained models
+fail in practice. The compiler and collision checker automatically
+verify that rejected samples are indeed invalid, ensuring clean pref-
+erence labels. Applying Error Chain to our living room scenario
+yielded 9,000+ high-quality DPO pairs, enabling the model to learn
+subtle distinctions between valid and invalid spatial reasoning.
+3.3.3 Three-Stage Training Pipeline.We implement a three-stage
+training pipeline to progressively build model capabilities. For in-
+stance, in a living room scenario,Pre-traininguses 60,000+ code-
+only samples to teachSpatialGrammarsyntax, object vocabularies,
+and basic spatial patterns through next-token prediction.Super-
+vised Fine-Tuning (SFT)then trains on 2,800+ (instruction, code)
+pairs so that the model learns to map natural language requests
+directly to well-structured SpatialGrammar programs.Direct Pref-
+erence Optimization (DPO)finally refines the model’s judgment
+using 9,000+ preference pairs generated via Error Chain, encour-
+aging it to favor semantically coherent, collision-free layouts over
+superficially plausible but flawed alternatives; following [21], we
+apply DPO directly to the SFT checkpoint without a separate re-
+ward model. We train a compact 104M-parameter SLM,SG-Mini,
+built upon the minimind-llm architecture, on a mixture of mini-
+mind’s pre-training, SFT, and DPO datasets and our synthesized
+SpatialGrammardata, with the full pipeline completing in one week
+on two NVIDIA RTX 4090 GPUs.
+4 Experiments
+4.1 Experimental Setup
+We compare against representative state-of-the-art works covering
+different technical routes. SG-Mini is our 104M-parameter model
+trained with the synthetic pipeline from Section 3.3; SG-Agent is
+the full tool-augmented agent from Section 3.2, powered by Claude
+Sonnet 4. We evaluate end-to-end text-to-scene generation across
+five scenarios of increasing complexity, comprising 159 test scenes
+(1,198 atomic checks for DRFR): (1)single-object placement, (2)multi-
+object generation, (3)multi-turn editing, (4)hierarchical placement—
+objects placed on or inside other objects in parent-local coordinates
+(e.g., the cluttered desk in Figure 6, row 3), and (5)architectural
+generation. We use five metrics:DRFR[ 19], the fraction of atomic
+requirements (object presence, spatial relations, constraints) sat-
+isfied;CR obj (%), the percentage of objects involved in collisions;
+CLIP Score[ 20], visual–semantic consistency;GAS, Gemini-2.5-
+Flash aesthetic rating (0–100); andHAS, the mean aesthetic rating
+from 9 domain professionals on the same 0–100 scale. Our primary
+claims rest on DRFR and CRobj; GAS and HAS are complementary.
+All methods receive identical prompts and are evaluated with their
+complete pipelines (including built-in refinement); SG-Mini oper-
+ates in single-shot mode. SceneCraft [10] and OptiScene [28] are
+excluded as neither has released reproducible code or weights.
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D Indoor Scene Generation
+Figure 6: Visual comparison of generation results across different methods in various scenarios. To ensure fairness, we used a
+unified renderer and consistent assets to render all outputs based on the layout results from these models.
+4.2 Ablation Studies
+System design ablation(Table 1). Compared to the same LLM
+generating raw JSON coordinates without our DSL, introducing
+SpatialGrammar yields a large improvement in DRFR (0.62→0.83)
+and a dramatic reduction in CR obj (66.7→13.6). Adding physical
+and visual feedback yields the best performance (DRFR 0.90, CRobj
+0), indicating that each component contributes meaningfully.
+Table 1: Ablation on the agentic framework components.
+DSL Phys. Fbk Vis. Fbk DRFR↑CR obj↓
+0.62 66.7
+✓0.83 13.6
+✓ ✓0.87 0
+✓ ✓ ✓0.90 0
+Error Chain ablation(Table 2; Figure 7 provides a qualitative
+example of the progressive correction). We incrementally add each
+error category to the DPO training set. Collision error injection
+yields the largest CRobj improvement (28.4→16.7). Adding spatial
+and semantic errors further improves DRFR. Syntax error injection
+targets code well-formedness and improves DRFR to 0.79 without
+reducing collision rate, as expected. The full chain achieves the best
+DRFR, demonstrating that chaining diverse error types produces
+complementary learning signals.
+Table 2: Ablation on DPO error types. Error types are added
+incrementally.
+DPO Error Types DRFR↑CR obj↓
+None (SFT only) 0.55 28.4
++ Collision 0.63 16.7
++ Spatial relation 0.71 13.2
++ Semantic 0.76 10.5
++ Syntax (full chain)0.7911.6
+Figure 7: Qualitative example of DPO training effects: in-
+jecting different error types progressively corrects collision,
+spatial, and syntax errors.
+4.3 Quantitative Comparison
+Table 3 and Figure 6 report results on three core scenarios, in-
+cluding DirectLayout [ 22] as a BEV-based baseline. Onsingle-
+object placement, SG-Mini achieves the highest DRFR (0.99);
+all three BEV-based methods outperform non-BEV baselines, cor-
+roborating that BEV representations benefit spatial reasoning. On
+multi-object generation, SG-Agent leads (DRFR 0.83); DirectLay-
+out (0.77) surpasses SG-Mini (0.62), reflecting backbone capacity
+differences rather than a DSL limitation, since SG-Agent on the
+same DSL achieves the best results. Note that while HoloDeck
+achieves CRobj=0, its DRFR remains low (0.55), suggesting its con-
+straint solver avoids collisions partly by omitting requested objects.
+Forhierarchical placement, SG-Mini (0.69) outperforms Direct-
+Layout (0.61) across all metrics, and SG-Agent (0.93) leads with
+zero collisions, demonstrating the advantage of our sub-layout
+mechanism—absent from DirectLayout’s flat BEV. Across all core
+Tang et al.
+Figure 8: Our Agent system supports contextual memory-based iterative scene refinement, progressively evolving a simple wall
+structure into a complex 3D box layout and its corresponding indoor scene.
+Figure 9: Architectural generation examples showing wall
+shape control, wall-mounted objects, and ceiling decorations.
+scenarios, SG-Agent also achieves the highest CLIP scores, indicat-
+ing strong visual–semantic alignment. GAS and HAS show broadly
+consistent trends, yet they capture different aspects of generation
+quality. Human evaluators tend to be positively biased by visually
+uncrowded and clean layouts (e.g., HoloDeck), even when objects
+are erroneously omitted. On the other hand, GAS is more anchored
+to the global text-image semantic alignment rather than pure aes-
+thetic preference, though its evaluation remains noisy due to the
+limited visual reasoning capacity of VLMs for dense 3D scenes.
+Table 4 evaluates extended scenarios. Onmulti-turn editing,
+SG-Agent achieves DRFR 0.92 with zero collisions, outperforming
+Respace (0.37). Figure 8 illustrates how the agent progressively
+builds a complex scene through iterative dialogue. SG-Mini is ex-
+cluded as this scenario requires agentic capabilities beyond a 104M-
+parameter model. Onarchitectural generation, both SG-Agent
+(0.85) and SG-Mini (0.81) outperform HoloDeck (0.40); Figure 9
+shows examples of non-rectangular wall shapes, wall-mounted ob-
+jects, and ceiling elements that our DSL can specify but HoloDeck
+cannot. Overall, SG-Agent delivers the best performance across all
+Table 3: Results on core generation scenarios. CR obj is not
+applicable (—) for single-object placement.
+Scenario Method DRFR↑CR obj↓CLIP↑GAS↑HAS↑
+Single Object
+SceneTeller 0.62 — 23.98 66.25 60.22
+Respace 0.63 — 24.42 39.91 33.17
+HoloDeck 0.48 — 24.90 73.73 54.31
+DirectLayout 0.92 — 26.23 79.04 76.41
+SG-Mini 0.99— 24.46 80.71 78.56
+SG-Agent0.97 —28.42 84.20 79.33
+Multi-Object
+SceneTeller 0.48 52.6 24.34 56.84 48.67
+Respace 0.42 23.7 24.81 56.71 51.22
+HoloDeck 0.55025.16 66.84 75.89
+DirectLayout 0.77 9.93 27.23 69.91 73.5
+SG-Mini0.62 11.07 27.87 67.24 60.31
+SG-Agent 0.833.4028.20 73.55 77.56
+Hierarchical
+HoloDeck 0.36021.69 41.76 49.33
+SceneTeller 0.45 31.0 20.75 31.18 24.44
+Respace 0.41 41.0 23.54 50.29 43.63
+DirectLayout 0.61 11.65 24.95 58.23 64.71
+SG-Mini0.69 3.33 26.57 68.94 65.1
+SG-Agent 0.93 0 31.05 93.24 72.19
+Table 4: Results on extended scenarios: multi-turn editing
+and architectural generation. CR obj is not applicable (—) for
+architectural generation.
+Scenario Method DRFR↑CR obj↓CLIP↑GAS↑HAS↑
+Multi-turn Respace 0.37 50.0 26.31 47.90 42.89
+SG-Agent 0.92 0 30.29 85.36 75.6
+Architectural
+HoloDeck 0.40 — 23.38 63.08 73.56
+SG-Mini0.81 — 27.12 67.53 65.78
+SG-Agent 0.85—28.15 80.75 83.12
+scenarios, while SG-Mini remains competitive and excels on hier-
+archical tasks where our sub-layout design provides a structural
+advantage.
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D Indoor Scene Generation
+5 Conclusion
+This paper introducedSpatialGrammar, a domain-specific language
+that represents indoor layouts as BEV grid placements with deter-
+ministic compilation to valid 3D geometry. This design encodes
+physical priors directly into the representation, enabling verifi-
+able constraint checking during generation. Building on this foun-
+dation, we developedSG-Agent, a closed-loop system that uses
+compiler feedback to iteratively refine scenes, andSG-Mini, a 104M-
+parameter model trained entirely on compiler-validated synthetic
+data that achieves competitive performance on core generation
+scenarios. Code will be released upon acceptance.
+References
+[1] Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stewart Morris, Seung Jean
+Yoo, Aditya Ganeshan, R Kenny Jones, Qiuhong Anna Wei, Kailiang Fu, and
+Daniel Ritchie. 2024. Open-universe indoor scene generation using llm program
+synthesis and uncurated object databases.arXiv preprint arXiv:2403.09675(2024).
+[2] Anthropic. 2024. Introducing the Model Context Protocol. Model Context
+Protocol.
+[3] Martin JJ Bucher and Iro Armeni. 2025. ReSpace: Text-Driven 3D Scene Synthesis
+and Editing with Preference Alignment.arXiv preprint arXiv:2506.02459(2025).
+[4] Wei Deng, Mengshi Qi, and Huadong Ma. 2025. Global-local tree search in vlms
+for 3d indoor scene generation. InProceedings of the Computer Vision and Pattern
+Recognition Conference. 8975–8984.
+[5] Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai
+He, Sugato Basu, Xin Eric Wang, and William Yang Wang. 2023. Layoutgpt:
+Compositional visual planning and generation with large language models.
+Advances in Neural Information Processing Systems36 (2023), 18225–18250.
+[6] Rao Fu, Zehao Wen, Zichen Liu, and Srinath Sridhar. 2024. Anyhome: Open-
+vocabulary generation of structured and textured 3d homes. InEuropean Confer-
+ence on Computer Vision. Springer, 52–70.
+[7] Zeqi Gu, Yin Cui, Zhaoshuo Li, Fangyin Wei, Yunhao Ge, Jinwei Gu, Ming-Yu
+Liu, Abe Davis, and Yifan Ding. 2025. ArtiScene: Language-Driven Artistic 3D
+Scene Generation Through Image Intermediary. InProceedings of the Computer
+Vision and Pattern Recognition Conference. 2891–2901.
+[8] Maxim Gumin, Do Heon Han, Seung Jean Yoo, Aditya Ganeshan, R Kenny
+Jones, Kailiang Fu, Rio Aguina-Kang, Stewart Morris, and Daniel Ritchie. 2025.
+Procedural Scene Programs for Open-Universe Scene Generation: LLM-Free
+Error Correction via Program Search. InProceedings of the SIGGRAPH Asia 2025
+Conference Papers. 1–11.
+[9] Lukas Höllein, Ang Cao, Andrew Owens, Justin Johnson, and Matthias Nießner.
+2023. Text2room: Extracting textured 3d meshes from 2d text-to-image models.
+InProc. of ICCV. 7909–7920.
+[10] Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross,
+Cordelia Schmid, and Alireza Fathi. 2024. SceneCraft: An LLM Agent for Synthe-
+sizing 3D Scenes as Blender Code. InProc. of ICML. 19252–19282.
+[11] Ian Huang, Yanan Bao, Karen Truong, Howard Zhou, Cordelia Schmid, Leonidas
+Guibas, and Alireza Fathi. 2025. Fireplace: Geometric refinements of llm common
+sense reasoning for 3d object placement. InProceedings of the Computer Vision
+and Pattern Recognition Conference. 13466–13476.
+[12] Yinhao Li, Han Bao, Zheng Ge, Jinrong Yang, Jianjian Sun, and Zeming Li. 2023.
+Bevstereo: Enhancing depth estimation in multi-view 3d object detection with
+temporal stereo. InProc. of the AAAI. 1486–1494.
+[13] Yongsen Mao, Junhao Zhong, Chuan Fang, Jia Zheng, Rui Tang, Hao Zhu, Ping
+Tan, and Zihan Zhou. 2025. SpatialLM: Training Large Language Models for
+Structured Indoor Modeling.arXiv preprint arXiv:2506.07491(2025).
+[14] Gal Metzer, Elad Richardson, Or Patashnik, Raja Giryes, and Daniel Cohen-Or.
+2023. Latent-nerf for shape-guided generation of 3d shapes and textures. InProc.
+of CVPR. 12663–12673.
+[15] Ben Mildenhall, Pratul P Srinivasan, Matthew Tancik, Jonathan T Barron, Ravi
+Ramamoorthi, and Ren Ng. 2021. Nerf: Representing scenes as neural radiance
+fields for view synthesis.Commun. ACM65 (2021), 99–106.
+[16] Başak Melis Öcal, Maxim Tatarchenko, Sezer Karaoğlu, and Theo Gevers. 2024.
+SceneTeller: Language-to-3D Scene Generation. InEuropean Conference on Com-
+puter Vision. Springer, 362–378.
+[17] Ben Poole, Ajay Jain, Jonathan T Barron, and Ben Mildenhall. 2022. DreamFusion:
+Text-to-3D using 2D Diffusion.arXiv:2209.14988(2022).
+[18] Hou In Derek Pun, Hou In Ivan Tam, Austin T Wang, Xiaoliang Huo, Angel X
+Chang, and Manolis Savva. 2025. HSM: Hierarchical Scene Motifs for Multi-Scale
+Indoor Scene Generation.arXiv preprint arXiv:2503.16848(2025).
+[19] Yiwei Qin, Kaiqiang Song, Yebowen Hu, Wenlin Yao, Sangwoo Cho, Xiaoyang
+Wang, Xuansheng Wu, Fei Liu, Pengfei Liu, and Dong Yu. 2024. Infobench:
+Evaluating instruction following ability in large language models.arXiv preprint
+arXiv:2401.03601(2024).
+[20] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sand-
+hini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al.
+2021. Learning transferable visual models from natural language supervision. In
+Proc. of ICML. 8748–8763.
+[21] Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano
+Ermon, and Chelsea Finn. 2023. Direct preference optimization: Your language
+model is secretly a reward model.Advances in neural information processing
+systems36 (2023), 53728–53741.
+[22] Xingjian Ran, Yixuan Li, Linning Xu, Mulin Yu, and Bo Dai. 2025. Direct numer-
+ical layout generation for 3D indoor scene synthesis via spatial reasoning.arXiv
+preprint arXiv:2506.05341(2025).
+[23] Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans,
+Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, et al. 2019.
+Habitat: A platform for embodied ai research. InProc. of ICCV. 9339–9347.
+[24] Yi Wei, Linqing Zhao, Wenzhao Zheng, Zheng Zhu, Jie Zhou, and Jiwen Lu. 2023.
+Surroundocc: Multi-camera 3d occupancy prediction for autonomous driving. In
+Proc. of ICCV. 21729–21740.
+[25] Fei Xia, Amir R Zamir, Zhiyang He, Alexander Sax, Jitendra Malik, and Silvio
+Savarese. 2018. Gibson env: Real-world perception for embodied agents. InProc.
+of CVPR. 9068–9079.
+[26] Chenyu Yang, Yuntao Chen, Hao Tian, Chenxin Tao, Xizhou Zhu, Zhaoxiang
+Zhang, Gao Huang, Hongyang Li, Yu Qiao, Lewei Lu, et al. 2023. BEVFormer
+v2: Adapting Modern Image Backbones to Bird’s-Eye-View Recognition via
+Perspective Supervision. InProc. of the CVPR. 17830–17839.
+[27] Yixuan Yang, Junru Lu, Zixiang Zhao, Zhen Luo, James JQ Yu, Victor Sanchez,
+and Feng Zheng. 2024. Llplace: The 3d indoor scene layout generation and
+editing via large language model.arXiv preprint arXiv:2406.03866(2024).
+[28] Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi Gao, Jinyu Yang,
+Victor Sanchez, and Feng Zheng. 2025. Optiscene: Llm-driven indoor scene layout
+generation via scaled human-aligned data synthesis and multi-stage preference
+optimization.arXiv preprint arXiv:2506.07570(2025).
+[29] Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson
+Han, Jiajun Wu, Nick Haber, Ranjay Krishna, Lingjie Liu, et al. 2024. Holodeck:
+Language guided generation of 3d embodied ai environments. InProceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 16227–
+16237.
+[30] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik R Narasimhan,
+and Yuan Cao. 2022. React: Synergizing reasoning and acting in language models.
+InThe eleventh international conference on learning representations.
+Tang et al.
+Figure 10: Diverse display of scenes generated by our model and GT of instance segmentation & depth.
+Table 5: Summary of the Evaluation Scenario Statistics and Objectives.
+Task Category Scenes Checks Core Objective
+Task 1: Single Object 56 213 Basic placement & orientation correctness in global coordinates.
+Task 2: Multiple Objects 38 656 3D spatial planning, relative positioning, and collision avoidance.
+Task 3: Conversational 28 74 Context maintenance and incremental updates across dialogue turns.
+Task 4: Hierarchical Placement 17 193 Hierarchical reasoning using local coordinate systems (e.g., on/in).
+Task 5: Architectural 20 62 Structural validity (closed loops) and metric scale of room elements.
+Total 159 1,198
+A Evaluation Setup Details
+This section provides a detailed breakdown of our evaluation setup. We designed five scenarios to systematically evaluate the full range of
+capabilities needed for 3D scene generation, from basic object placement to complex spatial reasoning. The dataset consists of159distinct
+test scenes, which are further broken down into1,198specific checkpoints for precise evaluation. Table 5 summarizes the statistics and
+objectives for each task.
+A.1 Test Objective
+Our evaluation setup is structured to progressively evaluate the model’s spatial intelligence, starting from fundamental coordinate under-
+standing and advancing to complex structural and interactive reasoning.
+Task 1 (Single Object Placement)serves as the foundational test for any 3D generative model. It rigorously verifies whether the model
+has mastered the global coordinate system and absolute cardinal directions, which are prerequisites for more complex layouts. For instance,
+a prompt like“Place an armchair in the center of the room, facing west”directly tests the model’s ability to map semantic location and
+orientation terms to precise geometric transformations.
+Building on this foundation,Task 2 (Multiple Object Combination)introduces the challenge of 3D spatial planning and collision
+avoidance. It requires the model to understand relative spatial descriptions (e.g., “left of”, “opposite”) and manage the distribution of multiple
+objects within a shared space. A typical prompt, such as“Place a TV stand... with a TV on top... Place a sofa... facing the TV... ”, demands that
+the model not only places individual items correctly but also maintains logical functional relationships between them (e.g., sofa facing the
+TV, coffee table in front of the sofa) without physical overlap.
+Task 3 (Multi-turn Conversational Editing)shifts the focus to temporal consistency and context maintenance, which are critical
+for interactive design agents. It evaluates the model’s ability to perform incremental updates—such as adding a wardrobe or moving a
+chair—based on a sequence of user instructions (e.g.,User: “Add a wardrobe” → User: “Add a sofa”), ensuring that new changes do not disrupt
+the previously established scene state.
+Real-world scenes are characterized by rich hierarchical structures, which we evaluate inTask 4 (Hierarchical Placement). This task
+assesses the model’s capability to handle parent-child dependencies using local coordinate systems, rather than placing everything in
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D Indoor Scene Generation
+global coordinates. Complex instructions like“Generate a dining table with a stack of books... arranged in a spiral pattern”test the model’s
+fine-grained control over sub-layouts and object attachments.
+Finally,Task 5 (Architectural Generation)examines the model’s understanding of the structural container itself. Unlike object
+placement, generating architecture requires topological reasoning (e.g., ensuring walls form closed loops) and metric scaling. Prompts such
+as“Generate a T-shaped wall structure with a window on each... segment”verify that the model can construct valid, physically plausible room
+environments that can house the generated furniture.
+B Evaluation Process
+B.1 Decomposed Requirements Following Ratio
+TheDecomposed Requirements Following Ratio (DRFR)is a fine-grained metric designed to rigorously evaluate the instruction-
+following capabilities of generative models. Unlike holistic scoring (which is subjective) or CLIP scores (which capture global semantics but
+miss fine-grained spatial details), DRFR decomposes a complex natural language instruction into a set ofatomic,verifiable, andbinary
+(Yes/No)constraints.
+B.1.1 Inspection Details.In the context of 3D scene generation, we adapted the DRFR metric to specifically target spatial and structural
+correctness. Our decomposition taxonomy includes four primary categories:
+•Existence Check (C 𝑒𝑥𝑖𝑠𝑡 ):Verifies whether the objects mentioned in the prompt are present in the scene (e.g.,“Is there a sofa?”).
+•Attribute Check (C 𝑎𝑡𝑡𝑟 ):Checks for correct visual attributes such as color, texture, or shape (e.g.,“Is the table round?”).
+• Spatial Relation Check (C𝑠𝑝𝑎𝑡𝑖𝑎𝑙 ):Evaluates the relative positioning and global layout correctness (e.g.,“Is the lamp to the left of the
+bed?”).
+• Hierarchical/Support Check (Cℎ𝑖𝑒𝑟 ):Verifies physical dependencies and attachment relations, crucial for our sub-layout system
+(e.g.,“Is the vase physically supported by the table?”).
+The final score is calculated as the ratio of satisfied atomic requirements to the total number of requirements:
+DRFR=
+˝ I(requirement satisfied)
+Total Requirements (6)
+B.1.2 Cumulative Evaluation for Conversational Editing (Task 3).Task 3 (Multi-turn Conversational Editing)presents a unique challenge:
+evaluating the consistency of a scene that evolves over time. A single-step evaluation is insufficient because the model must not only execute
+the current instruction (e.g.,“Add a chair”) but also maintain the state established by all previous turns (e.g., keeping the previously generated
+TV standandsofaintact).
+Therefore, we adopt aCumulative State Decompositionstrategy for Task 3. For each turn 𝑡 in the dialogue, the set of atomic
+requirements𝑅𝑡 includes:
+•Constraints from the current instruction𝐼 𝑡 .
+•All persistent constraints from history𝐻 𝑡−1 ={𝐼 1,...,𝐼 𝑡−1}that have not been explicitly modified or removed.
+For example, if Turn 1 requests a “TV stand” and Turn 2 requests an “armchair”, the evaluation at Turn 2 checks for the existence and correct
+placement ofboththe TV stand and the armchair. This ensures that the metric captures phenomena like catastrophic forgetting or accidental
+deletion of objects. Figure 13 visually illustrates this cumulative check process, where the checklist grows as the conversation progresses.
+B.1.3 Visual Demonstrations.Figures 11 to 15 provide detailed visual breakdowns of how instructions are decomposed and evaluated across
+all five tasks.
+B.2 Gemini Aesthetic Score (GAS)
+While DRFR focuses on objective instruction following, we employ theGemini Aesthetic Score (GAS)to assess the visual quality, physical
+plausibility, and overall rationality of the generated scenes.
+To ensure full reproducibility, we provide the complete system prompts used for each task. These prompts were fed into the Gemini
+model to generate the scores.
+B.2.1 Task 1: Single Object Placement.
+System Prompt:You are a professional 3D scene evaluation expert. Please evaluate this rendered image according to the following standards:
+Important Note: Since the rendering viewpoint is not standardized, focus onrelative positioning and orientation logicrather than absolute accuracy. Evaluate whether the furniture’s
+position and orientation areinternally consistentwith the described location.
+Evaluation Criteria:
+(1) Furniture Existence & Type Accuracy (35 points): Exactly the right furniture type as requested (35 pts); Very similar furniture type (25-30 pts); ... Penalty for Extra Furniture
+(-20 pts).
+(2)Relative Position Logic (30 points): Position perfectly logical relative to room layout (30 pts); Position mostly logical (20-25 pts); ...
+(3)Relative Orientation Logic (25 points): Orientation perfectly matches description (25 pts); Orientation mostly correct (18-22 pts); ...
+(4)Scene Rationality (10 points): Overall scene composition is natural and realistic.
+B.2.2 Task 2: Multiple Object Combination.
+Tang et al.
+Figure 11: DRFR evaluation for Task 1 (Single Object Placement). Visual comparison between SG-Mini and SceneTeller, showing
+the decomposition of atomic requirements and their verification.
+Figure 12: DRFR evaluation for Task 2 (Multiple Object Combination). Visual comparison between SG-Agent and Respace on a
+complex layout task, highlighting the detailed spatial checks.
+System Prompt:You are a professional 3D scene evaluation expert. Please evaluate this rendered image according to the following standards:
+Important Note: Task2 focuses on multi-furniture placement. Prioritize instruction following accuracy and collision detection over perfect spatial relationships.
+Evaluation Criteria:
+(1)Instruction Following Accuracy (40 points): All instructions perfectly followed (40 pts); Most instructions followed (30-35 pts); ... Penalty for Extra Furniture (-15 pts).
+(2)Collision & Overlap Detection (30 points): No furniture collisions (30 pts); Minor overlaps (22-25 pts); Significant overlaps (8-12 pts); Severe collisions (0-5 pts).
+(3)Overall Layout Rationality (20 points): Layout makes practical sense for real-world use.
+(4)Visual Harmony & Aesthetics (10 points): Scene is visually pleasing and well-balanced.
+B.2.3 Task 3: Multi-turn Conversational Editing.
+System Prompt:You are a professional 3D scene evaluation expert. Please evaluate this rendered image according to the following standards. This image represents the result after
+executing a sequence of editing instructions. You need to evaluate whether the current scene correctly reflects ALL cumulative edits.
+SpatialGrammar: A Domain-Specific Language for LLM-Based 3D Indoor Scene Generation
+Figure 13: DRFR evaluation for Task 3 (Multi-turn Conversational Editing). This example validates whether incremental
+updates (e.g., adding objects) are correctly executed without disrupting the existing scene state. The checklist reflects the
+cumulative state of the scene.
+Figure 14: DRFR evaluation for Task 4 (Hierarchical Placement). The evaluation focuses on verifying hierarchical constraints
+(e.g., “on top of”) and the precision of local coordinate systems.
+Evaluation Criteria:
+(1) Cumulative Instruction Execution (45 points): Does the current scene correctly reflect ALL editing operations from step 1 to current step? All executed (45 pts); Most executed
+(35-40 pts); ...
+(2)Current Step Accuracy (25 points): Is the current step instruction (ADD/REMOVE/REPLACE) correctly executed? Perfectly executed (25 pts); Mostly executed (18-22 pts); ...
+(3)Scene Consistency & Logic (20 points): Scene is internally consistent and logical.
+(4)Edit Feasibility & Realism (10 points): All edits result in realistic, feasible arrangements.
+B.2.4 Task 4: Hierarchical Placement.
+Tang et al.
+Figure 15: DRFR evaluation for Task 5 (Architectural Generation). The checkpoints verify structural integrity (e.g., closed
+loops) and the presence/placement of architectural features like doors and windows.
+System Prompt:You are a professional 3D scene evaluation expert. Please evaluate this rendered image according to the following standards:
+Important Note: The key challenge is correctly handlingrelative spatial relationshipsbetween objects, especially "on top of", "inside", "beside".
+Evaluation Criteria:
+(1)Spatial Relationship Accuracy (40 points): All spatial relationships perfectly executed (40 pts); Most correct (30-35 pts); ...
+(2)Surface Contact & Precision (30 points): Perfect surface contact with no gaps/overlaps (30 pts); Good contact (22-25 pts); Objects floating or sinking (0-5 pts).
+(3)Nesting Logic Correctness (20 points): Do nested arrangements make physical and logical sense?
+(4)Overall Layout Rationality (10 points): Layout practical and realistic for real-world use.
+B.2.5 Task 5: Architectural Generation.
+System Prompt:You are a professional architecture and structural engineering evaluation expert. Please evaluate this rendered image according to the following standards:
+Important Note: Task5 focuses onwall structure generation. Evaluate whether the generated structure accurately follows the architectural specifications.
+Evaluation Criteria:
+(1)Structural Element Accuracy (45 points): Are the specified structural elements (walls, doors, windows) correctly generated? All match (45 pts); Most correct (35-40 pts); ...
+(2)Geometric Precision (25 points): Are the geometric specifications (dimensions, shapes) accurate? Perfect accuracy (25 pts); Good accuracy (18-22 pts); ...
+(3)Architectural Feasibility (20 points): Is the structure buildable and follows basic architectural principles?
+(4)Spatial Completeness (10 points): Does the structure create a complete, enclosed space as intended?
+B.3 CLIP Score Protocol
+TheCLIP Scoremeasures the semantic consistency between the generated image and the text description. We utilize the OpenAICLIP
+ViT-B/16model for this evaluation.
+B.3.1 Cumulative State for Conversational Tasks.Similar to the DRFR evaluation, computing CLIP scores forTask 3 (Multi-turn Con-
+versational Editing)requires special handling. Since CLIP evaluates the alignment between a static image and a text description, using
+incremental instructions (e.g.,“Add a sofa”) is inappropriate for assessing the final rendered scene.
+Therefore, we construct Cumulative State Descriptions for each turn in Task 3. For instance, if the history involves adding a TV stand
+followed by a sofa, the prompt used for CLIP calculation at the second turn would be“A living room with a TV stand and a sofa”, rather than
+just the incremental instruction. This ensures that the CLIP score measures the global semantic correctness of the evolving scene.
+B.3.2 Fair Evaluation Strategy.To ensure a fair comparison across models with varying success rates, we adopt a strict penalty mechanism.
+If a model fails to generate a scene for a given prompt (resulting in a missing image), the CLIP score for that instance is recorded as0. This
+prevents models from achieving artificially high average scores by only generating simple scenes and failing on complex ones.
+C Training Details
+This section provides further details on how we trained our SG-Mini model and verifies the impact of our training strategy.

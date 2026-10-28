@@ -1,0 +1,60 @@
+{
+ "k": 200,
+ "source": "SpatialLM",
+ "room_type": "guest room",
+ "latency_s": 18.094675624975935,
+ "usage": [
+  {
+   "prompt_tokens": 865,
+   "completion_tokens": 875,
+   "total_tokens": 1740,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 669,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.52,
+     0.46,
+     0.82
+    ],
+    "bottom_center_m": [
+     0.26,
+     1.18,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.62,
+     0.6,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.623,
+     1.182,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe washing machine has the fixed requirement of standing against a wall, so it is placed against the east wall near the rear of the room, outside the main door approach. The chair is placed along the west wall opposite it. This keeps the wide central doorway zone and the route toward the window clear while leaving both objects accessible.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.46,\"depth_m\":0.52,\"height_m\":0.82,\"x\":0.26,\"y\":1.18,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.6,\"depth_m\":0.62,\"height_m\":0.85,\"x\":2.623,\"y\":1.182,\"z\":0.0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nguest room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.933 m x 1.512 m x 2.780 m\nfloor polygon (x, y): [[2.933, 0.0], [2.933, 1.512], [0.0, 1.512], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"washing machine\", \"description\": \"washing machine\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.448, 1.512], \"wall_from\": [2.933, 1.512], \"wall_to\": [0.0, 1.512], \"width_m\": 1.981, \"height_m\": 1.2, \"sill_height_m\": 0.9}, {\"type\": \"door\", \"centre_xy\": [1.51, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.933, 0.0], \"width_m\": 1.858, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,154 @@
+{
+ "floor": [
+  {
+   "assetId": "bed combination-0",
+   "id": "bed combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 0.525,
+    "z": 0.805
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     357.5,
+     -4.5
+    ],
+    [
+     357.5,
+     165.5
+    ],
+    [
+     142.5,
+     165.5
+    ],
+    [
+     142.5,
+     -4.5
+    ]
+   ],
+   "object_name": "bed combination-0"
+  },
+  {
+   "assetId": "bedside table-0",
+   "id": "bedside table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 0.275,
+    "z": 0.205
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     129.0,
+     -4.5
+    ],
+    [
+     129.0,
+     45.5
+    ],
+    [
+     71.0,
+     45.5
+    ],
+    [
+     71.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bedside table-0"
+  },
+  {
+   "assetId": "bedside table-1",
+   "id": "bedside table-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.0,
+    "y": 0.275,
+    "z": 0.205
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     429.0,
+     -4.5
+    ],
+    [
+     429.0,
+     45.5
+    ],
+    [
+     371.0,
+     45.5
+    ],
+    [
+     371.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bedside table-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "clock-0",
+   "id": "clock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 2.05,
+    "z": 0.035
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     265.0,
+     0.0
+    ],
+    [
+     265.0,
+     5.0
+    ],
+    [
+     235.0,
+     5.0
+    ],
+    [
+     235.0,
+     0.0
+    ],
+    [
+     265.0,
+     0.0
+    ]
+   ],
+   "object_name": "clock-0"
+  }
+ ]
+}

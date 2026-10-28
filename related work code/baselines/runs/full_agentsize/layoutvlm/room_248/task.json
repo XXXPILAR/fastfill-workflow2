@@ -1,0 +1,87 @@
+{
+ "task_description": "a dining room of about 9.6m x 8.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.53 m wide centred at (6.60, 0.00) (keep the floor in front of it clear); a door 0.81 m wide centred at (8.55, 0.00) (keep the floor in front of it clear); a door 3.22 m wide centred at (7.11, 8.88) (keep the floor in front of it clear); a door 0.81 m wide centred at (4.21, 4.25) (keep the floor in front of it clear); a door 0.81 m wide centred at (0.64, 4.25) (keep the floor in front of it clear); a door 0.81 m wide centred at (0.58, 2.91) (keep the floor in front of it clear); a door 0.81 m wide centred at (3.15, 2.91) (keep the floor in front of it clear); a door 1.53 m wide centred at (4.78, 1.88) (keep the floor in front of it clear). a fixed tv cabinet (cannot move) occupies 4.29 x 0.35 m centred at (9.40, 6.47). the dining table (o0000) should be between the dining chair (o0002) and the dining chair (o0004). the dining chair (o0005) should face the dining chair (o0001). the dining chair (o0004) should be against a wall. the dining chair (o0002) should be within 0.50 m of the dining chair (o0004)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    5.7860651855468745,
+    2.948114318847656,
+    0.0
+   ],
+   [
+    5.7860651855468745,
+    0.0,
+    0.0
+   ],
+   [
+    9.57133544921875,
+    0.0,
+    0.0
+   ],
+   [
+    9.57133544921875,
+    8.883805541992189,
+    0.0
+   ],
+   [
+    5.018618652343751,
+    8.883805541992189,
+    0.0
+   ],
+   [
+    5.018618652343751,
+    4.253805541992187,
+    0.0
+   ],
+   [
+    0.0,
+    4.253805541992187,
+    0.0
+   ],
+   [
+    0.0,
+    2.9116528546939273,
+    0.0
+   ],
+   [
+    3.813888366699219,
+    2.9116528546939273,
+    0.0
+   ],
+   [
+    3.813888366699219,
+    1.8836801757812498,
+    0.0
+   ],
+   [
+    5.546065185546875,
+    1.8836801757812498,
+    0.0
+   ],
+   [
+    5.546065185546875,
+    2.708114318847656,
+    0.0
+   ],
+   [
+    4.923679565429688,
+    2.708114318847656,
+    0.0
+   ],
+   [
+    4.923679565429688,
+    2.948114318847656,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {}
+ }
+}

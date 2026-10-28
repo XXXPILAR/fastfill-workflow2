@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 1.1,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     55.0
+    ],
+    [
+     65.5,
+     245.0
+    ],
+    [
+     -4.500000000000002,
+     245.0
+    ],
+    [
+     -4.500000000000002,
+     55.0
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "dining chair-0",
+   "id": "dining chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.7,
+    "y": 0.44,
+    "z": 2.9450000000000007
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     299.0,
+     325.50000000000006
+    ],
+    [
+     299.0,
+     263.50000000000006
+    ],
+    [
+     241.0,
+     263.50000000000006
+    ],
+    [
+     241.0,
+     325.50000000000006
+    ]
+   ],
+   "object_name": "dining chair-0"
+  },
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.65,
+    "y": 0.275,
+    "z": 1.005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     250.0,
+     -4.5
+    ],
+    [
+     250.0,
+     205.5
+    ],
+    [
+     80.0,
+     205.5
+    ],
+    [
+     80.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bed-0"
+  }
+ ],
+ "wall": []
+}

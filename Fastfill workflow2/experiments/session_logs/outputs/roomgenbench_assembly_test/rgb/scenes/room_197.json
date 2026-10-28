@@ -1,0 +1,92 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_197",
+ "room_type": "bedroom",
+ "room": {
+  "width": 3.132581039428711,
+  "length": 5.782351684570312,
+  "height": 2.7999
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 3
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "nightstand",
+   "asset_key": "nightstand_16f75c08",
+   "description": "nightstand",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "bed",
+   "asset_key": "bed_fefe2393",
+   "description": "bed",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "wardrobe",
+   "asset_key": "wardrobe_149b58b2",
+   "description": "wardrobe",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  }
+ ]
+}

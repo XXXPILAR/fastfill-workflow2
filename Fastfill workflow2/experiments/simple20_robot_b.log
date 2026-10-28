@@ -1,0 +1,19 @@
+model gpt-5.6-sol at https://api.openai.com/v1: reachable
+room  43 objects   8 clean          68.7s $0.108 (total $0.11) plan llm+rules sizes {'given': 8, 'catalog': 0} 
+room  70 objects   6 clean          96.6s $0.120 (total $0.23) plan llm+rules sizes {'given': 6, 'catalog': 0} 
+room 109 objects   9 best_effort   120.7s $0.155 (total $0.38) plan llm+rules sizes {'given': 9, 'catalog': 0} 
+room  15 objects   4 best_effort   242.8s $0.275 (total $0.66) plan llm+rules sizes {'given': 4, 'catalog': 0} 
+room  29 objects  16 best_effort   209.8s $0.217 (total $0.88) plan llm+rules sizes {'given': 16, 'catalog': 0} 
+room  68 objects  11 clean         111.9s $0.169 (total $1.04) plan llm+rules sizes {'given': 11, 'catalog': 0} 
+room  61 objects  20 clean         192.3s $0.271 (total $1.31) plan llm+rules sizes {'given': 20, 'catalog': 0} 
+room  79 objects  16 clean         152.7s $0.203 (total $1.52) plan llm+rules sizes {'given': 16, 'catalog': 0} 
+room  81 objects  24 clean         112.5s $0.172 (total $1.69) plan llm+rules sizes {'given': 24, 'catalog': 0} 
+room  63 objects  34 clean         253.2s $0.252 (total $1.94) plan llm+rules sizes {'given': 34, 'catalog': 0} 
+room  84 objects  28 clean         130.8s $0.210 (total $2.15) plan llm+rules sizes {'given': 28, 'catalog': 0} 
+room  66 objects  38 best_effort   536.4s $0.286 (total $2.44) plan llm+rules sizes {'given': 38, 'catalog': 0} 
+room  86 objects  53 best_effort   323.4s $0.506 (total $2.94) plan llm+rules sizes {'given': 53, 'catalog': 0} 
+room 110 objects  45 clean         232.6s $0.417 (total $3.36) plan llm+rules sizes {'given': 45, 'catalog': 0} 
+room 103 objects  49 best_effort   593.3s $0.334 (total $3.70) plan llm+rules sizes {'given': 49, 'catalog': 0} 
+room 108 objects  45 best_effort   736.5s $0.512 (total $4.21) plan llm+rules sizes {'given': 45, 'catalog': 0} 
+summary: {"rooms_picked": 16, "rooms_done": 16, "status": {"best_effort": 7, "clean": 9}, "spent_usd": 4.2085, "tokens": {"prompt_tokens": 267834, "completion_tokens": 156862, "reasoning_tokens": 130124}, "wall_s": {"median": 209.8, "max": 736.47, "sum": 4114.2}, "size_fallback_rooms": 0, "error_recovered_rooms": 0}
+evaluate exit 0; report: experiments/simple20_robot_b/eval/report.json

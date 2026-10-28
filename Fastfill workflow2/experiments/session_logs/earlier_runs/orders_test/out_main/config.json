@@ -1,0 +1,24 @@
+{
+ "fingerprint": {
+  "rows": "/Users/zhangyang/Downloads/fastfill-v4/test300/rows.jsonl",
+  "model": "fake",
+  "sizes": "/private/tmp/claude-501/-Users-zhangyang-Downloads-fastfill-v4/9a97c220-bfbd-48ee-8fa2-e1fa582d56c6/scratchpad/orders_test/gt_sizes.jsonl",
+  "batch": 1,
+  "gpt_repairs": 2,
+  "search_seconds": 30.0,
+  "final_repair": true,
+  "catalog": "/Users/zhangyang/Downloads/fastfill-v4/Fastfill workflow/size_catalog.json",
+  "code": "daf27e15af9ea9d0"
+ },
+ "base_url": "https://api.openai.com/v1",
+ "sizes": {
+  "file": "gt_sizes.jsonl"
+ },
+ "modes": [
+  "A",
+  "B",
+  "C"
+ ],
+ "budget_usd": 5.0,
+ "rooms": 2
+}

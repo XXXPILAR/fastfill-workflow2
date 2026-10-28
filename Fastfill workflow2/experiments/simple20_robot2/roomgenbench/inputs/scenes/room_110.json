@@ -1,0 +1,1169 @@
+{
+ "scene_key": "room_110",
+ "room_type": "department meeting room 1",
+ "building_style": "",
+ "prompt": "",
+ "room": {
+  "dimensions": {
+   "width": 10.0,
+   "length": 10.0,
+   "height": 3.2
+  },
+  "position": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "ceiling_height": 3.2,
+  "walls": [
+   {
+    "id": "wall_0",
+    "start_point": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 5.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_1",
+    "start_point": {
+     "x": 0.0,
+     "y": 5.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.0,
+     "y": 5.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_2",
+    "start_point": {
+     "x": 2.0,
+     "y": 5.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.0,
+     "y": 2.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_3",
+    "start_point": {
+     "x": 2.0,
+     "y": 2.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.0,
+     "y": 2.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_4",
+    "start_point": {
+     "x": 6.0,
+     "y": 2.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_5",
+    "start_point": {
+     "x": 6.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 10.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_6",
+    "start_point": {
+     "x": 10.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 10.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_7",
+    "start_point": {
+     "x": 10.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 0.0
+    },
+    "height": 3.2,
+    "thickness": 0.1
+   }
+  ],
+  "doors": [
+   {
+    "id": "opening_0",
+    "wall_id": "wall_3",
+    "position_on_wall": 0.459845,
+    "width": 1.9428,
+    "height": 2.1,
+    "door_type": "door"
+   }
+  ],
+  "windows": [
+   {
+    "id": "opening_1",
+    "wall_id": "wall_6",
+    "position_on_wall": 0.195787,
+    "width": 2.3922,
+    "height": 1.7788,
+    "sill_height": 0.6
+   },
+   {
+    "id": "opening_2",
+    "wall_id": "wall_6",
+    "position_on_wall": 0.453557,
+    "width": 2.3922,
+    "height": 1.7788,
+    "sill_height": 0.6
+   },
+   {
+    "id": "opening_3",
+    "wall_id": "wall_6",
+    "position_on_wall": 0.862114,
+    "width": 2.3922,
+    "height": 1.7788,
+    "sill_height": 0.6
+   }
+  ]
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "throw pillow",
+   "description": "A large white pillow with golden edges.",
+   "asset_key": "throw_pillow_2bea1cfc",
+   "position": {
+    "x": 0.7274,
+    "y": 6.5,
+    "z": 0.8247467875480652
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -179.49999999999997
+   },
+   "dimensions": {
+    "width": 0.7200506925582886,
+    "length": 0.34523066878318787,
+    "height": 0.5818215608596802
+   },
+   "place_id": "obj_0023"
+  },
+  {
+   "id": "obj_0001",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 9.977,
+    "y": 6.1,
+    "z": 1.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.7802902460098267,
+    "length": 0.04605293273925781,
+    "height": 0.963808000087738
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0002",
+   "type": "lounge side table",
+   "description": "A round wooden table holding a blue and white owl statue.",
+   "asset_key": "lounge_side_table_ef709374",
+   "position": {
+    "x": 1.75,
+    "y": 5.75,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.7
+   },
+   "dimensions": {
+    "width": 0.6497694849967957,
+    "length": 0.5076882243156433,
+    "height": 0.6755623817443848
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0003",
+   "type": "freestanding planter",
+   "description": "A wooden planter with some strawberries.",
+   "asset_key": "freestanding_planter_ad847731",
+   "position": {
+    "x": 0.304,
+    "y": 8.7,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.19999999999999
+   },
+   "dimensions": {
+    "width": 0.60752272605896,
+    "length": 0.36825481057167053,
+    "height": 0.8138497471809387
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0004",
+   "type": "mobile whiteboard",
+   "description": "A whiteboard with a black marker.",
+   "asset_key": "mobile_whiteboard_19fef438",
+   "position": {
+    "x": 6.8,
+    "y": 7.8,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -179.6
+   },
+   "dimensions": {
+    "width": 0.8102098703384399,
+    "length": 0.06602863222360611,
+    "height": 1.1663345098495483
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0005",
+   "type": "wall shelf",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "asset_key": "wall_shelf_1bf0e000",
+   "position": {
+    "x": 0.2069,
+    "y": 7.8354,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.9799647927284241,
+    "length": 0.3434852063655853,
+    "height": 0.8530505299568176
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0006",
+   "type": "side credenda",
+   "description": "Long wood cabinet with metal frame and drawers.",
+   "asset_key": "side_credenda_89b72d4d",
+   "position": {
+    "x": 9.7656,
+    "y": 8.8146,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 89.80000000000001
+   },
+   "dimensions": {
+    "width": 1.1986252069473267,
+    "length": 0.3980565369129181,
+    "height": 0.8396208882331848
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0007",
+   "type": "meeting chair",
+   "description": "A black office chair with a tall mesh back.",
+   "asset_key": "meeting_chair_9f5973df",
+   "position": {
+    "x": 5.0,
+    "y": 5.0,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.5884866714477539,
+    "length": 0.5546408891677856,
+    "height": 1.0127356052398682
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0008",
+   "type": "conference table",
+   "description": "A long white table with two black spines.",
+   "asset_key": "conference_table_1dcb0593",
+   "position": {
+    "x": 5.3,
+    "y": 6.9,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.30000000000001
+   },
+   "dimensions": {
+    "width": 1.770121693611145,
+    "length": 0.8182570934295654,
+    "height": 0.6383263468742371
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0009",
+   "type": "storage box",
+   "description": "A red microwave oven.",
+   "asset_key": "storage_box_1295d8d9",
+   "position": {
+    "x": 9.7702,
+    "y": 6.5,
+    "z": 0.94781893491745
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.3472352623939514,
+    "length": 0.24631166458129883,
+    "height": 0.2026851624250412
+   },
+   "place_id": "obj_0037"
+  },
+  {
+   "id": "obj_0010",
+   "type": "mobile whiteboard",
+   "description": "A whiteboard with a black marker.",
+   "asset_key": "mobile_whiteboard_19fef438",
+   "position": {
+    "x": 7.1,
+    "y": 7.7,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.7894657254219055,
+    "length": 0.10353062301874161,
+    "height": 1.171271562576294
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0011",
+   "type": "trash recycling bin",
+   "description": "A pair of white drawers in the black dresser.",
+   "asset_key": "trash_recycling_bin_c5a943ee",
+   "position": {
+    "x": 8.85,
+    "y": 7.3,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.19999999999999
+   },
+   "dimensions": {
+    "width": 0.6017524003982544,
+    "length": 0.3512347340583801,
+    "height": 0.7335230112075806
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0012",
+   "type": "storage box",
+   "description": "A red microwave oven.",
+   "asset_key": "storage_box_1295d8d9",
+   "position": {
+    "x": 7.0646,
+    "y": 0.2554,
+    "z": 1.0964385271072388
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.29999999999998134
+   },
+   "dimensions": {
+    "width": 0.31664949655532837,
+    "length": 0.22480502724647522,
+    "height": 0.16787846386432648
+   },
+   "place_id": "obj_0038"
+  },
+  {
+   "id": "obj_0013",
+   "type": "wall shelf",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "asset_key": "wall_shelf_1bf0e000",
+   "position": {
+    "x": 1.0646,
+    "y": 9.8141,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.9926937222480774,
+    "length": 0.30130547285079956,
+    "height": 0.8351767063140869
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0014",
+   "type": "small planter",
+   "description": "A plant sitting in a round flower pot.",
+   "asset_key": "small_planter_234d7bea",
+   "position": {
+    "x": 6.7646,
+    "y": 9.7546,
+    "z": 0.7679224610328674
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -89.9
+   },
+   "dimensions": {
+    "width": 0.3931688368320465,
+    "length": 0.28406980633735657,
+    "height": 0.4356224238872528
+   },
+   "place_id": "obj_0032"
+  },
+  {
+   "id": "obj_0015",
+   "type": "wall monitor",
+   "description": "An image of a mountain lake in a white frame.",
+   "asset_key": "wall_monitor_ea3f1077",
+   "position": {
+    "x": 9.979,
+    "y": 6.95,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.6449224352836609,
+    "length": 0.04213789477944374,
+    "height": 0.9780142307281494
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0016",
+   "type": "freestanding planter",
+   "description": "A wooden planter with some strawberries.",
+   "asset_key": "freestanding_planter_ad847731",
+   "position": {
+    "x": 8.0,
+    "y": 9.75,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.09999999999999377
+   },
+   "dimensions": {
+    "width": 0.6145266890525818,
+    "length": 0.3651692271232605,
+    "height": 0.8292214870452881
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0017",
+   "type": "magazine",
+   "description": "A light brown hardback book with atom depicted in gold on the cover.",
+   "asset_key": "magazine_06923a81",
+   "position": {
+    "x": 1.75,
+    "y": 6.9,
+    "z": 0.7046974897384644
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.8000000000000012
+   },
+   "dimensions": {
+    "width": 0.2357107400894165,
+    "length": 0.17320533096790314,
+    "height": 0.12814760208129883
+   },
+   "place_id": "obj_0026"
+  },
+  {
+   "id": "obj_0018",
+   "type": "meeting chair",
+   "description": "A black office chair with a tall mesh back.",
+   "asset_key": "meeting_chair_9f5973df",
+   "position": {
+    "x": 3.8,
+    "y": 6.75,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.1
+   },
+   "dimensions": {
+    "width": 0.5638334155082703,
+    "length": 0.5408828258514404,
+    "height": 1.0999706983566284
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0019",
+   "type": "magazine",
+   "description": "A light brown hardback book with atom depicted in gold on the cover.",
+   "asset_key": "magazine_06923a81",
+   "position": {
+    "x": 1.75,
+    "y": 5.75,
+    "z": 0.6755623817443848
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -1.300000000000021
+   },
+   "dimensions": {
+    "width": 0.25140899419784546,
+    "length": 0.1791696846485138,
+    "height": 0.09120304882526398
+   },
+   "place_id": "obj_0002"
+  },
+  {
+   "id": "obj_0020",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 2.7146,
+    "y": 9.9446,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.6177167892456055,
+    "length": 0.04022553563117981,
+    "height": 0.7981849908828735
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0021",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 9.98,
+    "y": 6.95,
+    "z": 2.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.4703337550163269,
+    "length": 0.02962573431432247,
+    "height": 0.5921034812927246
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0022",
+   "type": "meeting chair",
+   "description": "A black office chair with a tall mesh back.",
+   "asset_key": "meeting_chair_9f5973df",
+   "position": {
+    "x": 5.5086,
+    "y": 5.7086,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.29999999999998134
+   },
+   "dimensions": {
+    "width": 0.5801024436950684,
+    "length": 0.5392007827758789,
+    "height": 0.9732503890991211
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0023",
+   "type": "lounge sofa",
+   "description": "A grey three seater sofa.",
+   "asset_key": "lounge_sofa_555b60f2",
+   "position": {
+    "x": 0.7274,
+    "y": 6.5,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 1.6907020807266235,
+    "length": 0.7547755837440491,
+    "height": 0.8247467875480652
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0024",
+   "type": "freestanding planter",
+   "description": "A wooden planter with some strawberries.",
+   "asset_key": "freestanding_planter_ad847731",
+   "position": {
+    "x": 9.7,
+    "y": 0.2265,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.400000000000026
+   },
+   "dimensions": {
+    "width": 0.5792647004127502,
+    "length": 0.35314449667930603,
+    "height": 0.7320619821548462
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0025",
+   "type": "coat stand",
+   "description": "The coatrack is wooden with a round bottom.",
+   "asset_key": "coat_stand_5142d454",
+   "position": {
+    "x": 8.8293,
+    "y": 6.1293,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 179.8
+   },
+   "dimensions": {
+    "width": 0.8013789057731628,
+    "length": 0.3693302273750305,
+    "height": 1.14205801486969
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0026",
+   "type": "lounge side table",
+   "description": "A round wooden table holding a blue and white owl statue.",
+   "asset_key": "lounge_side_table_ef709374",
+   "position": {
+    "x": 1.75,
+    "y": 6.9,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.7039663195610046,
+    "length": 0.45071941614151,
+    "height": 0.7046974897384644
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0027",
+   "type": "coat stand",
+   "description": "The coatrack is wooden with a round bottom.",
+   "asset_key": "coat_stand_5142d454",
+   "position": {
+    "x": 8.8146,
+    "y": 0.2199,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 179.9
+   },
+   "dimensions": {
+    "width": 0.8812875747680664,
+    "length": 0.3691652715206146,
+    "height": 1.2917605638504028
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0028",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 9.8988,
+    "y": 6.0293,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.549476683139801,
+    "length": 0.06122487410902977,
+    "height": 0.558355450630188
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0029",
+   "type": "trash recycling bin",
+   "description": "A pair of white drawers in the black dresser.",
+   "asset_key": "trash_recycling_bin_c5a943ee",
+   "position": {
+    "x": 8.0354,
+    "y": 0.2229,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.19999999999998755
+   },
+   "dimensions": {
+    "width": 0.6430371999740601,
+    "length": 0.37514978647232056,
+    "height": 0.8987751007080078
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0030",
+   "type": "wall shelf",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "asset_key": "wall_shelf_1bf0e000",
+   "position": {
+    "x": 2.0,
+    "y": 9.8385,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.7903847694396973,
+    "length": 0.32305577397346497,
+    "height": 0.6935493350028992
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0031",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 9.3,
+    "y": 0.015,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.4564136564731598,
+    "length": 0.030115807428956032,
+    "height": 0.47167131304740906
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0032",
+   "type": "sideboard table",
+   "description": "A long narrow wooden table on metal legs.",
+   "asset_key": "sideboard_table_bcb11f81",
+   "position": {
+    "x": 6.7646,
+    "y": 9.7541,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 179.70000000000002
+   },
+   "dimensions": {
+    "width": 1.2816904783248901,
+    "length": 0.42050912976264954,
+    "height": 0.7679224610328674
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0033",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 9.985,
+    "y": 6.1,
+    "z": 0.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.6479501724243164,
+    "length": 0.030159300193190575,
+    "height": 0.5222028493881226
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0034",
+   "type": "meeting chair",
+   "description": "A black office chair with a tall mesh back.",
+   "asset_key": "meeting_chair_9f5973df",
+   "position": {
+    "x": 6.3845,
+    "y": 5.8155,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 44.99999999999995
+   },
+   "dimensions": {
+    "width": 0.62760990858078,
+    "length": 0.540807843208313,
+    "height": 1.021484375
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0035",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 3.45,
+    "y": 9.964,
+    "z": 1.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.6373588442802429,
+    "length": 0.07170847803354263,
+    "height": 0.7051719427108765
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0036",
+   "type": "meeting chair",
+   "description": "A black office chair with a tall mesh back.",
+   "asset_key": "meeting_chair_9f5973df",
+   "position": {
+    "x": 4.8086,
+    "y": 5.7086,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.19999999999998755
+   },
+   "dimensions": {
+    "width": 0.6732870936393738,
+    "length": 0.546623945236206,
+    "height": 1.0350940227508545
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0037",
+   "type": "storage cabinet",
+   "description": "A rectangular set of five dark gray shelves with two drawers beneath them.",
+   "asset_key": "storage_cabinet_b8e2903e",
+   "position": {
+    "x": 9.7702,
+    "y": 6.5,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 1.0314364433288574,
+    "length": 0.37959063053131104,
+    "height": 0.94781893491745
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0038",
+   "type": "storage cabinet",
+   "description": "A rectangular set of five dark gray shelves with two drawers beneath them.",
+   "asset_key": "storage_cabinet_b8e2903e",
+   "position": {
+    "x": 7.0646,
+    "y": 0.2554,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.19999999999998755
+   },
+   "dimensions": {
+    "width": 1.124382734298706,
+    "length": 0.439645916223526,
+    "height": 1.0964385271072388
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0039",
+   "type": "meeting chair",
+   "description": "A black office chair with a tall mesh back.",
+   "asset_key": "meeting_chair_9f5973df",
+   "position": {
+    "x": 4.0172,
+    "y": 7.4672,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.30000000000001
+   },
+   "dimensions": {
+    "width": 0.6298597455024719,
+    "length": 0.5521076321601868,
+    "height": 0.9236606955528259
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0040",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 4.1,
+    "y": 9.988,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.5696923732757568,
+    "length": 0.024104153737425804,
+    "height": 0.61688232421875
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0041",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 4.7,
+    "y": 9.9915,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.5021113753318787,
+    "length": 0.016631117090582848,
+    "height": 0.5489208698272705
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0042",
+   "type": "acoustic panel",
+   "description": "The plaque has a design in the middle of the board.",
+   "asset_key": "acoustic_panel_4ede2ef0",
+   "position": {
+    "x": 0.0444,
+    "y": 6.7354,
+    "z": 1.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.5729585289955139,
+    "length": 0.018426399677991867,
+    "height": 0.5816105008125305
+   },
+   "place_id": "wall"
+  },
+  {
+   "id": "obj_0043",
+   "type": "tray",
+   "description": "Carved brown tray with handle and tall sides.",
+   "asset_key": "tray_7d1e2b34",
+   "position": {
+    "x": 9.686,
+    "y": 8.8149,
+    "z": 0.8396208882331848
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 89.80000000000001
+   },
+   "dimensions": {
+    "width": 0.45381757616996765,
+    "length": 0.30529752373695374,
+    "height": 0.15663456916809082
+   },
+   "place_id": "obj_0006"
+  },
+  {
+   "id": "obj_0044",
+   "type": "wall clock",
+   "description": "A black and white rouund clock with red hands and gears at the center of the circle.",
+   "asset_key": "wall_clock_db6ce2ad",
+   "position": {
+    "x": 0.017,
+    "y": 9.2,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.35257554054260254,
+    "length": 0.033591557294130325,
+    "height": 0.3400757908821106
+   },
+   "place_id": "wall"
+  }
+ ]
+}

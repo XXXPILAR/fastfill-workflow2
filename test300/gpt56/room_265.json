@@ -1,0 +1,120 @@
+{
+ "k": 265,
+ "source": "SpatialLM",
+ "room_type": "master bedroom",
+ "latency_s": 64.32621499989182,
+ "usage": [
+  {
+   "prompt_tokens": 1124,
+   "completion_tokens": 3437,
+   "total_tokens": 4561,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2979,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0001 (nightstand) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0003 (bed) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0005 (nightstand) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.4,
+     0.45,
+     0.45
+    ],
+    "bottom_center_m": [
+     2.17,
+     0.85,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.4,
+     0.45,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.25,
+     2.917,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.6,
+     1.5,
+     2.2
+    ],
+    "bottom_center_m": [
+     0.3,
+     1.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     1.9,
+     1.35,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.17,
+     2.167,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.45,
+     1.1,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.17,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.4,
+     0.48,
+     0.55
+    ],
+    "bottom_center_m": [
+     3.11,
+     2.917,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bed and paired nightstands occupy the solid upper wall, while keeping the narrow upper-left entrance route unobstructed. The bed sits between the nightstands and faces south toward the stool. The wardrobe uses the lower-left wall, leaving a clear aisle between it and the bed. The dressing table is centered beneath the broad window, with the stool positioned between it and the foot of the bed; the stool faces the dressing table. This arrangement preserves circulation from both doors through the upper-left passage and around the left and foot sides of the bed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.45,\"depth_m\":0.4,\"height_m\":0.45,\"x\":2.17,\"y\":0.85,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":0.45,\"depth_m\":0.4,\"height_m\":0.55,\"x\":1.25,\"y\":2.917,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":1.5,\"depth_m\":0.6,\"height_m\":2.2,\"x\":0.3,\"y\":1.35,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":1.35,\"depth_m\":1.9,\"height_m\":0.55,\"x\":2.17,\"y\":2.167,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":1.1,\"depth_m\":0.45,\"height_m\":0.75,\"x\":2.17,\"y\":0.225,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":0.48,\"depth_m\":0.4,\"height_m\":0.55,\"x\":3.11,\"y\":2.917,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nmaster bedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.427 m x 4.696 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [3.427, 0.0], [3.427, 3.117], [1.02, 3.117], [1.02, 2.56], [0.9, 2.56], [0.9, 4.696], [0.0, 4.696]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"stool\", \"description\": \"stool\"},\n{\"id\": \"obj_0001\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0002\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"},\n{\"id\": \"obj_0003\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0004\", \"category\": \"dressing table\", \"description\": \"dressing table\"},\n{\"id\": \"obj_0005\", \"category\": \"nightstand\", \"description\": \"nightstand\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.788, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [3.427, 0.0], \"width_m\": 2.099, \"height_m\": 1.8, \"sill_height_m\": 0.45}, {\"type\": \"door\", \"centre_xy\": [0.9, 3.686], \"wall_from\": [0.9, 2.56], \"wall_to\": [0.9, 4.696], \"width_m\": 0.78, \"height_m\": 2.2}, {\"type\": \"door\", \"centre_xy\": [0.0, 4.222], \"wall_from\": [0.0, 4.696], \"wall_to\": [0.0, 0.0], \"width_m\": 0.85, \"height_m\": 2.2}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0003\", \"target_ids\": [\"obj_0005\", \"obj_0001\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0003\", \"target_id\": \"obj_0000\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

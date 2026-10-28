@@ -1,0 +1,85 @@
+{
+ "task_description": "a dining room of about 3.9m x 5.6m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.90 m wide centred at (3.09, 5.58) (keep the floor in front of it clear); a door 1.80 m wide centred at (1.28, 3.54) (keep the floor in front of it clear). the sideboard (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.24,
+    1.0584,
+    0.0
+   ],
+   [
+    0.0,
+    1.0584,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    0.24,
+    0.0,
+    0.0
+   ],
+   [
+    0.24,
+    0.52452,
+    0.0
+   ],
+   [
+    3.9199,
+    0.52452,
+    0.0
+   ],
+   [
+    3.9199,
+    5.33829,
+    0.0
+   ],
+   [
+    3.53614,
+    5.33829,
+    0.0
+   ],
+   [
+    3.53614,
+    5.57829,
+    0.0
+   ],
+   [
+    2.63611,
+    5.57829,
+    0.0
+   ],
+   [
+    2.63611,
+    5.33829,
+    0.0
+   ],
+   [
+    2.5199,
+    5.33829,
+    0.0
+   ],
+   [
+    2.5199,
+    3.53829,
+    0.0
+   ],
+   [
+    0.24,
+    3.53829,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "task_description": "a library of about 3.2m x 3.7m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.82 m wide centred at (0.00, 1.78) (keep the floor in front of it clear); a window 1.70 m wide centred at (3.19, 1.88). the desk (o0000) should be against a wall. the barstool (o0003) should be within 0.50 m of the floor lamp (o0001). the bookcase (o0002) should be against a wall. the desk (o0000) should be within 0.10 m of the floor lamp (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    3.19275,
+    3.7,
+    0.0
+   ],
+   [
+    0.0,
+    3.7,
+    0.0
+   ],
+   [
+    0.0,
+    1.25774,
+    0.0
+   ],
+   [
+    1.9542300000000001,
+    1.25774,
+    0.0
+   ],
+   [
+    1.9542300000000001,
+    0.0,
+    0.0
+   ],
+   [
+    3.19275,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

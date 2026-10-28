@@ -1,0 +1,44 @@
+{
+ "task_description": "a bedroom of about 2.4m x 3.3m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (0.52, 0.00) (keep the floor in front of it clear). the sofa (o0002) should be against a wall. the sofa (o0002) should be within 0.10 m of the stool (o0001). the wardrobe (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.4125319999999997,
+    0.0,
+    0.0
+   ],
+   [
+    2.4125319999999997,
+    2.579858,
+    0.0
+   ],
+   [
+    1.8497120000000002,
+    2.579858,
+    0.0
+   ],
+   [
+    1.8497120000000002,
+    3.311372,
+    0.0
+   ],
+   [
+    0.0,
+    3.311372,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {}
+ }
+}

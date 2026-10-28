@@ -1,0 +1,599 @@
+Architect-Ant: Editable Automatic Furnishing of Architectural
+Floor Plans
+Fedor Rodionov1 Aleksandar Cveji´c1 Michael Birsak1
+John Femiani2 Peter Wonka1
+1King Abdullah University of Science and Technology (KAUST), Saudi Arabia
+2Miami University, United States of America
+Figure 1: Architect-Ant transforms an empty structured floor plan into a furnished 3D scene.
+Abstract
+Furnished floor plans support real-estate visualization, interior design, and architectural workflows, yet automatic
+furnishing remains challenged by limited real-world data and the need to satisfy interacting geometric and functional
+constraints. We ask whether professional furnishing knowledge can be learned from real floor plans using a pretrained
+model, enabling direct constraint-aware layout generation without relying on costly iterative agentic inference. We
+introduce AntPlan, a curated dataset of 505 real professional architectural floor plans with dense furniture annota-
+tions spanning 92 object classes and ten residential room categories, and Architect-Ant, a framework for generating
+furniture layouts. Architect-Ant represents layouts with an editable coordinate-based DSL and first learns profes-
+sional furnishing patterns through supervised fine-tuning. It is then optimized with GRPO using a Layout Rule Score
+(LRS) that aggregates geometric and functional constraints derived from professional plans, providing outcome-level
+supervision without prescribed reasoning traces. Experiments against diverse state-of-the-art baselines show that
+Architect-Ant combines low geometric violation rates with high functional completeness, while qualitative results
+more closely reflect real-world residential furnishing patterns. The resulting layouts remain object-level editable and
+can be converted into 3D scenes.
+1 Introduction
+Furnished floor plans are a practical starting point for interior design and for constructing 3D scenes used in architec-
+tural visualization, robotics simulation, and game development. Furniture drawn on a 2D plan conveys the scale and
+purpose of a room, how its occupants might use the space, and where they can move. For interior designers, furnished
+floor plans support the exploration and communication of alternative furniture arrangements and spatial configurations.
+For downstream applications, they provide the layout information from which a furnished scene can be built.
+Producing such layouts manually requires precision and meticulous attention to constraints that extend well beyond
+a list of objects. A bed must fit within the room, but its placement also affects access to storage, nearby furniture, and
+circulation. A kitchen requires appliances and work surfaces to form usable arrangements, while doors, windows, and
+working areas must remain accessible. Many of these requirements are implicit in professional practice and interact
+with one another: moving one object can improve one relationship while breaking another. Automatic furnishing
+1
+arXiv:2606.10953v2  [cs.AI]  30 Sep 2026
+Table 1: Comparison of floor-plan datasets
+Dataset # Style Structural elements
+Room
+cls.
+Avg.
+# rooms
+Furn.
+cls.
+Avg.
+# objects
+MSD 5,372 Synth., simple boxes✓wall/column, door, window 9 30.78✗ ✗
+ResPlan 17,000 Synth., simple boxes✓wall, door, window, front door 7 8.22✗ ✗
+ZInD 2,737 Synth., from 3D recon.✓door, window Free-text 14.28✗ ✗
+FloorPlanCAD 2,845 ∗ CAD drawings, tiled✓one class: structural✗ ✗ ✓30 16.73
+SESYD 10 ∗∗ Synthetic✓door, window✗ ✗ ✓12 17.07
+CubiCasa5K 5,000 Real, prof. arch.✓wall, door, window, railing 10 12.18✓10 ∗∗∗ 27.20
+AntPlan505 Real, prof. arch.✓wall, door, window, railing 10 8.90✓92 53.01
+∗FloorPlanCAD contains 2,845 source CAD drawings, distributed as 15,663 tiles/crops.
+∗∗SESYD contains 10 unique layouts with 100 variations each.
+∗∗∗CubiCasa5K furniture classes are coarse: appliances are not distinguished, and some fixtures are represented only by partial symbols.
+could increase productivity and support a wider range of alternatives while preserving these geometric and functional
+requirements and allowing designers to edit the result.
+Good furniture placement draws on three complementary sources of knowledge.Layout dataprovides examples
+of object choices and spatial arrangements (Paschalidou et al., 2021; Tang et al., 2023; Lin and Mu, 2024);explicit
+spatial constraintsmake geometric and functional requirements computable (Yu et al., 2011; Merrell et al., 2011);
+andpretrained modelscontribute broad semantic and contextual knowledge (Feng et al., 2023; Yang et al., 2023;
+Sun et al., 2024; Pfaff et al., 2026). Each source is incomplete on its own: datasets are limited by their coverage, rules
+capture only encoded relationships, and pretrained models do not guarantee precise spatial placement. Recent agentic
+approaches can improve layouts through iterative reasoning and correction, but each refinement round increases infer-
+ence cost and time. We ask whether these three sources can instead be combined during training so that a pretrained
+model learns to generate constraint-aware layouts directly.
+A further challenge is obtaining suitable supervision. Public 3D scene datasets can be projected into 2D layouts,
+but such projections contain only the architectural detail represented in the source and do not necessarily reflect the
+conventions and construction elements found in professional floor plans. We therefore introduceAntPlan, a curated
+dataset of 505 real professional architectural floor plans with room-level structural annotations and dense furniture
+annotations spanning 92 object classes and ten residential room categories.
+Building on AntPlan, we presentArchitect-Ant, a framework that combines professional layout examples, pre-
+trained model knowledge, and explicit spatial feedback. It represents layouts with a compact coordinate-based domain-
+specific language (DSL) specifying object categories, positions, and dimensions, preserving object-level editability.
+We first adapt a pretrained model through supervised fine-tuning on detector-assisted, manually reviewed layouts. We
+then apply Dr. GRPO-style reinforcement learning (Liu et al., 2025) using a room-awareLayout Rule Score (LRS)
+that aggregates geometric and functional constraints derived from professional layouts. Following outcome supervi-
+sion (DeepSeek-AI, 2025), rewards are applied to the final layout rather than to prescribed reasoning traces, allowing
+the model to develop its own strategy for satisfying spatial requirements.
+In experiments across four room types, Architect-Ant achieves the highest functional-completeness and overall
+layout-rule scores among the compared methods while maintaining low geometric violation rates, and generates lay-
+outs substantially faster than iterative agentic approaches.
+Our main contributions are:
+•AntPlan, a dataset of real professional architectural floor plans with dense furniture annotations across 92
+object classes and ten residential room categories, substantially expanding furniture-class coverage over
+existing 2D floor-plan datasets.
+•Architect-Ant, a framework that adapts pretrained model knowledge through supervised fine-tuning and
+rule-guided reinforcement learning to generate editable DSL layouts for downstream 3D scene construction.
+•A room-aware Layout Rule Score (LRS)that converts geometric and functional constraints into layout-level
+reinforcement-learning rewards, enabling constraint-aware generation without prescribing intermediate
+reasoning steps.
+2
+Table 2: Sources of layout knowledge in the compared configurations. Architect-Ant combines professional layout
+examples, spatial feedback, and pretrained model knowledge.
+Knowledge sourceATISS
+Instruct
+Scene
+Diffu
+Scene LayoutGPT LayoutVLM Holodeck SceneSmithArchitect-Ant
+Layout examples✓ ✓ ✓ ✗ ✗ ✗ ✗ ✓
+Spatial constraints✗ ✗ ✓ ✗ ✓ ✓ ✓ ✓
+Pretrained model knowledge✗ ✓ ✗ ✓ ✓ ✓ ✓ ✓
+2 Related Work
+Floor plans and indoor scene datasets.RPLAN (Wu et al., 2019), Graph2Plan (Hu et al., 2020), House-GAN (Nau-
+ata et al., 2020), and HouseDiffusion (Shabani et al., 2022) study architectural layout generation. Existing floor-plan
+datasets, including CubiCasa5K (Kalervo et al., 2019), MSD (Van Engelenburg et al., 2024), ResPlan (Abouagour and
+Garyfallidis, 2025), ZInD (da Cruz et al., 2021), FloorPlanCAD (Fan et al., 2021), and SESYD (Delalandre et al.,
+2011), provide structural, room, or object annotations; Table 1 compares their coverage with AntPlan. Indoor scene
+datasets such as 3D-FRONT and 3D-FUTURE (Fu et al., 2020a;b), Structured3D (Zheng et al., 2020), HSSD (Khanna
+et al., 2023), and ProcTHOR (Deitke et al., 2022) provide object-level 3D scenes from which 2D layouts can be de-
+rived. AntPlan instead targets dense, fine-grained furniture annotation directly on real professional architectural floor
+plans.
+Furniture arrangement and scene synthesis.Classical systems optimize geometric and ergonomic objectives (Mer-
+rell et al., 2011; Yu et al., 2011), while learned approaches include autoregressive ATISS (Paschalidou et al., 2021),
+DiffuScene (Tang et al., 2023), and graph-based InstructScene (Lin and Mu, 2024). These learned methods train on
+furnished 3D-FRONT scenes, whereas Architect-Ant learns from furniture annotations on real architectural draw-
+ings. Prior methods incorporate individual sources of additional knowledge: DiffuScene uses a training-time overlap
+penalty, InstructScene uses pretrained text features for instruction conditioning, and other work studies constraint-
+aware generation or differentiable rule losses (Para et al., 2020; Leimer et al., 2022). Architect-Ant adapts a pretrained
+language model to professional floor-plan annotations, then uses room-aware geometric and functional rewards to
+improve its generated layouts.
+Language and vision-language planning.LayoutGPT (Feng et al., 2023) uses language models for structured lay-
+out generation with retrieved examples; we evaluate its zero-shot configuration. Holodeck (Yang et al., 2023), I-
+Design (C ¸ elen et al., 2024), and LayoutVLM (Sun et al., 2024) combine language or visual reasoning with scene
+construction and spatial optimization, while SceneSmith (Pfaff et al., 2026) uses a hierarchical agentic pipeline for
+simulation-ready scene generation. Table 2 summarizes the knowledge sources used by the compared methods.
+Architect-Ant incorporates spatial feedback during training; at inference, it generates candidate layouts directly and
+ranks them with LRS, without a model-based critique-and-revision loop. Recent evaluation work such as SceneE-
+val (Tam et al., 2025) further motivates assessing explicit geometric and functional properties alongside visual quality.
+Rule-guided post-training.Verifier-based learning uses execution or explicit criteria to provide training feedback (Le
+et al., 2022; Dou et al., 2024). GRPO (Shao et al., 2024) optimizes policies using relative rewards among sampled re-
+sponses without a learned value network, while DeepSeek-R1-Zero (DeepSeek-AI, 2025) demonstrates rule-based out-
+come supervision without reasoning demonstrations. We apply this principle to furniture placement by rewarding the
+final layout with LRS rather than supervising intermediate reasoning. Related layout work includes OptiScene (Yang
+et al., 2025), which uses preference optimization; in contrast, Architect-Ant learns from scalar geometric and func-
+tional layout rewards.
+3 Architect-Ant
+Architect-Ant combines three sources of layout knowledge: pretrained model knowledge, supervision from real ar-
+chitectural floor plans in AntPlan (Figure 2), and explicit spatial constraints used as reward supervision for GRPO.
+Given room geometry, a structure-only image, and a furniture request, it generates a coordinate-based DSL specifying
+object categories, positions, and dimensions. Figure 3 summarizes supervised adaptation followed by GRPO with
+final-layout rewards, while Figure 4 shows inference and conversion of the generated layout into a 3D scene.
+3
+Figure 2: AntPlan floor plans with structural, room, and furniture annotations.
+3.1 AntPlan and room inputs
+AntPlan contains 505 professional residential floor-plan drawings with structural, room, and furniture annotations
+across ten room categories. Walls, doors, windows, and railings are extracted using an RT-DETR-X detector (Lv
+et al., 2024) trained on CubiCasa5K (Kalervo et al., 2019), while room labels are assigned manually. A furniture
+detector is bootstrapped from a hand-labeled subset and applied to the remaining plans, followed by manual review
+and correction.
+AntPlan provides 92 furniture classes, with an average of 53.01 annotated objects per plan, defined directly on
+professional 2D architectural drawings. Our experiments use cleaned bedroom, bathroom, kitchen, and living-room
+subsets containing 2,259 training rooms and 243 validation rooms. Within each room type, rooms from the same
+source floor plan are assigned exclusively to either the training or validation split. Further annotation and dataset
+statistics are provided in Appendix A.
+Each room is represented by textual and visual inputs. The textual input specifies room dimensions and structural
+elements together with the requested furniture categories, counts, and approximate dimensions. The visual input is
+a structure-only raster that provides spatial context without exposing the target furniture layout. We train a separate
+adapter for each of the four evaluated room types. Appendix E provides additional details on visual conditioning.
+3.2 Editable layout representation
+A layout is represented as a sequenceL={(c i,xi,yi,wi,hi)}n
+i=1, wherec i is the object class,(x i,yi)is the top-left
+corner of its footprint, and(w i,hi)are its extents along the room-localxandyaxes. Coordinates are expressed in
+meters relative to the room’s top-left corner, withxincreasing rightward andydownward. Appendix E provides an
+example serialization.
+This corner-based DSL provides a compact and editable representation while allowing containment, overlap, and
+clearance to be evaluated directly. The downstream conversion maps each footprint to its center and 3D asset transform.
+Asset dimensions and height come from the selected 3D model; orientation is inferred from furniture relationships and
+wall attachment rather than predicted by the DSL (Appendix F).
+3.3 Supervised adaptation
+We fine-tune Gemma-4-31B-it (Gemma Team, 2026) using LoRA (Hu et al., 2021) on the language model while
+keeping the vision encoder frozen. Training uses token-level cross-entropy on the furniture DSL and end-of-turn
+token, with prompt, image, and padding positions masked from the loss. The targets contain only the final layouts,
+without reasoning traces. SFT adapts the model to the furnishing domain and DSL representation; the subsequent
+GRPO stage optimizes layout quality using final-layout rewards while allowing intermediate reasoning. Training
+details are provided in Appendix B, and Appendix D discusses experiments with supervised reasoning traces.
+3.4 Layout Rule Score and reward
+LRS is a deterministic room-aware score of geometric and functional constraint satisfaction. The evaluator parses the
+generated DSL and starts each layout at 10, deducting penalties for violated rule instances:
+S(L;x) = 10−
+X
+k
+pk(L,x),(1)
+4
+Figure 3: Data preparation and training. Detector-assisted annotations form room-level examples for supervised fine-
+tuning, followed by GRPO with final-layout rewards. A separate LoRA adapter is trained for each room category.
+wherepk≥0is the penalty contributed by rule familykacross its applicable instances. Scores are unbounded below;
+a score of 10 indicates that no encoded rule was violated, rather than guaranteeing an ideal layout.
+The evaluator implements 33 rule types spanning shared structural checks and room-specific functional relation-
+ships. Shared rules cover room containment, wall overlap and penetration, door and window obstruction, disallowed
+furniture overlap, inventory mismatch, and accessibility. Room policies add relationships such as appliance mount-
+ing, kitchen runs, and work zones, focal seating, window blocking, wall alignment, and fixture–furniture placement.
+Class-specific exemptions preserve valid arrangements, such as a rug beneath a bed or a sink mounted in a cabinet.
+The rules are instantiated over applicable objects, architectural elements, and object pairs, so the number of constraint
+checks grows with layout complexity; typical validation rooms require roughly 50–200 predicate evaluations.
+Rule parameters, class sets, exemptions, and thresholds are calibrated against AntPlan annotations rather than re-
+quiring a generated layout to reproduce a particular reference. Room-specific policies activate additional constraints
+according to the furniture and functional relationships observed for that room type. Thresholds are selected from mea-
+sured geometric distributions and checked against annotated layouts to avoid penalizing common valid arrangements.
+Appendix C provides the complete rule definitions, thresholds, and accessibility construction.
+During GRPO, LRS provides the main outcome reward, augmented with terms for object-size deviation, gated
+same-class similarity to the annotated layout, and response validity. All these auxiliary terms are used only during
+training; inference ranks candidates by raw LRS. Answers with no parsed furniture receive a fixed negative training
+reward. Appendix B gives the exact reward terms.
+LRS captures only the geometric and functional properties encoded by its rules; it does not measure aesthetics or
+guarantee full 3D usability. We therefore report individual geometric and functional diagnostics, object counts, and
+qualitative results alongside the aggregate score.
+3.5 GRPO with reasoning from layout rewards
+We follow the R1-Zero principle of learning reasoning from outcome feedback (DeepSeek-AI, 2025), starting from
+the SFT checkpoint rather than the pretrained model. Each rollout contains a free-form reasoning blockrfollowed
+by a furniture layouty, wherexdenotes the room geometry and furniture request. The prompt encourages the model
+to consider alternative arrangements but does not prescribe the reasoning process. Reward is computed only from the
+parsed final layout,R(r,y;x) =R(y;x),so intermediate reasoning receives no direct supervision.
+For each training room, we sample 16 responses. Each update contains eight rooms, giving 128 on-policy rollouts,
+followed by a single policy-gradient step; rollouts are not reused. Advantages are computed by centering each reward
+by the mean of its room-level group, scaling by the pooled reward standard deviation across the batch, and clipping
+to[−2,2]. Following the motivation of Dr. GRPO (Liu et al., 2025), we avoid per-group variance normalization and
+normalize the policy loss by a fixed 1024-token constant rather than by individual response length. The resulting
+outcome advantage is applied to all generated tokens, including both reasoning and layout tokens.
+We train for 15 updates with learning rate2×10 −5 and KL coefficient0.001, regularizing against the frozen
+pretrained base model. The procedure uses no learned critic and performs one group-relative policy-gradient update
+per rollout batch. Full optimization, sampling, batching, and generation settings are provided in Appendix B.
+5
+Figure 4: Inference and 3D scene construction. Room geometry, a structure-only image, and a retrieved furniture
+request condition the room adapter to generate a reasoning trace followed by an editable DSL layout. Layouts are
+scored and selected before 3D assets are retrieved and rendered.
+3.6 Candidate selection and 3D rendering
+For a new room shell, we retrieve same-type rooms from the AntPlan training set with similar dimensions and use
+their annotations to form furniture requests specifying object categories, counts, and approximate sizes. Architect-Ant
+generates layouts for each request and selects the layout with highest raw LRS, using geometric criteria only to break
+equal-score ties.
+The selected DSL remains editable and can be converted into a furnished 3D scene. We retrieve assets with
+compatible categories and dimensions, fit them to the predicted footprints, and infer orientation from nearby walls and
+furniture relationships while retaining asset height. Appendix F provides rendering details.
+4 Experiments
+We evaluate Architect-Ant in two settings. On held-out AntPlan rooms, we study the effects of supervised fine-tuning
+and reinforcement learning on layout quality. On released SceneSmith room shells, we compare the full Architect-Ant
+pipeline with agentic and learned baselines using geometric and functional criteria. Unless otherwise stated, the main
+comparison uses the reasoning-enabled GRPO model. Additional training-stage and direct-DSL results are provided
+in Appendix D.
+4.1 Benchmark and comparison protocol
+The comparison uses 109 released SceneSmith room shells: 31 bedrooms, 32 living rooms, 27 dining rooms, 13
+kitchens, and six bathrooms. SceneSmith contributes its released furnished scenes, which incorporate its native itera-
+tive refinement; the remaining methods generate layouts for the corresponding room shells. Architect-Ant, Holodeck,
+LayoutGPT, and LayoutVLM use the same Gemma-4-31B backbone, replacing their original language models where
+applicable. ATISS, InstructScene, and DiffuScene cover the 90 bedroom, living-room, and dining-room shells; the
+latter two receive no target-shell geometry. For the Gemma-based methods, dining rooms use the kitchen setting;
+implementation details are provided in Appendix G.
+For the regenerated methods, we evaluate four alternatives per room. Architect-Ant receives four furniture requests
+retrieved from same-type AntPlan training rooms with similar dimensions. Other regenerated baselines keep the same
+room specification and produce four alternatives through independent sampling or random seeds. One final layout is
+then selected per room.
+The methods differ in how they process each alternative. Architect-Ant samples five layouts per furniture request,
+yielding 20 candidates per room ranked by LRS. Holodeck generates object choices and spatial constraints before
+searching for a feasible placement; LayoutGPT produces a layout in a single completion; LayoutVLM generates a
+constraint program and optimizes object placement; and ATISS, InstructScene, and DiffuScene each sample a layout
+from their learned models. SceneSmith uses repeated planner–designer–critic interactions with a scene-dependent
+number of revisions and a default budget of up to 1,000 turns per agent. All Architect-Ant candidate generation and
+selection are included in its reported inference time. Appendix G provides full protocol details.
+From the SceneSmith scenes, we retain all assets labeled as furniture and, from its wall-mounted, manipuland, and
+ceiling-mounted classes, only objects whose categories are supported by our 53-class evaluation taxonomy.
+6
+Table 3: Comparison on SceneSmith room shells; values are room-level means. Dark/light green indicate the
+best/second-best geometric and functional results. COL+ and OOB are lower-is-better;↑indicates higher-is-better.
+Counts, coverage, and runtimes are not ranked.
+Scene statistics Metrics and runtime
+Method Base
+model Scenes # Obj./
+room
+# Obj./
+10m2
+Cov.
+(%)
+COL+↓
+(%)
+OOB↓
+(%)
+Acc. pairs↑
+(%)
+FUN+↑
+(%) LRS↑ Time↓
+(s/scene)
+ATISS Transformer 90 6.5 3.10 29.5 24.1 18.1 95.2 84 1.50 20.2
+InstructScene Graph diff. 90 7.2 3.15 26.3 13.7 20.9 86.9 63−2.8221.6
+DiffuScene Diffusion 90 8.0 3.47 26.5 18.1 20.8 82.7 71−3.5574.3
+LayoutGPT Gemma-4 109 7.8 4.00 21.9 8.6 8.5 97.4 84 2.10 67.7
+LayoutVLM Gemma-4 109 8.2 4.22 28.1 12.7 16.0 94.0 86 6.29 272.0
+Holodeck Gemma-4 109 9.1 4.59 34.7 0.0 0.0 99.5 78 7.84 432
+SceneSmith GPT-5.2 109 8.9 4.50 23.4 3.4 1.3 99.4 91 8.44 1555
+Architect-AntGemma-4 109 10.8 5.45 29.1 0.6 0.6 97.2 94 8.80 95.4
+4.2 Metrics and comparison results
+Table 3 reports room-level means. We separate descriptive scene statistics from geometric and functional quality
+metrics.# Obj./room,# Obj./10m 2, andCoveragecharacterize furnishing density. Coverage is the union of furniture
+footprints inside the room divided by floor area, excluding floor coverings and soft accessories; it measures occupancy
+rather than quality, so higher values are not necessarily better.
+For geometric validity,COL+reports the fraction of objects involved in an invalid collision after category-aware
+filtering. Raw overlap is unsuitable because many furniture overlaps are intentional, such as chairs partly under
+tables, rugs beneath furniture, or inset fixtures.OOBmeasures the fraction of objects extending outside the room
+boundary.Acc. pairsmeasures the fraction of relevant furniture and door targets that remain mutually reachable.
+FUN+(functional completeness) is the percentage of required room functions supported by contained, reachable
+objects, such as sleeping, washing, or cooking. Appendix G lists the required functions and eligibility checks.
+LRSis the room-aware score defined in Section 3.4. It combines geometric and functional penalties, including
+relationships not captured by collision or containment alone, and omits inventory-matching and training-only reward
+terms. Low COL+ or OOB therefore does not by itself imply a usable layout: objects may still block openings, violate
+functional relationships, or leave required functions unsatisfied. We interpret the metrics jointly with scene statistics
+and qualitative results. Appendix G defines the metrics; Appendix D reports LRS for annotated AntPlan reference
+layouts.
+Architect-Ant achieves the highest mean FUN+ and LRS while maintaining low collision and out-of-bounds rates.
+Within the evaluated furnishing categories, it also produces the highest mean number of furniture objects per room,
+indicating that geometric validity is not obtained through sparse layouts. Architect-Ant’s accessible-pair rate (97.2%)
+is within 2.3 points of the best method (Holodeck, 99.5%). Qualitative comparisons in Figure 5 reveal differences
+not fully captured by these metrics: Holodeck may obstruct doors or windows, SceneSmith can produce sparse
+arrangements or implausible orientations, and the learned baselines show visible object overlaps in several cases.
+Architect-Ant generally produces fuller arrangements while preserving openings, circulation, and functional relation-
+ships. Architect-Ant and all regenerated baselines are run on the same two NVIDIA H100 80GB GPUs. Reported
+times include candidate generation and scene construction; Architect-Ant’s estimated total is 95.4 s per room. Scene-
+Smith’s 1,555 s entry is an object-count-normalized estimate from its full pipeline, not a measured rerun on the filtered
+objects. Appendix G gives the timing scopes and breakdowns.
+4.3 VLM-based visual preference
+We complement geometric and functional diagnostics with a pairwise visual preference study on the 109 shared room
+shells. Claude Sonnet 5 (Anthropic, 2026) and Kimi K3 (Moonshot AI, 2026) compare anonymous Architect-Ant
+and SceneSmith renders using the same prompt, images, and randomized A/B assignments. As shown in Table 4,
+Sonnet prefers Architect-Ant in 72/109 rooms and Kimi in 74/109, with both showing the strongest preference on
+kitchen/dining shells; SceneSmith is preferred in four of the six bathrooms. LRS also favors Architect-Ant (8.80 vs.
+8.44 overall), agreeing with the judges’ aggregate preference while measuring geometric and functional constraints.
+Appendix H provides the full protocol, prompts, whole-house comparison, and example pairs.
+7
+Figure 5: 3D visualizations on shared room shells for bathrooms, kitchens, living rooms, and bedrooms. Learned
+3D-FRONT baselines are shown only for supported room categories. The scenes provide qualitative comparisons;
+quantitative evaluation is performed on the layout geometry.
+8
+Table 4: Pairwise visual preference on shared SceneSmith room shells, reported as Architect-Ant wins / ties / Scene-
+Smith wins. The final row reports mean LRS for Architect-Ant / SceneSmith.
+Evaluator Bathroom (n= 6) Bedroom (n= 31) Kitchen/dining (n= 40) Living room (n= 32) Overall (n= 109)
+Claude Sonnet 5 2 / 0 /4 18/ 1 / 1232/ 0 / 820/ 0 / 1272/ 1 / 36
+Kimi K3 2 / 0 /4 19/ 0 / 1231/ 0 / 922/ 1 / 974/ 1 / 34
+Mean LRS 9.00 /9.17 9.12/ 8.548.30/ 8.159.09/ 8.568.80/ 8.44
+Table 5: Validation LRS over valid layouts (mean±CI half-width), with eight samples per room: (a) mean; (b)
+best-of-eight. Bold: row maximum.
+(a) Mean LRS
+Room
+Base
+DSL
+SFT
+DSL
+SFT (DSL) +
+GRPO reasoning
+Kitchen−11.71±3.62−0.75±1.963.48±1.82
+Bathroom−0.53±1.356.25±0.887.00±0.74
+Living room2.29±1.505.41±0.936.22±0.92
+Bedroom−1.51±1.585.71±0.966.02±0.75
+(b) Best-of-8 LRS
+Room
+Base
+DSL
+SFT
+DSL
+SFT (DSL) +
+GRPO reasoning
+Kitchen−2.37±2.905.73±1.215.80±1.70
+Bathroom4.00±1.138.50±0.609.00±0.43
+Living room6.54±1.028.77±0.558.95±0.53
+Bedroom3.89±1.258.48±0.478.79±0.46
+4.4 Effect of SFT and GRPO
+On the 243 held-out AntPlan rooms, we compare the base model with direct DSL output, five-epoch direct-DSL
+SFT, and SFT followed by reasoning-enabled GRPO. Each generates eight samples per room; only parseable, non-
+empty layouts are retained and scored by raw LRS. Table 5 reports the retained-layout mean and best sample per
+room. Adding reasoning-enabled GRPO after SFT improves both mean and best-of-eight LRS in all four room types.
+Appendix D compares this recipe with direct-DSL GRPO and with GRPO without SFT.
+5 Conclusion
+We presented Architect-Ant, a model for generating editable furniture layouts from architectural floor plans. Su-
+pervised fine-tuning on AntPlan teaches furnishing patterns, and GRPO improves layout quality using LRS rewards
+without supervised reasoning traces. The generated layouts can be evaluated geometrically and converted into fur-
+nished 3D scenes.
+Architect-Ant achieves the highest mean functional-completeness (94%) and LRS (8.80) among the compared
+methods, with collision and out-of-bounds rates of 0.6% each. Both visual judges favor Architect-Ant over Scene-
+Smith, preferring its layouts in 72 and 74 of the 109 paired rooms. These results show that direct layout generation can
+achieve strong geometric, functional, and visual performance without an iterative model-based critique loop. Future
+work can extend this framework to additional object and scene properties, richer geometry, and more detailed spatial
+relationships while preserving structured, editable generation.
+Acknowledgments
+The work is supported by funding from King Abdullah University of Science and Technology (KAUST)—Center of
+Excellence for Generative AI, under award number 5940, and a gift from Google.
+References
+Mohamed Abouagour and Eleftherios Garyfallidis. ResPlan: A Large-Scale Vector-Graph Dataset of 17,000 Residen-
+tial Floor Plans.ArXiv, abs/2508.14006, 2025. URLhttps://api.semanticscholar.org/CorpusID:
+280686492.
+Anthropic. Claude Sonnet 5 System Card. Technical report, Anthropic, June 2026. URLhttps://www.
+anthropic.com/claude-sonnet-5-system-card.
+9
+Blender Online Community. Blender - a 3D modelling and rendering package. URLhttp://www.blender.org.
+Ata C ¸ elen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton Obukhov, and Xi Wang. I-Design: Person-
+alized LLM Interior Designer. InEuropean Conference on Computer Vision, pages 217–234. Springer, 2024. URL
+https://api.semanticscholar.org/CorpusID:268876421.
+Steve Dias da Cruz, Will Hutchcroft, Yuguang Li, Naji Khosravan, Ivaylo Boyadzhiev, and Sing Bing Kang. Zil-
+low Indoor Dataset: Annotated Floor Plans With 360° Panoramas and 3D Room Layouts.2021 IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR), pages 2133–2143, 2021. URLhttps:
+//api.semanticscholar.org/CorpusID:235694968.
+DeepSeek-AI. DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning.ArXiv,
+abs/2501.12948, 2025. URLhttps://api.semanticscholar.org/CorpusID:284488789.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador, Winson Han, Eric Kolve,
+Aniruddha Kembhavi, and Roozbeh Mottaghi. ProcTHOR: Large-Scale Embodied AI Using Procedural Gen-
+eration.Advances in Neural Information Processing Systems, 35:5982–5994, 2022. URLhttps://api.
+semanticscholar.org/CorpusID:249642405.
+Mathieu Delalandre, Ernest Valveny, and Jean-Yves Ramel. Recent contributions on the SESYD dataset for per-
+formance evaluation of symbol spotting systems. 2011. URLhttps://api.semanticscholar.org/
+CorpusID:7882321.
+Shihan Dou, Yan Liu, Haoxiang Jia, Enyu Zhou, Limao Xiong, Junjie Shan, Caishuang Huang, Xiao Wang, Xiaoran
+Fan, Zhiheng Xi, et al. StepCoder: Improving Code Generation with Reinforcement Learning from Compiler Feed-
+back. InProceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (V olume 1: Long
+Papers), pages 4571–4585, 2024. URLhttps://api.semanticscholar.org/CorpusID:271915494.
+Zhiwen Fan, Lingjie Zhu, Honghua Li, Xiaohao Chen, Siyu Zhu, and Ping Tan. FloorPlanCAD: A Large-Scale
+CAD Drawing Dataset for Panoptic Symbol Spotting.2021 IEEE/CVF International Conference on Computer
+Vision (ICCV), pages 10108–10117, 2021. URLhttps://api.semanticscholar.org/CorpusID:
+234742455.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu, Xin Eric Wang, and
+William Yang Wang. LayoutGPT: Compositional Visual Planning and Generation with Large Language Models.
+Advances in Neural Information Processing Systems, 36:18225–18250, 2023.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Cao Li, Zengqi Xun, Chengyue Sun, Yiyun Fei, Yu qiong
+Zheng, Ying Li, Yi Liu, Peng Liu, Lin Ma, Le Weng, Xiaohang Hu, Xin Ma, Qian Qian, Rongfei Jia, Bin-
+qiang Zhao, and Hao Helen Zhang. 3D-FRONT: 3D Furnished Rooms with layOuts and semaNTics.2021
+IEEE/CVF International Conference on Computer Vision (ICCV), pages 10913–10922, 2020a. URLhttps:
+//api.semanticscholar.org/CorpusID:227013144.
+Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Stephen J. Maybank, and Dacheng Tao. 3D-
+FUTURE: 3D Furniture Shape with TextURE.International Journal of Computer Vision, 129:3313 – 3337, 2020b.
+URLhttps://api.semanticscholar.org/CorpusID:221819358.
+Gemma Team. Gemma 4 Technical Report, 2026. URLhttps://arxiv.org/abs/2607.02770.
+Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, and Weizhu Chen.
+LoRA: Low-Rank Adaptation of Large Language Models.ArXiv, abs/2106.09685, 2021. URLhttps://api.
+semanticscholar.org/CorpusID:235458009.
+Ruizhen Hu, Zeyu Huang, Yuhan Tang, Oliver Matias van Kaick, Hao Zhang, and Hui Huang. Graph2Plan: Learning
+Floorplan Generation from Layout Graphs.ACM Transactions on Graphics (TOG), 39:118:1 – 118:14, 2020. URL
+https://api.semanticscholar.org/CorpusID:216562245.
+Ahti Kalervo, Juha Ylioinas, Markus H¨aiki¨o, Antti Karhu, and Juho Kannala. CubiCasa5K: A Dataset and an Improved
+Multi-Task Model for Floorplan Image Analysis. InScandinavian Conference on Image Analysis, pages 28–40.
+Springer, 2019. URLhttps://api.semanticscholar.org/CorpusID:102487507.
+10
+Mukul Khanna, Yongsen Mao, Hanxiao Jiang, Sanjay Haresh, Brennan Schacklett, Dhruv Batra, Alexander Clegg,
+Eric Undersander, Angel X. Chang, and Manolis Savva. Habitat Synthetic Scenes Dataset (HSSD-200): An
+Analysis of 3D Scene Scale and Realism Tradeoffs for ObjectGoal Navigation.2024 IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR), pages 16384–16393, 2023. URLhttps://api.
+semanticscholar.org/CorpusID:259203445.
+Hung Le, Yue Wang, Akhilesh Deepak Gotmare, Silvio Savarese, and Steven Chu Hong Hoi. CodeRL: Mastering
+Code Generation through Pretrained Models and Deep Reinforcement Learning.Advances in Neural Information
+Processing Systems, 35:21314–21328, 2022. URLhttps://api.semanticscholar.org/CorpusID:
+250280117.
+Kurt Leimer, Paul Guerrero, Tomer Weiss, and Przemyslaw Musialski. LayoutEnhancer: Generating Good In-
+door Layouts from Imperfect Data.SIGGRAPH Asia 2022 Conference Papers, 2022. URLhttps://api.
+semanticscholar.org/CorpusID:252734701.
+Chenguo Lin and Yadong Mu. InstructScene: Instruction-Driven 3D Indoor Scene Synthesis with Semantic
+Graph Prior. InThe Twelfth International Conference on Learning Representations, 2024. URLhttps:
+//openreview.net/forum?id=LtuRgL03pI.
+Zichen Liu, Changyu Chen, Wenjun Li, Penghui Qi, Tianyu Pang, Chao Du, Wee Sun Lee, and Min Lin. Un-
+derstanding R1-Zero-Like Training: A Critical Perspective.ArXiv, abs/2503.20783, 2025. URLhttps:
+//api.semanticscholar.org/CorpusID:277322777.
+Ilya Loshchilov and Frank Hutter. Decoupled Weight Decay Regularization. InInternational Conference on Learning
+Representations, 2017. URLhttps://api.semanticscholar.org/CorpusID:53592270.
+Wenyu Lv, Yian Zhao, Qinyao Chang, Kui Huang, Guanzhong Wang, and Yi Liu. RT-DETRv2: Improved Baseline
+with Bag-of-Freebies for Real-Time Detection Transformer.ArXiv, abs/2407.17140, 2024. URLhttps://api.
+semanticscholar.org/CorpusID:271404151.
+Paul C. Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala, and Vladlen Koltun. Interactive furniture layout using
+interior design guidelines.ACM SIGGRAPH 2011 papers, 2011. URLhttps://api.semanticscholar.
+org/CorpusID:53246134.
+Moonshot AI. Kimi K3: Open Frontier Intelligence, July 2026. URLhttps://www.kimi.ai/blog/kimi-k3.
+Nelson Nauata, Kai-Hung Chang, Chin-Yi Cheng, Greg Mori, and Yasutaka Furukawa. House-GAN: Relational Gen-
+erative Adversarial Networks for Graph-constrained House Layout Generation. InEuropean Conference on Com-
+puter Vision, pages 162–177. Springer, 2020. URLhttps://api.semanticscholar.org/CorpusID:
+212725507.
+OpenAI. Introducing GPT-5.2, December 2025. URLhttps://openai.com/index/
+introducing-gpt-5-2/.
+Wamiq Reyaz Para, Paul Guerrero, Tom Kelly, Leonidas J. Guibas, and Peter Wonka. Generative Layout Modeling
+using Constraint Graphs.2021 IEEE/CVF International Conference on Computer Vision (ICCV), pages 6670–6680,
+2020. URLhttps://api.semanticscholar.org/CorpusID:227209310.
+Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and Sanja Fidler. ATISS: Au-
+toregressive Transformers for Indoor Scene Synthesis. InNeural Information Processing Systems, 2021. URL
+https://api.semanticscholar.org/CorpusID:238419213.
+Nicholas Pfaff, Thomas Cohn, Sergey Zakharov, Rick Cory, and Russ Tedrake. SceneSmith: Agentic Generation
+of Simulation-Ready Indoor Scenes. InF orty-third International Conference on Machine Learning, 2026. URL
+https://api.semanticscholar.org/CorpusID:285463147.
+Mohammad Amin Shabani, Sepidehsadat Hosseini, and Yasutaka Furukawa. HouseDiffusion: Vector Floorplan Gen-
+eration via a Diffusion Model with Discrete and Continuous Denoising.2023 IEEE/CVF Conference on Computer
+Vision and Pattern Recognition (CVPR), pages 5466–5475, 2022. URLhttps://api.semanticscholar.
+org/CorpusID:254018175.
+11
+Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junxiao Song, Xiao Bi, Haowei Zhang, Mingchuan Zhang, YK Li,
+Yang Wu, et al. DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models.ArXiv,
+abs/2402.03300, 2024. URLhttps://api.semanticscholar.org/CorpusID:267412607.
+Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat, Federico Tombari, Manling Li, Nick Haber, and Jia-
+jun Wu. LayoutVLM: Differentiable Optimization of 3D Layout via Vision-Language Models.2025 IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR), pages 29469–29478, 2024. URLhttps:
+//api.semanticscholar.org/CorpusID:274446060.
+Hou In Ivan Tam, Hou In Derek Pun, Austin T. Wang, Angel X. Chang, and Manolis Savva. SceneEval: Evaluating
+Semantic Coherence in Text-Conditioned 3D Indoor Scene Synthesis.2026 IEEE/CVF Winter Conference on
+Applications of Computer Vision (WACV), pages 7355–7365, 2025. URLhttps://api.semanticscholar.
+org/CorpusID:277113092.
+Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner. DiffuScene: Denois-
+ing Diffusion Models for Generative Indoor Scene Synthesis.2024 IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR), pages 20507–20518, 2023. URLhttps://api.semanticscholar.org/
+CorpusID:268363865.
+Casper Van Engelenburg, Fatemeh Mostafavi, Emanuel Kuhn, Yuntae Jeon, Michael Franzen, Matthias Stand-
+fest, Jan van Gemert, and Seyran Khademi. MSD: A Benchmark Dataset for Floor Plan Generation of Build-
+ing Complexes. InEuropean Conference on Computer Vision, pages 60–75. Springer, 2024. URLhttps:
+//api.semanticscholar.org/CorpusID:271213468.
+Wenming Wu, Xiaoming Fu, Rui Tang, Yuhan Wang, Yuanhang Qi, and Ligang Liu. Data-driven interior plan
+generation for residential buildings.ACM Transactions on Graphics (TOG), 38:1 – 12, 2019. URLhttps:
+//api.semanticscholar.org/CorpusID:207998029.
+Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi Gao, Jinyu Yang, Victor Sanchez, and Feng Zheng. LLM-
+driven Indoor Scene Layout Generation via Scaled Human-aligned Data Synthesis and Multi-Stage Preference
+Optimization.Advances in Neural Information Processing Systems, 38:42499–42529, 2025. URLhttps://
+api.semanticscholar.org/CorpusID:279251590.
+Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson Han, Jiajun Wu, Nick Haber, Ranjay
+Krishna, Lingjie Liu, Chris Callison-Burch, Mark Yatskar, Aniruddha Kembhavi, and Christopher Clark. Holodeck:
+Language Guided Generation of 3D Embodied AI Environments.2024 IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR), pages 16277–16287, 2023. URLhttps://api.semanticscholar.org/
+CorpusID:266210109.
+Lap-Fai Yu, Sai Kit Yeung, Chi-Keung Tang, Demetri Terzopoulos, Tony F Chan, and Stanley J Osher. Make it
+home: Automatic Optimization of Furniture Arrangement.ACM SIGGRAPH 2011 papers, 30(4):86, 2011. URL
+https://api.semanticscholar.org/CorpusID:14227.
+Jia Zheng, Junfei Zhang, Jing Li, Rui Tang, Shenghua Gao, and Zihan Zhou. Structured3D: A Large Photo-realistic
+Dataset for Structured 3D Modeling. InEuropean Conference on Computer Vision, pages 519–535. Springer, 2020.
+URLhttps://api.semanticscholar.org/CorpusID:199064623.
+12
+A AntPlan dataset
+AntPlan pairs original architectural floor-plan images with structural, room, and object annotations. Its vocabulary
+comprises ten room categories and 92 object classes, covering furniture, fixtures, appliances, accessories, and service
+elements. The original drawings and separate annotation layers support both architectural drawing understanding and
+the construction of room-level furnishing examples.
+Figure 6: An annotated AntPlan example. Left: the original architectural drawing. Center: structural and object
+bounding boxes with semantic labels. Right: annotated room regions and room categories.
+A.1 Annotation workflow
+The plans are collected from publicly accessible sources and retain their original drawing styles. Structural annotation
+begins with an RT-DETR-X detector (Lv et al., 2024) trained on CubiCasa5K (Kalervo et al., 2019), extracting walls,
+doors, windows, and railings. Room regions and their semantic categories are labeled manually. A separate furniture
+detector is bootstrapped from a hand-labeled subset and applied to the remaining drawings, followed by manual review
+and correction. This workflow combines detector proposals with human annotation rather than requiring every object
+box to be drawn from scratch.
+The annotation layers describe different aspects of the same image. Room labels identify functional regions,
+including separate kitchen, dining, and living regions within an open-plan interior. Object labels specify a category
+and an axis-aligned bounding box for each annotated instance. Structural boxes describe the building geometry and
+openings independently of movable furniture. The saved structural layer also carries linkage-point annotations; these
+are retained in the data records but are not included in the furnishing model’s text input.
+Figure 6 illustrates these layers on one floor plan. The object vocabulary distinguishes furniture and appliances
+from details such as radiators, pipes, and plumbing chases that can affect usable space. Detector-assisted annotations
+remain subject to missed symbols, ambiguous classes, and imperfect box boundaries. We therefore treat the reviewed
+furniture annotations as pseudo-labels rather than claiming exhaustive annotation accuracy.
+A.2 Dataset statistics
+The cleaned annotation snapshot contains 505 plans with room labels, totaling 4,495 room annotations and 26,716
+object annotations. This corresponds to 8.90 rooms per room-labeled plan and 53.01 objects per object-labeled plan.
+Of the object annotations, 26,001 are associated with a room and 715 remain unassigned. Table 6 reports the room-
+associated counts before the filtering used for model adaptation.
+A.3 Saved records and room extraction
+Each floor plan is linked by a shared identifier to its original image and separate object, room, and structural label
+files. The label files store a class index and normalized bounding-box center, width, and height; the accompanying
+class dictionaries resolve indices to semantic names. A combined JSON record stores the image dimensions, structural
+boxes, room categories and boxes, objects associated with each room, and any unassigned objects. At this full-plan
+13
+Table 6: AntPlan annotations by room category, before experimental filtering. Object counts include all annotated
+classes assigned to each room, including accessories and service elements. Observed class counts overlap across
+categories and are not the model whitelists. Unassigned objects are excluded from this table.
+Room category Rooms Objects Objects/room Observed classes
+Bedroom 790 7,048 8.92 67
+Bathroom 769 4,145 5.39 51
+Kitchen 486 5,485 11.29 56
+Living room 550 5,097 9.27 61
+Dining room 80 720 9.00 38
+Entry 457 937 2.05 43
+Storage 443 1,226 2.77 48
+Balcony 264 745 2.82 48
+Terrace 33 38 1.15 10
+Other 623 560 0.90 60
+Total 4,495 26,001 5.78 92
+level, boxes use image-pixel coordinates in the order(x min,y min,x max,y max). Saved overlays and schematic views
+provide visual checks of these records.
+For the floor plan in Figure 6, the saved record links the original drawing to ten room regions and 38 object annota-
+tions. One of its room entries has classbedroom, with abedobject whose pixel box is[1309.2,206.2,1496.2,376.2].
+These full-plan records preserve the original annotations; the furnishing examples are derived from them.
+For each eligible room, we crop its annotated region with a 0.5 m context margin, limited by the image boundary.
+Pixel geometry is converted to room-local metric coordinates using a scale estimated from the median annotated
+door-opening width, assuming a width of 0.8 m. This is an approximate scale calibration rather than a measurement
+recovered from the drawing’s dimension text. Structural and object boxes are clipped to the crop, translated to its
+top-left origin, and rounded to two decimal places in meters. Rooms from plans without a usable door-based scale
+cannot enter this extraction stage.
+A derived room record retains its parent identifier and room index, room category, scale estimate, crop bounds,
+room bounds, structural geometry, and furniture boxes. For instance, the kitchen in Figure 6 has an extracted frame
+measuring4.37×4.14m and contains five object annotations. The training record links this geometry to a structure-
+only image, a furniture request, and the target DSL. Object classes, counts, and approximate sizes form the request,
+while their positions form the supervision. The structure-only model image omits the target furniture, although the
+original furnished image remains part of the dataset.
+A.4 Experimental splits and class whitelists
+The furnishing experiments use bedroom, bathroom, kitchen, and living-room subsets of the cleaned annotations.
+For each modeled room category, object labels are normalized to DSL class names and filtered by the corresponding
+whitelist in Table 8. A bathroom must retain at least one object; the other three room types must retain at least two.
+The four whitelists contain 53 distinct DSL classes in total. These filters define the experimental subsets and do not
+remove classes from the full annotation vocabulary.
+Within each room type, all examples from one source plan belong to the same training or validation split. The
+partitions are room-specific: a source plan can occur in training for one adapter and validation for another. The direct-
+DSL and reasoning prompt variants retain the same room membership, structure-only images, furniture requests,
+and target layouts. The original annotation-layer train/validation folders and these room-level furnishing splits serve
+different tasks and should not be conflated.
+14

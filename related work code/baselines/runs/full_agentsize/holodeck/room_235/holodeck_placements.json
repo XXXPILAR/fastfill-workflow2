@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.275,
+    "z": 2.195
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     225.0,
+     324.5
+    ],
+    [
+     225.0,
+     114.5
+    ],
+    [
+     75.0,
+     114.5
+    ],
+    [
+     75.0,
+     324.5
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.9,
+    "y": 1.05,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     155.0,
+     -4.5
+    ],
+    [
+     155.0,
+     65.5
+    ],
+    [
+     25.0,
+     65.5
+    ],
+    [
+     25.0,
+     -4.5
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "nightstand-0",
+   "id": "nightstand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.45,
+    "y": 0.275,
+    "z": 2.995
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     72.5,
+     324.5
+    ],
+    [
+     72.5,
+     274.5
+    ],
+    [
+     17.5,
+     274.5
+    ],
+    [
+     17.5,
+     324.5
+    ]
+   ],
+   "object_name": "nightstand-0"
+  },
+  {
+   "assetId": "nightstand-1",
+   "id": "nightstand-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.20501963515780905,
+    "y": 0.275,
+    "z": 2.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5019635157809,
+     212.5
+    ],
+    [
+     45.5019635157809,
+     267.5
+    ],
+    [
+     -4.498036484219096,
+     267.5
+    ],
+    [
+     -4.498036484219096,
+     212.5
+    ]
+   ],
+   "object_name": "nightstand-1"
+  }
+ ],
+ "wall": []
+}

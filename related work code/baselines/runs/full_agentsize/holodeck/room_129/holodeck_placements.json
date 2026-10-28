@@ -1,0 +1,162 @@
+{
+ "floor": [
+  {
+   "assetId": "shared wardrobe-0",
+   "id": "shared wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.72,
+    "y": 1.0,
+    "z": 0.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     139.5,
+     15.0
+    ],
+    [
+     139.5,
+     145.0
+    ],
+    [
+     204.5,
+     145.0
+    ],
+    [
+     204.5,
+     15.0
+    ]
+   ],
+   "object_name": "shared wardrobe-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall shelf-0",
+   "id": "wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.89,
+    "y": 2.425,
+    "z": 0.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     200.0,
+     0.0
+    ],
+    [
+     200.0,
+     80.0
+    ],
+    [
+     180.0,
+     80.0
+    ],
+    [
+     180.0,
+     0.0
+    ],
+    [
+     200.0,
+     0.0
+    ]
+   ],
+   "object_name": "wall shelf-0"
+  },
+  {
+   "assetId": "wall shelf-1",
+   "id": "wall shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.89,
+    "y": 2.425,
+    "z": 1.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     200.0,
+     90.0
+    ],
+    [
+     200.0,
+     170.0
+    ],
+    [
+     180.0,
+     170.0
+    ],
+    [
+     180.0,
+     90.0
+    ],
+    [
+     200.0,
+     90.0
+    ]
+   ],
+   "object_name": "wall shelf-1"
+  },
+  {
+   "assetId": "wall art panel-0",
+   "id": "wall art panel-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.8,
+    "y": 1.65,
+    "z": 1.975
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     105.0,
+     197.0
+    ],
+    [
+     105.0,
+     200.0
+    ],
+    [
+     55.0,
+     200.0
+    ],
+    [
+     55.0,
+     197.0
+    ],
+    [
+     105.0,
+     197.0
+    ]
+   ],
+   "object_name": "wall art panel-0"
+  }
+ ]
+}

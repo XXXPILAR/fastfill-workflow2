@@ -1,0 +1,20 @@
+{
+ "rows": "../test300/rows.jsonl",
+ "model": "gpt-5.6-sol",
+ "base_url": "https://api.openai.com/v1",
+ "sizes": {
+  "file": "../server_runs/test300-v4/test300_base/predictions_spread.jsonl"
+ },
+ "yaw_mode": "prompt",
+ "placement": "simple",
+ "semantic": true,
+ "critic": true,
+ "robot": {
+  "width_m": 0.5,
+  "arm_m": 0.4
+ },
+ "drafts": 2,
+ "resize": true,
+ "budget_usd": 15.0,
+ "rooms": 20
+}

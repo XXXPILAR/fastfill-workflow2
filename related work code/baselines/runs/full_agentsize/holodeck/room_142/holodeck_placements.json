@@ -1,0 +1,190 @@
+{
+ "floor": [
+  {
+   "assetId": "bathtub-0",
+   "id": "bathtub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.4,
+    "y": 0.3,
+    "z": 0.43
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     335.0,
+     -4.5
+    ],
+    [
+     335.0,
+     90.5
+    ],
+    [
+     145.0,
+     90.5
+    ],
+    [
+     145.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bathtub-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 0.39,
+    "z": 2.635
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     85.0,
+     304.5
+    ],
+    [
+     85.0,
+     222.5
+    ],
+    [
+     35.0,
+     222.5
+    ],
+    [
+     35.0,
+     304.5
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "bidet-0",
+   "id": "bidet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.21,
+    "z": 2.705
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     144.0,
+     304.5
+    ],
+    [
+     144.0,
+     236.5
+    ],
+    [
+     96.0,
+     236.5
+    ],
+    [
+     96.0,
+     304.5
+    ]
+   ],
+   "object_name": "bidet-0"
+  },
+  {
+   "assetId": "towel rack-0",
+   "id": "towel rack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 0.45,
+    "z": 0.155
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     137.5,
+     -4.5
+    ],
+    [
+     137.5,
+     35.5
+    ],
+    [
+     62.5,
+     35.5
+    ],
+    [
+     62.5,
+     -4.5
+    ]
+   ],
+   "object_name": "towel rack-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "vanity-0",
+   "id": "vanity-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 1.15,
+    "z": 2.7150000000000003
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     210.0,
+     245.0
+    ],
+    [
+     210.0,
+     300.0
+    ],
+    [
+     30.0,
+     300.0
+    ],
+    [
+     30.0,
+     245.0
+    ],
+    [
+     210.0,
+     245.0
+    ]
+   ],
+   "object_name": "vanity-0"
+  }
+ ]
+}

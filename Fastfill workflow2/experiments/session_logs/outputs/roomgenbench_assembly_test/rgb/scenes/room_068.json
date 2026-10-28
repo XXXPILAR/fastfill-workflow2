@@ -1,0 +1,180 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_068",
+ "room_type": "room",
+ "room": {
+  "width": 3.4375,
+  "length": 3.4375,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    -0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 11
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "washing machine",
+   "asset_key": "washing_machine_946b6d2c",
+   "description": "washing machine",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "sink",
+   "asset_key": "sink_6f2b8356",
+   "description": "sink",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "washing machine",
+   "asset_key": "washing_machine_946b6d2c",
+   "description": "washing machine",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "plant",
+   "asset_key": "plant_baf0bf92",
+   "description": "plant",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_010"
+  }
+ ]
+}

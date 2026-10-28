@@ -1,0 +1,680 @@
+EmbodiedSmith: Scaling Embodied Data
+through Recursive Self-Improvement
+Flywheel in Simulation
+Yikai Qin 1,∗,Yifei Deng 1,∗,Mingjian Liang 1,∗,Wenxuan Song 1,2,†,∗,Zepeng Lin 1,∗,Zhiyi
+Jiang3,∗,Jiajun Fu 4,7,Qiao Sun 2,Huashuo Lei 1,Xicheng Gong 8,Jiayi Chen 1,Han Zhao 5,6,
+Shuanghao Bai 7,9,Pengxiang Ding 5,6,7,Pengwei Wang 10,Haoang Li 1,‡
+1The Hong Kong University of Science and Technology (Guangzhou),2Xiaomi Robotics,
+3Southeastern University, 4Tsinghua University,5Zhejiang University, 6Westlake University,
+7Symbiosis Robotics, 8Peking University, 9Xi’an Jiaotong University,10Beijing Academy of Artificial
+Intelligence
+∗Equal Contribution,†Project Lead,‡Corresponding Author
+Scaling robotic foundation models requires diverse training data and reliable evaluation environments.
+Simulation offers a scalable solution, yet existing generation pipelines remain constrained by predefined
+assets and skills, a disconnect between scene generation and task generation, and limited support for
+complex embodiments and physics. We introduce EmbodiedSmith, a framework for scalable embodied
+data generation through recursive self-improvement (RSI). EmbodiedSmith unifies asset, scene, and
+task generation in a pipeline that supports autonomous creation and language-driven customization.
+Its core is an agentic refinement loop: scene generation anticipates downstream task requirements,
+while task generation guides targeted scene edits, allowing scenes and tasks to iteratively improve
+one another. This joint refinement improves task generation success, including for long-horizon tasks.
+The framework further supports mobile manipulators, humanoids, and dexterous hands, as well as
+interactions involving deformable objects and fluids, broadening the range of behaviors and physical
+phenomena represented in generated data. Together, these capabilities provide a flexible simulation
+engine for both robot pretraining and evaluation. Extensive experiments validate the quality, diversity,
+and generation efficiency of the resulting data, while downstream policy experiments demonstrate
+that increased data diversity improves generalization.
+Keywords:Generative AI, Robotic RSI
+1 Introduction
+Large-scale pretrained models have been validated as an effective path towards robot generalists that can
+perform everyday tasks across diverse environments (Kim et al., 2024; Bai et al., 2026; Song et al., 2026, 2025;
+Yang et al., 2026a; Chen et al., 2026b). A growing body of work has focused on collecting large-scale robot
+datasets and training high-capacity robotic foundation models. These models have demonstrated meaningful
+generalization to novel objects, environments, and tasks, showing great promise towards developing broadly
+capable policies.
+Simulation plays an important role in advancing large-scale pretrained models. First, as shown in Figure 1 (a),
+real-world robot data closely matches the target hardware but offers limited diversity and scalability, whereas
+egocentric and UMI data exhibit the opposite trade-off (Ye et al., 2026). Simulationdatacombines scalability
+and diversity with close alignment to the target hardware, making it an important data source for robot
+pretraining (Tian et al., 2026; Nasiriany et al., 2026; Authors, 2024). Second, simulation environments enable
+low-cost, fast, and reproducible large-scaleevaluation(Nasiriany et al., 2026) and provide an ideal evolving
+environment for robotic agents. Thus, as recursive self-improvement (RSI) techniques advance (Weng, 2026;
+Xiao et al., 2026), simulation environments are becoming an essential component of robotics infrastructure (Liu
+et al., 2026b; Authors, 2024).
+1
+arXiv:2610.07969v1  [cs.CV]  6 Oct 2026
+EmbodiedSmith(b) Scene generation
+(c) Task generation
+Scene and task
+Downstream task
+requirements
+Targeted editing
+Ground entities & skills
+Put the red cube in the tray; return Home
+pick(cube) place(cube, tray) home(robot)
+Ours
+Problem
+ Edit
+ Check
+Resize support
+Problem
+ Edit
+ Check
+Clear grasp space
+Problem
+ Edit
+ Check
+Restore reachability
+Red cube
+ Tray Franka FR3
+Plan & build
+Compile Check Revise
+Skill DAG
+Goal
+ Safety
+Fail
+Create a kitchen for breakfast setup.
+Robot: Franka
+Floor Tabletop
+Sim-ready
+S0
+Asset library
+ Image → 3D
+Articulated
+ Cloth
+ Deformable
+(d) Scene RSI
+(a) Why we need simulated engine
+HARDWARE
+PROXIMITY DIVERSITY SCALABILITY
+Robot teleop High Low Low
+UMI Moderate Moderate Moderate
+Egocentric video Low High High
+Simulation (prev.) Moderate Low High
+Simulation (ours) Relative High Moderate High
+Figure 1Overview of our EmbodiedSmith.Conditioned on a task and robot embodiment, EmbodiedSmith
+couples scene generation with task generation and execution, using feedback to iteratively refine scenes and replan.
+However, existing simulation generation methods still face several limitations: (1) limited diversity and
+customizability of scenes, assets, and skills, where the scenes and assets are already available in the dataset
+and skills are typically predefined or rule-based (Nasiriany et al., 2026); (2) limited physical realism (Wang
+et al., 2026a) due to inadequate support for deformable objects and fluids, both of which are essential
+components of the physical world; (3) low task execution success rates, as scene generation is decoupled
+from robot task generation, leaving the feasibility of planned actions unverified. This issue becomes more
+pronounced as tasks grow more complex or longer-horizon; (4) limited support for complex embodiments,
+including mobile manipulators, dexterous hands, and humanoids. Task generation for these embodiments is
+challenging (Li et al., 2026a), while missing these embodiments limits robots’ ability to acquire human-like
+dexterous behaviors.
+We introduce EmbodiedSmith, a framework for scalable embodied data generation through RSI. It is structured
+around four features:
+• High Data Diversity:We design strong 3D generation methods to generate any novel object,
+layout, and scene. Besides, we construct effective agents that autonomously create and compose
+new skills to accomplish diverse task generation. These generation capabilities, spanning multiple
+levels of abstraction, are integrated into a unified pipeline that supports autonomous generation and
+language-driven customization.
+• Rich Physics Simulation:We support assets and tasks involving more complex physics, including
+deformable objects and fluids, addressing gaps in existing data diversity and narrowing the gap between
+simulation and the real physical world.
+• RSI Data Generation:Scene generation anticipates downstream task requirements, while task
+generation can revise the scene through targeted editing. This agentic loop enables scene and task
+generation to recursively refine one another. This process substantially improves task generation success
+rates, allowing our simulation engine to maintain high success rates even for long-horizon tasks.
+• Human-level Dexterity: We extend robot task generation to mobile manipulators, humanoids, and
+dexterous hands, enabling EmbodiedSmith to generate data involving human-like dexterity.
+2
+By integrating these components, our EmbodiedSmith provides an effective, flexible, and comprehensive
+simulation data engine for robotic foundation models. It serves as an efficient source of pre-training data and
+enables systematic analysis of how task, environment, and embodiment diversity affect pre-trained models.
+It can also function as an effective evaluator, providing metrics and feedback that facilitate the iterative
+advancement of foundation models. Through extensive experiments, we validate the quality, diversity, and
+generation efficiency of the produced environments and demonstrations. Furthermore, experiments integrating
+the data with downstream policies demonstrate that greater data diversity improves model generalization.
+2 Related Work
+3D Scene Generation.3D scene generation has been studied through learned generative models, procedural
+and foundation-model-guided pipelines, and agentic systems. Data-driven methods learn object distributions
+and spatial relations from 3D scene datasets: DiffuScene and Mixed Diffusion model indoor layouts using
+diffusion processes (Tang et al., 2024; Hu et al., 2026), while PhyScene introduces collision, accessibility, and
+interaction constraints to improve physical plausibility (Yang et al., 2024a). Procedural methods instead
+assemble environments using predefined grammars and geometric rules, as demonstrated by ProcTHOR and
+Infinigen Indoors (Deitke et al., 2022; Raistrick et al., 2024). To enable open-vocabulary control, foundation-
+model-guided methods translate user instructions into structured scene layouts through direct coordinate
+prediction (Feng et al., 2023), language-guided asset retrieval (Yang et al., 2024b), vision-language-based
+layout optimization (Sun et al., 2025a), hierarchical scene composition (Pun et al., 2025), or explicit constraint
+planning (Sun et al., 2025b). Agentic methods introduce iterative reasoning and refinement, including
+self-reflective tool use (Yang et al., 2025) and coordinated semantic and physical correction (Gao et al.,
+2025). SAGE, SceneSmith, and EmbodiedGen V2 extend this paradigm toward embodied simulation by
+coupling multi-agent generation with task-aware composition, physical validation, interactive assets, and
+simulator-ready deployment (Xia et al., 2026; Pfaff et al., 2026; Wang et al., 2025).
+Sim-ready 3D Assets Generation.3D asset generation is increasingly moving beyond visual fidelity toward
+interactive and physically grounded representations required by simulation. To make static assets interactive,
+articulated generation models part structure and kinematics from visual or geometric inputs, as explored in
+PAct (Liu et al., 2026a) and SIMART (Zhang et al., 2026). Agentic approaches further make this process
+iterative and verifiable, with articulation refined through closed-loop visual feedback in Articulate-Anything (Le
+et al., 2024) and constructed through program synthesis with executable validation in Articraft (Zhou et al.,
+2026). Beyond kinematics, physical generation seeks to model how assets behave during interaction. Joint
+reasoning over geometry, articulation, and physical properties is introduced in PhysX-Anything (Cao et al.,
+2025), while functional and kinematic constraints guide asset synthesis in PhysForge (Yang et al., 2026b).
+Recent work moves toward broader physical grounding through intrinsic property modeling in UniPhysGen (Li
+et al., 2026b), unified rigid, articulated, and deformable generation in PhysX-Omni (Cao et al., 2026), and
+simulation-diagnosed deformable refinement in DiagGen (Chen et al., 2026a). At the system level, automated
+validation and simulator deployment are integrated with asset generation in EmbodiedGen V2 (Wang et al.,
+2025).
+Simulated Robot Demonstration Generation.Humanoid simulation benchmarks increasingly cover
+locomotion and object interaction within the same embodiment. HumanoidBench (Sferrazza et al., 2024)
+provides a standardized suite of whole-body locomotion and dexterous manipulation tasks, while SIMPLE
+(Wei et al., 2026) combines contact-rich simulation and photorealistic rendering with motion-planning and
+teleoperation pipelines for demonstration collection. More directly, HumanoidGen (Jing et al., 2025) generates
+language-conditioned bimanual tasks and demonstrations through spatial constraints, and HumanoidMim-
+icGen (Lin et al., 2026) adapts segmented source demonstrations to new configurations using whole-body
+planning. These works establish important benchmark and synthesis capabilities, but their reported settings
+center on curated task suites, annotated manipulation primitives, or source-demonstration-dependent skill
+sequences. Mapping newly instantiated scene–task combinations to executable, feasibility-checked whole-body
+demonstrations through a reusable skill interface remains less systematically examined.
+3
+Scene Generation
+Input
+Functional Zones
+Kitchen
+Prep
+Counter
+Sink
+Dining
+Table
+Chairs
+Storage
+Cabinets
+Image Gen Scene Graph Refine
+Built Scene
+(d) Tabletop Planning
+Breakfast setup
+on
+on
+on
+Table
+Cup Plate Spoon
+Sim-Ready Scene S₀
+(a) Scene Planning (b) Visual Grounding (c) Scene Construction
+Asset Library
+Retrieve
+Asset Generation
+3D Asset
+Image to 3D
+Articulated
+T ext + joints
+Layout Solver
+Physics Check
+Fail
+Pass
+Layout Solver
+Physics Check
+FailPass
+Task instruction
+Asset Parameters
+Interaction Grasp poses
+Convex 
+decomposition
+Fluid
+Text-to-image
+Deformable
+Scene: 6 x 5 m kitchen
+Task: Breakfast setup
+Robot: Franka Panda
+Scene Integration
+Figure 2Scene overview.Our system transforms scene specifications, task instructions, and robot configurations
+into simulation-ready 3D scenes through functional zone planning, visual grounding, asset retrieval and generation,
+and physics-validated scene and tabletop layout optimization.
+3 Method
+Given a task specification and robot embodiment, EmbodiedSmith generates validated robot demonstrations
+through the RSI pipeline in Figure 1. Section 3.1 constructs task-conditioned scenes through asset generation,
+scene generation, and scene edit. Section 3.2 grounds tasks into executable skill plans and refines them through
+generation and execution feedback. Section 3.3 extends execution to humanoid and dexterous embodiments
+through embodiment-specific adapters.
+3.1 Environment Construction
+EmbodiedSmith constructs task-conditioned simulation scenes through Asset Generation, Scene Generation,
+and feedback-driven Scene Edit.
+Asset Generation.Existing asset libraries provide broad object coverage but often differ in semantic labels,
+coordinate conventions, scale, and geometric quality, while on-demand 3D generation extends open-category
+coverage at the cost of less reliable geometry and physical properties. We therefore maintain a continuously
+expandable asset pool that combines validated open-source assets with scene-conditioned generated assets.
+Existing assets are canonicalized by a VLM using multi-view renderings and metadata to align semantic
+categories, orientations, coordinate systems, and real-world scales, and are subsequently checked for semantic
+correctness, geometric integrity, and scene compatibility. When retrieval cannot provide a suitable asset, we
+first refine a scene-consistent reference image in image space to control its dimensions, appearance, and coarse
+structure, and then reconstruct it into a textured 3D asset using SAM3D (Team et al., 2025). The resulting
+asset is scaled, geometrically repaired when necessary, and equipped with collision geometry through adaptive
+convex decomposition. A VLM further assigns category-consistent physical parameters, while simulation-based
+resting, contact, and perturbation tests verify geometric and physical validity. Both retrieved and generated
+assets pass through the same validation pipeline: failed candidates are repaired or regenerated, whereas
+validated assets are stored in the persistent pool for reuse across scenes.
+4
+Physical Asset Generation.Physical asset generation extends the common asset pipeline through three
+stages of construction, physics validation, and task validation, aiming to produce assets that are simulator-
+compatible, exhibit the intended physical behavior, and support downstream robotic interactions. In the
+construction stage, articulated assets follow an Articraft-based (Zhou et al., 2026) loop in which an LLM
+iteratively writes and revises construction programs against a domain-specific SDK using compiler and
+validation feedback. Generation further incorporates downstream robotic constraints, including metric
+scale, simulator coordinate-frame conventions, gripper compatibility, and modality-specific motion ranges.
+Deformable generation supports part-aware volumetric representations with regional material properties, while
+the evaluated implementation adopts a simplified procedural representation with uniform material properties,
+subsequently calibrated for interaction stability. Fluid assets similarly couple geometry with solver-specific
+physical parameters to support interactions such as pouring.
+In the physics validation stage, constructed assets are evaluated for their intended behavior in simulation.
+Articulated assets are checked for inertial consistency, functional joint motion, grasp keypoints, and enclosure
+geometry, while deformable and fluid assets undergo corresponding deformation- and flow-based probes. For
+the evaluated deformable configuration, incomplete post-release recovery is documented as a known limitation
+rather than an acceptance criterion. Failed gated checks trigger targeted revisions, with non-improving changes
+reverted. In the task validation stage, CuRobo (Sundaralingam et al., 2023) first assesses collision-free motion
+feasibility before simulator execution. If manipulation fails, an agent role distinct from execution analyzes
+telemetry to identify whether task configurations, typed execution skills, or derived simulator assets require
+revision. Repairs are then applied and revalidated against the failed criterion, with unsuccessful changes
+reverted. Revisions to derived assets follow reproducible procedures that preserve the original source assets.
+Only episodes passing scene inspection, motion planning, and data export are retained as keepers, with
+validation records tied to the corresponding robot configuration. Integration into the scene generator remains
+downstream work.
+Scene Generation.Given a natural language descriptionT , task context, and robot embodiment config-
+urationE, our scene generator synthesizes an initial scene hypothesisS0 = (G,O,X,Q ), whereG denotes
+room boundaries and architectural openings,Orepresents object instances,Xspecifies 6-DoF poses, andQ
+designates support regions and robot interaction constraints. As illustrated in Figure 2, the process decouples
+open-ended semantic structuring from deterministic geometric solving. A VLM first parses the input into a
+typed relational graph encoding functional zones, static fixtures, orientations, support surfaces, and robot
+approach directions. Dedicated asset modules then instantiate its nodes with retrieved or generated assets.
+Scene construction subsequently solves the layout hierarchically: ground fixtures are organized into local
+compositions and joint-optimized via Beam-DFS search, followed by wall fixture placement and parent-
+relative task-object positioning. The optimization enforces boundary limits, collision avoidance, clearances,
+connectivity, and workspace bounds, with reachability validated by CuRobo. The resultingS0 is therefore
+an initial geometry- and reachability-validated scene rather than a guaranteed executable environment.
+Downstream robot planning and execution further evaluate task feasibility and return feedback to the RSI
+loop (Figure 1). Environment-induced failures then trigger targeted Scene Edit, followed by revalidation,
+replanning, and re-execution.
+Scene Edit.Scene Edit adapts validated environments to new tasks within the RSI loop without repeated
+scene synthesis. Given the scene, task, robot embodiment, and generation or execution feedback, the scene
+agent applies schema-constrained edits while preserving unrelated scene elements. Supported operations
+include task-object addition, replacement, rescaling, and reachability-aware repositioning within or across
+support surfaces. Asset replacement updates geometry, physical properties, grasp annotations, and simulator
+bindings according to the placement policy. Each edit can be previewed before application and produces
+a traceable revision identifying the physical, reachability, and export checks requiring revalidation before
+replanning.
+3.2 Robot Trajectory Generation
+With the task-conditioned sceneS0 from Section 3.1, the task generation grounds the task to scene entities
+and atomic skills, forming an executable Skill DAG that is validated through compilation, checking, and
+simulation. The robot task generation system consists of three core components. TheTask Plan Agent
+5
+interprets the task, makes the main generation decisions, and proposes repairs. TheHarnessmanages the
+workflow, initiates independent reviews, and serves as the driver and central scheduler of the overall framework.
+Thesimenginecarries out simulation-based validation and records the execution.
+Task Grounding and Planning.We first input the task prompt, the scene configuration files produced
+by the scene generation agent, the embodiment configuration files, a list of available atomic Skills, and an
+image of the scene from a global viewpoint to the Harness. As shown in Figure 3(a), the Harness first checks
+these inputs for consistency and freezes them as an input snapshot. Then it passes the input to the Agent,
+which maps task references to scene entities and binds the required atomic Skills. Based on these bindings,
+the Agent determines the robot placement, action parameters, and skill execution order, forming a directed
+acyclic graph of atomic skills(Skill DAG). After that, it translates task requirements into checkable success
+conditions and establishes an explicit correspondence among task requirements, Skill nodes, and validation
+evidence. For example, “place the cube in the tray” requires checking both thePlace action and the final
+spatial relation between the cube and the tray. Together, these elements form a complete task proposal, as
+illustrated in step 03 of Figure 3(b).
+Task Construction.As shown in step 06 of Figure 3, the Task Plan Agent has access to five high-level
+interaction tools: build, run, inspect, finish, and revise. Table 1 summarizes their interfaces and
+validation responsibilities. For example, after forming a proposal, the Agent callsbuild to submit it to the
+Harness, as illustrated in step 04 of Figure 3(b). The Harness checks entity references, parameters, robot
+bindings, and task-requirement coverage, among other aspects, and produces the task configuration file. This
+configuration is then passed tosimengine for parsing and compilation. The compiler returns node information
+if compilation succeeds, or failure logs otherwise. The Harness uses this feedback in its subsequent validation,
+which also includes geometric checks and semantic review. Only after all checks pass is the configuration
+frozen as a Candidate and returned to the Agent, completing the first successfulbuild.
+Execution and Validation.Once configured, the agent callsrun. The Harness prepares the environment
+and launches a simulation for a specified Candidate, validation phase, and random seed, creating a new
+Attempt as shown in step 07 of Figure 3(c). During execution, the system records object and robot states,
+Skill events, safety information, observations, actions, and video. Once the task finishes, this evidence is
+passed to the Harness for programmatic acceptance. Then, the check results and available raw failure evidence
+are passed to the Agent to inform its next tool call.
+Independent Review and Finalization.If the first run passes these checks, the Agent does not immediately
+request finish. Instead, it invokesinspect, asking the Harness to initiate an independent VLM review and
+return the reviewer’s feedback, as illustrated in step 10 of Figure 3(d). Only after considering this additional
+review and confirming task success does the Agent invokefinish, triggering the Harness’s final delivery checks.
+If these checks pass, the Harness returns the final executable task configuration, as shown in Figure 3(e).
+Repair and Revalidation.If the task does not pass, the Agent invokesrevise to propose changes, such
+as adjusting robot placement, tuning action parameters, or correcting grasp poses. As shown in step 11
+of Figure 3(d), the Harness first checks whether the proposed repair is allowed. Upon approval, it copies
+the original Candidate or failed draft into a new draft and applies the approved changes. The Agent then
+invokes build to recompile and check the revised draft. If these checks pass, the Harness freezes it as a new
+Candidate, which must undergo validation again.
+3.3 Embodiments for Human-level Dexterity
+Humanoid Robots.To execute the generated task plan on the Unitree G1 humanoid (Unitree Robotics,
+2024), an execution adapter sits beneath the shared skill DAG and decouples control without altering atomic
+skills: locomotion targets are translated into planar velocity and heading references for learned balance-walking
+policies (Luo et al., 2025), while arm goals are resolved via the G1 kinematics and cuRobo (Sundaralingam
+et al., 2023). At 50 Hz, the adapter merges 15-DoF lower-body and 14-DoF arm commands into a 29-DoF
+body action, dispatching hands separately. Confining embodiment-specific mappings entirely to the adapter
+keeps upper-level task skills fully reusable across morphologies (He et al., 2025; Li et al., 2025).
+Dexterous-hand Robots.For dexterous manipulation, we deploy Sharpa Wave hands on the Split ALOHA
+platform (6-DoF arm and 22-DoF hand per side). A task-specific contact solver maps object interaction
+6
+Figure 3Closed-loop robot task generation and validation.(a) Instructions are grounded in the scene, robot
+configuration, and available skills. (b) The Agent proposes a skill sequence and success conditions, which are used to
+build and compile a candidate task configuration. (c) The candidate is executed in simulation and evaluated through
+programmatic acceptance checks. (d) Independent VLM review complements these checks, while failures trigger
+diagnosis, revision, and revalidation. (e) The executable configuration is delivered upon final acceptance.
+Table 1Agent Tools.We summarize the five task-level tools exposed by the harness for planning, execution,
+feedback-driven repair, and final validation.
+Name Description
+inspect Provide object identities, poses, support relations, interaction regions, and visual observations so the
+agent can ground targets and select an initial robot placement. After execution, invoke an independent
+VLM review of the candidate and its rollout evidence, and return the reviewer’s feedback before
+finalization.
+build Organize grounded interactions into a skill DAG with target entities, execution resources, goal
+parameters, and dependencies. Define success criteria for terminal states, required events, safety
+constraints, and prohibited events. Before execution, the harness checks object references, skill
+parameters, robot compatibility, dependency structure, and consistency with the task instruction.
+run Execute the skill DAG in physics simulation with embodiment-specific motions. The harness returns
+skill outcomes, object and attachment states, safety events, and task checks.
+revise Use failed-rollout evidence to revise affected object bindings, dependencies, robot working poses, grasp
+poses, approach directions, or motion parameters. The revised plan is revalidated while task-success
+criteria remain fixed.
+finish Submit a successful rollout for final checks of terminal state, required events, runtime safety, and data
+integrity. The harness retains accepted trajectories as demonstrations.
+7
+Table 2Quantitative comparison with prior scene-generation methods.Entries report mean ± sample
+standard deviation;↑/↓denote higher/lower is better,bolddenotes the best result.
+Method CF↑SL↑PP↑TF↑VQ↑COL↓NAV↑OOB↓OPN↑
+Holodeck 5.56±1.72 5.47±1.50 6.02±1.09 7.32±3.15 5.64±0.98 0.62±6.24 0.9967±0.0073 0.37±0.84 0.5997±0.2951
+LayoutVLM 5.27±1.84 5.32±1.78 6.00±1.19 7.05±3.66 5.50±0.79 0.43±0.89 0.9954±0.0135 0.52±0.70 0.5417±0.4147
+SAGE 5.20±1.98 5.13±1.60 5.92±1.08 7.07±3.31 5.15±0.78 0.35±1.09 0.9976±0.0081 0.03±0.18 0.8500±0.2311
+EmbodiedGen V2 5.57±1.68 5.87±1.65 5.43±1.39 6.75±3.80 5.95±0.98 2.37±1.450.9988±0.00520.19±0.48 0.9145±0.1363
+SceneSmith 5.34±1.44 6.18±1.38 6.59±1.018.92±2.335.52±0.96 2.05±1.87 0.9916±0.02170.00±0.000.9621±0.0742
+Ours 7.13±1.48 7.27±1.41 7.68±0.838.33±2.887.32±0.79 0.29±0.350.9984±0.01300.00±0.00 0.9875±0.0481
+contracts into collision-checked hand poses and finger configurations. During execution, cuRobo plans arm
+trajectories while finger joints are commanded explicitly, with PhysX recording per-link contact telemetry
+rather than aggregated gripper readings. Each task enforces a fail-closed contact contract (e.g., designated
+index-pad contact and phase-wise force gates). Integrated with the five-tool agent loop above, this pipeline
+enables automatic contact-rich trajectory generation.
+4 Experiments
+We design our experiments to answer three questions:(Q1)Does our task-oriented environment generation
+pipeline better satisfy perceptual and geometric requirements? (Section 4.1)(Q2)Does our RSI framework
+enable more reliable generation of challenging and diverse robot tasks? (Section 4.2)(Q3)Do our generated
+diverse demonstrations improve model performance? (Section 4.3)
+4.1 Environment Generation
+Evaluation setup.We compare our method with five representative scene generation baselines:
+Holodeck Yang et al. (2024b), LayoutVLM Sun et al. (2025a), SAGE Xia et al. (2026), EmbodiedGen
+V2 Wang et al. (2026b), and SceneSmith Pfaff et al. (2026). All methods are evaluated on the same set of 20
+indoor scene specifications spanning diverse room types and functional requirements, with three independent
+generations per scene for each method. We evaluate the generated environments from both perceptual and
+geometric perspectives. GPT-5.5 (OpenAI) is provided with four rendered views of each scene and scores five
+perceptual metrics on a 1–10 scale: Content / Function (CF), Spatial Layout (SL), Physical Plausibility (PP),
+Text Fidelity (TF), and Visual Quality (VQ). We additionally report four geometry-based metrics: Collision
+(COL), Navigability (NAV), Out of Bound (OOB), and Opening Clearance / Openness (OPN). Detailed
+definitions of all metrics and used assets are provided in Appendix B.1 and B.2.
+Quantitative Results.Table 2 demonstrates that our method achieves SOTA performance on CF, SL, PP,
+VQ, COL, OOB, and OPN. Specifically, considering perceptual metrics, CF reaches7.13± 1.48, compared to
+5.57± 1.68for the strongest baseline, representing a 28.0% relative improvement. SL and PP reach7.27± 1.41
+and7 .68± 0.83, outperforming the strongest baselines by 17.6% and 16.5%, respectively, while VQ reaches
+7.32± 0.79, improving over EmbodiedGen V2 (5.95± 0.98) by 23.0%. SceneSmith obtains the highest TF
+score of8.92± 2.33, whereas our method yields a competitive score of8.33± 2.88. Crucially, these gains in
+functional completeness and spatial organization do not occur at the expense of geometric usability. Our
+method achieves the lowest COL score of0.29± 0.35, produces no out-of-bounds objects, maintains a NAV
+score of0.9984± 0.0130(comparable to the top baseline result of0.9988± 0.0052), and achieves the highest
+OPN score of0.9875± 0.0481. This combination is particularly crucial for embodied applications, as richer and
+more functionally complete scenes frequently introduce collisions, blocked openings, or fragmented traversable
+space. In contrast, our approach enhances scene content and organization while preserving navigability, valid
+boundaries, and access to openings.
+Qualitative Results.Figure 4 further illustrates this distinction: Holodeck and SAGE often generate
+relatively sparse scenes, LayoutVLM frequently leaves large unused areas or weakly structured layouts,
+and EmbodiedGen V2 and SceneSmith generally create richer scenes but still exhibit locally inconsistent
+arrangements. Conversely, our method produces denser yet structured environments with clear functional
+regions and preserved circulation space.
+8
+Holodeck
+SAGE
+SceneSmith
+Ours
+Prompt
+“Bedroom.” “Gaming workspace.” “Kitchen.” “Living room.”
+Figure 4Qualitative comparison with indoor scene generation baselines; our method yields more realistic
+layouts and more complete content.
+4.2 Robotic Demonstration Generation
+We evaluate robotic trajectory generation through two questions:Does our scene generation method
+better support downstream demonstration generation than the baselines? How do execution-
+feedback-driven refinement and robot placement adaptation in our agent affect the success rate
+and cost of demonstration generation?
+Experimental setup.Our main quantitative benchmark comprises 16 tasks: 10 for fixed-base manipulation
+and 6 for mobile manipulation, evenly split between short- and long-horizon tasks within each category. A
+demonstration is accepted only if it satisfies predefined task completion predicates and passes trajectory
+data-integrity checks. The complete task list, horizon assignments, and acceptance criteria are provided in the
+Appendix C.
+Demonstration Generation Comparison.To evaluate how reliably each generated scene supports
+demonstration generation, we run 10 independent agent sessions from the same initial scene state to produce
+10 simulation-ready task configurations as described in Section 3.2 for each task. We then evaluate each
+configuration using the same set of 10 simulation seeds, which are not used during generation or refinement.
+We reportASR(mean success rate across all candidates and tasks),Top-5 ASR(mean success rate of the
+five best-performing candidates per task) andToken(mean VLM output tokens per session). Sessions that
+produce no executable task plan are assigned zero success and included in the token accounting. As shown
+in Table 3, EmbodiedSmith outperforms each baseline in ASR on its supported tasks. For our method, the
+mobile setting performs better onCup to Traybut worse onOpen Drawer, suggesting that navigation may
+improve reachability, while grasp-feasible placement may still be unsuitable for joint-constrained opening
+9
+Block Order Nav
+(a)  SceneSmith (c)  Ours(b)  EmbodiedGenv2
+Cup to Tray
+Cube CountRecall
+Figure 5Qualitative comparison.Blue regions indicate reachable workspaces. Red regions indicate execution
+difficulties or failures. Green check marks indicate successful interactions; red crosses indicate failed interactions.
+motions.
+To understand these performance differences, we qualitatively examine the generated scenes in Figure 5. Some
+SceneSmith scenes have unsuitable support-surface heights or widely separated interaction locations, limiting
+reachability despite robot placement adaptation. Scenes generated by EmbodiedGen V2 exhibit inconsistent
+object scales and cluttered layouts that hinder manipulation. In contrast, our method better aligns scene
+layouts with task requirements and the robot’s workspace, facilitating successful demonstration generation.
+Ablations of RSI Design.We evaluate two ablations on the same initial scenes.w/o Feedbackretains initial
+robot placement selection and task plan but disables revision based on execution feedback.w/o Placement
+Validationselects robot placement solely from three-view observations and object world coordinates, without
+considering kinematic or collision constraints or validating placement feasibility, but retains execution feedback
+for program revision. All other settings and the evaluation protocol follow those used in the demonstration
+generation comparison above.
+As shown in Table 4, removing execution feedback reduces ASR to almost0%across all task categories,
+despite lower token consumption. Removing placement validation particularly affects long-horizon fixed-base
+tasks; smaller drops on mobile tasks suggest that navigation may partially compensate for suboptimal initial
+placement.
+Demonstrations across embodiments.Beyond the quantitative evaluations above, we present expert
+demonstrations using single-arm, dual-arm, humanoid, and dexterous-hand configurations. Figure 6 shows
+keyframes spanning the initial state, intermediate interactions, and task completion. During execution,
+EmbodiedSmith records synchronized visual observations, robot states, and control actions, converting
+successful trajectories into demonstration data for policy learning.
+The robot equipped with dexterous hands successfully performs an in-hand grasp of the drawer handle and
+opens the drawer. The humanoid robot first moves to the table and then manipulates the target. These
+10
+Table 3Per-task demonstration generation performance on fixed-base and mobile manipulation.Short-
+and long-horizon tasks are distinguished by background color, with long-horizon tasks shaded in orange. Darker cells
+indicate the best result for each metric.✗ indicates that EmbodiedGen V2 does not support generating the articulated
+assets required by the task.m.denotes memory tasks.
+Category T ask
+SceneSmith
++ Planner
+EmbodiedGen V2
++ Planner EmbodiedSmith
+ASR↑T op-5↑T oken↓ASR↑T op-5↑T oken↓ASR↑T op-5↑T oken↓
+Fixed-base
+manipulation
+Open Drawer32% 40% 8782✗ ✗ ✗ 78% 80% 10885
+Cup to Tray19% 24% 9672 35% 40% 8721 64% 72% 4288
+Click Button37% 44% 69814 89% 100% 9235 100% 100% 16193
+Basket to Tray69% 78% 43879 0% 0% 13838 70% 82% 23221
+Open Cabinet0% 0% 713248✗ ✗ ✗ 35% 42% 20429
+Cup Pairing (m.)0% 0% 6251812% 20% 138551 51% 58% 120071
+Block Order (m.)7% 10% 201026 0% 0% 87644 83% 88% 80386
+Cube Count (m.)3% 6% 186377 0% 0% 177621 79% 84% 90316
+Button History (m.)15% 26% 67662 71% 80% 93251 83% 92% 27611
+Object Gesture (m.)59% 82% 576260% 0% 88343 62% 74% 72532
+Mobile
+manipulation
+Open Drawer0% 0% 161643✗ ✗ ✗ 43% 62% 16389
+Cup to Tray22% 44% 118139 0% 0% 12315 79% 96% 5396
+Lift Cover7% 14% 140514 40% 80% 22415 88% 100% 4979
+Book Stow(m.)0% 0% 90168✗ ✗ ✗ 17% 34% 26385
+Cup Pairing(m.)0% 0% 137257 0% 0% 221043 52% 62% 73892
+Block Order(m.)0% 0% 124671 0% 0% 219762 93% 100% 50283
+Average17% 23% 137062 21% 27% 91062 67% 77% 40204
+Table 4Agent Workflow Ablation.We evaluate the effects of execution feedback and robot placement validation
+across fixed-base and mobile manipulation tasks. Token denotes the mean cumulative VLM output tokens per session.
+Fixed-Short Fixed-Long Mobile-Short Mobile-Long
+Method ASR↑T op-5↑T oken↓ASR↑T op-5↑T oken↓ASR↑T op-5↑T oken↓ASR↑T op-5↑T oken↓
+w/o Feedback4.0% 8.0%37210.0% 0.0%65290.0% 0.0%29790.0% 0.0%5448
+w/o Placement Validation48.6% 56.8% 63819 13.2% 22.4% 208316 67.3% 79.6% 13294 47.6% 64.7% 40898
+Ours 69.4% 75.2%15003 71.6% 79.2%78183 70.0% 86.0%8921 54.0% 65.3%50187
+demonstrations show that our method can perform dexterous tasks requiring human-level dexterity. The
+method can thus generate data across diverse robot embodiments for training general-purpose robot foundation
+models, advancing their capabilities toward human-level performance.
+4.3 Generated Data for Policy Training
+We design experiments to verify that the generated robot trajectories can effectively improve the performance
+and generalization ability of trained models, thereby demonstrating the capability of our engine to provide
+large-scale training data.
+Training Data Generation.We selected two target scenes, a study room and a kitchen, and planned each
+scene from scratch. For each scene, we designed five scene-appropriate tasks covering common atomic skills
+such as pick, place, and open, with task lengths ranging from three to six atomic skills. It is worth noting
+that, after determining the tasks, we directly used prompts to generate all task plans, which could be executed
+successfully without any manual debugging or intervention. Detailed task-generation prompts are provided in
+Appendix E.
+We construct two equal-duration datasets:clean, comprising 20 hours of fixed-layout demonstrations without
+randomization, andmixed, combining 10 hours of these demonstrations with 10 hours of randomized
+demonstrations featuring varying tabletop layouts.
+Our randomization mechanism organizes variations at three levels: asset composition, spatial layout, and
+observation and initial conditions. The enabled dimensions and sampling ranges are configured per task,
+with layout sampling constrained by object clearance, support regions, and reserved manipulation space.
+Appendix D details the hierarchical sampling procedure and execution-feedback-driven resampling used during
+collection.
+11
+Franka Arm Opening a Drawer
+Dexterous Hand Opening a Drawer
+Humanoid Robot Placing a Cup on a Tray
+Figure 6Visualization of generated robot demonstrations of diverse embodiments: mobile manipulator
+with a single arm, mobile manipulator with dexterous hands, and humanoid.Specifically, the humanoid
+robot first moves to the table and then manipulates the target.
+Table 5Task success rates (%) under simple and randomized evaluation settings.We compareπ0.5 and
+Fast-WAM fine-tuned on thecleanormixeddataset.
+Task π0.5 (Clean)π0.5 (Mixed) FastWAM (Clean) FastWAM (Mixed)
+Simple Random Average Simple Random Average Simple Random Average Simple Random Average
+Spatially Guided Placement 81% 5% 43.0% 64% 47% 55.5% 34% 1% 17.5% 25% 12% 18.5%
+Cuboid Placement 88% 11% 49.5% 65% 59% 62.0% 41% 2% 21.5% 28% 18% 23.0%
+Block Stacking 30% 4% 17.0% 39% 22% 30.5% 11% 0% 5.5% 15% 5% 10.0%
+Unstack and Place 69% 7% 38.0% 31% 18% 24.5% 26% 0% 13.0% 12% 4% 8.0%
+Drawer Opening 35% 5% 20.0% 46% 30% 38.0% 13% 1% 7.0% 18% 9% 13.5%
+Sequential Object Placement 56% 4% 30.0% 43% 37% 40.0% 21% 0% 10.5% 16% 7% 11.5%
+Bottle Righting 64% 8% 36.0% 54% 45% 49.5% 27% 1% 14.0% 22% 10% 16.0%
+Bowl Nesting 68% 13% 40.5% 64% 56% 60.0% 29% 2% 15.5% 26% 15% 20.5%
+Microwave Door Closing 78% 12% 45.0% 67% 61% 64.0% 37% 3% 20.0% 29% 18% 23.5%
+Sponge Wiping 43% 3% 23.0% 35% 27% 31.0% 16% 0% 8.0% 13% 4% 8.5%
+Average61.2% 7.2% 34.2% 50.8% 40.2% 45.5% 25.5% 1.0% 13.3% 20.4% 10.2% 15.3%
+Experimental Setup.We select π0.5 and FastWAM as representative VLA and WAM models, respectively,
+train them on data collected in a study and a kitchen, and evaluate their performance in two settings with
+different generalization requirements. Each scene dataset contains five tasks, with more details provided in
+the appendix. We define two evaluation settings. Thesimplesetting uses the same scene layouts as those
+used to collect thecleandataset, with no randomization. Therandomsetting uses scene randomization
+controlled by random seeds.
+Evaluation Results.Table 5 shows models trained on thecleandataset perform well in thesimplesetting,
+but their success rates drop sharply in therandomsetting. This suggests that training on fixed-layout data
+may encourage reliance on scene-specific image–trajectory associations rather than manipulation strategies
+that generalize across layouts. Models trained on themixeddataset achieve higher average success rates than
+theirclean-trained counterparts, with particularly pronounced gains in therandomsetting. These results show
+that increasing the diversity of our generated data can substantially improve generalization to randomized
+scenes, supporting its potential use as a source of large-scale training data.
+Representative evaluation rollouts are provided in Appendix E.
+12
+5 Conclusion
+We presented EmbodiedSmith, a framework for scalable embodied data generation through RSI. By integrating
+asset, scene, and task generation, EmbodiedSmith supports diverse tasks, complex embodiments, and physical
+interactions. Its coupled environment and task generation loop enables mutual refinement, improving overall
+generation success rates. Experiments demonstrate the quality, diversity, and generation efficiency of the
+resulting environments and demonstrations. These results suggest that jointly refining simulation environments
+and executable task plans offers a promising path toward scalable training data and evaluation infrastructure
+for generalist robot models.
+References
+Genesis Authors. Genesis: A generative and universal physics engine for robotics and beyond, December 2024.
+https://github.com/Genesis-Embodied-AI/genesis-world.
+Shuanghao Bai, Wenxuan Song, Jiayi Chen, Yuheng Ji, Zhide Zhong, Jin Yang, Han Zhao, Wanqi Zhou, Zhe Li,
+Pengxiang Ding, et al. Embodied robot manipulation in the era of foundation models: Planning and learning
+perspectives.IEEE Transactions on Robotics, 2026.
+Ziang Cao, Fangzhou Hong, Zhaoxi Chen, Liang Pan, and Ziwei Liu. Physx-anything: Simulation-ready physical 3d
+assets from single image.arXiv preprint arXiv:2511.13648, 2025.
+Ziang Cao, Yinghao Liu, Haitian Li, Runmao Yao, Fangzhou Hong, Zhaoxi Chen, Liang Pan, and Ziwei Liu. Physx-
+omni: Unified simulation-ready physical 3d generation for rigid, deformable, and articulated objects.arXiv preprint
+arXiv:2605.21572, 2026.
+Guanxiong Chen, Yiduo Qu, Qianjun Xia, Pengyu Jing, Yixian Cheng, Bole Ma, Pengzhi Yang, Bingyang Zhou,
+Ziming Li, Shashwat Suri, Gongbo Sun, Chao Liu, Peter Yichen Chen, Ziqiu Zeng, and Fan Shi. Diaggen: Agentic
+generation of deformable assets with sim-based diagnostics for robotic simulation.arXiv preprint arXiv:2609.23103,
+2026a.
+Jiayi Chen, Wenxuan Song, Jingbo Wang, Shuai Zhou, Xicheng Gong, Zehua Fan, Ziyang Zhou, Haodong Yan, Fuhao
+Li, Qize Yu, et al. Uniwam: Unified world-action model.arXiv preprint arXiv:2610.02054, 2026b.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador, Winson Han,
+Eric Kolve, Aniruddha Kembhavi, and Roozbeh Mottaghi. Procthor: Large-scale embodied ai using pro-
+cedural generation. In S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh, edi-
+tors,Advances in Neural Information Processing Systems, volume 35, pages 5982–5994. Curran Associates,
+Inc., 2022. doi: 10.52202/068431-0433. https://proceedings.neurips.cc/paper_files/paper/2022/file/
+27c546ab1e4f1d7d638e6a8dfbad9a07-Paper-Conference.pdf.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu, Xin Eric Wang,
+and William Yang Wang. Layoutgpt: Compositional visual planning and generation with large language models.
+Advances in Neural Information Processing Systems, 36:18225–18250, 2023.
+Jialin Gao, Donghao Zhou, Mingjian Liang, Lihao Liu, Chi-Wing Fu, Xiaowei Hu, and Pheng-Ann Heng. Disco-layout:
+Disentangling and coordinating semantic and physical refinement in a multi-agent framework for 3d indoor layout
+synthesis, 2025.https://arxiv.org/abs/2510.02178.
+Tairan He, Wenli Xiao, Toru Lin, Zhengyi Luo, Zhenjia Xu, Zhenyu Jiang, Jan Kautz, Changliu Liu, Guanya Shi,
+Xiaolong Wang, Linxi Fan, and Yuke Zhu. HOVER: Versatile neural whole-body controller for humanoid robots. In
+2025 IEEE International Conference on Robotics and Automation (ICRA), 2025. doi: 10.1109/ICRA55743.2025.
+11128549.
+Siyi Hu, Diego Martin Arroyo, Stephanie Debats, Fabian Manhardt, Luca Carlone, and Federico Tombari. Mixed
+diffusion for 3d indoor scene synthesis. In2026 IEEE/CVF Winter Conference on Applications of Computer Vision
+(WACV), pages 1262–1272, 2026. doi: 10.1109/WACV61042.2026.00129.
+Zhi Jing, Siyuan Yang, Jicong Ao, Ting Xiao, Yu-Gang Jiang, and Chenjia Bai. HumanoidGen: Data generation
+for bimanual dexterous manipulation via LLM reasoning. InAdvances in Neural Information Processing Systems,
+volume 38, San Diego, CA, USA and Mexico City, Mexico, 2025. doi: 10.52202/085713-5220.https://papers.
+neurips.cc/paper_files/paper/2025/hash/e4ef7454447baa15a424314e6284441b-Abstract-Conference.html.
+13
+Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, Ted Xiao, Ashwin Balakrishna, Suraj Nair, Rafael Rafailov, Ethan
+Foster, Grace Lam, Pannag Sanketi, et al. Openvla: An open-source vision-language-action model.arXiv preprint
+arXiv:2406.09246, 2024.
+Long Le, Jason Xie, William Liang, Hung-Ju Wang, Yue Yang, Yecheng Jason Ma, Kyle Vedder, Arjun Krishna, Dinesh
+Jayaraman, and Eric Eaton. Articulate-anything: Automatic modeling of articulated objects via a vision-language
+foundation model.arXiv preprint arXiv:2410.13882, 2024.
+Chengshu Li, Mengdi Xu, Arpit Bahety, Hang Yin, Yunfan Jiang, Huang Huang, Josiah Wong, Sujay Garlanka,
+Cem Gokmen, Ruohan Zhang, et al. Momagen: Generating demonstrations under soft and hard constraints for
+multi-step bimanual mobile manipulation. InInternational Conference on Learning Representations, volume 2026,
+pages 112425–112446, 2026a.
+Jialong Li, Xuxin Cheng, Tianshu Huang, Shiqi Yang, Ri-Zhao Qiu, and Xiaolong Wang. AMO: Adaptive motion
+optimization for hyper-dexterous humanoid whole-body control. InProceedings of Robotics: Science and Systems,
+2025. doi: 10.15607/RSS.2025.XXI.061.
+Xian Li, Rong Wei, Lujie Yang, Haolin Huang, Junyuan Fang, Siliang Tang, Jun Xiao, Rui Tang, and Juncheng Li.
+Uniphysgen: Unified physical grounding for simulation-ready 3d assets.arXiv preprint arXiv:2607.13586, 2026b.
+Kevin Lin, Ajay Mandlekar, Caelan Reed Garrett, Nikita Chernyadev, Yu Fang, Runyu Ding, Yuqi Xie, Justin
+Tran, Linxi Fan, and Yuke Zhu. HumanoidMimicGen: Data generation for loco-manipulation via whole-body
+planning.arXiv preprint arXiv:2605.27724, 2026. https://arxiv.org/abs/2605.27724. Presented at the ICRA
+2026 Workshop on Synthetic Data for Robot Learning.
+Qingming Liu, Xinyue Yao, Shuyuan Zhang, Yueci Deng, Guiliang Liu, Zhen Liu, and Kui Jia. Pact: Part-decomposed
+single-view articulated object generation.arXiv preprint arXiv:2602.14965, 2026a.
+Yibin Liu, Yaxing Lyu, Daqi Gao, Zhixuan Liang, Weiliang Tang, Shilong Mu, Xiaokang Yang, and Yao Mu. From
+passive observer to active critic: Reinforcement learning elicits process reasoning for robotic manipulation.arXiv
+preprint arXiv:2603.15600, 2026b.
+Zhengyi Luo, Ye Yuan, Tingwu Wang, Chenran Li, Sirui Chen, Fernando Castañeda, Zi-Ang Cao, Jiefeng Li, and
+Yuke Zhu. GR00T Whole-Body Control.https://github.com/NVlabs/GR00T-WholeBodyControl, 2025. Software
+repository, accessed 2026-09-12.
+Soroush Nasiriany, Sep Nasiriany, AbhiramMaddukuri, andYuke Zhu. Robocasa365: A large-scale simulation framework
+for training and benchmarking generalist robots. InInternational Conference on Learning Representations, volume
+2026, pages 98643–98667, 2026.
+OpenAI. GPT-5.5. OpenAI API Documentation. https://developers.openai.com/api/docs/models/gpt-5.5.
+Accessed: 2026-09-26.
+Nicholas Pfaff, Thomas Cohn, Sergey Zakharov, Rick Cory, and Russ Tedrake. Scenesmith: Agentic generation of
+simulation-ready indoor scenes. InForty-third International Conference on Machine Learning, 2026.
+Hou In Derek Pun, Hou In Ivan Tam, Austin T Wang, Xiaoliang Huo, Angel X Chang, and Manolis Savva. Hsm:
+Hierarchical scene motifs for multi-scale indoor scene generation.arXiv preprint arXiv:2503.16848, 2025.
+Alexander Raistrick, Lingjie Mei, Karhan Kayan, David Yan, Yiming Zuo, Beining Han, Hongyu Wen, Meenal
+Parakh, Stamatis Alexandropoulos, Lahav Lipson, Zeyu Ma, and Jia Deng. Infinigen indoors: Photorealistic indoor
+scenes using procedural generation. InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), pages 21783–21794, June 2024.
+Carmelo Sferrazza, Dun-Ming Huang, Xingyu Lin, Youngwoon Lee, and Pieter Abbeel. HumanoidBench: Simulated
+humanoid benchmark for whole-body locomotion and manipulation. InProceedings of Robotics: Science and Systems,
+Delft, Netherlands, 2024. doi: 10.15607/RSS.2024.XX.061.https://www.roboticsproceedings.org/rss20/p061.
+html.
+Wenxuan Song, Jiayi Chen, Pengxiang Ding, Han Zhao, Wei Zhao, Zhide Zhong, Zongyuan Ge, Zhijun Li, Donglin
+Wang, Lujia Wang, et al. Pd-vla: Accelerating vision-language-action model integrated with action chunking via
+parallel decoding. In2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), pages
+13162–13169. IEEE, 2025.
+Wenxuan Song, Ziyang Zhou, Han Zhao, Jiayi Chen, Pengxiang Ding, Haodong Yan, Yuxin Huang, Feilong Tang,
+Donglin Wang, and Haoang Li. Reconvla: Reconstructive vision-language-action model as effective robot perceiver.
+InProceedings of the AAAI Conference on Artificial Intelligence, volume 40, pages 18549–18557, 2026.
+14

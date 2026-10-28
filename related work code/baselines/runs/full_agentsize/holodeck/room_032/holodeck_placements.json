@@ -1,0 +1,185 @@
+{
+ "floor": [
+  {
+   "assetId": "wine cooler-0",
+   "id": "wine cooler-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.95,
+    "z": 7.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     705.0
+    ],
+    [
+     45.5,
+     795.0
+    ],
+    [
+     -4.5,
+     795.0
+    ],
+    [
+     -4.5,
+     705.0
+    ]
+   ],
+   "object_name": "wine cooler-0"
+  },
+  {
+   "assetId": "wine cooler-1",
+   "id": "wine cooler-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.95,
+    "z": 6.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     555.0
+    ],
+    [
+     45.5,
+     645.0
+    ],
+    [
+     -4.5,
+     645.0
+    ],
+    [
+     -4.5,
+     555.0
+    ]
+   ],
+   "object_name": "wine cooler-1"
+  },
+  {
+   "assetId": "side table-0",
+   "id": "side table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.15722,
+    "y": 0.275,
+    "z": 7.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     383.222,
+     717.5
+    ],
+    [
+     383.222,
+     782.5
+    ],
+    [
+     448.222,
+     782.5
+    ],
+    [
+     448.222,
+     717.5
+    ]
+   ],
+   "object_name": "side table-0"
+  },
+  {
+   "assetId": "lounge chair-0",
+   "id": "lounge chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.70722,
+    "y": 0.425,
+    "z": 8.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     293.222,
+     787.5
+    ],
+    [
+     293.222,
+     862.5
+    ],
+    [
+     448.222,
+     862.5
+    ],
+    [
+     448.222,
+     787.5
+    ]
+   ],
+   "object_name": "lounge chair-0"
+  },
+  {
+   "assetId": "lounge chair-1",
+   "id": "lounge chair-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.70722,
+    "y": 0.425,
+    "z": 6.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     293.222,
+     637.5
+    ],
+    [
+     293.222,
+     712.5
+    ],
+    [
+     448.222,
+     712.5
+    ],
+    [
+     448.222,
+     637.5
+    ]
+   ],
+   "object_name": "lounge chair-1"
+  }
+ ],
+ "wall": []
+}

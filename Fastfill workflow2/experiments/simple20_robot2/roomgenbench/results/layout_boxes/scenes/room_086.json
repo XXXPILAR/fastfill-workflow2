@@ -1,0 +1,542 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_086",
+ "room_type": "kitchen",
+ "room": {
+  "width": 6.235870361328125,
+  "length": 5.7358704805374146,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 53
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "microwave",
+   "asset_key": "microwave_ba44f547",
+   "description": "microwave",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "pot",
+   "asset_key": "pot_cb79bd0c",
+   "description": "pot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "can",
+   "asset_key": "can_7e9219a0",
+   "description": "can",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "pan",
+   "asset_key": "pan_bd2bd821",
+   "description": "pan",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "book",
+   "asset_key": "book_e7e694c5",
+   "description": "book",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "pot",
+   "asset_key": "pot_cb79bd0c",
+   "description": "pot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_023"
+  },
+  {
+   "id": "obj_0024",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_024"
+  },
+  {
+   "id": "obj_0025",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_025"
+  },
+  {
+   "id": "obj_0026",
+   "type": "food",
+   "asset_key": "food_39ccb32d",
+   "description": "food",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_026"
+  },
+  {
+   "id": "obj_0027",
+   "type": "faucet",
+   "asset_key": "faucet_63fade39",
+   "description": "faucet",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_027"
+  },
+  {
+   "id": "obj_0028",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_028"
+  },
+  {
+   "id": "obj_0029",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_029"
+  },
+  {
+   "id": "obj_0030",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_030"
+  },
+  {
+   "id": "obj_0031",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_031"
+  },
+  {
+   "id": "obj_0032",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_032"
+  },
+  {
+   "id": "obj_0033",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_033"
+  },
+  {
+   "id": "obj_0034",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_034"
+  },
+  {
+   "id": "obj_0035",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_035"
+  },
+  {
+   "id": "obj_0036",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_036"
+  },
+  {
+   "id": "obj_0037",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_037"
+  },
+  {
+   "id": "obj_0038",
+   "type": "vase",
+   "asset_key": "vase_28e4e605",
+   "description": "vase",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_038"
+  },
+  {
+   "id": "obj_0039",
+   "type": "food",
+   "asset_key": "food_39ccb32d",
+   "description": "food",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_039"
+  },
+  {
+   "id": "obj_0040",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_040"
+  },
+  {
+   "id": "obj_0041",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_041"
+  },
+  {
+   "id": "obj_0042",
+   "type": "pan",
+   "asset_key": "pan_bd2bd821",
+   "description": "pan",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_042"
+  },
+  {
+   "id": "obj_0043",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_043"
+  },
+  {
+   "id": "obj_0044",
+   "type": "can",
+   "asset_key": "can_7e9219a0",
+   "description": "can",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_044"
+  },
+  {
+   "id": "obj_0045",
+   "type": "dishwasher",
+   "asset_key": "dishwasher_35f1e81b",
+   "description": "dishwasher",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_045"
+  },
+  {
+   "id": "obj_0046",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_046"
+  },
+  {
+   "id": "obj_0047",
+   "type": "food",
+   "asset_key": "food_39ccb32d",
+   "description": "food",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_047"
+  },
+  {
+   "id": "obj_0048",
+   "type": "oven",
+   "asset_key": "oven_c534ed71",
+   "description": "oven",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_048"
+  },
+  {
+   "id": "obj_0049",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_049"
+  },
+  {
+   "id": "obj_0050",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_050"
+  },
+  {
+   "id": "obj_0051",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_051"
+  },
+  {
+   "id": "obj_0052",
+   "type": "pot",
+   "asset_key": "pot_cb79bd0c",
+   "description": "pot",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_052"
+  }
+ ]
+}

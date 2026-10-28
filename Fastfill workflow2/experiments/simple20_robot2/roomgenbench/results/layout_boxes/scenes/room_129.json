@@ -1,0 +1,85 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_129",
+ "room_type": "dorm room 3",
+ "room": {
+  "width": 2.0,
+  "length": 2.0,
+  "height": 3.0
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 4
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_5d0bd6a6",
+   "description": "A set of three wooden shelves.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "shared wardrobe",
+   "asset_key": "shared_wardrobe_861bf320",
+   "description": "shared wardrobe",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_5d0bd6a6",
+   "description": "A set of three wooden shelves.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "wall art panel",
+   "asset_key": "wall_art_panel_4ede2ef0",
+   "description": "The plaque has a design in the middle of the board.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_003"
+  }
+ ]
+}

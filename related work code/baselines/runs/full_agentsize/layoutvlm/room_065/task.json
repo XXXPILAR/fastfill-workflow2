@@ -1,0 +1,62 @@
+{
+ "task_description": "a bedroom with en-suite bathroom of about 3.6m x 6.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the bed (o0005) should face the toilet (o0004). the bag (o0001) should be within 0.10 m of the toilet (o0004)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    6.8359375,
+    0.0
+   ],
+   [
+    0.0,
+    0.0390625,
+    0.0
+   ],
+   [
+    0.0390625,
+    0.0,
+    0.0
+   ],
+   [
+    3.5546875,
+    0.0,
+    0.0
+   ],
+   [
+    3.59375,
+    0.0390625,
+    0.0
+   ],
+   [
+    3.59375,
+    5.3515625,
+    0.0
+   ],
+   [
+    3.5546875,
+    5.390625,
+    0.0
+   ],
+   [
+    1.2890625,
+    6.875,
+    0.0
+   ],
+   [
+    0.0390625,
+    6.875,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {}
+ }
+}

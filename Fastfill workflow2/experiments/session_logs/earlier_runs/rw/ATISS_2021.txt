@@ -1,0 +1,709 @@
+A TISS: Autoregressive Transformers for Indoor
+Scene Synthesis
+Despoina Paschalidou1,3,4 Amlan Kar4,5,6 Maria Shugrina4 Karsten Kreis4
+Andreas Geiger1,2,3 Sanja Fidler4,5,6
+1Max Planck Institute for Intelligent Systems Tübingen 2University of Tübingen
+3Max Planck ETH Center for Learning Systems
+4NVIDIA 5University of Toronto 6Vector Institute
+{firstname.lastname}@tue.mpg.de {amlank, mshugrina, kkreis, sfidler}@nvidia.com
+Abstract
+The ability to synthesize realistic and diverse indoor furniture layouts automatically
+or based on partial input, unlocks many applications, from better interactive 3D
+tools to data synthesis for training and simulation. In this paper, we present
+ATISS, a novel autoregressive transformer architecture for creating diverse and
+plausible synthetic indoor environments, given only the room type and its ﬂoor
+plan. In contrast to prior work, which poses scene synthesis as sequence generation,
+our model generates rooms as unordered sets of objects. We argue that this
+formulation is more natural, as it makes ATISS generally useful beyond fully
+automatic room layout synthesis. For example, the same trained model can be
+used in interactive applications for general scene completion, partial room re-
+arrangement with any objects speciﬁed by the user, as well as object suggestions for
+any partial room. To enable this, our model leverages the permutation equivariance
+of the transformer when conditioning on the partial scene, and is trained to be
+permutation-invariant across object orderings. Our model is trained end-to-end
+as an autoregressive generative model using only labeled 3D bounding boxes as
+supervision. Evaluations on four room types in the 3D-FRONT dataset demonstrate
+that our model consistently generates plausible room layouts that are more realistic
+than existing methods. In addition, it has fewer parameters, is simpler to implement
+and train and runs up to 8x faster than existing methods.
+1 Introduction
+Generating synthetic 3D content that is both realistic and diverse is a long-standing problem in
+computer vision and graphics. In the last decade, there has been increased demand for tools that
+automate the creation of 3D artiﬁcial environments for applications like video games and AR/VR,
+as well as general 3D content creation [ 76, 19, 44, 5, 77]. These tools can also synthesize data to
+train computer vision models, avoiding expensive and laborious annotations. Generative models
+[34, 24, 15, 35, 71] have demonstrated impressive results on synthesizing photorealistic images
+[8, 1, 29, 9, 30] and intelligible text [60, 2], and are beginning to be adopted for the generation of 3D
+environments.
+Recent works proposed to solve the scene synthesis task by incorporating procedural modeling
+techniques [59, 57, 28, 11] or by generating scene graphs with generative models [ 41, 72, 80, 42,
+58, 79, 78, 32, 14]. Procedural modeling requires specifying a set of rules for the scene formation
+process, but acquiring these rules is a time-consuming task, requiring skills of experienced artists.
+Similarly, graph-based approaches require scene graph annotations, which may be laborious to obtain.
+35th Conference on Neural Information Processing Systems (NeurIPS 2021), Sydney, Australia.
+arXiv:2110.03675v1  [cs.CV]  7 Oct 2021
+Figure 1: Motivation In addition to fully automatic layout synthesis (A), our formulation in terms of unordered
+sets of objects allows our model to be used for novel interactive applications with versatile user control: scene
+completion given any number of existing furniture pieces of any class pinned to a speciﬁc location by the user
+(B), and object suggestions with user-provided constraints (object centroid constraint shown in red) (C).
+Another line of research utilizes CNN-based [ 73, 61] and transformer-based [74] architectures to
+generate rooms by autoregressively selecting and placing objects in a scene, i.e. one after the other.
+These approaches represent scenes as ordered sequences of objects. Typically, the ordering is deﬁned
+using the spatial arrangement of objects in a room (e.g. left-to-right) [27] or the object class frequency
+(e.g. most to least probable) [ 61, 74]. Such orderings impose unnatural constraints on the scene
+generation process, inhibiting practical applications. For example, in [61, 74], which order objects by
+class frequency, the probability of a bed (more common) appearing after an ottoman (less common)
+in the training set is zero. As a result, these methods cannot generate more common objects after less
+common objects, which makes them impractical for interactive tasks like general room completion
+and partial room re-arrangement, where input is unconstrained (e.g. Fig.1B).
+To address these limitations, we pose scene synthesis as an unordered set generation problem and
+introduce ATISS, a novel autoregressive transformer architecture to model this process. Given a
+room type (e.g. bedroom, living room) and its shape, our model generates meaningful furniture
+arrangements by sequentially placing objects in a permutation-invariant fashion. We train ATISS
+to maximize the log-likelihood of all possible permutations of object arrangements in a collection
+of training scenes, labeled only with object classes and 3D bounding boxes, which are easier
+to obtain, than costly support relationship [ 72] or scene graph annotations [ 41]. Unlike existing
+works [73, 61, 74], we propose the ﬁrst model to perform scene synthesis as an autoregressive set
+generation task. ATISS is signiﬁcantly simpler to implement and train, requires fewer parameters and
+is up to 8× faster at run-time than the fastest available baseline [74]. Furthermore, we demonstrate that
+our model generates more plausible object arrangments without any post-processing on the predicted
+layout. Our formulation allows applying a single trained model to automatic layout synthesis and to
+a number of interactive scenarios with versatile user input (Fig.1), such as automatic placement of
+user-provided objects, object suggestion with user-provided constraints, and room completion. Code
+and data are publicaly available at https://nv-tlabs.github.io/ATISS.
+2 Related Work
+In this section, we discuss the most relevant literature on interior scene synthesis, as well as trans-
+former architectures [71] in the context of generative modeling.
+Procedural Modeling with Grammars: Procedural modeling describes methods that recursively
+apply a set of functions for content synthesis. Grammars are a formal instantiation of this idea
+and have been used for modeling 3D structures such as plants [ 66], buildings and cities [ 47, 50],
+indoor [59] and outdoor [57] scenes. [66] employed reversible-jump MCMC to control the output of
+stochastic context-free grammars. Meta-Sim [28] learned a model that modiﬁes attributes of scene
+graphs sampled from a known probabilistic context-free grammar to match visual statistics between
+generated and real data. [11] extended this model to also learn to sample from the grammar, allowing
+context dependent relationships to be learnt. Concurrently, [ 58] employed Grammar-V AE [38] to
+generate scenes using a scene grammar generated from annotated data. In contrast, our model
+implicitly encapsulates inter-object relationships, without having to impose hand-crafted constraints.
+Graph-based Scene Synthesis: Representing scenes as graphs has been extensively studied in
+literature [41, 72, 80, 42, 58, 79, 78, 32, 14]. Zhou et al. [80] introduced a neural message passing
+algorithm for scene graphs that predicts the category of the next object to be placed at a speciﬁc
+location. Similarly, [41, 79, 58, 42] utilized a V AE [34] to synthesize 3D scenes as parse trees [58],
+adjacency matrices [79], scene graphs [42] and scene hierarchies [41]. Concurrently, [72, 78] adopted
+a two-stage generation process that disentangles planning the scene layout from instantiating the
+scene based on this plan. Note that graph-based models require supervision either in the form of
+relation graphs [72, 78, 42] or scene hierarchies [41]. In contrast, ATISS infers functional and spatial
+relations between objects directly from data labeled only with object classes and 3D bounding boxes.
+2
+Figure 2: Method Overview. Starting from a scene withM objects and a ﬂoor layout, the layout encoder maps
+the ﬂoor into a feature representation F and the structure encoder maps the objects into a context embedding
+C ={Cj}M
+j=1. The ﬂoor layout feature F, the context embedding C and a learnable query vector q are then
+passed to the transformer encoder that predicts ˆq. Using ˆq the attribute extractor autoregressively predicts
+the attribute distributions that are used to sample the attributes for the next object to be generated.
+Autoregressive Scene Synthesis: Closely related to our work are autoregressive indoor scene
+generation models [73, 61, 74]. Ritchie et al. [61] introduced a CNN-based architecture that operates
+on a top-down image-based representation of a scene and inserts objects in it sequentially by predicting
+their category, location, orientation and size with separate network modules. [61] requires supervision
+in the form of 2D bounding boxes as well as auxiliary supervision such as depth maps and object
+segmentation masks. In concurrent work, Wang et al. [ 74] introduced SceneFormer, a series of
+transformers that autoregressively add objects in a scene similar to [61]. Both [61, 74] use separate
+models to generate object attributes (e.g. category, location) that are trained independently and
+represent scenes as ordered sequences of objects, ordered by the category frequency. In contrast,
+we propose a simpler architecture that consists of a single model trained end-to-end to predict
+all attributes. We provide experimental evidence that our model generates more realistic object
+arrangements while being signiﬁcantly faster. While [61, 74] assume a ﬁxed ordering of the objects
+in each scene, our model does not impose any constraint on the ordering of objects. Instead, during
+training, we enforce that our model generates objects with all orderings, in a permutation invariant
+fashion. This allows us to represent scenes as unordered sets of objects and perform various interactive
+tasks such as rearranging any object in a room or suggesting new objects given any room.
+Transformers for Set Generation: Transformer models [71] demonstrated impressive results on
+various tasks such as machine translation [ 64, 49], language-modeling [ 2, 12], object detection
+[40, 3, 81], image recognition [16, 67], semantic segmentation [75] as well as on image [52, 31, 6,
+17, 68] and music [13] generation tasks. While there are works [39, 36] that utilize the permutation
+equivariance property of transformers for unordered set processing and prediction, existing generative
+models with transformers assume ordered sequences [2, 6, 7] even when there exists no natural order
+such as for pointclouds [ 48] and objects in a scene [ 74]. Instead, we introduce an autoregressive
+transformer for unordered set generation that enforces that the probability of adding a new element in
+the set is invariant to the order of the elements already in the set. We show that for the scene synthesis
+task, our model outperforms transformers that consider ordered sets of elements in every metric.
+3 Method
+Given an empty or a partially complete room of a speciﬁc type (e.g. bedroom) together with its shape,
+as a top-down orthographic projection of its ﬂoor, we want to learn a generative model that populates
+the room with objects, whose functional composition and spatial arrangement is plausible. To this
+end, we propose an autoregressive model that represents scenes as unordered sets of objects (Sec. 3.1)
+and describe our implementation using a transformer network (Sec. 3.2). Finally, we analyse the
+training and inference details of our method (Sec. 3.3).
+3.1 Autoregressive Set Generation
+LetX ={X1,..., XN} denote a collection of scenes where each Xi =
+(
+Oi, Fi)
+comprises the
+unordered set of objects in the sceneOi ={oi
+j}M
+j=1 and its ﬂoor layout Fi. To compute the likelihood
+of generatingOi we need to accumulate the likelihood of generating{oi
+j}M
+j=1 autoregressively in any
+3
+order. This is formally written as
+pθ(Oi|Fi) =
+∑
+ˆO∈π(Oi)
+∏
+j∈ ˆO
+pθ(oi
+j|oi
+<j, Fi), (1)
+wherepθ(oi
+j|oi
+<j, Fi) is the probability of thej-th object, conditioned on the previously generated
+objects and the ﬂoor layout, andπ(·) is a permutation function that computes the set of permutations
+of all objects in the scene. As a result, the log-likelihood of the whole collectionX is
+logpθ(X ) =
+N∑
+i=1
+log
+
+ ∑
+ˆO∈π(Oi)
+∏
+j∈ ˆO
+pθ(oi
+j|oi
+<j, Fi)
+
+. (2)
+However, training our generative model to maximize the log-likelihood of(2) poses two problems:
+(a) the summation over all permutations is intractable and (b) (2) does not ensure that all orderings
+will have high probability. The second problem is crucial because we want our generative model to
+be able to complete any partial set in a plausible way, namely we want any generation order to have
+high probability. To this end, instead of maximizing (2), we maximize the likelihood of generating a
+scene in all possible orderings, ˆpθ(·), which is deﬁned as
+log ˆpθ(X ) =
+N∑
+i=1
+log
+
+ ∏
+ˆO∈π(Oi)
+∏
+j∈ ˆO
+pθ(oi
+j|oi
+<j, Fi)
+
+ =
+N∑
+i=1
+∑
+ˆO∈π(Oi)
+∑
+j∈ ˆO
+logpθ(oi
+j|oi
+<j, Fi).
+(3)
+Note that training our generative model with (3) allows us to approximate the summation over all
+permutations using Monte Carlo sampling thus solving both problems of (2).
+Modelling Object Attributes: We represent objects in a scene as labeled 3D bounding boxes and
+model them with four random variables that describe their category, size, orientation and location,
+oj ={cj, sj, tj, rj}. The category cj is modeled using a categorical variable over the total number
+of object categoriesC in the dataset. For the size sj∈ R3, the location tj∈ R3 and the orientation
+rj∈ R1, we follow [62, 70] and model them with mixture of logistics distributions
+sj∼
+K∑
+k=1
+πs
+klogistic(µs
+k,σs
+k) tj∼
+K∑
+k=1
+πt
+klogistic(µt
+k,σt
+k) rj∼
+K∑
+k=1
+πr
+klogistic(µr
+k,σr
+k) (4)
+whereπs
+k,µs
+k andσs
+k denote the weight, mean and variance of thek-th logistic distribution used for
+modeling the size. Similarly,πt
+k,µt
+k andσt
+k andπr
+k,µr
+k ansσr
+k refer to the weight, mean and variance
+of thek-th logistic of the location and orientation, respectively. In our setup, the orientation is the
+angle of rotation around the up vector and the location is the 3D centroid of the bounding box.
+Similar to prior work [61, 74], we predict the object attributes in an autoregressive manner: object
+category ﬁrst, followed by position, orientation and size as follows:
+pθ(oj|o<j, F) = pθ(cj|o<j, F)pθ(tj|cj,o<j, F)pθ(rj|cj, tj,o<j, F)pθ(sj|cj, tj, rj,o<j, F).
+(5)
+This is a natural choice, since we want our model to consider the object class before reasoning about
+the size and the position of an object. To avoid notation clutter, we omit the scene indexi from (5).
+3.2 Network Architecture
+The input to our model is a collection of scenes in the form of 3D labeled bounding boxes with their
+corresponding room shape. Our network consists of four main components: (i) the layout encoder
+that maps the room shape to a global feature representation F, (ii) the structure encoderhθ that maps
+theM objects in the scene into per-object context embeddings C ={Cj}M
+j=1, (iii) the transformer
+encoderτθ that takes F, C and a query embedding q and predicts the features ˆq for the next object
+to be generated and (iv) the attribute extractor that predicts the attributes of the next object. Our
+model is illustrated in Fig. 2. The layout encoder is simply a ResNet-18 [25] that extracts a feature
+representation F∈ R64 for the top-down orthographic projection of the ﬂoor.
+4
+Figure 3: Training Overview: Given a scene withM objects (coloured squares), we ﬁrst randomly permute
+them and then keep the ﬁrstT objects (hereT = 3). We task our network to predict the next object to be added
+in the scene given the subset of kept objects (highlighted with grey) and its ﬂoor layout feature F. Our loss
+function is the negative log-likelihood (NLL) of the next object in the permuted sequence (green square).
+Structure Encoder: The structure encoderhθ maps the attributes of thej-th object into a per-object
+context embedding Cj as follows:
+hθ : RC× R3× R3× R1→ RLc× RLs× RLt× RLr
+(c, s, t, r)↦→ [λ(c);γ(s);γ(t);γ(r)] (6)
+whereLc,Ls,Lt,Lr are the output dimensionalities of the embeddings used to map the category, the
+size, the location and the orientation into a higher dimensional space respectively and [· ;·] denotes
+concatenation. For the object category cj we use a learnable embeddingλ(·), whereas for the size sj,
+the position tj and the orientation rj, we use the positional encoding of [71] as follows
+γ(p) = (sin(2 0πp), cos(20πp),..., sin(2L−1πp), cos(2L−1πp)) (7)
+wherep can be any of the size, position or orientation attributes andγ(·) is applied separately in each
+attribute’s dimension. The set of per-object context vectors synthesizes the context embeddingC that
+encapsulates information for the existing objects in the scene and is used to condition the next object
+to be generated. Before passing the output of (6) to the transformer encoder, we map each Cj to 64
+dimensions using a linear projection.
+Transformer Encoder: We follow [71, 12] and implement our encoderτθ as a multi-head attention
+transformer without any positional encoding. This allows us to learn a parametric function that
+computes features that are invariant to the order of Cj in C. We use these features to predict the next
+object to be added in the scene, creating an autoregressive model. The input set of the transformer is
+I ={F}∪{ Cj}M
+j=1∪ q, withM the number of objects in the scene. q∈ R64 is a learnable object
+query vector that allows the transformer to predict output features ˆq∈ R64 used for generating the
+next object to be added in the scene. The use of a query token is akin to the use of a mask embedding
+in Masked Language Modelling [12] or the class embedding for the Vision Transformer [63].
+Attribute Extractor: We autoregressively predict the attributes of the next object to be added in the
+scene using one MLP for each attribute. More formally, the attribute extractor is deﬁned as follows:
+cθ : R64→ RC ˆq↦→ ˆc (8)
+tθ : R64× RLc→ R3×3×K (ˆq,λ (c))↦→ ˆt (9)
+rθ : R64× RLc× RLt→ R1×3×K (ˆq,λ (c),γ (t))↦→ ˆr (10)
+sθ : R64× RLc× RLt× RLr→ R3×3×K (ˆq,λ (c),γ (t),γ (r))↦→ ˆs (11)
+where ˆc, ˆs, ˆt, ˆr are the predicted attribute distributions andcθ,tθ,rθ andsθ are mappings between
+the latent space and the low-dimensional space of attributes. For the object category,cθ predictsC
+class probabilities, whereas,tθ,rθ andsθ predict the mean, variance and mixing coefﬁcient for theK
+logistic distributions for each attribute. To predict the object properties in an autoregressive manner,
+we need to condition the prediction of a property on the previously predicted properties. Thus, instead
+of only passing ˆq to each MLP, we concatenate it with the previously predicted attributes, mapped in
+a higher-dimensional space using the embeddingsλ(·) andγ(·) from (6).
+3.3 Training and Inference
+During training, we choose a scene from the dataset and apply a random permutation π(·) on its
+M objects. Then, we randomly select the ﬁrst T objects to compute the context embedding C.
+5
+Scene Layout Training Sample FastSynth SceneFormer Ours
+Figure 4: Qualitative Scene Synthesis Results . Synthesized scenes for three room types: bedrooms (1st +2nd
+row), living room (3rd row), dining room (4th row) using FastSynth, SceneFormer and our method. To showcase
+the generalization abilities of our model we also show the closest scene from the training set (2nd column).
+Conditioned on C and F, our network predicts the attribute distributions of the next object to be
+added in the scene and is trained to maximize the log-likelihood of theT + 1object from the permuted
+scene. A pictorial representation of the training process is provided in Fig. 3. To indicate the end of
+sequence, we augment theC object classes with an additional class, which we refer to as end symbol.
+During inference, we start with an empty context embedding C =∅ and the ﬂoor representation F of
+the room to be populated and autoregressively sample attribute values from the predicted distributions
+of (8)-(11) for the next object. Once a new object is generated, it is appended to the context C to
+be used in the next step of the generation process until the end symbol is generated. A pictorial
+representation of the generation process can be found in Fig. 2. In order to transform the predicted
+labeled bounding boxes to 3D models we use object retrieval. In particular, we retrieve the closest
+object from the dataset in terms of the euclidean distance of the bounding box dimensions.
+4 Experimental Evaluation
+In this section, we provide an extensive evaluation of our method, comparing it to existing baselines.
+We further showcase several interactive use cases enabled by our method, not previously possible.
+Additional results as well as implementation details are provided in the supplementary.
+Datasets: We train our model on the 3D-FRONT dataset [21] which contains a collection of 6, 813
+houses with roughly 14, 629 rooms, populated with 3D furniture objects from the 3D-FUTURE
+dataset [22]. In our evaluation, we focus on four room types: (i) bedrooms, (ii) living rooms, (iii)
+dining rooms and (iv) libraries. After pre-processing to ﬁlter out uncommon object arrangements and
+rooms with unnatural sizes, we obtained 5996 bedrooms, 2962 living rooms, 2625 dining rooms and
+622 libraries. We use 21 object categories for the bedrooms, 24 for the living and dining rooms and
+25 for the libraries. The preprocessing steps are discussed in the supplementary.
+Baselines: We compare our approach to FastSynth [61] and SceneFormer [74] using the authors’
+implementations. Note that both approaches were originally evaluated on the SUNCG dataset [65],
+which is now unavailable. Thus, we retrained both on 3D-FRONT. We also compare with a variant of
+our model that generates scenes as ordered sequences of objects (Ours+Order). To incorporate the
+order information to the input, we utilize a positional embedding [71] and a ﬁxed ordering based on
+the object frequency as described in [74].
+6
+FastSynth
+SceneFormer
+Ours
+Figure 5: Scene Diversity . We show three generated scenes conditioned on three different ﬂoor plans for
+bedrooms and dining rooms. Every triplet of columns corresponds to a different ﬂoor plan.
+FID Score (↓) Scene Classiﬁcation Accuracy Category KL Divergence ( ↓)
+FastSynth SceneFormer Ours+Order OursFastSynth SceneFormer Ours+Order OursFastSynth SceneFormer Ours+Order Ours
+Bedrooms40.89 43.17 38.67 38.39 0.883 0.945 0.760 0.5620.0064 0.0052 0.0533 0.0085Living 61.67 69.54 35.37 33.14 0.945 0.972 0.694 0.5160.0176 0.0313 0.0372 0.0034Dining 55.83 67.04 35.79 29.23 0.935 0.941 0.623 0.4770.0518 0.0368 0.0278 0.0061Library 37.72 55.34 35.60 35.24 0.815 0.880 0.572 0.5210.0431 0.0232 0.0183 0.0098
+Table 1: Quantitative Comparison. We report the FID score (↓) at 2562 pixels, the KL divergence (↓) between
+the distribution of object categories of synthesized and real scenes and the real vs. synthetic classiﬁcation
+accuracy for all methods. Classiﬁcation accuracy closer to 0.5 is better.
+Evaluation Metrics: To measure the realism of the generated scenes, we follow prior work [ 61]
+and report the KL divergence between the object category distributions of synthesized and real
+scenes from the test set and the classiﬁcation accuracy of a classiﬁer trained to discriminate real
+from synthetic scenes. We also report the FID [26] between top-down orthographic projections of
+synthesized and real scenes from the test set, which we compute using [ 51] on 2562 images. We
+repeat the metric computation for FID and classiﬁcation accuracy 10 times and report the average.
+4.1 Scene Synthesis
+We start by evaluating the performance of our model on generating plausible object conﬁgurations
+for various room types, conditioned on different ﬂoor plans. Fig. 4 provides a qualitative comparison
+of four scenes generated with our model and baselines. In some cases, both [61, 74] generate invalid
+room layouts with objects positioned outside room boundaries or overlapping. Instead, our model
+consistently synthesizes realistic object arrangements. We validate this quantitatively in Tab. 1,
+where we compare the generated scenes wrt. their similarity to the original data from 3D-FRONT.
+Synthesized scenes sampled from our model are almost indistinguishable from scenes from the test
+set, as indicated by the classiﬁcation accuracy in Tab. 1, which is consistently around 50%. Our
+model also achieves lower FID scores for all room types and generates category distributions that are
+more faithful to the category distributions of the test set, expressed as lower KL divergence.
+Scene Layout FastSynth SceneFormer Ours Scene Layout FastSynth SceneFormer Ours
+Figure 6: Generalization Beyond Training Data . We show four synthesized bedrooms conditioned on four
+room layouts that we manually designed.
+7
+Partial Scene FastSynth SceneFormer Ours+Order Ours
+Figure 7: Scene Completion . Given a partial scene (left column), we visualize scene completions using our
+model and our baselines. Our model consistently generates plausible layouts.
+Bedroom Living Dining Library
+FastSynth [61]13193.77 30578.54 26596.08 10813.87SceneFormer [74]849.37 731.84 901.17 369.74Ours [61] 102.38 201.59 201.84 88.24
+Table 2: Generation Time Comparison. We measure
+time (ms) to generate a scene, conditioned on a ﬂoor plan.
+FastSynth [61] SceneFormer [74] Ours
+38.180 129.298 36.053
+Table 3: Network Parameters Comparison. We
+report the number of network parameters in millions.
+To showcase that our model generates diverse object arrangements we visualize3 generated scenes
+conditioned on the same ﬂoor plan for all methods (Fig. 5). We observe that our generated scenes
+are consistently valid and contain diverse object arrangements. In comparison [61, 74] struggle to
+generate plausible layouts particularly for the case of living rooms and dining rooms. We hypothesize
+that these rooms are more challenging than bedrooms, for the baselines, due to their signiﬁcantly
+smaller volume of training data, and the large number of constituent objects per scene (20 on average,
+as opposed to 8). To investigate whether our model also generates plausible layouts conditioned on
+ﬂoor plans with uncommon shapes that are not in the training set, we manually design unconventional
+ﬂoor plans (Fig. 6) and generate bedroom layouts. While both [61, 74] fail to generate valid scenes,
+our model synthesizes diverse object layouts that are consistent with the ﬂoor plan. Finally, we
+compare the computational requirements of our architecture to [61, 74]. Our model is signiﬁcantly
+faster (Tab. 2), while having fewer parameters (Tab. 3) than both [61, 74]. Note that [61] is orders of
+magnitude slower because it requires rendering every individual object added in the scene.
+4.2 Applications
+In this section, we present three applications that greatly beneﬁt by our unordered set formulation
+and are crucial for creating an interactive scene synthesis tool.
+Scene Completion: Starting from a partial scene, the task is to populate the empty space in a
+meaningful way. Since both [61, 74] are trained on sorted sequences of objects, they ﬁrst generate
+frequent objects (e.g. beds, wardrobes) followed by less common objects. As a result, incomplete
+scenes that contain less common objects cannot be correctly populated. This is illustrated in Fig. 7,
+where [61, 74] either fail to add any objects in the scene or place furnitures in unatural positions, thus
+resulting in bedrooms without beds (see 1st row Fig. 7) and scenes with overlapping furniture (see
+2nd row Fig. 7). In contrary, our model successfullly generates plausible completions with multiple
+objects such as lamps, wardrobes and dressing tables.
+Figure 8: Failure Case Detection and Correction . We use a partial room with unnatural object arrangements.
+Our model identiﬁes the problematic objects (ﬁrst row, in green) and relocates them into meaningful positions.
+8
+Lamp Double Bed Cabinet TV-stand Wardrobe Nothing
+Figure 9: Object Suggestion . A user speciﬁes a region of acceptable positions to place an object (marked as
+red boxes, 1st row) and our model suggests suitable objects (2nd row) to be placed in this location.
+Failure Case Detection and Correction: We showcase that our model is able to identify and correct
+unnatural object arrangements. Given a scene, we compute the likelihood of each object, according
+to our model, conditioned on the other objects in the scene. We identify problematic objects as those
+with low likelihood and sample a new location from our generative model to rearrange it. We test
+our model in various scenarios such as overlapping objects, objects outside the room boundaries and
+objects in unnatural positions and show that it successfully identiﬁes problematic objects (highlighted
+in green in Fig. 8) and rearranges them into a more plausible position. Note that this task cannot be
+performed by methods that consider ordering because they assign very low likelihood to common
+objects appearing after rare objects e.g. beds after cabinets.
+Object Suggestion: We now test the ability of our model to provide object suggestions given a scene
+and user speciﬁed location constraints. To perform this task we sample objects from our generative
+model and accept the ones that fullﬁll the constraints provided by the user. Fig. 9 shows examples of
+location constraints (red box in top row) and the corresponding objects suggested (bottom row). Note
+that even when the user provided region is partially outside the room boundaries (4th, 5th column),
+suggested objects always reside in the room. Moreover, if the acceptable region overlaps with another
+object, our model suggests adding nothing (6th column). This task requires computing the likelihood
+of an object conditioned on an arbitrary scene, which [74, 61] cannot perform due to ordering.
+4.3 Perceptual Study
+We conducted two paired Amazon Mechanical Turk perceptual studies to evaluate the quality of our
+generated layouts against [61] and [74]. We sample 6 bedroom layouts for each method from the
+same 211 test set ﬂoor plans. Users saw 2 different rotating 3D scenes per method randomly selected
+from 6 pre-rendered layouts. Random layouts for each ﬂoor plan were assessed by 5 different workers
+to evaluate agreement and diversity across samples for a total of 1055 question sets per paired study.
+Generated scenes of [61] were judged to contain errors like interpenetrating furniture 41.4% of the
+time, nearly twice as frequently as our method, while [ 74] performs signiﬁcantly worse (Tab. 4).
+Regarding realism, the scenes of [61] were more realistic than ours in only 26.9% of the cases. We
+conclude that our method outperforms the baselines in the key metric, generation of realistic indoor
+scenes, by a large margin. Additional details are provided in the supplementary.
+Method Condition Mean ErrorFrequency↓ More↑Realistic RealismCI99%FastSynth [61] vs. Ours0.414 0.269 [0.235,0.306]SceneFormer [74] vs. Ours0.713 0.165 [0.138,0.196]Ours vs. Both 0.232 0.783 [0.759,0.805]
+Table 4: Perceptual Study Results. Aggregated results for two A/B paired tests. Our method was judged more
+realistic with high conﬁdence (binomial conﬁdence interval withα = 0.01 reported) and contained fewer errors.
+5 Conclusion
+We introduced ATISS, a novel autoregressive transformer architecture for synthesizing 3D rooms
+as unordered sets of objects. Our method generates realistic scenes that advance the state-of-the-art
+for scene synthesis. In addition, our novel formulation enables new interactive applications for
+semi-automated scene authoring, such as general scene completion, object suggestions, anomaly
+9
+detection and more. We believe that our model is an important step not only toward automating the
+generation of 3D environments, with impact on simulation and virtual testing, but also toward a new
+generation of tools for user-driven content generation. By accepting a wide range of user inputs,
+our model mitigates societal risks of task automation, and promises to usher in tools that enhance
+the workﬂow of skilled laborers, rather than replacing them. In future work, we plan to extend
+order invariance to object attributes to further expand interactive possibilities of this model, and to
+incorporate style information. As any machine learning model, our model can introduce learned
+biases for indoor scenes, and we plan to investigate learning from less structured and more widely
+available data sources to make this model applicable to a wider range of cultures and environments.
+References
+[1] Andrew Brock, Jeff Donahue, and Karen Simonyan. Large scale GAN training for high ﬁdelity natural
+image synthesis. In Proc. of the International Conf. on Learning Representations (ICLR) , 2019.
+[2] Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind
+Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-V oss,
+Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens
+Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack
+Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. Language
+models are few-shot learners. In Advances in Neural Information Processing Systems (NeurIPS) , 2020.
+[3] Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, and Sergey
+Zagoruyko. End-to-end object detection with transformers. In Proc. of the European Conf. on Computer
+Vision (ECCV), 2020.
+[4] Angel X. Chang, Manolis Savva, and Christopher D. Manning. Learning spatial knowledge for text to 3d
+scene generation. 2014.
+[5] Siddhartha Chaudhuri, Evangelos Kalogerakis, Stephen Giguere, and Thomas A. Funkhouser. Attribit:
+content creation with semantic attributes. In The 26th Annual ACM Symposium on User Interface Software
+and Technology, UIST’13, St. Andrews, United Kingdom, October 8-11, 2013, 2013.
+[6] Mark Chen, Alec Radford, Rewon Child, Jeffrey Wu, Heewoo Jun, David Luan, and Ilya Sutskever.
+Generative pretraining from pixels. In Proc. of the International Conf. on Machine learning (ICML) , 2020.
+[7] Rewon Child, Scott Gray, Alec Radford, and Ilya Sutskever. Generating long sequences with sparse
+transformers. arXiv.org, 2019.
+[8] Yunjey Choi, Min-Je Choi, Munyoung Kim, Jung-Woo Ha, Sunghun Kim, and Jaegul Choo. Stargan:
+Uniﬁed generative adversarial networks for multi-domain image-to-image translation. In Proc. IEEE Conf.
+on Computer Vision and Pattern Recognition (CVPR) , 2018.
+[9] Yunjey Choi, Youngjung Uh, Jaejun Yoo, and Jung-Woo Ha. Stargan v2: Diverse image synthesis for
+multiple domains. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2020.
+[10] Jia Deng, Wei Dong, Richard Socher, Li jia Li, Kai Li, and Li Fei-fei. Imagenet: A large-scale hierarchical
+image database. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2009.
+[11] Jeevan Devaranjan, Amlan Kar, and Sanja Fidler. Meta-sim2: Unsupervised learning of scene structure for
+synthetic data generation. In Proc. of the European Conf. on Computer Vision (ECCV) , 2020.
+[12] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: pre-training of deep
+bidirectional transformers for language understanding. In Proceedings of the 2019 Conference of the North
+American Chapter of the Association for Computational Linguistics: Human Language Technologies,
+NAACL-HLT 2019, Minneapolis, MN, USA, June 2-7, 2019, V olume 1 (Long and Short Papers) , pages
+4171–4186. Association for Computational Linguistics, 2019.
+[13] Prafulla Dhariwal, Heewoo Jun, Christine Payne, Jong Wook Kim, Alec Radford, and Ilya Sutskever.
+Jukebox: A generative model for music. arXiv.org, 2020.
+[14] Xinhan Di, Pengqian Yu, Hong Zhu, Lei Cai, Qiuyan Sheng, and Changyu Sun. Structural plan of indoor
+scenes with personalized preferences. arXiv.org, 2020.
+[15] Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density estimation using real NVP. In Proc. of
+the International Conf. on Learning Representations (ICLR) , 2017.
+[16] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas
+Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and
+Neil Houlsby. An image is worth 16x16 words: Transformers for image recognition at scale. In Proc. of
+the International Conf. on Learning Representations (ICLR) , 2021.
+[17] Patrick Esser, Robin Rombach, and Björn Ommer. Taming transformers for high-resolution image synthesis.
+In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2021.
+10
+[18] Matthew Fisher, Daniel Ritchie, Manolis Savva, Thomas A. Funkhouser, and Pat Hanrahan. Example-based
+synthesis of 3d object arrangements. 2012.
+[19] Matthew Fisher, Manolis Savva, and Pat Hanrahan. Characterizing structural relationships in scenes using
+graph kernels. ACM Trans. on Graphics, 2011.
+[20] Matthew Fisher, Manolis Savva, Yangyan Li, Pat Hanrahan, and Matthias Nießner. Activity-centric scene
+synthesis for functional 3d scene modeling. ACM Trans. on Graphics, 2015.
+[21] Huan Fu, Bowen Cai, Lin Gao, Lingxiao Zhang, Cao Li, Zengqi Xun, Chengyue Sun, Yiyun Fei, Yu Zheng,
+Ying Li, Yi Liu, Peng Liu, Lin Ma, Le Weng, Xiaohang Hu, Xin Ma, Qian Qian, Rongfei Jia, Binqiang
+Zhao, and Hao Zhang. 3d-front: 3d furnished rooms with layouts and semantics.arXiv.org, abs/2011.09127,
+2020.
+[22] Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve J. Maybank, and Dacheng Tao.
+3d-future: 3d furniture shape with texture. arXiv.org, abs/2009.09633, 2020.
+[23] Qiang Fu, Xiaowu Chen, Xiaotian Wang, Sijia Wen, Bin Zhou, and Hongbo Fu. Adaptive synthesis of
+indoor scenes via activity-associated object relation graphs. ACM Trans. on Graphics, 2017.
+[24] Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair,
+Aaron C. Courville, and Yoshua Bengio. Generative adversarial nets. In Advances in Neural Information
+Processing Systems (NIPS), 2014.
+[25] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition.
+In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2016.
+[26] Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp Hochreiter. Gans
+trained by a two time-scale update rule converge to a local nash equilibrium. In Advances in Neural
+Information Processing Systems (NIPS), 2017.
+[27] Akash Abdu Jyothi, Thibaut Durand, Jiawei He, Leonid Sigal, and Greg Mori. Layoutvae: Stochastic
+scene layout generation from a label set. In Proc. of the IEEE International Conf. on Computer Vision
+(ICCV), 2019.
+[28] Amlan Kar, Aayush Prakash, Ming-Yu Liu, Eric Cameracci, Justin Yuan, Matt Rusiniak, David Acuna,
+Antonio Torralba, and Sanja Fidler. Meta-sim: Learning to generate synthetic datasets. In Proc. of the
+IEEE International Conf. on Computer Vision (ICCV) , 2019.
+[29] Tero Karras, Samuli Laine, and Timo Aila. A style-based generator architecture for generative adversarial
+networks. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2019.
+[30] Tero Karras, Samuli Laine, Miika Aittala, Janne Hellsten, Jaakko Lehtinen, and Timo Aila. Analyzing and
+improving the image quality of StyleGAN. 2020.
+[31] Angelos Katharopoulos, Apoorv Vyas, Nikolaos Pappas, and François Fleuret. Transformers are rnns: Fast
+autoregressive transformers with linear attention. In Proc. of the International Conf. on Machine learning
+(ICML), 2020.
+[32] Mohammad Keshavarzi, Aakash Parikh, Xiyu Zhai, Melody Mao, Luisa Caldas, and Allen Y . Yang.
+Scenegen: Generative contextual scene augmentation using scene graph priors. arXiv.org, 2020.
+[33] Diederik P. Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In Proc. of the
+International Conf. on Learning Representations (ICLR) , 2015.
+[34] Diederik P. Kingma and Max Welling. Auto-encoding variational bayes. Proc. of the International Conf.
+on Learning Representations (ICLR), 2014.
+[35] Durk P Kingma and Prafulla Dhariwal. Glow: Generative ﬂow with invertible 1x1 convolutions. In
+Advances in Neural Information Processing Systems (NIPS) , 2018.
+[36] Adam R. Kosiorek, Hyunjik Kim, and Danilo J. Rezende. Conditional set generation with transformers.
+arXiv.org, 2020.
+[37] Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton. Imagenet classiﬁcation with deep convolutional
+neural networks. In Advances in Neural Information Processing Systems (NIPS) , 2012.
+[38] Matt J Kusner, Brooks Paige, and José Miguel Hernández-Lobato. Grammar variational autoencoder. In
+Proc. of the International Conf. on Machine learning (ICML) , pages 1945–1954. PMLR, 2017.
+[39] Juho Lee, Yoonho Lee, Jungtaek Kim, Adam R. Kosiorek, Seungjin Choi, and Yee Whye Teh. Set
+transformer: A framework for attention-based permutation-invariant neural networks. In Proc. of the
+International Conf. on Machine learning (ICML) , 2019.
+[40] Lingyun Luke Li, Bin Yang, Ming Liang, Wenyuan Zeng, Mengye Ren, Sean Segal, and Raquel Urtasun.
+End-to-end contextual perception and prediction with interaction transformer. In Proc. IEEE International
+Conf. on Intelligent Robots and Systems (IROS) , pages 5784–5791, 2020.
+11
+[41] Manyi Li, Akshay Gadi Patil, Kai Xu, Siddhartha Chaudhuri, Owais Khan, Ariel Shamir, Changhe Tu,
+Baoquan Chen, Daniel Cohen-Or, and Hao (Richard) Zhang. GRAINS: generative recursive autoencoders
+for indoor scenes. ACM Trans. on Graphics, 2019.
+[42] Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B. Tenenbaum. End-to-end optimization of scene
+layout. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2020.
+[43] Rui Ma, Akshay Gadi Patil, Matthew Fisher, Manyi Li, Sören Pirk, Binh-Son Hua, Sai-Kit Yeung, Xin
+Tong, Leonidas J. Guibas, and Hao Zhang. Language-driven synthesis of 3d scenes from scene databases.
+ACM Trans. on Graphics, 2018.
+[44] Paul Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala, and Vladlen Koltun. Interactive furniture
+layout using interior design guidelines. ACM Trans. on Graphics, 2011.
+[45] Kaichun Mo, Paul Guerrero, Li Yi, Hao Su, Peter Wonka, Niloy Mitra, and Leonidas Guibas. Structurenet:
+Hierarchical graph networks for 3d shape generation. In ACM Trans. on Graphics, 2019.
+[46] Kaichun Mo, Leonidas J. Guibas, Mustafa Mukadam, Abhinav Gupta, and Shubham Tulsiani. Where2act:
+From pixels to actions for articulated 3d objects. In Proc. of the IEEE International Conf. on Computer
+Vision (ICCV), 2021.
+[47] Pascal Müller, Peter Wonka, Simon Haegler, Andreas Ulmer, and Luc Van Gool. Procedural modeling of
+buildings. ACM Trans. on Graphics, 2006.
+[48] Charlie Nash, Yaroslav Ganin, S. M. Ali Eslami, and Peter W. Battaglia. Polygen: An autoregressive
+generative model of 3d meshes. In Proc. of the International Conf. on Machine learning (ICML) , 2020.
+[49] Myle Ott, Sergey Edunov, David Grangier, and Michael Auli. Scaling neural machine translation. In
+Proceedings of the Third Conference on Machine Translation: Research Papers, WMT 2018, Belgium,
+Brussels, October 31 - November 1, 2018 , 2018.
+[50] Yoav I. H. Parish and Pascal Müller. Procedural modeling of cities. In ACM Trans. on Graphics, 2001.
+[51] Gaurav Parmar, Richard Zhang, and Jun-Yan Zhu. On buggy resizing libraries and surprising subtleties in
+FID calculation. arXiv.org, 2021.
+[52] Niki Parmar, Ashish Vaswani, Jakob Uszkoreit, Lukasz Kaiser, Noam Shazeer, Alexander Ku, and Dustin
+Tran. Image transformer. In Proc. of the International Conf. on Machine learning (ICML) , 2018.
+[53] Despoina Paschalidou, Angelos Katharopoulos, Andreas Geiger, and Sanja Fidler. Neural parts: Learning
+expressive 3d shape abstractions with invertible neural networks. In Proc. IEEE Conf. on Computer Vision
+and Pattern Recognition (CVPR), 2021.
+[54] Despoina Paschalidou, Ali Osman Ulusoy, and Andreas Geiger. Superquadrics revisited: Learning 3d
+shape parsing beyond cuboids. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) ,
+2019.
+[55] Despoina Paschalidou, Luc van Gool, and Andreas Geiger. Learning unsupervised hierarchical part
+decomposition of 3d objects from a single rgb image. In Proc. IEEE Conf. on Computer Vision and Pattern
+Recognition (CVPR), 2020.
+[56] Adam Paszke, Abhishek Chaurasia, Sangpil Kim, and Eugenio Culurciello. Enet: A deep neural network
+architecture for real-time semantic segmentation. arXiv.org, 1606.02147, 2016.
+[57] Aayush Prakash, Shaad Boochoon, Mark Brophy, David Acuna, Eric Cameracci, Gavriel State, Omer
+Shapira, and Stan Birchﬁeld. Structured domain randomization: Bridging the reality gap by context-aware
+synthetic data. In Proc. IEEE International Conf. on Robotics and Automation (ICRA) , 2019.
+[58] Pulak Purkait, Christopher Zach, and Ian Reid. SG-V AE: scene grammar variational autoencoder to
+generate new indoor scenes. In Proc. of the European Conf. on Computer Vision (ECCV) , 2020.
+[59] Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and Song-Chun Zhu. Human-centric indoor scene
+synthesis using stochastic grammar. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition
+(CVPR), 2018.
+[60] Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. Language models
+are unsupervised multitask learners. arXiv.org, 2019.
+[61] Daniel Ritchie, Kai Wang, and Yu-An Lin. Fast and ﬂexible indoor scene synthesis via deep convolutional
+generative models. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2019.
+[62] Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. Pixelcnn++: Improving the pixelcnn
+with discretized logistic mixture likelihood and other modiﬁcations. In Proc. of the International Conf. on
+Learning Representations (ICLR), 2017.
+[63] Gilad Sharir, Asaf Noy, and Lihi Zelnik-Manor. An image is worth 16x16 words, what is a video worth?
+In Proc. of the International Conf. on Learning Representations (ICLR) , 2021.
+12
+[64] Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. In
+Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational
+Linguistics: Human Language Technologies, NAACL-HLT, New Orleans, Louisiana, USA, June 1-6, 2018,
+V olume 2 (Short Papers), 2018.
+[65] Shuran Song, Fisher Yu, Andy Zeng, Angel X Chang, Manolis Savva, and Thomas Funkhouser. Semantic
+scene completion from a single depth image. In Proc. IEEE Conf. on Computer Vision and Pattern
+Recognition (CVPR), 2017.
+[66] Jerry O. Talton, Yu Lou, Steve Lesser, Jared Duke, Radomír Mech, and Vladlen Koltun. Metropolis
+procedural modeling. ACM Trans. on Graphics, 2011.
+[67] Hugo Touvron, Matthieu Cord, Matthijs Douze, Francisco Massa, Alexandre Sablayrolles, and Hervé
+Jégou. Training data-efﬁcient image transformers & distillation through attention. arXiv.org, 2020.
+[68] Shubham Tulsiani and Abhinav Gupta. Pixeltransformer: Sample conditioned signal generation. In Proc.
+of the International Conf. on Machine learning (ICML) , 2021.
+[69] Shubham Tulsiani, Hao Su, Leonidas J. Guibas, Alexei A. Efros, and Jitendra Malik. Learning shape
+abstractions by assembling volumetric primitives. In Proc. IEEE Conf. on Computer Vision and Pattern
+Recognition (CVPR), 2017.
+[70] Aäron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal
+Kalchbrenner, Andrew W. Senior, and Koray Kavukcuoglu. Wavenet: A generative model for raw audio.
+In The 9th ISCA Speech Synthesis Workshop, Sunnyvale, CA, USA, 13-15 September 2016 , 2016.
+[71] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz
+Kaiser, and Illia Polosukhin. Attention is all you need. In Advances in Neural Information Processing
+Systems (NIPS), pages 5998–6008, 2017.
+[72] Kai Wang, Yu-An Lin, Ben Weissmann, Manolis Savva, Angel X. Chang, and Daniel Ritchie. Planit:
+planning and instantiating indoor scenes with relation graph and spatial prior networks. ACM Trans. on
+Graphics, 2019.
+[73] Kai Wang, Manolis Savva, Angel X. Chang, and Daniel Ritchie. Deep convolutional priors for indoor
+scene synthesis. ACM Trans. on Graphics, 37(4):70:1–70:14, 2018.
+[74] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. Sceneformer: Indoor scene generation with
+transformers. arXiv.org, 2020.
+[75] Linwei Ye, Mrigank Rochan, Zhi Liu, and Yang Wang. Cross-modal self-attention network for referring
+image segmentation. In Proc. IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) , 2019.
+[76] Lap-Fai Yu, Sai Kit Yeung, Chi-Keung Tang, Demetri Terzopoulos, Tony F. Chan, and Stanley J. Osher.
+Make it home: automatic optimization of furniture arrangement. ACM Trans. on Graphics, 2011.
+[77] Lap-Fai Yu, Sai Kit Yeung, and Demetri Terzopoulos. The clutterpalette: An interactive tool for detailing
+indoor scenes. IEEE Trans. Vis. Comput. Graph., 2016.
+[78] Song-Hai Zhang, Shaokui Zhang, Wei-Yu Xie, Cheng-Yang Luo, and Hong-Bo Fu. Fast 3d indoor scene
+synthesis with discrete and exact layout pattern extraction. arXiv.org, 2020.
+[79] Zaiwei Zhang, Zhenpei Yang, Chongyang Ma, Linjie Luo, Alexander Huth, Etienne V ouga, and Qixing
+Huang. Deep generative modeling for scene synthesis via hybrid representations. ACM Trans. on Graphics,
+2020.
+[80] Yang Zhou, Zachary While, and Evangelos Kalogerakis. Scenegraphnet: Neural message passing for 3d
+indoor scene augmentation. In Proc. of the IEEE International Conf. on Computer Vision (ICCV) , 2019.
+[81] Xizhou Zhu, Weijie Su, Lewei Lu, Bin Li, Xiaogang Wang, and Jifeng Dai. Deformable DETR: deformable
+transformers for end-to-end object detection. Proc. of the International Conf. on Learning Representations
+(ICLR), 2021.
+13
+Supplementary Material for
+A TISS: Autoregressive Transformers for Indoor
+Scene Synthesis
+Abstract
+In this supplementary document, we provide a detailed overview of our network
+architecture and the training procedure. Subsequently, we describe the preprocess-
+ing steps that we followed to ﬁlter out problematic rooms from the 3D-FRONT
+dataset [21]. Next, we provide ablations on how different components of our system
+impact the performance of our model on the scene synthesis task and we compare
+ATISS with various transformer models that consider ordering. Finally, we provide
+additional qualitative and quantitative results as well as additional details for our
+perceptual study presented in Sec 4.3 in our main submission.
+A Implementation Details
+In this section, we provide a detailed description of our network architecture. We then describe our
+training protocol and provide details on the metrics computation during training and testing. Finally,
+we also provide additional details regarding our baselines.
+A.1 Network Architecture
+Here we describe the architecture of each individual component of our model (from Fig. 2 in the
+main submission). Our architecture comprises four components: (i) the layout encoder that maps the
+room shape to a global feature representation F, (ii) the structure encoder that maps theM objects in
+a scene into per-object context embeddings C ={Cj}M
+j=1, (iii) the transformer encoder that takes F,
+C and a query embedding q and predicts the features ˆq for the next object to be generated and (iv)
+the attribute extractor that autoregressively predicts the attributes of the next object.
+Layout Encoder: The ﬁrst part of our architecture is the layout encoder that is used to map the
+room’s ﬂoor into a global feature representationF. We follow [73] and we model the ﬂoor plan with
+its top-down orthographic projection. This projection maps the ﬂoor plan into an image, where pixel
+values of 1 indicate regions inside the room and pixel values of 0 otherwise. The layout encoder
+is implemented with a ResNet-18 architecture [ 25] that is not pre-trained on ImageNet [ 10]. We
+empirically observed that using a pre-trained ResNet resulted in worse performance. From the
+original architecture, we remove the ﬁnal fully connected layer and replace it with a linear projection
+to 64 dimensions, after average pooling.
+Structure Encoder: The structure encoder maps the attributes of each object into a per-object
+context embedding Cj. For the object category cj, we use a learnable embedding, which is simply
+a matrix of sizeC× 64, that stores a per-object category vector, for allC object categories in the
+dataset. For the size sj, the position tj and the orientation rj, we use the positional encoding of [71]
+as follows
+γ(p) = (sin(2 0πp), cos(20πp),..., sin(2L−1πp), cos(2L−1πp)) (12)
+wherep can be any of the size, position or orientation attributes andγ(·) is applied separately in each
+attribute’s dimension. In our experiments,L is set to 32. The output of each embedding layer, used to
+map the category, size, location and orientation in a higher dimensional space, are concatenated into
+an 512-dimensional feature vector, which is then mapped to the per-object context embedding. A
+pictorial representation of the structure encoder is provided in Fig. 10.
+Transformer Encoder: We follow [71, 12] and implement our transformer encoder as a multi-
+head attention transformer without any positional encoding. Our transformer consists of 4 layers
+14

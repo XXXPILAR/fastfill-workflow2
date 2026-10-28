@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bath oil bottle, bath stool, bathroom storage cabinet, bathroom wall art, bathtub, extra toilet paper roll, extra towel stack, floating vanity unit, floor magazine basket, folded towel stack, freestanding bathtub, freestanding shelving unit, freestanding towel rack, heated towel rack, laundry basket, laundry hamper, scented candle, skincare bottle, small stool, small tray, soap dispenser, storage cabinet, tall bathroom cabinet, tall storage cabinet, toilet, toilet side storage, toothbrush holder, vanity cabinet, vanity cabinet with sink, vanity mirror, wall mirror \nOverall furniture frequencies: (bath oil bottle: 0.0227; bath stool: 0.0227; bathroom storage cabinet: 0.0; bathroom wall art: 0.0227; bathtub: 0.1136; extra toilet paper roll: 0.0682; extra towel stack: 0.0227; floating vanity unit: 0.0227; floor magazine basket: 0.0227; folded towel stack: 0.0227; freestanding bathtub: 0.0227; freestanding shelving unit: 0.0227; freestanding towel rack: 0.0227; heated towel rack: 0.0227; laundry basket: 0.0227; laundry hamper: 0.0227; scented candle: 0.0227; skincare bottle: 0.0455; small stool: 0.0; small tray: 0.0227; soap dispenser: 0.0227; storage cabinet: 0.0682; tall bathroom cabinet: 0.0227; tall storage cabinet: 0.0227; toilet: 0.1136; toilet side storage: 0.0227; toothbrush holder: 0.0227; vanity cabinet: 0.0455; vanity cabinet with sink: 0.0455; vanity mirror: 0.0227; wall mirror: 0.0227)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bathtub[obj_0000] {length: 0.77m; height: 0.75m; width: 1.74m; orientation: 90 degrees; left: 1.50m; top: 0.83m; depth: 0.00m;}\ntall storage cabinet[obj_0001] {length: 0.63m; height: 1.82m; width: 0.73m; orientation: -90 degrees; left: 0.45m; top: 2.68m; depth: 0.00m;}\nlaundry basket[obj_0002] {length: 0.51m; height: 0.65m; width: 0.51m; orientation: -90 degrees; left: 1.05m; top: 2.79m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.75m; height: 0.90m; width: 0.48m; orientation: -180 degrees; left: 1.81m; top: 2.10m; depth: 0.00m;}\nbathtub[obj_0001] {length: 0.77m; height: 0.75m; width: 1.74m; orientation: -90 degrees; left: 0.75m; top: 2.17m; depth: 0.00m;}\nvanity cabinet[obj_0002] {length: 0.76m; height: 0.97m; width: 0.60m; orientation: 90 degrees; left: 1.50m; top: 0.25m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.56m; height: 0.68m; width: 0.80m; orientation: 90 degrees; left: 0.30m; top: 0.35m; depth: 0.00m;}\nvanity cabinet with sink[obj_0001] {length: 0.88m; height: 1.12m; width: 0.67m; orientation: -180 degrees; left: 1.71m; top: 1.65m; depth: 0.00m;}\nstorage cabinet[obj_0002] {length: 0.73m; height: 1.78m; width: 0.48m; orientation: -180 degrees; left: 1.80m; top: 0.75m; depth: 0.00m;}\nfreestanding towel rack[obj_0003] {length: 0.76m; height: 1.28m; width: 0.27m; orientation: -180 degrees; left: 1.91m; top: 2.55m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "folded towel stack[obj_0000] {length: 0.21m; height: 0.06m; width: 0.17m; orientation: -19 degrees; left: 0.24m; top: 2.38m; depth: 1.74m;}\nextra toilet paper roll[obj_0001] {length: 0.09m; height: 0.12m; width: 0.12m; orientation: 144 degrees; left: 1.50m; top: 0.39m; depth: 0.57m;}\nextra toilet paper roll[obj_0002] {length: 0.09m; height: 0.12m; width: 0.12m; orientation: 174 degrees; left: 1.50m; top: 0.35m; depth: 0.57m;}\nlaundry hamper[obj_0003] {length: 0.45m; height: 0.60m; width: 0.35m; orientation: -90 degrees; left: 0.75m; top: 2.75m; depth: 0.00m;}\nwall mirror[obj_0004] {length: 0.76m; height: 0.94m; width: 0.01m; orientation: 90 degrees; left: 0.90m; top: 0.04m; depth: 1.10m;}\nsmall tray[obj_0005] {length: 0.29m; height: 0.08m; width: 0.14m; orientation: 0 degrees; left: 0.90m; top: 0.25m; depth: 0.68m;}\nextra toilet paper roll[obj_0006] {length: 0.09m; height: 0.12m; width: 0.12m; orientation: -101 degrees; left: 1.44m; top: 0.12m; depth: 0.57m;}\nsoap dispenser[obj_0007] {length: 0.11m; height: 0.30m; width: 0.04m; orientation: 0 degrees; left: 1.06m; top: 0.34m; depth: 0.68m;}\nskincare bottle[obj_0008] {length: 0.06m; height: 0.21m; width: 0.05m; orientation: -6 degrees; left: 0.67m; top: 0.12m; depth: 0.68m;}\nvanity cabinet[obj_0009] {length: 0.62m; height: 0.67m; width: 0.36m; orientation: 90 degrees; left: 0.90m; top: 0.25m; depth: 0.00m;}\ntoilet side storage[obj_0010] {length: 0.43m; height: 0.56m; width: 0.37m; orientation: 90 degrees; left: 1.55m; top: 0.25m; depth: 0.00m;}\nfreestanding shelving unit[obj_0011] {length: 0.75m; height: 1.75m; width: 0.33m; orientation: 0 degrees; left: 0.24m; top: 2.35m; depth: 0.00m;}\ntoothbrush holder[obj_0012] {length: 0.10m; height: 0.15m; width: 0.10m; orientation: 83 degrees; left: 0.90m; top: 0.21m; depth: 0.68m;}\nscented candle[obj_0013] {length: 0.08m; height: 0.14m; width: 0.12m; orientation: 174 degrees; left: 0.67m; top: 0.16m; depth: 0.69m;}\nfloor magazine basket[obj_0014] {length: 0.22m; height: 0.32m; width: 0.34m; orientation: -180 degrees; left: 1.76m; top: 0.65m; depth: 0.00m;}\nskincare bottle[obj_0015] {length: 0.06m; height: 0.27m; width: 0.06m; orientation: 0 degrees; left: 1.06m; top: 0.39m; depth: 0.68m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "storage cabinet[obj_0000] {length: 0.73m; height: 1.78m; width: 0.48m; orientation: 90 degrees; left: 1.20m; top: 0.20m; depth: 0.00m;}\nbathtub[obj_0001] {length: 0.83m; height: 0.71m; width: 1.83m; orientation: -90 degrees; left: 1.50m; top: 2.13m; depth: 0.00m;}\ntoilet[obj_0002] {length: 0.75m; height: 0.90m; width: 0.48m; orientation: 90 degrees; left: 0.45m; top: 0.19m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "vanity cabinet with sink[obj_0000] {length: 0.76m; height: 0.97m; width: 0.60m; orientation: -90 degrees; left: 0.45m; top: 2.75m; depth: 0.00m;}\ntoilet[obj_0001] {length: 0.53m; height: 0.76m; width: 0.71m; orientation: -90 degrees; left: 1.20m; top: 2.69m; depth: 0.00m;}\nbathtub[obj_0002] {length: 0.77m; height: 0.75m; width: 1.74m; orientation: 90 degrees; left: 1.50m; top: 0.83m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "freestanding bathtub[obj_0000] {length: 0.73m; height: 0.71m; width: 1.73m; orientation: 0 degrees; left: 1.06m; top: 2.57m; depth: 0.00m;}\nbath oil bottle[obj_0001] {length: 0.09m; height: 0.15m; width: 0.04m; orientation: 118 degrees; left: 1.34m; top: 1.66m; depth: 0.42m;}\nheated towel rack[obj_0002] {length: 0.62m; height: 0.84m; width: 0.15m; orientation: -90 degrees; left: 1.10m; top: 2.91m; depth: 0.90m;}\nfloating vanity unit[obj_0003] {length: 0.66m; height: 0.97m; width: 0.50m; orientation: 0 degrees; left: 0.32m; top: 1.75m; depth: 0.00m;}\ntall bathroom cabinet[obj_0004] {length: 0.65m; height: 1.78m; width: 0.53m; orientation: 0 degrees; left: 0.34m; top: 0.95m; depth: 0.00m;}\nbathroom wall art[obj_0005] {length: 0.18m; height: 0.24m; width: 0.01m; orientation: -180 degrees; left: 1.97m; top: 2.55m; depth: 1.50m;}\nextra towel stack[obj_0006] {length: 0.16m; height: 0.06m; width: 0.19m; orientation: -55 degrees; left: 0.49m; top: 1.03m; depth: 0.59m;}\nvanity mirror[obj_0007] {length: 0.76m; height: 0.94m; width: 0.01m; orientation: 0 degrees; left: 0.04m; top: 1.80m; depth: 1.10m;}\nbath stool[obj_0008] {length: 0.42m; height: 0.42m; width: 0.42m; orientation: 0 degrees; left: 1.40m; top: 1.80m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.53m; height: 0.76m; width: 0.71m; orientation: -90 degrees; left: 0.75m; top: 2.69m; depth: 0.00m;}\nstorage cabinet[obj_0001] {length: 0.73m; height: 1.78m; width: 0.48m; orientation: 90 degrees; left: 1.50m; top: 0.20m; depth: 0.00m;}\nbathtub[obj_0002] {length: 0.83m; height: 0.71m; width: 1.83m; orientation: -90 degrees; left: 1.50m; top: 2.13m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 3.00m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nsmall stool[obj_0000]: simple wooden small bathroom stool\nbathroom storage cabinet[obj_0001]: tall contemporary slim storage cabinet with glass doors\nvanity cabinet[obj_0002]: large modern vanity cabinet with integrated double sink and wide countertop\nFloor polygon (left, top): (2.00, 0.00), (2.00, 3.00), (0.00, 3.00), (0.00, 0.00)\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.5}\nLayout:\n"
+ }
+]

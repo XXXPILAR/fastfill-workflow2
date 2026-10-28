@@ -1,0 +1,1154 @@
+{
+ "floor": [
+  {
+   "assetId": "counter-0",
+   "id": "counter-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.12,
+    "y": 0.525,
+    "z": 3.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     369.5,
+     250.0
+    ],
+    [
+     369.5,
+     500.0
+    ],
+    [
+     454.5,
+     500.0
+    ],
+    [
+     454.5,
+     250.0
+    ]
+   ],
+   "object_name": "counter-0"
+  },
+  {
+   "assetId": "bench-0",
+   "id": "bench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.355,
+    "y": 0.425,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     75.5,
+     180.0
+    ],
+    [
+     75.5,
+     370.0
+    ],
+    [
+     -4.5,
+     370.0
+    ],
+    [
+     -4.5,
+     180.0
+    ]
+   ],
+   "object_name": "bench-0"
+  },
+  {
+   "assetId": "sodafountain-0",
+   "id": "sodafountain-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.145,
+    "y": 0.675,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     374.5,
+     102.5
+    ],
+    [
+     374.5,
+     247.5
+    ],
+    [
+     454.5,
+     247.5
+    ],
+    [
+     454.5,
+     102.5
+    ]
+   ],
+   "object_name": "sodafountain-0"
+  },
+  {
+   "assetId": "jukebox-0",
+   "id": "jukebox-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.33,
+    "y": 0.725,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     70.5,
+     2.5
+    ],
+    [
+     70.5,
+     97.5
+    ],
+    [
+     -4.5,
+     97.5
+    ],
+    [
+     -4.5,
+     2.5
+    ]
+   ],
+   "object_name": "jukebox-0"
+  },
+  {
+   "assetId": "sidetable-0",
+   "id": "sidetable-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.25,
+    "z": 0.28
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     382.5,
+     -4.5
+    ],
+    [
+     382.5,
+     60.5
+    ],
+    [
+     317.5,
+     60.5
+    ],
+    [
+     317.5,
+     -4.5
+    ]
+   ],
+   "object_name": "sidetable-0"
+  },
+  {
+   "assetId": "magazinerack-0",
+   "id": "magazinerack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.18,
+    "y": 0.625,
+    "z": 4.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     40.5,
+     385.0
+    ],
+    [
+     40.5,
+     465.0
+    ],
+    [
+     -4.5,
+     465.0
+    ],
+    [
+     -4.5,
+     385.0
+    ]
+   ],
+   "object_name": "magazinerack-0"
+  },
+  {
+   "assetId": "coatrack-0",
+   "id": "coatrack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.0,
+    "y": 0.9,
+    "z": 0.28
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     232.5,
+     -4.5
+    ],
+    [
+     232.5,
+     60.5
+    ],
+    [
+     167.5,
+     60.5
+    ],
+    [
+     167.5,
+     -4.5
+    ]
+   ],
+   "object_name": "coatrack-0"
+  },
+  {
+   "assetId": "stool-0",
+   "id": "stool-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.38,
+    "z": 4.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     351.0,
+     399.0
+    ],
+    [
+     351.0,
+     451.0
+    ],
+    [
+     299.0,
+     451.0
+    ],
+    [
+     299.0,
+     399.0
+    ],
+    [
+     351.0,
+     399.0
+    ]
+   ],
+   "object_name": "stool-0"
+  },
+  {
+   "assetId": "stool-1",
+   "id": "stool-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.38,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     351.0,
+     249.0
+    ],
+    [
+     351.0,
+     301.0
+    ],
+    [
+     299.0,
+     301.0
+    ],
+    [
+     299.0,
+     249.0
+    ],
+    [
+     351.0,
+     249.0
+    ]
+   ],
+   "object_name": "stool-1"
+  },
+  {
+   "assetId": "stool-2",
+   "id": "stool-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.38,
+    "z": 3.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     351.0,
+     324.0
+    ],
+    [
+     351.0,
+     376.0
+    ],
+    [
+     299.0,
+     376.0
+    ],
+    [
+     299.0,
+     324.0
+    ],
+    [
+     351.0,
+     324.0
+    ]
+   ],
+   "object_name": "stool-2"
+  },
+  {
+   "assetId": "stool-3",
+   "id": "stool-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.38,
+    "z": 2.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     299.0,
+     174.0
+    ],
+    [
+     299.0,
+     226.0
+    ],
+    [
+     351.0,
+     226.0
+    ],
+    [
+     351.0,
+     174.0
+    ],
+    [
+     299.0,
+     174.0
+    ]
+   ],
+   "object_name": "stool-3"
+  },
+  {
+   "assetId": "cashregister-0",
+   "id": "cashregister-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.19,
+    "z": 4.785
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     254.0,
+     504.5
+    ],
+    [
+     254.0,
+     452.5
+    ],
+    [
+     196.0,
+     452.5
+    ],
+    [
+     196.0,
+     504.5
+    ]
+   ],
+   "object_name": "cashregister-0"
+  },
+  {
+   "assetId": "trashcan-0",
+   "id": "trashcan-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.295,
+    "y": 0.375,
+    "z": 0.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     404.5,
+     50.0
+    ],
+    [
+     404.5,
+     100.0
+    ],
+    [
+     454.5,
+     100.0
+    ],
+    [
+     454.5,
+     50.0
+    ]
+   ],
+   "object_name": "trashcan-0"
+  },
+  {
+   "assetId": "floorlamp-0",
+   "id": "floorlamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.185,
+    "y": 0.8,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     41.5,
+     127.0
+    ],
+    [
+     41.5,
+     173.0
+    ],
+    [
+     -4.5,
+     173.0
+    ],
+    [
+     -4.5,
+     127.0
+    ]
+   ],
+   "object_name": "floorlamp-0"
+  },
+  {
+   "assetId": "floorlamp-1",
+   "id": "floorlamp-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.8,
+    "z": 4.815
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     323.0,
+     504.5
+    ],
+    [
+     323.0,
+     458.5
+    ],
+    [
+     277.0,
+     458.5
+    ],
+    [
+     277.0,
+     504.5
+    ]
+   ],
+   "object_name": "floorlamp-1"
+  },
+  {
+   "assetId": "floorlamp-2",
+   "id": "floorlamp-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 0.8,
+    "z": 0.185
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     123.0,
+     -4.5
+    ],
+    [
+     123.0,
+     41.5
+    ],
+    [
+     77.0,
+     41.5
+    ],
+    [
+     77.0,
+     -4.5
+    ]
+   ],
+   "object_name": "floorlamp-2"
+  },
+  {
+   "assetId": "floorlamp-3",
+   "id": "floorlamp-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.75,
+    "y": 0.8,
+    "z": 0.185
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     298.0,
+     -4.5
+    ],
+    [
+     298.0,
+     41.5
+    ],
+    [
+     252.0,
+     41.5
+    ],
+    [
+     252.0,
+     -4.5
+    ]
+   ],
+   "object_name": "floorlamp-3"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "neonsign-6",
+   "id": "neonsign-6 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.05,
+    "y": 2.175,
+    "z": 0.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     8.0,
+     15.0
+    ],
+    [
+     8.0,
+     135.0
+    ],
+    [
+     0.0,
+     135.0
+    ],
+    [
+     0.0,
+     15.0
+    ],
+    [
+     8.0,
+     15.0
+    ]
+   ],
+   "object_name": "neonsign-6"
+  },
+  {
+   "assetId": "sign-1",
+   "id": "sign-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 2.1,
+    "z": 0.055
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     355.0,
+     0.0
+    ],
+    [
+     355.0,
+     9.0
+    ],
+    [
+     245.0,
+     9.0
+    ],
+    [
+     245.0,
+     0.0
+    ],
+    [
+     355.0,
+     0.0
+    ]
+   ],
+   "object_name": "sign-1"
+  },
+  {
+   "assetId": "neonsign-2",
+   "id": "neonsign-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.45,
+    "y": 2.2,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     450.0,
+     122.5
+    ],
+    [
+     450.0,
+     227.5
+    ],
+    [
+     442.0,
+     227.5
+    ],
+    [
+     442.0,
+     122.5
+    ],
+    [
+     450.0,
+     122.5
+    ]
+   ],
+   "object_name": "neonsign-2"
+  },
+  {
+   "assetId": "sign-0",
+   "id": "sign-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.055,
+    "y": 2.1,
+    "z": 4.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     9.0,
+     375.0
+    ],
+    [
+     9.0,
+     475.0
+    ],
+    [
+     0.0,
+     475.0
+    ],
+    [
+     0.0,
+     375.0
+    ],
+    [
+     9.0,
+     375.0
+    ]
+   ],
+   "object_name": "sign-0"
+  },
+  {
+   "assetId": "neonsign-1",
+   "id": "neonsign-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.45,
+    "y": 2.2,
+    "z": 3.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     450.0,
+     327.5
+    ],
+    [
+     450.0,
+     422.5
+    ],
+    [
+     442.0,
+     422.5
+    ],
+    [
+     442.0,
+     327.5
+    ],
+    [
+     450.0,
+     327.5
+    ]
+   ],
+   "object_name": "neonsign-1"
+  },
+  {
+   "assetId": "neonsign-4",
+   "id": "neonsign-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.45,
+    "y": 2.225,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     450.0,
+     2.5
+    ],
+    [
+     450.0,
+     97.5
+    ],
+    [
+     442.0,
+     97.5
+    ],
+    [
+     442.0,
+     2.5
+    ],
+    [
+     450.0,
+     2.5
+    ]
+   ],
+   "object_name": "neonsign-4"
+  },
+  {
+   "assetId": "neonsign-7",
+   "id": "neonsign-7 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.05,
+    "y": 2.225,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     8.0,
+     227.5
+    ],
+    [
+     8.0,
+     322.5
+    ],
+    [
+     0.0,
+     322.5
+    ],
+    [
+     0.0,
+     227.5
+    ],
+    [
+     8.0,
+     227.5
+    ]
+   ],
+   "object_name": "neonsign-7"
+  },
+  {
+   "assetId": "neonsign-0",
+   "id": "neonsign-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.0,
+    "y": 2.225,
+    "z": 4.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     445.0,
+     492.0
+    ],
+    [
+     445.0,
+     500.0
+    ],
+    [
+     355.0,
+     500.0
+    ],
+    [
+     355.0,
+     492.0
+    ],
+    [
+     445.0,
+     492.0
+    ]
+   ],
+   "object_name": "neonsign-0"
+  },
+  {
+   "assetId": "neonsign-3",
+   "id": "neonsign-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.5,
+    "y": 2.2,
+    "z": 0.045000000000000005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     95.0,
+     0.0
+    ],
+    [
+     95.0,
+     7.000000000000001
+    ],
+    [
+     5.0,
+     7.000000000000001
+    ],
+    [
+     5.0,
+     0.0
+    ],
+    [
+     95.0,
+     0.0
+    ]
+   ],
+   "object_name": "neonsign-3"
+  },
+  {
+   "assetId": "neonsign-5",
+   "id": "neonsign-5 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 2.2,
+    "z": 0.045000000000000005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     220.0,
+     0.0
+    ],
+    [
+     220.0,
+     7.000000000000001
+    ],
+    [
+     130.0,
+     7.000000000000001
+    ],
+    [
+     130.0,
+     0.0
+    ],
+    [
+     220.0,
+     0.0
+    ]
+   ],
+   "object_name": "neonsign-5"
+  },
+  {
+   "assetId": "menu-0",
+   "id": "menu-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.470000000000001,
+    "y": 2.0,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     450.0,
+     237.5
+    ],
+    [
+     450.0,
+     312.5
+    ],
+    [
+     446.0,
+     312.5
+    ],
+    [
+     446.0,
+     237.5
+    ],
+    [
+     450.0,
+     237.5
+    ]
+   ],
+   "object_name": "menu-0"
+  },
+  {
+   "assetId": "poster-0",
+   "id": "poster-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.0,
+    "y": 1.9,
+    "z": 4.985
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.0,
+     499.0
+    ],
+    [
+     230.0,
+     500.0
+    ],
+    [
+     170.0,
+     500.0
+    ],
+    [
+     170.0,
+     499.0
+    ],
+    [
+     230.0,
+     499.0
+    ]
+   ],
+   "object_name": "poster-0"
+  },
+  {
+   "assetId": "poster-1",
+   "id": "poster-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.0,
+    "y": 1.9,
+    "z": 0.015
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     430.0,
+     0.0
+    ],
+    [
+     430.0,
+     1.0
+    ],
+    [
+     370.0,
+     1.0
+    ],
+    [
+     370.0,
+     0.0
+    ],
+    [
+     430.0,
+     0.0
+    ]
+   ],
+   "object_name": "poster-1"
+  }
+ ]
+}

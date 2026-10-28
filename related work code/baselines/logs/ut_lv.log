@@ -1,0 +1,16 @@
+/Users/zhangyang/Downloads/fastfill-v4/baselines/LayoutVLM/src/layoutvlm/constraints.py:15: UserWarning: WARNING: Could not import oriented_iou_loss from third_party.Rotated_IoU. This is likely due to CUDA not being available or the CUDA extension not being compiled. The bbox_overlap_loss function will use a simplified fallback that may be less accurate. Original error: No module named 'sort_vertices'
+  warnings.warn(
+Fra:1 Mem:58.75M (Peak 58.75M) | Time:00:00.33 | Rendering 1 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.43 | Rendering 25 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.53 | Rendering 50 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:00.59 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/baselines/runs/usage_test/layoutvlm/room_002/group_0/top_down_rendering.png'
+Time: 00:00.68 (Saving: 00:00.07)
+
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.12 | Rendering 25 / 64 samples
+Fra:1 Mem:58.94M (Peak 58.94M) | Time:00:00.22 | Rendering 50 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.94M) | Time:00:00.27 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/baselines/runs/usage_test/layoutvlm/room_002/group_0/side_rendering_45_3.png'
+Time: 00:00.31 (Saving: 00:00.02)
+

@@ -1,0 +1,33 @@
+{
+ "task_description": "a study room of about 2.8m x 3.1m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 1.61 m wide centred at (1.46, 3.05); a door 0.88 m wide centred at (2.20, 0.00) (keep the floor in front of it clear). the multifunctional combination bed (o0001) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    2.7676247558593747,
+    3.053031982421875,
+    0.0
+   ],
+   [
+    0.0,
+    3.053031982421875,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.7676247558593747,
+    0.00015917968750001066,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6999
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {}
+ }
+}

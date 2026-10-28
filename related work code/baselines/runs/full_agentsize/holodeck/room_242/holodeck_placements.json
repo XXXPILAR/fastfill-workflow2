@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "tub-0",
+   "id": "tub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.6460000000000008,
+    "y": 0.275,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     122.10000000000008,
+     0.0
+    ],
+    [
+     122.10000000000008,
+     180.0
+    ],
+    [
+     207.10000000000008,
+     180.0
+    ],
+    [
+     207.10000000000008,
+     0.0
+    ]
+   ],
+   "object_name": "tub-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.6710000000000007,
+    "y": 0.39,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     127.10000000000008,
+     186.0
+    ],
+    [
+     127.10000000000008,
+     234.0
+    ],
+    [
+     207.10000000000008,
+     234.0
+    ],
+    [
+     207.10000000000008,
+     186.0
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "hand sink-0",
+   "id": "hand sink-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.3,
+    "y": 0.425,
+    "z": 2.4530000000000003
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     60.0,
+     271.3
+    ],
+    [
+     60.0,
+     219.3
+    ],
+    [
+     0.0,
+     219.3
+    ],
+    [
+     0.0,
+     271.3
+    ]
+   ],
+   "object_name": "hand sink-0"
+  }
+ ],
+ "wall": []
+}

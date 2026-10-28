@@ -1,0 +1,774 @@
+{
+ "k": 173,
+ "source": "SAGE-10k",
+ "room_type": "dining room",
+ "latency_s": 386.3954486248549,
+ "usage": [
+  {
+   "prompt_tokens": 3528,
+   "completion_tokens": 6535,
+   "total_tokens": 10063,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3683,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     0.65
+    ],
+    "bottom_center_m": [
+     0.22,
+     3.23,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.2,
+     2.68,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.36,
+     0.36,
+     0.46
+    ],
+    "bottom_center_m": [
+     1.08,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.24
+    ],
+    "bottom_center_m": [
+     3.6,
+     1.75,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.4,
+     2.4,
+     0.78
+    ],
+    "bottom_center_m": [
+     2.5,
+     3.28,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.84
+    ],
+    "bottom_center_m": [
+     1.75,
+     0.95,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.06,
+     0.2,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.55,
+     1.48,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.84
+    ],
+    "bottom_center_m": [
+     2.6,
+     0.95,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.52
+    ],
+    "bottom_center_m": [
+     0.2,
+     2.18,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.45,
+     0.95,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     1.65
+    ],
+    "bottom_center_m": [
+     0.67,
+     3.25,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.9,
+     2.4,
+     0.76
+    ],
+    "bottom_center_m": [
+     2.6,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.26,
+     0.34,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.2,
+     1.24,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.18
+    ],
+    "bottom_center_m": [
+     1.42,
+     3.39,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.2,
+     0.78,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.025
+    ],
+    "bottom_center_m": [
+     1.9,
+     1.48,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.065,
+     0.065,
+     0.16
+    ],
+    "bottom_center_m": [
+     1.68,
+     3.39,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     0.62
+    ],
+    "bottom_center_m": [
+     0.2,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.05,
+     0.05,
+     0.1
+    ],
+    "bottom_center_m": [
+     3.32,
+     1.7,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.18
+    ],
+    "bottom_center_m": [
+     1.94,
+     3.39,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.2
+    ],
+    "bottom_center_m": [
+     2.2,
+     3.39,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.16,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     1.5,
+     3.18,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.06,
+     0.2,
+     0.025
+    ],
+    "bottom_center_m": [
+     2.95,
+     3.17,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.26,
+     0.3,
+     0.5
+    ],
+    "bottom_center_m": [
+     2.12,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     1.62
+    ],
+    "bottom_center_m": [
+     4.12,
+     3.25,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.06,
+     0.2,
+     0.02
+    ],
+    "bottom_center_m": [
+     2.2,
+     1.48,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.55,
+     1.48,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.46,
+     3.39,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.84
+    ],
+    "bottom_center_m": [
+     1.75,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.38,
+     1.2,
+     0.46
+    ],
+    "bottom_center_m": [
+     3.75,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.9,
+     1.48,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.36,
+     0.36,
+     0.46
+    ],
+    "bottom_center_m": [
+     1.53,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     1.6
+    ],
+    "bottom_center_m": [
+     4.76,
+     2.65,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.05,
+     0.05,
+     0.1
+    ],
+    "bottom_center_m": [
+     3.18,
+     1.7,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     1.62
+    ],
+    "bottom_center_m": [
+     0.65,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.025
+    ],
+    "bottom_center_m": [
+     1.9,
+     2.02,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.16,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     1.86,
+     3.18,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     1.15
+    ],
+    "bottom_center_m": [
+     4.72,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     1.18
+    ],
+    "bottom_center_m": [
+     4.72,
+     3.23,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.16,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     2.22,
+     3.18,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     1.64
+    ],
+    "bottom_center_m": [
+     4.76,
+     0.75,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.38,
+     0.46,
+     0.48
+    ],
+    "bottom_center_m": [
+     2.65,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.05,
+     0.05,
+     0.1
+    ],
+    "bottom_center_m": [
+     3.32,
+     1.82,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.06,
+     0.2,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.55,
+     2.02,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.05,
+     0.05,
+     0.1
+    ],
+    "bottom_center_m": [
+     3.18,
+     1.82,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0045",
+    "target_size_local_m": [
+     0.06,
+     0.2,
+     0.02
+    ],
+    "bottom_center_m": [
+     2.2,
+     2.02,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0046",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.84
+    ],
+    "bottom_center_m": [
+     2.6,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0047",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.84
+    ],
+    "bottom_center_m": [
+     3.45,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0048",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.55,
+     2.02,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0049",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.9,
+     2.02,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0050",
+    "target_size_local_m": [
+     0.16,
+     0.16,
+     0.36
+    ],
+    "bottom_center_m": [
+     3.5,
+     3.3,
+     0.78
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0051",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.82
+    ],
+    "bottom_center_m": [
+     1.08,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0052",
+    "target_size_local_m": [
+     0.16,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     2.58,
+     3.18,
+     0.78
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining table is centered lengthwise in the room, with three chairs on each long side and one chair at the left end; the right end remains open to preserve a clear route from the door. The sideboard is placed against the north wall, with its books, candles, remote, and vase arranged in two compact rows on top. A bench, stools, and side table occupy the lower wall without obstructing the dining chairs. Plants and slender floor lamps are distributed around the perimeter, while the entire area directly inside the east-wall door remains unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":0.65,\"x\":0.22,\"y\":3.23,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.55,\"x\":0.2,\"y\":2.68,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.36,\"depth_m\":0.36,\"height_m\":0.46,\"x\":1.08,\"y\":0.22,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.24,\"x\":3.6,\"y\":1.75,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":2.4,\"depth_m\":0.4,\"height_m\":0.78,\"x\":2.5,\"y\":3.28,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.84,\"x\":1.75,\"y\":0.95,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.2,\"depth_m\":0.06,\"height_m\":0.02,\"x\":1.55,\"y\":1.48,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.84,\"x\":2.6,\"y\":0.95,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.52,\"x\":0.2,\"y\":2.18,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.82,\"x\":3.45,\"y\":0.95,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":1.65,\"x\":0.67,\"y\":3.25,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0011\",\"width_m\":2.4,\"depth_m\":0.9,\"height_m\":0.76,\"x\":2.6,\"y\":1.75,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.34,\"depth_m\":0.26,\"height_m\":0.5,\"x\":0.2,\"y\":1.24,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.18,\"x\":1.42,\"y\":3.39,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0014\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.5,\"x\":0.2,\"y\":0.78,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0015\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.025,\"x\":1.9,\"y\":1.48,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0016\",\"width_m\":0.065,\"depth_m\":0.065,\"height_m\":0.16,\"x\":1.68,\"y\":3.39,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0017\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":0.62,\"x\":0.2,\"y\":0.22,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0018\",\"width_m\":0.05,\"depth_m\":0.05,\"height_m\":0.1,\"x\":3.32,\"y\":1.7,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.18,\"x\":1.94,\"y\":3.39,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0020\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.2,\"x\":2.2,\"y\":3.39,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0021\",\"width_m\":0.28,\"depth_m\":0.16,\"height_m\":0.04,\"x\":1.5,\"y\":3.18,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0022\",\"width_m\":0.2,\"depth_m\":0.06,\"height_m\":0.025,\"x\":2.95,\"y\":3.17,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0023\",\"width_m\":0.3,\"depth_m\":0.26,\"height_m\":0.5,\"x\":2.12,\"y\":0.2,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0024\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":1.62,\"x\":4.12,\"y\":3.25,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0025\",\"width_m\":0.2,\"depth_m\":0.06,\"height_m\":0.02,\"x\":2.2,\"y\":1.48,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0026\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.11,\"x\":2.55,\"y\":1.48,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0027\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.12,\"x\":2.46,\"y\":3.39,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0028\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.84,\"x\":1.75,\"y\":2.55,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0029\",\"width_m\":1.2,\"depth_m\":0.38,\"height_m\":0.46,\"x\":3.75,\"y\":0.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0030\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.11,\"x\":2.9,\"y\":1.48,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0031\",\"width_m\":0.36,\"depth_m\":0.36,\"height_m\":0.46,\"x\":1.53,\"y\":0.22,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0032\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":1.6,\"x\":4.76,\"y\":2.65,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0033\",\"width_m\":0.05,\"depth_m\":0.05,\"height_m\":0.1,\"x\":3.18,\"y\":1.7,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0034\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":1.62,\"x\":0.65,\"y\":0.2,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0035\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.025,\"x\":1.9,\"y\":2.02,\"z\":0.76,\"facing_deg\":270},{\"id\":\"obj_0036\",\"width_m\":0.28,\"depth_m\":0.16,\"height_m\":0.04,\"x\":1.86,\"y\":3.18,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0037\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":1.15,\"x\":4.72,\"y\":0.25,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0038\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":1.18,\"x\":4.72,\"y\":3.23,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0039\",\"width_m\":0.28,\"depth_m\":0.16,\"height_m\":0.04,\"x\":2.22,\"y\":3.18,\"z\":0.78,\"facing_deg\":90},{\"id\":\"obj_0040\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":1.64,\"x\":4.76,\"y\":0.75,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0041\",\"width_m\":0.46,\"depth_m\":0.38,\"height_m\":0.48,\"x\":2.65,\"y\":0.22,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0042\",\"width_m\":0.05,\"depth_m\":0.05,\"height_m\":0.1,\"x\":3.32,\"y\":1.82,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0043\",\"width_m\":0.2,\"depth_m\":0.06,\"height_m\":0.02,\"x\":1.55,\"y\":2.02,\"z\":0.76,\"facing_deg\":270},{\"id\":\"obj_0044\",\"width_m\":0.05,\"depth_m\":0.05,\"height_m\":0.1,\"x\":3.18,\"y\":1.82,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0045\",\"width_m\":0.2,\"depth_m\":0.06,\"height_m\":0.02,\"x\":2.2,\"y\":2.02,\"z\":0.76,\"facing_deg\":270},{\"id\":\"obj_0046\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.84,\"x\":2.6,\"y\":2.55,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0047\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.84,\"x\":3.45,\"y\":2.55,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0048\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.11,\"x\":2.55,\"y\":2.02,\"z\":0.76,\"facing_deg\":270},{\"id\":\"obj_0049\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.11,\"x\":2.9,\"y\":2.02,\"z\":0.76,\"facing_deg\":270},{\"id\":\"obj_0050\",\"width_m\":0.16,\"depth_m\":0.16,\"height_m\":0.36,\"x\":3.5,\"y\":3.3,\"z\":0.78,\"facing_deg\":270},{\"id\":\"obj_0051\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.82,\"x\":1.08,\"y\":1.75,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0052\",\"width_m\":0.28,\"depth_m\":0.16,\"height_m\":0.04,\"x\":2.58,\"y\":3.18,\"z\":0.78,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndining room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.000 m x 3.500 m x 2.700 m\nfloor polygon (x, y): [[5.0, 0.0], [5.0, 3.5], [0.0, 3.5], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"plantcorner\", \"description\": \"A small potted plant in a woven planter, compact round pot, natural fiber texture, green foliage\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"plant\", \"description\": \"A small potted plant in a woven basket planter, compact foliage, earthy tones, basket has a textured natural weave\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"stool\", \"description\": \"A compact wooden stool with a square seat, Japandi style, warm wood tone, tapered legs, and a minimalist silhouette.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"oliveoilbottle\", \"description\": \"A small olive oil bottle, cylindrical glass with a dark green label, narrow neck and a sleek cap\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0004\", \"category\": \"sideboard\", \"description\": \"A low wooden sideboard with a raw wood surface, rectangular shape, Japandi style, featuring a flat top, subtle grain texture, and minimalist hardware.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair with a rectangular seat, warm wood tones, Japandi style, straight-edged backrest, slightly angled legs, and a smooth matte finish.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"cutlery\", \"description\": \"A set of three elongated utensils – fork, knife and spoon – with polished stainless‑steel finish and gently curved handles\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0007\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair with a rectangular seat, warm wood tones, Japandi style, straight-edged backrest, slightly angled legs, and a smooth matte finish.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"plant\", \"description\": \"A small potted plant in a woven basket, compact foliage, earthy tones, rounded pot shape\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair, rectangular seat, straight‑edged backrest, natural wood finish, modest height\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"lamp\", \"description\": \"A tall floor lamp with a slender wooden stand and a linen shade, neutral tones, Japandi style, the shade is cylindrical and slightly draped, providing a soft diffused glow.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"table\", \"description\": \"A solid wood dining table with a rectangular top, natural finish, muted earth tones, Japandi style, featuring subtle tapered legs and a smooth grain pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"plant\", \"description\": \"A small potted plant in a woven natural‑fiber planter, compact bushy foliage, planter is rectangular with a textured weave\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"candle\", \"description\": \"A small cylindrical candle set in a wooden holder, warm brown wood, smooth wax, slender profile\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0014\", \"category\": \"plant\", \"description\": \"A small potted plant in a woven basket planter, compact foliage, earthy tones, basket has a textured natural weave\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0015\", \"category\": \"plate\", \"description\": \"A white ceramic plate, circular shape, smooth glossy surface, slightly raised rim for a clean edge\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0016\", \"category\": \"candle\", \"description\": \"A small cylindrical white wax candle with a smooth surface and rounded top\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0017\", \"category\": \"plantcorner\", \"description\": \"A small potted plant in a woven planter, compact round pot, natural fiber texture, green foliage\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0018\", \"category\": \"saltshaker\", \"description\": \"A small ceramic salt shaker, rectangular body with a slightly tapered top, matte white finish and a tiny perforated lid\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0019\", \"category\": \"candle\", \"description\": \"A small cylindrical candle set in a wooden holder, warm brown wood, smooth wax, slender profile\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0020\", \"category\": \"candle\", \"description\": \"A small pillar candle in a wooden holder, cylindrical candle with a smooth white wax surface, holder made of light oak with a shallow recessed base\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0021\", \"category\": \"book\", \"description\": \"A thin hardcover book with a linen cover, rectangular shape, soft off‑white linen texture, and crisp edges\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0022\", \"category\": \"remote\", \"description\": \"A rectangular remote control, matte black plastic, rounded corners, ergonomic grip\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0023\", \"category\": \"plant\", \"description\": \"A small potted plant in a woven natural‑fiber planter, compact bushy foliage, planter is rectangular with a textured weave\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0024\", \"category\": \"lamp\", \"description\": \"A tall floor lamp with a beige fabric shade, slender pole, soft rectangular shade, contemporary style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0025\", \"category\": \"cutlery\", \"description\": \"A set of three elongated utensils – fork, knife and spoon – with polished stainless‑steel finish and gently curved handles\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0026\", \"category\": \"glass\", \"description\": \"A clear stemless glass, cylindrical body with a smooth, slightly tapered profile and a thin, polished rim\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0027\", \"category\": \"candle\", \"description\": \"A small wooden candle holder, cylindrical shape with a smooth polished finish, natural wood color and a tiny recessed cavity for a candle\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0028\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair with a rectangular seat, warm wood tones, Japandi style, straight-edged backrest, slightly angled legs, and a smooth matte finish.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0029\", \"category\": \"bench\", \"description\": \"A wooden bench with a light wood finish, rectangular seat, Japandi style, low-slung profile, slightly rounded edges, and a smooth surface.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0030\", \"category\": \"glass\", \"description\": \"A clear stemless glass, cylindrical body with a smooth, slightly tapered profile and a thin, polished rim\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0031\", \"category\": \"stool\", \"description\": \"A compact wooden stool with a square seat, Japandi style, warm wood tone, tapered legs, and a minimalist silhouette.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0032\", \"category\": \"lamp\", \"description\": \"A tall floor lamp with a slender pole and a beige fabric shade, modern minimalist style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0033\", \"category\": \"peppershaker\", \"description\": \"A small cylindrical pepper shaker, brushed stainless steel, matching the salt shaker with a subtle textured knob\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0034\", \"category\": \"lamp\", \"description\": \"A tall floor lamp with a slender metal shaft and a soft beige fabric shade, sleek modern silhouette\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0035\", \"category\": \"plate\", \"description\": \"A white ceramic plate, circular shape, smooth glossy surface, slightly raised rim for a clean edge\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0036\", \"category\": \"book\", \"description\": \"A thin hardcover book with a linen cover, rectangular shape, soft off‑white fabric texture and slightly rounded edges\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0037\", \"category\": \"plant\", \"description\": \"A potted bamboo plant in a woven natural planter, cylindrical foliage, Japandi style, the planter has a textured rattan weave and a round base.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0038\", \"category\": \"plant\", \"description\": \"A potted bamboo plant in a woven natural planter, cylindrical foliage, Japandi style, the planter has a textured rattan weave and a round base.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0039\", \"category\": \"book\", \"description\": \"A thin hardcover book with a linen cover, rectangular shape, soft off‑white linen texture, and crisp edges\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0040\", \"category\": \"lamp\", \"description\": \"A tall floor lamp with a slender metal shaft, topped by a wide beige fabric shade, sleek and minimalist silhouette\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0041\", \"category\": \"sidetable\", \"description\": \"A small wooden side table, rectangular top with a light natural finish, short sturdy legs, compact footprint\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0042\", \"category\": \"saltshaker\", \"description\": \"A small cylindrical salt shaker, brushed stainless steel, sleek and reflective surface\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0043\", \"category\": \"cutlery\", \"description\": \"A set of three elongated utensils – fork, knife and spoon – with polished stainless‑steel finish and gently curved handles\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0044\", \"category\": \"peppershaker\", \"description\": \"A small ceramic pepper shaker, rectangular body matching the salt shaker but with a contrasting speckled gray finish and a tiny perforated lid\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0045\", \"category\": \"cutlery\", \"description\": \"A set of three elongated utensils – fork, knife and spoon – with polished stainless‑steel finish and gently curved handles\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0046\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair with a rectangular seat, warm wood tones, Japandi style, straight-edged backrest, slightly angled legs, and a smooth matte finish.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0047\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair with a rectangular seat, warm wood tones, Japandi style, straight-edged backrest, slightly angled legs, and a smooth matte finish.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0048\", \"category\": \"glass\", \"description\": \"A clear stemless glass, cylindrical body with a smooth, slightly tapered profile and a thin, polished rim\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0049\", \"category\": \"glass\", \"description\": \"A clear stemless glass, cylindrical body with a smooth, slightly tapered profile and a thin, polished rim\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0050\", \"category\": \"vase\", \"description\": \"A wooden Japandi style vase with a natural wood texture, cylindrical shape, smooth matte finish, and a subtle tapered rim\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0051\", \"category\": \"chair\", \"description\": \"A simple wooden dining chair, rectangular seat, straight‑edged backrest, natural wood finish, modest height\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0052\", \"category\": \"book\", \"description\": \"A thin hardcover book with linen cover, rectangular shape, muted earth tone, smooth texture\", \"support_parent\": \"obj_0004\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.0, 1.577], \"wall_from\": [5.0, 0.0], \"wall_to\": [5.0, 3.5], \"width_m\": 0.95, \"height_m\": 2.05}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0013\", \"parent_id\": \"obj_0004\"}]\n[/Task Constraints]"
+}

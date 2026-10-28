@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bed, chair, clothes rack, combination sofa, cupboard, desk, dining chair, dining table combination, multifunctional combination bed, nightstand, wardrobe \nOverall furniture frequencies: (bed: 0.2083; chair: 0.0417; clothes rack: 0.0417; combination sofa: 0.0833; cupboard: 0.0417; desk: 0.0833; dining chair: 0.0417; dining table combination: 0.0833; multifunctional combination bed: 0.0417; nightstand: 0.0833; wardrobe: 0.25)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.75m, max width 2.20m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dining chair[obj_0000] {length: 0.55m; height: 0.78m; width: 0.51m; orientation: -90 degrees; left: 1.10m; top: 0.75m; depth: 0.00m;}\ncupboard[obj_0001] {length: 0.74m; height: 1.40m; width: 0.30m; orientation: -90 degrees; left: 0.72m; top: 2.05m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.97m, max width 1.93m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 1.94m; height: 2.72m; width: 0.55m; orientation: 0 degrees; left: 0.27m; top: 0.97m; depth: -0.00m;}\ncombination sofa[obj_0001] {length: 1.93m; height: 0.40m; width: 1.51m; orientation: 180 degrees; left: 2.22m; top: 0.97m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 3.00m, max width 2.40m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 1.26m; height: 2.65m; width: 0.56m; orientation: 0 degrees; left: 0.28m; top: 1.77m; depth: -0.00m;}\nbed[obj_0001] {length: 1.73m; height: 1.12m; width: 1.91m; orientation: -90 degrees; left: 2.23m; top: 1.45m; depth: 0.00m;}\ndesk[obj_0002] {length: 0.90m; height: 1.95m; width: 0.44m; orientation: -90 degrees; left: 1.00m; top: 2.18m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.67m, max width 1.94m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "nightstand[obj_0000] {length: 0.38m; height: 0.48m; width: 0.31m; orientation: 180 degrees; left: 2.45m; top: 0.72m; depth: 0.10m;}\nwardrobe[obj_0001] {length: 1.19m; height: 1.75m; width: 0.35m; orientation: 90 degrees; left: 2.08m; top: 0.17m; depth: -0.00m;}\nclothes rack[obj_0002] {length: 0.49m; height: 1.58m; width: 0.41m; orientation: 0 degrees; left: 1.17m; top: 0.29m; depth: 0.00m;}\nchair[obj_0003] {length: 0.38m; height: 0.59m; width: 0.49m; orientation: 180 degrees; left: 0.61m; top: 1.53m; depth: -0.13m;}\ndesk[obj_0004] {length: 0.79m; height: 0.83m; width: 0.53m; orientation: 0 degrees; left: 0.26m; top: 1.55m; depth: -0.00m;}\nbed[obj_0005] {length: 1.10m; height: 0.77m; width: 1.65m; orientation: 180 degrees; left: 1.85m; top: 1.39m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 3.01m, max width 2.40m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "multifunctional combination bed[obj_0000] {length: 1.40m; height: 2.55m; width: 3.03m; orientation: 0 degrees; left: 1.52m; top: 1.70m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 0.92m; height: 2.12m; width: 0.60m; orientation: -180 degrees; left: 2.71m; top: 0.46m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.86m, max width 2.47m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 1.60m; height: 2.65m; width: 0.60m; orientation: 180 degrees; left: 2.56m; top: 0.80m; depth: -0.00m;}\nnightstand[obj_0001] {length: 0.43m; height: 0.90m; width: 0.43m; orientation: 90 degrees; left: 1.99m; top: 0.26m; depth: -0.00m;}\nbed[obj_0002] {length: 1.65m; height: 1.20m; width: 1.90m; orientation: 90 degrees; left: 0.98m; top: 0.95m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.86m, max width 2.48m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 1.80m; height: 2.70m; width: 0.54m; orientation: 90 degrees; left: 1.96m; top: 0.27m; depth: -0.00m;}\nbed[obj_0001] {length: 1.61m; height: 2.02m; width: 2.15m; orientation: 0 degrees; left: 1.08m; top: 1.70m; depth: 0.00m;}\ndining table combination[obj_0002] {length: 0.68m; height: 1.11m; width: 0.71m; orientation: -90 degrees; left: 2.51m; top: 2.13m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.72m, max width 2.48m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bed[obj_0000] {length: 1.45m; height: 0.89m; width: 2.13m; orientation: 0 degrees; left: 1.07m; top: 0.71m; depth: -0.00m;}\ndining table combination[obj_0001] {length: 1.14m; height: 1.27m; width: 1.31m; orientation: 0 degrees; left: 0.63m; top: 1.92m; depth: -0.00m;}\ncombination sofa[obj_0002] {length: 1.44m; height: 2.54m; width: 0.60m; orientation: -180 degrees; left: 2.44m; top: 0.72m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: children's bedroom\nRoom Size: max length 2.86m, max width 2.16m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nchair[obj_0000]: chair\nFloor polygon (left, top): (0.00, 0.00), (2.86, 0.00), (2.86, 2.16), (0.00, 2.16)\nwindow 1.46m wide at left 1.43m, top 0.00m\ndoor 0.88m wide at left 0.55m, top 2.16m\nLayout:\n"
+ }
+]

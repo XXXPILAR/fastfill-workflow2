@@ -1,0 +1,685 @@
+SceneCode: Executable World Programs for Editable
+Indoor Scenes with Articulated Objects
+Puyi Wang*1, Yuhao Wang*2,3, Linjie Li4, Zhengyuan Yang4
+Kevin Qinghong Lin5, Yangguang Li1, Yu Cheng1
+1The Chinese University of Hong Kong
+2Shanghai Jiao Tong University 3Shanghai AI Laboratory
+4Microsoft 5University of Oxford
+*Equal contribution.
+Rendered indoor scene
+PromptA teenager's bedroom features a comfortable twin bed with a backboard in the far corner… 
+Wardroberevolute jointhinge axis
+motion limit[0°, 110°]
+Desk drawersprismatic jointslide axisrange[0.0, 0.35] m
+Object program1  wardrobe = bpy.data.objects.new("wardrobe", mesh_body)2# === Create Sub-parts ===3# 1. Drawer Front Panel4add_sub_part_cube(5  name="drawer_front_panel",6  dimensions=(0.56, 0.02, 0.22),7  position=(0.0, -0.25, 0.84),8  material=wood_mat9)
+Text promptA teenager's bedroom features a comfortable twin bed with a backboard in the far corner… 
+Room planObjectspecifications• wardrobe (door)• desk (drawer)• nightstand (drawer)• bed (static)• chair (static)…
+</>Blender Pythonprograms</>
+{ }house_state.json
+{...}
+Render
+↖
+Revolute (hinged)Prismatic (sliding)
+Persistent scene state {  "objects": {    "wardrobe": {      "object_type":"ArticulatedObject",      "parts": ”left_door",      "joint": {"type":"revolute",        "axis":[0,1,0], "limit":[0,110]},        "transform": {"loc":[1.05,0.60,0]}    }…
+closedopen
+closedopen
+Figure 1:Overview of SCENECODE.Given a natural language scene prompt, our framework
+compiles it into an executable, code-driven indoor scene with interactable objects.
+Abstract
+Indoor scene synthesis underpins embodied AI, robotic manipulation, and
+simulation-based policy evaluation, where a useful scene must specify not only
+what the environment looks like, but also how its objects are structured. Existing
+pipelines, however, typically represent generated content as static meshes and
+inherit articulation only from curated asset libraries, which limits object-level con-
+trollability and prevents new interactable assets from being produced on demand.
+We address this gap by formulating physically interactable indoor scene synthesis
+as programmatic world generation, and presentSceneCode, a framework that
+compiles a natural language prompt into an executable, code-driven indoor world
+rather than a collection of opaque meshes. A room-level agentic backbone first
+turns the prompt into a structured house layout and emits per-objectAssetRequests
+through a planner–designer–critic loop. Each request is then routed to one of
+Preprint.
+arXiv:2605.19587v1  [cs.AI]  19 May 2026
+five code-generation strategies and converted into a synthesized part-wise Blender
+Python programs that are validated through an execution-guided repair-and-refine
+loop. The resulting programs are compiled into simulation-ready assets, and ex-
+ported as SDF for physics simulation. A persistent scene-state registry links object
+requests, executable programs, rendered geometry, and simulation assets, turning
+scene assembly into a traceable and locally editable world-building process. We
+evaluate SceneCode across scene-level synthesis, object-level asset quality, human
+judgment, and downstream robot interaction. Results show that executable world
+programs improve prompt-faithful indoor scene generation and produce assets with
+cleaner mesh structure, and simulator-loadable articulation metadata. Project page:
+https://scene-code.github.io/.
+1 Introduction
+Indoor scene synthesis is a fundamental substrate for embodied AI [10, 25], robotic manipulation [18,
+19], and simulation-based policy evaluation [29, 12]. By generating diverse indoor environments,
+such systems can provide scalable virtual worlds for training agents, testing manipulation skills, and
+collecting synthetic interaction data without expensive manual modeling [4, 24]. Therefore, the goal
+of indoor scene synthesis is not merely to create a visually plausible room composed of well-arranged
+objects. For an embodied agent, an indoor scene must expose physical structure and interaction
+mechanisms. Thus, a useful generated scene should specify not only what the environment looks like,
+but also how its objects are structured, how they move, and how agents can physically act upon them.
+Existing methods have advanced this goal from different directions. Retrieval-based and LLM-guided
+systems can populate diverse environments with large asset libraries [6, 39], layout-centric methods
+improve spatial plausibility through optimization [21, 14, 28], and recent agentic systems generate
+simulation-ready environments with dense object populations and physical properties [ 22, 23].
+Nevertheless, most pipelines still represent generated content as static meshes. Even when articulated
+objects are present, their part structure and joint semantics are typically inherited from curated
+datasets [38, 36] rather than generated as part of the scene representation. That is, the choice of
+interactable objects is constrained: such objects cannot be customized on demand and face the
+problem that, if a given object is absent from the dataset, it simply cannot be retrieved. This limits
+object-level controllability and the scalable generation of new interactable assets.
+To address this challenge, we formulate physically interactable indoor scene synthesis as program-
+matic world generation and proposeSceneCode: a framework that generates indoor scenes as
+executable programs rather than static visual assets. As illustrated in Figure 1, SceneCode exposes
+a generated scene at multiple levels: a renderable room, a persistent scene state, and object-level
+programs with explicit parts and interaction mechanisms. Code provides a natural representation for
+interactable scenes because it can make object geometry, part decomposition, material assignment,
+physical attributes, and motion mechanisms explicit in a unified form. This representation also aligns
+well with the emerging capability of vision-language models (VLMs) [20, 15, 32] to generate struc-
+tured programs from natural language specifications [1, 13, 26]. In this way, a 3D object is not only
+generated as a visually plausible piece of furniture, but as a structured object with controllable states.
+By making interaction an intrinsic part of the generated program, SceneCode enables interactable
+objects to be generated on demand rather than selected only from curated articulated asset libraries or
+produced through laborious manual modeling, and provides a foundation for physically grounded
+indoor scene synthesis.
+We instantiate SceneCode as an agentic text-to-scene pipeline that compiles a natural language prompt
+into an executable indoor world. Specifically, given a prompt, the system first infers a room-level plan,
+including room geometry, semantic descriptions, object requirements, spatial constraints. Instead
+of satisfying these object requirements by selecting assets from a fixed library or producing opaque
+meshes, SceneCode converts each requirement into a structured object specification and invokes
+a VLM-based program synthesizer to generate Blender Python code [ 24, 27, 8]. The generated
+program builds the object part by part from geometric primitives, assigns materials and UVs to each
+semantic part, and attaches physical attributes, collision proxies, and prismatic or revolute joints
+where appropriate. After execution, each object program is registered into a persistent house_state
+file, which records layout, room geometry, object transforms, support surfaces, geometry paths,
+bounding boxes, and interaction metadata. The final output is a scene with physically annotated,
+2
+interactable objects that remain editable and locally regenerable, supporting constraint modification
+and downstream object-level interaction in simulation.
+We evaluate SceneCode on 30 natural language prompts spanning six indoor scene categories,
+comparing against SceneSmith [22], HSM [23], and LayoutVLM [28] at the scene level and SAM
+3D Objects [33] at the asset level. SceneCode achieves the best semantic fidelity among scene-level
+baselines, with the highest object-count and attribute scores, and also improves navigability, collision,
+and floor-containment metrics. Human raters judge SceneCode more prompt-faithful than each
+baseline within matched comparison groups. At the object level, SceneCode produces more usable
+assets than SAM 3D Objects [33]. Finally, MuJoCo [34] demonstrations show that the generated
+articulated assets retain independent movable links and executable joints for contact-based robot
+interaction.
+In summary, our key contributions are threefold:
+• We introduceSceneCode, an executable code representation for indoor scene synthesis,
+which explicitly captures layout and object attributes in code format.
+• We propose a VLM-driven object synthesis procedure that generates household objects as
+explicit programs, enabling new interactable assets to be generated on demand rather than
+selected only from fixed articulated-object datasets.
+• We evaluate SceneCode across scene-level synthesis, object-level asset quality, human judg-
+ment, and robot interaction, demonstrating prompt-faithful scene generation with interaction-
+ready articulated object assets.
+2 Related Work
+Indoor Scene Synthesis.Learning-based scene synthesizers model object layout distributions from
+annotated room datasets via autoregressive transformers or denoising diffusion [21, 31]. LLM- and
+retrieval-guided pipelines instead populate rooms by querying curated 3D libraries: representative
+works include Holodeck [ 39], LayoutVLM [ 28], HSM [ 23], and the agentic SceneSmith [ 22],
+which mixes dataset retrieval with image-to-3D generation for simulation-ready scenes; additional
+LLM/retrieval-based and procedural systems are surveyed in Appendix A. In contrast, SceneCode
+synthesizes the objects themselves as executable programs, removing the dependency on a fixed asset
+library and exposing each object’s parts and joints to the scene representation.
+Code-Driven and Procedural 3D Generation.Programs offer a compact, editable representation
+of 3D content. Infinigen [ 24] uses hand-written procedural rules for photorealistic worlds, Sha-
+peAssembly [9] learns part-program priors over shapes, and recent VLM-driven systems such as
+SceneCraft [8] and MeshCoder [3] synthesize Blender Python from natural language or point clouds;
+further code-generation systems are discussed in Appendix A. These efforts mostly target either
+single-object modeling or scene-level visual layout, with limited support for downstream physical
+interaction. SceneCode extends program-based generation to interactable indoor scenes through a
+routed, verifiedObjectPlanthat drives part-wise Blender programs and compiles into URDF/SDF
+assets registered into a persistent scene state.
+3 Method
+Given a natural language scene prompt, SceneCode produces a renderable scene together with scene-
+state metadata and simulation-ready asset files. Our system separates the problem of indoor scene
+synthesis into two coupled levels: a room-level agent determines what objects are needed and where
+they should be placed, while a code-driven asset generator determines how each object is constructed,
+and compiled into renderable and simulation-ready artifacts.
+An overview of the full pipeline is illustrated in Figure 2. We briefly introduce the room-level
+backbone that provides contextual object requests in Section 3.1, and focus on the construction of
+executable object programs in Section 3.2. Next, we introduce the simulation-ready asset compilation
+in Section 3.3, and finally the scene assembly and state serialization in Section 3.4.
+3
+§1& §4Scene-Level Planning and State Registry
+§2Code-Driven Object Generation
+§3Simulation-Ready Asset Compilation
+§1Scene Planning  (input → context → requests)§4Scene Assembly & State Registry  (output / feedback)NaturalLanguagePromptHouse / RoomLayoutStage-wisePopulationAssetRequest  (per object)
+{  'description': 'compact wood nightstand',  'short_name': 'nightstand',  'dimensions': [0.5, 0.45, 0.52],  'object_type': 'FURNITURE',  'strategies': ['code_articulated'],}
+SceneObjectRegistration
+Asset Router(strategy selection)2.2 ObjectPlanConstruction
+Including parts, primitives, poses,materials, symmetry, movable flags
+2.3 Plan Checker(verification)2.4 Part-wise BlenderProgram Synthesis2.5 Execution-GuidedValidationExecute inheadless BlenderSuccess?Render & CriticEvaluationmax 3 repairs (per part)max 2 refinements (overall)
+No
+2.6 Validated Geometry
+.glb / .gltf
+3.1 Geometry Canonicalization& Collision Generation•Scale to target size•Canonical orientation•Bounding box•Support surfaces extraction
+3.2 Physical Attributes(links / bodies) Back to SceneRegistryScene-level planning / registryObject generationSimulation compilationData flow
+A teenager's bedroom features a comfortable twin bed …
+large furniturewall-mountedceiling-mountedmanipulands
+Wall-ArtStatic FurnitureSimple ManipulandStructured ManipulandArticulated Object
+Thin-Covering (fixed template)e.g., rug / carpet
+Part completenessDimension consistencyParent-child validityScale plausibilityRedundancy removal…
+Yes
+…
+drawer.pylegs.pybody.py
+（assembly script）
+massinertia tensorfrictionCollision
+A. Rigid Object Branch(no movable parts)• collision geometry• mass estimation• inertia computationSingle-body SDF
+B. Articulated Object Branch
+• Articulation compiler (VLM)• Joint parameters• Collision geometry• Mass estimation• Inertia computation• Convert to SDF
+Registry link
+üApply scaleüApply transformüAlign to supportüAdd to room
+ConsistencyCheckssupport checkpenetration checkgeometry check
+Scene Outputs
+House statefile
+TraceabilityLinksObjectPlanPartProgramsPython/URDF/SDF
+Renderable.blend
+top panel (x1)
+drawer box (x1)
+drawer front (x1)
+middle panel (x1)
+!"#"$%&D()%*+D(,--.&L"01DL)%D$&23%&4
+side panel (x2)
+5%+LD20$D&"1)LD627"0%LD("$%D32**(4
+back panel (x1)
+bottom shelf (x1)
+corner posts / legs (x4)
+ObjectPlan.json
+Figure 2:Overview of SCENECODE.From room-level planning to code-driven object generation,
+simulation-ready compilation, and scene-state registration.
+3.1 Room-Level Agentic Scene Backbone
+The room-level backbone transforms a scene prompt into a set of per-room object specifications that
+drive subsequent program synthesis. Concretely, it produces a structured house layoutH together
+with an ordered sequence of object requests{A(t)}T
+t=1. Within each room, requests are emitted in
+four semantic stages: large furniture, wall-mounted objects, ceiling-mounted objects, and manipulable
+items. Each stage is driven by a planner–designer–critic loop (Plan,Design,Critic) : Plan selects
+the next placement task, Design invokes tools to create or modify objects, and Critic evaluates the
+intermediate scene from rendered views, scene-state information, and geometric consistency checks.
+The output of stagetis not a final asset but anAssetRequest
+A= (c, τ,d, σ,T, ρ),
+specifying the object categoryc, textual descriptionτ, target dimensions d∈R 3, style contextσ,
+placement transform T∈SE(3) , and support relation ρ. The sequence{A(t)}T
+t=1 is the contract
+carried into the object-level program synthesis stage.
+3.2 Code-Driven Object Generation
+This subsection turns each AssetRequest into an executable Blender program whose output is a
+part-decomposed, renderable mesh. The pipeline proceeds through five steps: routing the request to a
+construction strategy, lifting it into a structured ObjectPlan, verifying the plan, synthesizing per-part
+Blender programs, and validating the resulting code through execution.
+Asset Request and Strategy Routing.Directly prompting a single VLM to emit a Blender script
+fromA is unreliable across diverse indoor objects, since different object families require different con-
+struction priors: wall art needs a thin canvas with an image material, whereas articulated objects must
+preserve movable components for downstream joint compilation. SceneCode therefore introduces a
+routerr:A7→s that dispatches each request to one of five VLM-based code-generation strategies
+(WALLART, STATICFURN, SIMPLEMANIP, STRUCTMANIP, ARTIC), or to a fixed code template
+THINCOVERreserved for thin coverings (rugs, carpets) that bypasses free-form VLM synthesis. The
+five VLM-based strategies cover the dominant construction priors of indoor objects:
+• WALLART: posters, framed artwork, and other print-like wall-mounted objects.
+• STATICFURN: large rigid furniture without functional moving parts, such as beds, shelves,
+and sofas.
+4
+• SIMPLEMANIP: structurally simple rigid objects with a dominant shape, such as bowls and
+plates.
+• STRUCTMANIP: rigid objects with multiple visible components but no articulation, such as
+mugs and phones.
+• ARTIC: objects with functional movable parts, such as cabinets and refrigerators, to be
+compiled into a link–joint structure.
+Each VLM-based route is paired with a specialized construction prompt that encodes geometry-aware
+coding constraints for symmetry, repeated structures, and curve construction; for example, curved
+shapes are constructed from explicit sampled points and analytic primitives rather than unconstrained
+Bézier curves. Full prompt listings are provided in Appendix B.
+Reference-Conditioned ObjectPlan Construction.For every strategy except THINCOVER, A is
+first lifted to a structuredObjectPlanP to reduce ambiguity in code synthesis. A reference image
+Iref is generated from the description–style pair (τ,σ) , and an object planner consumes (A,I ref) to
+produce
+P={(p i, si,T loc
+i , mi, πi, µi)}N
+i=1,
+wherepi is a semantic part,si∈{BOX,CYL,SPH,TORUS,CURVE} its primitive type, Tloc
+i its pose
+in the object-local frame,mi its material,πi its symmetry tag, andµi∈{0,1} a movability flag. For
+requests routed to ARTIC, parts with µi = 1 (e.g., doors, drawers) are later compiled into a joint
+schema.
+ObjectPlan Verification.Free-form plans may omit functional parts, propose implausible part
+scales, or place parts inconsistently with the object body, so we apply a checker V:P →P ⋆
+before code synthesis. In practice,V combines lightweight rule-based validation with an LLM-based
+revision step, and targets four desiderata:
+• Part completeness: redundant components are removed and missing functional parts are
+inserted with respect to the requested categoryc.
+• Dimension plausibility: implausible per-part scalessi are corrected so that the parts remain
+consistent with the requested category and the target dimensionsd.
+• Spatial consistency: the local poses{Tloc
+i } are revised so that parts respect the object-local
+frame and integrate coherently with the body.
+• Movable-part independence: parts withµi = 1 are kept as separately addressable compo-
+nents rather than fused with their parent, which is the precondition for the downstream joint
+compilation in Section 3.3.
+The verified planP ⋆ then serves as the contract that subsequent code generation must satisfy.
+Part-wise Blender Program Synthesis.Given (P ⋆,I ref), a part constructor synthesizes one
+Blender Python programπi per part, returning a primitive-based meshMi in the object-local frame
+together with procedural materials. A composition script then assembles the object mesh M by
+unioning the part meshes, keeping eachMi as a separately named Blender object so that movable and
+non-movable components remain semantically decomposable rather than being fused into a single
+opaque mesh. Complete part-level code listings are provided in Appendix J.
+Execution-Guided Program Validation.Each πi is executed in headless Blender and validated by
+a two-budget loop withK exec = 3andK ref = 2:
+1.Execute: runπ i to materializeM i.
+2. Repair: if execution fails, return the traceback together with the offending code to the
+synthesizer; up toK exec repair attempts are allowed per part.
+3. Refine: upon successful execution, a critic agent inspects rendered images of the assembled
+object and judges whether the requested category, structure, and material requirements are
+met, triggering up toK ref refinement iterations.
+This execution-guided loop improves code reliability and prevents invalid assets from entering the
+scene-level assembly stage.
+5
+3.3 Simulation-Ready Asset Compilation
+This stage converts a generated visual object into simulator-compatible asset files, packaging rigid
+objects as single-body SDFs and articulated objects as link–joint structures with inferred joints.
+Formally, SceneCode applies a compilation map C that bridges visual geometry and physical
+interaction. For rigid requests, C:M7→SDF produces a single-body asset with collision and
+inertial properties. For articulated requests,C: (P ⋆,M)7→(J,SDF) additionally returns a joint
+schemaJ inferred by a VLM-assisted articulation compiler over the parts ofP ⋆ withµi = 1: for
+each movable part, the compiler emits a parent link, a joint type (REVOLUTE for hinged or PRISMATIC
+for sliding), and a plausible joint origin, axis, and motion range, covering the two dominant indoor
+mechanisms.
+To support contact-based interaction, each linki is endowed with approximate physical attributes:
+a massmphy
+i estimated from object- and part-level semantics, an inertia tensor Ii computed from
+(Mi,m phy
+i ), and a collision proxyCi derived from their simplified geometric envelopes. The resulting
+assets is exported as an SDF artifact for downstream physics simulation.
+3.4 Scene Assembly and State Serialization
+Scene assembly closes the loop between room-level planning and code-driven object generation,
+ensuring that the visual mesh, the executable program, and the simulation artifacts of every object
+remain linked through a shared identifier. Concretely, each generated object is registered as a
+SceneObjectinto a scene-level registry under a shared identifier id that links its content (e.g., request,
+programs, and joint schema if articulated). Placement amounts to scalingM to the target dimensions
+d, applying the planned transform T∈SE(3) , and aligning the object with its support relation
+ρ. The shared id is what makes scene assembly traceable and locally editable: the rendered mesh,
+the executable programs{πi}, and the simulation artifacts (J,SDF) all reference the same object
+instance, enabling parameter-level edits and partial re-execution.
+4 Experiments
+4.1 Experimental Setup
+Baselines.We compare SceneCode against three recent text-to-scene baselines: SceneSmith [ 22],
+HSM [23], and LayoutVLM [28]. SceneSmith is an agentic simulation-ready scene generation system,
+while HSM and LayoutVLM represent recent layout- and motif-oriented indoor scene generation
+approaches. Together, these baselines cover complementary scene synthesis strategies, including
+agentic scene construction, hierarchical motif placement, and vision-language layout optimization.
+Input text descriptions.We evaluate all methods on 30 room-level prompts selected from
+SceneEval-100 [30]. The prompt set spans six indoor room categories: bedroom, living room,
+dining room, kitchen, basement, and bathroom, ranging from short object-list descriptions to more
+detailed instructions. The complete prompt list is provided in Appendix C.
+Automatic evaluation.We adopt the scene-level metrics from SceneEval [ 30]: CNT (object count),
+ATR (object attribute), OOR (object–object relationship), OAR (object–architecture relationship),
+SUP (support), ACC (accessibility), NA V (navigability), COL (collision), OOB (out of bounds),
+and OPC (opening clearance). For object-level evaluation, we use a set of mesh- and material-level
+metrics that reflect downstream usability: material slot count (MAT), PBR channel coverage (PBR),
+non-manifold edge count (NME), total face count (FAC), total vertex count (VTX), and UV island
+count (UVI). Detailed metric definitions are provided in Appendix D.
+User study.We conduct a user study with nine participants split evenly into three groups: Group A
+compares SceneCode against SceneSmith, Group B against HSM, and Group C against LayoutVLM.
+We primarily assess prompt faithfulness, which directly reflects whether the generated scene follows
+the input description; additional preference and realism ratings are reported in Appendix G. Because
+SceneCode is rated in all three groups while each baseline is rated only in its own group, we report
+the within-group difference ∆ = SceneCode− Baseline to keep the comparison fair across raters
+and prompt subsets.
+6
+The room is dimly lit, … the TV is supported by a TV stand with storage underneath for various books.
+In this basement, a pool table occupies the center of the room, with two bar stools lined up at a nearby bar table…
+A teenager‘s bedroom features a comfortable twin bed,… a sizable wooden wardrobe with multiple drawers offers ample storage for clothes…
+A bright bathroom features a spacious bathtub, …The toilet is placed across from the tub
+Prompt SceneCode(Ours)SceneSmithHSM
+Figure 3:Room-level qualitative comparison.SceneCode shows better prompt fidelity than the
+baselines. See Appendix I.1 for additional examples.
+Table 1:Room-level quantitative results.We report scene-level SceneEval [ 30] metrics (in %, with
+95% CI in smaller font next to the mean) on 30 room-level prompts. The last column (∆PF) reports
+the per-trial paired prompt-faithfulness difference SceneCode−baseline as a percentage of the 5-point
+rating scale.↑=higher is better,↓=lower is better. Best results per column are inbold.
+Method CNT↑ATR↑OOR↑OAR↑SUP↑ACC↑NA V↑COL↓OOB↓OPC↓∆PF↑
+HSM 53.3±9.358.1±14.722.3±12.350.0±10.470.9±7.285.8±4.899.1±1.018.4±6.87.4±3.610.9±8.8+13.2±4.4
+LayoutVLM 64.2±8.031.1±13.727.2±12.153.1±14.825.7±7.793.3±5.2100.0±0.021.1±10.05.9±3.5N/A +24.6±5.8
+SceneSmith 78.8±6.771.6±9.437.2±13.372.4±10.366.7±4.052.2±8.797.8±2.118.1±4.80.6±0.77.9±4.8+2.8±4.0
+SceneCode79.4±6.074.0±11.732.6±12.661.1±12.644.3±12.874.2±9.1100.0±0.011.3±4.30.4±0.912.4±6.7 —
+4.2 Room-Level Scene Synthesis
+Qualitative comparison.Figure 3 shows that SceneCode renders scenes that closely match the
+prompt’s described atmosphere, object set, and spatial layout. SceneSmith generates plausible
+furniture but cannot customize articulated objects. HSM produces locally coherent placements within
+each motif subtree, but since its motifs operate inside individual subtrees, cross-subtree relations such
+as “the desk faces the bed” are not reliably realized. The qualitative gap is consistent with the CNT
+and ATR advantages reported in Table 1.
+Quantitative summary.SceneCode is the only method that simultaneously leads on semantic
+fidelity (CNT, ATR) and physical usability (NA V , COL, OOB): its per-object code realizes prompt
+attributes directly at construction time rather than approximating them via retrieved meshes, and
+the resulting clean, bounding-box-faithful geometry lets the placer reason precisely about collisions
+and floor containment. The user study (last column) provides supportive evidence from human
+raters: SceneCode is judged more prompt-faithful than every baseline, with∆PF= +2.8% , +13.2%,
+and +24.6% over SceneSmith, HSM, and LayoutVLM respectively (on a 5-point scale), and the
+gap widens on the more layout-oriented baselines that lack an explicit attribute realization stage.
+Per-metric numbers and analyses of the metrics on which SceneCode does not lead (OOR, OAR,
+SUP, ACC, OPC), as well as preference loss rates and realism ratings, are deferred to Appendix F.
+Overall, programming objects rather than retrieving or shaping them produces scenes that are at once
+prompt-faithful, physically usable, and structurally coherent.
+7
+Table 2:Object-level quantitative results.Mesh- and material-level metrics averaged over the same
+set of object requests issued by the room-level agent on the SceneEval-100 prompts. Higher is better
+for↑metrics, lower is better for↓metrics. Best results are shown inbold.
+Method MAT↑PBR↑NME↓FAC↓VTX↓UVI↓
+SAM 3D Objects [33] 1.0000 0.2000 0.0164 12036.57 7400.79 96.4098
+SceneCode 1.5738 0.6066 0.0000 6013.64 4945.07 22.0328
+River stone
+Potted plant
+arr.count = 16 | 8 | 4 segments, ring_count = (32, 16) | (16, 8) | (8, 4)
+coarse
+medium
+fine
+wire frame
+8 leaves
+4 leaves(c)
+(b)
+(a)
+ Clean charts
+Compact packingLow overlapSemantically grouped parts
+Fragmented islands
+Irregular packingMore seamsHigher distortion
+Code generationMesh generation(e.g., SAM3D)
+renderUV
+ renderUV
+Tall modern wine cabinet with glass door and wood frame, walnut/black accents
+Modern light-oak nightstand with 2 drawers (floor-standing), simple rectangular form
+Low modern media console with doors and drawers, walnut wood, 1.6m wide
+Code-generatedRetrieved
+Code-generatedRetrieved
+Code-generatedRetrieved
+UV atlas quality comparison
+Parametric controllability from code
+Semantic fidelity: code generation vs. retrieval
+Figure 4:Object-level qualitative comparison.(a) Mesh and UV layouts of representative assets
+from SceneCode versus SAM 3D Objects. (b) Code-level editability: locally re-executing one object
+program with different parameters yields variant objects. (c) On-demand articulated objects with
+prescribed structure or material that retrieval-based pipelines cannot satisfy.
+4.3 Object-Level Geometry and UV Quality
+We compare SceneCode against the image-to-3D baseline SAM 3D Objects [33]. For a fair compari-
+son, both methods are run on the same set of object requests issued by the room-level agent on the
+SceneEval-100 prompts, using the same reference images. We evaluate each generated asset with the
+six mesh- and material-level metrics introduced in Section 4.1 (MAT, PBR, NME, FAC, VTX, UVI);
+detailed definitions are provided in Appendix D.2.
+Mesh and UV usability.Table 2 shows that SceneCode dominates SAM 3D Objects on every
+metric designed to capture editability and simulation-oriented usability. The largest gap is on UV
+organization: SceneCode produces about 22 UV islands per asset on average, roughly 4.4× fewer
+than the 96 islands of SAM 3D Objects, which means a far more coherent UV parameterization
+for downstream texturing and editing. Geometric compactness improves in parallel: face count
+drops to 6013.64 from 12036.57 and vertex count to 4945 from 7400, roughly halving storage and
+rendering cost while still expressing the requested object. Besides, SceneCode averages 1.5738
+material slots per asset and a PBR channel coverage of 0.6066, indicating more complete material
+modeling. Topology is also cleaner: SceneCode produces 0 non-manifold edges on average, whereas
+the image-to-3D pipeline still generates assets with non-manifold artifacts that downstream simulators
+would need to repair. This is a direct consequence of the part-wise primitive program: each part owns
+8
+its own mesh, materials, and UV layout, so the asset never has to be flattened into a single watertight
+blob. Figure 4(a) makes the gap visible: the SAM 3D Objects potted plant show fragmented UV
+charts, while the SceneCode counterparts have a small set of large, regularly shaped islands that align
+with the semantic parts of the object.
+Code-level editability.A second advantage of representing objects as programs is that they remain
+editable after generation. Because each part is constructed by primitive-level Blender Python code
+with explicitly named parameters, individual attributes can be modified and re-executed locally
+without re-running the room-level agent or regenerating the reference image. Figure 4(b) illustrates
+this: starting from a single potted-plant program, we vary parameters such as arr_count (the
+number of leaf instances) and ring_count (the angular and radial subdivisions of each leaf surface)
+to produce coarse, medium, and fine variants of the same object identity. This kind of structured,
+parameter-level edit is difficult to obtain from an image-to-3D mesh, where the asset is delivered as a
+single opaque triangle soup with no semantic handles to address.
+On-demand articulated objects.Finally, code-driven assets remove the dataset bottleneck for
+articulated objects. Retrieval-based pipelines, including the articulated branches of recent simulation-
+ready scene generators, can only return objects that already exist in a curated articulated-object library,
+so requests for unusual functional structures (e.g., a cabinet with a specific number of drawers) or
+unusual materials (e.g., a glass-fronted cabinet) typically have to be approximated by the closest
+available asset. Figure 4(c) shows two such requests where the agent specifies the functional structure
+or material of the target object. Because SceneCode compiles each request into a part-decomposed
+program with explicit movable parts, it can synthesize a customized articulated asset that exactly
+matches the request, including the prescribed part count and material, rather than collapsing the
+request onto whatever happens to be available in the dataset. This point is detailed in Appendix E.
+4.4 Articulation and Robot Interaction
+Sliding-Door CabinetCabinetwith revolute jointNightstand with prismatic joint
+Figure 5:Robot interaction with generated articulated assets.A SceneCode-generated articulated
+object is imported into MuJoCo for contact-based robot manipulation. The movable parts produced
+by the Articulated Object Program remain independent links with compiled joints, allowing the robot
+to physically open or slide them.
+Figure 5 demonstrates that objects generated by our Articulated Object Program are not only visually
+plausible but also physically interactive. Since movable components are preserved as separate
+links and exported with joint metadata, the resulting assets can be loaded into MuJoCo [ 34] and
+manipulated by a robot through contact. This shows that SceneCode produces articulated objects
+suitable for downstream simulation and embodied interaction.
+5 Conclusion
+We presented SCENECODE, a code-driven framework for physically interactable indoor scene
+synthesis. By representing objects as executable, part-aware programs rather than opaque meshes,
+SceneCode couples visual geometry, semantic structure, materials, articulation, and simulation
+metadata in a unified form. Combined with a room-level agentic planner and execution-guided
+object program synthesis, the system produces prompt-faithful scenes with editable and interaction-
+ready assets. Experiments show advantages in semantic fidelity, object-level mesh usability, human
+preference, and downstream robot interaction.
+9
+References
+[1] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde De Oliveira Pinto, Jared Kaplan,
+Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large language models
+trained on code.arXiv preprint arXiv:2107.03374, 2021.
+[2] Zoey Chen, Aaron Walsman, Marius Memmel, Kaichun Mo, Alex Fang, Karthikeya Vemuri, Alan
+Wu, Dieter Fox, and Abhishek Gupta. Urdformer: A pipeline for constructing articulated simulation
+environments from real-world images.arXiv preprint arXiv:2405.11656, 2024.
+[3] Bingquan Dai, Li Ray Luo, Qihong Tang, Jie Wang, Xinyu Lian, Hao Xu, Minghan Qin, Xudong Xu,
+Bo Dai, Haoqian Wang, et al. Meshcoder: Llm-powered structured mesh code generation from point
+clouds.arXiv preprint arXiv:2508.14879, 2025.
+[4] Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador, Winson Han, Eric
+Kolve, Aniruddha Kembhavi, and Roozbeh Mottaghi. Procthor: Large-scale embodied ai using procedural
+generation.Advances in Neural Information Processing Systems, 35:5982–5994, 2022.
+[5] Yuhao Du, Shunian Chen, Wenbo Zan, Peizhao Li, Mingxuan Wang, Dingjie Song, Bo Li, Yan Hu,
+and Benyou Wang. Blenderllm: Training large language models for computer-aided design with self-
+improvement.arXiv preprint arXiv:2412.14203, 2024.
+[6] Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu, Xin Eric
+Wang, and William Yang Wang. Layoutgpt: Compositional visual planning and generation with large
+language models.Advances in Neural Information Processing Systems, 36:18225–18250, 2023.
+[7] Rao Fu, Zehao Wen, Zichen Liu, and Srinath Sridhar. Anyhome: Open-vocabulary generation of structured
+and textured 3d homes. InEuropean Conference on Computer Vision, pages 52–70. Springer, 2024.
+[8] Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia Schmid, and Alireza
+Fathi. Scenecraft: An llm agent for synthesizing 3d scenes as blender code. InForty-first International
+Conference on Machine Learning, 2024.
+[9] R Kenny Jones, Theresa Barton, Xianghao Xu, Kai Wang, Ellen Jiang, Paul Guerrero, Niloy J Mitra, and
+Daniel Ritchie. Shapeassembly: Learning to generate programs for 3d shape structure synthesis.ACM
+Transactions on Graphics (TOG), 39(6):1–20, 2020.
+[10] Eric Kolve, Roozbeh Mottaghi, Winson Han, Eli VanderBilt, Luca Weihs, Alvaro Herrasti, Matt Deitke,
+Kiana Ehsani, Daniel Gordon, Yuke Zhu, Aniruddha Kembhavi, Abhinav Gupta, and Ali Farhadi. Ai2-thor:
+An interactive 3d environment for visual ai, 2022. URLhttps://arxiv.org/abs/1712.05474.
+[11] Jiahui Lei, Congyue Deng, William B Shen, Leonidas J Guibas, and Kostas Daniilidis. Nap: Neural 3d
+articulated object prior.Advances in Neural Information Processing Systems, 36:31878–31894, 2023.
+[12] Chengshu Li, Ruohan Zhang, Josiah Wong, Cem Gokmen, Sanjana Srivastava, Roberto Martín-Martín,
+Chen Wang, Gabrael Levine, Michael Lingelbach, Jiankai Sun, et al. Behavior-1k: A benchmark for
+embodied ai with 1,000 everyday activities and realistic simulation. InConference on Robot Learning,
+pages 80–93. PMLR, 2023.
+[13] Jacky Liang, Wenlong Huang, Fei Xia, Peng Xu, Karol Hausman, Brian Ichter, Pete Florence, and Andy
+Zeng. Code as policies: Language model programs for embodied control. In2023 IEEE International
+conference on robotics and automation (ICRA), pages 9493–9500. IEEE, 2023.
+[14] Chenguo Lin and Yadong Mu. Instructscene: Instruction-driven 3d indoor scene synthesis with semantic
+graph prior.arXiv preprint arXiv:2402.04717, 2024.
+[15] Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong Jae Lee. Visual instruction tuning.Advances in neural
+information processing systems, 36:34892–34916, 2023.
+[16] Jiayi Liu, Hou In Ivan Tam, Ali Mahdavi-Amiri, and Manolis Savva. Cage: Controllable articulation
+generation. InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+pages 17880–17889, 2024.
+[17] Kaichun Mo, Shilin Zhu, Angel X Chang, Li Yi, Subarna Tripathi, Leonidas J Guibas, and Hao Su.
+Partnet: A large-scale benchmark for fine-grained and hierarchical part-level 3d object understanding. In
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, pages 909–918,
+2019.
+10
+[18] Tongzhou Mu, Zhan Ling, Fanbo Xiang, Derek Yang, Xuanlin Li, Stone Tao, Zhiao Huang, Zhiwei Jia, and
+Hao Su. Maniskill: Generalizable manipulation skill benchmark with large-scale demonstrations.arXiv
+preprint arXiv:2107.14483, 2021.
+[19] Soroush Nasiriany, Abhiram Maddukuri, Lance Zhang, Adeet Parikh, Aaron Lo, Abhishek Joshi, Ajay
+Mandlekar, and Yuke Zhu. Robocasa: Large-scale simulation of everyday tasks for generalist robots.arXiv
+preprint arXiv:2406.02523, 2024.
+[20] OpenAI. GPT-4V(ision) system card.OpenAI Technical Report, 2023.
+[21] Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and Sanja Fidler.
+Atiss: Autoregressive transformers for indoor scene synthesis.Advances in neural information processing
+systems, 34:12013–12026, 2021.
+[22] Nicholas Pfaff, Thomas Cohn, Sergey Zakharov, Rick Cory, and Russ Tedrake. Scenesmith: Agentic
+generation of simulation-ready indoor scenes.arXiv preprint arXiv:2602.09153, 2026.
+[23] Hou In Derek Pun, Hou In Ivan Tam, Austin T Wang, Xiaoliang Huo, Angel X Chang, and Manolis Savva.
+Hsm: Hierarchical scene motifs for multi-scale indoor scene generation.arXiv preprint arXiv:2503.16848,
+2025.
+[24] Alexander Raistrick, Lahav Lipson, Zeyu Ma, Lingjie Mei, Mingzhe Wang, Yiming Zuo, Karhan Kayan,
+Hongyu Wen, Beining Han, Yihan Wang, Alejandro Newell, Hei Law, Ankit Goyal, Kaiyu Yang, and
+Jia Deng. Infinite photorealistic worlds using procedural generation. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR), pages 12630–12641, June 2023.
+[25] Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans, Bhavana Jain, Julian
+Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, et al. Habitat: A platform for embodied ai research. In
+Proceedings of the IEEE/CVF international conference on computer vision, pages 9339–9347, 2019.
+[26] Ishika Singh, Valts Blukis, Arsalan Mousavian, Ankit Goyal, Danfei Xu, Jonathan Tremblay, Dieter
+Fox, Jesse Thomason, and Animesh Garg. Progprompt: Generating situated robot task plans using large
+language models.arXiv preprint arXiv:2209.11302, 2022.
+[27] Chunyi Sun, Junlin Han, Weijian Deng, Xinlong Wang, Zishan Qin, and Stephen Gould. 3d-gpt: Procedural
+3d modeling with large language models. In2025 International Conference on 3D Vision (3DV), pages
+1253–1263. IEEE, 2025.
+[28] Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat, Federico Tombari, Manling Li, Nick Haber,
+and Jiajun Wu. Layoutvlm: Differentiable optimization of 3d layout via vision-language models. In
+Proceedings of the Computer Vision and Pattern Recognition Conference, pages 29469–29478, 2025.
+[29] Andrew Szot, Alexander Clegg, Eric Undersander, Erik Wijmans, Yili Zhao, John Turner, Noah Maestre,
+Mustafa Mukadam, Devendra Singh Chaplot, Oleksandr Maksymets, et al. Habitat 2.0: Training home
+assistants to rearrange their habitat.Advances in neural information processing systems, 34:251–266, 2021.
+[30] Hou In Ivan Tam, Hou In Derek Pun, Austin T Wang, Angel X Chang, and Manolis Savva. Sceneeval:
+Evaluating semantic coherence in text-conditioned 3d indoor scene synthesis. InProceedings of the
+IEEE/CVF Winter Conference on Applications of Computer Vision, pages 7355–7365, 2026.
+[31] Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner. Diffuscene:
+Denoising diffusion models for generative indoor scene synthesis. InProceedings of the IEEE/CVF
+conference on computer vision and pattern recognition, pages 20507–20518, 2024.
+[32] Gemini Team, Rohan Anil, Sebastian Borgeaud, Jean-Baptiste Alayrac, Jiahui Yu, Radu Soricut, Johan
+Schalkwyk, Andrew M Dai, Anja Hauth, Katie Millican, et al. Gemini: a family of highly capable
+multimodal models.arXiv preprint arXiv:2312.11805, 2023.
+[33] SAM 3D Team, Xingyu Chen, Fu-Jen Chu, Pierre Gleize, Kevin J Liang, Alexander Sax, Hao Tang, Weiyao
+Wang, Michelle Guo, Thibaut Hardin, Xiang Li, Aohan Lin, Jiawei Liu, Ziqi Ma, Anushka Sagar, Bowen
+Song, Xiaodong Wang, Jianing Yang, Bowen Zhang, Piotr Dollár, Georgia Gkioxari, Matt Feiszli, and
+Jitendra Malik. Sam 3d: 3dfy anything in images. 2025. URL https://arxiv.org/abs/2511.16624.
+[34] Emanuel Todorov, Tom Erez, and Yuval Tassa. Mujoco: A physics engine for model-based control. In
+2012 IEEE/RSJ International Conference on Intelligent Robots and Systems, pages 5026–5033. IEEE,
+2012. doi: 10.1109/IROS.2012.6386109.
+[35] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. Sceneformer: Indoor scene generation with
+transformers. In2021 International conference on 3D vision (3DV), pages 106–115. IEEE, 2021.
+11
+[36] Yian Wang, Ruihai Wu, Kaichun Mo, Jiaqi Ke, Qingnan Fan, Leonidas J Guibas, and Hao Dong. Adaafford:
+Learning to adapt manipulation affordance for 3d articulated objects via few-shot interactions. InEuropean
+conference on computer vision, pages 90–107. Springer, 2022.
+[37] Yian Wang, Xiaowen Qiu, Jiageng Liu, Zhehuan Chen, Jiting Cai, Yufei Wang, Tsun-Hsuan Wang,
+Zhou Xian, and Chuang Gan. Architect: Generating vivid and interactive 3d scenes with hierarchical 2d
+inpainting.Advances in Neural Information Processing Systems, 37:67575–67603, 2024.
+[38] Fanbo Xiang, Yuzhe Qin, Kaichun Mo, Yikuan Xia, Hao Zhu, Fangchen Liu, Minghua Liu, Hanxiao Jiang,
+Yifu Yuan, He Wang, et al. Sapien: A simulated part-based interactive environment. InProceedings of the
+IEEE/CVF conference on computer vision and pattern recognition, pages 11097–11107, 2020.
+[39] Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson Han, Jiajun Wu, Nick
+Haber, Ranjay Krishna, Lingjie Liu, et al. Holodeck: Language guided generation of 3d embodied ai
+environments. InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+pages 16227–16237, 2024.
+12
+Appendix
+Contents
+A. More Related Work 13
+B. Route-Specific Prompt Design for Code-Driven Object Generation 13
+C. Evaluation Prompts 15
+D. Metric Details 18
+E. SceneCode Assets versus Prior Asset Strategies 20
+F. More Analysis 21
+G. Full User Study Results 22
+H. Computational Cost Statistics 27
+I. Additional Qualitative Demonstrations 28
+J. Executable Object-Code Demonstration 30
+K. Limitations 33
+A More Related Work
+Additional Indoor Scene Synthesis Systems.Beyond the representative works cited in the main
+text, other learning-based synthesizers include SceneFormer [35], while a broader set of LLM- and
+retrieval-guided pipelines populate rooms by querying curated 3D libraries, including LayoutGPT [6],
+AnyHome [7], InstructScene [14], and Architect [37]. Procedural systems such as ProcTHOR [4]
+scale environment diversity with hand-crafted rules. These systems differ in how they plan layouts
+but commonly rely on retrieved static meshes, which is the dependency our code-driven asset layer
+removes.
+Additional Code-Driven 3D Generation Systems.Beyond the works cited in the main text, recent
+VLM-driven code-generation systems include 3D-GPT [27] and BlenderLLM [5], which synthesize
+Blender Python or domain-specific code from natural language for either single-object modeling or
+scene-level visual layout.
+Articulated Object Generation.Articulated assets used in embodied AI predominantly come
+from curated datasets such as PartNet [ 17] and PartNet-Mobility / SAPIEN [ 38], which support
+manipulation learning [36] but cap the categories and joint configurations available downstream.
+A growing line of work generates articulated objects directly: NAP [ 11] and CAGE [ 16] learn
+distributions over part graphs and joint parameters, while URDFormer [2] infers URDFs from real-
+world images. Methods such as NAP, CAGE, and URDFormer focus on articulated object priors
+or URDF inference, whereas SceneCode focuses on generating full indoor scenes whose assets are
+represented as executable programs and registered in a persistent world state. Thus, our goal is not to
+directly benchmark articulated-object correctness against these methods, but to address scene-level
+integration and executable representation for interactable indoor environments.
+B Route-Specific Prompt Design for Code-Driven Object Generation
+This appendix details the route-specific prompting design used by the code-driven object generation
+module described in Section 3.2. Although every routed object follows the same downstream
+pipeline—asset request routing, ObjectPlan construction, ObjectPlan verification, part-wise Blender
+program synthesis, execution-guided repair, and asset packaging—different indoor object families
+benefit from different geometric construction priors. Wall art is best represented as a thin textured
+canvas; large furniture requires stable support surfaces and repeated structural components; simple
+manipulands should avoid unnecessary part decomposition; and articulated objects must preserve
+movable parts as independent links for downstream joint compilation.
+To accommodate these differences without fragmenting the pipeline, we adopt a small set of special-
+ized prompt profiles. All profiles share a common ObjectPlan schema and the same planner–checker–
+constructor structure, but each profile augments the shared base with route-specific construction priors
+13
+that guide the VLM toward executable and geometrically reliable Blender Python code. The prompt
+features used in our implementation are summarized in Table 3, and the mapping from generation
+strategies to feature codes and target object categories is given in Table 4.
+B.1 Routing Strategies and Object Categories
+The asset router maps each room-level AssetRequest to one of five generation strategies. The
+decision is made jointly from the requested object category, textual description, support relation,
+expected size, and functional affordances, and follows a fixed priority order. Requests with functional
+movable components—such as doors, drawers, lids, hinges, sliders, or rotating parts—are routed to
+thearticulatedbranch first, since these components must be preserved before any geometry export.
+Print-like wall-mounted objects are routed to thewall-artbranch. Among the remaining rigid objects,
+large furniture-scale items without functional articulation are routed to thestatic furniturebranch,
+while tabletop or handheld objects are routed to either thesimple manipulandor thestructured
+manipulandprofile according to their expected part complexity.
+It is important to emphasize that routing does not change the downstream representation: every
+generated asset is still produced by code-generated geometry and registered as a scene object through
+the same packaging stage. Routing only selects an object-family-specific prompt profile that supplies
+the appropriate geometric and functional priors for VLM-based program synthesis.
+B.2 Prompt Feature Taxonomy and Targeted Failure Modes
+The route-specific features in Table 3 were introduced to address recurring failure modes that we
+observed when prompting a VLM with a single universal prompt. Such a universal prompt frequently
+produces plausible-looking but geometrically fragile code, particularly for symmetry operations,
+radial copies, concave structures, hollow objects, and objects with repeated internal components. For
+instance, mirror operations may be incorrectly performed around each part’s local origin instead of
+the desired symmetry plane (addressed by feature A); radial copies may drift when the pivot is not
+explicitly placed at the rotation center (feature B); free-form Bézier curves are difficult to control
+when exact arcs or repeated curved elements are required (feature C); and applying subdivision
+modifiers to Boolean-cut N-gon faces tends to introduce unstable topology and rendering artifacts
+(feature D).
+To improve robustness, each prompt profile encodes only the construction priors that are relevant to its
+routed object family. Static furniture and articulated furniture profiles emphasize part decomposition,
+internal structure, repeated components, and support surfaces (features F and G). Simple manipulands
+emphasize compact geometry programs and explicitly discourage over-decomposition (feature L).
+Structured manipulands emphasize visible subparts while still packaging the object as a rigid asset
+(feature J∗). Wall-art prompts emphasize canvas construction, UV mapping, and image material
+assignment (feature K). Articulated prompts additionally require movable parts to remain independent
+so that they can be converted into URDF/SDF links and joints during downstream compilation
+(feature J). Several engineering-level rules—few-shot demonstrations for high-risk geometry (E),
+standardized material templates (H), export-friendly Blender conventions (I), and route-level style
+preservation (M)—are shared across most profiles.
+These constraints are not intended to replace execution-time validation. Instead, they reduce the
+search space for the VLM before code generation. The generated ObjectPlan is still verified before
+construction, and the resulting Blender programs are executed in a headless environment with up
+to three repair attempts when runtime errors occur, followed by up to two critic-driven refinement
+iterations on the rendered output.
+B.3 Interaction with Articulated Asset Compilation
+The articulated route is given priority over the rigid-object routes whenever the asset request implies
+a functional moving part, because such components must be preserved before geometry export. A
+nightstand with drawers, a cabinet with doors, or a box with a hinged lid cannot be generated as a
+single fused mesh if it is expected to support physical interaction. The articulated prompt therefore
+marks movable components with is_movable=true and must_be_independent=true, prevents
+them from being merged through Array or Mirror operations, and records the auxiliary information
+required for joint compilation.
+14

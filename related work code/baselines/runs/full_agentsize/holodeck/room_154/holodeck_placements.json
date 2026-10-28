@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "kitchen island-0",
+   "id": "kitchen island-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.46,
+    "z": 0.555
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     330.0,
+     -4.5
+    ],
+    [
+     330.0,
+     115.5
+    ],
+    [
+     20.0,
+     115.5
+    ],
+    [
+     20.0,
+     -4.5
+    ]
+   ],
+   "object_name": "kitchen island-0"
+  },
+  {
+   "assetId": "kitchen cabinet run-0",
+   "id": "kitchen cabinet run-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 0.46,
+    "z": 3.67
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     465.0,
+     404.5
+    ],
+    [
+     465.0,
+     329.5
+    ],
+    [
+     35.0,
+     329.5
+    ],
+    [
+     35.0,
+     404.5
+    ]
+   ],
+   "object_name": "kitchen cabinet run-0"
+  },
+  {
+   "assetId": "floor pantry cabinet-0",
+   "id": "floor pantry cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.25,
+    "y": 1.1,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     460.0,
+     -4.5
+    ],
+    [
+     460.0,
+     65.5
+    ],
+    [
+     390.0,
+     65.5
+    ],
+    [
+     390.0,
+     -4.5
+    ]
+   ],
+   "object_name": "floor pantry cabinet-0"
+  },
+  {
+   "assetId": "breakfast nook table-0",
+   "id": "breakfast nook table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.545,
+    "y": 0.375,
+    "z": 1.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     404.5,
+     75.0
+    ],
+    [
+     404.5,
+     175.0
+    ],
+    [
+     504.5,
+     175.0
+    ],
+    [
+     504.5,
+     75.0
+    ]
+   ],
+   "object_name": "breakfast nook table-0"
+  }
+ ],
+ "wall": []
+}

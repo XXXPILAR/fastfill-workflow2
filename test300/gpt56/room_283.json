@@ -1,0 +1,48 @@
+{
+ "k": 283,
+ "source": "Structured3D",
+ "room_type": "bathroom",
+ "latency_s": 8.612147584091872,
+ "usage": [
+  {
+   "prompt_tokens": 833,
+   "completion_tokens": 274,
+   "total_tokens": 1107,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 149,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0000 (cabinet) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.28,
+     0.6,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.404,
+     1.832,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe compact cabinet is placed against the rear wall, beyond both side-door openings. Its shallow depth preserves a usable central walkway and keeps the areas directly in front of both doors clear.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.6,\"depth_m\":0.28,\"height_m\":0.85,\"x\":0.404,\"y\":1.832,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 0.808 m x 1.972 m x 2.800 m\nfloor polygon (x, y): [[0.808, 0.0], [0.808, 1.972], [0.0, 1.972], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"cabinet\", \"description\": \"cabinet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.808, 0.6], \"wall_from\": [0.808, 0.0], \"wall_to\": [0.808, 1.972], \"width_m\": 1.2, \"height_m\": 2.2}, {\"type\": \"door\", \"centre_xy\": [0.0, 0.415], \"wall_from\": [0.0, 1.972], \"wall_to\": [0.0, 0.0], \"width_m\": 0.83, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

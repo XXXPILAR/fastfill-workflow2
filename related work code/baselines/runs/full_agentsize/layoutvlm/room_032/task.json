@@ -1,0 +1,56 @@
+{
+ "task_description": "a other room of about 4.4m x 15.5m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 4.97 m wide centred at (4.44, 8.91); a door 1.49 m wide centred at (0.00, 8.98) (keep the floor in front of it clear); a door 0.91 m wide centred at (2.18, 0.00) (keep the floor in front of it clear). the lounge chair (o0004) should face the wine cooler (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    2.6351499999999994,
+    0.0,
+    0.0
+   ],
+   [
+    2.6351499999999994,
+    0.23999999999999844,
+    0.0
+   ],
+   [
+    4.43722,
+    0.23999999999999844,
+    0.0
+   ],
+   [
+    4.43722,
+    15.479999999999999,
+    0.0
+   ],
+   [
+    0.0,
+    15.479999999999999,
+    0.0
+   ],
+   [
+    0.0,
+    0.23999999999999844,
+    0.0
+   ],
+   [
+    1.7209399999999988,
+    0.23999999999999844,
+    0.0
+   ],
+   [
+    1.7209399999999988,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

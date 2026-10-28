@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "children cabinet-1",
+   "id": "children cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.28,
+    "y": 0.95,
+    "z": 1.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     60.5,
+     55.0
+    ],
+    [
+     60.5,
+     155.0
+    ],
+    [
+     -4.5,
+     155.0
+    ],
+    [
+     -4.5,
+     55.0
+    ]
+   ],
+   "object_name": "children cabinet-1"
+  },
+  {
+   "assetId": "children cabinet-0",
+   "id": "children cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 0.9,
+    "z": 0.18
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     105.0,
+     -4.5
+    ],
+    [
+     105.0,
+     40.5
+    ],
+    [
+     15.0,
+     40.5
+    ],
+    [
+     15.0,
+     -4.5
+    ]
+   ],
+   "object_name": "children cabinet-0"
+  }
+ ],
+ "wall": []
+}

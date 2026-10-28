@@ -1,0 +1,172 @@
+{
+ "k": 131,
+ "source": "MansionWorld",
+ "room_type": "bedroom",
+ "latency_s": 42.71809524996206,
+ "usage": [
+  {
+   "prompt_tokens": 1174,
+   "completion_tokens": 2224,
+   "total_tokens": 3398,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1552,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.36,
+     0.85,
+     1.8
+    ],
+    "bottom_center_m": [
+     3.82,
+     3.45,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.58
+    ],
+    "bottom_center_m": [
+     0.3,
+     4.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.62,
+     0.62,
+     0.88
+    ],
+    "bottom_center_m": [
+     1.4,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     0.16
+    ],
+    "bottom_center_m": [
+     1.4,
+     4.55,
+     0.58
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.3,
+     4.45,
+     0.58
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.5
+    ],
+    "bottom_center_m": [
+     2.5,
+     4.45,
+     0.58
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.7,
+     1.3,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.35,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     2.1,
+     1.64,
+     0.58
+    ],
+    "bottom_center_m": [
+     1.4,
+     3.9,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.58
+    ],
+    "bottom_center_m": [
+     2.5,
+     4.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.17,
+     0.24,
+     0.04
+    ],
+    "bottom_center_m": [
+     3.82,
+     3.45,
+     1.8
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe queen bed is the largest object, so it is centered along the north wall with both nightstands beside it and their lamps on top. The pillow rests near the head of the bed. The writing desk occupies the west wall, with its chair facing the desk; the chair is also directly south of the bed so the bed faces it as required. The tall accent shelf stands against the east wall in the upper part of the room, with the book on top. The southeast door area and the central route from the door to the bed, desk, and shelf remain clear.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.85,\"depth_m\":0.36,\"height_m\":1.8,\"x\":3.82,\"y\":3.45,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.58,\"x\":0.3,\"y\":4.45,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":0.62,\"depth_m\":0.62,\"height_m\":0.88,\"x\":1.4,\"y\":1.75,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":0.16,\"x\":1.4,\"y\":4.55,\"z\":0.58,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.5,\"x\":0.3,\"y\":4.45,\"z\":0.58,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.5,\"x\":2.5,\"y\":4.45,\"z\":0.58,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":1.3,\"depth_m\":0.7,\"height_m\":0.75,\"x\":0.35,\"y\":1.75,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":1.64,\"depth_m\":2.1,\"height_m\":0.58,\"x\":1.4,\"y\":3.9,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0008\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.58,\"x\":2.5,\"y\":4.45,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":0.24,\"depth_m\":0.17,\"height_m\":0.04,\"x\":3.82,\"y\":3.45,\"z\":1.8,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.000 m x 5.000 m x 3.000 m\nfloor polygon (x, y): [[0.0, 0.0], [4.0, 0.0], [4.0, 5.0], [0.0, 5.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"accent shelf\", \"description\": \"A stack of six wood shelves.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"bedside table\", \"description\": \"A nightstand with one drawer.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"desk chair\", \"description\": \"It is a chair with short cloth covered arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"bed pillow\", \"description\": \"A plain white square pillow.\", \"support_parent\": \"obj_0007\"},\n{\"id\": \"obj_0004\", \"category\": \"table lamp\", \"description\": \"A table lamp with a lampshade on it.\", \"support_parent\": \"obj_0001\"},\n{\"id\": \"obj_0005\", \"category\": \"table lamp\", \"description\": \"A table lamp with a lampshade on it.\", \"support_parent\": \"obj_0008\"},\n{\"id\": \"obj_0006\", \"category\": \"writing desk\", \"description\": \"A brown desk with black metal pieces.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"queen bed\", \"description\": \"A bed with a beige comforter and pillows and orange wooden frame.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"bedside table\", \"description\": \"A nightstand with one drawer.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"book\", \"description\": \"A leather hardback book with a black band and lock around it.\", \"support_parent\": \"obj_0000\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [4.0, 1.407], \"wall_from\": [4.0, 0.0], \"wall_to\": [4.0, 5.0], \"width_m\": 1.05, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0009\", \"parent_id\": \"obj_0000\"}, {\"type\": \"faces\", \"object_id\": \"obj_0007\", \"target_id\": \"obj_0002\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

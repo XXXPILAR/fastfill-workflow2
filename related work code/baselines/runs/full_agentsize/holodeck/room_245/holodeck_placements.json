@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "tv cabinet-0",
+   "id": "tv cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.6060000000000003,
+    "y": 0.275,
+    "z": 6.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     233.10000000000002,
+     570.0
+    ],
+    [
+     233.10000000000002,
+     780.0
+    ],
+    [
+     288.1,
+     780.0
+    ],
+    [
+     288.1,
+     570.0
+    ]
+   ],
+   "object_name": "tv cabinet-0"
+  },
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8360000000000003,
+    "y": 0.425,
+    "z": 2.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     168.60000000000002,
+     105.0
+    ],
+    [
+     168.60000000000002,
+     435.0
+    ],
+    [
+     398.6,
+     435.0
+    ],
+    [
+     398.6,
+     105.0
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  }
+ ],
+ "wall": []
+}

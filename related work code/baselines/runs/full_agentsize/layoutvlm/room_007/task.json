@@ -1,0 +1,57 @@
+{
+ "task_description": "a bedroom of about 3.5m x 4.7m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the single bed (o0001) should be between the nightstand (o0005) and the nightstand (o0002). the single bed (o0001) should face the tv stand (o0000). the tv stand (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    3.9349000000000003,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.4907999999999997,
+    0.0,
+    0.0
+   ],
+   [
+    3.4907999999999997,
+    3.9349000000000003,
+    0.0
+   ],
+   [
+    2.8543999999999996,
+    3.9349000000000003,
+    0.0
+   ],
+   [
+    2.8543999999999996,
+    4.7249,
+    0.0
+   ],
+   [
+    0.9655999999999998,
+    4.7249,
+    0.0
+   ],
+   [
+    0.9655999999999998,
+    3.9349000000000003,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {}
+ }
+}

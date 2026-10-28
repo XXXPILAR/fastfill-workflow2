@@ -1,0 +1,669 @@
+EmbodiedGen V2: An Agentic, Simulation-Ready
+3D World Engine for Embodied AI
+Xinjie Wang1, Liu Liu1, T aojun Ding1, Andrew Choi1, Chaodong Huang1, Mengao Zhao1, Ziang Li1,
+Jackson Jiang2, Chunlei Yu2, Shengxiang Liu2, Wei Xu1, Zhizhong Su1
+1Horizon Robotics, 2WuwenAI
+We present EmbodiedGen V2, a generative 3D world engine for building executable policy-ready
+environments for embodied intelligence. Sim-ready 3D asset generation has advanced rapidly, yet
+assembling such assets into policy-ready task environments remains largely manual, limiting scalable
+closed-loop learning. EmbodiedGen V2 addresses this gap through a unified sim-ready representation
+that connects cross-simulator assets, interaction affordances, task-driven worlds, large-scale multi-
+room scenes, and stateful Vibe Coding into a generative, editable, and reusable simulation pipeline.
+The generated environments support manipulation, navigation, mobile manipulation, cross-simulator
+deployment, and embodied policy training. In evaluation, the asset pipeline achieves 96.5% human
+acceptance and 98.6% collision success, and 83.3% of task-driven worlds are directly usable for
+downstream simulation without manual modification. Online reinforcement learning with generated
+environments further improves simulation success from 9.7% to 79.8%, and transfers to real robots
+with task success increasing from 21.7% to 75.0%. These results establish EmbodiedGen V2 as
+scalable simulation infrastructure for training, evaluating, and deploying embodied policies.
+Code: github.com/HorizonRobotics/EmbodiedGen
+W ebpage: horizonrobotics.github.io/EmbodiedGen
+Genesis
+IsaacSim
+IsaacGym
+SAPIEN
+ Bullet
+MuJoCoConsistent collision and texture across simulators 
+Hard
+Segmentation
+Medium
+Normal
+Easy
+Depth
+Large-Scale Scenes Generation
+"Create a empty dining room“"Add a table and four chairsaround it."
+Intent Parsing
+[ vibe coding-simulator backend ][skill: room-creator] [skill: asset-creator][skill: asset-retriever] [MCP: offline dataset][skill: spatial-compute] sim.check_stable(scene)
+Agentic World Compiler
+CompileSimulateRepairPass↻auto retryAuto-correctedNo collisionStableCorrect scale✓
+Preflight: errors foundCollisionFloatingScale errorx
+Preflight simulation
+Final 3D World
+Vibe Coding3D WorldsTask-DrivenGeneration
+Task InstructionPut the broccoli on thedish.
+BackgroundContext
+RobotDistractorsTargetsFLOORIN
+ONONONON
+Scene Graph Generation
+Sim-Ready Environment
+Put the broccoli on the dish
+Put the chess pawn on the chessboard
+Place the red block into the blue box
+Pick the pear and place it in basket
+Move green cube on yellow cube
+Put the wooden spoon on the plate
+Asset & Affordance Generation
+Figure 1: Overview of EmbodiedGen V2. Left: natural-language task to sim-ready scene via Scene Graph and
+affordance-annotated assets. Middle: large-scale multi-room generation at different controllable complexity tiers.
+Right: Vibe Coding 3D world editing. All outputs deploy consistently across mainstream simulators.
+1
+arXiv:2607.07459v3  [cs.RO]  18 Aug 2026
+1 Introduction
+Generative 3D models have made rapid progress in producing visually plausible objects and scenes, but
+embodied policy learning requires more than visual 3D content. Robots and embodied agents need executable
+task environments: objects must carry physical and interaction properties, layouts must satisfy task and
+navigation constraints, and the resulting worlds must be portable across simulators, editable, and usable
+for closed-loop training and evaluation. We refer to environments that satisfy these requirements and can
+be used in physics simulation without manual adaptation as sim-ready. Although recent pipelines have
+made important progress on simulation-ready assets and generative 3D worlds, generating scalable sim-
+ready environments for embodied tasks remains challenging. The key diﬀiculty is to preserve geometry,
+physics, affordances, task semantics, and simulator interfaces within a unified world representation rather
+than treating them as separate post-processing steps.
+Building on EmbodiedGen V1 [ 1], we introduce EmbodiedGen V2, which advances from a generative 3D
+content toolkit to a sim-ready 3D world engine for embodied task-environment generation, policy learning,
+and evaluation. The system is organized around complete executable environments rather than isolated
+generated artifacts. For large-scale world generation, EmbodiedGen V2 generates structured multi-room and
+whole-house scenes with explicit room topology, traversable openings, and individually addressable furniture,
+overcoming the limited camera translation of V1’s panorama-back-projected single-mesh backgrounds and
+enabling long-horizon navigation and mobile manipulation. For asset and interaction generation, the asset
+pipeline becomes pluggable across TRELLIS [ 2], SAM3D [ 3], and Hunyuan3D [ 4], accepts partially occluded
+images through in-place scene completion [ 5], augments objects with part-level affordances and physically
+validated grasps, and extends deployment to deformable bodies. For deployment and editing, EmbodiedGen
+V2 standardizes export through URDF, simulator XML formats including MJCF, and USD for mainstream
+simulators, while Vibe Coding provides stateful natural-language editing over a persistent, physics-validated
+world state. Finally, the system is evaluated beyond static generation quality: generated environments
+support online reinforcement learning of VLA policies and sim-to-real policy transfer [ 6, 7].
+Together, these capabilities connect generative 3D world generation to the main workflows of embodied
+policy development. By preserving simulator portability, interaction semantics, task-conditioned layouts,
+and editable world state in one representation, EmbodiedGen V2 supports cross-simulator reuse, policy
+training, controlled environment variation, policy debugging, and closed-loop evaluation.
+Our main contributions are summarized as follows:
+• Unified sim-ready representation. We introduce a shared representation that couples metric geometry,
+physical validity, interaction semantics, and cross-simulator portability, providing a common interface
+across the full generation and editing pipeline.
+• Model-agnostic simulation asset generation. We build a modular text/image-to-3D asset pipeline that
+plugs TRELLIS [ 2], SAM3D [ 3], and Hunyuan3D [ 4] into a unified post-processing stack, converting raw
+3D outputs into deployable simulation assets via quality checking, mesh repair, convex decomposition,
+texture baking, physical property recovery, and cross-simulator export.
+• Affordance-aware interaction semantics. We introduce an affordance autolabeling pipeline that aug-
+ments generated assets with semantic interaction attributes, turning visual and collision-aware objects into
+actionable, verifiable simulation entities. We further release a 4K+ asset collection with cross-simulator
+formats and affordance annotations.
+• T ask-driven world and scene generation.We parse open-ended natural-language tasks into Scene Graphs
+and generate executable interactive worlds through spatial constraints and physical stability solving; we
+further extend the same representation to large-scale scenes with multi-room topology, navigable space,
+and instance-level editability.
+• Stateful Vibe Coding for 3D world editing. We expose the shared world representation through a stateful
+agent–skill harness, turning generation, composition, editing, and export into composable skills so that
+2
+natural-language instructions become bounded, physics-validated edits over a persistent, deployable world
+state.
+• Closed-loop policy validation. We validate the generated environments beyond static asset and scene
+quality: downstream VLA/RL studies [ 6] show that online fine-tuning purely with EmbodiedGen V2-
+generated environments improves simulation success from 9.7% to 79.8% and real-robot task success from
+21.7% to 75.0%.
+2 Methodology
+2.1 Preliminaries
+We target simulation-ready 3D world generation : producing worlds that are not only visually plausible, but
+also directly executable by embodied agents in physics simulation. Throughout this paper, we use sim-
+ready to denote an output contract that couples four requirements: metric geometry, simulation-compatible
+physical assets, task-level semantics and affordances, and standardized simulator interfaces.
+EmbodiedGen V2 instantiates this contract with a two-level representation. At the object level, each sim-
+ready asset bundles textured visual geometry, collision geometry, physical parameters, and affordance an-
+notations. At the scene level, a typed Scene Graph specifies entities, task roles—background, contexts,
+manipulated objects, distractors, and the robot—and their spatial and interaction relations, which are then
+grounded into physically stable 6-DoF poses in a target simulator. The following modules build this represen-
+tation progressively: sim-ready asset generation creates deployable objects, affordance autolabeling enriches
+them with interaction semantics, task-driven interactive worlds generation and large-scale scenes generation
+compose executable worlds, and Vibe Coding exposes the same representation as a stateful natural-language
+editing interface.
+2.2 Sim-Ready 3D Asset Generation
+Problem definition. Existing image-to-3D and text-to-3D generative models [ 2, 8, 9, 10, 11] can pro-
+duce visually plausible 3D objects, yet their outputs typically possess only visualization-level 3D usability
+rather than simulation-level asset usability : meshes reside in a normalized coordinate space, lack real-world
+scale, mass, and friction properties, may contain non-manifold faces or open surfaces, and carry neither
+collision representations nor standardized simulation interfaces. We define sim-ready asset generation as
+the task of automatically producing, from open-ended text or image conditions, object assets that jointly
+contain simulation-compatible geometry, explicit textures, structured physical metadata, and standardized
+simulation representations consumable by different physics engines.
+Pipeline overview. As shown in Fig. 2, we propose a unified sim-ready asset generation pipeline that maps
+three types of input—text prompts, unoccluded object images, and partially occluded object images—into
+standardized simulation assets through five stages: (i) Input preparation : for text input, a pluggable text-
+to-image model (SD3.5 [ 12] or Kolors [ 13]) generates candidate object images; for image input (including
+occluded scenes), a foreground segmentation model (Rembg [ 14], SAM [15], or RMBG [16]) extracts the target
+object. (ii) 3D generation : the foreground image is fed into a pluggable image-to-3D model (TRELLIS [ 2],
+SAM3D [3], or Hunyuan3D [ 4]), yielding both a 3D Gaussian [ 17] and a mesh as intermediate representations.
+(iii) Geometry refinement & texture baking : the mesh undergoes topological repair and simplification,
+while multi-view back-projection bakes the Gaussian appearance into an explicit texture map. (iv) Physical
+property recovery : a vision-language model (VLM) infers real-world scale, mass, and friction coeﬀicients
+from multi-view renderings, which are then used for metric rescaling. (v) Simulation asset packaging
+& cross-format export : geometry, appearance, and physical information are assembled into a unified
+intermediate representation and automatically converted to different simulator formats. Crucially, we do
+not treat simulation compatibility as a separate export step appended after generation; instead, simulation-
+oriented quality constraints are explicitly enforced at multiple stages—candidate screening, 3D generation,
+3
+Text prompt
+Normal
+RGB
+Metallic
+Roughness
+RGB
+RGB
+Normal
+RGB
+Semantic AppearanceMesh GeometryCross-modal Alignment✓✓✓Aesthetic quality✓
+Image prompt-obstructed objectImage prompt -unobstructed object
+x↻Auto-retryIf check fail
+convex decomposition✓
+✓mesh simplification✓mesh repair
+Trellis
+ Hunyuan3D V3.1
+SAM3D
+Normal
+1Input Preparation
+3D Generation & Quality Check2
+Geometry & Physics Refinement3 Phys. Props.0.11m0.04 kgCoFSem.Desc. …
+Cross-Simulator Export
+Genesis
+IsaacSim
+IsaacGym
+SAPIEN
+Bullet
+ MuJoCoURDF XMLUSDStandardURDF & 3DGSAsset Converter
+4
+ceramic fruit bowl with floral patterns and polished white glaze
+Figure 2: The sim-ready 3D asset generation pipeline. From text or image inputs, the system produces
+simulation-ready assets through input preparation, 3D generation, geometry refinement & texture baking,
+VLM-driven physical property recovery, and cross-simulator export.
+and physical recovery—forming a closed-loop generate–verify–retry pipeline.
+Hierarchical quality gating. Rather than relying on a single forward pass to produce the final result, we
+embed quality gates at multiple pipeline stages. At the input stage, candidate images must pass a foreground
+quality check (a VLM validates semantic correctness and geometric completeness of the segmentation); for
+the text-driven path, the system additionally verifies that the generated image is semantically consistent with
+the original text intent. Only qualified candidates proceed to 3D generation. At the 3D generation stage,
+the system evaluates geometric integrity from multi-view renderings, rejecting truncated geometry, duplicate
+bodies, and extraneous attached elements; failures trigger automatic retries with different random seeds. At
+the pipeline’s end, an aesthetic scoring model [ 18] quantitatively rates texture and geometry quality, filtering
+samples below a predefined threshold. We write all quality-check results as structured tags into the final
+asset file, making each asset’s quality status queryable and filterable in downstream large-scale usage.
+Geometry processing & physical property recovery . Raw meshes from 3D generative models typically
+contain non-manifold faces and open regions that are incompatible with collision detection and physics
+simulation. After topological repair and simplification, we apply the CoACD algorithm [ 19] to compute an
+approximate convex decomposition, producing a set of compact convex collision bodies; if decomposition
+fails, the pipeline falls back to the original mesh. In Fig. 2, different colors indicate the decomposed mesh
+4
+Figure 3: Twelve text-conditioned garments deployed as deformable meshes in Genesis [ 24]. Inset heatmaps
+show per-vertex displacement under cloth dynamics, confirming that generated geometry supports soft-body
+simulation without manual preparation.
+parts produced by this convex decomposition. Since Gaussian representations are unsuitable as texture
+carriers for simulation assets, we bake the Gaussian model’s multi-view appearance into a high-resolution
+explicit texture map via automatic UV unwrapping and differentiable rasterization. For physical properties,
+a VLM infers semantic real-world scale, mass, and friction ranges from multi-view renderings and the object
+category. We use the estimated scale to calibrate the visual mesh, collision mesh, and Gaussian representation
+consistently, then store the recovered mass and friction in the asset’s inertial and contact metadata for
+downstream sampling or calibration.
+Cross-simulator asset export. We adopt URDF as the unified intermediate representation, as it natively
+supports structured packaging of visual meshes, collision meshes, inertial parameters, and auxiliary metadata,
+making it a suitable canonical representation across simulation back-ends. A format converter automatically
+transforms the URDF (SAPIEN [ 20], Bullet [ 21], Isaac Gym [ 22]) into XML (MuJoCo [ 23], Genesis [ 24]) and
+USD (Isaac Sim [ 25]), correctly handling visual/collision geometry separation, local coordinate transforms,
+material mapping, and physics property injection. This design decouples object generation from simula-
+tor adaptation , enabling the same generated asset to be instantiated across different embodied simulation
+platforms with consistent physical behavior. We provide online usage examples in RoboVerse [ 26].1
+Deformable-body simulation. Beyond rigid-body physics, the same generation and export path extends
+naturally to soft-body simulation. Fig. 3 shows twelve garments generated from text prompts and exported
+to Genesis [ 24] as deformable meshes; per-vertex displacement heatmaps confirm that the generated surface
+geometry carries suﬀicient fidelity for cloth and soft-body dynamics without any manual mesh preparation.
+Single-image in-place completion. To handle partially occluded inputs, we use 3D-Fixer [ 5], which
+recovers complete object geometry in place by treating the fragmented visible point cloud as a spatial anchor.
+It conditions a frozen TRELLIS backbone [ 2] through occlusion-robust feature alignment and coarse-to-fine
+completion, avoiding explicit pose optimization.
+2.3 Affordance Autolabeling Pipeline
+Problem definition. Embodied manipulation requires semantics not only for object categories or instances,
+but also for interaction-relevant parts. A manipulation policy must infer where to make contact, what
+function the contacted region supports, and how the contact can be executed under geometric and physical
+constraints [ 27, 28]. We define affordance autolabeling as converting a sim-ready 3D asset into a structured
+part-level interaction representation: each mesh face receives a part identifier, and each part is annotated
+with its semantic name, graspability, task-relevant grasp scenarios, functional labels, appearance semantics,
+1https://roboverse.wiki/metasim/get_started/quick_start/14_real_asset
+5
+and simulation-validated candidate grasps. This representation connects language-level intent to localized
+3D contact regions and executable robot actions.
+Pipeline overview. Starting from the sim-ready assets in Sec. 2.2, our affordance autolabeling pipeline aug-
+ments each generated object with a structured part-level schema for embodied manipulation. As illustrated
+in Fig. 4, the pipeline proceeds through three stages: (i) F unctional part segmentation: P3-SAM [ 29] de-
+composes the mesh into functionally meaningful part regions, which serve as geometric carriers for affordance
+annotation; (ii) Part-wise semantic annotation : conditioned on the part masks, a VLM (GPT-5.4 [ 30])
+interprets aligned RGB and mask renderings to infer each region’s semantic name, functional role, gras-
+pability, task-conditioned grasp scenarios, and appearance description; and (iii) Grasp generation and
+physical validation: GraspGen [ 31] proposes 6-DoF grasp candidates, which are associated with contacted
+mesh parts and filtered through physics-based execution tests. The resulting face-level part segmentation
+mesh and part-wise affordance annotations provide a simulator-grounded action interface, specifying which
+part an instruction refers to, what interaction function the part supports, and how the robot can execute
+the intended contact through simulation-filtered grasp groups.
+Sim-readyAsset1xw/o interaction regions bw/o part semanticscw/o executable grasp
+Part Segmentation a aFace-level segmentbGeometry-based refinecVLM-guided merge
+Part-wise Semantic Annotation aPaired views renderbVLM part semantic annotatec
+Grasp GenerationaDense grasp generatebSemantic part associateCPhysics-based validate
+2 3 4
+Interaction AffordanceGraspable: TrueGrasp scenarios: Stabilize the headphones by clamping the side of the band during placement.Confidence:0.74
+Part IdentityPart Name: headband
+Functional SemanticsFunctional label: Rest on the top of the head.Semantic description: A large curved pale pink padded band with a smooth matte outer surface and lighter inner lining, spanning the top and connecting both sides.
+Annotation verify and repair
+Figure 4: The affordance autolabeling pipeline. From sim-ready assets, the system produces structured
+part-level interaction representations through functional part segmentation, part-wise semantic annotation,
+and grasp generation & physical validation.
+F unctional part segmentation. For each sim-ready asset, P3-SAM [ 29] decomposes the mesh into poten-
+tially functional part regions. It samples a point cloud from the mesh, infers the object’s part structure in
+normalized 3D space, and projects the predicted point-cloud masks back onto the original mesh faces to ob-
+tain a face-level part segmentation map. The predicted part identifiers are remapped to a fixed color palette,
+giving the subsequent VLM stages directly accessible color names. Raw P3-SAM predictions can still con-
+tain boundary errors and overly fine-grained partitions, so we add geometry-consistent post-processing and
+VLM-guided part merging. The geometry-based post-processing corrects local labels by merging smoothly
+connected face components and relabeling small surrounded fragments, targeting projection noise without
+collapsing genuine sharp part boundaries. For semantic over-segmentation, a VLM-based checker takes the
+object category, all part color names, a 2×3 multi-view grid of RGB renderings, and the aligned part-mask
+grid as input. When the checker identifies that the same functional part has been split into multiple inde-
+pendent part regions, the pipeline automatically merges the corresponding regions and iterates this check-
+and-merge process until no further merges are needed. The accepted output is a face-level segmentation
+map that is both geometrically continuous and semantically aligned with functional object structure.
+Part-wise semantic annotation. We further extract interaction-oriented semantics from the geometric
+part regions. We reuse the segmentation-checker inputs: object category, part color names, and aligned
+RGB and part-mask renderings. The RGB views provide appearance, material, and structure cues, while
+the masks preserve region identities across viewpoints, enabling the VLM to associate visual cues with the
+same 3D part.
+These inputs are provided to a VLM (GPT-5.4 [ 30]) to infer structured attributes for each physically mean-
+ingful part, including part name , graspability, task-conditioned grasp scenarios , functional labels , and a
+fine-grained semantic description . Graspability and grasp scenarios specify whether the region is suitable as
+a robotic contact target; functional labels characterize the part’s role; and the semantic description records
+6
+appearance-level cues such as color, material, texture, shape, and relative location. The VLM response uses
+mask color names to associate each part-level annotation with its corresponding segmented region. We fur-
+ther apply a VLM-based checker to judge and revise the response, producing the final affordance annotation.
+The verified part-wise semantics form queryable part-level priors for downstream task planning.
+Grasp generation and physical validation. GraspGen [ 31] generates confidence-scored 6-DoF grasp
+candidates, which we map to the contacted semantic parts and rank by confidence. We validate these
+candidates in SAPIEN [ 20] through simulated closing, lifting, perturbation, and lowering, retaining only
+grasps that remain stable relative to the gripper. The resulting annotations pair part-level interaction
+semantics with physically executable grasp proposals for downstream manipulation.
+2.4 T ask-Driven Interactive Worlds Generation
+Problem definition. We formulate task-driven interactive worlds generation as the task of mapping a
+natural-language task description (e.g., “Place the fruit onto the plate on the table”) to a fully instantiated
+3D world that is directly usable for simulation and satisfies execution constraints. The output comprises
+two complementary representations: (i) a Scene Graph —a rooted multiway tree whose nodes correspond
+to 3D assets and whose edges encode spatial parent–child relationships—and (ii) a composed interactive
+3D world with real-scale geometry, physical properties, and 6-DoF poses for every object, directly loadable
+into physics simulators. Unlike prior scene generation methods that take a room category or object list as
+input [ 32, 33], our formulation is task-driven: the system autonomously reasons about which objects are
+needed, how they relate spatially, and where a robot should be placed to execute the described manipulation
+task. This factorization is analogous to green-screen production in filmmaking: instead of jointly generating
+every world detail, we model an interactive environment as a background plus the minimal set of task-
+relevant interactive assets. The abstraction preserves the semantic and physical constraints required by the
+task while substantially reducing world synthesis complexity and rendering cost.
+Pipeline overview. As shown in Fig. 5, given a natural-language task description, the pipeline proceeds
+in three stages: (1) scene graph generation parses the task into semantic roles, organizes them into a Scene
+Graph with explicit spatial relations, and generates per-object visual descriptions; (2) asset generation
+instantiates each node as a sim-ready 3D asset; and (3) spatial placement computes collision-free, physically
+stable poses via BFS traversal and physics settling.
+SceneGraph Generation
+Shiny red apple with a green leafMatte navy ceramic mug with curved handle
+RobotFLOORIN
+ONONONON
+KitchenBackgroundContext
+RobotDistractorsTargets
+Table
+ApplePlateForkBananaMugON
+Input: Task DescriptionTa s k 1 :  P u t  t h e  f r u i t  o n  t h e  table on the plate.Ta s k 2 :  P u t  t h e  b r o c c o l i  o n  t h e  white dishTa s k s :  …
+Quality Assurance: Physics, geometry, and appearance
+BFSSpatial Placement
+Layout Arrangement
+RTTTDD
+TouchabilityCheckIoUCheckPlaceabilityCheck
+Layout Composition 
+t=0t=6t=12
+Sim-ready 3D Scene
+Physical steady state
+Asset Instantiation
+Online Generation(Generation-cli)
+Offline Retrieval(Asset Gallery)
+Sim-ready 3D Asset
+Figure 5: Task-driven interactive worlds generation pipeline: scene graph generation from a natural-language
+task, sim-ready asset instantiation, and BFS-based spatial placement with physics settling.
+Scene Graph Generation. Scene decomposition. Given a task description, we prompt an LLM to de-
+compose it into five semantic categories: ROBOT, denoting the robot type; BACKGROUND, the indoor
+environment; CONTEXT, the primary piece of furniture that anchors the interaction; TARGETS, the ob-
+jects the robot must act upon; and DISTRACTORS, plausible scene props unrelated to the task. The
+7
+Figure 6: The same task-driven interactive world layout instantiated across six physics simulators (Genesis,
+Isaac Gym, Isaac Sim, MuJoCo, PyBullet, and SAPIEN3), shown in RGB (top) and depth (bottom). The
+standardized layout description produced by our pipeline requires no manual adaptation to be loaded and
+executed in each back-end, demonstrating cross-simulator portability.
+decomposition enforces semantic consistency: the context object must plausibly belong to the background.
+For example, a kitchen counter is compatible with a kitchen but not a bedroom. The decomposition also
+restricts outputs to rigid bodies suitable for physics simulation.
+Hierarchy generation & asset description. A second LLM query organizes the decomposed elements into
+a shallow rooted Scene Graph: the background is the root, the context and robot are its children, and
+manipulated and distractor objects attach to the context. Edges encode the ON, INSIDE, FLOOR, and IN
+relations, while the single-parent structure reduces placement ambiguity. Each asset node also receives a
+visual description that conditions the subsequent generation stage.
+Asset acquisition. To balance diversity and eﬀiciency, both assets and backgrounds support two sourcing
+modes: online generation and offline database retrieval. Each asset node in the Scene Graph can be instanti-
+ated on demand using the text-to-3D pipeline described in Sec. 2.2, or retrieved from a pre-built asset library
+when a suitable instance already exists. All instantiated assets carry real-world scale, mass, friction, collision
+geometry, and URDF packaging. Background scenes likewise support both online generation and offline re-
+trieval: we generate simple backgrounds with the background generation method of EmbodiedGen [ 1], while
+the large-scale scenes generation module (Sec. 2.5) produces complex backgrounds.
+BFS spatial placement. We instantiate the Scene Graph in breadth-first order so that each parent is
+placed before its children, sorting siblings by footprint to reserve support space for larger objects. For each
+spatial relation, a relation-specific sampler proposes a child position pc on or within the parent geometry
+subject to support and collision constraints:
+pc∈H p, Support(Bc(pc),Hp) = 1 , IoU
+(
+Bc(pc), ∪
+j∈PpBj
+)
+= 0, (1)
+whereHp is the parent’s support region, Bc is the projected child footprint, and Pp contains siblings already
+placed on p. The support predicate prevents unstable placement, while the IoU term avoids inter-object
+collisions. Manipulated objects must additionally lie within the robot’s reachable, forward-facing interaction
+region; when no feasible pose is found, the system resamples the candidate or invokes a relation-specific
+fallback. After placement, we settle movable objects under gravity in SAPIEN [ 20] to resolve residual
+penetrations and floating artifacts. We then export the stabilized 6-DoF poses to a standardized layout con-
+figuration that can be loaded across simulators for visualization and batched policy training. RoboVerse [ 26]
+provides an online example of directly loading this standardized layout description across different simulators
+(Fig. 6).2
+2https://roboverse.wiki/metasim/get_started/quick_start/16_embodiedgen_layout
+8
+Inputtask or scene desc. Scene Routerscene blueprintWorld Solverfeasible assemblyCanonicalizersim-ready packagingSim-ready SceneS = (R, F , C)
+Put the apple fromkitcheninto the fruit bowl in living room.A bright modern bedroom.…… room semanticsscene complexityroom topologyfurniture hierarchysim-readyscene
+Figure 7: Large-scale scenes generation. A task description is first distilled into a scene blueprint, then
+assembled under spatial constraints as a feasible multi-room assembly, and finally canonicalized into a sim-
+ready background that can serve as the Background node for task-driven foreground layouts.
+2.5 Large-Scale Scenes Generation
+Problem definition. The task-driven interactive worlds generation module in Sec. 2.4 explicitly factors
+out the task-relevant interactive foreground assets from the world, leaving an abstract interface occupied
+by a placeholder background node. This section answers the other half of that interface: how to automati-
+cally synthesize, behind that placeholder, a large-scale, multi-room, navigable simulation-ready indoor scene,
+so that embodied agents are no longer confined to tabletop-scale geometry but can perform long-horizon
+navigation and mobile manipulation within a unified physical world. Formally, given a task description T ,
+this module outputs a triple S = (R,F,C), where R is a room topology graph annotated with door and
+window connections, F is a per-room, individually addressable set of furniture instances (each carrying a
+visual mesh, a collision proxy, and physical parameters), and C is a globally consistent house-level coordi-
+nate frame. Compared to the panorama-back-projected single-mesh background of EmbodiedGen V1 [ 1],
+S simultaneously exposes a real room topology, traversable openings, and independently editable furniture
+entities—the conditions such tasks require to be solvable in simulation.
+Pipeline overview. We propose a three-stage pipeline that explicitly decouples natural-language-driven
+semantic reasoning from deterministic geometric constraint solving: (i) T ask-conditioned routing encodes
+T into a small set of discrete control signals that specify which room semantics to instantiate and at what
+target complexity; (ii) Hierarchical scene solving reshapes a procedural indoor generation framework [ 34]
+from a render-oriented synthesizer into a simulation-oriented solver, producing room- or house-level geometry
+populated with a furniture skeleton; (iii) Simulator-agnostic canonicalization performs per-instance
+decomposition, collision-proxy generation, and coordinate normalization, then delivers the scene through
+URDF as a standardized intermediate representation, reusing the unified format converter of Sec. 2.2 to
+reach all major downstream simulators. This shifts the burden of spatial consistency onto a constrained
+solver, complementing rather than replacing LLM-driven layout work [ 32, 33]: the language model makes
+only discrete semantic decisions, while the solver guarantees geometric and topological feasibility.
+T ask-conditioned routing. A vision-language model maps the task T to two discrete controls: room
+scope and scene complexity. Local tasks select a plausible room category, whereas cross-room or long-horizon
+tasks trigger a whole-house joint solve. The complexity level ℓ∈{ Minimalist, Simple, Medium, Detail}
+9
+controls furniture and clutter density, providing an interpretable interface between task requirements and
+solver cost.
+Hierarchical scene solving. The solver places three semantic scales of furniture in a coarse-to-fine order
+under floor-plan and cross-room traversability constraints: it first solves the placement and orientation of
+skeleton-level furniture (large items such as beds, sofas, and cabinets that define a room’s function), then
+mid-scale objects on top of their supporting surfaces, and finally tabletop-scale clutter. The complexity tier ℓ
+controls how many of these levels the solver activates, exposing scene density as a single tunable axis so that
+generation cost scales with task diﬀiculty, from near-empty rooms to fully decorated interiors. To make the
+output truly usable for physical simulation rather than offline rendering, we reshape the procedural generator
+from render-oriented to simulation-oriented: we suppress geometry that is unparseable to physics back-
+ends or merely decorative, and reallocate the solver’s budget toward maintaining feasibility on large-scale
+multi-room scenes. The solver resamples infeasible samples under room-connectivity and navigable-opening
+constraints.
+Simulator-agnostic canonicalization. The geometry produced by the solver is still in a render-oriented
+representation and must undergo a sim-ready packaging step before it is consumable by physics engines. We
+extend the scene-level export with three components: (i) Per-instance decomposition splits the house-
+level geometry along furniture and architectural units into individually loadable, individually replaceable
+instance entities, so that the background generated here can be seamlessly mounted as a Background node
+of the Scene Graph in Sec. 2.4, with its furniture instances replaceable or extensible by foreground objects on
+demand; (ii) Convex collision proxy batch-applies the same CoACD [ 19] convex decomposition used in
+Sec. 2.2 across all furniture instances, replacing visual meshes with compact convex hulls as collision proxies
+and avoiding the contact instability and performance degradation typical of non-convex meshes at scene scale;
+(iii) Scene-level canonicalization aligns the centroid of the house-level geometry to the world origin,
+eliminating the global pose drift that otherwise appears across random seeds and ensuring comparability
+for downstream policy training under bulk data generation. The packaging stage natively produces both
+URDF and USD and reuses the unified format converter of Sec. 2.2, so house-level backgrounds and object-
+level assets reach all major simulators through the same delivery path, with consistent physical semantics
+and contact behavior across back-ends. This section therefore delivers not a non-editable visual shell but a
+routable, addressable, replaceable, and engine-portable structured sim-ready background . Together with the
+object-level assets of Sec. 2.2 and the task-level layouts of Sec. 2.4, it forms the unified world representation
+of EmbodiedGen V2: usable on its own for navigation and multi-room exploration, or composed as the
+physical background of foreground layouts to constitute end-to-end embodied simulation worlds.
+2.6 Vibe Coding for Stateful Sim-Ready 3D World Editing
+Motivation. We use the term Vibe Coding for iteratively generating and editing simulation-ready 3D
+worlds through natural-language dialogue: the user expresses intent conversationally while deterministic,
+physics-aware skill backends enforce feasibility and sim-ready output contracts—much as a developer vibes
+with an AI coding assistant while the compiler enforces type correctness. Such authoring is intrinsically
+iterative—refining instances, adjusting spatial relations, restyling assets, and validating physics—yet neither
+conventional 3D pipelines (modeling, physics annotation, format-specific export) nor prompt-to-scene gener-
+ators, which regenerate the whole scene on each prompt, support state-preserving local edits. The generators
+of Sec. 2.2–2.5 are likewise single-shot, and modern LLM agents, though able to invoke domain skills through
+typed tool calls, lack a self-describing skill suite for sim-ready 3D worlds. We therefore organize these mod-
+ules under an agent–skill–harness abstraction: the solvers become callable sim-ready skills, and a shared
+harness maintains a world state that evolves across dialogue turns, converting single-shot generation into an
+online editing kernel that reuses the backbone of Eq. ( 1), CoACD collision proxies, and physics settling.
+Architecture and world state. The editing engine contains three components. (i) The agent is an
+LLM-based coordinator responsible for dialogue understanding, intent parsing, skill selection, argument
+completion, and feedback explanation. (ii) The skills are self-contained capability units; each skill exposes a
+natural-language description of its usage, inputs, outputs, and failure modes, and is backed by deterministic
+generators, solvers, or exporters from Sec. 2.2–2.5. (iii) The harness is the runtime layer that bridges the
+10
+agent and skills, maintaining the skill registry, dispatch logic, shared world state, failure loop, and edit
+log. Given a continuing dialogue stream {u1, u2, . . . , ut}, the harness maintains an evolving simulation-ready
+world state
+St =
+(
+Gt,At,Pt,Ht
+)
+, (2)
+whereGt is the typed Scene Graph, At the sim-ready assets, Pt their 6-DoF poses, and Ht the dialogue and
+skill-invocation history. For each instruction, the agent selects a skill and the harness validates its arguments,
+executes the deterministic backend, and commits a bounded state update. Every update preserves geometric
+and physical feasibility, records an auditable edit inHt, and keeps assets and poses consistent across simulator
+backends.
+𝑢!Generate a simple kitchen
+𝑢"Add a dining table with four chairs
+𝑢#Have some fruit 
+𝑢$Remove two chairs
+gen_asset
+add_object
+init_background
+inspect_state
+inspect_state
+𝑢!Generate a simple living room
+𝑢"Set up a TV, vase, table and chair
+𝑢#Set the table for chess
+𝑢$Sofa and chess away, serve tea
+skills
+retrieve_asset
+𝑆%=(𝐺%,𝐴%,𝑃%,𝐻%)
+𝑢!Generate a simple office
+𝑢"Add two office chairs facing the desks
+𝑢#Set up the desks
+𝑢$Organize the shelf with decorations
+Figure 8: Three Vibe Coding 3D editing sessions (kitchen, top; living room, middle; oﬀice, bottom). From
+a bare background S0, each session proceeds through three natural-language turns in which typed skills
+commit bounded deltas ∆S to (G,A,P,H). Green and red arrows indicate added and removed instances;
+all sessions end as sim-ready, exportable scenes.
+Skill suite and runtime contract. We organize the skill suite around four abstractions required by
+stateful sim-ready world generation: asset grounding, world composition, stateful editing, and execution
+validation (Table 1). Each skill declares its trigger, typed arguments, outputs, and failure behavior. After
+Parse and Ground, the harness validates the arguments, invokes the deterministic backend, and commits
+the resulting bounded ∆S in the shared asset-and-layout representation. Failed calls return structured
+diagnostics for retry, disambiguation, or fallback without modifying the world state. The harness is not
+tied to a particular agent implementation: our reference adapter integrates with OpenAI Codex [ 35] and
+Gemini CLI [ 36] through a shared plugin layer, and any agent framework supporting typed tool calls or
+slash-command plugins can connect to the same skill set.
+Agent–skill editing loop. Algorithm 1 summarizes the Parse–Ground–Invoke–Commit loop. Each
+instruction produces a bounded state delta under the current feasibility constraints; successful calls commit
+and render the new state, while failed calls return diagnostics without changing it.
+11
+Table 1: Core skill abstractions exposed by the Vibe Coding agent–skill harness.
+Abstraction Skill Role in the world-state transition
+Asset grounding
+asset-creator Materializes open-vocabulary object intent into sim-ready asset candidates.
+asset-retrieval Grounds object references to reusable assets when generation is unnecessary.
+asset-process Preserves metric and geometric consistency under asset-level transformations.
+asset-converter Projects canonical asset representations into simulator-specific formats.
+World composition
+background-creator Synthesizes task-compatible background context for interactive layouts.
+room-creator Produces structured room- and house-level worlds with canonical scene enti-
+ties.
+layout-creator Instantiates task semantics as physically grounded foreground–background
+layouts.
+Stateful
+editing spatial-computing Commits bounded scene edits by grounding language to addressable instances
+and collision-aware spatial constraints.
+Execution
+validation sim-runner Closes the loop by executing the current world state in simulation and return-
+ing visual or policy-relevant feedback.
+Algorithm 1 Agent–Skill Interactive Editing Loop.
+Require: dialogue stream{ut}, initial world state S0
+1: for each instruction ut do
+2: (ω, α NL)← Parse(ut,St) ▷ select skill and NL arguments
+3: α← Ground(αNL,St) ▷ resolve typed world references
+4: ∆S← Invoke
+(
+ω, α, C(St)
+)
+▷ execute under constraints
+5: if ∆S =⊥ then
+6: Diagnose(ω, α, St) ▷ return diagnostics; no state mutation
+7: continue
+8: end if
+9: St+1← Commit(St, ∆S) ▷ atomic state update
+10: Render(St+1) ▷ refresh simulation preview
+11: end for
+Instance grounding and spatial editing. Ground, handled by the agent, is the interface between
+open-ended language and the symbolic world state. It resolves category references (“the chair”), attribute
+references (“the largest piece of furniture”), and historical anaphora (“the apple I just placed”) against the
+current scene graph, instance appearance, spatial coordinates, and recent edits in Ht, producing typed ar-
+guments α for the selected skill ω; low-confidence cases return top- k candidates for user disambiguation.
+For spatial edits, Ground maps references to an instance_key and room_id and dispatches them to the
+spatial-computing skill, which exposes the scene as a room-partitioned 2D floorplan of addressable in-
+stances (Fig. 9) and resolves the ON/BESIDE/IN relations by reusing the collision-IoU term of Eq. ( 1), with
+its support test generalized from object top-surfaces to room free-floor polygons. The offline placement
+solver thus becomes the online core of this skill, and every committed edit keeps Gt andPt consistent across
+downstream simulators.
+12
+Figure 9: Floorplan canvas of the spatial-computing skill. Each pair shows a top-down rendering (left)
+and the corresponding symbolic floorplan with room and instance labels (right). Open-vocabulary references
+are grounded against this canvas, and the skill evaluates Eq. ( 1) on its room polygons and instance bounding
+boxes.
+3 Experiments
+3.1 Sim-Ready Pipeline Quality Evaluation
+We ablate each stage of the sim-ready pipeline on 200 held-out assets spanning diverse object categories. The
+default Full pipeline includes mesh fixing, convex decomposition, and the hierarchical quality checker; each
+variant removes one component while keeping the rest unchanged. For this evaluation, we use SAM3D [ 3]
+as the image-to-3D model, and run all experiments on a single NVIDIA RTX 4090 GPU.
+Table 2: Ablation study on 200 held-out assets. Each row removes one component from the full pipeline.
+Time and mesh sizes are reported as mean ± std. Best results are in bold.
+Setting
+Human
+Accept. ↑
+Collision
+Success ↑
+Time
+(min) ↓
+Visual
+Mesh (MB) ↓
+Collision
+Mesh (MB) ↓
+Full pipeline 96.5% 98.6% 2.6 ± 0.4 1.43 ± 0.63 0.29 ± 0.21
+w/o Quality checker 91.0% 98.1% 2.2 ± 0.4 1.44 ± 0.63 0.30 ± 0.22
+w/o Mesh fixing 95.5% 98.3% 21.3 ± 22.8 51.63 ± 25.87 0.31 ± 0.26
+w/o Convex decomp. 94.5% 96.5% 2.3 ± 0.3 1.45 ± 0.64 1.45 ± 0.64
+Table 2 reports five metrics. Human Acceptance is the fraction of assets judged sim-ready by annotators,
+considering consistency with the input condition, geometric plausibility, coherence of invisible surfaces, and
+overall usability as a simulation asset. Collision Success is the average success rate of scripted Franka
+Panda top-down grasp-and-lift trials in SAPIEN [ 20]: we run 4 trials per asset at evenly spaced yaw angles
+and count a trial as successful if the object is lifted above an adaptive height threshold proportional to its
+bounding-box height. The remaining columns report per-asset processing time and exported mesh sizes.
+Quality checker. Removing the quality checker lowers Human Acceptance by 5.5 points (96.5% → 91.0%)
+while saving only 0.4 min per asset. Without the generate–verify–retry loop, defective samples pass through
+uncorrected, degrading visual and semantic completeness. Mesh sizes and Collision Success remain largely
+unchanged, confirming that the checker targets perceptual defects rather than geometric properties.
+Mesh fixing. Without mesh fixing, downstream processing becomes substantially less eﬀicient: per-asset
+runtime increases by approximately 8×, from 2.6± 0.4 to 21.3± 22.8 min, and the visual mesh size grows
+from 1.43 MB to 51.63 MB. This degradation occurs because raw generative outputs contain redundant faces
+and topological defects that severely slow UV unwrapping, texture baking, and convex decomposition [ 19];
+meshes exceeding 50 MB per object are also impractical for simulators that batch-load hundreds of assets.
+Convex decomposition. Without convex decomposition the collision mesh reverts to the full visual mesh
+13
+as the collision proxy (0.29→ 1.45 MB), forcing the simulator to operate on non-convex surfaces. This reduces
+Collision Success from 98.6% to 96.5% due to unstable contact and grasp failure, while adding negligible
+runtime overhead (2.6 vs. 2.3 min). Although the absolute drop is modest, such contact errors can accumulate
+in long-horizon embodied manipulation pipelines.
+Overall, the three components address complementary failure modes—perceptual acceptance, deployment
+eﬀiciency, and contact reliability—and together yield 96.5% Human Acceptance and 98.6% Collision Success
+at 2.6 min per asset.
+3.2 Affordance Pipeline Quality Evaluation
+We evaluate the affordance autolabeling pipeline on 200 sim-ready assets spanning diverse object categories
+under three matched settings. The Baseline uses raw P3-SAM part segmentation [ 29], part-wise semantic
+annotation, and grasp generation; the two variants progressively add geometry-consistent segmentation post-
+processing and VLM-guided part merging. All variants use the same asset set and a cascaded protocol, in
+which each stage is measured only on assets that pass the preceding stage. We run the evaluation on a
+single NVIDIA RTX 4090 GPU and instantiate the VLM-assisted verification and merging module with
+GPT-5.4 [ 30]. For grasp validation, each retained grasp is executed in SAPIEN, and we discard it if the
+object-to-gripper slip exceeds 5 cm or 30◦ during the validation sequence.
+Table 3: Ablation study of the affordance autolabeling pipeline on 200 assets. Stage pass rates
+are conditional on the previous successful stage, while the end-to-end pass rate is the product of part
+segmentation, part semantic annotation, and object-level grasp coverage. Runtime is reported per asset as
+mean± std over both successful and failed assets.
+Setting
+Segmentation
+Pass Rate ↑
+Semantic
+Validity Rate ↑
+Grasp
+Coverage Rate ↑
+Affordance
+Pass Rate ↑
+Runtime
+(s) ↓
+Baseline 47.0% 98.9% 66.7% 31.0% 109 ± 45
++ Post-process 56.5% 97.3% 74.6% 41.0% 105 ± 41
++ Post-process + VLM merging 69.5% 99.3% 72.5% 50.0% 94 ± 30
+Table 3 reports stage-wise and end-to-end metrics. Segmentation Pass Rate measures whether the VLM
+checker accepts the decomposition as physically meaningful functional parts after inspecting the aligned RGB
+and mask grids, and whether the face-level masks are accurate enough for downstream labeling. Semantic
+Validity Rate measures whether each accepted part receives a valid structured annotation with semantic
+name, graspability flag, grasp scenarios, functional labels, and appearance description after the checker-
+repair loop. Grasp Coverage Rate is computed on the semantic-passed assets and requires the whole object
+to have at least one simulation-validated candidate grasp pose in the final affordance annotation, while assets
+that are intrinsically unsuitable for mechanical parallel-jaw grasping and lifting, such as large household
+appliances, are treated as satisfying this criterion. Segmentation Pass Rate and Semantic Validity Rate
+are first screened by the VLM checker and then manually cross-validated, whereas Grasp Coverage Rate is
+computed automatically from the final affordance annotations. Under this cascaded evaluation, Affordance
+Pass Rate is computed as the product of the three stage-wise rates and represents the end-to-end yield
+of assets with valid part-level semantics and either at least one physically executable grasp or an explicit
+graspability exemption.
+Post-processing. Adding geometry-consistent post-processing improves Segmentation Pass Rate from
+47.0% to 56.5%, increasing the fraction of assets with usable face-level part masks. This improvement reflects
+the role of smooth-component merging and surrounded-fragment relabeling, which reduce projection-induced
+boundary noise and isolated part fragments without collapsing genuine geometric discontinuities. The Se-
+mantic Validity Rate remains high on the segmentation-passed assets (98.9% → 97.3%), while the conditional
+Grasp Coverage Rate increases from 66.7% to 74.6%. These improvements in segmentation quality and grasp
+coverage propagate through the cascade, raising Affordance Pass Rate from 31.0% to 41.0%.
+VLM verification. Adding VLM-based verification further raises Segmentation Pass Rate to 69.5%, sub-
+14

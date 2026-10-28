@@ -1,0 +1,648 @@
+{
+ "k": 169,
+ "source": "SAGE-10k",
+ "room_type": "bathroom",
+ "latency_s": 110.78100441698916,
+ "usage": [
+  {
+   "prompt_tokens": 3082,
+   "completion_tokens": 6000,
+   "total_tokens": 9082,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3563,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.55,
+     1.1,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.5,
+     0.72,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.03,
+     0.42,
+     0.62
+    ],
+    "bottom_center_m": [
+     0.015,
+     2.96,
+     1.32
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.12,
+     0.25,
+     0.42
+    ],
+    "bottom_center_m": [
+     0.06,
+     0.69,
+     1.85
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.04,
+     0.45,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.02,
+     0.3,
+     1.05
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.04,
+     0.45,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.02,
+     2.04,
+     1.3
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.12,
+     0.6,
+     0.38
+    ],
+    "bottom_center_m": [
+     0.06,
+     1.47,
+     1.15
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.25,
+     3.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.04,
+     0.45,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.98,
+     0.76,
+     1.3
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.22
+    ],
+    "bottom_center_m": [
+     2.25,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.24,
+     0.16,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.75,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.12,
+     0.65,
+     0.25
+    ],
+    "bottom_center_m": [
+     2.94,
+     1.33,
+     1.2
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.05,
+     0.05,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.56,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.05,
+     0.05,
+     0.18
+    ],
+    "bottom_center_m": [
+     2.58,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.1,
+     0.4,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.05,
+     2.51,
+     1.25
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.52
+    ],
+    "bottom_center_m": [
+     0.25,
+     2.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.04,
+     0.55,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.02,
+     3.53,
+     1.05
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.04,
+     0.42,
+     0.52
+    ],
+    "bottom_center_m": [
+     2.98,
+     2.16,
+     1.35
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.04,
+     0.45,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.98,
+     0.3,
+     1.05
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.14,
+     0.14,
+     0.12
+    ],
+    "bottom_center_m": [
+     0.25,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     2.7,
+     3.55,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.23
+    ],
+    "bottom_center_m": [
+     2.42,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.04,
+     0.38,
+     0.76
+    ],
+    "bottom_center_m": [
+     0.22,
+     3.98,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.04,
+     1.35,
+     2.05
+    ],
+    "bottom_center_m": [
+     0.7,
+     0.02,
+     0.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.34,
+     0.72,
+     0.15
+    ],
+    "bottom_center_m": [
+     0.5,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.18,
+     0.025,
+     0.025
+    ],
+    "bottom_center_m": [
+     0.68,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.12,
+     0.25,
+     0.25
+    ],
+    "bottom_center_m": [
+     2.94,
+     1.805,
+     1.8
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.04,
+     1.35,
+     2.05
+    ],
+    "bottom_center_m": [
+     2.3,
+     0.02,
+     0.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.18,
+     0.025,
+     0.025
+    ],
+    "bottom_center_m": [
+     2.71,
+     1.25,
+     0.27
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.34,
+     0.72,
+     0.15
+    ],
+    "bottom_center_m": [
+     2.5,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.14,
+     0.14,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.72,
+     1.78,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.12,
+     0.28,
+     0.08
+    ],
+    "bottom_center_m": [
+     0.06,
+     0.99,
+     1.05
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.18,
+     0.025,
+     0.025
+    ],
+    "bottom_center_m": [
+     2.79,
+     1.25,
+     0.27
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.12,
+     0.5,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.94,
+     2.64,
+     0.95
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.14,
+     0.45,
+     0.6
+    ],
+    "bottom_center_m": [
+     2.72,
+     3.93,
+     1.15
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.36,
+     0.36,
+     0.58
+    ],
+    "bottom_center_m": [
+     2.68,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.04,
+     0.4,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.64,
+     3.98,
+     1.32
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.2
+    ],
+    "bottom_center_m": [
+     0.22,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.03,
+     0.45,
+     0.62
+    ],
+    "bottom_center_m": [
+     2.985,
+     3.135,
+     1.35
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.1,
+     0.42,
+     0.16
+    ],
+    "bottom_center_m": [
+     1.08,
+     3.95,
+     1.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.1,
+     0.11,
+     0.2
+    ],
+    "bottom_center_m": [
+     0.4,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     0.62
+    ],
+    "bottom_center_m": [
+     0.25,
+     3.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.75,
+     0.85,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.16,
+     0.16,
+     0.48
+    ],
+    "bottom_center_m": [
+     2.72,
+     2.2,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.18,
+     0.025,
+     0.025
+    ],
+    "bottom_center_m": [
+     0.75,
+     1.25,
+     0.15
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe two shower curtains occupy the south wall and define the bathing side, with the bath mat centered in front of them. Toiletry caddies and their supported items are placed along the lower side walls, leaving a broad central route to the north-wall door. Mirrors, artwork, lighting, towel racks, decals, the shelf, and soap dish are distributed around the remaining wall lengths without blocking the doorway. Floor plants and bathroom accessories stay near the perimeter; obj_0040 is positioned directly between obj_0014 and obj_0006 along the west side.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.1,\"depth_m\":0.55,\"height_m\":0.02,\"x\":1.5,\"y\":0.72,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.42,\"depth_m\":0.03,\"height_m\":0.62,\"x\":0.015,\"y\":2.96,\"z\":1.32,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.25,\"depth_m\":0.12,\"height_m\":0.42,\"x\":0.06,\"y\":0.69,\"z\":1.85,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":0.45,\"depth_m\":0.04,\"height_m\":0.8,\"x\":0.02,\"y\":0.3,\"z\":1.05,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":0.45,\"depth_m\":0.04,\"height_m\":0.55,\"x\":0.02,\"y\":2.04,\"z\":1.3,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":0.6,\"depth_m\":0.12,\"height_m\":0.38,\"x\":0.06,\"y\":1.47,\"z\":1.15,\"facing_deg\":0},{\"id\":\"obj_0006\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.55,\"x\":0.25,\"y\":3.5,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":0.45,\"depth_m\":0.04,\"height_m\":0.55,\"x\":2.98,\"y\":0.76,\"z\":1.3,\"facing_deg\":180},{\"id\":\"obj_0008\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.22,\"x\":2.25,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.16,\"depth_m\":0.24,\"height_m\":0.12,\"x\":2.75,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":0.65,\"depth_m\":0.12,\"height_m\":0.25,\"x\":2.94,\"y\":1.33,\"z\":1.2,\"facing_deg\":180},{\"id\":\"obj_0011\",\"width_m\":0.05,\"depth_m\":0.05,\"height_m\":0.18,\"x\":0.56,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.05,\"depth_m\":0.05,\"height_m\":0.18,\"x\":2.58,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":0.4,\"depth_m\":0.1,\"height_m\":0.3,\"x\":0.05,\"y\":2.51,\"z\":1.25,\"facing_deg\":0},{\"id\":\"obj_0014\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.52,\"x\":0.25,\"y\":2.5,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0015\",\"width_m\":0.55,\"depth_m\":0.04,\"height_m\":0.85,\"x\":0.02,\"y\":3.53,\"z\":1.05,\"facing_deg\":0},{\"id\":\"obj_0016\",\"width_m\":0.42,\"depth_m\":0.04,\"height_m\":0.52,\"x\":2.98,\"y\":2.16,\"z\":1.35,\"facing_deg\":180},{\"id\":\"obj_0017\",\"width_m\":0.45,\"depth_m\":0.04,\"height_m\":0.82,\"x\":2.98,\"y\":0.3,\"z\":1.05,\"facing_deg\":180},{\"id\":\"obj_0018\",\"width_m\":0.14,\"depth_m\":0.14,\"height_m\":0.12,\"x\":0.25,\"y\":1.75,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":2.7,\"y\":3.55,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0020\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.23,\"x\":2.42,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0021\",\"width_m\":0.38,\"depth_m\":0.04,\"height_m\":0.76,\"x\":0.22,\"y\":3.98,\"z\":1.05,\"facing_deg\":270},{\"id\":\"obj_0022\",\"width_m\":1.35,\"depth_m\":0.04,\"height_m\":2.05,\"x\":0.7,\"y\":0.02,\"z\":0.2,\"facing_deg\":90},{\"id\":\"obj_0023\",\"width_m\":0.72,\"depth_m\":0.34,\"height_m\":0.15,\"x\":0.5,\"y\":1.25,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0024\",\"width_m\":0.025,\"depth_m\":0.18,\"height_m\":0.025,\"x\":0.68,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0025\",\"width_m\":0.25,\"depth_m\":0.12,\"height_m\":0.25,\"x\":2.94,\"y\":1.805,\"z\":1.8,\"facing_deg\":180},{\"id\":\"obj_0026\",\"width_m\":1.35,\"depth_m\":0.04,\"height_m\":2.05,\"x\":2.3,\"y\":0.02,\"z\":0.2,\"facing_deg\":90},{\"id\":\"obj_0027\",\"width_m\":0.025,\"depth_m\":0.18,\"height_m\":0.025,\"x\":2.71,\"y\":1.25,\"z\":0.27,\"facing_deg\":90},{\"id\":\"obj_0028\",\"width_m\":0.72,\"depth_m\":0.34,\"height_m\":0.15,\"x\":2.5,\"y\":1.25,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0029\",\"width_m\":0.14,\"depth_m\":0.14,\"height_m\":0.12,\"x\":2.72,\"y\":1.78,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0030\",\"width_m\":0.28,\"depth_m\":0.12,\"height_m\":0.08,\"x\":0.06,\"y\":0.99,\"z\":1.05,\"facing_deg\":0},{\"id\":\"obj_0031\",\"width_m\":0.025,\"depth_m\":0.18,\"height_m\":0.025,\"x\":2.79,\"y\":1.25,\"z\":0.27,\"facing_deg\":90},{\"id\":\"obj_0032\",\"width_m\":0.5,\"depth_m\":0.12,\"height_m\":0.65,\"x\":2.94,\"y\":2.64,\"z\":0.95,\"facing_deg\":180},{\"id\":\"obj_0033\",\"width_m\":0.45,\"depth_m\":0.14,\"height_m\":0.6,\"x\":2.72,\"y\":3.93,\"z\":1.15,\"facing_deg\":270},{\"id\":\"obj_0034\",\"width_m\":0.36,\"depth_m\":0.36,\"height_m\":0.58,\"x\":2.68,\"y\":0.35,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0035\",\"width_m\":0.4,\"depth_m\":0.04,\"height_m\":0.5,\"x\":0.64,\"y\":3.98,\"z\":1.32,\"facing_deg\":270},{\"id\":\"obj_0036\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.2,\"x\":0.22,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0037\",\"width_m\":0.45,\"depth_m\":0.03,\"height_m\":0.62,\"x\":2.985,\"y\":3.135,\"z\":1.35,\"facing_deg\":180},{\"id\":\"obj_0038\",\"width_m\":0.42,\"depth_m\":0.1,\"height_m\":0.16,\"x\":1.08,\"y\":3.95,\"z\":1.2,\"facing_deg\":270},{\"id\":\"obj_0039\",\"width_m\":0.11,\"depth_m\":0.1,\"height_m\":0.2,\"x\":0.4,\"y\":1.25,\"z\":0.15,\"facing_deg\":90},{\"id\":\"obj_0040\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":0.62,\"x\":0.25,\"y\":3.0,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0041\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.1,\"x\":2.75,\"y\":0.85,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0042\",\"width_m\":0.16,\"depth_m\":0.16,\"height_m\":0.48,\"x\":2.72,\"y\":2.2,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0043\",\"width_m\":0.025,\"depth_m\":0.18,\"height_m\":0.025,\"x\":0.75,\"y\":1.25,\"z\":0.15,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.000 m x 4.000 m x 2.700 m\nfloor polygon (x, y): [[0.0, 0.0], [3.0, 0.0], [3.0, 4.0], [0.0, 4.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"mat\", \"description\": \"A rectangular woven bath mat with tropical leaf print, flat and low‑profile, soft microfiber material, teal and sand colors\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"decal\", \"description\": \"A single piece of thin and upright wall decal depicting a palm print, rectangular shape, glossy vinyl, vibrant green on white background\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0002\", \"category\": \"lightfixture\", \"description\": \"A single piece of thin and upright light fixture with a woven rattan shade, cylindrical body, warm amber glow and a small leaf motif\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0003\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a rectangular shape, turquoise frame, glossy finish and a subtle palm leaf pattern\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0004\", \"category\": \"painting\", \"description\": \"A single piece of thin and upright painting with a vibrant tropical beach scene, featuring bold blues and greens, rendered on a smooth canvas.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0005\", \"category\": \"towelrack\", \"description\": \"A tropical style wall‑mounted towel rack with a curved, arching bar, natural bamboo finish, and a woven palm leaf backing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0006\", \"category\": \"plant\", \"description\": \"A small potted tropical plant with broad green leaves, cylindrical pot, matte terracotta finish, leafy foliage\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright artwork, rectangular canvas with a vibrant tropical sunset scene, glossy finish\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0008\", \"category\": \"shampoobottle single\", \"description\": \"A tropical style shampoo bottle with a cylindrical body, turquoise gradient finish, smooth plastic surface and a flip‑top cap\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0009\", \"category\": \"toothbrushholder\", \"description\": \"A tropical style toothbrush holder of woven rattan, elongated rectangular container with a built‑in drainage slot\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0010\", \"category\": \"towelrack\", \"description\": \"A tropical style wall‑mounted towel rack of rattan, elongated horizontal bar with decorative leaf cut‑outs\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0011\", \"category\": \"toothpaste\", \"description\": \"A tropical style toothpaste tube with a matte teal finish, cylindrical shape, and a leaf‑shaped cap\", \"support_parent\": \"obj_0023\"},\n{\"id\": \"obj_0012\", \"category\": \"toothpaste\", \"description\": \"A tropical style toothpaste tube with a slim rectangular profile, bright orange color, glossy plastic finish and a pineapple motif\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0013\", \"category\": \"towelrack\", \"description\": \"A wall‑mounted towel rack with two curved hooks, metallic finish, tropical turquoise paint, sleek curved shape\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0014\", \"category\": \"plant\", \"description\": \"A small potted tropical plant with broad green leaves, cylindrical pot, matte terracotta finish, leafy foliage\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0015\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a polished silver frame, rectangular shape, smooth reflective surface, tropical teal edging\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0016\", \"category\": \"decoration\", \"description\": \"A single piece of thin and upright wall decoration, rectangular canvas with a vibrant tropical sunset painting, framed in reclaimed wood\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0017\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror, rectangular frame with a brushed gold tropical motif, sleek reflective surface\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0018\", \"category\": \"toiletpaper\", \"description\": \"A roll of white toilet paper with a tropical palm border printed on the cardboard, cylindrical shape, soft tissue sheets\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0019\", \"category\": \"plant\", \"description\": \"A tropical style potted plant with a wide ceramic pot, glossy green leaves, and a curved stem, giving a lush jungle feel\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0020\", \"category\": \"shampoo\", \"description\": \"A tropical style shampoo bottle with a sleek, cylindrical body, turquoise gradient color, glossy plastic, and a subtle wave embossing.\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0021\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a brushed bamboo frame, rectangular shape, reflective surface and subtle tropical engraving\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0022\", \"category\": \"showercurtain\", \"description\": \"A tropical style shower curtain with a rectangular panel, bright mango orange fabric, lightweight woven texture and a repeating hibiscus print\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0023\", \"category\": \"toiletry\", \"description\": \"A collection of five assorted tropical toiletries including a toothbrush, toothpaste, soap bar, lotion bottle, and small bottle, each with vibrant island-inspired colors, varied shapes such as cylindrical, rectangular, and curved, glossy finishes\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0024\", \"category\": \"toothbrush\", \"description\": \"A tropical style toothbrush with a bamboo handle, slender cylindrical head, and green bristles\", \"support_parent\": \"obj_0023\"},\n{\"id\": \"obj_0025\", \"category\": \"light\", \"description\": \"A wall‑mounted light fixture with a circular tropical patterned shade, metal base, warm amber glow, round shape\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0026\", \"category\": \"showercurtain\", \"description\": \"A tropical style shower curtain of lightweight fabric, bright teal background with oversized palm leaf prints, rectangular and slightly billowy\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0027\", \"category\": \"toothbrush\", \"description\": \"A tropical style toothbrush with a slender cylindrical head, teal handle, soft bristles and a small palm leaf engraving\", \"support_parent\": \"obj_0009\"},\n{\"id\": \"obj_0028\", \"category\": \"toiletry\", \"description\": \"A collection of five assorted tropical toiletries including a toothbrush, toothpaste, soap bar, lotion bottle, and small bottle, each with vibrant island-inspired colors, varied shapes such as cylindrical, rectangular, and curved, glossy finishes\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0029\", \"category\": \"toiletpaper\", \"description\": \"A tropical style toilet paper roll with a vibrant leaf pattern, cylindrical shape, soft white paper, and a glossy green wrapper\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0030\", \"category\": \"soapdish\", \"description\": \"A single piece of thin and upright soap dish made of bamboo, rectangular shallow tray, natural wood finish, tropical woven texture\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0031\", \"category\": \"toothbrush\", \"description\": \"A tropical style toothbrush with a slender cylindrical head, teal handle, soft bristles and a small palm leaf engraving\", \"support_parent\": \"obj_0009\"},\n{\"id\": \"obj_0032\", \"category\": \"towelrack\", \"description\": \"A tropical style towel rack with a tall rectangular frame, coral finish, curved arms and decorative leaf cut‑outs\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0033\", \"category\": \"shelf\", \"description\": \"A single piece of thin and upright rattan shelf mounted on the wall, rectangular shape, woven natural fibers, light brown color, open slots\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0034\", \"category\": \"plant\", \"description\": \"A small potted tropical plant with broad green leaves, cylindrical pot, matte terracotta finish, leafy foliage\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0035\", \"category\": \"decoration\", \"description\": \"A single piece of thin and upright wall decoration, rectangular canvas with a vibrant tropical sunset painting, framed in reclaimed wood\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0036\", \"category\": \"lotion\", \"description\": \"A tropical style lotion bottle with a rounded cylindrical shape, sea‑foam green color, glossy plastic finish and a subtle wave texture\", \"support_parent\": \"obj_0023\"},\n{\"id\": \"obj_0037\", \"category\": \"decal\", \"description\": \"A single piece of thin and upright palm print decal, rectangular, vivid green palm silhouette on a matte white background\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0038\", \"category\": \"towelrack\", \"description\": \"A single piece of thin and upright towel rack, sleek stainless steel bar with a subtle wave curve, tropical design accents\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0039\", \"category\": \"soapdispenser\", \"description\": \"A tropical style soap dispenser with a compact, rectangular form, deep green color, polished ceramic, and a carved pineapple handle.\", \"support_parent\": \"obj_0023\"},\n{\"id\": \"obj_0040\", \"category\": \"plant\", \"description\": \"A tropical style potted plant with a wide ceramic pot, glossy green leaves, and a curved stem, giving a lush jungle feel\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0041\", \"category\": \"bomb\", \"description\": \"A spherical bath bomb with a swirled turquoise and coral surface, smooth glossy finish, tropical fragrance infused, round shape\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0042\", \"category\": \"toiletbrush\", \"description\": \"A compact toilet brush with a curved handle, natural wood grip, bristles in green, slender shape\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0043\", \"category\": \"toothbrush\", \"description\": \"A tropical style toothbrush with a bamboo handle, slender cylindrical head, and green bristles\", \"support_parent\": \"obj_0023\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [1.968, 4.0], \"wall_from\": [3.0, 4.0], \"wall_to\": [0.0, 4.0], \"width_m\": 0.95, \"height_m\": 2.05}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0040\", \"target_ids\": [\"obj_0014\", \"obj_0006\"]}]\n[/Task Constraints]"
+}

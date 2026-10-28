@@ -1,0 +1,75 @@
+{
+ "task_description": "a living room of about 6.2m x 11.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.18 m wide centred at (5.10, 5.53) (keep the floor in front of it clear); a door 0.85 m wide centred at (0.00, 2.51) (keep the floor in front of it clear); a window 2.24 m wide centred at (1.98, 0.00); a door 3.01 m wide centred at (3.50, 1.50) (keep the floor in front of it clear). the tv cabinet (o0002) should be between the side table (o0012) and the side table (o0009). the sofa (o0004) should face the coffee table (o0008). the potted bonsai (o0006) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.153876831054688,
+    5.53,
+    0.0
+   ],
+   [
+    6.159000213623047,
+    5.53,
+    0.0
+   ],
+   [
+    6.159000213623047,
+    6.775992553710938,
+    0.0
+   ],
+   [
+    4.141699462890625,
+    6.775992553710938,
+    0.0
+   ],
+   [
+    4.125699462890625,
+    11.808,
+    0.0
+   ],
+   [
+    0.0,
+    11.808,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.5018767089843754,
+    0.0,
+    0.0
+   ],
+   [
+    3.5018767089843754,
+    3.8130000000000006,
+    0.0
+   ],
+   [
+    4.169876831054688,
+    3.8130000000000006,
+    0.0
+   ]
+  ],
+  "wall_height": 2.7499
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {}
+ }
+}

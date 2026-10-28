@@ -1,0 +1,36 @@
+{
+ "task_description": "a study room of about 3.2m x 3.6m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.85 m wide centred at (0.00, 2.99) (keep the floor in front of it clear); a door 0.85 m wide centred at (0.51, 0.00) (keep the floor in front of it clear); a window 1.62 m wide centred at (1.50, 3.62). the desk (o0001) should face the bookcase (o0003). the bookcase (o0003) should be against a wall. the bookcase (o0000) should be within 0.30 m of the chair (o0004). the desk (o0001) should face the bookcase (o0000)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    6.835937499616307e-06,
+    3.618274169921875,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.225005859374999,
+    0.0,
+    0.0
+   ],
+   [
+    3.225189453124999,
+    3.616615478515625,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

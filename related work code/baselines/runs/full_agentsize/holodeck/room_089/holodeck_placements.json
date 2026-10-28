@@ -1,0 +1,190 @@
+{
+ "floor": [
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 0.45,
+    "z": 0.315
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     620.0,
+     -4.5
+    ],
+    [
+     620.0,
+     67.5
+    ],
+    [
+     370.0,
+     67.5
+    ],
+    [
+     370.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 10.979103281353254,
+    "y": 0.89,
+    "z": 0.55
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     1054.9103281353255,
+     4.5
+    ],
+    [
+     1054.9103281353255,
+     105.5
+    ],
+    [
+     1140.9103281353255,
+     105.5
+    ],
+    [
+     1140.9103281353255,
+     4.5
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  },
+  {
+   "assetId": "dishwasher-0",
+   "id": "dishwasher-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.7,
+    "y": 0.425,
+    "z": 0.30499999999999994
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     805.0,
+     -4.5000000000000036
+    ],
+    [
+     805.0,
+     65.5
+    ],
+    [
+     735.0,
+     65.5
+    ],
+    [
+     735.0,
+     -4.5000000000000036
+    ]
+   ],
+   "object_name": "dishwasher-0"
+  },
+  {
+   "assetId": "cabinet-1",
+   "id": "cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 9.35,
+    "y": 0.45,
+    "z": 0.315
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     1030.0,
+     -4.5
+    ],
+    [
+     1030.0,
+     67.5
+    ],
+    [
+     840.0,
+     67.5
+    ],
+    [
+     840.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "lamp-0",
+   "id": "lamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 2.175,
+    "z": 0.11
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     512.5,
+     0.0
+    ],
+    [
+     512.5,
+     20.0
+    ],
+    [
+     477.5,
+     20.0
+    ],
+    [
+     477.5,
+     0.0
+    ],
+    [
+     512.5,
+     0.0
+    ]
+   ],
+   "object_name": "lamp-0"
+  }
+ ]
+}

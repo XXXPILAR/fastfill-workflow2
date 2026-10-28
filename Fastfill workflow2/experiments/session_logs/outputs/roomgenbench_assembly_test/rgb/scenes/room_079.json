@@ -1,0 +1,217 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_079",
+ "room_type": "bedroom",
+ "room": {
+  "width": 6.273530960083008,
+  "length": 8.77353048324585,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.9999997078071943,
+    0.0007644511273615405,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0017452806109056753,
+    0.9999984769966348,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    -0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 16
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "bed",
+   "asset_key": "bed_fefe2393",
+   "description": "bed",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "book",
+   "asset_key": "book_e7e694c5",
+   "description": "book",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "carpet",
+   "asset_key": "carpet_be207b77",
+   "description": "carpet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "tv",
+   "asset_key": "tv_ff0dc9ba",
+   "description": "tv",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "description": "lamp",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "bed",
+   "asset_key": "bed_fefe2393",
+   "description": "bed",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "book",
+   "asset_key": "book_e7e694c5",
+   "description": "book",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  }
+ ]
+}

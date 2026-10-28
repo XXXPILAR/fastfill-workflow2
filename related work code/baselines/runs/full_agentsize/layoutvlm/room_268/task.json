@@ -1,0 +1,45 @@
+{
+ "task_description": "a master bedroom of about 3.4m x 3.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.96 m wide centred at (2.74, 3.23) (keep the floor in front of it clear); a door 2.32 m wide centred at (1.59, 0.00) (keep the floor in front of it clear). the bed (o0000) should be between the nightstand (o0003) and the nightstand (o0001). the nightstand (o0001) should be against a wall. the bed (o0000) should be within 0.10 m of the nightstand (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    3.42,
+    3.2299999999999995,
+    0.0
+   ],
+   [
+    1.9455253906249999,
+    3.2299999999999995,
+    0.0
+   ],
+   [
+    1.9455253906249999,
+    3.829999999999999,
+    0.0
+   ],
+   [
+    0.0,
+    3.829999999999999,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.42,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.9999
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

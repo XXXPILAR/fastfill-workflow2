@@ -1,0 +1,28 @@
+# Python 3.11. Versions as used on the development Mac (2026-10-28).
+# torch is needed only because the workflow package imports the FastFill sizer module; a CPU build is enough
+# (the experiments read FastFill's sizes from server_runs/..., they do not run the model).
+torch==2.7.0
+numpy==1.26.4
+scipy==1.11.4
+shapely==2.1.1
+trimesh==5.1.0
+matplotlib
+Pillow==9.5.0
+opencv-python==4.11.0.86
+python-fcl==0.7.0.11
+rtree==1.4.1
+pydantic==2.11.7
+omegaconf==2.3.0
+scikit-learn
+networkx
+pyyaml
+tqdm
+pypdf==6.16.1
+ijson
+transformers==4.57.6
+peft==0.17.0
+accelerate==1.8.1
+safetensors==0.5.3
+tokenizers==0.22.2
+huggingface_hub
+pytest

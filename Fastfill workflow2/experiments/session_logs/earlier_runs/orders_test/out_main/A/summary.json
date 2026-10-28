@@ -1,0 +1,31 @@
+{
+ "rooms": 2,
+ "status": {
+  "best_effort": 1,
+  "clean": 1
+ },
+ "hard_valid": 1,
+ "hard_violations_left": 23,
+ "soft_cost_left": 0.06,
+ "steps": {
+  "median": 1.0,
+  "max": 1,
+  "single_step_rooms": 2
+ },
+ "llm_calls": 4,
+ "usd_incremental": 0.004,
+ "usd_end_to_end": 0.006,
+ "tokens": {
+  "prompt_tokens": 400,
+  "completion_tokens": 40,
+  "reasoning_tokens": 0
+ },
+ "seconds_incremental": {
+  "median": 11.3,
+  "sum": 22.6
+ },
+ "seconds_end_to_end": {
+  "median": 11.3,
+  "max": 19.92
+ }
+}

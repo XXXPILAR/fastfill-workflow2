@@ -1,0 +1,1146 @@
+xVal: A Continuous Numerical Tokenization
+for Scientific Language Models
+The Polymathic AI Collaboration
+Siavash Golkar * sgolkar@flatironinstitute.org
+Flatiron Institute
+Mariel Pettee * mpettee@flatironinstitute.org
+Lawrence Berkeley National Laboratory
+Michael Eickenberg †
+Flatiron Institute
+Alberto Bietti †
+Flatiron Institute
+Miles Cranmer
+University of Cambridge
+Geraud Krawezik
+Flatiron Institute
+F rançois Lanusse
+Flatiron Institute, Université Paris-Saclay, Université Paris Cité, CEA, CNRS, AIM
+Michael McCabe
+Flatiron Institute, University of Colorado Boulder
+Ruben Ohana
+Flatiron Institute
+Liam Parker
+Flatiron Institute
+Bruno Régaldo-Saint Blancard
+Flatiron Institute
+Tiberiu T esileanu
+Flatiron Institute
+Kyunghyun Cho
+New York University, Prescient Design, Genentech, CIFAR Fellow
+Shirley Ho
+Flatiron Institute, New York University, Princeton University
+*,†: Equal contributions.
+Code available at https: // github. com/ PolymathicAI/ xVal.
+1
+arXiv:2310.02989v2  [stat.ML]  15 Dec 2024
+Abstract
+Due in part to their discontinuous and discrete default encodings for numbers, Large Lan-
+guage Models (LLMs) have not yet been commonly used to process numerically-dense sci-
+entific datasets. Rendering datasets as text, however, could help aggregate diverse and
+multi-modal scientific data into a single training corpus, thereby potentially facilitating the
+development of foundation models for science. In this work, we introducexV al, a strategy
+for continuously tokenizing numbers within language models that results in a more ap-
+propriate inductive bias for scientific applications. By training specially-modified language
+models from scratch on a variety of scientific datasets formatted as text, we find thatxV al
+generally outperforms other common numerical tokenization strategies on metrics including
+out-of-distribution generalization and computational efficiency.
+1 Introduction
+1.1 Though LLMs struggle to encode numbers, they are still being adapted for data analysis
+LLMs have historically struggled to solve simple arithmetic problems such as multi-digit multiplication (Dziri
+et al., 2023) and have a tendency to “confabulate” answers (OpenAI, 2023; Frieder et al., 2023). Standard
+LLM tokenization schemes struggle to capture the precise quantitative properties that distinguish numerical
+data from other natural language inputs, e.g. the magnitude and continuity of numbers (Testolin, 2023;
+Choi, 2021). Recent work exploring Chain-of-Thought reasoning in LLMs has shown improved performance
+on common sense reasoning tasks such as arithmetic or mathematical word problems (Nye et al., 2021; Wei
+et al., 2023; Liu & Low, 2023; Imani et al., 2023), but such methods have limited applicability in the analysis
+of scientific datasets comprising mostly numbers.
+Despite these fundamental challenges in representing numbers in text format, some recent work has suggested
+that LLMs can be applied to certain numerical datasets with surprisingly strong results. Gruver et al. (2023)
+and Jin et al. (2024) found that LLMs such as GPT-3 (Brown et al., 2020) and LLaMA-2 (Touvron et al.,
+2023) could match or exceed purpose-built models in a zero-shot context, i.e. with no fine-tuning, on a
+number of time series prediction tasks. This performance is contingent on pre-processing the input data to
+followaparticularformat. First, numbersarescaledsuchthatthe α-percentile(where αisahyperparameter)
+of the dataset is equal to one. Next, a certain level of precision is fixed, and decimal places are omitted or
+replaced with the digit 0 as appropriate. Finally, numbers are represented with spaces between each digit to
+force the GPT models to tokenize each digit individually, which is known to be more effective than byte-pair
+encoding for numerical computations (Liu & Low, 2023). An example of this pre-processing for 2 digits of
+precision is: 0.123, 1.23, 12.3, 123.0Ñ 1 2 , 1 2 3 , 1 2 3 0 , 1 2 3 0 0 .
+While the textual inputs to LLMs can be pre-processed somewhat to improve out-of-the-box numerical
+predictions, additional progress will likely be limited without making modifications to the fundamental
+architecture of the language models themselves to better represent numerical data.
+1.2 Language model architectures can be modified to better handle numerical data
+Recent work has explored several potential improvements for encoding numerical information as inputs to
+language models (see Thawani et al. (2021) for a review). For instance, numbers can be encoded digit-by-
+digit, in scientific notation format, or in base-10 format. (Jiang et al., 2020) map numbers onto a finite
+set of “prototype numerals”, while (Sundararaman et al., 2020) enforce constraints such that the cosine
+distances between the embeddings of numbers reflects their actual mathematical distance. Transformers
+that use such encodings have been shown to successfully solve some mathematical tasks including matrix
+multiplication (Charton, 2022).
+Despite these improvements, many challenges remain unresolved. Language models are known to exploit
+shortcuts and spurious correlations in the data (Tu et al., 2020; Liu et al., 2022; Dziri et al., 2023) and still
+2
+struggle with interpolation and out-of-distribution generalization in mathematical problems and in scientific
+domains (Grosse et al., 2023; Anil et al., 2022).
+1.3 Scientific data analysis often features continuous functions
+Functions appearing in scientific domains are often continuous or smooth, with certain exceptions such as
+points of criticality. Transformer architectures applied to vision and audio domains (e.g., Dosovitskiy et al.,
+2020; Garg et al., 2022) typically treat numbers continuously without tokenization (see however Copet et al.,
+2023; Chen et al., 2020), but these models typically require highly structured inputs and cannot be applied to
+datasets with arbitrary sequences of text and numbers. In contrast, when encoding numbers as text, LLMs
+are inherently discontinuous in both the encoding and decoding stages. While discrete models can (and
+do) learn to approximate continuous functions (d’Ascoli et al., 2022), this can be more challenging and less
+sample-efficient compared to models that have continuity built-in by construction, as in many non-parametric
+regression models (Wasserman, 2006).
+In this work, we introducexV al, an inherently continuous method of encoding numerical values in scientific
+language models, i.e. custom language models that are dedicated to scientific data analysis. By encoding
+the magnitude of numerical values multiplicatively and orienting them in a learnable direction within the
+embedding space, xV alsubstantially changes how numbers are processed and interpreted by transformer
+architectures. This leads to an encoding scheme with a single vocabulary element that also encodes every
+number as a single token.xV alis therefore both token-efficient and has minimal vocabulary footprint.
+Coupled with a modified number-inference paradigm,xV alallows a transformer model to be continuous (or
+smooth given smooth non-linearities) when considered as a map between the numbers of the input string
+and those of the output. We expect that this leads to a better inductive bias when the functions being
+approximated are continuous or smooth. We evaluate xV alon two examples of scientific datasets and
+compare its performance with existing number encoding schemes. We demonstrate thatxV alis both more
+computationally-efficient and exhibits better out-of-distribution interpolation properties than these baselines.
+Our contributions
+• We introduce xV al, a novel approach for encoding numerical values in Large Language models
+specialized for scientific data analysis. Compared to existing number encoding schemes,xV alis
+both token-efficient (every number is encoded as a single token) and has a minimal vocabulary
+footprint (a single number token).
+• Weintroduceamodifiednumberinferenceschemethat, whenusedinconjunctionwith xV al, renders
+transformer models continuous as a function of the numerical values appearing in the text.
+• We evaluatexV aland a number of existing number encoding schemes on two examples of scientific
+datasets. We demonstrate that xV alconsistently provides better interpolation properties and is
+more compute-efficient than prior work.
+2 Methods
+In thissection, wedescribe thedetails ofthe xV alnumber encoding aswellas thenumber inferenceparadigm
+of our model.
+2.1 xVal: A Continuous Number Encoding
+Instead of using different tokens for different digits or composite numbers,xV alembeds numerical values
+directly along a specific learnable direction of the embedding space. A diagram of this procedure can be seen
+in Fig. 1. Specifically, given a string inputx comprising both numbers and text, we first parsex to extract
+all the numerical values and collect them in a separate listxnum. We then construct a new stringxtext by
+replacing all numbers inx with a designated token[NUM] that acts as a placeholder for numerical values.
+We tokenize and embedxtext, arriving athtext. We then multiply the embedding of each appearance of the
+3
+5 trials at pH 7.4
+trials at pH
+-5 - - 7.4
+[320][1] [5] [9720] [1]token
+5.0
+5.0
+5.0
+7.4
+7.4
+7.4
+[NUM]
+Encoding
+[NUM]
+Decoding
+Number
+[NUM]
+7.5
+Token
+Head
+Number
+Head
+Logits
+Transformer
+Block ×N
+at
+5 trials at pH 7.4 to 7.5
+Comparison to text-based encoding
+500 e-2 trials
+token
++ at + 740 e-2pH
+[9283] [402] [320][82] [5] [82] [9523] [402][9720]
+Figure 1: A simplified example illustrating thexV alnumber encoding and the modified number inference
+paradigm. On the left, xV alis contrasted with the P1000 text-based numerical encoding scheme. On the
+right, we illustrate how numbers are addressed within the decoder.
+[NUM] token with its associated numerical value inxnum. This process can be done efficiently by defining a
+new listhnum by scatteringxnum to have the same length as the tokenizedxtext and inserting a 1 for any
+token other than[NUM]. The final embedding of the sample ishemb“hnumˆhtext, which is then fed to the
+transformer trunk.
+This encoding process can be performed both for masked language modeling (MLM) and auto-regressive
+(AR) generation. During training, in cases where MLM is used, we simultaneously mask bothhtext and
+hnum, i.e., if the token being masked is a[NUM] token, we replace the corresponding number inhnum with 1.
+Continuous embeddings have been previously proposed for use in attention mechanism in the context of
+speech recognition (Chorowski et al., 2014).
+Representing a wider range of numerical values Scientificdatasetscancoveravastrangeofnumerical
+values depending on the sub-field or chosen units. To enhance the ability ofxV alto simultaneously represent
+numbers across a wide range of values, we include the ability to assignkP N numerical embeddings centered
+around different orders of magnitudeO(10i), whereiP N and iďk:
+ÿ
+iPr´k,ks
+tanhpx¨ 10iq¨ [NUMi] (1)
+An example illustration of the dynamic range covered byxV alfor k “ 1, spread across three different
+numerical embeddings, is shown in Fig. 2. The default behavior of xV alis to use a single numerical
+embedding vector, i.e.k“ 0.
+2.2 Numerical value inference
+xV aldefines an embedding that is continuous in the numerical values of the input. However, if we use
+a multi-class classification task as our output and training algorithm, the model as a whole will not be
+end-to-end continuous when considering the map from the input numbers to the output numbers. For this
+reason, we treat numbers separately at the output layer. This process is illustrated in the right-hand portion
+of Fig. 1.
+4
+□4 □2 0 2 4
+x
+□1.0
+□0.5
+0.0
+0.5
+1.0
+Coeﬃcient of [NUM]i
+i = □1
+i = 0
+i = 1
+Figure 2: The coefficients of each [NUM] embedding vector in Equation 1 are shown for an example of
+xV alwithk“ 1, which spans three orders of magnitude. This illustrates how the defaultxV alembedding
+(i“ 0), whichisprimarilysensitivetovaluesof Op1q, canbesupplementedwithadditional [NUM]embeddings
+sensitive to Op10q, i.e. i“´ 1, and Op10´1q, i.e. i“ 1. This paradigm can be extended to wider dynamic
+ranges.
+As is standard practice in transformer-based language models, we define a token head that outputs a proba-
+bility distribution of the tokens of the vocabulary. However, since our formalism replaces numbers with the
+[NUM] token, this head does not carry any information about the number value. We therefore introduce a
+new number head with a scalar output. We train via Mean Squared Error (MSE) loss, fork“ 0, or Nor-
+malized Mean Squared Error (NMSE) loss, forką 0, to recover the numerical value associated with each
+instance of the[NUM] token. For any input, we first look at the output of the token head. If the generated
+token is the[NUM] token (or in the span of the[NUM]i tokens, ifką 0), we then look at the number head
+to fill in the value for this token. As shown in Section 3, since the transformer is now end-to-end continuous
+when inferring numerical values, it performs better when interpolating to previously unseen values.
+3 Experiments
+In this section, we evaluate the performance ofxV aland highlight its strengths and weaknesses compared
+to existing numerical encoding algorithms. In particular, we look at two datasets: a dataset of global
+temperature data and a dataset of planetary orbit simulations. In Appendix A, we also investigate arithmetic
+operations.
+For our transformer models, we use an architecture based on GPT-2 (Radford et al., 2019). Details of our
+specific architecture are included in Appendix B). We explore the effects of various architectural design
+choices in Appendix C.4.
+Comparison with other number encodings. We compare the performance ofxV alwith four other
+number encodings, following the notation of Charton (2022). In these encodings, numbers are first processed
+into the format˘ddd E˘d. The encodings are then determined by which parts of this format are encoded
+as single or multiple tokens. These range from encodings with limited vocabulary size but high number
+of tokens per number, leading to longer encoded sequence lengths (e.g., P10), to those with very large
+vocabulary footprints but only one token per number, leading to shorter encoded sequence lengths (e.g.,
+FP15). xV alprovides a minimal vocabulary footprint and uses just a single token per number, leading to
+the shortest sequence lengths. A summary of these encodings and an example can be seen in Table 1.
+5
+Table 1: Comparison of xV alwith four other number encodings. xV alis more token-efficient and has
+a minimal vocabulary footprint. Vocabulary size differs from Charton (2022) because we only consider
+exponents from 1E-8 to 1E+8.
+Encoding Tokens ´6.02ˆ 101 Tokens per number Vocabulary Size
+P10 {˘, d, E ˘d} [-, 6, 0, 2, E-1] 5 28
+P1000 {˘, ddd, E ˘d} [-, 602, E-1] 3 918
+B1999 {˘ddd, E˘d} [-602, E-1] 2 1816
+FP15 {˘ddd E˘d} [-602 E-1] 1 28800
+xV al {[NUM]} [NUM] 1 1
+Table 2: Performance (in MSE) and runtime of the different encodings on predicting the temperature for
+the next time step. “Equal Samples” columns refer to all models being trained for 500k iterations. Training
+was performed on 4 Nvidia H100 GPUs using Pytorch Distributed Data Parallelism.
+Equal Samples Equal Tokens Equal Runtime
+Method Loss Runtime Loss Runtime Loss Runtime
+P10 73 2d 22h 73 2d 22h 73 2d 22h
+P1000 20 2d 2h 23 3d 10h 21 2d 22h
+B1999 20 20h 19 2d 23h 19 2d 22h
+FP15 2.14 19h 1.76 3d 12h 1.85 2d 22h
+xV al 1.75 9h 1.62 1d 15h 1.51 2d 22h
+Number encodings that do not lead to a fixed number of tokens for all numbers (e.g., learned Byte Pair
+Encoding (Gage, 1994) used in GPT-2 (Radford et al., 2019)) can lead to erratic behaviors where the
+transformer learns spurious correlations that exist between the length of the encoded numbers in the dataset.
+An example of this type of behavior is shown in Appendix C.3.
+3.1 Temperature forecasting
+As an example of real-world scientific analysis, we look at the task of temperature forecasting. In this
+experiment, we construct a dataset as a subset of the ERA5 global climate dataset (Hersbach et al., 2020).
+For simplicity, we only focus on the surface temperature data (T2m field in ERA5). We split the dataset
+into individual samples, where each sample includes 2–4 days of surface temperature data (normalized to
+have unit variance) as well as the latitude and longitude from 60–90 randomly selected reporting stations.
+We also include the time of the first included timestep. We encode the coordinates by using the sine of the
+latitude and the sine and cosine of the longitude such that we preserve the periodicity. Similarly, we encode
+the time of year and time of day using the sine and cosine of the position along the 24 hour and 365 day
+cycles. We include all this information in a JSON format as follows1:
+{‘description’:{‘coords’:[[1,-.32,.95] ... [.96,.61,.79]], ‘start’:[0,1,-.026,-1]},
+‘data’:[[-2.6,-2.6 ... -3.2,-3.1,-3]]}
+The coords, start, and data correspond to the reporting station coordinates, the time of the first sample,
+and the normalized temperature data, each reported separately per station and then concatenated in the
+data list. In this way, the model needs to parse both the textual aspects of the sample (e.g., where the
+commas appear to separate different parts of the data) as well as the numerical values. Furthermore, as is
+often the case with JSON-formatted data, the data does not have a causal format. We therefore train the
+language models using an MLM approach instead of the more common AR approach.
+1For demonstration purposes, we show a few digits per number, but for both scientific datasets, all numbers are floating
+point numbers. For the text-based encodings, this text string is then processed according to the procedure described above.
+6
+2.5
+ 0.0
+4
+2
+0
+2
+Predicted Temp.
+P10
+2.5
+ 0.0
+4
+2
+0
+2
+P1000
+2.5
+ 0.0
+Normalized True Temperature
+4
+2
+0
+2
+B1999
+2.5
+ 0.0
+4
+2
+0
+2
+FP15
+0 1
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Counts
+10 1
+100
+101
+102
+103
+2.5
+ 0.0
+4
+2
+0
+2
+Predicted Temp.
+xVal (k = 0)
+2.5
+ 0.0
+4
+2
+0
+2
+xVal (k = 1)
+2.5
+ 0.0
+Normalized True Temperature
+4
+2
+0
+2
+xVal (k = 2)
+2.5
+ 0.0
+4
+2
+0
+2
+xVal (k = 3)
+2.5
+ 0.0
+4
+2
+0
+2
+xVal (k = 4)
+ Counts
+10 1
+100
+101
+102
+103
+Figure 3: Performance of the encoding schemes in predicting the temperature of the next timestep for each
+reporting station in the ERA5 dataset. Mean Squared Error (MSE) values are reported in Table 3.
+Table 3: Mean Squared Error (MSE) of the various encodings when predicting next-timestep temperature
+(t` 1) across all reporting stations simultaneously on the ERA5 dataset. The P10 encoding scheme has
+a very large variance between the three trials. Of the baselines, FP15 has the best performance, but the
+xV alencodings are consistent with or better than any of the baselines.
+Encoding ERA5 t` 1 MSE
+P10 p1.73˘ 3.2ˆ 105qˆ 10´1
+P1000 p5.20˘ 0.04qˆ 10´2
+B1999 p5.27˘ 0.10qˆ 10´2
+FP15 p4.54˘ 0.06qˆ 10´3
+xV al(k“ 0) p4.29˘ 0.30qˆ 10´3
+xV al(k“ 1) p4.21˘ 0.10qˆ 10´3
+xV al(k“ 2) p4.18˘ 0.03qˆ 10´3
+xV al(k“ 3) p4.11˘ 0.06qˆ 10´3
+xV al(k“ 4) p4.18˘ 0.08qˆ 10´3
+We evaluate the performance of the different numerical encodings on the task of predicting the next tempera-
+ture timestep for all reporting stations simultaneously in a held out test set. We do so by masking the tokens
+(and numbers, if applicable) of all the data associated with the final timestep. Because the temperature
+data is provided separately per station, the masks are scattered throughout the input data and are not all
+simply at the end of the sample. Table 2 shows the results of this experiment in terms of compute:xV al
+provides the best performance while taking considerably less compute time. Fig. 3 and Table 3 summarize
+the performance of the various encodings on a held-out test dataset. Three indepdendent trials are performed
+for each encoding, and the median values across the three trials for each true data point are plotted.
+Thistaskalsoexemplifiesoneoftheshortcomingsoftext-basedencodingschemes: theycantakeadvantageof
+spurious correlations in the data. In this case, P10, P1000 and B1999 have a tendency to predict normalized
+temperature˘0.1, which manifest as extended horizontal protrusions in Fig. 3.
+7
+Figure 4: A failure mode of text based encoding scheme (left). Because of the distribution of the numbers
+in the training set (center and right), numbers that are close to˘1 (denoted by the black arrows) get
+misclassified as 100E-3, i.e. 0.1, the combination of the most common digit and the most common exponent
+in the dataset.
+These horizontal protrusions are due to the over-abundance of certain numbers in the dataset, as illustrated
+in Fig. 4. Individually,100 and E-3 are the most common numbers and exponents in the dataset, but when
+combined, 100E-2 is much more frequent than100E-3. This explains why FP15, which encodes the digits
+and exponents as one token, does not get confused in this case. It also implies that the model has failed
+to learn the correct joint distribution of the numbers. In these cases, because of the tokenization scheme,
+the length of the tokenized samples are very long, averaging around 8,000 and 5,000 tokens respectively for
+P1000 and P10 (compared to 1,800 tokens for FP15 andxV al). The poor performance in these models
+might therefore be due to the the challenges of modelling long-range interactions (Qin et al., 2023).
+For more details on the performance of the different encodings, as well as comparison with some non-
+transformer baselines, see Appendix C.1. In Appendix C.3 we look at the performance of a BPE tokenizer
+on this task and demonstrate how LLMs can exploit the tokenized length of the number. In Appendix C.1.3
+we train fine-tune these models on a simple binary classification task and compare their performance.
+3.2 Predicting planetary orbits
+We then compare the performance of the various number encoding schemes on a simulated dataset of plane-
+tary orbits. We construct a dataset consisting of planetary motion simulations generated by the REBOUND
+N-body codebase (Rein, H. & Liu, S.-F., 2012) and integrated using IAS15 (Rein & Spiegel, 2015). The
+dataset consists of 1.25 million samples, split into 80%, 10%, 10% for training, validation, and test. Each sam-
+ple consists of simulation parameters (mass and orbit properties of each planet and the simulation timestep
+size) as well as a sequence ofpx,yq positions for each planet, organized in a JSON format. The details of
+the simulation are provided in Appendix C.2. A typical sample in this dataset is given by:
+{‘description’:{‘planet0’:{‘m’:2.38, ‘a’:2.96, ‘e’:1.73},
+‘planet1’:{‘m’:1.35, ‘a’:1.31, ‘e’:1.5}, ... , ‘stepsize’:0.2},
+‘data’:[[[2.60,-0.75],[0.81, 0.42]],[[2.63,-0.63],[0.70,0.60]]...]}
+We pretrain the models using MLM and evaluate the models on the task of inferring the simulation param-
+eters, specifically the simulation timestep∆t, and the semi-major axis, eccentricity and mass of the first
+planet pa0,e 0,m 0q by masking the appropriate locations. The models are also tasked with predicting the
+px,yq coordinates of each planet for each timestep in each simulation. The quantities∆t and a0 in the
+training corpus take values that are either discrete or leave gaps in the values they cover. This property
+makes these quantities particularly appropriate for testing interpolation generalization. Each tokenization is
+tested over three independent trials on a held-out test set, and the median values across the trials are used
+for the evaluation.
+A summary of these experiments is presented in Table 4. Fig. 5 shows examples of predicting the final 10
+timesteps simultaneously across the various tokenizations, and predictions of orbital parametersa0, e0, ∆t,
+8
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+P10
+Truth
+Median Prediction
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+P1000
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+B1999
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+FP15
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 0)
+Truth
+Median Prediction
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 1)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 2)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 3)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 4)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+P10
+Truth
+Median Prediction
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+P1000
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+B1999
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+FP15
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 0)
+Truth
+Median Prediction
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 1)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 2)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 3)
+2
+ 0 2
+x
+3
+2
+1
+0
+1
+2
+3
+y
+xVal (k = 4)
+Figure 5: Performance of the encoding schemes predicting the 10 final timesteps of each planet for two
+simulated orbits. The prediction is not autoregressive: all 10 timesteps are predicted at the same time.
+9
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+P10
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+P1000
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+B1999
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+FP15
+ Counts
+10 1
+100
+101
+102
+103
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+xVal (k = 0)
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+xVal (k = 1)
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+xVal (k = 2)
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+xVal (k = 3)
+1 2 3
+True a0
+1.0
+1.5
+2.0
+2.5
+3.0Predicted a0
+xVal (k = 4)
+ Counts
+10 1
+100
+101
+102
+103
+Figure 6: Performance of the encoding schemes predicting the semimajor axisa0 of the first planet in the
+simulated dataset of planetary orbits. Mean Squared Error (MSE) values are reported in Table 4.
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+P10
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+P1000
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+B1999
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+FP15
+ Counts
+10 1
+100
+101
+102
+103
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+xVal (k = 0)
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+xVal (k = 1)
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+xVal (k = 2)
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+xVal (k = 3)
+1 2
+True e0
+0.5
+1.0
+1.5
+2.0Predicted e0
+xVal (k = 4)
+ Counts
+10 1
+100
+101
+102
+103
+Figure 7: Performance of the encoding schemes predicting the eccentricity e0 of the first planet in the
+simulated dataset of planetary orbits. Mean Squared Error (MSE) values are reported in Table 4.
+10
+0.25 0.50 0.75
+True t
+0.2
+0.4
+0.6
+0.8Predicted t
+P10
+0.25 0.50 0.75
+True t
+0.2
+0.4
+0.6
+0.8Predicted t
+P1000
+0.25 0.50 0.75
+True t
+0.2
+0.4
+0.6
+0.8Predicted t
+B1999
+0.25 0.50 0.75
+True t
+0.2
+0.4
+0.6
+0.8Predicted t
+FP15
+ Counts
+10 1
+100
+101
+102
+103
+0.2 0.4 0.6
+True t
+0.2
+0.4
+0.6Predicted t
+xVal (k = 0)
+0.2 0.4 0.6
+True t
+0.2
+0.4
+0.6Predicted t
+xVal (k = 1)
+0.2 0.4 0.6
+True t
+0.2
+0.4
+0.6Predicted t
+xVal (k = 2)
+0.2 0.4 0.6
+True t
+0.2
+0.4
+0.6Predicted t
+xVal (k = 3)
+0.2 0.4 0.6
+True t
+0.2
+0.4
+0.6Predicted t
+xVal (k = 4)
+ Counts
+10 1
+100
+101
+102
+103
+Figure 8: Performance of the encoding schemes predicting the timestep sampling rate∆t of the simulated
+dataset of planetary orbits. Mean Squared Error (MSE) values are reported in Table 4.
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+P10
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+P1000
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+B1999
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+FP15
+ Counts
+10 1
+100
+101
+102
+103
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+xVal (k = 0)
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+xVal (k = 1)
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+xVal (k = 2)
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+xVal (k = 3)
+2 4
+True m0
+1
+2
+3
+4
+5Predicted m0
+xVal (k = 4)
+ Counts
+10 1
+100
+101
+102
+103
+Figure 9: Performance of the encoding schemes predicting the massm0 of the first planet in the simulated
+dataset of planetary orbits. Mean Squared Error (MSE) values are reported in Table 4.
+11
+0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
+True t
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+Predicted t
+Out-of-distribution generalization: t
+P10
+P1000
+B1999
+FP15
+xVal (k = 0)
+1.00 1.02 1.04 1.06 1.08 1.10 1.12 1.14 1.16
+True a0
+1.0
+1.1
+1.2
+1.3
+1.4
+Predicted a0
+Out-of-distribution generalization: a0
+P10
+P1000
+B1999
+FP15
+xVal (k = 0)
+Figure 10: Out-of-distribution generalization properties of the different number encoding schemes. Left:
+Inferring ∆t, which takes discrete values in the training set. Right: Inferringa0, which is either 1 orą 1.16
+in the training set. Because of the generation procedure, takinga0 Ñ 1.16 here does not result in an in-
+train-distribution sample. Gray lines correspond to the discrete values of∆t in the training dataset.
+0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
+True t
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+Predicted t
+Out-of-distribution generalization: t
+xVal (k = 0)
+xVal (k = 1)
+xVal (k = 2)
+xVal (k = 3)
+xVal (k = 4)
+1.00 1.02 1.04 1.06 1.08 1.10 1.12 1.14 1.16
+True a0
+1.000
+1.025
+1.050
+1.075
+1.100
+1.125
+1.150
+1.175
+Predicted a0
+Out-of-distribution generalization: a0
+xVal (k = 0)
+xVal (k = 1)
+xVal (k = 2)
+xVal (k = 3)
+xVal (k = 4)
+Figure 11: Out-of-distribution generalization properties of different configurations of xVal. In general,
+increasing the number ofxV altokens tends to degrate its out-of-distribution generalization performance.
+Left: Inferring ∆t, which takes discrete values in the training set. Right: Inferringa0, which is either 1 or
+ą 1.16 in the training set. Because of the generation procedure, takinga0Ñ 1.16 here does not result in an
+in-train-distribution sample. Gray lines correspond to the discrete values of∆t in the training dataset.
+andm0 can be seen in Figs. 6 - 9. Fig. 10 shows the out-of-distribution performance for the baseline methods
+compared with defaultxV al, while Fig. 11 comparesxV alin various multi-scale configurations.
+On the timeseries prediction task, none of the encoding schemes are able to consistently predict the planetary
+positions across the final ten timesteps simultaneously. When inferring overall orbital parameters, however,
+we generally see an overall inverse relationship between performance in- and out-of-distribution. For example,
+P10—the encoding with the fewest vocabulary elements—provides the worst in-distribution performance but
+performsmuchbetteronout-of-distributiontasks(seeFig.10). Thisisanexampleofthebias/variancetrade-
+off applied to the number of vocabulary elements. We see some examples of significant outliers across the
+four baseline encoding schemes, particularly in the predictions ofe0 (Fig. 7) and∆t (Fig. 8). None of the
+baseline encodings are able to successfully predictm0 (Fig. 9).
+12
+Table 4: Mean Squared Errors (MSEs) of the different numerical encodings on the planetary motion
+inference problem. Here, “OoD” (“Out-of-Distribution”) indicates that the true value of a given parameter
+was part of a range not seen in the training corpus.§ indicates the lowest error for predicting each parameter.
+Method Semi-major axis ( a0) Timestep ( ∆t) Eccentricity ( e0q
+P10 p1.45˘ 9.5qˆ 10´1 p2.95˘ 1.9qˆ 10´2 p3.31˘ 3.4qˆ 10´2
+P1000 §p4.00˘ 0.0qˆ 10´6 § 0˘ 0 p5.15˘ 2.4qˆ 10´3
+B1999 p4.00˘ 4.6qˆ 10´6 p1.80˘ 236qˆ 10´5 p3.45˘ 2.6qˆ 10´3
+FP15 p7.00˘ 6.2qˆ 10´6 p4.95˘ 38qˆ 10´3 p2.62˘ 11qˆ 10´3
+xV alpk“ 0q p 5.10˘ 8.5qˆ 10´5 p2.32˘ 30qˆ 10´4 p1.37˘ 2.3qˆ 10´3
+xV alpk“ 1q p 1.34˘ 6.9qˆ 10´4 p2.04˘ 2.3qˆ 10´3 p7.37˘ 3.7qˆ 10´3
+xV alpk“ 2q p 1.30˘ 6.7qˆ 10´4 p5.59˘ 11qˆ 10´4 p7.91˘ 5.4qˆ 10´3
+xV alpk“ 3q p 3.10˘ 2.3qˆ 10´5 p1.04˘ 2.1qˆ 10´4 §p9.77˘ 6.2qˆ 10´4
+xV alpk“ 4q p 3.90˘ 1.0qˆ 10´5 p3.69˘ 4.9qˆ 10´4 p2.69˘ 1.3qˆ 10´3
+Method OoD a0 OoD ∆t Planetary Mass (m0)
+P10 p4.07˘ 1.3qˆ 10´3 p6.31˘ 1.95qˆ 10´3 p5.97˘ 5.5qˆ 10´1
+P1000 p6.99˘ 20qˆ 10´3 p4.69˘ 0.34qˆ 10´3 p3.33˘ 0.028qˆ 10´1
+B1999 p9.07˘ 0.57qˆ 10´3 p8.20˘ 0.80qˆ 10´3 §p3.28˘ 1.4qˆ 10´1
+FP15 p1.18˘ 28qˆ 10´2 p1.04˘ 0.41qˆ 10´2 p1.19˘ 0.35qˆ 100
+xV alpk“ 0q §p1.6˘ 0.6qˆ 10´4 §p1.25˘ 0.11qˆ 10´3 p1.33˘ 0.00035qˆ 100
+xV alpk“ 1q p 7.7˘ 2.2qˆ 10´4 p3.31˘ 0.59qˆ 10´3 p1.31˘ 0.0011qˆ 100
+xV alpk“ 2q p 3.8˘ 7.4qˆ 10´4 p3.52˘ 0.26qˆ 10´3 p1.31˘ 0.0060qˆ 100
+xV alpk“ 3q p 2.92˘ 0.89qˆ 10´3 p3.31˘ 0.17qˆ 10´3 p1.32˘ 0.0022qˆ 100
+xV alpk“ 4q p 1.36˘ 0.96qˆ 10´3 p3.08˘ 0.38qˆ 10´3 p1.33˘ 0.0018qˆ 100
+In comparison, xV alis able to correctly and accurately predict the final 10 timesteps of each planet’s
+orbit, with particularly strong results fork ą 2 (see Fig. 5). When inferring orbital parameters, xV al
+provides the best out-of-distribution performance while staying very competitive in-distribution. The out-
+of-distribution performance of the various baselines versus defaultxV alin Fig. 10. Here we see that the
+text-based encodings, with the exception of P10, simply do not predict any number that they did not
+explicitly see for this parameter in the training corpus. As expected from a function that is continuous by
+construction, xV alcontinuously interpolates between the values seen in the training set and offers much
+better performance. However, as seen in Fig. 11, increasing the number ofxV alencoding tokens tends to
+degrade out-of-distribution generalization performance, even as it tends to improve in-distribution timeseries
+prediction performance.
+Figure 10 shows that the predictions coming from the text-based encodings can be discontinuous when
+evaluated out-of-distribution. This discontinuity has two potential sources: the discontinuous nature of the
+number embeddings and the argmax that is taken over the logits during inference. Since the encodings of the
+number tokens in text-based encodings have been shown to form continuous-looking structures (see Sec. C.5
+and Power et al. (2022); d’Ascoli et al. (2022)), it is possible that the discontinuiuty is only a side effect of
+the argmax and that the logits themselves vary more smoothly. Fig. 12 shows an example of the logits of the
+P1000 encoding when predicting the step-size out-of-distribution. Here, the color lines denote the highest-
+value logits, with the other logits carrying negligible weight. The dashed gray lines denote the values of the
+step-size seen in the training set. We see that these lines are smooth in neither small or larger scales. We
+expect that this is a combination of the text-based number encodings’ discrete embedding schemes together
+with the cross-entropy training paradigm that does not incorporate number distances into the loss.
+13
+0.2 0.4 0.6 0.8
+True Step Size
+5
+10
+15
+20Logit
+0.2
+0.3
+0.5
+0.8
+train dist
+Figure 12: Logits of a model trained with P1000 encoding evaluated on the step-size (∆t) prediction task.
+3.3 Results summary
+It is evident that embedding the magnitude of numbers directly, as inxV al, leads to a different inductive
+bias than treating numbers as tokenized text. This can be clearly seen in the varying performance of these
+language models in different tasks. When predicting the next timestep in the temperature dataset as well
+as the final 10 timesteps of each planet in the planetary dataset,xV alprovides by far the best results. On
+the other hand, in the mass prediction on the planetary task, none of the numerical encoding strategies are
+able to accurately learn the appropriate relationship.
+Where xV alparticularly excels is in out-of-distribution performance, while the text-based encoding schemes
+fail to interpolate properly. The best interpolation for the text-based encodings is given by the vocabulary-
+sparse P10, which performs poorly on the in-distribution tasks. The extra encoding length of P10 also makes
+it prohibitively expensive to deploy, as shown in Table 2. The baseline encodings generally show the best
+in-distribution performance, but they have poor interpolation properties and expensive embedding costs.
+Overall, xV alprovides the best mix of in-distribution and out-of-distribution performance. Moreover, it is
+the most computationally efficient of the encoding schemes we considered.
+F ailure modes. There are a number of ways that number inference via a large language model can fail.
+The language model can predict a non-numeric token in the place of the number, leading to an invalid
+prediction. These are denoted in the percentages in brackets in Table 4, shown only when the percentage
+exceeded 0.01%. This failure mode is uncommon and becomes less frequent the more the model is trained.
+Another failure mode is when the model exploits spurious correlations. For example, the model can learn the
+distribution of the digits, as discussed in the example of temperature dataset, or the length of the encoding
+(see Appendix C.3).
+A model can also fail to learn the correct distribution. In the planetary orbits example, learning the mass
+of the planet is the most challenging task – all encodings struggle with this. In this task,xV alperforms
+uncharacteristically poorly. We suspect that this is due to the high uncertainty in estimating the mass
+and that a multi-modal distribution such as the categorical distribution learned by traditional LLMs would
+perform better. This can be seen in Fig. 9. While each method performs poorly when considering the MSE
+of the prediction, the multi-modal predictions of the baseline models would be a better starting point for
+14

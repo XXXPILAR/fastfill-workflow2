@@ -1,0 +1,66 @@
+/Users/zhangyang/Downloads/fastfill-v4/baselines/envs/idesign/lib/python3.11/site-packages/flaml/__init__.py:20: UserWarning: flaml.automl is not available. Please install flaml[automl] to enable AutoML functionalities.
+  warnings.warn("flaml.automl is not available. Please install flaml[automl] to enable AutoML functionalities.")
+Admin (to chat_manager):
+
+
+            The room has the size 3.3999999999999995m x 5.1789000000000005m x 3.0m
+            User Preference (in triple backquotes):
+            ```
+            A bedroom. Use exactly these 5 objects and no others, with these exact ids as new_object_id and these sizes (length x width x height in metres; length is the side-to-side extent, width the front-to-back extent):
+- obj_0000: tv stand (A sleek black console table with ornate legs and a flat top, adorned with decorative vases and a framed picture.), 1.95 x 0.46 x 0.69
+- obj_0001: nightstand (A light gray chest of drawers with three drawers, each equipped with a bronze handle. It has a classic design with a sli), 0.55 x 0.46 x 0.57
+- obj_0002: wardrobe (A large wardrobe with multiple compartments, including shelves for clothes, drawers, and storage boxes. It features a co), 2.36 x 0.63 x 2.45
+- obj_0003: king size bed (A modern bed with a black leather headboard and a gray mattress. It features multiple decorative pillows in shades of gr), 2.25 x 2.36 x 1.30
+- obj_0004: nightstand (A light gray chest of drawers with three drawers, each equipped with a bronze handle. It has a classic design with a sli), 0.57 x 0.48 x 0.64
+There is a door 0.79 m wide centred at x=0.51, y=5.18 (keep the floor in front of it clear).
+There is a window 1.72 m wide centred at x=1.64, y=0.00.
+obj_0003 must be between obj_0004 and obj_0001.
+obj_0003 must face obj_0000.
+obj_0004 must be against a wall.
+obj_0003 must be within 0.10 m of obj_0001.
+x runs west to east, y south to north, origin at the south-west corner.    
+            ```
+            Room layout elements in the room (in triple backquotes):
+            ```
+            ['south_wall', 'north_wall', 'west_wall', 'east_wall', 'middle of the room', 'ceiling']
+            ```
+            json
+            
+
+--------------------------------------------------------------------------------
+room 34: TypeError: Completions.create() got an unexpected keyword argument 'api_key' missing=None 0s
+Admin (to chat_manager):
+
+
+            The room has the size 9.671599388122559m x 3.7484755516052246m x 2.51473069190979m
+            User Preference (in triple backquotes):
+            ```
+            A room. Use exactly these 9 objects and no others, with these exact ids as new_object_id and these sizes (length x width x height in metres; length is the side-to-side extent, width the front-to-back extent):
+- obj_0000: chair (chair), 0.69 x 0.65 x 0.84
+- obj_0001: mirror (mirror), 0.78 x 0.05 x 1.79
+- obj_0002: pillow (pillow), 0.49 x 0.25 x 0.47
+- obj_0003: chair (chair), 0.63 x 0.63 x 0.83
+- obj_0004: lamp (lamp), 0.33 x 0.33 x 0.75
+- obj_0005: table (table), 0.96 x 0.65 x 0.71
+- obj_0006: table (table), 0.66 x 0.54 x 0.69
+- obj_0007: chair (chair), 0.66 x 0.61 x 0.87
+- obj_0008: chair (chair), 0.66 x 0.66 x 0.84
+There is a window 1.43 m wide centred at x=7.36, y=0.00.
+There is a door 1.92 m wide centred at x=9.67, y=1.56 (keep the floor in front of it clear).
+There is a window 1.07 m wide centred at x=0.00, y=2.99.
+There is a window 1.11 m wide centred at x=0.00, y=1.37.
+obj_0000 must be between obj_0008 and obj_0003.
+obj_0007 must face obj_0008.
+obj_0001 must be against a wall.
+obj_0008 must be within 0.10 m of obj_0002.
+x runs west to east, y south to north, origin at the south-west corner.    
+            ```
+            Room layout elements in the room (in triple backquotes):
+            ```
+            ['south_wall', 'north_wall', 'west_wall', 'east_wall', 'middle of the room', 'ceiling']
+            ```
+            json
+            
+
+--------------------------------------------------------------------------------
+room 0: TypeError: Completions.create() got an unexpected keyword argument 'api_key' missing=None 0s

@@ -1,0 +1,518 @@
+I-Design: Personalized LLM Interior Designer
+Ata Çelen1, Guo Han1, Konrad Schindler1, Luc Van Gool1, Iro Armeni2∗,
+Anton Obukhov1∗, and Xi Wang1∗
+1 ETH Zürich
+2 Stanford University
+∗ Equal supervision
+https://atcelen.github.io/I-Design/
+Abstract. Interior design allows us to be who we are and live how we
+want – each design is as unique as our distinct personality. However,
+it is not trivial for non-professionals to express and materialize this
+since it requires aligning functional and visual expectations with the
+constraints of physical space; this renders interior design a luxury. To
+make it more accessible, we presentI-Design, a personalized interior
+designer that allows users to generate and visualize their design goals
+through natural language communication. I-Design starts with a team
+of large language model agents that engage in dialogues and logical
+reasoning with one another, transforming textual user input into feasible
+scene graph designs with relative object relationships. Subsequently, an
+effective placement algorithm determines optimal locations for each object
+within the scene. The final design is then constructed in 3D by retrieving
+and integrating assets from an existing object database. Additionally,
+we propose a new evaluation protocol that utilizes a vision-language
+model and complements the design pipeline. Extensive quantitative and
+qualitative experiments show that I-Design outperforms existing methods
+in delivering high-quality 3D design solutions and aligning with abstract
+concepts that match user input, showcasing its advantages across detailed
+3D arrangement and conceptual fidelity.
+Keywords: LLMs · Text-to-3D · Scene graphs · Retrieval · Interior
+design · 3D indoor scene synthesis
+1 Introduction
+Our lives are intimately connected to the spaces we inhabit. Whether renting
+or buying, these spaces become the backdrop for our memories, hobbies, and
+time with loved ones. However, finding or creating the perfect space to match our
+lifestyle, aspirations, and needs is not always straightforward, and professional
+assistance can be considered a luxury. Even when seeking help from experts, the
+gap between what inhabitants truly desire and their ability to convey it in the
+language of professionals often leads to unsatisfactory results. This discrepancy
+can leave people with ill-fitting living spaces, impacting their physical and mental
+arXiv:2404.02838v1  [cs.AI]  3 Apr 2024
+2 Çelen A., et al .
+Fig. 1: Overview of I-Design. Starting from the user specification of design prefer-
+ences in plain text, we query LLM agents to come up with room items, their properties,
+and their relative relationships in the form of a scene graph. We solve for absolute object
+placement in the scene graph using the proposed backtracking algorithm (Scene Graph
+Layout), retrieve 3D assets according to the functional and stylistic specifications, and
+compose the final result in 3D.
+well-being. Designing interior spaces better suited for individual needs should be
+accessible to everyone.
+Toward this, we tackle the challenging task of 3D Indoor Scene Synthesis
+(3DISS). Given a user’s unstructured textual description of preferences, we aim
+to deliver 3D design solutions that align with the latter.
+Specialized generative models [11,21,49] and data-driven approaches [48,56,66]
+have demonstrated a remarkable ability to produce diverse and realistic interior
+layouts. Yet, their performance is governed by the closed-set and limited datasets
+used to train them, which inevitably is a biased and incomplete sample of the
+world. In addition, such methods that accept textual input from the user can
+only utilize structured text with predefined grammar and rules. Consequently,
+it is challenging to guide these models toward producing practical designs for
+real-world, unseen interiors that align with user preferences.
+The 3DISS task requires reasoning abilities beyond any specialized data-driven
+model. This includes understanding design principles and concepts like object
+selection, styles, and spatial arrangement. However, a potential solution must
+succeed at several fundamental steps to become successful in 3DISS. Firstly,
+I-Design: Personalized LLM Interior Designer Agents 3
+the underlying generator must interpret the abstract input proficiently, i.e.
+identifying the objects to incorporate into the scene to meet user preferences.
+Simultaneously, it should know about the typical items associated with specific
+room types, incorporating high-frequency and common-sense objects even if the
+user does not explicitly mention them. In addition, it requires an awareness of
+plausible spatial relationships among objects originating from an unrestricted
+vocabulary. Addressing these challenges requires a system with a comprehensive
+understanding of diverse human interior design preferences and an extensive
+database of 3D objects, encompassing their functionality, dimensions, and stylistic
+attributes.
+Given recent technological advancements, the most viable option to overcome
+these obstacles is large language models (LLMs) [1,64]. LLMs are trained on
+internet-scale data and encode a “world model” that can be probed and interacted
+with using natural language. Still, they cannot use the language as humans
+do to solve complex tasks without resorting to specialized techniques, such as
+Chain-of-Thought [55]. Technical aspects (e.g. limited context window length,
+number of parameters) and artifacts (e.g. hallucinations) additionally hamper
+practical applications. Attempts to produce structured output with LLMs without
+incorporating hard constraints, communication interfaces, and cross-checks are
+exciting at first glance but leave much room for improvement. LayoutGPT [16], a
+recent work that utilizes LLMs for 3DISS, directly predicts the absolute positions
+of objects in the scene. Although this technique may be effective when dealing
+with small-scale arrangements of a few objects, it proves inadequate in generating
+realisticscenescontainingdozensofobjectsinterlinkedinintricateways.Moreover,
+the single-step scene generation in LayoutGPT cannot provide interpretability
+regarding the resulting objects and their arrangement.
+Recent research [40,63] has also demonstrated that when multiple LLM agents
+with diverse responsibilities communicate with each other, they can collectively
+tackle complex tasks with which a single LLM instance may struggle. Hence,
+we utilize LLM agents to address the challenges posed by 3DISS, leading to the
+creation of scenes that are spatially more plausible and diverse. Furthermore,
+drawing inspiration from other works [2,7,51,66], we employ scene graphs as
+scene representations since they offer a high-level abstraction by focusing on the
+objects and their relationships, which can be creatively developed with LLMs,
+refined through rule-based feedback, and visualized. Additionally, employing the
+scene graph representation as the interface between LLM agents and algorithms
+enables interpretable object arrangements.
+To this end, we presentI-Design, a personalized interior designer for 3D
+Indoor Scene Synthesis. Starting from the user specification of the design prefer-
+ences in plain text, I-Design queries LLM agents to come up with room items,
+their properties, and relative relationships in the form of a scene graph. It solves
+for absolute object placement in the scene graph using the proposed backtracking
+algorithm, retrieves 3D assets according to the functional and stylistic specifi-
+cations, and composes the final result in 3D. To evaluate the proposed design
+pipeline, and following in the footsteps of [60], we propose a novel evaluation
+4 Çelen A., et al .
+protocol based on a vision-language model (VLM). Extensive quantitative and
+qualitative experiments show that I-Design outperforms existing methods in
+delivering high-quality 3D design solutions that align with abstract concepts in
+the user input.
+Our contributions are summarized as follows:
+– A novel method that takes an unstructured, grammar-free natural language
+user input and provides 3D design solutions that align with user preferences.
+– A new approach to the 3DISS task through the reasoning and conversation
+of multiple LLM agents.
+– A procedural scene graph layout transformation, converting scene graphs
+with relative node relationships into final absolute 3D representations.
+– An interpretable pipeline, providing flexibility and enabling iterative design
+without redoing the entire process.
+– A VLM-based evaluation for 3D scenes.
+2 Related Work
+3DISS via LLMs : Advancements in LLMs have already impacted 3D scene syn-
+thesis, even though the connections between the two have not been fully explored.
+Initial scene synthesis methods integrated LLMs to encode user textual input
+into vector representations that were subsequently used in the object placement
+process [30,31,48,53]. Feng et al . [16] expanded the scope with LayoutGPT by
+exclusively employing GPT models to generate 3D indoor scene representations.
+It functions like a retrieval system, employing a strategy based on absolute coor-
+dinates to position objects in the scene. Wenet al . [58] further advance this line
+of research by developing a dataset-free, open-vocabulary approach for generating
+3D home layouts. Such endeavors often encounter challenges stemming from the
+limitations of existing GPT models regarding geometric reasoning, resulting in
+scenes with objects that overlap or are placed outside the scene boundaries.
+The concept of specialized multi-agents, introduced through projects like
+AutoGPT [63] and ChatDev [40], has already found diverse applications in
+data analysis [24], interactive reasoning [29,54], software development [40], and
+planning [9,44,45]. Our work addresses the above 3DISS challenges by reasoning
+with LLMs in a multi-agent setting.
+3DISS via Generative Models: One formulation of 3DISS involves generating
+multi-view consistent image sets or panoramas according to user-defined spec-
+ifications and converting these 2D representations into 3D scenes. Approaches
+like Text2Room [21] and LucidDreamer [11] use a virtual camera to navigate
+the space and iteratively generate images through image inpainting, monocular
+depth estimation, 3D lifting, and stitching. Alternatively, MVDiffusion [49] uti-
+lizes correspondence-aware attention modules to generate multi-view consistent
+panoramas or image sets in a single pass. Notably, efforts [3,6,17,43,50,52,65]
+focusing on consistent novel view synthesis are also adaptable for 3DISS.
+I-Design: Personalized LLM Interior Designer Agents 5
+Despite leveraging the capabilities of 2D generative models [14,20,42,68],
+current methodologies struggle to integrate 3D geometric constraints that are
+essential for practical interior design applications, such as floor plans and walls.
+Ctrl-Room [15] attempts to address this challenge, but artifacts persist. Besides,
+monocular image-based depth estimation [26] and 3D lifting introduce uncertainty
+intothefinal3Dmeshoutput[21].Furthermore,theloosesemanticcouplingacross
+views poses challenges in indoor scene synthesis, leading to unrealistic scenarios
+like multiple beds in one bedroom [15,49]. The LLM-based approach we employ
+can also generalize to different settings, such as room type or object descriptions,
+while simultaneously ensuring the satisfaction of geometric constraints.
+3DISS through Prior Learning : Another data-driven approach to tackling
+3DISS divides the process into two distinct steps: 3D asset selection and layout
+synthesis, i.e. determining the furniture sets for a room and their placements.
+For 3D asset selection, two primary approaches emerge: (1) dataset-based
+retrieval and (2) synthesis via generative models. With the availability of extensive
+and high-quality asset datasets [8,12,19,61], one can retrieve suitable models, for
+example, using semantic embedding [32]. Alternatively, generative models can
+generate appropriate 3D assets based on text or image inputs [22,33,34,37]. Given
+the richness of existing large-scale 3D asset repositories within our context and
+the direct real-world applicability of retrieving objects from product databases,
+we use the retrieval-based method.
+For furniture arrangement, classical approaches apply specific rules to guide
+the placement of furniture [13,57,62], construct grammars for procedural modeling
+[25,38,39], or use human interaction for editing [23,35]. However, with the
+advent of large-scale 3D indoor datasets [19,28,46,69], recent works have shifted
+towards learning from expert-designed layouts by employing generative models.
+Pioneering efforts like ATISS [36] and SceneFormer [53] employ transformer-
+based models to synthesize indoor environments in an autoregressive manner
+autonomously, selecting and placing objects sequentially. LEGO-NET [56] refines
+initial coarse room layouts by learning human criteria for regularity through
+a transformer-based diffusion-like pipeline. Recent works like DiffuScene [48]
+and Commonscenes [67] utilize diffusion models to generate interior scenes,
+representing the scene as a scene graph. To untie layout synthesis from the
+dataset constraints, we choose to employ LLM-based methods. The common-
+sense knowledge learned by LLMs can assist in creating a wide range of reasonable
+designs.
+3 Method
+Our method for proposing design solutions from user input in plain text (I-Design)
+is summarized in Fig. 1. Initially, I-Design examines unstructured textual user
+input and transforms it into a viable design proposal, represented as a scene graph,
+through querying LLM agents (Sec. 3.2). We then introduce the scene graph
+layout module for producing object placement proposals represented by a 2D
+6 Çelen A., et al .
+room floor plan (Sec. 3.3). Finally, we retrieve 3D assets from existing databases
+(Sec. 3.4) and assemble the final design within a 3D environment, producing
+functional and stylistic design solutions that reflect user input (Sec. 3.5).
+3.1 Problem Formulation
+Given a non-structured textual user inputTuser, the dimensions of a room
+(lroom,w room,h room)∈ R3, and the number of objects to include in the scene
+n∈ R, the objective is to create a 3D scene that aligns with the free-form user’s
+requests in the textual input, while ensuring functionality, coherent design, and
+3D consistency.
+We use a scene graphG = (O,E) to represent the spatial relationship between
+objects, where nodesO = [ o1,..., on] represent object instances in the scene.
+An additional node type o(r) is included for room layout elements such as
+walls, ceiling, or the floor. Each objectoi is associated with a set of properties
+oi ={αi,m i,s i,r i,p i,cs i}, whereαi denotes the object’s name,mi describes its
+material and architectural style. The associated geometric properties aresi∈ R3
+the dimensions of its bounding box,ri∈ R the rotation angle along the z-axis
+pointing upwards, andpi∈ R3 the position of the object in the scene. Finally,
+csi = (xneg,x pos,y neg,y pos)∈ R4 is the size of the subgraph’s bounding box,
+indicating the overall space that an object, along with its children, would occupy in
+each direction. Edges in the graph are represented byE whereeij = (adjij,prepij)
+is the directed edge fromoi to oj that comprises details regarding the adjacency
+of the two objects and the prepositional connection between them.oi is considered
+as the parent node to the child nodeoj. These edges describe the spatial locations
+between objects (e.g.left/right, in front/behind, on, and above/under) as well as
+the connections to the room layout (e.g.on and in the corner ).
+3.2 LLM Multi-agents
+Generating a 3D indoor scene based on unstructured user input is a challenging
+task that demands detailed planning. Two essential steps are shared among
+common methods: selecting the objects to populate the scene based on user
+input and arranging them in a meaningful and coherent configuration. We
+employ a multi-agent approach to tackle this complexity effectively, allocating
+the tasks involved in these steps across multiple LLM agents. As shown in Fig. 2,
+interpreting and transforming user input into a functional, personalized scene
+graph involves five distinct agents: Interior Designer, Interior Architect, Engineer,
+Layout Corrector, and Layout Refiner. The Interior Designer and Architect
+propose a relative scene graph from the user input. We assume that the agents
+have appropriately considered contextually bonded objects while constructing
+the relative scene graph, justifying spatial separation and disconnection within
+the graph. However, the relative scene graph lacks guaranteed spatial consistency,
+allowing for connections between objects that may defy real 3D scene constraints.
+Therefore, our pipeline uses a Layout Corrector agent to rectify invalid and
+implausible connections, while the scene graph contains only relative relations.
+I-Design: Personalized LLM Interior Designer Agents 7
+Fig. 2: Scene Graph Generation Pipeline with LLM Agents. Each agent receives
+the user input and a JSON representation of the previous stages and transforms the
+output according to the task prompt. Due to the specialized nature of each agent, the
+generated scene graph reflects user specifications and feasibility constraints, such as
+topological correctness and semantic plausibility. Red indicates changes introduced by
+each agent. Complete prompts of every agent are specified in the Appendix.
+Finally, to increase the pipeline’s robustness when dealing with multiple objects
+assigned to the same parent within the scene graph, the Layout Refiner agent
+proposes relations between such objects, simplifying the subsequent layout stage.
+Next, we examine each of the agents in more detail.
+Interior Designer:The agent receives inputs comprising the free-form user
+input Tuser, the room dimensions(lroom,w room,h room), and the desired number
+of objects n, and proposes a selection of objects{oi} tailored to the user’s
+preferences, while also ensuring that their functionality matches the room type.
+Specifically, for each object, the interior designer suggests the following properties
+oi ={αi,m i,s i,r i,p i} including its nameαi, materialmi, 3D sizesi, orientation
+ri, and positionpi. Note that the agent may propose several identical instances.
+For example, there might be four instances of the “chair” type positioned around
+a table (see Fig. 2).
+Interior Architect:Its primary responsibility is to establish object-to-object
+connections, as well as object-to-room layout relations. In other words, its role
+is to establish the edge connectionseij between the object nodes. The agent
+is not constrained on the number of edges each object can have, allowing for
+diverse configurations where an object may have edges to room layout elements
+but none to other objects, and vice versa. Additionally, the Interior Architect
+creates information on the rotationri of each object around the vertical axis.
+Engineer: This agent transforms the relative scene graph into a JSON
+object structured according to a specified schema. Each entry in the JSON file
+encompasses the details foroi ={αi,m i,s i,r i,p i} for the corresponding object.
+Moreover, the agent employs a JSON schema validator that assesses the validity
+of the generated file based on the provided schema. In cases of non-compliance,
+a modification from the Engineer is required until the output aligns with the
+specified schema, ensuring a valid JSON representation.
+Layout Corrector:The responsibility of this agent is to fix invalid con-
+nections in the graph, which involves removing spatial implausible edges and
+8 Çelen A., et al .
+eliminating ambiguities between nodes. We preemptively examine three types of
+spatial implausibilities: (1) Checking for objects positioned beyond room bound-
+aries (as exemplified in Fig. 2), (2) Assessing spatially impossible object-to-object
+connections, and (3) Ensuring size compatibility between parent and child objects.
+The agent determines the relocation of objects experiencing spatial conflicts,
+either suggesting alternative edges for these objects or removing them entirely
+from the scene.
+1. To check room boundaries, we examine children nodes of objects allocated
+along walls or in room corners. For example, if objectA is positioned behind
+object B, which is placed alongside a wall, this would result in objectA
+being positioned out of bounds.
+2. Assessing the plausibility of object-to-object connections involves verifying
+whether adjacency relations between objects could be violated via conflicting
+edges in the scene graph. This requires checking if any object has been
+positioned between two adjacent objects in the scene graph.
+3. We operate under the assumption that, in a valid scene graph, the bounding
+box of the parent object is sufficiently spacious to accommodate its children.
+For example, if atable has two chairs positioned on itsleft side, it should be
+wide enough to accommodate them; likewise, awall with multiple objects
+attached on it should have sufficient size to accommodate all of its children
+objects. The last check ensures this compatibility.
+Layout Refiner:The agent aims to eliminate ambiguities between children
+nodes that share the same edge from the parent. A notable example of this
+phenomenon is observed with ornaments placed on a desk. As a desk typically
+accommodates several objects on its surface, a scene graph designating thedesk
+as the parent with the prepositionon as the edge fails to convey the relative
+orientation of the objects on the desk to each other. To eliminate this ambiguity,
+we establish edges between children nodes, ensuring a distinct ordering among
+them. The agent also verifies that the scene graph maintains its acyclic property.
+If the graph contains cycles, we must remove edges contributing to these cycles
+to preserve a distinct hierarchy within the scene graph.
+3.3 Scene Graph Layout
+Computing Cluster DimensionsIn the final postprocessing phase, we com-
+pute cluster dimensions for each object to facilitate the positioning in the subse-
+quent backtracking algorithm, thereby strategically constraining the search space.
+Leveraging thatG is a Directed Acyclic Graph, we perform a topological sort
+on the nodes to establish a hierarchical ordering. This approach enables us to
+determine the clearance – the distance an object must spare in each direction to
+ensure the successful placement of its children within the scene.
+Taking such precaution becomes crucial in scenes where the search space
+for each object is extensive, yet the solution space is relatively constrained.
+Without this precaution, the randomized nature of the backtracking algorithm
+I-Design: Personalized LLM Interior Designer Agents 9
+Fig. 3: Backtracking-based Scene Graph Layout. Starting from the scene graph
+specifying interior items as nodes connected with relative relationships, the backtracking
+algorithm solves for their absolute placement in the room. The algorithm reverses dead-
+end configurations and excels at object placement while respecting spatial constraints.
+may lead to extended processing times, particularly when dealing with many
+object relationships in the scene.
+The Backtracking AlgorithmThe backtracking algorithm serves to convert
+the relative representation of the scene graphG into object positionsP. The room
+is initially populated with the root nodes of the scene graphG, representing the
+fundamental elements of the room layout, such as walls and ceiling. The positions
+of these root nodes remain fixed while other objects are arranged around them.
+Conceptually, the algorithm represents the plausible position of each object as a
+bounding boxBi and sampling a pointpi for each oi fromBi.
+The objects are placed after being topologically sorted, prioritizing nodes
+higher in the scene graph hierarchy for placement first. To avoid placement issues
+later in the algorithm, each objectoi is positioned alongside its children according
+toGi. The plausible positions bounding box for the objects is defined through
+predetermined placement functionsf (oi, oj)∀oj, oi∈G j.
+The nodes are organized into depth groups, where a node’s depthd =|oi→
+o(r)| represents its distance to the closesto(r). If an objectoi with depthd cannot
+be placed into the scene due to either an empty bounding boxBi = ∅ or ifpi
+consistently results in collisions with other objects, we removepj for all objects
+with depth≥ d. Subsequently, we re-sample positions for objects with depth
+d− 1. Once all objects with depthd are positioned successfully, we increment the
+depth counter of the algorithm. An example process of scene graph processing is
+shown in Fig. 3.
+10 Çelen A., et al .
+3.4 3D Asset Retrieval
+We can generate textual descriptions for each object by utilizing the object name,
+style, and material information. These textual descriptions are then transformed
+into text embeddings using the CLIP [41] text encoder. The alignment between
+OpenShape [32] encodings and CLIP embeddings enables us to measure the
+distance between our text embeddings and the learned object representations
+from the database of choice. This facilitates the retrieval of a 3D asset that is
+closest to our textual description of each object. After the retrieval, the assets
+can be adjusted to fit the bounding box provided to these objects within the
+scene graph.
+3.5 3D Composer
+Having produced the final scene graph and retrieved the 3D assets, we employ
+an off-the-shelf 3D renderer to visualize the room interior in 3D. The output of
+I-Design pipeline is a collection of entities, including (1) the scene graph, (2) the
+floor plan, (3) preconfigured rendered views, and (4) interpretability artifacts,
+such as the input user prompt and the communication log between the agents.
+This output bundle serves multiple purposes. Primarily, it allows for the
+inspection of every pipeline stage and, if necessary, enables the replay of select
+stages to introduce variations. For example, the user may want to swap out a
+piece of furniture or render the scene from a novel viewpoint. Secondarily, the
+bundle enables diverse quantitative studies to investigate the alignment of user
+preference with the produced results. We elaborate on this aspect in Sec. 4.2.
+4 Experiments
+4.1 Implementation Details
+We use Microsoft’s AutoGen [59] framework to enable multi-agent conversation,
+with each agent equipped with GPT-4 model [1]. Thetemperature is configured
+at 0.7, whiletop_p is set to 1.0. For object retrieval, we rely on OpenShape [32],
+utilizing text embeddings to retrieve objects from Objaverse [12]. The scene is
+then visualized and rendered using Blender [4].
+4.2 Quantitative Evaluation
+We compare I-Design with baseline approaches to quantitatively assess the design
+quality of the interior rooms generated by our proposed pipeline.
+Metrics We conduct quantitative evaluations using the following metrics:
+Average Number of Proposed Objects (NObj): The diversity of the generated
+interior rooms can be partially assessed by considering the number of furniture
+I-Design: Personalized LLM Interior Designer Agents 11
+pieces proposed and placed within the scene. Here, we compute the average
+number of proposed objects separately for bedrooms and living rooms.
+Out-of-Boundary Rates (OOB): The feasibility of a generated layout can be
+quantified by examining the frequency of objects extending beyond room bound-
+aries, as outlined in [16]. In this context, if any bounding boxes are outside
+the designated room boundaries within a scene, that scene is deemed invalid.
+OOB values are determined by calculating the ratio of invalid scenes to the total
+number of generated scenes.
+Bounding Box Loss (BBL): The viability of a generated layout can also be mea-
+sured by evaluating the degree of overlap between proposed furniture bounding
+boxes. This is calculated as the average volume of bounding box intersections
+across generated scenes.
+GPT-4V ratings: As highlighted in [60], GPT-4V [1] has been shown to serve as
+a human-aligned evaluator for 3D content. Inspired by this concept, we employ
+GPT-4V as an evaluator to assess the visual quality of synthesized rooms based
+on their renderings. The rating criteria encompass aspects of functionality and
+activity-based alignment (Func.), layout and furniture (Layout.), color scheme and
+material choice (Scheme.), as well as overall aesthetic and atmosphere (Atmos.).
+The integer ratings range from 0, the minimum, to 10, the maximum. The rating
+process is conducted unary, where each scene is evaluated individually. Two
+renderings from different viewpoints are horizontally concatenated and passed
+along with the user input to the evaluator for rating to quantify their alignment
+with the generated results. Each evaluation is performed three times in parallel
+by setting the corresponding parametern using the GPT-4V API. The resulting
+grades are averaged in every category, and their standard deviations are also
+reported to account for the grade spread and allow for pairwise grade comparisons.
+Baseline We treat LayoutGPT [16] as a baseline for comparison. LayoutGPT [16]
+utilizes LLM models, including GPT-4 [1], to generate room layouts in a CSS-like
+format through few-shot learning with examples sourced from the 3D-FRONT [18]
+dataset. Here, for a fair comparison, we have extended the original LayoutGPT
+pipeline [16] by enabling it to retrieve and place objects from Objaverse [12].
+Experimental Settings As LayoutGPT [16] only supports “Bedroom” and
+“Living room” room types, our comparison is limited to these types and variations
+of room dimensions. We ensure that the prompts given to our pipeline contain
+only this information for a fair comparison. Besides, we let LayoutGPT [16]
+retrieve objects from Objaverse [12] and use the same settings for rendering. We
+generate ten living room and ten bedroom scenes with the same dimensions for
+each method. The quantitative comparison results are provided in Tab. 1.
+Besides comparing our approach with the baseline, we aim to demonstrate our
+ability to appropriately process prompts covering diverse aspects. For this purpose,
+we generate ten prompts for each potential factor influencing an individual’s
+decisions regarding interior designs, encompassing functionality, layout, color
+scheme, and overall atmosphere. We compare the rooms synthesized by tailored
+12 Çelen A., et al .
+Fig. 4: Gallery of Results Obtained with I-Design. The first column lists user
+prompts, specifying design preferences, such as functionality, style, and atmosphere.
+The top-down scene graph layout generated by the LLM Agents is shown in the second
+column. The third column shows this layout rendered from the top-down view after the
+Asset Retrieval stage. The last two columns show corner views of the resulting design.
+Evidently, I-Design is capable of factoring in diverse user specifications and producing
+vibrant, functional designs.
+I-Design: Personalized LLM Interior Designer Agents 13
+T able 1: Quantitative comparison with LayoutGPT [16]. Both methods generate
+10 “Bedroom” and 10 “Living room” scenes of varying room sizes. The objective metrics
+are: an average number of objects (NObj), out-of-bounds rate (OOB), and bounding
+box loss (BBL). Subjective metrics: GPT-4V [1] is used as a human-aligned evaluator
+assessing the following scene aspects: functionality and activity-based alignment (Func.),
+layout and furniture (Layout.), color scheme and material choice (Scheme.), overall
+aesthetic and atmosphere (Atmos.). The evaluator LLM is prompted to evaluate the
+alignment of the user input with the rendered scene, assign a grade from 0 to 10, and
+explain the reasoning behind the assignment (Sec. 4.2). Each scene is evaluated 3 times,
+resulting in the mean and standard deviation per scene, averaged across scenes. I-Design
+produces more realistic scenes, which score better in all metrics with tight confidence.
+Method Room Type NObj ↑ OOB↓ BBL↓ GPT-4V Criteria↑
+F unc.↑ Layout.↑ Scheme.↑ Atmos.↑ A vg.↑
+LayoutGPT [16]
+Bedroom 5.5 51.06 14.09 4.8 ±0.4 4.8±0.8 4.6±0.8 4.9±0.4 4.8
+LivingRoom 6.9 64.15 1.06 4.8 ±1.3 4.8±0.8 4.8±1.4 4.6±0.8 4.8
+Avg. 6.2 57.6 7.58 4.8 4.8 4.7 4.8 4.8
+Ours (I-Design)
+Bedroom 12.7 0.0 0.34 5.2 ±0.4 5.5±0.2 5.6±0.7 5.5±0.2 5.5
+LivingRoom 23.6 0.0 0.31 5.8 ±2.6 5.6±2.1 5.9±1.1 5.7±1.3 5.8
+Avg. 18.2 0.0 0.33 5.5 5.6 5.8 5.6 5.7
+prompts focusing on specific aspects Tab. 2. Refer to the Appendix for a complete
+list of prompts used for both tables.
+T able 2: Quantitative evaluation of
+I-Design with various prompt types. Each
+prompt type produced 10 instances of a
+text prompt, each used to generate a single
+scene. These scenes were evaluated with the
+LLM scheme similarly to Tab. 1, and the
+grades were aggregated across prompt types.
+Maximal alignment between visual results
+and the input user prompt is reached when
+adding “Functional” cues. Refer to prompt
+examples in the Appendix.
+Prompt type GPT-4V Criteria
+F unc. Layout. Scheme. Atmos. A vg.
+Atmospheric 4.9±0.7 4.9±0.6 4.3±0.6 4.4±0.5 4.9
+Scheme 4.6±0.5 4.8±0.6 5.0±0.5 4.8±0.5 5.0
+Layout 6.2 ±0.6 6.0±0.7 5.2±0.7 5.6±0.6 5.8
+Functional7.0±0.76.5±0.75.8±0.86.2±0.7 6.4
+Results ComparedtoLayoutGPT[16],
+as illustrated in Tab. 1, our approach
+stands out in proposing larger furni-
+ture sets and more physically plausi-
+ble layouts, exhibiting zero OOB and
+minimal BBL values. For evaluations
+with GPT-4V, our method outper-
+forms LayoutGPT [16] across all met-
+rics, indicating better visual quality of
+the synthesized rooms and alignment
+with user preferences.
+As outlined in Tab. 2, the perfor-
+mance of I-Design varies depending
+on the type of prompt input. Our
+method yields the best results in all
+four grading aspects when incorporat-
+ing functional descriptions. Function-
+ality prompts provide cues regarding the room type and potential activities
+occurring within the space. The usage of atmosphere and scheme information
+somewhat diminishes the quality of synthesis. We attribute this to our pipeline’s
+lack of consideration for the materials and textures of the walls, ceiling, and floor
+and the absence of an object re-texturing step. This can significantly impact
+14 Çelen A., et al .
+the room’s overall ambiance and can be considered a promising future research
+direction.
+4.3 User Study
+(a) Bedroom Control Scenes
+(b) Living Room Control Scenes
+Fig. 5: Control Questions for the Subjective Study Here are two control questions
+provided for our subjective study focusing on bedrooms in Figure 5a and living rooms
+in Figure 5b. These questions are designed to prompt participants to assess object
+collisions and the level of detail present in the scenes. The red boxes show the object
+collisions in the scenes.
+Tab. 3 contains the results of a user study aimed at reinforcing our GPT-
+4V evaluation. Out of 20 scenes created by our method and another 20 by
+LayoutGPT [16], we randomly sampled 5 scenes from the competitor pool for
+each sample and thus composed 100 pairs. Each pair depicts either a bedroom or a
+living room, each comprising a render from our method and one from LayoutGPT.
+Subjects were instructed [47] to vote on the most realistic room in each pair. The
+order of the methods is randomized during the display to prevent subject bias.
+Each participant was assigned 20 pairs to evaluate, and two control questions
+with predefined correct answers were included for verification purposes, as shown
+in Fig.??. We collected 1254 answers for bedroom pairs and 660 for living room
+pairs. The gathered votes were converted into Bradley-Terry preference scores [5]
+and probabilities. The results affirm our findings with the GPT-4V evaluator,
+with our method outperforming LayoutGPT for both room types.

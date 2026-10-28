@@ -1,0 +1,31 @@
+/Users/zhangyang/Downloads/fastfill-v4/baselines/envs/idesign/lib/python3.11/site-packages/flaml/__init__.py:20: UserWarning: flaml.automl is not available. Please install flaml[automl] to enable AutoML functionalities.
+  warnings.warn("flaml.automl is not available. Please install flaml[automl] to enable AutoML functionalities.")
+Admin (to chat_manager):
+
+
+            The room has the size 3.3999999999999995m x 5.1789000000000005m x 3.0m
+            User Preference (in triple backquotes):
+            ```
+            A bedroom. Use exactly these 5 objects and no others, with these exact ids as new_object_id and these sizes (length x width x height in metres; length is the side-to-side extent, width the front-to-back extent):
+- obj_0000: tv stand (A sleek black console table with ornate legs and a flat top, adorned with decorative vases and a framed picture.), 1.95 x 0.46 x 0.69
+- obj_0001: nightstand (A light gray chest of drawers with three drawers, each equipped with a bronze handle. It has a classic design with a sli), 0.55 x 0.46 x 0.57
+- obj_0002: wardrobe (A large wardrobe with multiple compartments, including shelves for clothes, drawers, and storage boxes. It features a co), 2.36 x 0.63 x 2.45
+- obj_0003: king size bed (A modern bed with a black leather headboard and a gray mattress. It features multiple decorative pillows in shades of gr), 2.25 x 2.36 x 1.30
+- obj_0004: nightstand (A light gray chest of drawers with three drawers, each equipped with a bronze handle. It has a classic design with a sli), 0.57 x 0.48 x 0.64
+There is a door 0.79 m wide centred at x=0.51, y=5.18 (keep the floor in front of it clear).
+There is a window 1.72 m wide centred at x=1.64, y=0.00.
+obj_0003 must be between obj_0004 and obj_0001.
+obj_0003 must face obj_0000.
+obj_0004 must be against a wall.
+obj_0003 must be within 0.10 m of obj_0001.
+x runs west to east, y south to north, origin at the south-west corner.    
+            ```
+            Room layout elements in the room (in triple backquotes):
+            ```
+            ['south_wall', 'north_wall', 'west_wall', 'east_wall', 'middle of the room', 'ceiling']
+            ```
+            json
+            
+
+--------------------------------------------------------------------------------
+room 34: TypeError: Completions.create() got an unexpected keyword argument 'api_key' missing=None 0s

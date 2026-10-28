@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bookcase, children cabinet, desk, dining chair, dressing chair, kids bed, king size bed, lounge chair, nightstand, potted plant, rabbit figurine, shelf, single bed, stuffed toy, telescope, wardrobe \nOverall furniture frequencies: (bookcase: 0.0286; children cabinet: 0.2286; desk: 0.0286; dining chair: 0.0857; dressing chair: 0.0; kids bed: 0.1143; king size bed: 0.0571; lounge chair: 0.0286; nightstand: 0.1714; potted plant: 0.0286; rabbit figurine: 0.0286; shelf: 0.0286; single bed: 0.0286; stuffed toy: 0.0286; telescope: 0.0; wardrobe: 0.1143)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.37m, max width 3.74m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "children cabinet[obj_0000] {length: 0.77m; height: 1.66m; width: 0.33m; orientation: -90 degrees; left: 2.47m; top: 3.44m; depth: 0.00m;}\nnightstand[obj_0001] {length: 0.51m; height: 0.80m; width: 0.43m; orientation: -180 degrees; left: 3.23m; top: 2.72m; depth: 0.00m;}\nnightstand[obj_0002] {length: 0.51m; height: 0.80m; width: 0.43m; orientation: -180 degrees; left: 3.23m; top: 0.30m; depth: 0.00m;}\nkids bed[obj_0003] {length: 2.12m; height: 1.02m; width: 2.28m; orientation: -180 degrees; left: 2.23m; top: 1.52m; depth: 0.00m;}\nshelf[obj_0004] {length: 0.40m; height: 0.99m; width: 0.40m; orientation: 0 degrees; left: 0.35m; top: 0.48m; depth: 0.04m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.28m, max width 3.89m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "children cabinet[obj_0000] {length: 0.62m; height: 0.88m; width: 0.29m; orientation: -180 degrees; left: 3.12m; top: 1.02m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 1.20m; height: 2.11m; width: 0.48m; orientation: 0 degrees; left: 0.48m; top: 3.29m; depth: 0.00m;}\nkids bed[obj_0002] {length: 1.69m; height: 1.28m; width: 2.08m; orientation: -180 degrees; left: 2.23m; top: 2.54m; depth: 0.00m;}\nchildren cabinet[obj_0003] {length: 0.72m; height: 0.88m; width: 0.17m; orientation: 0 degrees; left: 0.34m; top: 2.30m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.27m, max width 3.89m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bookcase[obj_0000] {length: 2.27m; height: 2.99m; width: 0.31m; orientation: 0 degrees; left: 1.35m; top: 2.25m; depth: 0.00m;}\ndining chair[obj_0001] {length: 0.44m; height: 0.96m; width: 0.57m; orientation: -180 degrees; left: 0.80m; top: 1.37m; depth: 0.00m;}\npotted plant[obj_0002] {length: 0.81m; height: 1.27m; width: 0.89m; orientation: -52 degrees; left: 0.60m; top: 0.57m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.48m, max width 3.91m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "children cabinet[obj_0000] {length: 1.80m; height: 2.11m; width: 0.60m; orientation: 90 degrees; left: 0.90m; top: 1.01m; depth: 0.00m;}\nkids bed[obj_0001] {length: 1.98m; height: 1.98m; width: 2.06m; orientation: 0 degrees; left: 1.03m; top: 2.71m; depth: 0.00m;}\nchildren cabinet[obj_0002] {length: 1.25m; height: 1.25m; width: 0.33m; orientation: -180 degrees; left: 3.32m; top: 2.74m; depth: 0.00m;}\ndining chair[obj_0003] {length: 0.49m; height: 0.72m; width: 0.41m; orientation: 0 degrees; left: 2.95m; top: 2.72m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.48m, max width 3.91m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "kids bed[obj_0000] {length: 1.98m; height: 1.98m; width: 2.06m; orientation: 0 degrees; left: 1.03m; top: 2.71m; depth: 0.00m;}\nnightstand[obj_0001] {length: 0.49m; height: 0.72m; width: 0.41m; orientation: 0 degrees; left: 2.95m; top: 2.72m; depth: 0.00m;}\nchildren cabinet[obj_0002] {length: 1.25m; height: 1.25m; width: 0.33m; orientation: -180 degrees; left: 3.32m; top: 2.74m; depth: 0.00m;}\nchildren cabinet[obj_0003] {length: 1.80m; height: 2.11m; width: 0.60m; orientation: 90 degrees; left: 0.90m; top: 1.01m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.24m, max width 3.96m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "nightstand[obj_0000] {length: 0.50m; height: 1.22m; width: 0.40m; orientation: 0 degrees; left: 0.20m; top: 3.54m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 1.76m; height: 2.31m; width: 1.62m; orientation: 90 degrees; left: 0.88m; top: 0.81m; depth: 0.00m;}\nstuffed toy[obj_0002] {length: 0.91m; height: 0.22m; width: 0.66m; orientation: 48 degrees; left: 1.82m; top: 0.87m; depth: 0.00m;}\nchildren cabinet[obj_0003] {length: 1.41m; height: 0.97m; width: 0.36m; orientation: -180 degrees; left: 2.82m; top: 2.33m; depth: 0.00m;}\ndining chair[obj_0004] {length: 0.56m; height: 0.64m; width: 0.60m; orientation: -180 degrees; left: 0.64m; top: 1.05m; depth: 0.00m;}\nsingle bed[obj_0005] {length: 1.78m; height: 1.64m; width: 2.01m; orientation: 0 degrees; left: 1.01m; top: 2.44m; depth: 0.00m;}\nrabbit figurine[obj_0006] {length: 0.29m; height: 0.45m; width: 0.27m; orientation: 45 degrees; left: 1.91m; top: 0.21m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.44m, max width 4.01m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 2.00m; height: 2.36m; width: 0.66m; orientation: 0 degrees; left: 0.33m; top: 1.00m; depth: 0.00m;}\nking size bed[obj_0001] {length: 2.02m; height: 0.64m; width: 1.94m; orientation: -90 degrees; left: 2.39m; top: 2.91m; depth: 0.00m;}\nnightstand[obj_0002] {length: 0.42m; height: 0.44m; width: 0.34m; orientation: -90 degrees; left: 1.10m; top: 3.74m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.58m, max width 3.91m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 2.16m; height: 2.44m; width: 0.60m; orientation: 90 degrees; left: 1.11m; top: 0.30m; depth: 0.00m;}\nlounge chair[obj_0001] {length: 0.67m; height: 0.77m; width: 0.56m; orientation: 0 degrees; left: 2.68m; top: 3.20m; depth: 0.00m;}\ndesk[obj_0002] {length: 1.20m; height: 2.00m; width: 0.60m; orientation: -180 degrees; left: 3.24m; top: 3.13m; depth: 0.00m;}\nking size bed[obj_0003] {length: 2.27m; height: 1.33m; width: 2.26m; orientation: 0 degrees; left: 1.13m; top: 1.99m; depth: 0.00m;}\nnightstand[obj_0004] {length: 0.58m; height: 0.59m; width: 0.42m; orientation: 0 degrees; left: 0.21m; top: 3.23m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: kids room\nRoom Size: max length 3.38m, max width 3.81m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\ndesk[obj_0000]: A wooden desk with an attached hutch featuring multiple shelves and drawers. The design includes open shelving for storage and a flat workspace surface.\ntelescope[obj_0001]: A white telescope mounted on a black tripod stand with adjustable legs. The telescope has a cylindrical body with a lens at one end and an eyepiece at the other. It features various knobs and dials fo\ndressing chair[obj_0002]: A loft bed with a built-in desk underneath, featuring a wooden frame with metal supports. The bed has colorful pillows and a blue mattress. There is a ladder leading up to the bed and a small shelf ne\nFloor polygon (left, top): (0.00, 0.00), (3.38, 0.00), (3.38, 3.81), (0.00, 3.81)\nwindow 2.06m wide at left 3.38m, top 2.04m\ndoor 0.82m wide at left 0.00m, top 3.14m\nConstraint: {\"type\": \"faces\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0001\"}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0002\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0001\", \"max_distance_m\": 0.1}\nLayout:\n"
+ }
+]

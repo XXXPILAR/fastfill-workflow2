@@ -1,0 +1,64 @@
+{
+ "task_description": "a dining room of about 4.9m x 3.6m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the dining table (o0002) should be between the lounge chair (o0004) and the lounge chair (o0006). the lounge chair (o0006) should face the dining table (o0002). the drawer chest (o0001) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.59378,
+    3.0527800000000003,
+    0.0
+   ],
+   [
+    4.59135,
+    3.6158600000000005,
+    0.0
+   ],
+   [
+    4.03624,
+    3.6142700000000003,
+    0.0
+   ],
+   [
+    1.5550200000000003,
+    3.6142700000000003,
+    0.0
+   ],
+   [
+    0.0,
+    3.5583,
+    0.0
+   ],
+   [
+    0.010909999999999975,
+    1.00795,
+    0.0
+   ],
+   [
+    0.010909999999999975,
+    0.0,
+    0.0
+   ],
+   [
+    4.87134,
+    0.0,
+    0.0
+   ],
+   [
+    4.87134,
+    3.0527800000000003,
+    0.0
+   ]
+  ],
+  "wall_height": 2.84
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {}
+ }
+}

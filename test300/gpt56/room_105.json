@@ -1,0 +1,242 @@
+{
+ "k": 105,
+ "source": "MansionWorld",
+ "room_type": "pantry 1",
+ "latency_s": 56.837238458916545,
+ "usage": [
+  {
+   "prompt_tokens": 1499,
+   "completion_tokens": 2936,
+   "total_tokens": 4435,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2039,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.7,
+     0.7,
+     0.74
+    ],
+    "bottom_center_m": [
+     0.75,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.35,
+     0.45,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.65,
+     2.75,
+     1.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.7,
+     0.7,
+     2.2
+    ],
+    "bottom_center_m": [
+     2.8,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     2.7,
+     0.9
+    ],
+    "bottom_center_m": [
+     4.2,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.0,
+     0.72,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.8
+    ],
+    "bottom_center_m": [
+     5.55,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.7,
+     0.7,
+     0.74
+    ],
+    "bottom_center_m": [
+     2.0,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.7,
+     0.75,
+     2.05
+    ],
+    "bottom_center_m": [
+     3.575,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.35,
+     0.45,
+     0.3
+    ],
+    "bottom_center_m": [
+     3.575,
+     0.35,
+     2.05
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.75,
+     0.72,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.7,
+     0.75,
+     2.2
+    ],
+    "bottom_center_m": [
+     4.4,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.48,
+     0.44,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.39,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.8
+    ],
+    "bottom_center_m": [
+     5.55,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.6,
+     1.0,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.9,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.5,
+     1.1,
+     1.9
+    ],
+    "bottom_center_m": [
+     0.65,
+     2.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe tall refrigerator and pantry cabinets are grouped along the south wall, while the long base cabinet run, under-counter cabinet, and shelving occupy the north wall. This preserves a clear central aisle through the long room and leaves both west-wall windows unobstructed. The two bistro tables form a compact seating area near the windows; obj_0011 sits between them and close to obj_0006, while obj_0009 faces obj_0000. Each storage box is placed fully on its specified supporting unit, and the waste bins remain accessible at the east end.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.7,\"depth_m\":0.7,\"height_m\":0.74,\"x\":0.75,\"y\":1.45,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.45,\"depth_m\":0.35,\"height_m\":0.3,\"x\":0.65,\"y\":2.75,\"z\":1.9,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":0.7,\"depth_m\":0.7,\"height_m\":2.2,\"x\":2.8,\"y\":0.35,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":2.7,\"depth_m\":0.6,\"height_m\":0.9,\"x\":4.2,\"y\":2.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.85,\"x\":2,\"y\":0.72,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.8,\"x\":5.55,\"y\":0.35,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.7,\"depth_m\":0.7,\"height_m\":0.74,\"x\":2,\"y\":1.45,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":0.75,\"depth_m\":0.7,\"height_m\":2.05,\"x\":3.575,\"y\":0.35,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.45,\"depth_m\":0.35,\"height_m\":0.3,\"x\":3.575,\"y\":0.35,\"z\":2.05,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.85,\"x\":0.75,\"y\":0.72,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":0.75,\"depth_m\":0.7,\"height_m\":2.2,\"x\":4.4,\"y\":0.35,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.44,\"depth_m\":0.48,\"height_m\":0.85,\"x\":1.39,\"y\":1.45,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.8,\"x\":5.55,\"y\":1,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0013\",\"width_m\":1,\"depth_m\":0.6,\"height_m\":0.9,\"x\":1.9,\"y\":2.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":1.1,\"depth_m\":0.5,\"height_m\":1.9,\"x\":0.65,\"y\":2.75,\"z\":0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\npantry 1\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.000 m x 3.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [6.0, 0.0], [6.0, 3.0], [0.0, 3.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"compact round bistro table\", \"description\": \"A circular four legged light brown wooden table.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"storage box\", \"description\": \"A brown box with a cover that says patient files.\", \"support_parent\": \"obj_0014\"},\n{\"id\": \"obj_0002\", \"category\": \"tall pantry cabinet\", \"description\": \"tall pantry cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"base cabinet run\", \"description\": \"A row of cabinets in white wood.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"side chair\", \"description\": \"An orange wooden chair with seat and back rest bolted with four black bolts.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"waste bin\", \"description\": \"a wheeled trash can\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"compact round bistro table\", \"description\": \"A circular four legged light brown wooden table.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"tall refrigerator\", \"description\": \"tall refrigerator\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"storage box\", \"description\": \"A brown box with a cover that says patient files.\", \"support_parent\": \"obj_0007\"},\n{\"id\": \"obj_0009\", \"category\": \"side chair\", \"description\": \"An orange wooden chair with seat and back rest bolted with four black bolts.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"tall pantry cabinet\", \"description\": \"tall pantry cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"side chair\", \"description\": \"An orange wooden chair with seat and back rest bolted with four black bolts.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"waste bin\", \"description\": \"a wheeled trash can\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"under counter cabinet\", \"description\": \"A black cabinet with a black tabletop.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"freestanding shelving unit\", \"description\": \"A bunch of wooden shelves with a couple of drawers.\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.0, 2.241], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 1.0}, {\"type\": \"window\", \"centre_xy\": [0.0, 0.753], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 1.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0011\", \"target_ids\": [\"obj_0000\", \"obj_0006\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0009\", \"target_id\": \"obj_0000\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0003\"}, {\"type\": \"near\", \"object_id\": \"obj_0006\", \"target_id\": \"obj_0011\", \"max_distance_m\": 0.3}]\n[/Task Constraints]"
+}

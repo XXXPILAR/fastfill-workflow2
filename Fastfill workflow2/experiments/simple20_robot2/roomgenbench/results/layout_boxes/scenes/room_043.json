@@ -1,0 +1,121 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_043",
+ "room_type": "kitchen",
+ "room": {
+  "width": 9.016639,
+  "length": 6.497427,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 8
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "wardrobe",
+   "asset_key": "wardrobe_ff25b94f",
+   "description": "A light-colored wooden cabinet with two doors and a countertop. It features a small drawer above the doors and a wine rack inside one of the compartments.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "grill",
+   "asset_key": "grill_268f3831",
+   "description": "A robust outdoor kitchen island featuring a built-in grill, storage cabinets, and a countertop. The design includes a combination of dark stone-like materials for the body and a metallic finish for the grill area.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "stool",
+   "asset_key": "stool_905609b4",
+   "description": "A modern bar stool with a sleek design featuring a black seat and light-colored metal legs. The legs are thin and form a square base for stability.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "stool",
+   "asset_key": "stool_905609b4",
+   "description": "A modern bar stool with a sleek design featuring a black seat and light-colored metal legs. The legs are thin and form a square base for stability.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "bench",
+   "asset_key": "bench_703a94f8",
+   "description": "A wooden shelf unit with multiple compartments designed for storage or display purposes. It features a clean and simple design with a light wood finish.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "table",
+   "asset_key": "table_ca2175dd",
+   "description": "A wooden dining table with a rectangular top and sturdy legs that feature an X-shaped support design.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "stool",
+   "asset_key": "stool_905609b4",
+   "description": "A modern bar stool with a sleek design featuring a black seat and light-colored metal legs. The legs are thin and form a square base for stability.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "stool",
+   "asset_key": "stool_905609b4",
+   "description": "A modern bar stool with a sleek design featuring a black seat and light-colored metal legs. The legs are thin and form a square base for stability.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  }
+ ]
+}

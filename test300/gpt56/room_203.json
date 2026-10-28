@@ -1,0 +1,133 @@
+{
+ "k": 203,
+ "source": "SpatialLM",
+ "room_type": "living room",
+ "latency_s": 37.705212583066896,
+ "usage": [
+  {
+   "prompt_tokens": 942,
+   "completion_tokens": 1902,
+   "total_tokens": 2844,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1409,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0001 (tv cabinet) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0002 (air conditioner) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.6,
+     0.95,
+     0.4
+    ],
+    "bottom_center_m": [
+     4.2,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.55,
+     1.4,
+     0.72
+    ],
+    "bottom_center_m": [
+     6.329,
+     1.3,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.22,
+     1.1,
+     0.35
+    ],
+    "bottom_center_m": [
+     6.494,
+     2.75,
+     1.85
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     1.8,
+     0.55
+    ],
+    "bottom_center_m": [
+     4.2,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.9,
+     2.25,
+     0.85
+    ],
+    "bottom_center_m": [
+     4.2,
+     2.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.18,
+     0.22,
+     0.32
+    ],
+    "bottom_center_m": [
+     4.2,
+     0.225,
+     0.55
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.18,
+     0.24,
+     0.3
+    ],
+    "bottom_center_m": [
+     6.329,
+     1.3,
+     0.72
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe main seating group occupies the large lower-central area. The primary TV cabinet is placed against the south wall, with the sofa directly opposite and the coffee table between them. The second TV cabinet uses the east wall without narrowing the main circulation route, and each ornament rests on one cabinet. The air conditioner is mounted high on the east wall, clear of the furniture. Open routes remain along both sides of the seating group and toward the upper portions of the room.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.95,\"depth_m\":0.6,\"height_m\":0.4,\"x\":4.2,\"y\":1.55,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":1.4,\"depth_m\":0.55,\"height_m\":0.72,\"x\":6.329,\"y\":1.3,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":1.1,\"depth_m\":0.22,\"height_m\":0.35,\"x\":6.494,\"y\":2.75,\"z\":1.85,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":1.8,\"depth_m\":0.45,\"height_m\":0.55,\"x\":4.2,\"y\":0.225,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":2.25,\"depth_m\":0.9,\"height_m\":0.85,\"x\":4.2,\"y\":2.8,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.22,\"depth_m\":0.18,\"height_m\":0.32,\"x\":4.2,\"y\":0.225,\"z\":0.55,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.24,\"depth_m\":0.18,\"height_m\":0.3,\"x\":6.329,\"y\":1.3,\"z\":0.72,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 7.695 m x 5.780 m x 2.400 m\nfloor polygon (x, y): [[0.0, 5.78], [0.0, 3.8], [1.739, 3.8], [1.739, 0.0], [6.604, 0.0], [6.604, 3.447], [7.695, 3.447], [7.695, 4.897], [6.804, 4.897], [6.804, 4.827], [3.464, 4.827], [3.464, 4.922], [0.994, 4.922], [0.994, 5.78]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"coffee table\", \"description\": \"coffee table\"},\n{\"id\": \"obj_0001\", \"category\": \"tv cabinet\", \"description\": \"tv cabinet\"},\n{\"id\": \"obj_0002\", \"category\": \"air conditioner\", \"description\": \"air conditioner\"},\n{\"id\": \"obj_0003\", \"category\": \"tv cabinet\", \"description\": \"tv cabinet\"},\n{\"id\": \"obj_0004\", \"category\": \"sofa\", \"description\": \"sofa\"},\n{\"id\": \"obj_0005\", \"category\": \"ornaments\", \"description\": \"ornaments\"},\n{\"id\": \"obj_0006\", \"category\": \"ornaments\", \"description\": \"ornaments\"}\n]\n[/Task Objects]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0004\", \"target_id\": \"obj_0003\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

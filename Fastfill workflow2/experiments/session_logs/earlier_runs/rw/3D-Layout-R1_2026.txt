@@ -1,0 +1,1122 @@
+3D-Layout-R1: Structured Reasoning for Language-Instructed Spatial Editing
+Haoyu Zhen1,2* † Xiaolong Li1* Yilin Zhao1* Han Zhang1 Sifei Liu1 Kaichun Mo1
+Chuang Gan2 Subhashree Radhakrishnan1
+1NVIDIA 2UMass Amherst
+Step 1: Position the chair in front of 
+the desk
+Initial State:
+Randomized scene setup
+Final Step: Put the wardrobe behind 
+the modern pendant lamp
+Step 2: Move the bed behind the 
+desk with drawers.
+forward direction in 3D space
+Simulated 3D Scene Renderings
+Multi-step 3D Layout Reasoning
+Figure 1. We introduce3D-Layout-R1, which performs multi-step language-guided 3D layout editing, iteratively updating an initially
+randomized scene into a sequence of spatially consistent intermediate layouts.
+Abstract
+Large Language Models (LLMs) and Vision Language
+Models (VLMs) have shown impressive reasoning abili-
+ties, yet they struggle with spatial understanding and lay-
+out consistency when performing fine-grained visual edit-
+ing. We introduce a Structured Reasoning framework that
+performs text-conditioned spatial layout editing via scene-
+graph reasoning. Given an input scene graph and a natural-
+language instruction, the model reasons over the graph to
+generate an updated scene graph that satisfies the text con-
+dition while maintaining spatial coherence. By explicitly
+guiding the reasoning process through structured relational
+representations, our approach improves both interpretabil-
+ity and control over spatial relationships. We evaluate our
+method on a new text-guided layout editing benchmark en-
+compassing sorting, spatial alignment, and room-editing
+*Equal contribution.
+†This work was done while Haoyu Zhen was an intern at NVIDIA.
+tasks. Our training paradigm yields an average 15% im-
+provement in IoU and 25% reduction in center-distance er-
+ror compared to Chain of thought Fine-tuning (CoT-SFT)
+and vanilla GRPO baselines. Compared to SOTA zero-shot
+LLMs, our best models achieve up to 20% higher mIoU,
+demonstrating markedly improved spatial precision.
+1. Introduction
+Understanding and manipulating 3D scenes through natural
+language is a fundamental capability for agents and con-
+tent creation systems. Beyond passive perception, agents
+must be able to rearrange their surroundings, e.g., “move
+the chair from the desk to align with the sofa”, which re-
+quires a sophisticated blend of capabilities: comprehending
+compositional spatial relationships, understanding semantic
+intent, and adhering to strict physical constraints to produce
+a plausible layout. While recent progress in 3D perception
+and multimodal foundation models has advanced the abil-
+1
+arXiv:2603.22279v1  [cs.CV]  23 Mar 2026
+ity of VLMs to answer spatial questions, far fewer methods
+can execute structured and multi-step 3D layout edits in re-
+sponse to natural language instructions.
+Existing VLM-based spatial reasoning frameworks have
+primarily focused on passive 3D understanding. Mod-
+els like SpatialRGPT [5], SpatialLLM [28], SpatialRea-
+soner [27], and 3D-R1 [19] enhance spatial VQA through
+depth cues, implicit 3D representations, or coordinate-
+based reasoning. Despite these gains, such systems do
+not modify the underlying 3D scene and lack the struc-
+tured mechanisms needed for long-horizon editing. This
+gap motivates a shift from answering spatial queries to act-
+ing upon 3D layouts in an interpretable and physically con-
+sistent manner.
+Language-driven 3D layout editing has recently emerged
+as a promising direction. A recent line of works use LLMs
+as high-level planners to edit existing layouts. In this dom-
+inant paradigm, the VLM generates a high-level plan or a
+set of spatial constraints, which is then passed to a sepa-
+rate, external module, such as a constraint solver [36] or
+a differentiable optimizer [10, 33], to compute the final
+3D poses. While effective for ensuring physical feasibil-
+ity, these pipelines are limited by manually specified rules
+or objectives, reduced flexibility for diverse instructions,
+difficulty handling long-horizon compositional edits, and
+a largely opaque reasoning process that offers little inter-
+pretability or opportunity for correction. Other methods
+perform one-shot layout prediction or single-object place-
+ment [1], but these do not generalize to multi-object rear-
+rangement or sequential editing of existing scenes. To the
+best of our knowledge, no existing system supports fully in-
+tegrated, multi-step 3D layout editing that directly reasons
+over structured spatial representations.
+In this work, we introduce3D-Layout-R1, a frame-
+work that performs structured, interpretable, and language-
+directed 3D layout editing by reasoning directly over a
+3D bounding-box based scene graph as an iterative canvas.
+Instead of generating a vague, free-form chain-of-thought
+(CoT), our model, 3D-Layout-R1, produces a structured
+trace of scene-graph transformations (Fig 1). Each reason-
+ing step is an explicit, verifiable graph edit that directly up-
+dates the scene’s state. This approach embeds the 3D spatial
+logic directly within the model’s generation process. This
+allows 3D-Layout-R1 to plan and execute complex, multi-
+step rearrangements (e.g., ”first move the box, then place
+the lamp next to the book”) while ensuring each intermedi-
+ate step is interpretable and geometrically coherent.
+To achieve this, we integrate a GRPO-based reinforce-
+ment learning stage that optimizes layout accuracy using
+a dense 3D IoU reward and collision-aware penalties. By
+jointly leveraging structured scene-graph reasoning and RL-
+driven refinement, the model learns to generate precise,
+physically consistent layout edits that reliably satisfy com-
+plex textual instructions.
+Our contributions are summarized as follows:
+1. We introduce3D-Layout-R1, a framework that di-
+rectly performs multi-step 3D scene editing over a 3D-
+Layout using language-guided, interpretable chain-of-
+graph-edits reasoning across three tasks: Sorting, Spatial
+Alignment, and Room Editing.
+2. We release a dataset of 15k 3D scenes with natural lan-
+guage instructions, intermediate chain-of-thought graph
+edits, and target layouts, providing the first benchmark
+dedicated to multi-step editing of existing 3D scenes.
+3. We design geometric reward functions based on 3D IoU
+for policy optimization and evaluation, offering continu-
+ous and geometrically faithful supervision than distance-
+based or binary success metrics.
+4. 3D-Layout-R1 improves mean IoU by15%and reduces
+center-distance errors by25–30%compared to CoT-
+SFT and GRPO baselines. It achieves up to20%higher
+IoU compared to leading zero-shot LLMs and prior spa-
+tial reasoning or layout editing systems.
+2. Related Works
+Spatial Reasoning.Recent efforts to endow VLMs with
+spatial intelligence have explored diverse modalities and
+representations. Several approaches enhance 2D VLMs
+with 3D positional cues from RGB-D inputs or multi-view
+images [3, 5, 6, 8, 44], while others learn implicit “cognitive
+maps” from video [35, 40] or ground reasoning in 2D coor-
+dinates and large-scale embodied datasets [25, 30, 32, 42].
+The most proximate works leverage explicit 3D represen-
+tations for spatial reasoning. SpatialVLM [4] taught met-
+ric relationships by extracting 3D properties from 2D im-
+ages, while SpatialRGPT [5] generated region-aware Vi-
+sual Question Answering (VQA) using implicit 3D scene
+graphs. Furthermore, [28] and [26] incorporated estimated
+depth, distances, and explicit 3D coordinates to enable
+multi-step reasoning. In contrast to these works, which pri-
+marily focus on spatial VQA using implicit or coordinate-
+based representations, we investigate whether LLMs/VLMs
+can reason and update over the structure of a 3D scene
+graphs.
+Language-Driven 3D Layout Editing.Traditional 3D
+scene editing requires expert knowledge and manual op-
+eration. Recent language-driven approaches aim to au-
+tomate spatial manipulation using LLMs/VLMs. Some
+methods operate via intermediate representations, such as
+[22, 43], which either edit in 2D before lifting to 3D or
+construct semantic graph priors for scene decoding. Oth-
+ers model 3D structure directly, including diffusion- or
+placement-based techniques [1, 41], though these are of-
+ten restricted to simple object-level edits. A complementary
+line of work uses LLMs ashigh-level plannersthat produce
+spatial constraints or initial poses for external optimizers
+2
+Group objects by shape, then sort each group by height in ascending order along the x-axis. Arrange groups in this order from left to right: box, sphere, cylinder, cone. Use total width = 12.506 meters. Start the leftmost group at x = -total width / 2 (centered on table). Place a 0.200-meter gap between groups. Within each group, sort objects by height with a 0.05-meter gap between consecutive objects. All objects should be at y = 0 and z = object height / 2.
+Step 1: Identify object groups by shape and sort by height- Boxes: [4(0.799m), 5(1.108m), 7(1.293m)]…- Cones: [1(1.676m), 2(2.172m)]```json{"nodes":{  "4":{"bbox_dimensions":{"height":0.799}},   ……   "2":{"bbox_dimensions":{"height":2.172}}}}```
+Step 3: Determine group start positions- Box group: [-6.253m, -3.783m]- Sphere group: [-3.583m, 0.57m]- Cylinder group: [0.77m, 3.23m]- Cone group: [3.43m, 6.252m]```json{"global_info":{  "group_ranges":{    "box":[-6.253,-3.783], "sphere":[-3.583,0.570],    "cylinder":[0.770,3.230], "cone":[3.430,6.252]}}}```
+Step 5: Position sphere group objects- Node3: x=-3.583+0.404≈-3.179- Node8: x=-3.179+0.404+0.05+0.732≈-1.992- Node6: x=-1.992+0.732+0.05+0.89≈-0.32
+```json{"nodes":{  "3":{"center_location":{"x":-3.179,"y":0,"z":0.405}},  "8":{"center_location":{"x":-1.992,"y":0,"z":0.732}},  "6":{"center_location":{"x":-0.320,"y":0,"z":0.89}}}}```
+Data Samples
+Structured Reasoning Trace
+Free Form Thinking PathWait, group width is the span from the leftmost object's left edge to the rightmost object's right edge. Or is it just the centers spaced 0.05 apart? Wait, if the objects are placed with their centers 0.02 meters apart, then the total span of the group depends on the number of objects. For example, if a group has 2 cylinders, then the centers are spaced 0.02m apart. The first object's center is at the start of the group's position, then each next is +0.02. Wait, but the leftmost group's starting position is at x = -8.462 meters. But how is the group positioned? The group's leftmost object's center or its left edge?
+Initial SceneFinal SceneUser Instruction
+Figure 2.Example from the synthetic 3D sorting benchmark.Given a instruction to group and sort objects by shape and height, our
+model generates a concise structured reasoning trace with JSON scene-graph updates that transforms the initial scene into the final layout,
+in contrast to a long, ambiguous free-form thinking path.
+[10, 12, 33, 36], or leverage symbolic and agentic pipelines
+for procedural scene manipulation [13, 17]. More recent
+efforts explore direct 3D object generation with supervised
+or DPO-tuned LLMs [37]. While these approaches demon-
+strate the promise of natural-language 3D editing, most rely
+on external solvers and struggle with complex composi-
+tional instructions. Concurrent work such as [29] explores
+end-to-end layout reasoning in 2D, whereas we focus on en-
+abling a LLM to directly reason over and iteratively update
+a structured 3D scene graph for long-horizon compositional
+editing without external optimization.
+Structured Chain-of-Thought.Recent advances in rea-
+soning [14, 34] highlight that while Chain-of-thought (CoT)
+reasoning is powerful, unconstrained generation from stan-
+dard RL methods [31, 38, 39] can produce incoherent or
+hallucinated reasoning traces [18]. To mitigate this, re-
+searchers have introduced structured constraints into the
+reasoning process, enhancing performance on tasks requir-
+ing complex, structured outputs [20, 21, 23]. Extending this
+to the multimodal domain, recent works improve model per-
+formance by leveraging explicit visual meta-information [2,
+15, 16] or adopting specialized modules for complex spatio-
+temporal graphs [11]. However, directly integrating struc-
+tured 3D information into the reasoning process of LLM-
+s/VLMs is less explored. We posit that embedding our 3D
+bounding-box scene graph within the reasoning trace guides
+more faithful spatial logic, mitigates multimodal hallucina-
+tion, and promotes more accurate, generalizable reasoning.
+3. Method
+3.1. Preliminaries
+Scene graph representation.We represent each 3D lay-
+out as a directed scene graph with nodes corresponding to
+objects and supporting regions, and edges encoding contact
+or containment relations. In practice, each graph is serial-
+ized as a JSON dictionary keyed by integer node identifiers,
+where each node stores attributes such asnode type,
+center location(a 3D position),dimension(axis-
+aligned length, width, height),rotation(roll, pitch,
+yaw), and an optional natural-languagecaption.
+CoT-SFT and GRPO Training.Modern approaches to
+enhancing reasoning capabilities in large language mod-
+3
+Vision Language Models
+Group objects by shape, then sort each group by minimum length in ascending order. The groups are ordered from left to right: cylinder, sphere, box. Gap between groups: 0.15m. Within each group, the gap between objects: 0.01m. All objects should be at y = 0.
+Language T oken Embeddings
+Image Features
+Language Token Embeddings
+Initial Scene Graph
+Simulator / Grounding Module
+Rollouts
+Reward
+Step 9 – 15: Place the box group after the spheres (ascending order) and verify the final answer
+Step 4 – 8:After leaving the inter-group gap, position all spheres in ascending order with 0.01 m spacing and y = 0.
+Step 1 – 3: Group objects by shape and sort by ascending length.Place the cylinder group first from the starting x-position (0.01 m intra-group gap, y = 0).
+Format Reward:<think></think> + valid JSON
+IoU Reward
+Collision Free Reward
+w/ Reference Model
+Figure 3.Overview of our training pipeline.The vision-language model predicts step-by-step layout edits from the instruction and initial
+scene graph, and rollouts are optimized using a combination of format, IoU, and collision-free rewards.
+els [14] typically follow a two-stage pipeline: CoT-SFT
+followed by RL optimization. During the RL stage, recent
+methods [31] leverage a policy optimization framework that
+enables the model to sample multiple candidate outputs and
+update its parameters via a clipped surrogate objective:
+JGRPO(θ) =E q∼P(Q),{o i}G
+i=1∼πθold (O|q)
+"
+1
+G
+GX
+i=1
+1
+|oi|
+|oi|X
+t=1
+(
+min
+
+ri,t ˆAi,t,clip
+ 
+ri,t,1−ϵ,1 +ϵ
+ ˆAi,t
+
+−βD KL
+ 
+πθ∥π ref
+
+)#
+,
+(1)
+wherer i,t =π θ(oi,t|q,oi,<t)/πθold (oi,t|q,oi,<t)denotes
+the likelihood ratio between the current and previous poli-
+cies at stept. The hyperparameterϵdenoting the controls
+the clipping range to stabilize updates, whileβbalances the
+main optimization objective against the KL divergence term
+DKL[πθ||π ref]which regularizes the learned policy toward
+a reference policy. The actual learning signal is derived
+from the advantage estimate, a normalized reward com-
+puted across multiple samples within the same query group:
+ˆAi,t = ri,t−mean{r 1,t,...,r N,t}
+std{ri,t,...,r N,t} .(2)
+Wherer i,t denotes the scalar reward assigned to the i-th
+generated sample
+While CoT-SFT brings about the basic capability of gen-
+erating long reasoning responses to the model, it does not
+directly guaranty superior final accuracy nor generalizabil-
+ity. The following RL stage tends to fail when the start-
+ing point model does not potentially master the underlying
+task since learning from low quality reasoning traces hardly
+helps further improvement. When the task is complicated,
+an exact match reward function will also be sparse for the
+model to receive meaningful training signal and hinder the
+converging. Unfortunately, current state of vision language
+models on real world 3D tasks suffers simultaneously from
+these complications.
+In the following sections, we introduce the components
+used throughout our approach. First, we construct a data
+pipeline that produces controllable and interpretable rea-
+soning trajectories, where text-based scene graphs serve as
+structured representations of spatial relations. Based on
+these trajectories, we apply CoT-SFT to expose the model to
+step-wise structured reasoning. We then describe a GRPO-
+based reinforcement learning stage that further refines gen-
+eration quality.
+3.2. Dataset Creation
+Our training data consist of paired 3D layouts and language,
+organized as tuples(I,G 0,G⋆,x,y)of rendered images
+I, an initial scene graphG 0 (see Paragraph 3.1), a target
+scene graphG ⋆, an instructionx, and a reasoning trace
+y. The initial scene graph is obtained using a rule-based
+python auto-labeling framework leveraging the blender an-
+notations. The reasoning trace provides a step-by-step ex-
+planation that connects the instruction and input layout to
+the desired final layout, and is later used for Structured CoT-
+SFT. We generate reasoning tracesyusing the DeepSeek-
+R1 model [14]. Given an instructionx, an initial graphG 0,
+and a target graphG ⋆, we prompt the model to produce
+a structured chain-of-thought “thinking path” that explic-
+itly describes how to transformG 0 intoG ⋆. The gener-
+ated trace maps textual constraints in the instruction—such
+as grouping rules, sorting criteria, relational statements, or
+distance specifications—to concrete object-level operations
+4
+inside the scene graph.
+Sorting task.The first and largest task is a synthetic 3D
+sorting benchmark of 10k scenes. Each instance contains
+a scene and a rule-heavy instruction that specifies how to
+group objects and arrange them along a chosen axis. The in-
+structions combine multiple constraints, such as (1) group-
+ing objects by semantic attributes (e.g., shape), (2) sorting
+objects within each group by a geometric attribute (e.g.,
+height), (3) placing groups in a prescribed left-to-right or-
+der, and (4) enforcing global layout constraints like a fixed
+total span and fixed gaps between groups and between con-
+secutive objects. All objects are finally snapped to a com-
+mon support surface, with vertical positions determined by
+their height and the table plane.
+Spatial alignment task.The second task is a more
+challenging rearrangement benchmark with 1k Blender-
+rendered scenes used for training. Here, the underlying tar-
+get layout is a cleanN×Mgrid derived from an initially
+well-organized scene graph, where each grid cell encodes
+the intended position and orientation of an object, grouped
+by category. We then randomly perturb a subset of objects
+by translating and rotating them away from their grid cells,
+yielding a corrupted initial graphG 0. The instruction asks
+the model to restore order by returning displaced objects to
+their appropriate grid locations and orientations, while leav-
+ing correctly placed objects unchanged.
+Room editing task.We further construct a room-editing
+benchmark based on the instruction corpus from the In-
+structScene dataset [22]. Although InstructScene provides
+rich relational descriptions (e.g., “place the lamp next to the
+sofa”), such instructions generally do not specify a unique
+target configuration, as many scene layouts can simultane-
+ously satisfy the same set of relations. Moreover, common
+scene-generation metrics are inherently ambiguous and fail
+to sufficiently constrain the solution space. To reduce this
+indeterminacy, we augment each object-insertion instruc-
+tion with additional geometric constraints: for every object
+to be added, we provide its distances to two or three ex-
+isting reference objects. These distance constraints signifi-
+cantly narrow the set of feasible placements and lead to an
+almost uniquely determined target graphG⋆, enabling more
+reliable supervision for both SFT and RL.
+3.3. 3D Layout Reinforcement Learning
+We adopt a two-stage training pipeline. First, we perform
+CoT-SFT to provide the model with a strong cold start, en-
+suring it can already produce structured reasoning traces
+and roughly correct 3D layouts. Building upon this foun-
+dation, we then apply GRPO reinforcement learning to fur-
+ther refine layout accuracy, physical plausibility, and output
+formatting. This RL stage leverages task-specific rewards
+and benefits substantially from the structured behaviors ac-
+quired during CoT-SFT.
+We optimize a policy to synthesize a physically plau-
+sible 3D scene graphG T while remaining faithful to a
+ground-truth graphG ⋆. The objective is a weighted sum
+of three terms that jointly measure semantic alignment, in-
+ternal physical feasibility, and output-format compliance:
+r= IoU(G pred, G⋆) +λ 1 Coll(Gpred) +λ 2 Fmt(Gpred)
+Here, the weightsλ Coll andλ Fmt control the relative con-
+tribution of collision avoidance and formatting fidelity, re-
+spectively. The IoU term anchors the layout to ground-truth
+object geometry, the collision term suppresses physically
+implausible interpenetrations inside the prediction, and the
+format term preserves a standardized interface for down-
+stream parsing and analysis. Jointly optimizing these sig-
+nals encouragesG T to be both accurate and physically co-
+herent while remaining reproducible and inspectable.
+IoU reward.To evaluate cross-graph alignment we first
+establish correspondences between nodes inG pred and
+G⋆. For every predicted node we attempt a semantic
+match using textual descriptions when available; if no
+unique semantic match is found, we select the ground-
+truth node that maximizes 3D intersection over union
+(IoU). Letb i andb j be the axis-aligned 3D boxes
+of a matched pair. The IoU isIoU(b i,bj) =
+V(bi∩bj)/[V(b i) +V(b j)−V(b i∩bj)],The intersec-
+tion volume is computed by overlapping the one-
+dimensional extents on each axis. The IoU reward is the
+average over matched pairs,
+rIoU = 1
+|Gpred|
+X
+(i,j)∈M
+IoU(bi,bj),
+withMthe set of description- or IoU-based matches.
+Collision reward.To promote internal physical plausibil-
+ity we penalize interpenetrations among non-container ob-
+jects withinG T . For every unordered pair of nodes(p,q)
+we compute the axis-aligned intersection volumeV pq =
+V(bp∩b q)using the same overlap operator. A pair is
+deemed colliding ifV pq > εfor a small toleranceε >0.
+LetC={(p,q) :V pq > ε}and letNbe the number of
+non-container objects. We define a normalized collision-
+free scoreColl(G) = 1−|C|/N,which rises as collisions
+vanish and reaches one when all pairs are disjoint. This
+term mirrors the computation used in evaluation, including
+the exclusion of container nodes and the use of a nonzero
+tolerance to avoid numerical artifacts.
+5
+Model Task 1: Caption-FreeTask 2: Noisy-Input
+IoU Collision FreeIoU Collision Free
+Qwen3-VL-235B-Instruct 0.408 0.631 0.428 0.679Qwen3-VL-235B-Thinking 0.472 0.744 0.378 0.701
+Qwen3-8B (Ours, for reference) 0.2090.9840.664 0.939Qwen2.5-VL-7B (Ans-SFT) 0.521 0.7000.619 0.667Qwen2.5-VL-7B (CoT-SFT) 0.641 0.8290.773 0.844Qwen2.5-VL-7B (Ours)0.787 0.979 0.822 0.980
+Table 1. Results on caption-free and noisy-input scene-graph
+grounding and editing.
+Model Mean IoU↑IoU@0.5↑Ctr. Dist.↓
+Qwen3-235B-Instruct 0.592 0.587 0.243
+Qwen3-235B-Thinking 0.445 0.423 0.320
+Qwen3-VL-235B-Instruct0.786 0.7870.177
+Qwen3-VL-235B-Thinking 0.623 0.624 0.189
+Deepseek-V3 0.553 0.559 0.278
+Deepseek-R1 0.602 0.607 0.184
+Deepseek-R1-0528 0.599 0.606 0.252
+Gemini 2.5 Flash 0.613 0.611 0.231
+Gemini 2.5 Pro 0.759 0.7720.156
+Qwen2.5-VL-7B (Ans-SFT) 0.728 0.725 0.201
+Qwen2.5-VL-7B (CoT-SFT) 0.785 0.779 0.193
+Qwen2.5-VL-7B (Ours) 0.798 0.792 0.181
+Qwen2.5-7B (Ans-SFT) 0.733 0.729 0.201
+Qwen2.5-7B (CoT-SFT) 0.764 0.758 0.189
+Qwen2.5-7B (Ours) 0.809 0.803 0.176
+Qwen3-8B (Ans-SFT) 0.649 0.636 0.248
+Qwen3-8B (CoT-SFT) 0.707 0.700 0.227
+Qwen3-8B (Ours) 0.790 0.784 0.190
+Table 2. Quantitative results on the spatial alignment benchmark
+Format reward.To ensure outputs remain verifi-
+able, we require a strict reasoning-and-answer pat-
+tern:<think> structured reasoning that
+includes a JSON block </think> Final
+Scene Graph‘‘‘json...‘‘‘The format reward
+assignsFmt(G T ) = 1when the response contains the
+exact tag pair<think></think>, at least one syntac-
+tically valid JSON block inside the<think>section,
+and a second well-formed JSON block in the final answer
+segment. Minor deviations such as unmatched braces
+or misplaced tags reduce the score continuously toward
+zero. This constraint stabilizes training by coupling layout
+predictions with auditable, structured reasoning rather than
+free-form prose.
+4. Experiments
+4.1. Experiment Setup
+Baselines.We compare our method against two cate-
+gories of state-of-the-art models. (1)Open-Sourced Mod-
+els:We evaluate top-performing LLMs and VLMs, in-
+cluding the Qwen3-235B and Qwen3-VL-235B with In-
+struct and Thinking versions [34], and the DeepSeek se-
+ries (Deepseek-V3 [24], DeepSeek-R1, and DeepSeek-R1-
+Model Mean IoU↑Ctr. Dist.↓Col. Free↑Edit Dist.↓
+Large Language Models (Zero-shot)Qwen3-235B-Instruct 0.122 2.702 0.548 6.285Qwen3-235B-Thinking 0.708 0.856 0.957 2.208Qwen3-VL-235B-Instruct 0.145 2.323 0.421 8.120Qwen3-VL-235B-Thinking 0.706 0.568 0.918 1.900Deepseek-V3 0.236 1.242 0.620 2.010Deepseek-R1 0.776 0.566 0.903 0.783Deepseek-R1-0528 0.601 1.163 0.799 2.021
+Gemini 2.5 Flash 0.7460.4580.968 1.840Gemini 2.5 Pro 0.724 0.593 0.976 2.180LayoutGPT (Qwen3-235B) 0.763 0.518 0.971 0.910LayoutGPT (Gemini-2.5)0.7810.4710.982 0.709
+Instruct ModelsQwen2.5-VL-7B (Ans-SFT) 0.570 0.423 0.698 0.900Qwen2.5-VL-7B (CoT-SFT) 0.713 0.330 0.847 0.853Qwen2.5-VL-7B (Ours)0.798 0.228 0.961 0.613Qwen2.5-7B (Ans-SFT) 0.622 0.348 0.745 1.175Qwen2.5-7B (CoT-SFT) 0.712 0.345 0.898 0.992Qwen2.5-7B (Ours) 0.879 0.179 1.000 0.627
+Reasoning ModelsCosmos-7B (Ans-SFT) 0.501 0.577 0.683 1.794Cosmos-7B (CoT-SFT) 0.641 0.410 0.757 1.383Cosmos-7B (Vanilla GRPO) 0.729 0.297 0.937 0.811Cosmos-7B (Ours) 0.875 0.234 1.000 0.592Qwen3-8B (Ans-SFT) 0.552 0.493 0.700 1.130Qwen3-8B (CoT-SFT) 0.635 0.513 0.854 1.610Qwen3 (Vanilla GRPO) 0.850 0.274 0.954 0.684Qwen3-8B (Ours) 0.924 0.145 1.000 0.510
+Table 3.Quantitative results on the 3D Sorting bench-
+mark.Models equipped with our structured scene-graph reason-
+ing (“Ours”) consistently outperform both zero-shot LLM/VLM
+baselines and standard CoT-SFT fine-tuning.
+0528 [9]). (2)Proprietary Models:We evaluate the per-
+formance of Gemini 2.5 Pro and Gemini 2.5 Flash [7] as
+strong, closed-source baselines.
+Evaluation Metrics.We evaluate the final generated
+scene graph using a suite of metrics. For geometric accu-
+racy, we compute:Mean IoU, the average 3D IoU between
+predicted and ground-truth boxes with semantic matching;
+IoU@x, the percentage of nodes achieving at leastxIoU
+(e.g., 0.50); andCenter Distance (Ctr . Dist.), the aver-
+age Euclidean distance between the centroids of predicted
+bounding boxes and ground-truths. For physical plausibil-
+ity, we report theCollision-Free Score (Col. Free), which
+is the normalized scoreColl(G)defined in Section 3.3. Fi-
+nally, for the sorting task, we also evaluate theEdit Dis-
+tance (Edit Dist.), calculated as the average Levenshtein
+edit distance required to transform the predicted object or-
+ders into ground-truths.
+4.2. Sorting
+In real-world or simulators, object captions may be miss-
+ing, and detected bounding boxes can be inaccurate, making
+grounding from the scene graph ambiguous. We therefore
+evaluate two settings in Table 1: (1) Caption-Free, where
+node captions are removed and the model must infer ob-
+ject semantics and relations from geometry (and visual cues
+when available) to recover descriptions and output the up-
+dated graph; and (2) Noisy-Input, where we perturb the in-
+6
+Step 1 — Double Bed Behind the DeskThe desk is fixed at (-1.108, 0.324, 1.441).The purple–gray double bed must be placed behind the desk, where “behind’’ corresponds to the negative z-direction of the desk’s yaw (1.571 rad ≈ 90°).We compute the bed center as:𝑥!=𝑥"=−1.108,𝑦!=𝑦"=0.324,The bed’s yaw is aligned to face the desk (1.571 rad).Updated (Bed){  "1": {    "node_type": "double_bed",    "center_location": {"x": -1.108, "y": 0.324, "z": 2.883},    "rotation": {"yaw": 1.571}  }}
+Step 2 — Wardrobe Behind the Pendant LampThe pendant lamp (object 3) is fixed at (0.0, 2.126, -0.06).The wardrobe (object 2) must be placed behind it, defined as negative z-direction under yaw = 0.𝑥#=0.0,𝑦#=2.126,𝑧#=−0.06.The wardrobe keeps yaw = 0.Updated (Wardrobe){  "2": {    "node_type": "wardrobe",    "center_location": {"x": 0.0, "y": 2.126, "z": -0.06},    "rotation": {"yaw": 0.0}  }}
+Step 3 — Lounge Chair Behind the DeskThe desk is at (-1.108, 0.324, 1.441), and the black mesh lounge chair must be behind it.Based on chair yaw ≈ 1.462 rad (84.6°):𝑥$=−1.108,𝑦$=0.324,Chair yaw is adjusted to face the desk (1.871 rad).Updated (Chair - Behind){  "5": {    "node_type": "chair",    "center_location": {"x": -1.108, "y": 0.324, "z": 2.108},    "rotation": {"yaw": 1.871}  }}
+Step 4 — Distance ValidationChair–Desk:𝑑=0.643#+0.150#+0.097#≈0.667m……Conclusion:The goal scene graph is omitted as per instructions. The reasoning path shows the steps to satisfy the spatial relationships and distance constraints.
+Objects Relations:Position a purple and gray double bed behind a desk with drawers.Then, position a red and blue-lined wardrobe behind a modern pendant lamp with a metal ball.And put a black mesh lounge chair closely to the right of a desk.Distances Constraints:-Chair (object 5)Distances to desk, double bed, and pendant lamp are 0.667 m, 1.687 m, and 2.345 m, respectively.- Wardrobe (object 2)   Distances to nightstand, double bed, and pendant lamp are 1.390 m, 1.800 m, and 2.028 m.- Double bed (object 1)   Distances to nightstand, pendant lamp, and chair are 1.442 m, 1.538 m, and 1.687 m.
+User Instructions
+Model Output
+Initial Scene Graph:
+Figure 4.Example of text-guided 3D room layout reasoning, showing how the model interprets constraints to update object poses step
+by step and validate distances.
+put by adding 5% jitter to object bounding boxes and en-
+forcing partial visibility, testing robustness to imperfect lo-
+calization and occlusion. As shown in Table 1, our method
+is effective with a VLM and yields strong gains under both
+settings.
+To further reveal the capability of our structured rea-
+soning, we additionally evaluate the sorting task under a
+perfect-input setting, as shown in Table 3. Direct SFT to
+generate the final scene graph consistently underperforms,
+as the task requires multi-step decomposition, intermediate-
+state perception, and recursive update—capabilities that the
+base model cannot acquire through SFT alone. In contrast,
+incorporating structured CoT-SFT enables the model to re-
+liably construct intermediate states and reach the correct
+final configuration. Adding RL on top of CoT-SFT fur-
+ther improves performance, indicating that synthetic traces
+alone do not cover the harder regions of the task distribution
+and that RL provides additional exploration and reward-
+driven refinement for further improvements. To isolate the
+contribution of structured content, we additionally compare
+Vanilla GRPO training from a Qwen3-8B base model. Skip-
+ping the structured CoT-SFT stage results in a 7.4% drop in
+mIoU gain, confirming that scene-graph-based trajectories
+offer crucial guidance.
+Discussion.In the perfect-input setting, the problem
+largely collapses to text-based structured reasoning over a
+clean scene graph, so adding a VLM backbone brings lim-
+ited extra benefit beyond what the LLM already provides.
+In contrast, the core advantage of VLMs is stronger visual/-
+geometry grounding under missing captions and imperfect
+7
+User Instructions
+Model Output
+Initial Scene Graph:
+Sort all boxes by height and place them on the region with the fewest pallets.
+Start the leftmost group at x = -total width / 2 (centered on table). objects by height with a 
+0.05-meter gap between consecutive objects.
+All other attributes must remain unchanged. Return the updated scene graph in JSON 
+format. Enclose the JSON within the markers: ```json and ```
+Step 11: Place node3 (gap = 0.03 m after node1)
+Previous right edge: 1.0325 + 0.5 = 1.5325
+New left edge: 1.5325 + 0.03 = 1.5625; z: 0.7 / 2 = 0.35
+Center x: 1.5625 + 0.5
+2 = 1.5625 + 0.25 = 1.8125
+Updated node3:
+{
+  "3": {
+    "center_location": {"x": 1.812, "y": 4.11, "z": 0.35},
+    "bbox": [1.5625, 4.11, 0.35, 0.5, 0.5, 0.7, 0, 0, 0]
+  }
+}
+Step 1: Identify pallets and regions
+Pallets are nodes 12, 13, 14, 15, 16.
+Regions are defined by tapes 9, 10, 11.
+Determine which tape region each pallet belongs to by comparing 
+its y-position with the tape y-values:
+Region 9: pallets near the upper 𝑦 = 3.614
+Region 10: pallets near the middle 𝑦 = −0.882
+Region 11: pallets near the lower 𝑦 = −4.41
+Count pallets per tape:
+Region 9: 1 pallet (node16)
+Region 10: 2 pallets (node12, node14)
+Region 11: 2 pallets (node13, node15)
+Step 3: Choose tape with fewest pallets and compute start 
+position
+Tape with the fewest pallets is Region 9 (1 pallet).
+Box lengths:
+node8: 0.25
+node5: 0.401. 0.25 + 0.401 = 0.65
+node6: 0.555. 0.651 + 0.555 = 1.206
+node7: 0.555. 1.206 + 0.555 = 1.761
+node4: 0.5. 1.761 + 0.5 = 2.261
+node2: 0.654. 2.261 + 0.654 = 2.915
+node1: 0.5. 2.915 + 0.5 = 3.415
+node3: 0.5. 3.415 + 0.5 = 3.915
+Add gaps: 0.03 × 7 = 0.21
+Total width: total_width = 3.915 + 0.21 = 4.125 m
+Start x: 𝑥start = − 4.125
+2 = −2.0625 m
+Step 4: Place node8 on Tape9
+Left edge: −2.0625; z: 0.38 / 2 = 0.19
+Center x: −2.0625 + 0.25 / 2 = −2.0625 + 0.125 = −1.9375
+Updated node8:
+{
+  "8": {
+    "center_location": {"x": -1.937, "y": 4.11, "z": 0.19},
+    "bbox": [-2.0625, 4.11, 0.19, 0.25, 0.149, 0.38, 0, 0, 0]
+  }
+}
+Figure 5. Out-of-domain warehouse simulation results showing our model correctly following user instructions with 3D boxes.
+perception; when captions are removed or boxes are noisy/-
+partially visible, LLM-only models degrade much more,
+while VLM-based grounding remains more robust.
+4.3. Spatial Alignment
+The spatial alignment task poses a slightly higher difficulty
+than the sorting task, as it requires understanding the under-
+lyingN×Mgroup structure, identifying inconsistencies
+relative to a group anchor, and locating the misaligned in-
+stance based on center-position deviations. This makes the
+benchmark challenging even for SOTA models, as shown in
+Table 2.
+From our post training experiments, answer-SFT mod-
+els that directly predict the final coordinates fall noticeably
+short. In contrast, our structured layout reasoning can fur-
+ther improve the performance of smaller 7B/8B models, en-
+abling them to match or even exceed the accuracy of these
+Model Mean IoU↑IoU@0.5↑Ctr. Dist.↓
+Qwen3-VL-235B-Instruct 0.502 0.497 0.719
+Qwen3-VL-235B-Thinking 0.496 0.487 0.684
+Deepseek-V3 0.473 0.469 0.859
+Deepseek-R1 0.454 0.449 0.754
+Deepseek-R1-0528 0.471 0.463 0.871
+Gemini 2.5 Flash 0.443 0.441 0.924
+Gemini 2.5 Pro0.591 0.587 0.621
+Qwen2.5-7B (Ans-SFT) 0.869 0.863 0.138
+Qwen2.5-7B (CoT-SFT) 0.950 0.950 0.051
+Qwen2.5-7B (Ours) 0.974 0.973 0.033
+Qwen3-8B (Ans-SFT) 0.895 0.897 0.117
+Qwen3-8B (CoT-SFT) 0.972 0.9720.026
+Qwen3-8B (Vanilla GRPO) 0.768 0.774 0.336
+Qwen3-8B (Ours) 0.983 0.983 0.031
+Table 4. Quantitative results on the RoomEditing benchmark
+large commercial models. Strategically, our 3D-Layout-R1
+learns to (1) infer the underlying grid pattern, (2) detect mis-
+8
+Figure 6. Real-world tabletop rearrangement and pick-and-place task.
+aligned objects via center-location comparisons, and (3) re-
+cover the correct target position by either extending the end
+node or interpolating along the relevant grid line.
+An additional observation is that large VLMs consis-
+tently outperform their LLM counterparts by over 10% on
+this task. However, our own post-training experiments on
+VLM backbones do not show comparable gains, suggesting
+that specialized visual prompting or tailored visual repre-
+sentations may be necessary to fully exploit VLM capabil-
+ities. We provide further discussion and ablations in the
+supplementary material.
+4.4. Room Layout Editing
+For the layout editing task, we conduct a parallel set of
+experiments and observe consistent trends. As shown in
+Table 4, applying RL on top of structured CoT-SFT again
+produces the strongest overall performance. While the
+gap between direct answer SFT and methods incorporating
+structured reasoning persists, a notable difference emerges:
+for this task, the performance gap between RL and its
+corresponding structured CoT-SFT baseline is significantly
+smaller than in the sorting task. This suggests that CoT-SFT
+already captures most of the structured patterns required for
+layout editing, leaving less headroom for RL to further opti-
+mize. We attribute this to the relative simplicity of the task,
+each editing example modifies only a small portion of the
+scene, and the model primarily needs to learn how to move
+the specified objects to achieve a high IoU.
+4.5. Qualitative Results
+Structured 3D sorting traces.Figure 2 shows an results
+from the synthetic sorting benchmark. Given a cluttered
+scene and a rule-heavy instruction, our model generates a
+trace that (1) groups and sorts obejcts by attributes, (2) allo-
+cates group spans along the target axis, and (3) places each
+object with the required gaps. Each step is accompanied
+by a compact scene-graph update, producing layouts that
+match the target.
+Room-editing reasoning.Figure 4 presents a room-
+editing example from the InstructScene-based task. Starting
+from an initial scene graph and relational instructions with
+metric constraints, the model incrementally updates object
+poses in JSON form. The trace explicitly verifies the Eu-
+clidean distances used in the constraints, and the resulting
+rendered layout is both visually plausible and quantitatively
+consistent with the ground-truth scene graph.
+Warehouse.We additionally show out-of-domain qual-
+itative results in a warehouse simulation. In this setting, the
+simulator provides perfect 3D bounding boxes, and the user
+specifies practical rearrangement rules. As shown in Fig. 5,
+without any retraining on warehouse data, our model fol-
+lows these unseen instructions and produces correct, physi-
+cally consistent scene-graph updates.
+Real-world Robot.We demonstrate our method on two
+real-world table-top tasks: (i) a spatial alignment task, and
+(ii) a pick-and-place task that places the yellow cup in the
+yellow bowl. For both tasks, we use Qwen3-VL to extract
+object bounding boxes from the input image and then apply
+our VLM-based scene editing to synthesize the goal state.
+Given known grasping skills for the detected objects, a rule-
+based and goal-conditioned robot can execute the task. We
+do not explicitly model continuous dynamics or collisions
+inside the model; instead, our focus is high-level goal gener-
+ation, which is complementary to existing motion planning
+and control.
+5. Conclusion
+We presented 3D-Layout-R1, a structured reasoning frame-
+work that improves the accuracy and interpretability of
+language-guided 3D layout editing. By injecting layout
+structure into multi-step reasoning and refining outputs with
+GRPO, our approach produces spatially consistent, physi-
+cally coherent scene edits across a wide range of layout ma-
+nipulation tasks. This work demonstrates the value of ex-
+plicit graph-based reasoning for robust and controllable 3D
+understanding. Across all benchmarks, 3D-Layout-R1 sig-
+nificantly reduces layout error and consistently outperforms
+zero-shot and CoT-based baselines, particularly in demand-
+ing spatial alignment and room-editing settings. These re-
+sults highlight the framework’s strong generalization and
+its effectiveness in translating natural language instructions
+into precise 3D transformations.
+9
+References
+[1] Ahmed Abdelreheem, Filippo Aleotti, Jamie Watson, Za-
+war Qureshi, Abdelrahman Eldesokey, Peter Wonka, Gabriel
+Brostow, Sara Vicente, and Guillermo Garcia-Hernando.
+Placeit3d: Language-guided object placement in real 3d
+scenes.arXiv preprint arXiv:2505.05288, 2025. 2
+[2] Anurag Arnab, Ahmet Iscen, Mathilde Caron, Alireza
+Fathi, and Cordelia Schmid. Temporal chain of thought:
+Long-video understanding by thinking in frames.CoRR,
+abs/2507.02001, 2025. 3
+[3] Wenxiao Cai, Iaroslav Ponomarenko, Jianhao Yuan, Xiaoqi
+Li, Wankou Yang, Hao Dong, and Bo Zhao. Spatialbot: Pre-
+cise spatial understanding with vision language models. In
+2025 IEEE International Conference on Robotics and Au-
+tomation (ICRA), pages 9490–9498. IEEE, 2025. 2
+[4] Boyuan Chen, Zhuo Xu, Sean Kirmani, Brain Ichter, Dorsa
+Sadigh, Leonidas Guibas, and Fei Xia. Spatialvlm: Endow-
+ing vision-language models with spatial reasoning capabili-
+ties. InProceedings of the IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition, pages 14455–14465,
+2024. 2
+[5] An-Chieh Cheng, Hongxu Yin, Yang Fu, Qiushan Guo, Rui-
+han Yang, Jan Kautz, Xiaolong Wang, and Sifei Liu. Spatial-
+rgpt: Grounded spatial reasoning in vision-language mod-
+els.Advances in Neural Information Processing Systems,
+37:135062–135093, 2024. 2
+[6] An-Chieh Cheng, Yang Fu, Yukang Chen, Zhijian Liu, Xiao-
+long Li, Subhashree Radhakrishnan, Song Han, Yao Lu, Jan
+Kautz, Pavlo Molchanov, Hongxu Yin, Xiaolong Wang, and
+Sifei Liu. 3d aware region prompted vision language model.
+arXiv preprint arXiv:2509.13317, 2025. 2
+[7] Gheorghe Comanici, Eric Bieber, Mike Schaekermann, Ice
+Pasupat, Noveen Sachdeva, Inderjit Dhillon, Marcel Blis-
+tein, Ori Ram, Dan Zhang, Evan Rosen, et al. Gemini 2.5:
+Pushing the frontier with advanced reasoning, multimodality,
+long context, and next generation agentic capabilities.arXiv
+preprint arXiv:2507.06261, 2025. 6
+[8] Erik Daxberger, Nina Wenzel, David Griffiths, Haiming
+Gang, Justin Lazarow, Gefen Kohavi, Kai Kang, Marcin
+Eichner, Yinfei Yang, Afshin Dehghan, et al. Mm-spatial:
+Exploring 3d spatial understanding in multimodal llms. In
+Proceedings of the IEEE/CVF International Conference on
+Computer Vision, pages 7395–7408, 2025. 2
+[9] DeepSeek-AI. Deepseek-r1: Incentivizing reasoning capa-
+bility in llms via reinforcement learning, 2025. 6
+[10] Mohamed El Amine Boudjoghra, Ivan Laptev, and Angela
+Dai. Scanedit: Hierarchically-guided functional 3d scan edit-
+ing. InProceedings of the IEEE/CVF International Confer-
+ence on Computer Vision, pages 27105–27115, 2025. 2, 3
+[11] Hao Fei, Shengqiong Wu, Wei Ji, Hanwang Zhang, Meishan
+Zhang, Mong Li Lee, and Wynne Hsu. Video-of-thought:
+step-by-step video reasoning from perception to cognition.
+InProceedings of the 41st International Conference on Ma-
+chine Learning. JMLR.org, 2024. 3
+[12] Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Ar-
+jun Akula, Xuehai He, Sugato Basu, Xin Eric Wang, and
+William Yang Wang. Layoutgpt: Compositional visual plan-
+ning and generation with large language models.Advances
+in Neural Information Processing Systems, 36:18225–18250,
+2023. 3
+[13] Yunqi Gu, Ian Huang, Jihyeon Je, Guandao Yang, and
+Leonidas Guibas. Blendergym: Benchmarking foundational
+model systems for graphics editing. InProceedings of the
+Computer Vision and Pattern Recognition Conference, pages
+18574–18583, 2025. 3
+[14] Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Peiyi
+Wang, Qihao Zhu, Runxin Xu, Ruoyu Zhang, Shirong Ma,
+Xiao Bi, Xiaokang Zhang, Xingkai Yu, Yu Wu, Z. F. Wu,
+Zhibin Gou, Zhihong Shao, Zhuoshu Li, Ziyi Gao, Aixin
+Liu, Bing Xue, Bingxuan Wang, Bochao Wu, Bei Feng,
+Chengda Lu, Chenggang Zhao, Chengqi Deng, Chong Ruan,
+Damai Dai, Deli Chen, Dongjie Ji, Erhang Li, Fangyun
+Lin, Fucong Dai, Fuli Luo, Guangbo Hao, Guanting Chen,
+Guowei Li, H. Zhang, Hanwei Xu, Honghui Ding, Huazuo
+Gao, Hui Qu, Hui Li, Jianzhong Guo, Jiashi Li, Jingchang
+Chen, Jingyang Yuan, Jinhao Tu, Junjie Qiu, Junlong Li,
+J. L. Cai, Jiaqi Ni, Jian Liang, Jin Chen, Kai Dong, Kai
+Hu, Kaichao You, Kaige Gao, Kang Guan, Kexin Huang,
+Kuai Yu, Lean Wang, Lecong Zhang, Liang Zhao, Litong
+Wang, Liyue Zhang, Lei Xu, Leyi Xia, Mingchuan Zhang,
+Minghua Zhang, Minghui Tang, Mingxu Zhou, Meng Li,
+Miaojun Wang, Mingming Li, Ning Tian, Panpan Huang,
+Peng Zhang, Qiancheng Wang, Qinyu Chen, Qiushi Du,
+Ruiqi Ge, Ruisong Zhang, Ruizhe Pan, Runji Wang, R. J.
+Chen, R. L. Jin, Ruyi Chen, Shanghao Lu, Shangyan Zhou,
+Shanhuang Chen, Shengfeng Ye, Shiyu Wang, Shuiping Yu,
+Shunfeng Zhou, Shuting Pan, S. S. Li, Shuang Zhou, Shao-
+qing Wu, Tao Yun, Tian Pei, Tianyu Sun, T. Wang, Wangding
+Zeng, Wen Liu, Wenfeng Liang, Wenjun Gao, Wenqin Yu,
+Wentao Zhang, W. L. Xiao, Wei An, Xiaodong Liu, Xiaohan
+Wang, Xiaokang Chen, Xiaotao Nie, Xin Cheng, Xin Liu,
+Xin Xie, Xingchao Liu, Xinyu Yang, Xinyuan Li, Xuecheng
+Su, Xuheng Lin, X. Q. Li, Xiangyue Jin, Xiaojin Shen, Xi-
+aosha Chen, Xiaowen Sun, Xiaoxiang Wang, Xinnan Song,
+Xinyi Zhou, Xianzu Wang, Xinxia Shan, Y . K. Li, Y . Q.
+Wang, Y . X. Wei, Yang Zhang, Yanhong Xu, Yao Li, Yao
+Zhao, Yaofeng Sun, Yaohui Wang, Yi Yu, Yichao Zhang, Yi-
+fan Shi, Yiliang Xiong, Ying He, Yishi Piao, Yisong Wang,
+Yixuan Tan, Yiyang Ma, Yiyuan Liu, Yongqiang Guo, Yuan
+Ou, Yuduan Wang, Yue Gong, Yuheng Zou, Yujia He, Yun-
+fan Xiong, Yuxiang Luo, Yuxiang You, Yuxuan Liu, Yuyang
+Zhou, Y . X. Zhu, Yanping Huang, Yaohui Li, Yi Zheng,
+Yuchen Zhu, Yunxian Ma, Ying Tang, Yukun Zha, Yuting
+Yan, Z. Z. Ren, Zehui Ren, Zhangli Sha, Zhe Fu, Zhean
+Xu, Zhenda Xie, Zhengyan Zhang, Zhewen Hao, Zhicheng
+Ma, Zhigang Yan, Zhiyu Wu, Zihui Gu, Zijia Zhu, Zijun Liu,
+Zilin Li, Ziwei Xie, Ziyang Song, Zizheng Pan, Zhen Huang,
+Zhipeng Xu, Zhongyu Zhang, and Zhen Zhang. Deepseek-r1
+incentivizes reasoning in llms through reinforcement learn-
+ing.Nature, 645(8081):633–638, 2025. 3, 4
+[15] Guangfu Guo, Kai Zhang, Bryan Hoo, Yujun Cai, Xiaoqian
+Lu, Nanyun Peng, and Yiwei Wang. Structured outputs en-
+able general-purpose llms to be medical experts, 2025. 3
+[16] De-An Huang, Subhashree Radhakrishnan, Zhiding Yu, and
+10
+Jan Kautz. Frag: Frame selection augmented generation for
+long video and long document understanding.arXiv preprint
+arXiv:2504.17447, 2025. 3
+[17] Ian Huang, Yanan Bao, Karen Truong, Howard Zhou,
+Cordelia Schmid, Leonidas Guibas, and Alireza Fathi. Fire-
+place: Geometric refinements of llm common sense reason-
+ing for 3d object placement. InProceedings of the Computer
+Vision and Pattern Recognition Conference, pages 13466–
+13476, 2025. 3
+[18] Lei Huang, Weijiang Yu, Weitao Ma, Weihong Zhong,
+Zhangyin Feng, Haotian Wang, Qianglong Chen, Weihua
+Peng, Xiaocheng Feng, Bing Qin, et al. A survey on hal-
+lucination in large language models: Principles, taxonomy,
+challenges, and open questions.ACM Transactions on Infor-
+mation Systems, 43(2):1–55, 2025. 3
+[19] Ting Huang, Zeyu Zhang, and Hao Tang. 3d-r1: Enhancing
+reasoning in 3d vlms for unified scene understanding.arXiv
+preprint arXiv:2507.23478, 2025. 2
+[20] Cheryl Li, Tianyuan Xu, and Ryman Guo. Reasoning-as-
+logic-units: Scaling test-time reasoning in large language
+models through logic unit alignment. InInternational Con-
+ference on Machine Learning, ICML 2025, 13-19 July 2025,
+Vancouver, Canada. PMLR, 2025. 3
+[21] Jia Li, Ge Li, Yongmin Li, and Zhi Jin. Structured chain-of-
+thought prompting for code generation.ACM Trans. Softw.
+Eng. Methodol., 34(2), 2025. 3
+[22] Chenguo Lin and Yadong Mu. Instructscene: Instruction-
+driven 3d indoor scene synthesis with semantic graph prior.
+arXiv preprint arXiv:2402.04717, 2024. 2, 5
+[23] Zhan Ling, Yunhao Fang, Xuanlin Li, Zhiao Huang, Mingu
+Lee, Roland Memisevic, and Hao Su. Deductive verification
+of chain-of-thought reasoning. InAdvances in Neural In-
+formation Processing Systems, pages 36407–36433. Curran
+Associates, Inc., 2023. 3
+[24] Aixin Liu, Bei Feng, Bing Xue, Bingxuan Wang, Bochao
+Wu, Chengda Lu, Chenggang Zhao, Chengqi Deng, Chenyu
+Zhang, Chong Ruan, et al. Deepseek-v3 technical report.
+arXiv preprint arXiv:2412.19437, 2024. 6
+[25] Yuecheng Liu, Dafeng Chi, Shiguang Wu, Zhanguang
+Zhang, Yaochen Hu, Lingfeng Zhang, Yingxue Zhang,
+Shuang Wu, Tongtong Cao, Guowei Huang, et al. Spatialcot:
+Advancing spatial reasoning through coordinate alignment
+and chain-of-thought for embodied task planning.arXiv
+preprint arXiv:2501.10074, 2025. 2
+[26] Wufei Ma, Yu-Cheng Chou, Qihao Liu, Xingrui Wang, Celso
+de Melo, Jianwen Xie, and Alan Yuille. Spatialreasoner: To-
+wards explicit and generalizable 3d spatial reasoning.arXiv
+preprint arXiv:2504.20024, 2025. 2
+[27] Wufei Ma, Yu-Cheng Chou, Qihao Liu, Xingrui Wang, Celso
+de Melo, Jianwen Xie, and Alan Yuille. Spatialreasoner: To-
+wards explicit and generalizable 3d spatial reasoning.arXiv
+preprint arXiv:2504.20024, 2025. 2
+[28] Wufei Ma, Luoxin Ye, Celso M de Melo, Alan Yuille, and
+Jieneng Chen. Spatialllm: A compound 3d-informed de-
+sign towards spatially-intelligent large multimodal models.
+InProceedings of the Computer Vision and Pattern Recogni-
+tion Conference, pages 17249–17260, 2025. 2
+[29] Xingjian Ran, Yixuan Li, Linning Xu, Mulin Yu, and
+Bo Dai. Direct numerical layout generation for 3d in-
+door scene synthesis via spatial reasoning.arXiv preprint
+arXiv:2506.05341, 2025. 3
+[30] Gabriel Sarch, Snigdha Saha, Naitik Khandelwal, Ayush
+Jain, Michael J Tarr, Aviral Kumar, and Katerina Fragki-
+adaki. Grounded reinforcement learning for visual reason-
+ing.arXiv preprint arXiv:2505.23678, 2025. 2
+[31] Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junx-
+iao Song, Mingchuan Zhang, Y .K. Li, Y . Wu, and Daya Guo.
+Deepseekmath: Pushing the limits of mathematical reason-
+ing in open language models, 2024. 3, 4
+[32] Chan Hee Song, Valts Blukis, Jonathan Tremblay, Stephen
+Tyree, Yu Su, and Stan Birchfield. Robospatial: Teaching
+spatial understanding to 2d and 3d vision-language models
+for robotics. InProceedings of the Computer Vision and Pat-
+tern Recognition Conference, pages 15768–15780, 2025. 2
+[33] Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam
+Bhat, Federico Tombari, Manling Li, Nick Haber, and Jia-
+jun Wu. Layoutvlm: Differentiable optimization of 3d layout
+via vision-language models. InProceedings of the Computer
+Vision and Pattern Recognition Conference, pages 29469–
+29478, 2025. 2, 3
+[34] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang,
+Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao, Chen-
+gen Huang, Chenxu Lv, Chujie Zheng, Dayiheng Liu, Fan
+Zhou, Fei Huang, Feng Hu, Hao Ge, Haoran Wei, Huan
+Lin, Jialong Tang, Jian Yang, Jianhong Tu, Jianwei Zhang,
+Jianxin Yang, Jiaxi Yang, Jing Zhou, Jingren Zhou, Junyang
+Lin, Kai Dang, Keqin Bao, Kexin Yang, Le Yu, Lianghao
+Deng, Mei Li, Mingfeng Xue, Mingze Li, Pei Zhang, Peng
+Wang, Qin Zhu, Rui Men, Ruize Gao, Shixuan Liu, Shuang
+Luo, Tianhao Li, Tianyi Tang, Wenbiao Yin, Xingzhang
+Ren, Xinyu Wang, Xinyu Zhang, Xuancheng Ren, Yang Fan,
+Yang Su, Yichang Zhang, Yinger Zhang, Yu Wan, Yuqiong
+Liu, Zekun Wang, Zeyu Cui, Zhenru Zhang, Zhipeng Zhou,
+and Zihan Qiu. Qwen3 technical report.arXiv preprint
+arXiv:2505.09388, 2025. 3, 6
+[35] Jihan Yang, Shusheng Yang, Anjali W Gupta, Rilyn Han,
+Li Fei-Fei, and Saining Xie. Thinking in space: How mul-
+timodal large language models see, remember, and recall
+spaces. InProceedings of the Computer Vision and Pattern
+Recognition Conference, pages 10632–10643, 2025. 2
+[36] Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Al-
+varo Herrasti, Winson Han, Jiajun Wu, Nick Haber, Ranjay
+Krishna, Lingjie Liu, et al. Holodeck: Language guided gen-
+eration of 3d embodied ai environments. InProceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 16227–16237, 2024. 2, 3
+[37] Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi
+Gao, Jinyu Yang, Victor Sanchez, and Feng Zheng. Op-
+tiscene: Llm-driven indoor scene layout generation via
+scaled human-aligned data synthesis and multi-stage prefer-
+ence optimization. InThe Thirty-ninth Annual Conference
+on Neural Information Processing Systems, 2025. 3
+[38] Qiying Yu, Zheng Zhang, Ruofei Zhu, Yufeng Yuan, Xi-
+aochen Zuo, Yu Yue, Weinan Dai, Tiantian Fan, Gao-
+hong Liu, Lingjun Liu, et al. Dapo: An open-source
+11
+llm reinforcement learning system at scale.arXiv preprint
+arXiv:2503.14476, 2025. 3
+[39] Chujie Zheng, Shixuan Liu, Mingze Li, Xiong-Hui Chen,
+Bowen Yu, Chang Gao, Kai Dang, Yuqiong Liu, Rui Men,
+An Yang, Jingren Zhou, and Junyang Lin. Group sequence
+policy optimization.arXiv preprint arXiv:2507.18071, 2025.
+3
+[40] Duo Zheng, Shijia Huang, and Liwei Wang. Video-3d llm:
+Learning position-aware video representation for 3d scene
+understanding. InProceedings of the Computer Vision and
+Pattern Recognition Conference, pages 8995–9006, 2025. 2
+[41] Kaizhi Zheng, Xiaotong Chen, Xuehai He, Jing Gu, Lin-
+jie Li, Zhengyuan Yang, Kevin Lin, Jianfeng Wang, Lijuan
+Wang, and Xin Eric Wang. Editroom: Llm-parameterized
+graph diffusion for composable 3d room layout editing.
+arXiv preprint arXiv:2410.12836, 2024. 2
+[42] Enshen Zhou, Jingkun An, Cheng Chi, Yi Han, Shanyu
+Rong, Chi Zhang, Pengwei Wang, Zhongyuan Wang, Tiejun
+Huang, Lu Sheng, et al. Roborefer: Towards spatial referring
+with reasoning in vision-language models for robotics.arXiv
+preprint arXiv:2506.04308, 2025. 2
+[43] Junwei Zhou, Xueting Li, Lu Qi, and Ming-Hsuan Yang.
+Layout-your-3d: Controllable and precise 3d generation with
+2d blueprint.arXiv preprint arXiv:2410.15391, 2024. 2
+[44] Chenming Zhu, Tai Wang, Wenwei Zhang, Jiangmiao Pang,
+and Xihui Liu. Llava-3d: A simple yet effective pathway
+to empowering lmms with 3d capabilities. InProceedings
+of the IEEE/CVF International Conference on Computer Vi-
+sion, pages 4295–4305, 2025. 2
+12
+3D-Layout-R1: Structured Reasoning for Language-Instructed Spatial Editing
+Supplementary Material
+1. Implementation Details
+Base Models.We build on two instruction-tuned mod-
+els: a vision–language model (VLM), Qwen2.5-VL-7B-
+Instruct, and a text-only Qwen3-Instruct model.
+CoT Supervised Fine-tuning.In the first stage, we per-
+form chain-of-thought (CoT) supervised fine-tuning on our
+reasoning-augmented dataset. For the VLM (Qwen2.5-VL-
+7B-Instruct), we freeze the ViT-based vision backbone and
+only update the multimodal fusion and language compo-
+nents; for Qwen3 we train the text backbone with the same
+optimization settings. We fine-tune for 5 epochs with a
+global batch size of 16 (per-device batch size 1 on 16 A100
+GPUs with a gradient accumulation step of 2). We use
+AdamW with a learning rate of2×10 −7, no weight decay,
+and a constant-with-warmup schedule (20 warmup steps).
+Training is performed in bfloat16 precision with gradient
+checkpointing and ZeRO-3-style sharding for memory ef-
+ficiency. We set the maximum sequence length to 10,240
+tokens and dynamically resize images such that the number
+of input pixels lies between 784 and 50,176, following the
+Qwen2.5-VL vision tokenizer.
+Reinforcement Learning Fine-tuning.The second stage
+applies reinforcement learning. We initialize the policy
+from the CoT-SFT checkpoint and optimize it using a
+GRPO variant of PPO implemented in theverlframework.
+We train on 8 GPUs with a global batch size of 32, a learn-
+ing rate of1×10 −6, and a total of 15 epochs. During
+rollouts, we allow up to 8,192 tokens for the prompt and
+up to 16,384 tokens for the generated response, enabling
+long-context reasoning. We adopt a KL-regularized ob-
+jective with a small coefficient (λ KL = 0.01) to keep the
+policy close to the reference model while still allowing be-
+havior improvement. Distributed training uses FSDP2 with
+sequence parallelism of size 2 and gradient checkpointing
+to reduce memory usage, and rollouts are generated with a
+vLLM-style engine with multiple samples per prompt.
+Inference.At evaluation inference time, we use a deter-
+ministic decoding strategy to better measure reasoning abil-
+ity. Specifically, we use greedy decoding with temperature
+set to 0.0, top-p fixed at 1.0, top-k disabled (set to−1), min-
+imum probability threshold set to 0.0, and best-of set to 1.
+Unless otherwise noted, we use the same decoding config-
+uration for both Qwen2.5-VL and Qwen3 models.
+System role:You are a spatially intelligent, embodied AI brain special-
+ized in spatial and interactive understanding, tasked with generating rea-
+soning path in response to the user’s queries. The user provides commands
+or questions related to spatial intelligence, often with a initial scene graph
+and a goal scene graph. Your job is to analyze the given instruction and
+provide a reasoning trace, which is a list of actions that transform the ini-
+tial scene graph to the goal scene graph.
+Inputs:You will receive the following:
+1. Question: A user’s question about spatial relationships, object proper-
+ties, or arrangements within the scene.
+2. Initial Scene Graph: (JSON format) Structured data providing detailed
+geometric and semantic information about objects in the scene
+3. Goal Scene Graph: (JSON format) Structured data providing detailed
+geometric and semantic information about objects in the scene, organized
+same as the initial scene graph.
+4. (optional) distance constraints for the goal layout.
+Guidelines:
+1. Identify all significant objects in the image and the question, find rele-
+vant objects that are needed to solve the question.
+2. Prefer to select more relevant objects rather than miss any that could be
+necessary. Keep objects that may be relevant to the question.
+3. You can NOT see the goal scene graph when reasoning, you need to
+reason about the goal scene graph based on the initial scene graph and the
+question.
+Outputs:
+1. Match the relevant objects with the scene graph data, and output these
+objects’ names and their corresponding spatial information in the scene
+graph format.
+2. In your reasoning path, use updated scene graph with same json format
+for each step if needed.
+3. Output the whole reasoning path, each step should be a valid json sub-
+graph or a modified json object with a detailed thinking process or a math
+expression in text.
+4. Omit the final step of the reasoning path, which is the goal scene graph.
+5. Format: Step i: detailed thinking process or math expression in text +
+json sub-graph.
+6. Remember to think about rearrengement steps. E.g., how to place the
+object in the position without collision.
+Figure 7. Template of the prompts used to generate reasoning
+traces over scene graphs for all spatial tasks.
+2. Reasoning Prompt Design for Data Creation
+To synthesize chain-of-thought traces over scene graphs, we
+design three closely related prompts for (i) generic spatial
+reasoning, (ii) distance-constrained InstructScene reason-
+ing, and (iii) grid-based arrangement. All prompts share
+a common structure and only differ in a small set of task-
+specific instructions.
+All three tasks frame the model as an embodied spa-
+tial agent that must transform an initial scene graph into
+a hidden goal graph. Each prompt gives: (1) a natural-
+language spatial question, (2) the initial JSON scene graph,
+1
+Figure 8.Scaling behavior on the Sorting benchmark.Reasoning-based training improves performance consistently across all model
+scales (1.7B–8B).
+and (3) the goal-format schema (but the goal contents are
+not directly accessible). The model must infer the goal
+from the question and initial state, then produce a multi-
+step trace where each step includes a brief explanation plus
+an updated/partial JSON subgraph; the final goal graph is
+never shown. Shared rules: include all relevant objects, en-
+sure collision-free placements, and keep coordinates con-
+sistent. Differences: the generic prompt uses only ques-
+tion + graphs; InstructScene adds per-object distance con-
+straints and requires explicit distance calculations in the
+trace; the grid prompt fixes the task to arranging objects
+into anN×Mbased grid, outputting updates only for mis-
+positioned items.
+3. More Experiments
+The scaling trends in Figure 8 show that RL consistently
+outperforms the other training paradigms across model
+sizes and exhibits more favorable scaling behavior overall.
+To further understand the contribution of each reward
+component, we conduct an ablation study on the reward de-
+sign. The results in Table 5 show that the Format and IoU
+rewards are crucial for strong performance, while the CF
+reward provides a comparatively modest but still consistent
+gain.
+Format IoU CF IoU Collision Free Center Distance
+✗ ✓ ✓ 0.819 1.000 0.274
+✓ ✗ ✓ 0.415 1.000 0.998
+✓ ✓ ✗ 0.919 0.981 0.153
+✓ ✓ ✓ 0.9241.0000.145
+Table 5.Ablation on reward components.Format and IoU re-
+wards are essential, while CF brings an additional but smaller im-
+provement.
+4. More Qualitative Results
+Figure 9 provides a qualitative comparison on sorting and
+alignment scenes. In each row, the initial cluttered scene
+is followed by the outputs of Qwen3-235B and DeepSeek
+baselines, our method, and the ground-truth target. While
+the target layouts require multi-constraint reasoning (e.g.,
+grouping by shape, sorting by geometric attributes, pre-
+serving gaps, and snapping to a latent grid), Qwen3 and
+DeepSeek frequently misinterpret or only partially follow
+these instructions. Typical failure modes include incorrect
+group ordering, violating the specified ascending criteria,
+and drifting objects off the intended axis/grid. More impor-
+tantly, their generations are often physically inconsistent:
+objects overlap or collide, and spacing constraints are ig-
+nored, producing implausible interpenetrations.
+2

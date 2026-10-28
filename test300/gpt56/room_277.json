@@ -1,0 +1,46 @@
+{
+ "k": 277,
+ "source": "Structured3D",
+ "room_type": "kitchen",
+ "latency_s": 11.967537875054404,
+ "usage": [
+  {
+   "prompt_tokens": 1043,
+   "completion_tokens": 465,
+   "total_tokens": 1508,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 319,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     1.9
+    ],
+    "bottom_center_m": [
+     2.55,
+     3.854,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe refrigerator is the only object and requires a full-height wall position. It is placed against the north wall of the large right-hand kitchen area, away from both windows and the entrance door. Its front faces south into open floor space, providing clear access and ventilation space around its sides.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":1.9,\"x\":2.55,\"y\":3.854,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.250 m x 4.229 m x 2.800 m\nfloor polygon (x, y): [[1.857, 0.0], [1.857, 1.578], [2.097, 1.578], [2.097, 0.878], [4.25, 0.878], [4.25, 4.229], [2.097, 4.229], [2.097, 2.459], [0.0, 2.459], [0.0, 2.061], [0.4, 2.061], [0.4, 2.432], [0.5, 2.432], [0.5, 1.961], [0.0, 1.961], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [3.62, 0.878], \"wall_from\": [2.097, 0.878], \"wall_to\": [4.25, 0.878], \"width_m\": 0.794, \"height_m\": 1.2, \"sill_height_m\": 0.9}, {\"type\": \"window\", \"centre_xy\": [4.25, 3.464], \"wall_from\": [4.25, 0.878], \"wall_to\": [4.25, 4.229], \"width_m\": 1.516, \"height_m\": 2.2, \"sill_height_m\": 0.2}, {\"type\": \"door\", \"centre_xy\": [1.108, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [1.857, 0.0], \"width_m\": 1.498, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

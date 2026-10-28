@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "dining table combination-0",
+   "id": "dining table combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.39,
+    "z": 0.605
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     245.0,
+     -4.5
+    ],
+    [
+     245.0,
+     125.5
+    ],
+    [
+     55.0,
+     125.5
+    ],
+    [
+     55.0,
+     -4.5
+    ]
+   ],
+   "object_name": "dining table combination-0"
+  },
+  {
+   "assetId": "bookcase-0",
+   "id": "bookcase-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.15,
+    "y": 1.0,
+    "z": 2.89
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     380.0,
+     311.5
+    ],
+    [
+     380.0,
+     266.5
+    ],
+    [
+     250.0,
+     266.5
+    ],
+    [
+     250.0,
+     311.5
+    ]
+   ],
+   "object_name": "bookcase-0"
+  }
+ ],
+ "wall": []
+}

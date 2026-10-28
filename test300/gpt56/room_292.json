@@ -1,0 +1,60 @@
+{
+ "k": 292,
+ "source": "Structured3D",
+ "room_type": "store room",
+ "latency_s": 60.561144541949034,
+ "usage": [
+  {
+   "prompt_tokens": 972,
+   "completion_tokens": 3240,
+   "total_tokens": 4212,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3008,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     1.65,
+     0.75,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.625,
+     1.48,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.4,
+     0.7,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.2,
+     1.48,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe fixed cabinet occupies much of the south wall, while the door requires the northeast area to remain open. A compact single bed is therefore placed crosswise in the middle-right portion of the room, leaving the entire doorway zone clear and a passage around its west end. The added cabinet is a low unit positioned beneath the west window so it does not obstruct the glazing. The bed faces west directly toward this cabinet, satisfying the facing constraint.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.75,\"depth_m\":1.65,\"height_m\":0.55,\"x\":1.625,\"y\":1.48,\"z\":0.0,\"facing_deg\":180.0},{\"id\":\"obj_0001\",\"width_m\":0.7,\"depth_m\":0.4,\"height_m\":0.8,\"x\":0.2,\"y\":1.48,\"z\":0.0,\"facing_deg\":0.0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstore room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.470 m x 2.795 m x 2.650 m\nfloor polygon (x, y): [[2.47, 0.0], [2.47, 2.795], [0.0, 2.795], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0001\", \"category\": \"cabinet\", \"description\": \"cabinet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [2.47, 2.345], \"wall_from\": [2.47, 0.0], \"wall_to\": [2.47, 2.795], \"width_m\": 0.9, \"height_m\": 2.1}, {\"type\": \"window\", \"centre_xy\": [0.0, 1.515], \"wall_from\": [0.0, 2.795], \"wall_to\": [0.0, 0.0], \"width_m\": 1.23, \"height_m\": 1.4, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0001\", \"category\": \"cabinet\", \"width_m\": 1.4, \"depth_m\": 0.6, \"height_m\": 2.45, \"bottom_centre\": [0.7, 0.3, 0.2], \"facing_deg\": 90.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

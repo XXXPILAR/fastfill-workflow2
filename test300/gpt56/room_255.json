@@ -1,0 +1,46 @@
+{
+ "k": 255,
+ "source": "SpatialLM",
+ "room_type": "kitchen",
+ "latency_s": 15.76767983310856,
+ "usage": [
+  {
+   "prompt_tokens": 993,
+   "completion_tokens": 617,
+   "total_tokens": 1610,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 478,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.65,
+     0.7,
+     2.0
+    ],
+    "bottom_center_m": [
+     1.35,
+     0.555,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe refrigerator is the only object and requires a wall position. It is placed against the short lower wall, away from both windows and the large door opening on the left. Its front faces into the room, leaving clear space for access and door operation.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.7,\"depth_m\":0.65,\"height_m\":2.0,\"x\":1.35,\"y\":0.555,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.160 m x 3.860 m x 2.400 m\nfloor polygon (x, y): [[1.6, 2.58], [2.16, 2.58], [2.16, 3.86], [0.0, 3.86], [0.0, 0.23], [1.71, 0.23], [1.71, 0.45], [2.16, 0.45], [2.16, 0.0], [2.16, 2.38], [1.6, 2.38]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.348, 3.86], \"wall_from\": [2.16, 3.86], \"wall_to\": [0.0, 3.86], \"width_m\": 1.623, \"height_m\": 1.2, \"sill_height_m\": 0.9}, {\"type\": \"window\", \"centre_xy\": [0.0, 3.58], \"wall_from\": [0.0, 3.86], \"wall_to\": [0.0, 0.23], \"width_m\": 0.56, \"height_m\": 1.2, \"sill_height_m\": 0.9}, {\"type\": \"door\", \"centre_xy\": [0.0, 1.479], \"wall_from\": [0.0, 3.86], \"wall_to\": [0.0, 0.23], \"width_m\": 1.802, \"height_m\": 2.2}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

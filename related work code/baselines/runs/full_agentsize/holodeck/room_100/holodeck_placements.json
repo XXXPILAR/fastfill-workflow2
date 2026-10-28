@@ -1,0 +1,454 @@
+{
+ "floor": [
+  {
+   "assetId": "toilet suite-0",
+   "id": "toilet suite-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.645,
+    "y": 0.39,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     424.5,
+     276.0
+    ],
+    [
+     424.5,
+     324.0
+    ],
+    [
+     504.5,
+     324.0
+    ],
+    [
+     504.5,
+     276.0
+    ]
+   ],
+   "object_name": "toilet suite-0"
+  },
+  {
+   "assetId": "toilet suite-2",
+   "id": "toilet suite-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.355,
+    "y": 0.39,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     75.5,
+     276.0
+    ],
+    [
+     75.5,
+     324.0
+    ],
+    [
+     -4.5,
+     324.0
+    ],
+    [
+     -4.5,
+     276.0
+    ]
+   ],
+   "object_name": "toilet suite-2"
+  },
+  {
+   "assetId": "toilet suite-1",
+   "id": "toilet suite-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.645,
+    "y": 0.39,
+    "z": 3.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     424.5,
+     326.0
+    ],
+    [
+     424.5,
+     374.0
+    ],
+    [
+     504.5,
+     374.0
+    ],
+    [
+     504.5,
+     326.0
+    ]
+   ],
+   "object_name": "toilet suite-1"
+  },
+  {
+   "assetId": "vanity counter-0",
+   "id": "vanity counter-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 1.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     20.0
+    ],
+    [
+     65.5,
+     180.0
+    ],
+    [
+     -4.5,
+     180.0
+    ],
+    [
+     -4.5,
+     20.0
+    ]
+   ],
+   "object_name": "vanity counter-0"
+  },
+  {
+   "assetId": "cleaning cabinet-0",
+   "id": "cleaning cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.77,
+    "y": 0.9,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     449.5,
+     405.0
+    ],
+    [
+     449.5,
+     495.0
+    ],
+    [
+     504.5,
+     495.0
+    ],
+    [
+     504.5,
+     405.0
+    ]
+   ],
+   "object_name": "cleaning cabinet-0"
+  },
+  {
+   "assetId": "entry bench-0",
+   "id": "entry bench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.225,
+    "z": 0.23
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.0,
+     -4.5
+    ],
+    [
+     230.0,
+     50.5
+    ],
+    [
+     70.0,
+     50.5
+    ],
+    [
+     70.0,
+     -4.5
+    ]
+   ],
+   "object_name": "entry bench-0"
+  },
+  {
+   "assetId": "waste bin-0",
+   "id": "waste bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.5,
+    "y": 0.425,
+    "z": 0.28
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     477.5,
+     -4.5
+    ],
+    [
+     477.5,
+     60.5
+    ],
+    [
+     422.5,
+     60.5
+    ],
+    [
+     422.5,
+     -4.5
+    ]
+   ],
+   "object_name": "waste bin-0"
+  },
+  {
+   "assetId": "waste bin-1",
+   "id": "waste bin-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.28,
+    "y": 0.425,
+    "z": 2.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     60.5,
+     197.5
+    ],
+    [
+     60.5,
+     252.5
+    ],
+    [
+     -4.5,
+     252.5
+    ],
+    [
+     -4.5,
+     197.5
+    ]
+   ],
+   "object_name": "waste bin-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "mirror panel-0",
+   "id": "mirror panel-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.035,
+    "y": 1.5,
+    "z": 1.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     5.0,
+     40.0
+    ],
+    [
+     5.0,
+     160.0
+    ],
+    [
+     0.0,
+     160.0
+    ],
+    [
+     0.0,
+     40.0
+    ],
+    [
+     5.0,
+     40.0
+    ]
+   ],
+   "object_name": "mirror panel-0"
+  },
+  {
+   "assetId": "hand dryer-0",
+   "id": "hand dryer-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.5,
+    "y": 1.275,
+    "z": 0.11
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     465.0,
+     0.0
+    ],
+    [
+     465.0,
+     20.0
+    ],
+    [
+     435.0,
+     20.0
+    ],
+    [
+     435.0,
+     0.0
+    ],
+    [
+     465.0,
+     0.0
+    ]
+   ],
+   "object_name": "hand dryer-0"
+  },
+  {
+   "assetId": "hand dryer-1",
+   "id": "hand dryer-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.11,
+    "y": 1.275,
+    "z": 2.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     20.0,
+     210.0
+    ],
+    [
+     20.0,
+     240.0
+    ],
+    [
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     210.0
+    ],
+    [
+     20.0,
+     210.0
+    ]
+   ],
+   "object_name": "hand dryer-1"
+  },
+  {
+   "assetId": "paper towel dispenser-0",
+   "id": "paper towel dispenser-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.060000000000000005,
+    "y": 1.325,
+    "z": 0.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     10.0,
+     19.0
+    ],
+    [
+     10.0,
+     31.0
+    ],
+    [
+     0.0,
+     31.0
+    ],
+    [
+     0.0,
+     19.0
+    ],
+    [
+     10.0,
+     19.0
+    ]
+   ],
+   "object_name": "paper towel dispenser-0"
+  }
+ ]
+}

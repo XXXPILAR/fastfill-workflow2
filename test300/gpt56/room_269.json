@@ -1,0 +1,102 @@
+{
+ "k": 269,
+ "source": "SpatialLM",
+ "room_type": "home office",
+ "latency_s": 30.84648529207334,
+ "usage": [
+  {
+   "prompt_tokens": 1033,
+   "completion_tokens": 1573,
+   "total_tokens": 2606,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1161,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.6,
+     0.9,
+     2.15
+    ],
+    "bottom_center_m": [
+     0.5,
+     3.577,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.275,
+     3.577,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.825,
+     3.577,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     0.9,
+     2.15
+    ],
+    "bottom_center_m": [
+     2.05,
+     3.577,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.6,
+     1.2,
+     2.15
+    ],
+    "bottom_center_m": [
+     3.725,
+     3.577,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe three wardrobes form a compact storage run along the north wall, leaving the window unobstructed and the southern door area completely clear. The chairs occupy the gaps in the storage run: obj_0001 is between obj_0000 and obj_0003, while obj_0002 is between obj_0000 and obj_0004 and sits only 0.05 m from obj_0003. Both chairs face south toward the open room and can be pulled forward for use. The remaining central and southern floor area provides a broad circulation path from the entrance.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.9,\"depth_m\":0.6,\"height_m\":2.15,\"x\":0.5,\"y\":3.577,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":0.85,\"x\":1.275,\"y\":3.577,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":0.85,\"x\":2.825,\"y\":3.577,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.9,\"depth_m\":0.6,\"height_m\":2.15,\"x\":2.05,\"y\":3.577,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":1.2,\"depth_m\":0.6,\"height_m\":2.15,\"x\":3.725,\"y\":3.577,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nhome office\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.565 m x 3.877 m x 2.800 m\nfloor polygon (x, y): [[0.0, 3.877], [0.0, 0.0], [4.565, 0.0], [4.565, 3.877]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"},\n{\"id\": \"obj_0001\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0002\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0003\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"},\n{\"id\": \"obj_0004\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.527, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [4.565, 0.0], \"width_m\": 0.966, \"height_m\": 2.3}, {\"type\": \"window\", \"centre_xy\": [4.565, 1.935], \"wall_from\": [4.565, 0.0], \"wall_to\": [4.565, 3.877], \"width_m\": 2.018, \"height_m\": 1.8, \"sill_height_m\": 0.8}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0001\", \"target_ids\": [\"obj_0000\", \"obj_0003\"]}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}, {\"type\": \"near\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0003\", \"max_distance_m\": 0.2}, {\"type\": \"between\", \"object_id\": \"obj_0002\", \"target_ids\": [\"obj_0000\", \"obj_0004\"]}]\n[/Task Constraints]"
+}

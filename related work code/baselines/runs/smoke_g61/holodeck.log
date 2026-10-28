@@ -1,0 +1,10 @@
+plan for dorm room 3: Place the shared wardrobe against a wall as the room’s anchor, keeping the center of the compact 200 cm × 200 cm room open. Leave clear space in front for opening the doors and accessing storage.
+
+shared wardrobe-0 | edge
+Number of solutions found: 14
+
+wall object constraint plan for dorm room 3:
+wall shelf-0 | above, shared wardrobe-0 | 220
+wall shelf-1 | above, shared wardrobe-0 | 220
+wall art panel-0 | N/A | 150
+room 129: ok missing=0 on_rule=0 23s 3 calls

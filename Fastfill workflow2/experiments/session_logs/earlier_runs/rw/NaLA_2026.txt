@@ -1,0 +1,590 @@
+NaLA: A 3D Native LLM Layout Agent for
+High-quality 3D Scene Generation
+Cheng Wan1,2, Yongsen Mao1, Wenzheng Wu3, Yuxuan Xie4,
+Chucheng Xiang3, Runze Wang3, Xiang Zhang4,
+Zhongyuan Liu4, Rushi Dai5†, and Yuan Liu1†
+1 Hong Kong University of Science and Technology
+2 Shenzhen Loop Area Institute
+3 University of Science and Technology of China
+4 Tencent IEG
+5 Hong Kong University of Science and Technology (Guangzhou)
+Abstract.Recently, Large Language Models (LLMs) have emerged as
+promising layout agents for 3D scene generation. Existing layout agents
+still suffer from implausible layout generation because most of them con-
+vert 3D assets and 3D layouts into textual descriptions as inputs and
+outputs, which involves severe information loss due to the modality gap
+between texts and 3D assets and 3D layouts. We propose NaLA, a native
+3D LLM layout Agent for high-quality 3D scene generation by placing 3D
+assets in the scene. For the inputs, NaLA encodes 3D scene boundaries
+and 3D assets directly into the LLM, preserving fine-grained geometry
+and enabling explicit reasoning over relationships like collisions, surface
+supporting, and containment. To accurately output the positions and ori-
+entations of assets, NaLA adopts a coarse-to-fine prediction mechanism
+that first predicts discrete poses in an autoregressive manner and then
+refines the discrete poses with a continuous regression. Trained on diverse
+layoutdatasets,NaLAattainsstronggeometricperceptionandlayoutco-
+herence. Experiments demonstrate that NaLA outperforms prior layout
+agents in both generation quality and inference efficiency, with compre-
+hensive ablation studies to verify each component’s effectiveness.
+Keywords:3D Scene Generation·Large Language Models·3D Layout
+Agent
+1 Introduction
+3D Scene generation is widely used across various domains, including interior
+layout design [34], game development [10], and embodied AI [38]. Traditionally,
+arranging 3D objects to construct a scene relied heavily on manually crafted
+†Corresponding authors.
+Project page:https://adamcwan.github.io/NaLA/.
+arXiv:2606.29395v2  [cs.CV]  13 Aug 2026
+2 C. Wan et al.
+L L M
+Design a bedroom.Here are some assets you can use:
+●     ●     ●
+Sure, the poses of the assets are:
+DecoderDDDDDD
+anchoring tokenresidual token
+Room Category Generalization
+Fig.1: Geometry-aware 3D layout generation with NaLA.Given a design
+prompt and a set of 3D assets, NaLA arranges both large furniture and small objects
+into plausible layouts by reasoning over point-cloud geometry and predicting poses via
+a coarse-to-fine mechanism, generalizing across room categories (living room, dining
+room, lounge, bathroom).
+rules [3] or complex optimization solvers [29], which often fail to capture di-
+verse human requirements and are difficult to scale. Recently, LLMs [1] and
+Vision-Language Models (VLMs) [21] have transformed this landscape. Acting
+as central layout agents, these foundation models demonstrate remarkably high-
+level reasoning capabilities, seamlessly interpreting complex user instructions to
+generate coherent object arrangements [18].
+However, existing LLM-based layout agents fundamentally treat 3D assets
+as a linguistic abstraction rather than a native spatial signal, relying heavily on
+intermediate text or image translations. On the input side, these agents typi-
+cally translate 3D scene boundaries and 3D assets into textual descriptions or
+rendered 2D images before feeding them into a general-purpose LLM [5]. On the
+output side, they follow two main paradigms: either directly predicting object
+poses as sequences of textual coordinate digits (e.g., (0,1,0)) [30], or inferring
+pairwise spatial constraints (e.g., “facing”, “near”) to form a scene graph [14],
+which is subsequently resolved into optimal poses by a downstream mathemati-
+cal optimizer [23,31].
+This indirect “translation” process creates a severe domain gap at both the
+input and output stages, fundamentally restricting the agent’s capability to pre-
+cisely perceive and manipulate 3D space. On the input side, translating 3D assets
+and spatial layouts into text or flat images inevitably causes irreversible infor-
+mation loss. Fine-grained details, such as concave structures, precise supporting
+surfaces,orirregularroomboundaries,cannotbefaithfullypreserved,leavingthe
+LLM’s understanding of spatial affordance incomplete. On the output side, the
+standard practice of representing continuous coordinates as sequences of discrete
+text tokens (e.g., decomposing “1.23” into “1”, “.”, “2”, “3”) destroys the inherent
+numerical integrity. This “numerical blindness” makes it difficult for LLMs to
+NaLA: A 3D Native LLM Layout Agent 3
+reason about distance and continuity [36], frequently resulting in physically im-
+plausible placements, such as collisions, floating, or out-of-boundary objects.
+To bridge this gap between language and actual 3D space, we proposeNaLA,
+a 3DNativeLayoutAgent, that directly consumes 3D point clouds and natively
+regresses precise spatial placements. Our approach eliminates the intermediate
+textual translation of geometric assets, preserves absolute geometric fidelity, and
+allows the foundation model to directly perceive, reason over, and interact with
+true 3D spatial structures. This design significantly improves placement pre-
+cision, robustness in handling irregular environments, and overall generation
+efficiency. Fig. 1 presents diverse scenes generated by NaLA.
+On the input side, NaLA avoids information loss by directly encoding raw
+scene and asset point clouds into compact input 3D tokens for the LLM. Specif-
+ically, we utilize point cloud encoders to extract features from the empty scene
+(including walls and floors) and the target objects, projecting them into the
+LLM’s embedding space as prefix tokens. By perceiving actual input 3D tokens
+rather than textual approximations, NaLA inherently understands fine-grained
+object structure and irregular room shapes without requiring any hard-coded
+logic or boundary constraints.
+On the output side, we implement a coarse-to-fine prediction mechanism
+that provides stable spatial anchoring while preserving precision. To avoid the
+destruction of continuous pose information caused by tokenization, a natural
+idea is to follow LISA [11] by introducing a special token and decoding its corre-
+sponding feature to obtain continuous poses. However, we find that this strategy
+causes the model to confuse the poses of previously placed assets. To address this
+issue, we propose a coarse-to-fine prediction mechanism. NaLA first partitions
+the space into multiple grids and outputs a sequence of pose anchoring tokens to
+determine the rough spatial location of an asset. It then emits a pose residual to-
+ken, whose feature is decoded to obtain pose residuals that refine the final pose.
+This coarse-to-fine prediction mechanism preserves the integrity of continuous
+pose information while ensuring stable and efficient generation, enabling NaLA
+to efficiently produce precise end-to-end asset pose sequences.
+Extensive experiments demonstrate that NaLA achieves physical plausibility
+comparable to state-of-the-art baselines while significantly outperforming them
+in semantic coherence and aesthetic quality. Beyond standard metrics, NaLA
+exhibits superior robustness in handling irregular scene layouts and achieves
+drastically higher generation efficiency compared to existing methods. Further-
+more, comprehensive ablation studies validate the necessity and effectiveness of
+each proposed component within our framework.
+Our primary contributions are: (1) We propose NaLA, an innovative layout
+agent with integrated 3D geometry perception, enabling the LLM to directly un-
+derstand point clouds for accurate scene generation without intermediate textual
+translation. (2) We introduce a specialized coarse-to-fine output mechanism that
+utilizes pose anchoring tokens with pose residual tokens, profoundly improving
+both the precision and efficiency of multi-asset pose prediction. (3) By leveraging
+a comprehensive data augmentation strategy and a staged training curriculum
+4 C. Wan et al.
+on large-scale layout datasets, NaLA acquires robust geometric perception and
+advanced layout planning capabilities. Extensive experiments demonstrate that
+NaLA significantly outperforms previous baselines across various quantitative
+metrics and also generation speeds.
+2 Related Work
+2.1 3D Scene Generation
+As a central goal in computer vision, 3D scene generation aims to produce phys-
+ically plausible and visually realistic environments [28,37]. Recent advancements
+involve training a generative model to provide layout arrangement [25], utiliz-
+ing 3D representations [9,15] like Neural Radiance Fields (NeRF) [19] and 3D
+Gaussian Splatting [8], or leveraging strong generative priors to reconstruct 3D
+scenes from synthesized images or videos [32,33]. However, despite their strong
+visual priors, these approaches often struggle to accurately follow complex user
+instructions and lack discrete spatial reasoning capabilities. To address this, re-
+cent pipelines have integrated LLMs or VLMs to handle high-level layout plan-
+ning and asset composition.
+2.2 LLM for 3D Scene Generation
+Existing LLM-based layout agents primarily focus on indoor environments and
+fall into two output paradigms. The first directly generates asset poses as textual
+coordinates (e.g., LayoutGPT [5], SceneTeller [20], LLplace [30], and SceneX
+[39]). The second paradigm infers pairwise spatial constraints [12], as seen in
+GraphDreamer [7], Holodeck [31], LayoutVLM [23], and I-Design [2], which rely
+on external optimization modules to subsequently resolve these constraints into
+specific poses. However, both paradigms represent 3D geometry using text or 2D
+images, lacking direct spatial perception [40]. Furthermore, restricted by textual
+output, treating continuous 3D parameters as discrete tokens restricts both the
+precision and efficiency of pose generation [36]. Motivated by these limitations,
+we propose NaLA, a native 3D LLM layout Agent for 3D scene generation.
+3 Problem Definition
+We formulate 3D layout generation as an autonomous spatial planning task.
+Given a text-based user requirement, information about the empty scene, and
+an asset library containingnobjects, the core objective of the layout LLM is
+to jointly process these input features and predict the 3D positionPi, scaling
+factorS i, and orientationO i for every asset. Without loss of generality, we
+assume ay-up coordinate system where objects rotate exclusively around the
+y-axis. Consequently,Pi andS i are explicitly treated as 3D continuous vectors,
+andO i is simplified to a single rotation angle.
+NaLA: A 3D Native LLM Layout Agent 5
+Decoder
+SPFormer
+0
+PointBERT
+Q-FormerQ-Former
+Large Language Model
+L-shaped bedroommodern bed
+0
+PointBERT
+Q-Former
+1wooden table
+1Decoder∆𝑃𝑂𝑆! ∆𝑃𝑂𝑆"
+●  ●  ● pose anchoring tokenspose residual tokens𝑃𝑂𝑆! 𝑃𝑂𝑆"+ +
+Input Scene BoundaryInput  3D AssetsAutoregressive Scene Layout Generation
+Output Coarse-to-Fine Pose Predictions with Numeric Awareness
+Fig.2: Overview of the NaLA pipeline. 3D token encoding:room layout and as-
+set point clouds are encoded by SPFormer and PointBERT, respectively, then mapped
+via Q-Formers into a unified token sequence for the LLM; pose anchoring tokens and
+pose residual tokens are decoded into coarse-to-fine poses (POSn +∆POS n).Au-
+toregressive layout generation:objects are selected from the asset pool and placed
+sequentially to form the complete scene layout.
+4 Method
+As an end-to-end layout generation framework, NaLA directly encodes point
+clouds of 3D assets and 3D scene boundaries and decodes precise object poses.As
+illustrated in Fig. 2, NaLA’s pipeline consists of three components: a point cloud
+input module for detailed geometry perception, a coarse-to-fine prediction mech-
+anism for robust pose generation, and a tailored training strategy for layout rule
+acquisition.
+4.1 Input 3D Token Encoding
+Standard layout agents [5,31] typically represent assets using bounding boxes
+or text descriptions. This simplification often leads to physical inconsistencies,
+such as failing to nest objects (e.g., placing items inside a shelf) or aligning
+asymmetrical assets, as shown in Fig. 3. Instead, we propose an encoder that
+directly encodes all 3D information and feeds the encoded features into our LLM
+Agent to avoid information loss.
+Specifically, we encode both the 3D scene boundary information and 3D
+asset information as input 3D tokens. First, to enable the model to perceive
+fine-grained asset details, we sample each asset into a point cloud and encode it
+using PointBERT [35]. To preserve spatial geometry, the encoder outputs dense
+patch features explicitly concatenated with their absolute 3D coordinates. On
+the other hand, since room shapes may be irregular, we also sample the empty
+room—including the floor, walls, and ceiling—into a point cloud and encode it
+6 C. Wan et al.
+(a)NaLA
+ (b)LayoutGPT
+ (c)NaLA
+ (d)Holodeck
+Fig.3:Placement comparison between NaLA and baseline models. Baseline models
+cannot perceive fine-grained asset geometry (e.g., round tables, cabinets with shelves),
+failing to achieve the precise placements produced by NaLA.
+using SPFormer [24]. To bridge the modality gap, we employ two lightweight,
+trainable Q-Formers (Query Transformers [13]) to encode the dense visual fea-
+tures of the assets and the scene into a compact set of query tokens, respectively.
+These tokens are projected via a trainable MLP to the LLM’s embedding space
+and injected as prefixes, allowing the model to attend to fine-grained geometry.
+4.2 Coarse-to-Fine Output Layout Token Design
+As noted in Sec. 1, conventional LLMs decompose object poses into discrete
+tokens, which breaks the integrity of pose information and leads to “numerical
+blindness”. To avoid tokenizing pose values, a natural idea is to follow approaches
+such as LISA [11], introducing a single special token and decoding continuous
+posesdirectlyfromitsfeature.However,whenmultipleobjectsneedtobeplaced,
+regressing all their poses from repeatedly reused special tokens causes the LLM
+to confuse them, leading to severe object collision (shown in Fig. 4). Therefore,
+we design aCoarse-to-Fine Pose Prediction Mechanismfor NaLA. The
+model first localizes the rough spatial region of an asset using Pose Anchoring
+Tokens, followed by a Pose Residual Token that decodes the continuous pose
+refinement. We next introduce the detailed mechanism.
+Pose Anchoring Tokens:To determine the asset’s approximate spatial
+region,wediscretizethethreescenedimensionsintoBbinsandregisterBspecial
+tokens,⟨POS_BIN_1⟩,...,⟨POS_BIN_B⟩,to represent coarse spatial coordinates.
+Additionally, we register four special tokens,⟨ROT_BIN_1⟩,...,⟨ROT_BIN_4⟩,to
+represent coarse object orientations corresponding to the positive and negative
+directions of thexandzaxes (assuming ay-up system). Before predicting the
+precise pose of an asset, NaLA first predicts an anchoring sequence to determine
+the coarse global position and orientation:
+⟨POS_BIN_j⟩⟨POS_BIN_k⟩⟨POS_BIN_p⟩⟨ROT_BIN_q⟩, (1)
+where1≤j,k,p≤Band1≤q≤4. These four tokens uniquely define a coarse
+orientation bO∗
+i, and coarse asset posebP
+∗
+i, which corresponds to the center of the
+selected voxel grid cell.
+NaLA: A 3D Native LLM Layout Agent 7
+Pose Residual Tokens:Although the pose anchoring tokens can localize
+the rough position of an asset, these four tokens alone are insufficient for fine-
+grained placement (e.g., placing an object precisely on the floor or against a
+wall). To enable the LLM to output holistic continuous pose information, we
+introduce a specialized regression placeholder, denoted as⟨POS_TOKEN⟩. Unlike
+standard tokens that map to a fixed vocabulary, this token serves as a dynamic
+interface for continuous value prediction. Specifically, during generation, we ex-
+tract the hidden states of⟨POS_TOKEN⟩from the lastLlayers of the LLM to
+capture rich semantic and spatial context. These aggregated features are then
+projected through a lightweight decoder head—consisting of a two-layer Trans-
+former followed by an MLP—which directly regresses a fine-grained residual vec-
+tor(∆ bPi,bSi,∆bOi). By combining the pose anchoring tokens and pose residual
+token, the final precise pose is computed as:
+(bP
+∗
+i +∆bPi, bSi, bO∗
+i +∆ bOi).
+Furthermore, Fig. 4 illustrates the placements produced by NaLA under dif-
+ferent output strategies. Without pose anchoring tokens, pose information must
+be heavily compressed into the hidden states of the single⟨POS_TOKEN⟩. Since
+this token is reused across all generation steps, the LLM struggles to differenti-
+ate between previously placed assets and the current target, creating ambiguity
+in the autoregressive chain. Consequently, combining pose anchoring tokens and
+pose residual tokens is essential for robust and accurate pose generation.
+(a)Anchoring+Residual
+ (b)Anchoring
+ (c)Residual
+Fig.4: Comparison of different output designs in NaLA.Using only output
+anchoring tokens fails to achieve precise placement, while using only output residual
+tokens results in severe object overlap.
+Asset Identification:Finally, as our model generates poses for all assets
+within a single output sequence, we introduce special ID tokens to distinguish
+which pose prediction corresponds to which asset. Specifically, assuming the
+model processes at mostKassets per scene, we registerKspecial ID tokens:
+⟨ID_1⟩,···,⟨ID_K⟩. In the input prefix, each asset is assigned a unique ID token.
+Before generating the model’s pose information, NaLA first emits the corre-
+sponding ID token. During decoding, this token is matched with the identical
+8 C. Wan et al.
+Sure, the poses of the assets are:
+<POS_BIN_1><ID 1> <POS_BIN_0> <POS_BIN_2> <ROT_BIN_1> <POS_TOKEN>
+<POS_BIN_0><ID 0> <POS_BIN_0> <POS_BIN_3> <ROT_BIN_2> <POS_TOKEN>
+I want to design an L-shape living room. The point cloud of the scene is:
+Here are some assets you can use:
+<ID 1>       A silver metal chair. The point cloud is: 
+<ID 2>       A gray coffee table. The point cloud is:
+<ID_0>
+<ID_1>
+< ASSET_FEATURE>
+< ASSET_FEATURE>
+< SCENE_FEATURE>
+(𝑷𝑖
+∗, 𝑂𝑖
+∗) (𝑷𝑖
+∗, 𝑂𝑖
+∗) (𝑷𝑖
+∗ + 𝛥𝑷𝑖, 𝑂𝑖
+∗ + 𝛥𝑂𝑖)
+X axis Y axis Z axis yaw
+(Δ𝑷𝑖, 𝑺𝑖, Δ𝑂𝑖)
+decode
+(𝑷𝑖
+∗, 𝑂𝑖
+∗)
+<ID_0>
+<ID_1>
+<ID_0>
+<ID_1>
+<ID_0> <ID_1>
+Fig.5: Coarse-to-fine token design in NaLA.The first four tokens determine the
+coarse location and orientation of an asset, while the final regression tokens are decoded
+into fine-grained poses. Different assets are distinguished using different ID tokens. For
+clarity, we illustrate the mechanism in 2D.
+ID token in the prefix, thereby associating the predicted pose with the correct
+asset. Fig. 5 reveals an example of NaLA’s output structure.
+4.3 Training Strategy
+After designing the model architecture, we pretrain and fine-tune the model on
+high-quality layout datasets to endow it with spatial perception and reasoning
+capabilities. The model is trained in an end-to-end manner. As illustrated in
+Fig. 5 (top), each empty scene together with its associated assets is organized
+into a prefix, while the poses of all assets are organized as the answer, forming
+a complete prompt–response pair. Given the ground-truth scaling factorS i,
+position residual∆P i, and orientation residual∆Oi, the overall layout loss is:
+LNaLA =L Cross-Entropy + λ1
+n
+nX
+i=1
+∆bPi−∆P i
+
+1
++ λ2
+n
+nX
+i=1
+bSi−S i
+
+1
++ λ3
+n
+nX
+i=1
+
+1−cos
+
+∆bOi−∆Oi
+
+,
+(2)
+where∥·∥ 1 denotes L1 loss, andλ 1,λ 2, andλ 3 are balancing coefficients. We
+next introduce our training strategy, including the processing and augmentation
+of prompt sequences.
+NaLA: A 3D Native LLM Layout Agent 9
+Processing Asset Prompt Sequence:Our model autoregressively pre-
+dicts asset poses one by one. This requires the model to learn a reasonable
+placement order during training. For example, predicting the pose of a table
+before predicting the pose of a vase placed on top of it is natural, whereas pre-
+dicting the vase first would be unreasonable. To encourage such behavior, for
+each training sequence, we sort the assets in the answer by descending object
+volume, so that the model learns to place larger and more essential objects first.
+Data Augmentation:High-quality layout datasets that are both physically
+and semantically plausible remain scarce. To mitigate this limitation, we apply
+aggressive data augmentation to each input sequence to ensure that the model
+effectively learns generalizable placement patterns. Specifically, we employ the
+following augmentation strategies:(1) Input asset sequence shuffling.The
+order of assets in the prefix is randomly permuted, while the asset order in
+the answer remains fixed.(2) Scene rotation.The ground-truth scene and
+all contained assets are jointly rotated by0◦,90◦,180◦, or270◦.(3) Asset re-
+placement.We pre-categorize assets and evaluate whether each asset in a scene
+is safely replaceable. During training, a replaceable asset is randomly swapped
+with another from the same class (updating its 3D/text features while keep-
+ing the exact pose). This prevents NaLA from overfitting to specific asset IDs.
+(4) Random omission of asset descriptions.To force the model to rely on
+point cloud geometry rather than textual descriptions, for standard <3D Input
+Tokens, Text>input, we randomly drop text descriptions to force the model to
+perceive 3D geometry (i.e., <3D Input Token >), preventing it from relying on
+text-based shortcuts.
+5 Experiments
+Weconductexperimentstoanswertwokeyquestions:(1)whetherourmodelout-
+performs commonly used baselines on layout generation tasks, and (2) whether
+the proposed architectural designs and training strategies are effective. We first
+introduce the experimental setup, baseline models, and evaluation metrics, fol-
+lowed by quantitative results and ablation studies.
+5.1 Model Settings and Training Strategy
+We implement NaLA using Qwen-2.5-7B-Instruct [27] as the LLM backbone. To
+perceive 3D geometry, we employ SPFormer and PointBERT as the scene-level
+and asset-level encoders, respectively. To maintain the LLM’s general reasoning
+capabilities while adapting it to 3D tasks, we freeze the base LLM and both point
+cloud encoders; only the geometric projection adapters, the LoRA modules, and
+the pose decoder head are trainable. The training objective follows Eq. (2).
+To address the scarcity of high-quality fine-grained 3D data, we adopt a
+two-stage coarse-to-fine training curriculum. First, we pretrain the model on the
+large-scale 3D-FRONT dataset [6] to learn macro-level furniture arrangement
+rules (e.g., ensuring beds and tables are placed without collision). Second, we
+10 C. Wan et al.
+fine-tune the model on the Imaginarium dataset [41]—which contains signifi-
+cantly richer asset diversity and clutter details—to master micro-level object
+placement and stylistic refinement. We maintain an 80%–20% train-test split for
+asset libraries to prevent data leakage. Detailed hyperparameters and splitting
+strategies are provided in the appendix.
+5.2 Test Dataset and Baselines
+In test cases, each model is given the room type, the same empty-room descrip-
+tion, and identical asset information. All assets are sourced from the test asset
+library of 3D-FRONT and Imaginarium. An independent AI judge selects suit-
+able asset categories for each scene type, after which specific assets are retrieved
+from the asset test set; both empty rooms and candidate assets are further re-
+viewed by human annotators. We evaluate 20 scene categories, generating three
+test cases per category, each containing on average 20 objects to be placed.
+Detailed evaluation procedures are provided in the appendix.
+For baselines, we compare against three representative LLM/VLM-based lay-
+out generation methods: LayoutGPT [5], Holodeck [31], and LayoutVLM [23],
+which either leverage an LLM or VLM for layout generation. All baselines are
+evaluated using their official configurations. Additional implementation details
+are provided in the appendix.
+5.3 Evaluation Metrics
+Following evaluation procedures in [2,17,23], we consider three metrics:(1)
+Physical Plausibility, whether the placed assets satisfy basic physical con-
+straints, including absence of collisions, floating objects, or out-of-bound place-
+ments.(2) Semantic Plausibility, whether the arrangement aligns with com-
+mon human usage patterns and everyday conventions.(3) Aesthetics, whether
+the layout appears visually appealing and natural. Specifically, physical plausi-
+bility is quantitatively evaluated by computing voxel-level collision ratio, floating
+rate, and out-of-boundary (OOB) rate. For all three evaluation dimensions, we
+employGemini 3.0-Flash-Preview [26]astheAIjudgeandrecruitedtwentygrad-
+uate students as human evaluators. Both AI and human judges score each scene
+on a 1–5 Likert scale [16] using a comprehensive, unified questionnaire. Details
+of the questionnaire and the computation of each metric are in the appendix.
+5.4 Results
+Tab. 1 reports quantitative results, and Fig. 6 presents qualitative comparisons.
+NaLA achieves the best overall performance, balancing physical precision with
+semantic richness. In terms of physical plausibility, although Holodeck and Lay-
+outVLM achieve slightly better or comparable scores to NaLA on collision, float-
+ing rate, and AI evaluation, this is largely because both methods explicitly op-
+timize for these physical metrics through iterative refinement procedures. In
+NaLA: A 3D Native LLM Layout Agent 11
+NaLA LayoutGPT Holodeck LayoutVLM
+Fig.6:Qualitative comparison of layout generation. Each row shows top-down views
+for one scene type (bedroom, conference room, storage); each column shows results
+from a different method under identical room and asset conditions. NaLA produces
+physically plausible and semantically coherent arrangements.
+contrast, NaLA operates in a single pass without any post-optimization. Despite
+this, it maintains a small collision ratio and achieves a significantly lower OOB
+rate than baselines, demonstrating a precise grasp of scene boundaries via point
+cloud encoding. Moreover, NaLA outperforms all baselines in semantic plausi-
+bility and visual aesthetics. By perceiving asset geometry directly, it handles
+complex spatial relations naturally—such as correctly orienting chairs to face a
+round table (Row 1, Col 1 in Fig. 6) or placing boxes inside a cabinet (Row 3, Col
+1 in Fig. 6). This ability to capture implicit spatial patterns results in layouts
+that are not just physically valid but also functionally coherent, corroborated by
+the significantly higher human and AI preference scores. Additionally, we further
+compare NaLA with more sophisticated and larger-scale layout agents, such as
+DirectLayout [22]. Additional experimental results and analyses can be found in
+the appendix.
+5.5 Irregular Scene Evaluation
+We further evaluate asset placement in irregular scenes. When the room floor is
+replaced with an irregular prism, we compare NaLA with LayoutGPT in terms
+of OOB ratio (Holodeck and LayoutVLM are excluded from this test because
+their optimization pipelines fundamentally assume box-shaped room templates).
+As shown in Figs. 7a to 7c, NaLA achieves a substantially lower OOB rate.
+12 C. Wan et al.
+Table 1:Quantitative comparison against baseline methods. Bold indicates the best
+result and underlined indicates the second best. Physical metrics (Collision, OOB,
+Floating) are lower-is-better (↓); AI and human evaluation scores (1–5 scale) are higher-
+is-better(↑).Standarderrorsarereportedinparentheses,estimatedvia1,000bootstrap
+resamples [4]. †Methods optimize over predefined plausibility constraints.
+Metrics NaLA LayoutGPT Holodeck † LayoutVLM†
+Physical
+Plausibility
+Collision (%)↓0.86 (0.11) 2.29(0.34) 0.10(0.02) 1.18(0.29)
+OOB (%)↓1.16 (0.28) 18.19(1.21) 10.14(0.63) 5.19(1.12)
+Floating (%)↓3.36 (0.78) 15.12(1.51) 0.00(0.00) 1.43(0.74)
+AI↑4.24 (0.13) 3.34(0.13) 4.27(0.11) 4.17(0.16)
+Human↑4.17 (0.18) 2.43(0.26) 3.91(0.19) 3.93(0.25)
+Semantic
+Plausibility
+AI↑3.32 (0.16) 2.62(0.09) 2.68(0.09) 2.92(0.12)
+Human↑3.48 (0.19) 2.17(0.19) 3.03(0.22) 3.37(0.23)
+Visual
+Aesthetics
+AI↑3.05 (0.16) 2.19(0.08) 2.44(0.07) 2.63(0.18)
+Human↑3.42 (0.19) 2.49(0.17) 2.94(0.23) 3.10(0.21)
+Overall
+(Mean)
+AI↑3.53 (0.13) 2.72(0.09) 3.13(0.08) 3.24(0.13)
+Human↑3.69 (0.11) 2.36(0.12) 3.30(0.13) 3.47(0.14)
+This advantage stems from our point cloud encoder, which perceives the precise
+boundary details of the irregular room, whereas generic LLMs struggle to infer
+complex boundaries from text alone. Test details refer to the appendix.
+5.6 Efficiency Evaluation
+Finally, we analyze inference efficiency across four models. Fig. 7d illustrates
+the runtime trends of different models as the number of assets increases. NaLA
+significantly outperforms the other three baselines in terms of generation speed.
+Methods such as LayoutVLM rely on repeated optimization iterations, which
+are computationally expensive and time-consuming. In contrast, NaLA adopts
+an end-to-end generation strategy and requires only five tokens to represent the
+full pose of each asset. This compact and efficient representation substantially
+improves generation efficiency.
+5.7 Ablation Study
+In the ablation study, we answer three questions: (1) whether incorporating
+point cloud inputs is effective, (2) whether the proposed coarse-to-fine generation
+strategy improves performance, and (3) whether the staged training strategy and
+data augmentation techniques are beneficial. In all experiments, we vary one
+factor and retrain the model in the same standard experiment setting. We then
+rerun the evaluation pipeline and examine the change in model performance.
+NaLA: A 3D Native LLM Layout Agent 13
+(a)NaLA
+ (b)LayoutGPT
+/uni00000031/uni00000044/uni0000002f/uni00000024/uni0000002f/uni00000044/uni0000005c/uni00000052/uni00000058/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni00000013
+/uni00000014/uni00000013
+/uni00000015/uni00000013
+/uni00000016/uni00000013
+/uni00000017/uni00000013/uni00000032/uni00000032/uni00000025/uni00000003/uni00000035/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000003/uni0000000b/uni00000008/uni0000000c/uni0000001a/uni00000011/uni00000017/uni00000008
+/uni00000016/uni00000014/uni00000011/uni00000013/uni00000008 (c)OOB Ratio
+/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013
+/uni00000006/uni00000003/uni0000002c/uni00000057/uni00000048/uni00000050/uni00000056
+/uni00000013
+/uni00000014/uni00000013/uni00000013
+/uni00000015/uni00000013/uni00000013/uni00000037/uni0000004c/uni00000050/uni00000048/uni00000003/uni0000000b/uni00000056/uni0000000c
+/uni00000031/uni00000044/uni0000002f/uni00000024
+/uni0000002f/uni00000044/uni0000005c/uni00000052/uni00000058/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni0000002b/uni00000052/uni0000004f/uni00000052/uni00000047/uni00000048/uni00000046/uni0000004e
+/uni0000002f/uni00000044/uni0000005c/uni00000052/uni00000058/uni00000057/uni00000039/uni0000002f/uni00000030 (d)Inference Time
+Fig.7:Irregular-scene evaluation and inference efficiency. (a–b) Top-down views from
+NaLA and LayoutGPT under the same irregular room; NaLA keeps objects within
+the boundary while LayoutGPT exhibits out-of-bounds placements. (c) Out-of-bounds
+(OOB) ratio on irregular scenes. (d) Inference time vs. number of items across methods.
+NaLA achieves lower OOB and faster inference.
+Point Cloud Input: We compare the (I) full model with (II) a text-only
+model trained without point cloud inputs. At inference, we evaluate three set-
+tings: (a) standard input (text + point cloud); (b) text only; and (c) point cloud
+only. Average AI-judge scores are reported in Tab. 2. Model (II) consistently un-
+derperforms across all scenarios, demonstrating the necessity of geometric input.
+Table 2:Ablation study on Model Input. Average AI scores are reported. The full
+model consistently outperforms the text-only baseline across all inference settings.
+Training Setting Test Condition
+(a) standard (b) text only (c) point cloud only
+(I) Full Model 3.53 (0.13) 3.22(0.10) 3.35(0.15)
+(II) Text-only 2.82 (0.10) 3.21(0.14) 2.81(0.11)
+Coarse-to-Fine Pose Generation: Next, we evaluate the effectiveness of
+the coarse-to-fine output strategy. We examine two aspects. First, the sensitivity
+of discrete tokens to grid resolution. Compared to the standard setting (B = 20
+grids), we test: (III) B = 5 and (IV) B = 100. Second, we analyze different
+output representations: (V) using the texts of positions as outputs. (VI) only
+using pose anchoring tokens without pose residual tokens; (VII) only using pose
+residual tokens without pose anchoring tokens.
+Results in Tab. 3 report physical plausibility and AI-judge average scores.
+First, grid resolution directly affects the regression range of fine-grained tokens;
+overly large or small residual ranges destabilize decoding and reduce placement
+accuracy. Moreover, compared to purely textual coordinate output (Model V),
+NaLA’s coarse-to-fine strategy achieves consistent improvements in overall eval-
+uation scores. Furthermore, when the pose anchoring tokens are removed, and
+only pose residual tokens are used (Model VII), all performance metrics degrade
+significantly. This result validates our earlier analysis in Sec. 4.2: without explicit
+14 C. Wan et al.
+Table3:Ablationongridresolutionsettingsandoutputrepresentations.Theproposed
+coarse-to-fine strategy significantly outperforms other approaches.
+Metric Standard Grid Sensitivity Output Method
+(III) (IV) (V) (VI) (VII)
+Collision Ratio0.86 (0.11) 1.26(0.24) 0.94(0.15) 1.00(0.25) 1.15(0.16) 19.19(0.61)
+OOB Ratio1.16 (0.28) 5.37(0.91) 3.93(1.94) 9.25(0.98) 3.49(0.84) 8.24(1.27)
+Floating Ratio3.36 (0.78) 8.52(2.42) 7.66(2.25) 7.14(1.25) 3.75(0.88) 13.10(1.55)
+AI Physics Score4.24 (0.13) 3.17(0.21) 3.72(0.18) 4.10(0.16) 4.06(0.16) 2.76(0.13)
+Avg. AI Score3.53 (0.13) 2.58(0.15) 2.76(0.14) 3.12(0.11) 3.30(0.13) 1.95(0.08)
+anchoring signals, the model cannot effectively track previously placed assets,
+and the output stability deteriorates noticeably.
+Training Strategy: Finally, we evaluate the effectiveness of our data aug-
+mentation and training strategies. We test the following variants: (VIII) remov-
+ing input asset sequence shuffling; (IX) removing asset replacement; (X) remov-
+ing scene rotation; (XI) training only on the 3D-FRONT dataset; (XII) jointly
+training on 3D-FRONT and Imaginarium. Tab. 4 validates the effectiveness of
+all augmentation strategies. Moreover, the two-stage approach (Model I) out-
+performs joint mixed training (Model XII). Model (I) first learns stable, global
+layout patterns from the large-scale synthetic 3D-FRONT, and then fine-tunes
+on the diverse, high-quality Imaginarium data to master local details. This se-
+quential transfer proves more effective than optimizing for both distributions
+simultaneously, which can lead to delayed convergence and inferior performance.
+It is also worth noting that NaLA is a model-agnostic framework. Replacing
+the underlying foundation model still yields strong performance. We provide
+additional discussions in the appendix.
+Table 4:Ablation study on training strategies. Both the proposed augmentation tech-
+niques and the two-stage transfer learning strategy contribute to optimal performance.
+Metric (I) Standard Augmentation Training
+(VIII) (IX) (X) (XI) (XII)
+Physics Score4.24 (0.13) 3.22(0.17) 3.50(0.14) 3.72(0.16) 4.17(0.09) 4.15(0.16)
+Semantic Score3.32 (0.16) 2.32(0.11) 2.35(0.15) 2.60(0.14) 2.49(0.13) 3.06(0.18)
+Aesthetic Score3.05 (0.16) 1.85(0.09) 1.95(0.13) 2.20(0.12) 2.02(0.08) 2.72(0.17)
+Avg. AI Score3.53 (0.13) 2.46(0.11) 2.60(0.12) 2.84(0.12) 2.90(0.08) 3.31(0.15)

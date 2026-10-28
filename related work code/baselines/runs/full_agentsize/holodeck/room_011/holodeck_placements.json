@@ -1,0 +1,113 @@
+{
+ "floor": [
+  {
+   "assetId": "telescope-0",
+   "id": "telescope-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.65,
+    "y": 0.675,
+    "z": 3.42752
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     207.5,
+     385.252
+    ],
+    [
+     207.5,
+     300.252
+    ],
+    [
+     122.5,
+     300.252
+    ],
+    [
+     122.5,
+     385.252
+    ]
+   ],
+   "object_name": "telescope-0"
+  },
+  {
+   "assetId": "desk-0",
+   "id": "desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0759000000000016,
+    "y": 0.875,
+    "z": 3.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     272.59000000000015,
+     250.0
+    ],
+    [
+     272.59000000000015,
+     380.0
+    ],
+    [
+     342.59000000000015,
+     380.0
+    ],
+    [
+     342.59000000000015,
+     250.0
+    ]
+   ],
+   "object_name": "desk-0"
+  },
+  {
+   "assetId": "dressing chair-0",
+   "id": "dressing chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8509000000000015,
+    "y": 0.9,
+    "z": 1.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     227.59000000000015,
+     27.500000000000014
+    ],
+    [
+     227.59000000000015,
+     242.5
+    ],
+    [
+     342.59000000000015,
+     242.5
+    ],
+    [
+     342.59000000000015,
+     27.500000000000014
+    ]
+   ],
+   "object_name": "dressing chair-0"
+  }
+ ],
+ "wall": []
+}

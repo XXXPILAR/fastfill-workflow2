@@ -1,0 +1,159 @@
+{
+ "variants": {
+  "A": {
+   "rooms": 2,
+   "status": {
+    "best_effort": 1,
+    "clean": 1
+   },
+   "hard_valid": 1,
+   "hard_violations_left": 23,
+   "soft_cost_left": 0.06,
+   "steps": {
+    "median": 1.0,
+    "max": 1,
+    "single_step_rooms": 2
+   },
+   "llm_calls": 4,
+   "usd_incremental": 0.004,
+   "usd_end_to_end": 0.006,
+   "tokens": {
+    "prompt_tokens": 400,
+    "completion_tokens": 40,
+    "reasoning_tokens": 0
+   },
+   "seconds_incremental": {
+    "median": 11.3,
+    "sum": 22.6
+   },
+   "seconds_end_to_end": {
+    "median": 11.3,
+    "max": 19.92
+   }
+  },
+  "B": {
+   "rooms": 2,
+   "status": {
+    "best_effort": 1,
+    "clean": 1
+   },
+   "hard_valid": 1,
+   "hard_violations_left": 16,
+   "soft_cost_left": 1.404,
+   "steps": {
+    "median": 11.5,
+    "max": 16,
+    "single_step_rooms": 0
+   },
+   "llm_calls": 25,
+   "usd_incremental": 0.025,
+   "usd_end_to_end": 0.027,
+   "tokens": {
+    "prompt_tokens": 2500,
+    "completion_tokens": 250,
+    "reasoning_tokens": 0
+   },
+   "seconds_incremental": {
+    "median": 1.0,
+    "sum": 2.1
+   },
+   "seconds_end_to_end": {
+    "median": 1.0,
+    "max": 1.62
+   }
+  },
+  "B_final": {
+   "rooms": 2,
+   "status": {
+    "best_effort": 1,
+    "clean": 1
+   },
+   "hard_valid": 1,
+   "hard_violations_left": 16,
+   "soft_cost_left": 1.404,
+   "steps": {
+    "median": 11.5,
+    "max": 16,
+    "single_step_rooms": 0
+   },
+   "llm_calls": 28,
+   "usd_incremental": 0.028,
+   "usd_end_to_end": 0.03,
+   "tokens": {
+    "prompt_tokens": 2800,
+    "completion_tokens": 280,
+    "reasoning_tokens": 0
+   },
+   "seconds_incremental": {
+    "median": 6.5,
+    "sum": 13.1
+   },
+   "seconds_end_to_end": {
+    "median": 6.5,
+    "max": 12.21
+   }
+  },
+  "C": {
+   "rooms": 2,
+   "status": {
+    "best_effort": 1,
+    "clean": 1
+   },
+   "hard_valid": 1,
+   "hard_violations_left": 9,
+   "soft_cost_left": 0.635,
+   "steps": {
+    "median": 1.5,
+    "max": 2,
+    "single_step_rooms": 1
+   },
+   "llm_calls": 5,
+   "usd_incremental": 0.005,
+   "usd_end_to_end": 0.007,
+   "tokens": {
+    "prompt_tokens": 500,
+    "completion_tokens": 50,
+    "reasoning_tokens": 0
+   },
+   "seconds_incremental": {
+    "median": 7.0,
+    "sum": 14.1
+   },
+   "seconds_end_to_end": {
+    "median": 7.0,
+    "max": 11.31
+   }
+  },
+  "C_final": {
+   "rooms": 2,
+   "status": {
+    "best_effort": 1,
+    "clean": 1
+   },
+   "hard_valid": 1,
+   "hard_violations_left": 9,
+   "soft_cost_left": 0.635,
+   "steps": {
+    "median": 1.5,
+    "max": 2,
+    "single_step_rooms": 1
+   },
+   "llm_calls": 7,
+   "usd_incremental": 0.007,
+   "usd_end_to_end": 0.009,
+   "tokens": {
+    "prompt_tokens": 700,
+    "completion_tokens": 70,
+    "reasoning_tokens": 0
+   },
+   "seconds_incremental": {
+    "median": 10.5,
+    "sum": 21.0
+   },
+   "seconds_end_to_end": {
+    "median": 10.5,
+    "max": 18.25
+   }
+  }
+ }
+}

@@ -1,0 +1,190 @@
+{
+ "floor": [
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.385,
+    "y": 0.895,
+    "z": 3.85
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     81.5,
+     334.5
+    ],
+    [
+     81.5,
+     435.5
+    ],
+    [
+     -4.5,
+     435.5
+    ],
+    [
+     -4.5,
+     334.5
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  },
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.7,
+    "y": 0.425,
+    "z": 5.757971109585169
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     935.0,
+     660.7971109585169
+    ],
+    [
+     935.0,
+     490.79711095851695
+    ],
+    [
+     605.0,
+     490.79711095851695
+    ],
+    [
+     605.0,
+     660.7971109585169
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  },
+  {
+   "assetId": "dining table combination-0",
+   "id": "dining table combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.455,
+    "y": 0.38,
+    "z": 5.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     95.5,
+     455.0
+    ],
+    [
+     95.5,
+     645.0
+    ],
+    [
+     -4.5,
+     645.0
+    ],
+    [
+     -4.5,
+     455.0
+    ]
+   ],
+   "object_name": "dining table combination-0"
+  },
+  {
+   "assetId": "floor standing lamp-0",
+   "id": "floor standing lamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.5,
+    "y": 0.825,
+    "z": 6.245000122070312
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     575.0,
+     649.5000122070312
+    ],
+    [
+     575.0,
+     599.5000122070312
+    ],
+    [
+     525.0,
+     599.5000122070312
+    ],
+    [
+     525.0,
+     649.5000122070312
+    ]
+   ],
+   "object_name": "floor standing lamp-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "air conditioner-0",
+   "id": "air conditioner-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 8.600033691406251,
+    "y": 2.46,
+    "z": 6.3150001220703125
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     910.0033691406251,
+     620.0000122070312
+    ],
+    [
+     910.0033691406251,
+     645.0000122070312
+    ],
+    [
+     810.0033691406251,
+     645.0000122070312
+    ],
+    [
+     810.0033691406251,
+     620.0000122070312
+    ],
+    [
+     910.0033691406251,
+     620.0000122070312
+    ]
+   ],
+   "object_name": "air conditioner-0"
+  }
+ ]
+}

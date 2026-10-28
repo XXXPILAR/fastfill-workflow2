@@ -1,0 +1,862 @@
+Published as a conference paper at ICLR 2024
+INSTRUCT SCENE : I NSTRUCTION -D RIVEN 3D I NDOOR
+SCENE SYNTHESIS WITH SEMANTIC GRAPH PRIOR
+Chenguo Lin, Yadong Mu∗
+Peking University
+chenguolin@stu.pku.edu.cn, myd@pku.edu.cn
+ABSTRACT
+Comprehending natural language instructions is a charming property for 3D in-
+door scene synthesis systems. Existing methods directly model object joint dis-
+tributions and express object relations implicitly within a scene, thereby hinder-
+ing the controllability of generation. We introduce I NSTRUCT SCENE , a novel
+generative framework that integrates a semantic graph prior and a layout de-
+coder to improve controllability and fidelity for 3D scene synthesis. The pro-
+posed semantic graph prior jointly learns scene appearances and layout distribu-
+tions, exhibiting versatility across various downstream tasks in a zero-shot man-
+ner. To facilitate the benchmarking for text-driven 3D scene synthesis, we curate
+a high-quality dataset of scene-instruction pairs with large language and multi-
+modal models. Extensive experimental results reveal that the proposed method
+surpasses existing state-of-the-art approaches by a large margin. Thorough ab-
+lation studies confirm the efficacy of crucial design components. Project page:
+https://chenguolin.github.io/projects/InstructScene.
+1 I NTRODUCTION
+Automatically synthesizing controllable and realistic 3D indoor scenes has been a persistent chal-
+lenge for computer vision and graphics (Merrell et al., 2011; Fisher et al., 2015; Qi et al., 2018;
+Wang et al., 2018; Ritchie et al., 2019; Zhang et al., 2020; Yang et al., 2021b;a; H¨ollein et al., 2023;
+Song et al., 2023; Cohen-Bar et al., 2023; Lin et al., 2023; Feng et al., 2023; Patil et al., 2023).
+An ideal indoor scene synthesis system should fulfill at least three objectives: (1) comprehending
+instructions in natural languages, thus providing an intuitive and user-friendly interface; (2) design-
+ing object compositions that exhibit aesthetic appeal and thematic harmony; (3) placing objects in
+appropriate positions and orientations adhering to their functions and regular arrangements.
+Natural instructions for interior design often rely on abstract object relationships, posing significant
+challenges for recent advancements in 3D scene synthesis (Wang et al., 2021; Paschalidou et al.,
+2021; Liu et al., 2023a; Tang et al., 2023) due to the implicit modeling of relationships through indi-
+vidual object attributes. Other studies (Luo et al., 2020; Dhamo et al., 2021; Zhai et al., 2023) utilize
+relation graphs to provide explicit control over object interactions, which are however too compli-
+cated and fussy for human users to specify. Moreover, previous works primarily represent objects
+by only categories (Luo et al., 2020; Paschalidou et al., 2021) or low-dimensional features (Wang
+et al., 2019; Tang et al., 2023) which lack visual appearance details, resulting in style inconsistency
+and constraining customization options in scene synthesis.
+To address these issues, we present I NSTRUCT SCENE , a novel generative framework for 3D in-
+door scene synthesis with natural language instructions. The overview of the proposed method is
+illustrated in Figure 1. I NSTRUCT SCENE comprises two parts: a semantic graph prior and a lay-
+out decoder. In the first stage, it takes instructions about partial interior arrangement and object
+appearances, and learns the conditional distribution of semantic graphs for holistic scenes. In the
+second stage, harnessing the well-structured and informative graph latents, the layout decoder can
+easily embody scenes that exhibit semantic consistency while closely adhering to the provided in-
+structions. With the learned semantic graph prior, I NSTRUCT SCENE also achieves a wide range of
+instruction-driven generative tasks in a zero-shot manner.
+∗Corresponding author.
+1
+arXiv:2402.04717v1  [cs.CV]  7 Feb 2024
+Published as a conference paper at ICLR 2024
+Position a grey nightstand to the leftof a wooden wardrobe with doors. Hang a white ceiling lamp with a wooden circledirectly abovea black double bed. left of
+right of
+left ofabove
+right ofleft ofleft offront
+frontUser InstructionsSemantic Graph PriorDecoded 3D Scene
+Object Feature Codebook…
+Design Embody
+Figure 1: Method overview. (1) INSTRUCT SCENE first designs a holistic semantic graph based on
+user instruction. Within this graph, each node is an object endowed with semantic features and each
+edge represents a spatial relationship between objects. (2) It proceeds to place objects in a scene by
+decoding precise 7 degrees-of-freedom attributes for each object from the informative graph prior.
+Specific conditional diffusion models are devised for both parts of I NSTRUCT SCENE . Benefitting
+from the two-stage scheme, it can separately handle discrete and continuous attributes of indoor
+scenes, drastically reducing the burden of network optimization. To enhance the capability of aes-
+thetic design, I NSTRUCT SCENE also leverages object geometrics and appearances by quantizing
+semantic features from a multimodal-aligned model (Radford et al., 2021; Liu et al., 2023b).
+To fit practical scenarios and promote the benchmarking of instruction-drive scene synthesis, we
+curate a high-quality dataset containing paired scenes and instructions with the help of large lan-
+guage and multimodal models (Li et al., 2022; Ouyang et al., 2022; OpenAI, 2023). Comprehensive
+quantitative evaluations reveal that INSTRUCT SCENE surpasses previous state-of-the-art methods by
+a large margin in terms of both generation controllability and fidelity. Each essential component of
+our method is carefully verified through ablation studies.
+Our contributions can be summarized as follows:
+• We present an instruction-driven generative framework that integrates a semantic graph
+prior and a layout decoder to improve the controllability and fidelity for 3D scene synthesis.
+• The proposed general semantic graph prior jointly models appearance and layout distribu-
+tions, facilitating various downstream applications in a zero-shot manner.
+• We curate a high-quality dataset to promote the benchmarking of instruction-driven 3D
+scene synthesis, and quantitative experiments demonstrate that the proposed method sig-
+nificantly outperforms existing state-of-the-art techniques.
+2 R ELATED WORK
+Graph-driven 3D Scene Synthesis Graphs have been used to guide complex scene synthesis in
+the form of scene hierarchies (Li et al., 2019; Gao et al., 2023), parse trees (Purkait et al., 2020),
+scene graphs (Zhou et al., 2019a; Para et al., 2021), etc. Wang et al. (2019) utilize an image-based
+module and condition its outputs on the edges of a relation graph within each non-differentiable
+step. They also adopt an autoregressive model (Li et al., 2018) to generate relation graphs, which
+are however unconditional and with limited object attributes. Other works (Luo et al., 2020; Dhamo
+et al., 2021; Zhai et al., 2023) adopt conditional V AEs (Kingma & Welling, 2014; Sohn et al., 2015)
+with graph convolutional networks (Johnson et al., 2018) to generate layouts. While offering high
+controllability, these methods demand the specification of elaborate graph conditions, which are
+notably more intricate than those driven by natural languages.
+Language-driven 3D Scene Synthesis Early studies on language-driven scene synthesis are con-
+ducted through procedural modeling, resulting in a semi-automatic process (Chang et al., 2014;
+2015a; 2017; Ma et al., 2018). With the advent of attention mechanisms (Vaswani et al., 2017),
+recent approaches (Wang et al., 2021; Paschalidou et al., 2021; Liu et al., 2023a; Tang et al., 2023)
+can implicitly acquire object relations by self-attention and condition scene synthesis with texts
+by cross-attention. However, text prompts in these works tend to be relatively simple, containing
+only object categories or lacking layout descriptions, limiting the expressiveness and customization.
+Implicit relation modeling also significantly hinders their controllability.
+2
+Published as a conference paper at ICLR 2024
+Generative Models for Graphs There have been lots of endeavors on generative models for undi-
+rected graphs, molecules and scene graphs by autoregressive models (You et al., 2018; Garg et al.,
+2021), V AEs (Simonovsky & Komodakis, 2018; Verma et al., 2022), GANs (De Cao & Kipf, 2018;
+Martinkus et al., 2022) and diffusion models (Niu et al., 2020; Jo et al., 2022; Vignac et al., 2023;
+Kong et al., 2023). Longland et al. (2022) and Lo et al. (2023) employ V AE and GAN respectively
+for text-driven undirected simple graph generation without any semantics. In contrast, we present a
+pioneering effort to generate holistic semantic graphs with expressive instructions.
+3 P RELIMINARY : D IFFUSION MODELS
+Diffusion generative models (Sohl-Dickstein et al., 2015) consist of a non-parametric forward pro-
+cess and a learnable reverse process. The forward process progressively corrupts a data point
+fromq(x0) to a sequence of increasingly noisy latent variables: q(x1:T|x0) = QT
+t=1q(xt|xt−1).
+A neural network is trained to reverse the process by denoising them iteratively: pψ(x0:T|c) =
+p(xT )QT
+t=1pψ(xt−1|xt, c), where c is an optional condition to guide the reverse process as needed.
+These two processes are supposed to admit p(xT )≈q(xT|x0) for a sufficiently largeT . The gen-
+erative model is optimized by minimizing a variational upper bound on Eq(x0) [− logpψ(x0)]:
+Lvb := Eq(x0)[ DKL[q(xT|x0)∥p(xT )]| {z }
+LT
++
+TX
+t=2
+Lt−1−Eq(x1|x0)[logpψ(x0|x1, c)]| {z }
+L0
+], (1)
+whereLt−1 := DKL[q(xt−1|xt, x0)∥pψ(xt−1|xt, c)] andLT is constant during training so can be
+ignored.DKL[·∥·] indicates the KL divergence between two distributions.
+4 M ETHOD
+4.1 P ROBLEM STATEMENT
+DenoteS :={S1,..., SM} as a collection of indoor scenes. Each sceneSi is composed of multiple
+objectsOi :={oi
+j}Ni
+j=1 with distinct attributes oi
+j :={ci
+j, ti
+j, si
+j,ri
+j, fi
+j}, including category ci
+j ∈
+{1,...,K c}, where Kc is the number of object classes in S, location ti
+j ∈ R3, axis-aligned size
+si
+j∈ R3, orientationri
+j∈ R and semantic feature fi
+j∈ Rd, whered is the dimension of the feature
+vector. To set up a 3D scene, one can generate each 3D object or retrieve it from a database byc and
+f. They are then resized and transformed to the same scene coordinate by corresponding t, s and
+r. To simplify the process, we opt to retrieve 3D objects from a high-quality dataset, and leave the
+generative models of each object conditioned onc and f for future work.
+Given instructionsy, our goal is to learn the conditional scene distributionq(S|y). Rather than direct
+modeling (Paschalidou et al., 2021; Tang et al., 2023), we employ well-structured and informative
+graphs to serve as general and semantic latents. Each graph Gi contains a node setVi :={vi
+j}Ni
+j=1
+and a directed edge setEi :={ei
+jk|vi
+j, vi
+k∈V i}. A node vi
+j functions as a high-level representation
+of an object oi
+j, and a directed edgeei
+jk explicitly conveys the relations between objects.
+To this end, we propose a generative framework, I NSTRUCT SCENE , that consists of two compo-
+nents: (1) semantic graph prior pϕ(G|y) (Sec. 4.2) that jointly models high-level object and re-
+lation distributions conditioned on y; (2) layout decoderpθ(S|G) (Sec. 4.3) that produces precise
+layout configurations with semantic graphs. Since G is deterministic by correspondingS, the two
+networks together yield an instruction-driven generative model for 3D indoor scenes:
+pϕ,θ(S|y) =pϕ,θ(S,G|y) =pϕ(G|y)pθ(S|G). (2)
+4.2 S EMANTIC GRAPH PRIOR
+The spatial relations are defined based on distances and relative orientations, such as “left”, “closely
+in front of”, “above” and “too far away (none)”. Details about the definitions are provided in Ap-
+pendeix A.1. Layout configurations including t, s andr can be derived from spatial relations, so
+we leave them to the decoder pθ(S|G). Denote v :={c, f} ande∈{ 1,...,K e}, where Ke is the
+number of relation classes.
+3
+Published as a conference paper at ICLR 2024
+(a) Feature Quantization(b) Discrete Semantic Graph Diffusion
+… …
+𝑞(𝐺!|𝐺!"#)
+𝑝$(𝐺!"#|𝐺!,𝐲)𝐺! 𝐺"𝐺# 𝐺#$%
+Put a pink floret child cabinetin frontof …𝐲Instructions
+GraphTransformerTextEncoder
+𝑝$()𝐺%|𝐺!,𝐲)Denoising
+ #𝐺"
+𝑞(𝐺!"#|𝐺!,)𝐺%)All-masked Graph Original Graph
+Reconstructed GraphRe-parameterization
+…𝒵
+𝐷
+𝐸
+OpenShape
+CLIP-aligned Feature3D RGB Point Cloud
+Aggregate
+Reconstructed FeatureLearnable Tokens
+Figure 2: Semantic Graph Prior. (a) Feature Quantization. Semantic features for 3D objects are
+extracted from a frozen multimodal-aligned point cloud encoder and then quantized by codebook
+entries. (b) Discrete Semantic Graph Diffusion . Three categorical variables in G0 are indepen-
+dently diffused; Empty states are not depicted for concision; A graph Transformer with a frozen text
+encoder learns the semantic graph prior by iteratively denoising corrupted graphs.
+4.2.1 F EATURE QUANTIZATION
+High-dimensional features, such as those with d = 1280 in OpenCLIP ViT-bigG/14 (Liu et al.,
+2023b), are too complicated to model. We circumvent this drawback by introducing a vector-
+quantized variational autoencoder for feature vectors, coined as fVQ-V AE. The intuition behind
+it is that there are general intrinsic characteristics shared among objects, encompassing attributes
+like colors, materials and basic geometric shapes. Indexing semantic features from a codebook
+could dramatically reduce the cost of operating in a continuous space.
+Formally,fVQ-V AE contains a pair of encoder E and decoder D, along with a codebook Z ∈
+RKf×dZ , whereKf anddZ are its size and dimension respectively. To concurrently capture object
+visual appearances and geometric shapes, we employ a multimodal-aligned point cloud encoder,
+OpenShape (Liu et al., 2023b), to extract object semantic features. The diagram for fVQ-V AE is
+presented in Figure 2(a). It is trained to maximize the evidence lower bound (ELBO) for logp(f):
+Ez∼pE (z|f ) [logpD(f|z)−βDKL(pE(z|f)∥p(z)], (3)
+where z∈ Rnf×dZ consists ofnf vectors indexed by a sequence of scalars f := [fm]nf
+m=1, where
+each scalar fm ∈ {1,...,K f}. Since the quantization operation is non-differentiable, gumbel-
+softmax relaxation (Jang et al., 2016; Ramesh et al., 2021) is adopted to optimize the ELBO.
+4.2.2 D ISCRETE SEMANTIC GRAPH DIFFUSION
+After the feature quantization, all attributes in a semantic graph are categorical, Gi := (Ci,Fi,Ei),
+whereCi :={1,...,K c}Ni,Ei :={1,...,K e}Ni×Ni andFi :={1,...,K f}Ni×nf . While it is
+possible to embed discrete variables in continuous spaces using one-hot encodings, it diminishes
+the sparsity inherent in the original data and imposes a substantial burden on network optimization.
+Instead, we propose to model the semantic graph prior through discrete diffusion models.
+For a scalar discrete random variable withK categoriesx∈{ 1,...,K }, diffusion noise is defined
+by a series of transition matrices Q∈ RK×K. The forward process at timestep t is expressed as
+q(xt|xt−1) := x⊤
+t Qtxt−1, where xt∈ RK is the column one-hot encoding for xt and [Qt]mn :=
+q(xt =m|xt−1 =n) is the probability thatxt−1 transits to the categorym fromn. The probabilistic
+distribution ofxt can be directly derived fromx0:q(xt|x0) := x⊤
+t ¯Qtx0, where ¯Qt := Qt··· Q1.
+Instead of commonly used Gaussian or uniform transitions for graph generation (Niu et al., 2020;
+Hoogeboom et al., 2021; Jo et al., 2022; Vignac et al., 2023), we propose to diffuse semantic graphs
+by independently masking graph attributes (i.e., object class c, quantized feature indices f and re-
+latione) by introducing an absorbing state [MASK] (Austin et al., 2021; Gu et al., 2022) to each
+uniform transition matrix. For object classc, its transition matrix is defined as:
+QC
+t :=
+
+
+αc
+t +βc
+t βc
+t · · · βc
+t 0
+βc
+t αc
+t +βc
+t · · · βc
+t 0
+...
+... ... βc
+t 0
+βc
+t βc
+t βc
+t αc
+t +βc
+t 0
+γc
+t γc
+t γc
+t γc
+t 1
+
+
+, (4)
+4
+Published as a conference paper at ICLR 2024
+by whichct has a probability ofγc
+t to be masked, a probability ofαc
+t to maintain the same, leaving a
+chance of 1−γc
+t−αc
+t for uniform sampling. [MASK] will always stay in its own state. Transition
+matrices for f ande, denoted as QF
+t and QE
+t respectively, exhibit analogous structures. Schedules
+of (αt,βt,γt) are designed to admit that the initial states for semantic graphs are all masked.
+Since the number of objects varies across different scenes, semantic graphs are padded by empty
+states to maintain a consistent number of N objects. One-hot encodings for scalar variables c, f
+ande in a scene are denoted as C∈ RN×(Kc+2), F∈ RN×nf×(Kf +2) and E∈ RN×N×(Ke+2)
+respectively. Here “+2” accounts for the two extra states (i.e., empty state and mask state) for each
+variable. A one-hot encoded semantic graphG0 := (C0, F0, E0) at timestept is formulated as
+q(Gt|G0) = ( ¯QC
+t C0, ¯QF
+t F0, ¯QE
+t E0). (5)
+The process for learning the graph prior is illustrated in Figure 2(b). The independent diffusion with
+mask states offers two significant advantages:
+• Perturbed states for one variable (e.g., C) could be recovered by incorporating information
+from uncorrupted portions of the other variables (e.g., F and E), compelling the semantic
+graph prior to learning from the interactions among different scene attributes.
+• The introduction of mask states facilitates the distinction between corrupted states and
+clean ones, thus simplifying the denoising task.
+These benefits are critical especially for intricate semantic graphs and diverse downstream generative
+tasks, compared with simple graph generative tasks (Niu et al., 2020; Jo et al., 2022; Vignac et al.,
+2023). Ablation study on the choice of Q is provided in Sec. 5.5.2.
+Output of the graph prior network is re-parameterized to produce the clean scene graphs ˆG0, which
+is then diffused to get the predicted posterior for computing the variational bound in Equation 1:
+pϕ(Gt−1|Gt, y) ∝ P
+ˆG0
+q(Gt−1|Gt, ˆG0)pϕ( ˆG0|Gt, y). Training objective for pϕ is a weighted
+summation of variational bounds for three random variables conditioned on y:
+LG|y
+vb :=LC|y
+vb +λf·L F|y
+vb +λe·L E|y
+vb , (6)
+whereλe,λf ∈ R+ are hyperparameters to adjust the relative importance of three components in
+the semantic graph.
+4.3 3D L AYOUT DECODER
+Instantiating 3D scenes becomes easy with semantic graph prior. Denote layout configurations ofSi
+as{li
+j}Ni
+j=1 , where li
+j := oi
+j−vi
+j ={ti
+j, si
+j,ri
+j}.SO(2) rotation is parameterize by[cos(r), sin(r)]⊤
+to continuously representr (Zhou et al., 2019b). Consequently, the layout ofSi can be expressed as
+2D matrices Li∈ RNi×8. Note thatS = (L,G), so generating indoor scenespθ(S|G) is equivalent
+to learning the conditional distributions of layout configurationspθ(L|G).
+A diffusion model with variance-preserving Gaussian kernels (Ho et al., 2020; Song et al., 2020)
+is adopted to learn pθ(L|G). Its forward process is q(Lt|L0) :=N (Lt;√¯αtL0, (1− ¯αt)I). The
+reverse process is modeled as pθ(Lt−1|Lt,G) :=N (Lt−1; µθ(Lt,t,G); Σθ(Lt,t,G)). Following
+Ho et al. (2020), the variational bound in Equation 1 for the decoder pθ(L|G) is reweighted and
+simplified:
+Lsimple := EL0,t,ϵ
+
+∥ϵ− ϵθ(Lt,t,G)∥2
+= EL0,t,ϵ
+
+∥ϵ− ϵθ(√¯αtL0 +
+√
+1− ¯αtϵ,t,G)∥2
+,
+(7)
+wheret is sampled from a uniform distribution U(1,T ) and ϵ is sampled from a standard normal
+distributionN (0, I). Diagram of the layout decoder is depicted in Figure 3(a). Intuitively, the
+network is trained to predict noise ϵ in the corrupted data Lt.
+4.4 M ODEL ARCHITECTURE
+We use the general-purpose Transformer (Vaswani et al., 2017) for all models across tasks.
+5
+Published as a conference paper at ICLR 2024
+(b) Graph Transformer
+GraphAttentionCross-AttentionMLP×𝑀(Optional)
+Text Encoder
+y
+LinearLinear
+Linear
+Linear
+Out-product & ScalingFiLM𝒱
+ℰ𝒱
+ℰ
+WeightedSum
+ℰ′Softmax
+𝒱′ValueKeyQuery
+(a) 3D Layout Decoder 
+Gaussian Noise
+Retrieve andTransform
+Decoded 3D Scene
+GraphTransformer
+Iteratively Denoising𝑝!(𝐋|𝒢)
+tsrtsr tsr
+tsrtsr
+tsr
+tsr
+Figure 3: (a) 3D Layout Decoder. Gaussian noises are sampled to attach at every node of semantic
+graphs; A graph Transformer processes these graphs iteratively to remove noises and generate layout
+configurations. (b) Graph Transformer. A graph Transformer consists of a stack of M blocks,
+each comprising graph attention, MLP and optional cross-attention modules; AdaLN and multi-
+head scheme are not depicted for concision.
+Vanilla Transformer As illustrated in Figure 2(a),nf learnable tokens are employed with a stack
+of cross-attentions to extract information from object features f in the encoder E in fVQ-V AE.
+Regarding the decoderD,nf vectors retrieved from the codebookZ are fed to another Transformer,
+and an average pooling on the top of it is applied to aggregate information.
+Graph Transformer The prior and decoder share the same model architecture as shown in Fig-
+ure 3(b). Since relation ejk can be determined by ekj, only the upper triangular part of the re-
+lation matrix is necessary. Object categories and features together form input tokens for Trans-
+formers. Message passing on graphs is operated via node self-attention and node-edge fusion with
+FiLM (Perez et al., 2018), which linearly modulates edge embeddings and node attention matrices
+before softmax (Dwivedi & Bresson, 2021; Vignac et al., 2023). Timestep for diffusiont is injected
+by AdaLN (Ba et al., 2016; Dhariwal & Nichol, 2021). In the priorpϕ(G|y), instructions are embed-
+ded by a frozen text encoder and consistently influence network outputs by cross-attention mecha-
+nisms. Layout decoderpθ(S|G) is conditioned on semantic graphs by appending sampled Gaussian
+noises on node embeddings, which are then iteratively denoised to produce layout attributes.
+Permutation Non-invariance AlthoughG should ideally remain invariant to node permutations,
+invariant diffusion models could encounter learning challenges for multi-mode modeling. Thus,
+each node feature is added with positional encodings (Vaswani et al., 2017; Tang et al., 2023; Lei
+et al., 2023) before the permutation-equivariant Transformer. Exchangeability for graph prior distri-
+butions is strived by random permutation augmentation during the training process. Ablation on the
+permutation non-invariance is provided in Sec. 5.5.2.
+5 E XPERIMENTS
+5.1 S CENE -INSTRUCTION PAIR DATASET
+All experiments are conducted on 3D-FRONT (Fu et al., 2021a), a professionally designed collection
+of synthetic indoor scenes. However, it does not contain any descriptions of room layouts or object
+appearances. To construct a high-quality scene-instruction paired dataset, we initially extract view-
+dependent spatial relations with predefined rules. The dataset is further enhanced by captioning
+objects with BLIP (Li et al., 2022). To ensure the accuracy of descriptions, the generated captions
+are filtered by ChatGPT (Ouyang et al., 2022; OpenAI, 2023) with object ground-truth categories.
+The final instructions are derived from randomly selected relation triplets. Details on dataset curation
+can be found in Appendix A.
+5.2 E XPERIMENTAL SETTINGS
+Baselines We compare our method with two state-of-the-art approaches for 3D scene generative
+tasks: (1) ATISS (Paschalidou et al., 2021), a Transformer-based auto-regressive network that re-
+gards scenes as sets of unordered objects, and generates objects and their attributes sequentially.
+(2) DiffuScene (Tang et al., 2023), a diffusion model with Gaussian kernels that treats object at-
+tributes in one scene as a 2D matrix after padding them to a fixed size. Both of these methods can
+be conditioned on text prompts by cross-attention with a pretrained text encoder. Our preliminary
+6
+Published as a conference paper at ICLR 2024
+Table 1: Quantitive evaluations for instruction-driven synthesis by ATISS (Paschalidou et al., 2021),
+DiffuScene (Tang et al., 2023) and our method on three room types. Higher iRecall, lower FID,
+FIDCLIP and KID indicate better synthesis quality. For SCA, a score closer to 50% is better. Standard
+deviation values are provided as subscripts.
+Instruction-driven Synthesis ↑ iRecall% ↓ FID ↓ FIDCLIP ↓ KID×1e-3 SCA%
+Bedroom
+ATISS 48.13±2.50 119.73±1.55 6.95±0.06 0.39±0.02 59.17±1.39
+DiffuScene 56.43±2.07 123.09±0.79 7.13±0.16 0.39±0.01 60.49±2.96
+Ours 73.64±1.37 114.78±1.19 6.65±0.18 0.32±0.03 56.02±1.43
+Living room
+ATISS 29.50±3.67 117.67±2.32 6.08±0.13 17.60±2.65 69.38±3.38
+DiffuScene 31.15±2.49 122.20±1.09 6.10±0.11 16.49±1.24 72.92±1.29
+Ours 56.81±2.85 110.39±0.78 5.37±0.07 8.16±0.56 65.42±2.52
+Dining room
+ATISS 37.58±1.99 137.10±0.34 8.49±0.23 23.60±2.52 67.61±3.23
+DiffuScene 37.87±2.76 145.48±1.36 8.63±0.31 24.08±1.90 70.57±2.14
+Ours 61.23±1.67 129.76±1.61 7.67±0.18 13.24±1.79 64.20±1.90
+experiments suggest that both baselines encounter difficulties in modeling high-dimensional seman-
+tic feature distributions, consequently impacting their performance in generating other attributes.
+Therefore, we augment them to generate quantized features. Further implementation details about
+baselines and our method are provided in Appendix B.1 and B.2.
+Evaluation Metrics To assess the controllability of layouts, we use a metric named “instruction
+recall” (iRecall), which quantifies the proportion of the required triplets “(subject, relation, object)”
+occurring in synthesized scenes to all provided in instructions. It is a stringent metric that takes into
+account all three elements in a layout relation simultaneously. Following previous works (Paschali-
+dou et al., 2021; Liu et al., 2023a; Tang et al., 2023), we also report Fr ´echet Inception Distance
+(FID) (Heusel et al., 2017), FID CLIP (Kynk¨a¨anniemi et al., 2022), which computes FID scores by
+CLIP features (Radford et al., 2021), Kernel Inception Distance (KID) (Bi ´nkowski et al., 2018),
+scene classification accuracy (SCA). These metrics evaluate the overall quality of synthesized scenes
+and rely on rendered images. We use Blender (Community, 2018) to produce high-quality images
+for both synthesized and real scenes. For more details on evaluation, please refer to Appendix B.3.
+5.3 I NSTRUCTION -DRIVEN SCENE SYNTHESIS
+Table 1 presents the quantitive evaluations for synthesizing 3D scenes with instructions. We report
+the average scores of five runs with different random seeds. As demonstrated, even with the en-
+hancement of quantized semantic features, two baseline methods continue to demonstrate inferior
+performance compared to ours. ATISS outperforms DiffuScene in terms of generation fidelity, ow-
+ing to its capacity to model in discrete spaces. DiffuScene shows better controllability to ATISS
+because it affords global visibility of samples during generation. Our proposed I NSTRUCT SCENE
+exhibits the best of both worlds. Remarkably, we achieve a substantial advancement in controllabil-
+ity, measured in iRecall, for scene generative models, surpassing current state-of-the-art approaches
+by about 15%∼25% across various room types, all while maintaining high fidelity. It is noteworthy
+that I NSTRUCT SCENE excels in handling more complex scenes, such as living and dining rooms,
+which typically comprise an average of 20 objects, in contrast to bedrooms, which have only 8 ob-
+jects on average, revealing the benefits of modeling intricate 3D scenes associated with the semantic
+graph prior. Qualitative visualizations are provided in Appendix C.1.
+5.4 Z ERO-SHOT APPLICATIONS
+Thanks to the discrete design and mask modeling, the learned semantic graph prior is capable of
+diverse downstream tasks without any fine-tuning. We investigate four zero-shot tasks, including
+stylization, re-arrangement, completion, and unconditional generation. The first three tasks can be
+regarded as conditional synthesis guided by both instructions and partial scene attributes.
+Stylization and re-arrangement task can be formulated as pϕ(f|c, t, s,r, y) andpϕ,θ(t, s,r|c, f, y)
+respectively. In the completion task, we intend to add new objects {oi
+k} to a partial sceneSi with
+7
+Published as a conference paper at ICLR 2024
+Table 2: Quantitive evaluations for zero-shot generative applications on three room types. “Uncond.”
+stands for unconditional scene synthesis.
+Zero-shot
+Applications
+Stylization Re-arrangement Completion Uncond.
+↑ ∆×1e−3 ↓ FID ↑ iRecall% ↓ FID ↑ iRecall% ↓ FID ↓ FID
+Bedroom
+ATISS 3.44 123.91 61.22 107.67 64.90 89.77 134.51
+DiffuScene 1.08 127.35 68.57 106.15 48.57 96.28 135.46
+Ours 6.34 122.73 79.59 105.27 69.80 82.98 124.97
+Living room
+ATISS -3.57 110.85 31.97 117.97 43.20 106.48 129.23
+DiffuScene -2.69 112.80 41.50 115.30 19.73 95.94 129.75
+Ours 0.28 109.39 56.12 106.85 46.94 92.52 117.62
+Dining room
+ATISS -1.11 131.14 36.06 134.54 57.99 122.44 147.52
+DiffuScene -2.98 135.20 46.84 133.73 32.34 115.08 150.81
+Ours 1.69 128.78 62.08 125.07 60.59 107.86 137.52
+instructions. By filling the partial scene attributes with [MASK] tokens, we treat them as intermedi-
+ate states during discrete graph denoising, allowing for a straightforward adaptation of the learned
+semantic graph prior to these tasks in a zero-shot manner. Unconditional synthesis is implemented
+by simply setting text features as zeros. To assess controllability in the stylization task, we define
+∆ := 1
+N
+PN
+i=1 CosSim(fi, dstyle
+i )− CosSim(fi, dclass
+i ), where dstyle
+i represents the CLIP text fea-
+ture of object class name with the desired style, and dclass
+i is the CLIP text feature with only class
+information. CosSim(·,·) calculates the cosine similarity between two vectors.
+Evaluations on zero-shot applications are reported in Table 2. Our method consistently outperforms
+two strong baselines in both controllability and fidelity. While ATISS, as an auto-regressive model,
+is a natural fit for the completion task, its unidirectional dependency chain limits its effectiveness
+for tasks requiring global scene modeling, such as re-arrangement. DiffuScene can adapt to these
+tasks by replacing the known parts with the noised corresponding scene attributes during sampling,
+similar to image in-painting (Meng et al., 2021; Nichol et al., 2022). However, the known attributes
+are greatly corrupted in the early steps, which could misguide the denoising direction, and therefore
+necessitate fine-tuning. Additionally, DiffuScene also faces challenges in searching for semantic
+features in a continuous space for stylization. In contrast, I NSTRUCT SCENE globally models scene
+attributes and treats partial scene attributes as intermediate discrete states during training. These
+designs effectively eliminate the training-test gap, rendering it highly versatile for a wide range of
+downstream tasks. Visualizations of zero-shot applications are available in Appendix C.2.
+5.5 A BLATION STUDIES
+5.5.1 C ONFIGURATIONS FOR DIFFUSION MODELS
+Diffusion Timesteps Although containing two diffusion models, our method could achieve bet-
+ter efficiency by reducing the steps of reverse processes without a noticeable decline in perfor-
+mance. This stems from the fact that each stage in INSTRUCT SCENE tackles an easier denoising task
+compared to the single-stage DiffuScene. Following the original setting of Tang et al. (2023), the
+timestep value (T ) for DiffuScene is set to1000. While for INSTRUCT SCENE , we findT =100 and
+10 is sufficient for pϕ(G|y) andpθ(S|G) respectively. Evaluation results with different timesteps
+are presented in Figure 4(a), with values averaged on three room types. The plotted timesteps for
+our method are “100+1000”, “100+400”, “100+100”, “100+10”, “50+10” and “25+10”, where the
+first number representsT for the prior and the latter is for the decoder.
+Classifier-Free Guidance Classifier-free guidance (CFG) (Ho & Salimans, 2021) is a widely used
+technique to trade off controllability with diversity. We do not adopt it in previous experiments for
+a fair comparison, as the sequential attribute decoding hinders ATISS from realizing the benefits
+offered by CFG. To assess its effectiveness for diffusion models, we randomly remove instruction
+conditions on 20% of samples during training, inducing an unconditional generation. At inference,
+CFG is implemented by adjusting conditional log-likelihoods away from unconditional counterparts:
+˜pϕ( ˆG0|Gt, y) := (1 +s)·pϕ( ˆG0|Gt, y)−s·pϕ( ˆG0|Gt), (8)
+8
+Published as a conference paper at ICLR 2024
+1000 500 200 100 50 35
+Timesteps
+40
+45
+50
+55
+60
+65
+Avg. iRecalls (%)
+Ours
+DiffuScene
+1000 500 200 100 50 35
+Timesteps
+120
+125
+130
+135
+Avg. FID
+Ours
+DiffuScene
+(a) Diffusion Timesteps
+0.0 0.5 1.0 1.5 2.0
+CFG Scale
+45
+50
+55
+60
+65
+70
+Avg. iRecalls (%)
+Ours
+DiffuScene
+0.0 0.5 1.0 1.5 2.0
+CFG Scale
+118
+120
+122
+124
+126
+128
+130
+Avg. FID
+Ours
+DiffuScene
+(b) Classifier-Free Guidance
+Figure 4: Ablation studies on configurations for diffusion models, including diffusion timesteps and
+classifier-free guidance scales.
+Table 3: Ablation studies on different strategies to learn semantic graph prior pϕ(G|y). “Perm.
+Invar.” means permutation-invariant graph modeling.
+Graph Prior Ours Gaussian Joint Mask Uniform Perm. Invar.
+↑ iRecall% 73.64±1.37 34.18±2.53 34.21±2.79 69.22±3.25 70.49±2.50
+↓ FID 114.78±1.19 128.98±0.97 130.86±2.76 139.61±1.06 116.53±1.35
+↓ FIDCLIP 6.65±0.18 7.30±0.03 7.59±0.17 8.82±0.24 6.69±0.16
+↓ KID×1e-3 0.32±0.03 2.63±0.73 4.82±1.69 10.55±1.19 0.37±0.02
+SCA% 56.02±0.91 57.10±3.22 60.37±3.13 76.79±3.14 58.64±1.33
+wheres is a hyperparameter to control the scale of CFG. Performance for diffusion-based models
+with different CFG scales are plotted in Figure 4(b), where values are averaged over three room
+types. Within an appropriate range of scales, CFG can effectively enhance the controllability for
+instructive-driven 3D scene synthesis, while large scales can lead to a performance decline. Though
+DiffuScene also benefits from CFG, our method still significantly outperforms it in both metrics.
+5.5.2 L EARNING SEMANTIC GRAPH PRIOR
+We explore different strategies to learn the proposed semantic graph prior. All experiments are
+conducted on the bedroom dataset. Quantitative results are presented in Table 3.
+Transition Matrices for Learning Graph Prior We investigate the effects of different transition
+matrices for learning the proposed semantic graph prior, including: (1) Embed all categorical vari-
+ables into their one-hot encodings and diffuse them by Gaussian kernels, which is similar to Niu
+et al. (2020) and Jo et al. (2022); (2) Jointly masking F and E along with nodes C in a graph, so
+only the attributes of other objects can be utilized for recovery; (3) Adopt uniform transition matri-
+ces without mask states, which is similar to Vignac et al. (2023). Evaluations on both controllability
+and fidelity reveal the advantages of our independent mask strategy.
+Permutation Non-invariance Unlike previous studies on graph generation (Niu et al., 2020; Jo
+et al., 2022; Vignac et al., 2023), we depart from the convention of permutation-invariant modeling
+to ease the learning process of semantic graph prior. We strive to preserve exchangeable graph
+distributions by randomly shuffling object orders during training. Performance for invariant graph
+prior is provided in the last column of Table 3. Its performance declines due to the unnecessary
+imposition of invariance in scene synthesis.
+6 C ONCLUSION
+By integrating a semantic graph prior and a layout decoder, we propose a novel generative frame-
+work, I NSTRUCT SCENE , that significantly improves the controllability and fidelity of 3D indoor
+scene synthesis, providing a user-friendly interface through instructions in natural languages. Bene-
+fits from the design of semantic graph prior, our method can also apply to diverse applications with-
+out any fine-tuning. The controllability and versatility positions I NSTRUCT SCENE as a promising
+tool. We hope this work could help in practical scenarios, such as facilitating interior design, deliv-
+ering immersive metaverse experiences, simulations for embodied agents, developing cutting-edge
+VR/AR applications, etc. We discuss the limitations of our method and future work in Appendix D.
+9
+Published as a conference paper at ICLR 2024
+ETHICS STATEMENT
+Several large pretrained models are incorporated in this work, including OpenShape (Liu et al.,
+2023b) for object semantic feature extraction, CLIP (Radford et al., 2021) for text feature extraction,
+BLIP (Li et al., 2022) for object captioning and ChatGPT (Ouyang et al., 2022; OpenAI, 2023) for
+caption refinement. Most of these models are trained on large-scale datasets collected from the web,
+lacking rigorous content filtering, thereby potentially encompassing harmful material. We curate the
+dataset and train our method based on these models, thus may inherit these imperfections. Given
+that our generative framework is trained only on indoor scene datasets, it exhibits less probability of
+propagating negative consequences compared to the synthesis and editing methods on human faces
+and natural images. Nevertheless, we will still explicitly specify permissible applications of our
+system through appropriate licensing to mitigate potential adverse societal impacts.
+REPRODUCIBILITY STATEMENT
+To ensure the reproducibility of our method, we include the details of dataset processing in Appen-
+dex A, including the rule-based spatial relation definitions (A.1) and the used prompt and hyper-
+parameters for ChatGPT to refine object descriptions (A.2). Implementation details are also pro-
+vided in Appdex B, including baseline reproductions (B.1), model hyperparameter disclosure (B.2)
+and evaluation metric computations (B.3). Our instruction-scene pair dataset and code for both
+training and evaluation can be found in https://chenguolin.github.io/projects/
+InstructScene.
+ACKNOWLAGEMENT
+This work is supported by National Key R&D Program of China (2022ZD0160305).
+REFERENCES
+Jacob Austin, Daniel D Johnson, Jonathan Ho, Daniel Tarlow, and Rianne Van Den Berg. Structured
+denoising diffusion models in discrete state-spaces. Advances in Neural Information Processing
+Systems (NeurIPS), 34:17981–17993, 2021.
+Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. Layer normalization. arXiv preprint
+arXiv:1607.06450, 2016.
+Mikołaj Bi´nkowski, Danica J Sutherland, Michael Arbel, and Arthur Gretton. Demystifying mmd
+gans. In International Conference on Learning Representations (ICLR), 2018.
+Angel Chang, Manolis Savva, and Christopher D Manning. Learning spatial knowledge for text to
+3d scene generation. In Proceedings of the 2014 Conference on Empirical Methods in Natural
+Language Processing (EMNLP), pp. 2028–2038, 2014.
+Angel Chang, Will Monroe, Manolis Savva, Christopher Potts, and Christopher D Manning. Text to
+3d scene generation with rich lexical grounding. In Proceedings of the 53rd Annual Meeting of
+the Association for Computational Linguistics (ACL), pp. 53–62, 2015a.
+Angel X Chang, Thomas Funkhouser, Leonidas Guibas, Pat Hanrahan, Qixing Huang, Zimo Li,
+Silvio Savarese, Manolis Savva, Shuran Song, Hao Su, et al. Shapenet: An information-rich 3d
+model repository. arXiv preprint arXiv:1512.03012, 2015b.
+Angel X Chang, Mihail Eric, Manolis Savva, and Christopher D Manning. Sceneseer: 3d scene
+design with natural language. arXiv preprint arXiv:1703.00050, 2017.
+Mehdi Cherti, Romain Beaumont, Ross Wightman, Mitchell Wortsman, Gabriel Ilharco, Cade Gor-
+don, Christoph Schuhmann, Ludwig Schmidt, and Jenia Jitsev. Reproducible scaling laws for
+contrastive language-image learning. In Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition (CVPR), pp. 2818–2829, 2023.
+10
+Published as a conference paper at ICLR 2024
+Dana Cohen-Bar, Elad Richardson, Gal Metzer, Raja Giryes, and Daniel Cohen-Or. Set-the-scene:
+Global-local training for generating controllable nerf scenes. In IEEE/CVF International Confer-
+ence on Computer Vision Workshops (ICCVW), 2023.
+Blender Online Community. Blender - a 3D modelling and rendering package. Blender Foundation,
+Stichting Blender Foundation, Amsterdam, 2018. URL http://www.blender.org.
+Nicola De Cao and Thomas Kipf. MolGAN: An implicit generative model for small molecular
+graphs. ICML 2018 workshop on Theoretical Foundations and Applications of Deep Generative
+Models, 2018.
+Matt Deitke, Ruoshi Liu, Matthew Wallingford, Huong Ngo, Oscar Michel, Aditya Kusupati, Alan
+Fan, Christian Laforte, Vikram V oleti, Samir Yitzhak Gadre, et al. Objaverse-xl: A universe of
+10m+ 3d objects. Advances in Neural Information Processing Systems (NeurIPS), 2023.
+Helisa Dhamo, Fabian Manhardt, Nassir Navab, and Federico Tombari. Graph-to-3d: End-to-end
+generation and manipulation of 3d scenes using scene graphs. In Proceedings of the IEEE/CVF
+International Conference on Computer Vision (ICCV), pp. 16352–16361, 2021.
+Prafulla Dhariwal and Alexander Nichol. Diffusion models beat gans on image synthesis.Advances
+in Neural Information Processing Systems (NeurIPS), 34:8780–8794, 2021.
+Vijay Prakash Dwivedi and Xavier Bresson. A generalization of transformer networks to graphs. In
+AAAI Workshop on Deep Learning on Graphs: Methods and Applications, 2021.
+Weixi Feng, Wanrong Zhu, Tsu-Jui Fu, Varun Jampani, Arjun Reddy Akula, Xuehai He, S Basu,
+Xin Eric Wang, and William Yang Wang. LayoutGPT: Compositional visual planning and gen-
+eration with large language models. In Advances in Neural Information Processing Systems
+(NeurIPS), 2023.
+Matthew Fisher, Manolis Savva, Yangyan Li, Pat Hanrahan, and Matthias Nießner. Activity-centric
+scene synthesis for functional 3d scene modeling. ACM Transactions on Graphics (TOG), 34(6):
+1–13, 2015.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng, Chengyue
+Sun, Rongfei Jia, Binqiang Zhao, et al. 3d-front: 3d furnished rooms with layouts and seman-
+tics. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV), pp.
+10933–10942, 2021a.
+Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve Maybank, and Dacheng
+Tao. 3d-future: 3d furniture shape with texture. International Journal of Computer Vision (IJCV),
+129:3313–3337, 2021b.
+Lin Gao, Jia-Mu Sun, Kaichun Mo, Yu-Kun Lai, Leonidas J Guibas, and Jie Yang. Scenehgn:
+Hierarchical graph networks for 3d indoor scene generation with fine-grained geometry. IEEE
+Transactions on Pattern Analysis and Machine Intelligence (T-PAMI), 2023.
+Sarthak Garg, Helisa Dhamo, Azade Farshad, Sabrina Musatian, Nassir Navab, and Federico
+Tombari. Unconditional scene graph generation. In Proceedings of the IEEE/CVF International
+Conference on Computer Vision (ICCV), pp. 16362–16371, 2021.
+Shuyang Gu, Dong Chen, Jianmin Bao, Fang Wen, Bo Zhang, Dongdong Chen, Lu Yuan, and
+Baining Guo. Vector quantized diffusion model for text-to-image synthesis. InProceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp. 10696–10706,
+2022.
+Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp Hochreiter.
+Gans trained by a two time-scale update rule converge to a local nash equilibrium. Advances in
+Neural Information Processing Systems (NeurIPS), 30, 2017.
+Jonathan Ho and Tim Salimans. Classifier-free diffusion guidance. In NeurIPS 2021 Workshop on
+Deep Generative Models and Downstream Applications, 2021.
+11
+Published as a conference paper at ICLR 2024
+Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffusion probabilistic models. Advances in
+Neural Information Processing Systems (NeurIPS), 33:6840–6851, 2020.
+Lukas H ¨ollein, Ang Cao, Andrew Owens, Justin Johnson, and Matthias Nießner. Text2room: Ex-
+tracting textured 3d meshes from 2d text-to-image models. In Proceedings of the IEEE/CVF
+International Conference on Computer Vision (ICCV), pp. 7909–7920, 2023.
+Emiel Hoogeboom, Didrik Nielsen, Priyank Jaini, Patrick Forr ´e, and Max Welling. Argmax flows
+and multinomial diffusion: Learning categorical distributions. Advances in Neural Information
+Processing Systems (NeurIPS), 34:12454–12465, 2021.
+Eric Jang, Shixiang Gu, and Ben Poole. Categorical reparameterization with gumbel-softmax. In
+International Conference on Learning Representations (ICLR), 2016.
+Jaehyeong Jo, Seul Lee, and Sung Ju Hwang. Score-based generative modeling of graphs via the
+system of stochastic differential equations. In International Conference on Machine Learning
+(ICML), pp. 10362–10383. PMLR, 2022.
+Justin Johnson, Agrim Gupta, and Li Fei-Fei. Image generation from scene graphs. In Proceedings
+of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 1219–1228,
+2018.
+Diederik P Kingma and Max Welling. Auto-encoding variational bayes. InInternational Conference
+on Learning Representations (ICLR), 2014.
+Lingkai Kong, Jiaming Cui, Haotian Sun, Yuchen Zhuang, B. Aditya Prakash, and Chao Zhang.
+Autoregressive diffusion model for graph generation. In International Conference on Machine
+Learning (ICML), volume 202, pp. 17391–17408. PMLR, 2023.
+Alex Krizhevsky, Ilya Sutskever, and Geoffrey E Hinton. Imagenet classification with deep con-
+volutional neural networks. Advances in Neural Information Processing Systems (NeurIPS), 25,
+2012.
+Tuomas Kynk¨a¨anniemi, Tero Karras, Miika Aittala, Timo Aila, and Jaakko Lehtinen. The role of
+imagenet classes in fr ´echet inception distance. In International Conference on Learning Repre-
+sentations (ICLR), 2022.
+Jiahui Lei, Congyue Deng, Bokui Shen, Leonidas Guibas, and Kostas Daniilidis. Nap: Neural 3d
+articulation prior. Advances in Neural Information Processing Systems (NeurIPS), 2023.
+Junnan Li, Dongxu Li, Caiming Xiong, and Steven Hoi. Blip: Bootstrapping language-image pre-
+training for unified vision-language understanding and generation. In International Conference
+on Machine Learning (ICML), pp. 12888–12900. PMLR, 2022.
+Manyi Li, Akshay Gadi Patil, Kai Xu, Siddhartha Chaudhuri, Owais Khan, Ariel Shamir, Changhe
+Tu, Baoquan Chen, Daniel Cohen-Or, and Hao Zhang. Grains: Generative recursive autoencoders
+for indoor scenes. ACM Transactions on Graphics (TOG), 38(2):1–16, 2019.
+Yujia Li, Oriol Vinyals, Chris Dyer, Razvan Pascanu, and Peter Battaglia. Learning deep generative
+models of graphs. arXiv preprint arXiv:1803.03324, 2018.
+Yiqi Lin, Haotian Bai, Sijia Li, Haonan Lu, Xiaodong Lin, Hui Xiong, and Lin Wang. Compon-
+erf: Text-guided multi-object compositional nerf with editable 3d scene layout. arXiv preprint
+arXiv:2303.13843, 2023.
+Jingyu Liu, Wenhan Xiong, Ian Jones, Yixin Nie, Anchit Gupta, and Barlas O ˘guz. Clip-layout:
+Style-consistent indoor scene synthesis with semantic furniture embedding. arXiv preprint
+arXiv:2303.03565, 2023a.
+Minghua Liu, Ruoxi Shi, Kaiming Kuang, Yinhao Zhu, Xuanlin Li, Shizhong Han, Hong Cai,
+Fatih Porikli, and Hao Su. Openshape: Scaling up 3d shape representation towards open-world
+understanding. Advances in Neural Information Processing Systems (NeurIPS), 2023b.
+12
+Published as a conference paper at ICLR 2024
+Robert Lo, Arnhav Datar, and Abishek Sridhar. Lic-gan: Language information conditioned graph
+generative gan model. arXiv preprint arXiv:2306.01937, 2023.
+Michael Longland, David Liebowitz, Kristen Moore, and Salil S Kanhere. Text-conditioned graph
+generation using discrete graph variational autoencoders, 2022.
+Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. In International Confer-
+ence on Learning Representations (ICLR), 2018.
+Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B Tenenbaum. End-to-end optimization
+of scene layout. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), pp. 3754–3763, 2020.
+Rui Ma, Akshay Gadi Patil, Matthew Fisher, Manyi Li, S ¨oren Pirk, Binh-Son Hua, Sai-Kit Yeung,
+Xin Tong, Leonidas Guibas, and Hao Zhang. Language-driven synthesis of 3d scenes from scene
+databases. ACM Transactions on Graphics (TOG), 37(6):1–16, 2018.
+Karolis Martinkus, Andreas Loukas, Nathana¨el Perraudin, and Roger Wattenhofer. Spectre: Spectral
+conditioning helps to overcome the expressivity limits of one-shot graph generators. In Interna-
+tional Conference on Machine Learning (ICML), pp. 15159–15179. PMLR, 2022.
+Chenlin Meng, Yutong He, Yang Song, Jiaming Song, Jiajun Wu, Jun-Yan Zhu, and Stefano Ermon.
+Sdedit: Guided image synthesis and editing with stochastic differential equations. InInternational
+Conference on Learning Representations (ICLR), 2021.
+Paul Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala, and Vladlen Koltun. Interactive furni-
+ture layout using interior design guidelines. ACM Transactions on Graphics (TOG), 30(4):1–10,
+2011.
+Alexander Quinn Nichol, Prafulla Dhariwal, Aditya Ramesh, Pranav Shyam, Pamela Mishkin, Bob
+Mcgrew, Ilya Sutskever, and Mark Chen. Glide: Towards photorealistic image generation and
+editing with text-guided diffusion models. In International Conference on Machine Learning
+(ICML), pp. 16784–16804. PMLR, 2022.
+Chenhao Niu, Yang Song, Jiaming Song, Shengjia Zhao, Aditya Grover, and Stefano Ermon. Per-
+mutation invariant graph generation via score-based generative modeling. In International Con-
+ference on Artificial Intelligence and Statistics (AISTATS), pp. 4474–4484. PMLR, 2020.
+OpenAI. Gpt-4 technical report. arXiv preprint arXiv:2303.08774, 2023.
+Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin, Chong
+Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to fol-
+low instructions with human feedback. Advances in Neural Information Processing Systems
+(NeurIPS), 35:27730–27744, 2022.
+Wamiq Para, Paul Guerrero, Tom Kelly, Leonidas J Guibas, and Peter Wonka. Generative layout
+modeling using constraint graphs. In Proceedings of the IEEE/CVF International Conference on
+Computer Vision (ICCV), pp. 6690–6700, 2021.
+Gaurav Parmar, Richard Zhang, and Jun-Yan Zhu. On aliased resizing and surprising subtleties in
+gan evaluation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), pp. 11410–11420, 2022.
+Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and Sanja Fi-
+dler. Atiss: Autoregressive transformers for indoor scene synthesis. Advances in Neural Informa-
+tion Processing Systems (NeurIPS), 34:12013–12026, 2021.
+Akshay Gadi Patil, Supriya Gadi Patil, Manyi Li, Matthew Fisher, Manolis Savva, and Hao Zhang.
+Advances in data-driven analysis and synthesis of 3d indoor scenes. Computer Graphics Forum,
+2023.
+Ethan Perez, Florian Strub, Harm De Vries, Vincent Dumoulin, and Aaron Courville. Film: Visual
+reasoning with a general conditioning layer. In Proceedings of the AAAI conference on Artificial
+Intelligence (AAAI), volume 32, 2018.
+13
+Published as a conference paper at ICLR 2024
+Boris T Polyak and Anatoli B Juditsky. Acceleration of stochastic approximation by averaging.
+SIAM Journal on Control and Optimization (SICON), 30(4):838–855, 1992.
+Pulak Purkait, Christopher Zach, and Ian Reid. Sg-vae: Scene grammar variational autoencoder to
+generate new indoor scenes. In European Conference on Computer Vision (ECCV), pp. 155–171.
+Springer, 2020.
+Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and Song-Chun Zhu. Human-centric indoor
+scene synthesis using stochastic grammar. In Proceedings of the IEEE Conference on Computer
+Vision and Pattern Recognition (CVPR), pp. 5899–5908, 2018.
+Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal,
+Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual
+models from natural language supervision. In International Conference on Machine Learning
+(ICML), pp. 8748–8763. PMLR, 2021.
+Aditya Ramesh, Mikhail Pavlov, Gabriel Goh, Scott Gray, Chelsea V oss, Alec Radford, Mark Chen,
+and Ilya Sutskever. Zero-shot text-to-image generation. In International Conference on Machine
+Learning (ICML), pp. 8821–8831. PMLR, 2021.
+Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and flexible indoor scene synthesis via deep con-
+volutional generative models. In Proceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR), pp. 6182–6190, 2019.
+Martin Simonovsky and Nikos Komodakis. Graphvae: Towards generation of small graphs using
+variational autoencoders. In International Conference on Artificial Neural Networks (ICANN) ,
+pp. 412–422. Springer, 2018.
+Jascha Sohl-Dickstein, Eric Weiss, Niru Maheswaranathan, and Surya Ganguli. Deep unsupervised
+learning using nonequilibrium thermodynamics. In International Conference on Machine Learn-
+ing (ICML), pp. 2256–2265. PMLR, 2015.
+Kihyuk Sohn, Honglak Lee, and Xinchen Yan. Learning structured output representation using deep
+conditional generative models. Advances in Neural Information Processing Systems (NeurIPS) ,
+28, 2015.
+Liangchen Song, Liangliang Cao, Hongyu Xu, Kai Kang, Feng Tang, Junsong Yuan, and Yang Zhao.
+Roomdreamer: Text-driven 3d indoor scene synthesis with coherent geometry and texture. arXiv
+preprint arXiv:2305.11337, 2023.
+Yang Song, Jascha Sohl-Dickstein, Diederik P Kingma, Abhishek Kumar, Stefano Ermon, and Ben
+Poole. Score-based generative modeling through stochastic differential equations. In Interna-
+tional Conference on Learning Representations (ICLR), 2020.
+Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner. Dif-
+fuscene: Scene graph denoising diffusion probabilistic model for generative indoor scene synthe-
+sis. arXiv preprint arXiv:2303.14207, 2023.
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,
+Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in Neural Informa-
+tion Processing Systems (NeurIPS), 30, 2017.
+Tathagat Verma, Abir De, Yateesh Agrawal, Vishwa Vinay, and Soumen Chakrabarti. Varscene:
+A deep generative model for realistic scene graph synthesis. In International Conference on
+Machine Learning (ICML), pp. 22168–22183. PMLR, 2022.
+Clement Vignac, Igor Krawczuk, Antoine Siraudin, Bohan Wang, V olkan Cevher, and Pascal
+Frossard. Digress: Discrete denoising diffusion for graph generation. InInternational Conference
+on Learning Representations (ICLR), 2023.
+Kai Wang, Manolis Savva, Angel X Chang, and Daniel Ritchie. Deep convolutional priors for indoor
+scene synthesis. ACM Transactions on Graphics (TOG), 37(4):1–14, 2018.
+14

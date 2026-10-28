@@ -1,0 +1,524 @@
+{
+ "scene_key": "room_079",
+ "room_type": "bedroom",
+ "building_style": "",
+ "prompt": "",
+ "room": {
+  "dimensions": {
+   "width": 6.273530960083008,
+   "length": 8.77353048324585,
+   "height": 2.8
+  },
+  "position": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "ceiling_height": 2.8,
+  "walls": [
+   {
+    "id": "wall_0",
+    "start_point": {
+     "x": 6.273530960083008,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.2694501876831055,
+     "y": 5.338171482086182,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_1",
+    "start_point": {
+     "x": 6.2694501876831055,
+     "y": 5.338171482086182,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 2.83817195892334,
+     "y": 8.769449710845947,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_2",
+    "start_point": {
+     "x": 2.83817195892334,
+     "y": 8.769449710845947,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.5,
+     "y": 8.77353048324585,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_3",
+    "start_point": {
+     "x": 0.5,
+     "y": 8.77353048324585,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.5,
+     "y": 2.7735304832458496,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_4",
+    "start_point": {
+     "x": 0.5,
+     "y": 2.7735304832458496,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 2.7735304832458496,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_5",
+    "start_point": {
+     "x": 0.0,
+     "y": 2.7735304832458496,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_6",
+    "start_point": {
+     "x": 0.0,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.273530960083008,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   }
+  ],
+  "doors": [
+   {
+    "id": "opening_3",
+    "wall_id": "wall_3",
+    "position_on_wall": 0.655036,
+    "width": 0.8631,
+    "height": 2.0664,
+    "door_type": "door"
+   }
+  ],
+  "windows": [
+   {
+    "id": "opening_0",
+    "wall_id": "wall_0",
+    "position_on_wall": 0.477953,
+    "width": 4.7763,
+    "height": 1.4302,
+    "sill_height": 1.1391
+   },
+   {
+    "id": "opening_1",
+    "wall_id": "wall_1",
+    "position_on_wall": 0.547275,
+    "width": 2.1949,
+    "height": 1.4362,
+    "sill_height": 1.1362
+   },
+   {
+    "id": "opening_2",
+    "wall_id": "wall_2",
+    "position_on_wall": 0.489995,
+    "width": 1.9321,
+    "height": 1.4206,
+    "sill_height": 1.1439
+   },
+   {
+    "id": "opening_4",
+    "wall_id": "wall_6",
+    "position_on_wall": 0.602704,
+    "width": 1.3593,
+    "height": 1.405,
+    "sill_height": 1.1518
+   }
+  ]
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "shelf",
+   "description": "shelf",
+   "asset_key": "shelf_7347b908",
+   "position": {
+    "x": 0.167,
+    "y": 0.55,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -89.80000000000001
+   },
+   "dimensions": {
+    "width": 1.0377671718597412,
+    "length": 0.3295647203922272,
+    "height": 1.2845417261123657
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0001",
+   "type": "bed",
+   "description": "bed",
+   "asset_key": "bed_fefe2393",
+   "position": {
+    "x": 2.6,
+    "y": 1.121,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.19999999999998755
+   },
+   "dimensions": {
+    "width": 1.8076488971710205,
+    "length": 2.234837055206299,
+    "height": 1.3443539142608643
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0002",
+   "type": "lamp",
+   "description": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "position": {
+    "x": 1.5,
+    "y": 0.8,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.4
+   },
+   "dimensions": {
+    "width": 0.2985715866088867,
+    "length": 0.29697611927986145,
+    "height": 1.3316816091537476
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0003",
+   "type": "shelf",
+   "description": "shelf",
+   "asset_key": "shelf_7347b908",
+   "position": {
+    "x": 6.118,
+    "y": 0.55,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.6243734955787659,
+    "length": 0.3032161295413971,
+    "height": 0.8627225160598755
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0004",
+   "type": "shelf",
+   "description": "shelf",
+   "asset_key": "shelf_7347b908",
+   "position": {
+    "x": 0.159,
+    "y": 1.45,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.6052340865135193,
+    "length": 0.31712841987609863,
+    "height": 0.9414381980895996
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0005",
+   "type": "lamp",
+   "description": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "position": {
+    "x": 3.7,
+    "y": 0.8,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.26851886510849,
+    "length": 0.2613062560558319,
+    "height": 1.4240844249725342
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0006",
+   "type": "shelf",
+   "description": "shelf",
+   "asset_key": "shelf_7347b908",
+   "position": {
+    "x": 0.169,
+    "y": 2.3,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.6
+   },
+   "dimensions": {
+    "width": 0.7049300670623779,
+    "length": 0.3303154706954956,
+    "height": 0.9830217957496643
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0007",
+   "type": "lamp",
+   "description": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "position": {
+    "x": 5.1,
+    "y": 2.15,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.4
+   },
+   "dimensions": {
+    "width": 0.314439058303833,
+    "length": 0.29506155848503113,
+    "height": 0.5395849943161011
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0008",
+   "type": "table",
+   "description": "table",
+   "asset_key": "table_c3ee137d",
+   "position": {
+    "x": 2.8,
+    "y": 3.41,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.4999999999999689
+   },
+   "dimensions": {
+    "width": 1.0581929683685303,
+    "length": 0.7254907488822937,
+    "height": 0.7292410731315613
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0009",
+   "type": "book",
+   "description": "book",
+   "asset_key": "book_e7e694c5",
+   "position": {
+    "x": 0.2,
+    "y": 0.55,
+    "z": 1.2845417261123657
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -89.9
+   },
+   "dimensions": {
+    "width": 0.240746408700943,
+    "length": 0.1968504786491394,
+    "height": 0.13803333044052124
+   },
+   "place_id": "obj_0000"
+  },
+  {
+   "id": "obj_0010",
+   "type": "carpet",
+   "description": "carpet",
+   "asset_key": "carpet_be207b77",
+   "position": {
+    "x": 1.8914,
+    "y": 6.7086,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.6
+   },
+   "dimensions": {
+    "width": 2.4304747581481934,
+    "length": 2.7273759841918945,
+    "height": 0.019849492236971855
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0011",
+   "type": "tv",
+   "description": "tv",
+   "asset_key": "tv_ff0dc9ba",
+   "position": {
+    "x": 0.159,
+    "y": 1.45,
+    "z": 0.9414381980895996
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.559201717376709,
+    "length": 0.1358761340379715,
+    "height": 0.5619040727615356
+   },
+   "place_id": "obj_0004"
+  },
+  {
+   "id": "obj_0012",
+   "type": "lamp",
+   "description": "lamp",
+   "asset_key": "lamp_bc4edcce",
+   "position": {
+    "x": 5.1,
+    "y": 4.52,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.19999999999999
+   },
+   "dimensions": {
+    "width": 0.2822113037109375,
+    "length": 0.2500213086605072,
+    "height": 0.4711170792579651
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0013",
+   "type": "bed",
+   "description": "bed",
+   "asset_key": "bed_fefe2393",
+   "position": {
+    "x": 5.0986,
+    "y": 3.3854,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.1
+   },
+   "dimensions": {
+    "width": 1.8780312538146973,
+    "length": 2.268022298812866,
+    "height": 1.2882165908813477
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0014",
+   "type": "book",
+   "description": "book",
+   "asset_key": "book_e7e694c5",
+   "position": {
+    "x": 6.1,
+    "y": 0.55,
+    "z": 0.8627225160598755
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.1835039108991623,
+    "length": 0.20938576757907867,
+    "height": 0.2161695659160614
+   },
+   "place_id": "obj_0003"
+  },
+  {
+   "id": "obj_0015",
+   "type": "shelf",
+   "description": "shelf",
+   "asset_key": "shelf_7347b908",
+   "position": {
+    "x": 6.112,
+    "y": 4.9,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 89.70000000000002
+   },
+   "dimensions": {
+    "width": 0.7321032881736755,
+    "length": 0.31134387850761414,
+    "height": 1.018558144569397
+   },
+   "place_id": "floor"
+  }
+ ]
+}

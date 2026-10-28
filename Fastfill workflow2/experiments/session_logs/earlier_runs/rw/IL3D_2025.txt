@@ -1,0 +1,892 @@
+Preprint.
+IL3D: A LARGE-SCALEINDOORLAYOUTDATASET
+FORLLM-DRIVEN3D SCENEGENERATION
+Wenxu Zhou1, Kaixuan Nie 2, Hang Du 2, Dong Yin1, Wei Huang2, Siqiang Guo 2
+Xiaobo Zhang2, Pengbo Hu 2,†
+1University of Science and Technology of China 2Songying Technology
+ABSTRACT
+In this study, we present IL3D, a large-scale dataset meticulously designed for
+large language model (LLM)-driven 3D scene generation, addressing the press-
+ing demand for diverse, high-quality training data in indoor layout design. Com-
+prising 27,816 indoor layouts across 18 prevalent room types and a library of
+29,215 high-fidelity 3D object assets, IL3D is enriched with instance-level natural
+language annotations to support robust multimodal learning for vision-language
+tasks. We establish rigorous benchmarks to evaluate LLM-driven scene genera-
+tion. Experimental results show that supervised fine-tuning (SFT) of LLMs on
+IL3D significantly improves generalization and surpasses the performance of SFT
+on other datasets. IL3D offers flexible multimodal data export capabilities, in-
+cluding point clouds, 3D bounding boxes, multiview images, depth maps, normal
+maps, and semantic masks, enabling seamless adaptation to various visual tasks.
+As a versatile and robust resource, IL3D significantly advances research in 3D
+scene generation and embodied intelligence, by providing high-fidelity scene data
+to support environment perception tasks of embodied agents. The dataset and
+accompanying code are publicly accessible1.
+1 INTRODUCTION
+3D indoor scene generation has emerged as a pivotal technology bridging embodied intelligence,
+smart home design, virtual reality interaction, and robotic environmental perception. Its core objec-
+tive is to transform abstract spatial requirements into physically plausible and semantically coherent
+indoor layouts Yang et al. (2024c); C ¸ elen et al. (2024); Zhou et al. (2025). In this domain, large
+language models (LLMs), leveraging their robust natural language understanding and reasoning ca-
+pabilities, have become critical tools for driving scene generation. However, the precise modeling
+of indoor scenes by LLMs heavily relies on high-quality synthetic datasets Khanna et al. (2024);
+Kolve et al. (2017). These datasets must not only encompass diverse indoor scene types but also
+provide fine-grained information to support 3D perception tasks, including object geometry, seman-
+tic relationships, and multimodal representations. Such data is essential to address challenges like
+object overlap, boundary overflow, and other physical plausibility issues, as well as to meet the
+requirements of 3D point cloud analysis, semantic segmentation, and related perception tasks.
+While existing mainstream indoor scene synthesis datasets Khanna et al. (2024); Fu et al. (2021a)
+have advanced 3D perception research to some extent, they exhibit notable limitations. Some
+datasets focus primarily on accumulating furniture assets but lack sufficient coverage of diverse
+indoor scene types, making it challenging to support modeling for varied living spaces such as
+bedrooms, kitchens, or study rooms. Others provide interactive 3D scenes but lack fine-grained
+annotations, failing to deliver critical information such as object materials, poses, or spatial rela-
+tionships, which leads to biases in LLMs’ semantic understanding of indoor scenes. Additionally,
+certain datasets prioritize visual realism but fall short in supporting the data formats required for
+multimodal 3D perception tasks, such as depth maps, normal maps, or semantic masks, thereby lim-
+iting their utility for training perception models and hindering the synergy between 3D perception
+and scene generation tasks.
+1The project homepage is located athttps://wenxuzhou.github.io/project/IL3D/
+1
+arXiv:2510.12095v1  [cs.CV]  14 Oct 2025
+Preprint.
+Furthermore, 3D perception tasks for indoor scenes impose stringent requirements on the “function-
+ality” and “diversity” of datasets. On one hand, datasets must ensure that indoor layouts adhere to
+real-world functional logic (e.g., appropriate placement of cabinets and appliances in kitchens or
+beds and wardrobes in bedrooms) to enable perception models to understand the functional context
+of indoor scenes. On the other hand, datasets need to cover indoor scenes with varying areas and ob-
+ject densities to prevent biases that could degrade the generalization ability of perception models in
+complex scenarios, such as densely populated living rooms or compact bathrooms. These demands
+underscore the urgent need for a large-scale synthetic dataset tailored to indoor scenes that addresses
+the requirements of 3D perception tasks.
+To address these challenges, this study introduces the IL3D dataset, a large-scale indoor layout
+dataset designed to meet the core needs of indoor scene generation and 3D perception. By inte-
+grating high-quality existing scene resources and supplementing them with targeted synthetic data,
+IL3D overcomes the shortcomings of current datasets in terms of indoor scene diversity, annotation
+completeness for 3D perception, and adaptability to multiple tasks. The dataset provides training
+samples closely aligned with real-world indoor environments for LLMs while offering multimodal
+data, including semantic point clouds, 3D bounding boxes, and multi-view RGB images, to sup-
+port 3D perception tasks. This facilitates a synergistic improvement in both the quality of indoor
+scene generation and the accuracy of 3D perception, laying a robust data foundation for subsequent
+academic research and industrial applications related to indoor scenes. Our contributions can be
+summarized as follows:
+• We introduce the IL3D dataset, containing 27,816 indoor layouts and 29,215 indoor object
+models, effectively meeting the data needs of diverse 3D scene understanding tasks.
+• The dataset provides instance-level natural language descriptions and supports multiple
+data formats, including semantic point clouds, 3D bounding boxes, multi-view RGB im-
+ages, depth maps, normal maps, and semantic masks, ensuring compatibility with a wide
+range of downstream visual tasks.
+• Experiments demonstrate that direct supervised fine-tuning (SFT) on IL3D significantly
+improves the performance of LLM-driven layout generation, highlighting its critical role in
+generative tasks for indoor 3D scene synthesis.
+• Constructed primarily from USDZ-format assets and USDA-format scenes, the dataset
+is readily parsed and analyzed by LLMs, ensuring seamless integration with mainstream
+graphics processing and simulation software.
+2 RELATEDWORK
+The development of large-scale, high-fidelity indoor scene datasets is critical for advancing 3D scene
+understanding, embodied intelligence, and 3D scene generation, as these datasets provide diverse,
+semantically rich room and layout representations to support tasks such as object navigation, scene
+layout generation, and interactive simulation.
+2.1 SYNTHESISSCENEDATASET
+3D-FRONT Fu et al. (2021a) focuses on furniture resources, providing an asset library with 13,151
+high-quality 3D object models and 6,813 synthetic houses. Its modular object component design en-
+ables flexible scene assembly, laying a solid foundation for the subsequent construction of full-scene
+datasets. Building on 3D-FRONT, 3D-FUTURE Fu et al. (2021b) further enhances data adaptability
+by offering 9,938 high-quality 3D CAD furniture models with texture and semantic annotations.
+It supports the export of color images, semantic masks, depth maps, and normal maps, signifi-
+cantly expanding the dataset’s application in visual tasks like scene synthesis and texture transfer.
+MetaScenes Yu et al. (2025) provides 10,245 high-fidelity indoor scenes with multimodal annota-
+tions (semantic, geometric, and natural language descriptions) and dynamic interaction support. It
+optimizes scene realism and interactivity, making it particularly suitable for multimodal learning and
+virtual reality applications, and opens up new possibilities for 3D scene generation and embodied
+intelligence research.
+2
+Preprint.
+CHOrD Su et al. (2025) achieves breakthroughs in scale and controllability, including 9,706
+collision-free house-scale indoor scenes with hierarchical layouts and customizable floor plans.
+Through advanced optimization techniques for fine-tuning object placement and spatial organiza-
+tion, it enables fine-grained control over scene topology, serving as a robust foundation for digital
+twin generation and large-scale simulation research.
+AI2-THOR Kolve et al. (2017) integrates sub-datasets including iTHOR, RoboTHOR Deitke et al.
+(2020), ProcTHOR Deitke et al. (2022), and ArchitecTHOR Eftekhar et al. (2023), covering 120
+large-scale interactive 3D indoor scenes (e.g., kitchens, bedrooms, bathrooms, and living rooms).
+With over 2,000 unique interactive objects rendered via the Unity engine, it supports visual question
+answering (VQA) Antol et al. (2015) and physics-based simulation experiments, providing critical
+support for embodied intelligence research. HSSD Khanna et al. (2024) offers 211 photorealistic
+3D scenes based on real-world floor plans, containing 18,656 3D object assets. By balancing scene
+diversity and physical plausibility, it enhances the generalization of agents from simulated to real-
+world environments in object goal navigation tasks, outperforming many previous synthetic datasets.
+2.2 TEXT IN3D SCENE
+Scan2Cap Chen et al. (2021) proposes an RGB-D scan-based context-aware dense annotation task
+for 3D point cloud scenes, aiming to predict bounding boxes and their natural language descrip-
+tions for objects. Using an end-to-end training framework, it leverages an attention mechanism to
+generate descriptive text and a message-passing graph module to capture inter-object spatial rela-
+tionship features. On the ScanRefer dataset Chen et al. (2020), it achieves a 27.61% improvement in
+CiDEr@0.5IoU score compared to 2D baseline methods, laying an important foundation for dense
+annotation of 3D scenes. ExCap3D Yeshwanth et al. (2025) proposes an expressive 3D annotation
+task to generate multi-level 3D object descriptions, including high-level object descriptions and low-
+level part attribute descriptions. Based on the ScanNet++ dataset Yeshwanth et al. (2023), it uses
+vision-language models to generate 190,000 multi-view annotations (covering 34,000 objects and
+947 indoor scenes). By ensuring semantic consistency of constrained text and textual similarity in
+latent space, it significantly improves description quality, with CiDEr scores outperforming existing
+methods.
+ScanQA Azuma et al. (2022) focuses on visual question answering (VQA) in 3D scenes, construct-
+ing open-ended question-answer pairs based on the ScanNet dataset Dai et al. (2017). These pairs
+cover tasks such as object recognition, spatial relationship understanding, and scene context compre-
+hension. By fusing point cloud features with language prompts, ScanQA enables fine-grained un-
+derstanding of complex 3D scenes, significantly improving the accuracy of VQA tasks. SQA3D Ma
+et al. (2022) further expands the complexity of 3D scene QA by introducing spatial reasoning and
+multi-object interaction tasks. Based on RGB-D scans, it provides rich semantic and spatial rela-
+tionship annotations, supporting diverse tasks ranging from single-object recognition to complex
+scene reasoning. Through explicit textual relationship prompts, it optimizes multi-object reasoning
+performance, offering new insights for language-guided 3D scene understanding.
+2.3 LLM-DRIVENSCENEGENERATION
+Research on text-driven scene generation converts complex scene layouts into structured textual
+descriptions and leverages the reasoning capabilities of LLM to achieve efficient scene generation.
+LayoutGPT Feng et al. (2023) proposes a prompt-based generation framework that effectively
+processes complex language prompts containing numerical values and spatial relationships. This
+framework significantly improves the accuracy and semantic consistency of generated layouts. I-
+Design C ¸ elen et al. (2024) adopts a multi-agent system and scene graph generation mechanism,
+supporting users to generate and visually design targets through natural language interaction. It
+enables an iterative generation process, transforming user preferences into complete 3D layouts.
+HOLODECK Yang et al. (2024c) focuses on language-guided 3D embodied AI environment gen-
+eration. It can create diverse indoor scenes, capture the semantics of complex queries, and support
+zero-shot object navigation tasks. LayoutVLM Sun et al. (2025) integrates vision-language mod-
+els with differentiable optimization, proposing an innovative scene layout representation method.
+It generates physically plausible and semantically consistent layouts from unlabeled 3D assets and
+3
+Preprint.
+Table 1: Statistics of synthetic datasets for indoor scenes.
+Dataset Reference Number of Rooms Number of Assets Text Annotation
+3D-FRONT CVPR 2021 21.3K 16.6K×
+HSSD CVPR 2024 1.1K 18.6K×
+IL3D (Ours) - 27.8K 29.2K✓
+language instructions, ensuring the robustness of scenes in terms of physical stability and function-
+ality.
+LLplace Yang et al. (2024b) optimizes the spatial coherence and functional relationship prediction
+of LLMs through supervised fine-tuning. It performs exceptionally well in generating layouts for
+complex indoor environments, excelling in both practicality and semantic accuracy. OptiScene Yang
+et al. (2025) enhances the physical plausibility and visual consistency of generated results through
+two-stage fine-tuning (supervised fine-tuning followed by direct preference optimization). It per-
+forms particularly well in handling diverse room types and complex spatial constraints.
+3 THEIL3D DATASET
+3.1 DATA
+The IL3D dataset integrates the 3D-FRONT and HSSD datasets, with manual cleaning performed
+to remove data with abnormal sizes or layouts. We adopted the HOLODECK method to synthesize
+missing scene types of scene that are missing in these source datasets. The IL3D dataset can be
+divided into two parts overall: 3D assets and indoor scene layouts. Among them, 3D assets include
+corresponding object models of different types and multiple types of asset annotations, while scene
+layouts include information on the position, rotation, and scaling of each object in the scene, as well
+as the corresponding range of the room.
+We constructed the dataset based on the Universal Scene Description (USD) format: using 3D object
+assets in USDZ format and room layouts in USDA format. The most prominent feature of this for-
+mat is text readability, meaning large language models can directly read information about objects in
+the scene from 3D scene models; relevant details are provided in Appendix A.2.2. Considering that
+current synthetic scene datasets generally lack natural language annotations, in the IL3D dataset,
+we annotated each 3D object asset with multiple annotations at different levels. Specifically, coarse
+labels and fine labels refer to the category names of objects at different hierarchical levels. Addition-
+ally, we used Qwen3-VL to annotate scenes with more detailed instance-level descriptions based on
+multi-view images, including the specific type of the object, appearance description, approximate
+weight, original pose, constituent materials, and spatial relationships of the object’s layout.
+3.2 METRICS
+The evaluation metrics of the IL3D dataset are divided into two categories: objective metrics and
+subjective metrics, which are used to comprehensively measure the quality and practicality of gen-
+erated scenes. Objective metrics include Out-of-Bound (OOB), which is used to detect whether
+objects in the scene exceed the room boundaries; Object Overlap Rate (OOR), which is used to eval-
+uate the overlap degree between objects; Generation Success Rate (GSR), which is used to calculate
+the success rate of scene generation; and CLIP-Similarity (CLIP-Sim), which measures the semantic
+similarity between the generated scene and the reference scene based on the CLIP model.
+Subjective metrics include GPT Ratings, where the GPT model is used to score the overall quality
+of generated scenes. These subjective scores cover the following aspects: Object Pose (OP), which
+evaluates the rationality of object poses; Physical Reality (PR), which checks the physical authen-
+ticity of the scene; Semantic Consistency (SC), which verifies the semantic consistency of objects in
+the scene; Scene Functionality (SF), which evaluates whether the scene meets practical functional
+requirements; and Visual Aesthetics (V A), which measures the visual aesthetics of the scene.
+4
+Preprint.
+Objective metrics and subjective metrics together form a comprehensive and systematic framework
+for performance evaluation of the IL3D dataset, which is applicable to various tasks of 3D scene
+generation and scene understanding. The specific calculation methods are provided in Appendix
+A.4.3.
+3.3 DATASETAPPLICATIONS ANDUSAGESCENARIOS
+With its high-quality 3D assets, detailed scene layouts, and rich natural language annotations, the
+IL3D dataset provides important support for the fields of 3D scene understanding, generation, and
+interaction, meeting the diverse needs of academic research and industrial applications. The scene
+readability and multi-level annotations of the IL3D dataset make it an ideal resource for developing
+and evaluating 3D scene synthesis algorithms-especially for LLM-driven scene generation. After
+simple supervised fine-tuning, LLMs can generate complex indoor scenes with semantic consistency
+and physical authenticity using this dataset.
+In addition, the high-fidelity scenes provided by the dataset are compatible with multiple simulation
+platforms, offering key support for robot navigation and interaction tasks. Researchers can use IL3D
+to train models, enabling robots to perform path planning, object grasping, or scene understanding
+in virtual environments, thereby simulating real-world indoor interaction scenarios. The natural
+language annotations of IL3D also provide unique opportunities for multimodal learning tasks, al-
+lowing researchers to develop vision-language models for indoor scenes and explore cross-modal
+correlations between 3D scenes and natural language.
+4 DATASETANALYSIS
+4.1 ROOMTYPE
+Figure 1:Statistics of room type.IL3D comprises 27,816 distinct rooms, consisting of 18 common
+room types. For existing datasets, we selectively supplemented some missing room types.
+As shown in Fig. 1, we analyzed the room type distribution of the dataset, this distribution reflects
+data integrated from the 3D-FRONT and HSSD datasets, supplemented by our targeted additional
+synthetic data. Among the room types, the bedroom category occupies a dominant position, with
+9,148 samples, while living rooms and dining rooms follow closely, with 4,532 and 1,860 samples
+respectively. These scenes are primarily sourced from the 3D-FRONT dataset, underscoring its
+significant role in this field.
+Our synthetic data (highlighted in green) addresses underrepresented categories in other datasets. It
+enhances the diversity and balance of the dataset, thereby alleviating the lack of scenes belonging
+to certain specific categories in these existing datasets. The HSSD dataset, limited by its data scale,
+makes a relatively small contribution to scene layouts.
+5
+Preprint.
+Figure 2:Statistics of object numbers per room.The number of objects in a room is mostly
+concentrated in the range of 4 to 9. When this range is exceeded, the corresponding number of
+rooms shows a steady downward trend as the number of objects increases.
+Overall, the IL3D dataset contains over 27,000 samples, covering 18 room types. Among these
+samples, synthetic data accounts for approximately 20–30% of the total. This not only strategically
+expands the coverage of indoor scene categories but also fosters the robustness of LLM-driven scene
+generation and other visual tasks by reducing potential biases in model training.
+4.2 NUMBER OFOBJECTS INROOMS
+As shown in the Fig. 2, we counted the distribution of rooms with different numbers of objects. The
+number of objects in rooms mainly ranges from 4 to 9. Rooms containing 5 objects are the most
+common, with a count of 3,594; this number primarily corresponds to the most typical indoor room
+types, such as living rooms and bedrooms.
+Starting from rooms with 10 objects, the number of corresponding rooms drops below 1,000 and
+decreases steadily afterward, which reflects a good balance in the layout of moderately complex
+rooms. Even when the number of objects exceeds 20 (with the number of rooms falling below
+200), there are still a considerable number of highly complex scenes in IL3D-this highlights the
+comprehensiveness of our dataset.
+4.3 ROOMAREA
+The area distribution of various room types in our indoor scene layout dataset reveals rich patterns
+of spatial features, as shown in Fig. 3.
+Fig. 3 (a) presents the density distribution of the total room area; most room types exhibit a multi-
+peak feature, reflecting the standardization of architectural design and the diversity of functional
+requirements. For example, the distribution of bathrooms and kitchens shows a significant peak
+around 5–15 square meters, embodying their compact design that prioritizes practicality; in contrast,
+larger spaces such as living rooms and garages have a wider distribution, with peaks exceeding 20
+square meters, adapting to diverse furniture layouts and vehicle storage needs.
+In comparison, Fig. 3 (b) shows the distribution of navigable area-a metric that accounts for obstacle-
+free regions used for movement. Notably, these distributions are shifted leftward compared to the
+total area, with reduced peak density and a narrowed range, highlighting the significant impact of
+fixed facilities, furniture, and built-in elements on non-navigable areas. For instance, the navigable
+area of kitchens and dining rooms is reduced by approximately 20–30% compared to their total area,
+which may be attributed to cabinets and appliances; meanwhile, open spaces such as atriums and
+entertainment rooms maintain a high proportion of navigable area.
+6
+Preprint.
+(a) Statistics of room area distribution (b) Statistics of navigable area distribution
+Figure 3:Room Area Statistics.Navigable areas generally exhibit a certain degree of deviation
+compared with room areas.
+This difference underscores the value of the dataset in robotics and virtual reality applications: as
+a core metric for path planning and accessibility evaluation, navigable area provides critical ref-
+erences. In general, the total area reflects the functional attributes of a room, while the navigable
+area offers a more appropriate perspective for understanding human-centered spatial practicality in
+indoor environments.
+4.4 OBJECTCATEGORIES
+OthersFurniture Accessories
+Lighting
+Cabinets (General)Armchairs
+Sofas (Multi-Seat)
+Coﬀee Tables
+Beds
+Dining Tables
+Wall DecorBenchesBookcases
+Collectible Decor
+Dining Chairs
+Desks
+Sofas (Two-Seat)
+Bathroom Fixtures
+Food Storage Containers
+Kitchen Appliances
+Dressers
+Dishware
+Plant Decor
+Candle Holders
+Kitchen Utensils
+Puzzle Toys
+Books & Magazines
+Personal Care
+TVs
+Home Appliances
+Storage Boxes
+Oﬃce Electronics
+Oﬃce Supplies
+Handbags
+Folding Chairs
+Clothing & Accessories
+Tools
+Musical Instruments
+Mobile Devices
+Audio Devices
+Measuring Tools
+seat
+carpet
+mirror
+unknown
+rack
+bin
+furniture
+gym_equipment
+towel
+ﬁreplace
+blanket
+appliance
+stairs
+doormat
+umbrella
+ventilation_hood
+swing
+cart
+fence
+balcony_railing
+machine
+rolling_cart
+pillar
+wall
+weight
+car
+unknown_wall
+case
+casket
+handle
+arcade_game
+gift
+chimney
+beam
+dog_bed
+hammock
+ﬂoor_mat
+exercise_equipment
+fencing
+tent
+ﬂoor
+Nightstand
+TV Stand
+Sideboard / Side Cabinet / Console Table
+pillow
+Sideboard / Side Cabinet / Console
+Dressing Table
+curtain
+nightstand
+tray
+stand
+counter
+Bar
+hanger
+window_shade
+coat_hanger
+blinds
+clothes_hanger
+kitchen_island
+kitchen_counter
+clothes_rack
+tv_stand
+window
+door
+Pendant Lamp
+lamp
+Ceiling Lamp
+Floor Lamp
+chandelier
+cabinet
+Drawer Chest / Corner cabinet
+Wardrobe
+Children Cabinet
+wardrobe
+Wine Cabinet
+Shoe Cabinet
+sink_cabinet
+drawer
+kitchen_lower_cabinet
+chest
+wine_rack
+display_cabinet
+armchair
+Lounge Chair / Cafe Chair / Oﬃce Chair
+Lounge Chair / Book-chair / Computer Chair
+Dressing Chair
+Classic Chinese Chair
+Hanging Chair
+Three-Seat / Multi-seat Sofa
+couch
+L-shaped Sofa
+Three-Seat / Multi-person sofa
+Lazy Sofa
+Chaise Longue Sofa
+U-shaped Sofa
+chaise
+sofa_set
+Corner/Side T
+able
+Coﬀee T
+able
+Tea Table
+Round End Table
+King-size Bed
+bed
+Bed Frame
+Double Bed
+Single bed
+Kids Bed
+Bunk Bed
+Couch Bed
+crib
+bed_small
+table
+Dining T
+able
+dinner_table
+display_table
+pictur
+e
+painting
+ statue
+Footstool / Sofastool / Bed End Stool / Stool
+Barstool
+stool
+bench
+Bookcase / jewelry Armoire
+Shelf
+shelf
+book_rack
+decoration
+vase
+clock
+picture_frame
+photo
+art_frame
+globe
+Dining Chair
+Desk
+desk
+drawer_desk
+desk_and_chairs
+Loveseat Sofa
+Two-seat Sofa
+bathtub
+toilet
+shower
+tap
+sink
+toilet_brush
+towel_rack
+soap_dispenser
+washbasin
+shower_tap
+showerhead
+bath_sink
+box
+basket
+container
+bottle
+jar
+jug
+Wine Cooler
+fridge
+kitchen_appliance
+cooker
+oven
+grill
+coﬀee_maker
+toaster
+coﬀee_machine
+microwave
+stove
+stovetop
+dishwasher
+dresser
+cup
+bowl
+plate
+fruit_bowl
+drinkware
+teapot
+ﬂowerpot
+candle
+pot
+kitchen_utensil
+kettle
+pitcher
+pan
+toy
+plush_toy
+book
+toilet_paper
+toiletry
+cosmetic
+liquid_soap
+tv
+led_tv
+ceiling_fan
+heater
+radiator
+laundry_basket
+storage_box
+tissue_box
+speaker
+printer
+camera
+board
+bag
+Folding chair
+shoe
+ladder
+tool
+guitar
+piano
+phone
+radio
+record_player
+scale
+ﬁle_cabinet
+laptop
+computer
+Figure 4: Statistics of object category
+distribution.
+We counted object category distribution in the 3D asset li-
+brary to understand the composition and diversity of com-
+mon indoor elements. The pie chart in Fig. 4 shows the
+dataset’s object categories hierarchically grouped into ma-
+jor types (Furniture, Lighting, Accessories, Others), each
+split into specific subcategories. For example, Furniture
+subcategories like Armchairs and Multi-Seat Sofas make
+up a big share-key for spatial functions; Lighting includes
+Pendant Lamps and Table Lamps, meeting different light-
+ing needs. This hierarchy not only clarifies the modu-
+lar nature of object categories but also reveals large pro-
+portional differences. For instance, Furniture accounts for
+over 70%, far more than others-due to the dataset focus-
+ing on residential and office indoor scenes. Overall, the
+distribution shows object categories are function-focused:
+high-frequency items (e.g., commonly used furniture) dom-
+inate, while low-frequency ones add realism and diversity
+to scenes.
+5 EXPERIMENTS
+We investigated the impact of different dataset scales and scene data settings on LLM-Driven scene
+generation tasks, focusing on the performance of the same LLM after Supervised Fine-Tuning (SFT)
+under varying training data conditions.
+5.1 EXPERIMENTALSETUP
+The scene generation process was divided into two stages: 3D asset retrieval and scene layout gen-
+eration. To study the influence of natural language annotations on the spatial reasoning ability of
+LLMs, we adopted a “retrieval-then-generation” strategy-first retrieving object information in the
+scene based on text descriptions, then using the SFT-tuned LLM for reasoning and generation.
+7
+Preprint.
+Table 2:Main experimental results.Comparison of performance in objective and subjective met-
+rics across I-Design, HOLODECK and Qwen3-14B (Supervised Fine-Tuning on IL3D).
+Methods Reference Objective Metrics Subjective Metrics
+OOB↓OOR↓CLIP-Sim↑GSR↑OP↑PR↑SC↑SF↑V A↑
+I-Design ECCV 2024 39.883 17.466 26.406 37.8%7.417 8.767 7.467 6.5 7.317
+HOLODECK CVPR 20241.783 0.11325.164 91.7% 6.65 8.2 6.417 5.85 6.767
+Qwen3-14B - 16.455 4.494 27.357 100%6.683 7.967 5.783 5.467 6.533
+The test data consisted of 30 randomly generated natural language descriptions for six common
+room types. GPT-4o was used as the scoring model for subjective metrics. Qwen3 models with
+different parameter sizes were all fine-tuned via LoRA (Parameter-Efficient Fine-Tuning). Detailed
+experimental configurations are provided in Appendix A.2.
+5.2 EXPERIMENTALRESULTS
+I-Design and HOLODECK were selected as baselines to compare the performance of our model
+with other LLM-Driven scene generation methods.
+5.3 MAINRESULTS
+As shown in Tab. 2, we compared the 3D scene generation performance of I-Design, HOLODECK,
+and our SFT-tuned Qwen3-14B. In terms of objective metrics, Qwen3-14B exhibited excellent per-
+formance: its Out-of-Bound (OOB: 16.455) and Object Overlap Rate (OOR: 4.494) were much
+lower than those of I-Design, while its CLIP-Similarity (CLIP-Sim: 27.357) and Generation Suc-
+cess Rate (GSR: 100%) were higher than both baselines. This demonstrates the advantages of the
+SFT method in generation reliability and semantic alignment, which is attributed to the fact that
+one-time forward reasoning avoids the cumulative reasoning errors of agent-based methods.
+In terms of subjective metrics, I-Design outperformed Qwen3-14B in Object Pose (OP), Physical
+Reality (PR), Semantic Consistency (SC), Scene Functionality (SF), and Visual Aesthetics (V A).
+HOLODECK was close to I-Design in PR but slightly inferior in other metrics, while Qwen3-14B
+showed weaker performance in SC and SF due to the lack of iterative optimization.
+In summary, the SFT method is efficient and stable, making it suitable for rapid scene generation;
+agent-based methods improve subjective quality through iterative optimization, but their stability
+needs further enhancement.
+5.4 ABLATIONSTUDY
+5.4.1 IMPACT OFDATASETSCALE
+As shown in Tab. 3, we evaluated the 3D scene generation performance of the Qwen3-1.7B model
+after SFT on the HSSD, 3D-FRONT, and IL3D datasets, where the dataset scales increased in the
+order of HSSD<3D-FRONT<IL3D.
+In the unannotated reasoning scenario, IL3D achieved the best performance in OOB (5.684) and
+OOR (4.372), outperforming HSSD (OOB: 4.039, OOR: 36.978) and 3D-FRONT (OOB: 20.577,
+OOR: 5.040). It also ranked among the top in CLIP-Sim (26.498) and GSR (100%). These re-
+sults indicate that IL3D, with its larger scale and higher diversity, exhibits excellent performance in
+geometric control and semantic alignment.
+In the annotated reasoning scenario, HSSD’s OOB metric decreased significantly (53.448), which
+may be due to its small scale making it difficult to adapt to complex annotation requirements. In
+contrast, IL3D (OOB: 16.505) and 3D-FRONT (OOB: 27.063) still maintained relatively good per-
+formance. The GSR of all datasets was close to 100%, and their CLIP-Sim values were slightly
+higher than those in the unannotated reasoning scenario.
+Overall, IL3D demonstrated higher stability and superiority in both unannotated and annotated rea-
+soning scenarios, an advantage mainly attributed to its large-scale and diverse dataset design.
+8
+Preprint.
+Table 3: Comparison of performance in objec-
+tive indicators for Supervised Fine-Tuning with
+Qwen3-1.7B on datasets of different scales.
+Datasets OOB↓OOR↓CLIP-Sim↑GSR↑
+Unannotated Inference
+HSSD4.03936.978 24.918 98.9%
+3D-FRONT 20.577 5.040 26.484 100%
+IL3D 5.684 4.372 26.498 100%
+Annotated Inference
+HSSD 53.448 35.875 24.998 100%
+3D-FRONT 27.063 6.811 26.912100%
+IL3D16.505 5.55126.774 100%
+Table 4: Comparison of performance in objective
+indicators for Supervised Fine-Tuning of differ-
+ent Qwen3 models on the IL3D dataset.
+Models OOB↓OOR↓CLIP-Sim↑GSR↑
+Unannotated Inference
+Qwen3-4B 34.560 6.513 26.498 100%
+Qwen3-8B 24.945 4.10727.007 97.8%
+Qwen3-14B17.4795.391 27.013 100%
+Annotated Inference
+Qwen3-4B 27.996 5.809 27.193 100%
+Qwen3-8B 21.998 4.695 26.997 100%
+Qwen3-14B16.455 4.494 27.357 100%
+5.4.2 IMPACT OFNATURALLANGUAGEANNOTATIONS
+As shown in Tab. 3 and Tab. 4, we evaluated the performance of the Qwen3 model series (with
+parameter sizes of 1.7B, 4B, 8B, and 14B) on the IL3D dataset under both unannotated and annotated
+reasoning conditions.
+In the unannotated reasoning scenario, Qwen3-1.7B exhibited good boundary control, with an OOB
+value of 5.684, an OOR value of 4.372, a CLIP-Sim value of 26.498, and a GSR of 100%, though
+its semantic similarity was relatively low. Qwen3-4B showed a tendency for boundary overflow,
+as its OOB value rose to 34.560, with an OOR of 6.513, a CLIP-Sim of 27.066, and a GSR that
+dropped to 94.4%, indicating that medium-sized models are prone to such boundary issues. Qwen3-
+8B and Qwen3-14B, as large-sized models, demonstrated better generation stability: their OOB
+values decreased to 24.945 and 17.479 respectively, their OOR values were 4.107 and 5.391, their
+CLIP-Sim values remained stable at 27.007 and 27.013, and their GSR values rebounded to 97.8%
+and 100%.
+Annotated reasoning significantly improved the performance of all models, with the GSR of each
+model reaching 100%. For Qwen3-1.7B, the OOB value increased to 16.505, while the OOB values
+of the other three models (4B, 8B, 14B) decreased to 27.996, 21.998, and 16.455 respectively. The
+OOR value of Qwen3-1.7B rose to 5.551, whereas the OOR values of the other three models dropped
+to 5.809, 4.695, and 4.494. The CLIP-Sim values of all models fluctuated between 26.774 and
+27.357, which indicates that natural language annotations mainly play a role in optimizing geometric
+consistency. These results further show that annotated reasoning effectively alleviates the boundary
+overflow problem in medium-sized and large-sized models.
+In summary, the experiment revealed a trade-off between model scale and generation performance:
+small-sized models (e.g., Qwen3-1.7B) have high efficiency in boundary control but limited ability
+to capture semantic information; large-sized models (e.g., Qwen3-8B, Qwen3-14B) can optimize
+OOB and OOR metrics with the assistance of annotations, but their improvement in CLIP-Sim
+(semantic similarity) remains limited.
+6 CONCLUSIONS
+This study constructs the IL3D dataset and applies it to LLM-Driven indoor scene generation, es-
+tablishing a new benchmark in the field of 3D scene generation. IL3D not only provides diverse
+indoor layouts and high-precision object assets but also adapts well to visual tasks such as 3D scene
+generation and editing, serving as a powerful tool for complex visual tasks and embodied intelli-
+gence research. Experiments verify its significant advantages in improving model performance and
+adaptability. Despite its limitation in scene-level relationship descriptions, IL3D’s openness and
+extensibility lay a foundation for future exploration of deeper scene understanding.
+9
+Preprint.
+7 ACKNOWLEDGMENTS
+We express our gratitude to the members of the University of Science and Technology of China and
+Songying Technology for their valuable feedback on this project. This work was primarily supported
+by resources provided by Songying Technology.
+REFERENCES
+Stanislaw Antol, Aishwarya Agrawal, Jiasen Lu, Margaret Mitchell, Dhruv Batra, C Lawrence Zit-
+nick, and Devi Parikh. Vqa: Visual question answering. InProceedings of the IEEE international
+conference on computer vision, pp. 2425–2433, 2015.
+Andreea Ardelean, Mert ¨Ozer, and Bernhard Egger. Gen3dsr: Generalizable 3d scene reconstruction
+via divide and conquer from a single view.arXiv preprint arXiv:2404.03421, 2024.
+Daichi Azuma, Taiki Miyanishi, Shuhei Kurita, and Motoaki Kawanabe. Scanqa: 3d question an-
+swering for spatial scene understanding. Inproceedings of the IEEE/CVF conference on computer
+vision and pattern recognition, pp. 19129–19139, 2022.
+Ata C ¸ elen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton Obukhov, and Xi Wang.
+I-design: Personalized llm interior designer. InEuropean Conference on Computer Vision, pp.
+217–234. Springer, 2024.
+Dave Zhenyu Chen, Angel X Chang, and Matthias Nießner. Scanrefer: 3d object localization in
+rgb-d scans using natural language. InEuropean conference on computer vision, pp. 202–221.
+Springer, 2020.
+Zhenyu Chen, Ali Gholami, Matthias Nießner, and Angel X Chang. Scan2cap: Context-aware dense
+captioning in rgb-d scans. InProceedings of the IEEE/CVF conference on computer vision and
+pattern recognition, pp. 3193–3203, 2021.
+Angela Dai, Angel X Chang, Manolis Savva, Maciej Halber, Thomas Funkhouser, and Matthias
+Nießner. Scannet: Richly-annotated 3d reconstructions of indoor scenes. InProceedings of the
+IEEE conference on computer vision and pattern recognition, pp. 5828–5839, 2017.
+Matt Deitke, Winson Han, Alvaro Herrasti, Aniruddha Kembhavi, Eric Kolve, Roozbeh Mottaghi,
+Jordi Salvador, Dustin Schwenk, Eli VanderBilt, Matthew Wallingford, et al. Robothor: An
+open simulation-to-real embodied ai platform. InProceedings of the IEEE/CVF conference on
+computer vision and pattern recognition, pp. 3164–3174, 2020.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador, Winson
+Han, Eric Kolve, Aniruddha Kembhavi, and Roozbeh Mottaghi. Procthor: Large-scale embodied
+ai using procedural generation.Advances in Neural Information Processing Systems, 35:5982–
+5994, 2022.
+Ainaz Eftekhar, Kuo-Hao Zeng, Jiafei Duan, Ali Farhadi, Ani Kembhavi, and Ranjay Krishna.
+Selective visual representations improve convergence and generalization for embodied ai.arXiv
+preprint arXiv:2311.04193, 2023.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu,
+Xin Eric Wang, and William Yang Wang. Layoutgpt: Compositional visual planning and gen-
+eration with large language models.Advances in Neural Information Processing Systems, 36:
+18225–18250, 2023.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng, Chengyue
+Sun, Rongfei Jia, Binqiang Zhao, et al. 3d-front: 3d furnished rooms with layouts and seman-
+tics. InProceedings of the IEEE/CVF International Conference on Computer Vision, pp. 10933–
+10942, 2021a.
+Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve Maybank, and Dacheng
+Tao. 3d-future: 3d furniture shape with texture.International Journal of Computer Vision, 129
+(12):3313–3337, 2021b.
+10
+Preprint.
+Zehuan Huang, Yuan-Chen Guo, Xingqiao An, Yunhan Yang, Yangguang Li, Zi-Xin Zou, Ding
+Liang, Xihui Liu, Yan-Pei Cao, and Lu Sheng. Midi: Multi-instance diffusion for single image to
+3d scene generation. InProceedings of the Computer Vision and Pattern Recognition Conference,
+pp. 23646–23657, 2025.
+Mukul Khanna, Yongsen Mao, Hanxiao Jiang, Sanjay Haresh, Brennan Shacklett, Dhruv Batra,
+Alexander Clegg, Eric Undersander, Angel X Chang, and Manolis Savva. Habitat synthetic scenes
+dataset (hssd-200): An analysis of 3d scene scale and realism tradeoffs for objectgoal navigation.
+InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp.
+16384–16393, 2024.
+Eric Kolve, Roozbeh Mottaghi, Winson Han, Eli VanderBilt, Luca Weihs, Alvaro Herrasti, Matt
+Deitke, Kiana Ehsani, Daniel Gordon, Yuke Zhu, et al. Ai2-thor: An interactive 3d environment
+for visual ai.arXiv preprint arXiv:1712.05474, 2017.
+Chenguo Lin and Yadong Mu. Instructscene: Instruction-driven 3d indoor scene synthesis with
+semantic graph prior.arXiv preprint arXiv:2402.04717, 2024.
+Xiaojian Ma, Silong Yong, Zilong Zheng, Qing Li, Yitao Liang, Song-Chun Zhu, and Siyuan Huang.
+Sqa3d: Situated question answering in 3d scenes.arXiv preprint arXiv:2210.07474, 2022.
+Yanxu Meng, Haoning Wu, Ya Zhang, and Weidi Xie. Scenegen: Single-image 3d scene generation
+in one feedforward pass.arXiv preprint arXiv:2508.15769, 2025.
+Songyou Peng, Chiyu Jiang, Yiyi Liao, Michael Niemeyer, Marc Pollefeys, and Andreas Geiger.
+Shape as points: A differentiable poisson solver.Advances in Neural Information Processing
+Systems, 34:13032–13044, 2021.
+Chong Su, Yingbin Fu, Zheyuan Hu, Jing Yang, Param Hanji, Shaojun Wang, Xuan Zhao, Cengiz
+¨Oztireli, and Fangcheng Zhong. Chord: Generation of collision-free, house-scale, and organized
+digital twins for 3d indoor scenes with controllable floor plans and optimal layouts.arXiv preprint
+arXiv:2503.11958, 2025.
+Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat, Federico Tombari, Manling Li, Nick
+Haber, and Jiajun Wu. Layoutvlm: Differentiable optimization of 3d layout via vision-language
+models. InProceedings of the Computer Vision and Pattern Recognition Conference, pp. 29469–
+29478, 2025.
+Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner. Dif-
+fuscene: Denoising diffusion models for generative indoor scene synthesis. InProceedings of the
+IEEE/CVF conference on computer vision and pattern recognition, pp. 20507–20518, 2024.
+Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang. Physcene: Physically interactable
+3d scene synthesis for embodied ai. InProceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pp. 16262–16272, 2024a.
+Yixuan Yang, Junru Lu, Zixiang Zhao, Zhen Luo, James JQ Yu, Victor Sanchez, and Feng Zheng.
+Llplace: The 3d indoor scene layout generation and editing via large language model.arXiv
+preprint arXiv:2406.03866, 2024b.
+Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi Gao, Jinyu Yang, Victor Sanchez, and
+Feng Zheng. Llm-driven indoor scene layout generation via scaled human-aligned data synthesis
+and multi-stage preference optimization.arXiv preprint arXiv:2506.07570, 2025.
+Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson Han, Jiajun Wu,
+Nick Haber, Ranjay Krishna, Lingjie Liu, et al. Holodeck: Language guided generation of 3d
+embodied ai environments. InProceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, pp. 16227–16237, 2024c.
+Kaixin Yao, Longwen Zhang, Xinhao Yan, Yan Zeng, Qixuan Zhang, Lan Xu, Wei Yang, Jiayuan
+Gu, and Jingyi Yu. Cast: Component-aligned 3d scene reconstruction from an rgb image.ACM
+Transactions on Graphics (TOG), 44(4):1–19, 2025.
+11
+Preprint.
+Chandan Yeshwanth, Yueh-Cheng Liu, Matthias Nießner, and Angela Dai. Scannet++: A high-
+fidelity dataset of 3d indoor scenes. InProceedings of the IEEE/CVF International Conference
+on Computer Vision, pp. 12–22, 2023.
+Chandan Yeshwanth, David Rozenberszki, and Angela Dai. Excap3d: Expressive 3d scene under-
+standing via object captioning with varying detail.arXiv preprint arXiv:2503.17044, 2025.
+Huangyue Yu, Baoxiong Jia, Yixin Chen, Yandan Yang, Puhao Li, Rongpeng Su, Jiaxin Li, Qing
+Li, Wei Liang, Song-Chun Zhu, et al. Metascenes: Towards automated replica creation for real-
+world 3d scans. InProceedings of the Computer Vision and Pattern Recognition Conference, pp.
+1667–1679, 2025.
+Mengqi Zhou, Xipeng Wang, Yuxi Wang, and Zhaoxiang Zhang. Roomcraft: Controllable and
+complete 3d indoor scene generation.arXiv preprint arXiv:2506.22291, 2025.
+12
+Preprint.
+A APPENDIX
+A.1 LLM USAGESTATEMENT
+In the process of experimental implementation and paper writing of this study, the usage of large
+language models (LLMs) is stated as follows:
+In the experimental section, given that this work focuses on the LLM-Driven indoor scene generation
+task, we adopted Qwen3 series models (including versions with 1.7B, 4B, 8B, and 14B parameters)
+for supervised fine-tuning (SFT) to verify the effectiveness of the proposed IL3D dataset and related
+methods. We further combined the LoRA (Low-Rank Adaptation) parameter-efficient fine-tuning
+technique to optimize the model’s spatial reasoning capability, which supported the implementation
+of core experimental links such as scene generation performance evaluation and ablation studies.
+During the paper writing phase, we used LLM tools for manuscript polishing, mainly including
+optimizing the accuracy of academic expressions and organizing sentence logic to conform to the
+writing norms of scientific research papers. However, the core ideas, research design, experimental
+data and result analysis, conclusion derivation, and other key contents of the paper were indepen-
+dently completed by the authors. We strictly ensured the originality of all academic viewpoints and
+the authenticity of data, in full compliance with academic research ethics and normative require-
+ments.
+A.2 EXPERIMENTALDETAILS
+A.2.1 EXPERIMENTCONFIGURATION
+Table 5: Training configuration for different Qwen3 parameter sizes
+Config Qwen3-1.7B Qwen3-4B Qwen3-8B Qwen3-14B
+Optimizer AdamW AdamW AdamW AdamW
+Learning Rate 1e-4 5e-5 5e-5 5e-5
+LoRA Rank 8 8 8 8
+LoRA Alpha 32 32 16 16
+Target Models all-linear all-linear all-linear all-linear
+Warmup Ratio 0.05 0.05 0.05 0.05
+Batch Size 2 2 2 2
+Max Length 4096 4096 4096 4096
+GPU device NVIDIA L40S NVIDIA L40S NVIDIA L40S NVIDIA L40S
+Training Time∼4h∼5h∼7h∼12h
+As shown in Tab. 5, we provide the detailed configuration information of the experiment, including
+parameter settings, hardware conditions, and training duration.
+A.2.2 3D ASSETRETRIEVAL
+As shown in the Fig. 5, this study implements 3D asset retrieval based on the instance-level an-
+notations of the IL3D dataset, primarily employing Qdrant 2 to construct a vector database of text
+descriptions. This vector database maps each 3D asset to a vector representation corresponding to
+its instance-level annotations (e.g., descriptions of object type, appearance, and material), laying the
+data foundation for subsequent similarity-based retrieval.
+During the text-driven scene generation process, a LLM is first used to extract specific descriptions
+of the objects required in the scene from the text description of the target scene; these descriptions
+cover core information such as object category, key features, and functional attributes. The extracted
+object descriptions are then converted into vector representations, and the vector database is queried
+2https://qdrant.tech/
+13
+Preprint.
+····
+"A modern bed with a
+beige headboard, whitebedding, and decorative
+pillows in various colorsincluding yellow, black,and gray."
+VLM
+Text Description 3D AssetVector Database
+"A modern bed in soft gray tones
+anchors the room, with brasslamps placed on the nightstandsbeside it. A tall dresser stands in
+the corner, while a cushionedwindow seat and a small sidetable create a cozy reading nook."
+LLM
+"A bed in soft graytones, serving as theroom’s focal point
+and anchoring thespace layout."
+Query
+Description of objects
+(a) Vector Database Construction
+(b) Asset Retrieve from Text
+Figure 5: Asset Retrieval. (a) A 3D asset vector database for object descriptions is constructed
+based on Qdrant. (b) When generating scenes, LLMs are used to extract object information from
+text descriptions and retrieve relevant assets.
+based on this vector to find the text description with the highest semantic similarity, thereby retriev-
+ing the corresponding 3D asset. This ensures that the selected asset aligns with the semantic intent
+of the scene’s text description, providing a reliable asset foundation for subsequent scene layout
+generation.
+A.3 SUPPLEMENTARYRELATEDWORK
+Image-guided scene generation focuses on extracting 3D spatial information from input images, typ-
+ically implemented via end-to-end generative models or frameworks composed of multiple visual
+models. This direction enables scene reconstruction or synthesis directly from 2D image cues, pro-
+viding critical support for tasks such as virtual reality, robotic perception, and 3D content creation.
+CAST Yao et al. (2025) proposes a component-aligned 3D scene reconstruction method from a
+single RGB image. It first extracts object-level 2D segmentation and relative depth information,
+then leverages foundation models to infer 3D geometry and semantic relationships. This approach
+achieves high-fidelity scene recovery across diverse indoor and outdoor settings, laying a founda-
+tion for applications in virtual reality and robotics that require accurate 3D scene representations.
+Gen3DSR Ardelean et al. (2024) is a generalizable 3D scene reconstruction framework that follows
+a “divide-and-conquer strategy”. It first processes the scene globally to extract depth and semantic
+information, then performs hierarchical optimization for object-level reconstruction. By generating
+compositional 3D scenes from single-view images, it demonstrates strong generalization capabilities
+to unseen environments, addressing the challenge of limited adaptability in traditional reconstruction
+methods.
+DiffScene Tang et al. (2024) adopts a diffusion denoising model for the synthesis of generative
+indoor scenes. Through a scene configuration denoising mechanism, it generates diverse and pho-
+torealistic 3D indoor environments from a text prompt describing partial scene configurations. It
+supports key tasks including scene completion, object arrangement, and text-conditioned synthesis,
+and uses an unordered object set representation to enhance generation flexibility and applicability
+to downstream tasks. MIDI Huang et al. (2025) extends a pre-trained image-to-3D object gener-
+ation framework via a multi-instance diffusion model. It generates compositional 3D scenes from
+a single image, capable of handling the geometry and texture of multiple instances simultaneously
+in a single feed-forward pass. This efficiency makes it well-suited for rapid indoor layout synthe-
+sis, where multiple objects need to be integrated coherently. SceneGen Meng et al. (2025) is a
+single-image 3D scene generation model that synthesizes geometry, texture, and relative poses in a
+single feed-forward pass, reportedly the first framework to achieve this capability. By streamlining
+the generation process, it enables fast construction of photorealistic indoor environments, reducing
+14

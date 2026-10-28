@@ -1,0 +1,49 @@
+{
+ "task_description": "a study room of about 6.0m x 3.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.04 m wide centred at (6.00, 1.06) (keep the floor in front of it clear); a window 1.13 m wide centred at (0.00, 2.10); a window 1.13 m wide centred at (0.00, 0.90). the storage box (o0013) should be on top of the tall storage cabinet (o0016). the guest chair (o0007) should be between the guest chair (o0008) and the guest chair (o0003). the guest chair (o0003) should face the freestanding bookshelf (o0017)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    3.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.2
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {}
+ }
+}

@@ -1,0 +1,1308 @@
+Co-Layout: LLM-driven Co-optimization for Interior Layout
+Chucheng Xiang1, Ruchao Bao1, Biyin Feng2,
+Wenzheng Wu1, Zhongyuan Liu3, Yirui Guan3, Ligang Liu1*
+1University of Science and Technology of China
+2Tsinghua University
+3Tencent
+{ccxiang, iambrc, wuwzh}@mail.ustc.edu.cn, fengby23@mails.tsinghua.edu.cn,
+{lockliu, ezguan}@tencent.com, lgliu@ustc.edu.cn
+Abstract
+We present a novel framework for automated interior de-
+sign that combines large language models (LLMs) with grid-
+based integer programming to jointly optimize room layout
+and furniture placement. Given a textual prompt, the LLM-
+driven agent workflow extracts structured design constraints
+related to room configurations and furniture arrangements.
+These constraints are encoded into a unified grid-based rep-
+resentation inspired by “Modulor”. Our formulation accounts
+for key design requirements, including corridor connectiv-
+ity, room accessibility, spatial exclusivity, and user-specified
+preferences. To improve computational efficiency, we adopt
+a coarse-to-fine optimization strategy that begins with a low-
+resolution grid to solve a simplified problem and guides the
+solution at the full resolution. Experimental results across di-
+verse scenarios demonstrate that our joint optimization ap-
+proach significantly outperforms existing two-stage design
+pipelines in solution quality, and achieves notable computa-
+tional efficiency through the coarse-to-fine strategy.
+Project Page—
+https://xccelephant.github.io/paper/co-layout/
+1 Introduction
+Interior design significantly impacts our daily living envi-
+ronments. A certified interior designer must adeptly translate
+a client’s broad requirements into detailed plans for rooms,
+corridors, and furniture layouts. This process requires de-
+signers’ professional expertise and years of accumulated ex-
+perience. Producing high-quality, detailed interior designs is
+both challenging and time-consuming, as it involves man-
+aging numerous design variables and balancing trade-offs
+between different design constraints. Developing automated
+design tools can significantly boost the productivity of inte-
+rior designers while also stimulating their creativity.
+Due to the complexity of interior design, existing ap-
+proaches often separate the process into distinct phases:
+room layout (Nauata et al. 2021) and furniture layout (Lit-
+tlefair, Dutt, and Mitra 2025). In practice, experienced inte-
+rior designers require simultaneous consideration of both el-
+ements, as furniture determines the room’s functionality and
+*Corresponding author.
+Copyright © 2026, Association for the Advancement of Artificial
+Intelligence (www.aaai.org). All rights reserved.
+the room influences the size and placement of furniture. Ne-
+glecting to co-optimize these aspects can lead to undesirable
+outcomes, such as insufficient space for movement.
+In this work, we draw significant inspiration from the re-
+cent advancements in large language models (LLMs) (Wei
+et al. 2022a), particularly their impressive performance in
+generative tasks. For the task of interior design, we discov-
+ered that advanced LLM agents can translate users’ high-
+level requirements into detailed plans involving both room
+and furniture layouts. However, one significant limitation of
+LLMs is their inability to generate interior designs with pre-
+cise coordinates, often resulting in conflicts within the out-
+put. To address this, we leverage LLMs to produce semantic
+constraints between rooms and furniture, and subsequently
+develop a novel optimization approach to create feasible de-
+signs that satisfy these constraints.
+Finding a plausible interior layout solution that satisfies
+LLM-generated constraints is technically challenging. First,
+modeling these constraints is non-trivial, particularly regard-
+ing corridor connectivity and room accessibility. We draw on
+the concept of “Modulor” from classical architecture theory
+(Corbusier 2000), which discretizes space into a grid sys-
+tem. Each resulting cell is assigned one room label (e.g.,
+bedroom, living room) and associated furniture label (e.g.,
+bed, sofa) to define spatial programming. Second, the out-
+put from LLMs often includes dozens of constraints, and
+after discretization, the optimization involves thousands of
+integer variables. To accelerate this process, we propose
+a coarse-to-fine optimization approach. Initially, the con-
+straints are simplified to be solved on a coarse grid with
+reduced design variables, and this solution then serves as a
+warm start for solving the problem on a finer grid.
+In summary, this paper makes three contributions which
+have not been previously demonstrated:
+• We propose an automated interior design framework
+that simultaneously optimizes room layout and furniture
+placement by satisfying LLM-generated constraints.
+• We introduce a grid-based representation to formalize
+LLM-derived constraints, transforming the design task
+into an integer programming problem.
+• We develop a coarse-to-fine strategy to significantly ac-
+celerate the optimization process.
+arXiv:2511.12474v2  [cs.CV]  6 Mar 2026
+Fine Floorplan
+(b) Optimization
+Coarse Room Layout Room & Furniture 
+Layout
+Coarse Floorplan
+Integer 
+Programming
+Integer 
+Programming
+Grid-Based Formulation
+Please design a modern-style apartment of about 100 square meters for a family of 3.
+User Textual Requirement：
+(a)Analysis & Design
+Constraints JSONUser's Requirement
+Environment 
+Analysis
+Room 
+Constraints
+Information 
+Expansion
+Furniture List
+Furniture 
+Constraints
+Design Specification
+Room List
+LLM
+Multi-
+Agents
+"FurnitureAnalysis": {
+"MasterBedroom": {
+  "Description": "The 17 sqm master 
+bedroom for 2 adults requires 
+essential furniture for sleeping …",
+    "FurnitureList": [{
+  "name": "bed",
+   "reason": "Double bed for 2 
+adults, standard size 1.8m x 2.0m …"
+      }, …
+    ]
+}, …
+}
+"RoomAnalysis": {
+  "OverallDescription": "The main entrance on the 
+south side leads into a central hallway that connects 
+all spaces efficiently…",
+ "CornerRooms": {
+      "Northwest": "Bathroom",
+   "Northeast": "Child Bedroom",
+   "Southwest": "Storage Room",
+"Southeast": "Master Bedroom"
+ },
+  "AdjacentRooms": [["Living Room", "Kitchen"], …],
+  …
+}Scene White Box
+(c) Visualization Rendering
+Furniture and Material
+Asset Retrieval
+Furniture
+Library
+Asset Replacement
+Figure 1: Overview of our automated framework. (a) First, the LLM-based workflow processes user requirements to generate
+spatial constraints for rooms and furniture, along with boundary conditions for the floor. (b) These constraints are then encoded
+into an integer programming model using our grid-based representation. The model is efficiently solved through a coarse-to-fine
+strategy to obtain the final layout. (c) The generated layout is converted into a scene white box in Blender (Community 2025).
+Suitable assets are then retrieved from the 3D-FUTURE (Fu et al. 2021) and Imaginarium (Zhu et al. 2025) asset libraries via
+semantic embedding and size matching to populate the scene.
+2 Related Work
+Floorplan Representation.Recent methods represent
+floorplans either as rasterized images or as vectorized
+graphs. Rasterized approaches treat floorplans as image-
+like pixel matrices, and characterize rooms as segmen-
+tation masks. Representative works include RPLAN (Wu
+et al. 2019), HouseGAN (Nauata et al. 2020), House-
+GAN++ (Nauata et al. 2021) and Graph2Plan (Hu et al.
+2020), etc. These representations are limited by resolu-
+tion. On the other hand, vectorized approaches represent
+rooms by geometric parameters (e.g., the vertices of the
+room’s boundary, or the position and size of the room rect-
+angle) (Wu et al. 2018; Para et al. 2021; Liu et al. 2022;
+Shabani, Hosseini, and Furukawa 2023). This representa-
+tion better preserves geometric and topological integrity, and
+supports constraint modeling. Some methods adopt pure op-
+timization pipelines (Wu et al. 2018) or autoregressive gen-
+eration frameworks (Para et al. 2021) under such represen-
+tations. However, both rasterized and vectorized represen-
+tations struggle to describe high-level constraints such as
+corridor connectivity and room accessibility in our frame-
+work. In contrast, grid-based representation (Drira, Pier-
+reval, and Hajri-Gabouj 2007; Peng, Yang, and Wonka 2014;
+Hua et al. 2019) discretizes space into unit cells, enabling
+explicit modeling of such spatial constraints. Moreover, it
+aligns well with the concept of “Modulor” (Corbusier 2000),
+making it practical for real-world design scenarios.
+Automatic Floorplan Generation.Floorplan generation
+can be categorized based on input modalities, including bub-
+ble diagrams and text descriptions. Bubble diagrams (Mer-
+rell, Schkufza, and Koltun 2010) offer geometric parameters
+and constraints, enabling the derivation of optimal layouts.
+Textual inputs can be processed by LLMs to extract opti-
+mization settings (Zong, Zhan, and Tan 2024; Chen et al.
+2020; Qin et al. 2024). Models can also be trained to di-
+rectly map text to floorplans (Leng et al. 2023). The gen-
+eration approaches can be divided into data-driven meth-
+ods (Mostafavi et al. 2024; Wu et al. 2019; Hu et al. 2020;
+Nauata et al. 2020; Wang et al. 2021; Para et al. 2021; Nau-
+ata et al. 2021; Sun et al. 2022; Shabani, Hosseini, and
+Furukawa 2023; Hong et al. 2024) and optimization-based
+techniques (Wu, Tojo, and Umetani 2024; Wu et al. 2018).
+However, existing methods often overlook complex con-
+straints, such as downstream tasks like furniture placement,
+as well as requirements like corridor connectivity and room
+accessibility. These factors are often handled manually or
+through post-processing (Wu et al. 2018), instead of incor-
+porating them within the generation framework.
+Corridor 
+Room-k
+Furniture-l in Room-k
+Parameters of
+Orientation:
+𝝂𝝂𝑘𝑘,𝑙𝑙(𝜎𝜎𝑘𝑘,𝑙𝑙, 𝜇𝜇𝑘𝑘,𝑙𝑙)
+𝜎𝜎𝑘𝑘,𝑙𝑙, 𝜇𝜇𝑘𝑘,𝑙𝑙 ∈ 0,1 2
+Figure 2: The floor is modeled as a 2D grid. Each cell(i,j)
+has binary variables indicating if it belongs to a corridor
+(pi,j), roomr k (xk
+i,j), or is occupied by the l-th furniture in
+the k-th roomsk,l (fk,l
+i,j ). Each furnituresk,l has dimensions
+Wk,l×Lk,l. Its orientationν k,l, chosen from 4 axis-aligned
+directions, is set by two binary variablesσk,l andµk,l.
+Indoor Furniture Layout.This task typically involves
+selecting appropriate furniture based on input room infor-
+mation, and predicting their placement. Some methods are
+based on optimization, such as defining constraints accord-
+ing to design principles and specifying optimization settings
+through interactions (Merrell et al. 2011), using physics-
+based rules (Weiss et al. 2018), and maximizing ergonomic
+comfort (Yu et al. 2011). Some data-driven methods aim
+to learn spatial patterns directly from layout datasets, us-
+ing models such as convolutional networks (Ritchie, Wang,
+and Lin 2019; Wang et al. 2018), Transformers (Paschali-
+dou et al. 2021), or diffusion models (Tang et al. 2024;
+Leimer et al. 2022) to predict furniture arrangements. Re-
+cent advancements utilize LLMs to interpret natural lan-
+guage prompts, identify relevant scene components and
+constraints, and guide furniture layout generation accord-
+ingly (Yang et al. 2024; Feng et al. 2023; C ¸ elen et al. 2024;
+Littlefair, Dutt, and Mitra 2025; Fu et al. 2024). However,
+in interior design, furniture layout and floorplan generation
+are inherently interdependent. Existing approaches typically
+treat them as separate stages, making it difficult to achieve
+synergistic consideration across both levels of design.
+3 Overview
+Our method converts text input into a detailed interior lay-
+out design through two phases, as illustrated in Fig. 1. We
+first introduce basic notations of a grid-based representation
+for floorplan modeling. Then, an LLM-based preprocessor is
+proposed to transfer user input into a structural scene graph.
+Based on the notations and the scene graph, we formulate the
+joint optimization of room layout and furniture arrangement
+under various constraints as an integer programming prob-
+lem. Finally, we propose a coarse-to-fine strategy to solve
+the large-scale problem efficiently.
+Notations.We adopt a unified grid-based representation
+for floorplan and furniture arrangement, see Fig. 2 for an
+illustration. The entire design space for a single floor is dis-
+cretized into a 2D gridG={(i,j) : 0≤i < W,0≤j <
+L}, whereWandLare the width and length of the floor
+rectangle (with the “Modulor” as the basic unit). In order to
+support non-rectangular boundaries, we denote the indoor
+space as the subsetG ′ ⊆ G, excluding cells pre-allocated
+for outdoor space. This indoor spaceG ′ is required to be
+partitioned into roomsR={r k}N
+k=1, corridors, and furni-
+ture itemsS={s k,l : 1≤k≤N,1≤l≤N k}within
+each room. We assign binary variablesxk
+i,j,pi,j, andf k,l
+i,j to
+each grid cell(i,j)to indicate which spatial components oc-
+cupy the design space. The orientation of the furnitures k,l
+is denoted as a vectorν k,l. It only takes the four directions
+aligned with coordinate axes, identified asνk,l(σk,l,µk,l) =
+(σk,l(1−2µ k,l),(1−σ k,l)(1−2µ k,l)), where(σ k,l,µk,l)
+are two binary variables.W k,l andL k,l represent the width
+and length ofsk,l, which are constants determined by LLMs.
+For a cell(i,j), its neighborhood on the grid isN(i,j) =
+{(i,j+ 1),(i,j−1),(i+ 1,j),(i−1,j)}.
+LLM-based Preprocessor.Our optimization part takes a
+scene graph as input, which comprises various constraints
+on room layouts and furniture arrangements. However, man-
+ually designing such a scene graph is labor-intensive. To
+address this, we leverage LLMs to automate the gener-
+ation of scene graphs such that users only need to pro-
+vide a textual idea as input. Specifically, we design tailored
+prompts for an LLM-based workflow to output structured
+room and furniture listsR,Salong with associated con-
+straints. In this stage, fundamental floor parameters, environ-
+mental conditions, room configurations, and furniture con-
+straints are comprehensively considered. Further implemen-
+tation details are left in the supplementary material.
+4 Formulation and Optimization
+The core of our method is an IP model that co-optimizes
+room layout and furniture arrangement, based on interior de-
+sign principles and the grid-based representation. Notably,
+the positions of doors and windows are not optimization
+variables; instead, they are determined via post-processing.
+And we present only the most important constraints here and
+refer the reader to the supplementary material for a complete
+formulation.
+4.1 Key Constraints
+Our optimization model organizes constraints hierarchically,
+from basic spatial exclusivity to complex inter-room and fur-
+niture placement rules. This structure enables the model to
+capture essential design interdependencies while remaining
+computationally efficient.
+Non-Overlapping Constraint.This fundamental con-
+straint ensures the spatial exclusivity of elements within the
+floor. Each cell(i,j)∈ G ′ must be uniquely assigned to
+either a room or a corridor segment. This constraint is math-
+ematically formulated as:
+pi,j +
+NX
+k=1
+xk
+i,j = 1,∀(i,j)∈G ′.
+The summation guarantees mutual exclusivity and complete
+coverage of the assignable floor area, which underpins the
+optimization.
+Corridor Connectivity Constraint.Open rooms are de-
+fined as rooms without walls, judged by LLMs, such as cer-
+tain living rooms, which are treated as part of the corridor. To
+ensure that the corridor and open rooms form a single con-
+nected network, we employ a flow-based formulation. Let
+D={E,W,S,N}denote the set of cardinal directions, and
+let adj(i,j,d)return the neighboring cell of(i,j)in direc-
+tiond∈Dif it exists withinG ′, and∅otherwise. We define
+variables flowd
+i,j≥0representing the flow from cell(i,j)in
+directiond. LetR O denote the set of open rooms. For each
+cell(i,j)∈G ′, we define
+qi,j =p i,j +
+X
+k∈RO
+ 
+xk
+i,j−
+NkX
+l=1
+fk,l
+i,j
+!
+.
+The connectivity is ensured through flow capacity con-
+straints and conservation principles. Flow can only occur be-
+tween corridor or open room cells:
+flowd
+i,j≤M·q i,j,∀(i,j)∈G ′,d∈D,
+flowd
+i,j≤M·q i′,j′,∀(i,j)∈G ′,d∈D,(i ′,j′) =adj(i,j,d),
+whereMis a sufficiently large constant. We define the out-
+flow and inflow for each cell(i,j)∈G ′ as:
+outflowi,j =
+X
+d∈D
+flowd
+i,j,inflow i,j =
+X
+d∈D,(i′,j′)∈G′
+(i′,j′)=adj(i,j,d−1)
+flowd
+i′,j′
+whered−1 denotes the opposite direction ofd(i.e., E −1 =
+W, S−1 =N). The flow balance constraint below ensures
+that the entrance cell(ie,je)acts as a source supplying flow
+equal to the total number of corridor and open room cells,
+while each such cell consumes exactly one unit of flow:
+outflowi,j−inflowi,j =
+
+
+
+P
+(i′,j′)∈G′
+qi′,j′ if(i,j) = (i e,je),
+−qi,j if(i,j)̸= (i e,je).
+Room Constraints.Room constraints are crucial for gen-
+erating functional and geometrically sound floorplans.
+Accessibility.Each roomr k must be accessible from the
+corridor or open rooms, ensuring that there exists a path
+from the entrance to each room. To guarantee unobstructed
+access, room cells serving as interface points must remain
+free of furniture placement. We introduce binary auxiliary
+variablesα k
+i,j to indicate whether cell(i,j)of roomr k
+serves as an access point:
+X
+(i,j)∈G′
+αk
+i,j≥1;
+X
+(i′,j′)∈N(i,j)∩G′
+qi′,j′≥α k
+i,j;αk
+i,j≤x k
+i,j−
+NkX
+l=1
+fk,l
+i,j.
+Notably, the last constraint ensures that an access point can
+only be established at a room cell(i,j)that belongs to room
+rk but is not occupied by any furniture.
+Adjacency.For specified room pairs(r k,rm)that require
+spatial adjacency, we enforce the presence of at least one
+shared boundary. This is modeled using auxiliary binary
+variablesβ k,m
+i,j that indicate whether cell(i,j)of roomr k
+forms an adjacency point with roomrm:
+X
+(i,j)∈G′
+βk,m
+i,j ≥1;
+X
+(i′,j′)∈N(i,j)∩G′
+xm
+i′,j′≥β k,m
+i,j ;β k,m
+i,j ≤x k
+i,j.
+Bounding Box. We employ standard big-M formulations
+to define the axis-aligned bounding box for each roomr k.
+Letγ mini
+k ,γ minj
+k denote the minimum coordinates (along the
+iandjaxes, respectively) andγ leni
+k ,γ lenj
+k denote the dimen-
+sions of the bounding box for roomrk. For all(i,j)∈G ′:
+γmini
+k ≤i+M·(1−x k
+i,j),
+γmini
+k +γ leni
+k −1≥i−M·(1−x k
+i,j),
+γminj
+k ≤j+M·(1−x k
+i,j),
+γminj
+k +γ lenj
+k −1≥j−M·(1−x k
+i,j).
+Note that these constraints do not enforce a tight fit which is
+encouraged later on via the room rectangularity objective.
+Furniture Constraints.Furniture constraints ensure the
+proper arrangement of furniture within room layouts while
+maintaining functional rationality and spatial efficiency.
+Containment. Any grid cell(i,j)occupied by the furni-
+turesk,l is also part of roomrk:
+fk,l
+i,j ≤x k
+i,j,∀(i,j)∈G ′.
+Non-Overlap. Any grid cell(i,j)can be occupied by at
+most one piece of furniture within the same room:
+NkX
+l=1
+fk,l
+i,j ≤1,∀(i,j)∈G ′.
+Shape and Size. Each furniture items k,l is a rectangle
+with LLM-generated dimensions, which are rounded to the
+nearest grid cells, denoted byℓ i
+k,l andℓ j
+k,l. We define its
+bounding box using minimum coordinatesξ mini
+k,l ,ξ minj
+k,l and
+dimensionsℓ i
+k,l,ℓj
+k,l, with constraints similar to those for
+rooms. In addition, the total number of cells occupied by
+the furniture must equal its area:
+X
+(i,j)∈G′
+fk,l
+i,j =ℓ i
+k,l·ℓj
+k,l.
+4.2 Objective Functions
+The overall objective functionEcombines weighted penalty
+terms to guide the search toward high-quality layouts:
+E=
+X
+s
+ωs·Es(x,p,f),
+whereEs represents individual penalty functions andωs de-
+notes their respective weights. The objectives are hierarchi-
+cally organized into three categories based on their impacts.
+We present the most important objectives here and provide
+a complete list in the supplementary material.
+(a) Create a 80 square meter
+ apartment with 2 bedrooms, 
+1 living room, 1 kitchen with
+ pantry, and 1 bathroom.
+(b) I need a 100 square meter 
+apartment with two bedrooms 
+and a living room. There should 
+be a tv stand and a big sofa…
+(c) Help me design a 
+small coffee shop.
+(e) Design a clinic about 150 
+square meters.
+PromptBird-eye View
+(d) Design a clinic about 
+100 square meters.
+Zoom-in
+Figure 3: Various examples generated by our method, demonstrating its capability to handle diverse inputs including residential
+and non-residential spaces. Users can specify requirements such as building type, floor area, room functions, and required
+furniture. Top: Input text. Middle: Bird’s-eye view of the scene. Bottom: Zoom-in views highlighting key details.
+Geometric Quality Objectives.These primary objectives
+ensure geometrically sound and aesthetically pleasing room
+layouts by promoting regular and compact shapes. They also
+prevent rooms from being fragmented into multiple discon-
+nected components:
+Room Rectangularity. We minimize shape irregularity by
+penalizing the deviation between each room’s bounding box
+area and its actual cell count:
+Erect =
+NX
+k=1
+
+γleni
+k ·γ lenj
+k −
+X
+(i,j)∈G′
+xk
+i,j
+
+.
+Room Perimeter. To encourage compact room shapes, we
+penalize the exposed perimeter of each room:
+Eperim =
+NX
+k=1
+X
+(i,j)∈G′
+xk
+i,j·|N out(i,j)|,
+where|N out(i,j)|denotes the number of neighboring cells
+not assigned to roomrk.
+Room Functional Objectives.These objectives incorpo-
+rate interior design principles and user-specified preferences
+to ensure functional and livable spaces.
+Area Target.Specified room area requirements are treated
+as soft constraints, so we penalize deviations from target ar-
+easA target
+k :
+Earea =
+NX
+k=1
+
+Atarget
+k −
+X
+(i,j)∈G′
+xk
+i,j
+
+.
+Aspect Ratio Control. Extreme room proportions are dis-
+couraged through minimizing the difference between room
+length and width:
+Easpect =
+NX
+k=1
+γleni
+k −γ lenj
+k
+.
+Furniture Placement Objectives.These objectives en-
+sure functional and rational furniture arrangements by gov-
+erning spatial relationships and distribution balance.
+Spatial Relationships. For furniture pairs with relative po-
+sitioning requirements, we minimize deviation from target
+arrangements:
+Erel =
+NX
+k=1
+X
+l1,l2∈Ak
+rel
+∥ck,l1−ck,l2−δl1,l2∥1,
+whereA k
+rel denotes the set of furniture pairs with specified
+relative positions in roomr k,c k,l denotes the centroid of
+furnitures k,l andδ l1,l2 is the target offset vector between
+the furniture centroids.
+Distribution Balance. To promote balanced furniture lay-
+outs, we minimize the distance between the area-weighted
+furniture centroid and room geometric centroid:
+Ebal =
+NX
+k=1
+ ˆCk−Ck
+
+1
+,
+where ˆCk is the area-weighted centroid of all furniture in
+roomrk andCk is the room’s geometric centroid.
+4.3 Coarse-to-Fine Optimization Strategy
+The joint room-furniture optimization exhibits exponential
+computational complexity with respect to grid resolution,
+making large scale instances computationally intractable. To
+address this challenge, we utilize a coarse-to-fine strategy.
+Coarse Phase.The coarse-level formulation leverages
+spatial down-sampling via grid aggregation. For example,
+when down-sampling from a 12×10 grid to a 6×5 grid, each
+coarse cell represents a 2×2 block of fine cells, reducing the
+problem scale by 75%. At this level, we focus solely on room
+layout, deliberately deferring furniture placement to facili-
+tate efficient exploration of high-level spatial organization.
+PromptOursHolodeckAnyHome
+(a) Create a 45 square 
+meter apartment with one 
+bedroom, compact living 
+area, small kitchen, and 
+one bathroom with storage.
+(b) Plan a 70 square meter 
+apartment with one 
+bedroom, one living room 
+with reading corner, one 
+kitchen, and one bathroom.
+(c) Please design a modern-
+style apartment of about 
+100 square meters for a 
+family of 3.
+(d) Design an L-shaped 
+apartment of about 100 
+square meters for a young 
+man.
+(e) Design a big house (about 
+120 square meters) for a 
+family of 3 with two 
+courtyards at north-west 
+corner and north-east corner.
+Figure 4: Comparison with baselines. Our approach consistently generates well-structured layouts with full accessibility and
+clear circulation. In contrast, baseline methods often produce designs with critical flaws, such as illogical circulation paths that
+violate privacy (e.g., Holodeck in a, d) and unreachable spaces or impractical room shapes (e.g., AnyHome in c, e).
+Coarse to Fine Mapping.We need to transfer the coarse
+solution back to the original fine-grained grid. For each fine-
+level grid cell(i,j), we determine its corresponding coarse-
+level grid cell(i′,j′). Assuming a down-sampling factor of
+si along thei-axis ands j along thej-axis, the mapping can
+be defined as:
+(i′,j′) =
+i−1
+si
+
++ 1,
+j−1
+sj
+
++ 1
+
+,∀(i,j)∈G fine,
+whereG fine is the set of fine grid cells. If coarse cell(i ′,j′)
+is assigned to roomr k (i.e.,x k
+i′,j′ = 1), the corresponding
+fine cell(i,j)is provisionally assigned to the same room.
+Fine Phase.This stage performs the full optimization on
+the original grid, incorporating both room planning and fur-
+niture placement variables. Firstly, the mapped coarse solu-
+tion provides awarm-start initializationfor the room assign-
+ment variablesx k
+i,j on the fine grid. However, note that this
+warm-start is not always feasible; in some cases, it may lead
+to infeasible solutions. Therefore, we introduce an additional
+mechanism. Secondly, we add penalty terms to the fine-level
+objective function to encourage consistency with the coarse-
+level room assignments. Specifically, for each fine grid cell
+(i,j), we penalize if it is not assigned to the same room
+k=π(i,j)(the coarse assignment) by:
+Eref =
+X
+(i,j)∈Gfine
+(1−x π(i,j)
+i,j )·z i,j,
+where binary variablezi,j indicates whether the correspond-
+ing coarse cell was assigned to any room or not.
+5 Experiments
+5.1 Experiment Settings
+Environment.We implement our algorithm in Python, us-
+ing the integer programming solver GUROBI (Gurobi Opti-
+mization, LLC 2025), version 12. Experiments were mainly
+conducted on a laptop equipped with an 8-core Ryzen pro-
+cessor and 16 GB of RAM.
+Metrics.We assess the generated floorplans in three key
+dimensions: physical plausibility, image quality/aesthetics,
+and text-image alignment.
+• Physical Plausibility: Measured by the object overlap rate
+(OOR) and out of boundary rate (OOB). OOR quanti-
+fies the percentage of overlapping area between objects,
+while OOB calculates the proportion of objects extend-
+ing beyond room boundaries.
+• Image Quality & Aesthetics: Evaluated using the Q-
+Align model (Wu et al. 2023) for both image quality as-
+sessment (IQA) and image aesthetic assessment (IAA).
+• Text-Image Alignment: Assessed by the CLIP (Radford
+et al. 2021) similarity score between the input text and
+the rendered floorplan image.
+Baselines.We compare our co-optimization approach
+with state-of-the-art two-stage baselines—Holodeck (Yang
+et al. 2024) and AnyHome (Fu et al. 2024)—which sequen-
+tially generate room layouts before populating furniture. For
+fair comparison, we use their methods solely to generate lay-
+out information, convert the results into a unified format, and
+render them using identical visualization scripts.
+5.2 Quantitative Evaluations
+The quantitative comparison based on our three evaluation
+metrics is presented in Table 1. The evaluation is conducted
+on the five examples shown in Fig. 4. Our method achieves
+superior performance across all metrics, particularly elimi-
+nating object overlaps and boundary violations.
+Method OOR↓OOB↓IQA↑IAA↑CLIP↑
+Holodeck 0.82 2.33 4.03 3.32 25.15
+AnyHome 0.00 0.04 4.10 3.32 25.75
+Ours0.00 0.00 4.17 3.35 26.50
+Table 1: Quantitative evaluation results. Our method
+achieves the best performance in terms of physical plausi-
+bility, image quality/aesthetics, and text-image alignment.
+5.3 Qualitative Evaluations
+Method Demonstration.We present representative re-
+sults of our method in Fig. 3, demonstrating the open-
+vocabulary generation capability. The gallery begins with
+two apartments (a) and (b), showcasing our method’s capa-
+bility in generating residential layouts with detailed require-
+ments. Then, a small coffee shop (c) showcases adaptability
+to commercial scenarios. A 100m 2 clinic (d) demonstrates
+the method’s capability in professional spaces. Finally, a
+150m2 clinic (e) further validates the generation ability for
+larger professional spaces. These diverse examples highlight
+the flexibility of our approach in handling various inputs.
+Comparative Analysis.We compare our method with
+Holodeck and AnyHome in Fig. 4. While baseline meth-
+ods can generate a rich variety of rooms and furniture, their
+layouts often exhibit randomness, indicating a lack of ro-
+bust understanding of room function, privacy, and connec-
+tivity. In contrast, our co-optimization approach consistently
+produces well-structured designs with logical spatial hierar-
+chy and clear circulation paths, where every room is con-
+nected to a common corridor. The baselines frequently vio-
+late this principle; for instance, Holodeck’s layouts may re-
+quire passing through a bedroom to reach the main living
+area (a, d), while AnyHome can generate entirely unreach-
+able rooms (c, e). Furthermore, our method ensures practical
+room shapes, whereas AnyHome often generates irregular or
+narrow rooms, and Holodeck’s results lack coherent circula-
+tion. In summary, our joint optimization of rooms and furni-
+ture ensures the resulting layouts are not only geometrically
+sound and fully accessible but also functionally coherent,
+demonstrating a deeper understanding of architectural logic.
+5.4 User Study
+To evaluate the quality of the generated floorplans, we con-
+ducted a user study with 71 participants. After filtering in-
+valid submissions (e.g., completion times under two minutes
+or uniform high/low scores), we retained 64 valid responses
+for analysis. The study involved two tasks. First, participants
+rated the floorplans shown in Fig. 4 on a 5-point scale based
+on three criteria: semantic alignment, layout rationality, and
+Method Semantic.↑Layout.↑Path.↑MRR.↑
+Holodeck 3.43 3.12 3.06 0.59
+AnyHome 3.07 2.59 2.80 0.45
+Ours3.77 3.23 3.41 0.80
+Table 2: User study results. Our method achieved the highest
+scores across all metrics.
+path clearance. Second, for each prompt, participants ranked
+the outputs from our method and the baselines. We calcu-
+lated the average scores for the rating criteria and the Mean
+Reciprocal Rank (MRR) (V oorhees et al. 1999) for the rank-
+ing task. The aggregated results are presented in Table 2,
+which shows that our method achieved the highest scores
+across all metrics.
+/uni0000001b/uni00000003/uni000000ee/uni00000003/uni0000001b/uni00000014/uni00000013/uni00000003/uni000000ee/uni00000003/uni00000014/uni00000013/uni00000014/uni00000015/uni00000003/uni000000ee/uni00000003/uni00000014/uni00000015/uni00000014/uni00000017/uni00000003/uni000000ee/uni00000003/uni00000014/uni00000017/uni00000014/uni00000019/uni00000003/uni000000ee/uni00000003/uni00000014/uni00000019
+/uni0000002a/uni00000055/uni0000004c/uni00000047/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000013
+/uni00000015/uni00000013/uni00000013
+/uni00000017/uni00000013/uni00000013
+/uni00000019/uni00000013/uni00000013
+/uni0000001b/uni00000013/uni00000013
+/uni00000014/uni00000013/uni00000013/uni00000013
+/uni00000014/uni00000015/uni00000013/uni00000013/uni00000024/uni00000053/uni00000053/uni00000055/uni00000052/uni0000005b/uni0000004c/uni00000050/uni00000044/uni00000057/uni00000048/uni00000003/uni00000035/uni00000058/uni00000051/uni00000051/uni0000004c/uni00000051/uni0000004a/uni00000003/uni00000057/uni0000004c/uni00000050/uni00000048/uni00000003/uni0000000b/uni00000056/uni0000000c
+/uni00000015/uni00000019/uni00000011/uni0000001b/uni00000017/uni00000015/uni00000011/uni00000017
+/uni0000001c/uni00000019/uni00000011/uni00000019/uni00000014/uni00000013/uni0000001a/uni00000011/uni00000017
+/uni00000014/uni00000018/uni00000018/uni00000011/uni00000013/uni00000014/uni00000015/uni00000015/uni00000011/uni0000001c
+/uni00000015/uni00000019/uni00000013/uni00000011/uni00000013
+/uni00000017/uni00000019/uni00000014/uni00000011/uni0000001b
+/uni0000001c/uni00000014/uni00000015/uni00000011/uni0000001b/uni00000014/uni0000001b/uni00000013/uni00000013
+/uni00000029/uni00000058/uni0000004f/uni0000004f/uni00000003/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni0000005a/uni00000012/uni00000052/uni00000003/uni00000026/uni00000052/uni00000044/uni00000055/uni00000056/uni00000048/uni00000010/uni00000057/uni00000052/uni00000010/uni00000029/uni0000004c/uni00000051/uni00000048/uni00000003/uni00000032/uni00000053/uni00000057/uni0000004c/uni00000050/uni0000004c/uni0000005d/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051
+Figure 5: Ablation result of the coarse-to-fine strategy.
+5.5 Ablation Study
+Ablation of Coarse-to-fine Strategy.To evaluate the ef-
+fectiveness of our coarse-to-fine strategy, we conducted an
+ablation study on its impact on computational efficiency. We
+tested five times with a fixed prompt, varied the grid res-
+olution, and calculated the mean and standard deviation of
+the running time required to obtain a feasible solution with
+a similar optimization gap. As illustrated in Fig. 5, the re-
+sults show that our strategy significantly reduces computa-
+tion time as the grid resolution increases, while maintain-
+ing comparable solution quality. Additional ablation studies
+on key constraints and the co-optimization approach are de-
+tailed in the supplementary material.
+6 Conclusion
+We present a novel framework that integrates LLMs with
+integer programming to automate interior layout design,
+jointly optimizing room layout and furniture placement. By
+leveraging LLMs to extract structured scene graphs from
+high-level user input and formulating the design problem
+on a grid-based representation, our method ensures corridor
+connectivity, room accessibility, and spatial coherence, out-
+performing two-stage pipelines in various metrics. A coarse-
+to-fine strategy further enhances computational efficiency.
+Our work still holds limitations that open avenues for fu-
+ture research. First, the scope of furniture is currently lim-
+ited to floor-based objects. Our framework could be ex-
+tended to support wall-mounted items and tabletop objects.
+Second, LLMs may occasionally produce conflicting con-
+straints, degrading solution quality. Iterative refinement or
+human-in-the-loop feedback could mitigate such situations.
+Finally, our framework could be extended to design multi-
+story buildings, by incorporating inter-floor constraints.
+Acknowledgments
+We thank Dr. Ziqi Wang from The Hong Kong University
+of Science and Technology for his valuable guidance and
+advice on this work. We also thank the anonymous reviewers
+for their appreciation of our work. This work is supported
+by the National Natural Science Foundation of China (No.
+62025207).
+References
+C ¸ elen, A.; Han, G.; Schindler, K.; Van Gool, L.; Armeni, I.;
+Obukhov, A.; and Wang, X. 2024. I-design: Personalized
+llm interior designer.arXiv preprint arXiv:2404.02838.
+Chang, Y .; Wang, X.; Wang, J.; Wu, Y .; Yang, L.; Zhu, K.;
+Chen, H.; Yi, X.; Wang, C.; Wang, Y .; et al. 2024. A survey
+on evaluation of large language models.ACM transactions
+on intelligent systems and technology, 15(3): 1–45.
+Chen, Q.; Wu, Q.; Tang, R.; Wang, Y .; Wang, S.; and Tan,
+M. 2020. Intelligent home 3d: Automatic 3d-house de-
+sign from linguistic descriptions only. InProceedings of
+the IEEE/CVF conference on computer vision and pattern
+recognition, 12625–12634.
+Community, B. O. 2025.Blender - a 3D modelling and
+rendering package. Blender Foundation, Stichting Blender
+Foundation, Amsterdam.
+Corbusier, L. 2000.The modulor: a harmonious measure to
+the human scale, universally applicable to architecture and
+mechanics, volume 1. Birkh ¨auser.
+Drira, A.; Pierreval, H.; and Hajri-Gabouj, S. 2007. Facility
+layout problems: A survey.Annual reviews in control, 31(2):
+255–267.
+Feng, W.; Zhu, W.; Fu, T.-j.; Jampani, V .; Akula, A.; He,
+X.; Basu, S.; Wang, X. E.; and Wang, W. Y . 2023. Lay-
+outgpt: Compositional visual planning and generation with
+large language models.Advances in Neural Information
+Processing Systems, 36: 18225–18250.
+Fu, H.; Jia, R.; Gao, L.; Gong, M.; Zhao, B.; Maybank, S.;
+and Tao, D. 2021. 3d-future: 3d furniture shape with texture.
+International Journal of Computer Vision, 129(12): 3313–
+3337.
+Fu, R.; Wen, Z.; Liu, Z.; and Sridhar, S. 2024. Anyhome:
+Open-vocabulary generation of structured and textured 3d
+homes. InEuropean Conference on Computer Vision, 52–
+70. Springer.
+Guo, T.; Chen, X.; Wang, Y .; Chang, R.; Pei, S.; Chawla,
+N. V .; Wiest, O.; and Zhang, X. 2024. Large language model
+based multi-agents: A survey of progress and challenges.
+arXiv preprint arXiv:2402.01680.
+Gurobi Optimization, LLC. 2025. Gurobi Optimizer Refer-
+ence Manual.
+Hong, S.; Zhang, X.; Du, T.; Cheng, S.; Wang, X.; and Yin,
+J. 2024. Cons2Plan: Vector Floorplan Generation from Var-
+ious Conditions via a Learning Framework based on Condi-
+tional Diffusion Models. InProceedings of the 32nd ACM
+International Conference on Multimedia, 3248–3256.
+Hong, S.; Zheng, X.; Chen, J.; Cheng, Y .; Wang, J.; Zhang,
+C.; Wang, Z.; Yau, S. K. S.; Lin, Z.; Zhou, L.; et al. 2023.
+Metagpt: Meta programming for multi-agent collaborative
+framework.arXiv preprint arXiv:2308.00352, 3(4): 6.
+Hu, R.; Huang, Z.; Tang, Y .; Van Kaick, O.; Zhang, H.; and
+Huang, H. 2020. Graph2plan: Learning floorplan generation
+from layout graphs.ACM Transactions on Graphics (TOG),
+39(4): 118–1.
+Hua, H.; Hovestadt, L.; Tang, P.; and Li, B. 2019. Integer
+programming for urban design.European Journal of Oper-
+ational Research, 274(3): 1125–1137.
+Leimer, K.; Guerrero, P.; Weiss, T.; and Musialski, P. 2022.
+Layoutenhancer: Generating good indoor layouts from im-
+perfect data. InSIGGRAPH Asia 2022 Conference Papers,
+1–8.
+Leng, S.; Zhou, Y .; Dupty, M. H.; Lee, W. S.; Joyce, S. C.;
+and Lu, W. 2023. Tell2design: a dataset for language-guided
+floor plan generation.arXiv preprint arXiv:2311.15941.
+Littlefair, G.; Dutt, N. S.; and Mitra, N. J. 2025. FlairGPT:
+Repurposing LLMs for interior designs. InComputer
+Graphics Forum, e70036. Wiley Online Library.
+Liu, J.; Xue, Y .; Duarte, J.; Shekhawat, K.; Zhou, Z.; and
+Huang, X. 2022. End-to-end graph-constrained vectorized
+floorplan generation with panoptic refinement. InEuropean
+Conference on Computer Vision, 547–562. Springer.
+Merrell, P.; Schkufza, E.; and Koltun, V . 2010. Computer-
+generated residential building layouts. InACM SIGGRAPH
+Asia 2010 Papers, SIGGRAPH ASIA ’10. New York,
+NY , USA: Association for Computing Machinery. ISBN
+9781450304399.
+Merrell, P.; Schkufza, E.; Li, Z.; Agrawala, M.; and Koltun,
+V . 2011. Interactive furniture layout using interior design
+guidelines.ACM transactions on graphics (TOG), 30(4): 1–
+10.
+Mostafavi, F.; van Engelenburg, C.; Khademi, S.; and
+Vrachliotis, G. 2024. Floor plan generation: The interplay
+among data, machine, and designer.International Journal
+of Architectural Computing, 14780771241290649.
+Nauata, N.; Chang, K.-H.; Cheng, C.-Y .; Mori, G.; and Fu-
+rukawa, Y . 2020. House-gan: Relational generative adver-
+sarial networks for graph-constrained house layout genera-
+tion. InComputer Vision–ECCV 2020: 16th European Con-
+ference, Glasgow, UK, August 23–28, 2020, Proceedings,
+Part I 16, 162–177. Springer.
+Nauata, N.; Hosseini, S.; Chang, K.-H.; Chu, H.; Cheng, C.-
+Y .; and Furukawa, Y . 2021. House-gan++: Generative adver-
+sarial layout refinement network towards intelligent compu-
+tational agent for professional architects. InProceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, 13632–13641.
+Para, W.; Guerrero, P.; Kelly, T.; Guibas, L. J.; and Wonka, P.
+2021. Generative layout modeling using constraint graphs.
+InProceedings of the IEEE/CVF international conference
+on computer vision, 6690–6700.
+Paschalidou, D.; Kar, A.; Shugrina, M.; Kreis, K.; Geiger,
+A.; and Fidler, S. 2021. Atiss: Autoregressive transformers
+for indoor scene synthesis.Advances in Neural Information
+Processing Systems, 34: 12013–12026.
+Peng, C.-H.; Yang, Y .-L.; and Wonka, P. 2014. Computing
+layouts with deformable templates.ACM Transactions on
+Graphics (TOG), 33(4): 1–11.
+Qin, S.; He, C.; Chen, Q.; Yang, S.; Liao, W.; Gu, Y .;
+and Lu, X. 2024. ChatHouseDiffusion: Prompt-Guided
+Generation and Editing of Floor Plans.arXiv preprint
+arXiv:2410.11908.
+Radford, A.; Kim, J. W.; Hallacy, C.; Ramesh, A.; Goh, G.;
+Agarwal, S.; Sastry, G.; Askell, A.; Mishkin, P.; Clark, J.;
+et al. 2021. Learning transferable visual models from nat-
+ural language supervision. InInternational conference on
+machine learning, 8748–8763. PmLR.
+Ritchie, D.; Wang, K.; and Lin, Y .-a. 2019. Fast and flex-
+ible indoor scene synthesis via deep convolutional genera-
+tive models. InProceedings of the IEEE/CVF conference on
+computer vision and pattern recognition, 6182–6190.
+Shabani, M. A.; Hosseini, S.; and Furukawa, Y . 2023.
+Housediffusion: Vector floorplan generation via a diffusion
+model with discrete and continuous denoising. InProceed-
+ings of the IEEE/CVF conference on computer vision and
+pattern recognition, 5466–5475.
+Sun, J.; Wu, W.; Liu, L.; Min, W.; Zhang, G.; and Zheng, L.
+2022. Wallplan: synthesizing floorplans by learning to gen-
+erate wall graphs.ACM Transactions on Graphics (TOG),
+41(4): 1–14.
+Tang, J.; Nie, Y .; Markhasin, L.; Dai, A.; Thies, J.; and
+Nießner, M. 2024. Diffuscene: Denoising diffusion mod-
+els for generative indoor scene synthesis. InProceedings of
+the IEEE/CVF conference on computer vision and pattern
+recognition, 20507–20518.
+V oorhees, E. M.; et al. 1999. The trec-8 question answering
+track report. InTrec, volume 99, 77–82.
+Wang, K.; Savva, M.; Chang, A. X.; and Ritchie, D. 2018.
+Deep convolutional priors for indoor scene synthesis.ACM
+Transactions on Graphics (TOG), 37(4): 1–14.
+Wang, K.; Xu, X.; Lei, L.; Ling, S.; Lindsay, N.; Chang,
+A. X.; Savva, M.; and Ritchie, D. 2021. Roominoes: Gener-
+ating novel 3d floor plans from existing 3d rooms.Computer
+Graphics Forum, 40(5): 57–69.
+Wei, J.; Tay, Y .; Bommasani, R.; Raffel, C.; Zoph, B.;
+Borgeaud, S.; Yogatama, D.; Bosma, M.; Zhou, D.; Metzler,
+D.; et al. 2022a. Emergent abilities of large language mod-
+els.arXiv preprint arXiv:2206.07682.
+Wei, J.; Wang, X.; Schuurmans, D.; Bosma, M.; Xia, F.;
+Chi, E.; Le, Q. V .; Zhou, D.; et al. 2022b. Chain-of-
+thought prompting elicits reasoning in large language mod-
+els.Advances in neural information processing systems, 35:
+24824–24837.
+Weiss, T.; Litteneker, A.; Duncan, N.; Nakada, M.; Jiang,
+C.; Yu, L.-F.; and Terzopoulos, D. 2018. Fast and scalable
+position-based layout synthesis.IEEE Transactions on Vi-
+sualization and Computer Graphics, 25(12): 3231–3243.
+Wu, H.; Zhang, Z.; Zhang, W.; Chen, C.; Liao, L.; Li, C.;
+Gao, Y .; Wang, A.; Zhang, E.; Sun, W.; et al. 2023. Q-align:
+Teaching lmms for visual scoring via discrete text-defined
+levels.arXiv preprint arXiv:2312.17090.
+Wu, W.; Fan, L.; Liu, L.; and Wonka, P. 2018. Miqp-based
+layout design for building interiors.Computer Graphics Fo-
+rum, 37(2): 511–521.
+Wu, W.; Fu, X.-M.; Tang, R.; Wang, Y .; Qi, Y .-H.; and Liu,
+L. 2019. Data-driven interior plan generation for residential
+buildings.ACM Transactions on Graphics (TOG), 38(6):
+1–12.
+Wu, X.; Tojo, K.; and Umetani, N. 2024. Free-form floor
+plan design using differentiable V oronoi diagram. InPacific
+Graphics Conference Papers and Posters, volume 43.
+Yang, Y .; Sun, F.-Y .; Weihs, L.; VanderBilt, E.; Herrasti, A.;
+Han, W.; Wu, J.; Haber, N.; Krishna, R.; Liu, L.; et al. 2024.
+Holodeck: Language guided generation of 3d embodied ai
+environments. InProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, 16227–16237.
+Yu, L. F.; Yeung, S. K.; Tang, C. K.; Terzopoulos, D.; Chan,
+T. F.; and Osher, S. J. 2011. Make it home: automatic op-
+timization of furniture arrangement.ACM Transactions on
+Graphics (TOG)-Proceedings of ACM SIGGRAPH 2011, v.
+30,(4), July 2011, article no. 86, 30(4).
+Zamfirescu-Pereira, J. D.; Wong, R. Y .; Hartmann, B.; and
+Yang, Q. 2023. Why Johnny can’t prompt: how non-AI ex-
+perts try (and fail) to design LLM prompts. InProceedings
+of the 2023 CHI conference on human factors in computing
+systems, 1–21.
+Zhu, X.; Huang, X.; Xie, Q.; Deng, Z.; Yu, J.; Guan, Y .; Liu,
+Z.; Zhu, L.; Zhao, Q.; Liu, L.; et al. 2025. Imaginarium:
+Vision-guided High-Quality 3D Scene Layout Generation.
+ACM Transactions on Graphics (TOG), 44(6): 1–24.
+Zong, Z.; Zhan, Z.; and Tan, G. 2024. HouseLLM: LLM-
+Assisted Two-Phase Text-to-Floorplan Generation.arXiv
+preprint arXiv:2411.12279.
+Supplementary Material
+This supplementary material provides additional details
+to complement our main paper. We first elaborate on our
+multi-agent LLM workflow, which translates high-level user
+requirements into structured design specifications. We then
+present the detailed formulation and optimization, including
+additional constraints for room and furniture, and additional
+objectives for layout quality. We also detail the heuristic-
+based post-processing steps for generating architectural ele-
+ments like walls, doors, and windows. Furthermore, we pro-
+vide an illustrative diagram of our coarse-to-fine optimiza-
+tion strategy, detailed per-case results from our user study,
+and additional ablation studies that validates the effective-
+ness of key constraints and the co-optimization approach.
+A LLM Agents for Interior Design
+Due to the world knowledge and reasoning capabili-
+ties (Chang et al. 2024), LLMs have been adopted for de-
+sign tasks in various domains. To enhance LLMs’ design
+capabilities, researchers have explored numerous methods,
+such as prompt engineering (Zamfirescu-Pereira et al. 2023;
+Wei et al. 2022b) and multi-agent systems (Guo et al. 2024;
+Hong et al. 2023). To transform user needs into a structured
+specification suitable for optimization, we design a multi-
+agent LLM system, simulating an architect’s design work-
+flow, bridging the gap between textual descriptions and inte-
+rior design constraints. This workflow involves specialized
+agents for:
+Basic Information Analysis.This agent processes the ini-
+tial user requirements to extract fundamental floor param-
+eters, including floor envelope (length, width), and floor
+height. It also analyzes user lifestyle preferences and ana-
+lyzes family structure as critical inputs for subsequent de-
+sign stages.
+Environment Analysis.This agent evaluates the environ-
+mental factors, including climate conditions (temperature,
+wind direction, sunlight, precipitation), and orientation ad-
+vantages for the four cardinal directions (north, south, east,
+west). The analysis results in specific recommendations for
+each room type, identifying suitable orientations based on
+their functional requirements, enhancing the building’s per-
+formance and occupant comfort.
+Specific Space Analysis.A collection of specialized
+agents handle positions for critical architectural elements:
+Outdoor Space Analysis Agentdefines regions within the
+floor envelope that do not belong to indoor space. These in-
+clude user-requested features such as courtyards or patios, as
+well as setbacks or voids necessary to achieve specific archi-
+tectural forms (e.g., L-shaped buildings).Entrance Analysis
+Agentdetermines the optimal location of the main entrance
+by analyzing indoor-outdoor connections and environmental
+conditions. The agent selects a specific point along the floor
+boundary that best balances these considerations.
+Room Analysis.This agent defines the list of required
+rooms. For each room, it specifies not only the desired area
+based on the furniture demanded to be placed inside but
+also detailed attributes such as key activities, performance
+needs (quietness, natural light), and suggested orientation.
+Furthermore, the agent establishes the spatial relationships
+of rooms. These include desired adjacencies (e.g., kitchen
+near dining room), and specific placement guidance like cor-
+ner allocations.
+Furniture Analysis.This agent is responsible for popu-
+lating rooms with appropriate furniture. For each room, the
+agent first lists essential furniture based on the functionality
+and then determines suitable dimensions for each piece, con-
+sidering the room’s area. While this agent does not perform
+the final detailed placement, it also identifies explicit user
+preferences and common-sense constraints for furniture ar-
+rangement. For instance, it might specify that a chair should
+face to a desk. These identified furniture types, dimensions,
+and constraints contribute to the structured design specifica-
+tion that inputs into the optimization model.
+These LLM agents are guided by tailored prompts that in-
+corporate design principles, enabling them to interpret user
+requirements effectively. For conciseness, the prompt for
+each agent is defined in a separate file. The final output of
+this stage is a structured design specification:
+• overall floor information and spatial analysis;
+• a list of rooms with attributes;
+• a list of furniture with dimensions for each room;
+• spatial constraints of rooms and furniture.
+B Details for Formulation and Optimization
+In this section, we provide some omitted details of our opti-
+mization model.
+B.1 Additional Room Constraints
+Corner Positioning. For rooms requiring specific corner
+placement (e.g., a master bedroom in the northeast corner),
+we constrain the corresponding corner grid cell to be occu-
+pied by that room. LetC={NW,NE,SW,SE}be the set
+of corner types. Each cornerc∈Ccorresponds to a specific
+grid cell coordinate(i c,jc). For a roomr k with a specified
+corner preferencec k∈C, we enforce that the cell(i ck,jck)
+must be part of roomrk:
+xk
+ick,jck
+= 1.
+B.2 Additional Furniture Constraints
+Against Wall. User preferences or common design princi-
+ples, often derived from the LLM preprocessor, can require
+placing a specific furniture items k,l against a wall. We
+model this by ensuring that at least one grid cell occupied
+by the furniture is adjacent to a cell outside of its assigned
+roomr k. This constraint is similar to theroom adjacency
+constraint. Here, we introduce auxiliary binary variablesϕk,l
+i,j
+to indicate whether a cell(i,j)occupied by furnitures k,l is
+adjacent to a cell not belonging to roomrk:
+X
+(i,j)∈G′
+ϕk,l
+i,j≥1;
+X
+(i′,j′)∈N(i,j)∩G′
+(1−x k
+i′,j′)≥ϕ k,l
+i,j;ϕ k,l
+i,j≤f k,l
+i,j.
+Moreover, we need an orientation constraint to ensure that
+objects do not face the wall. For all(i,j)∈G ′:
+fk,l
+i,j ≤x k
+i′,j′,
+where(i′,j′) = (i,j) +ν k,l represents the grid cell in front
+of(i,j).
+Alignment. For furniture pairs(sk,l1,sk,l2)requiring con-
+sistent orientation alignment, they should be oriented paral-
+lel to each other:
+σk,l1 =σ k,l2.
+Facing. In addition, certain pieces of furniture may need
+to be positioned in a specific orientation, such as a chairsk,l1
+facing a tablesk,l2. This constraint can be defined as:
+νk,l1·∆ξ≥0,
+where∆ξ= (ξ mini
+k,l2
+−ξ mini
+k,l1
+,ξ minj
+k,l2
+−ξ minj
+k,l1
+)represents the
+direction vector pointing fromsk,l1 tosk,l2 and ‘·’ represents
+standard inner product.
+B.3 Additional Objectives and Weights Settings
+Privacy Sorting. For rooms requiring privacy ordering (e.g.,
+bedrooms more private than living areas), we enforce a
+distance-based hierarchy from the entrance using soft con-
+straints. LetD k represent the average Manhattan distance
+from roomrk to the entrance:
+Dk = 1
+Atarget
+k
+X
+(i,j)∈G′
+xk
+i,j·di,j,
+whered i,j =|i−i e|+|j−j e|denotes the Manhattan dis-
+tance from cell(i,j)to the entrance(i e,je), andA target
+k is
+the target area of roomr k. For a privacy ordering sequence
+O={k 1,k 2,...,k m}where rooms are arranged in de-
+creasing order of privacy requirements, we introduce slack
+variablesθi≥0and enforce:
+Dki +θi≥D ki+1,∀i∈{1,2,...,m−1}.
+The privacy sorting objective penalizes violations of the ex-
+pected privacy hierarchy:
+Epriv =
+m−1X
+i=1
+θi.
+Weights Settings.The relative importance of each objec-
+tive is controlled by weight parametersω s. These weights
+are configured based on design priorities and refined through
+empirical trials to ensure a suitable balance among all ob-
+jectives. The specific values used in our implementation are
+detailed in a separate JSON file, ‘config.json’.
+B.4 Illustration of Coarse-to-Fine Strategy
+To visually illustrate our proposed coarse-to-fine optimiza-
+tion strategy, we provide a schematic diagram in Fig. 6.
+Corridor 
+Room-k
+Furniture-l in Room-k
+Parameters of
+(a) (b) (c)
+Figure 6: Illustration of the coarse-to-fine strategy for floor-
+plan generation. (a) Resulting rooms after optimization on
+a coarse grid. (b) Spatial interpolation process mapping the
+coarse grid solution to the original fine grid. (c) Final inte-
+grated layout after joint optimization for rooms and furniture
+on the fine grid, guided by the interpolated solution.
+B.5 Post-processing Steps
+After the optimization phase, we perform several post-
+processing steps to generate the final architectural elements,
+including walls, doors, and windows. These steps are based
+on heuristic rules applied to the optimized room and furni-
+ture layout.
+Wall Generation.Walls are generated in two stages. First,
+exterior walls are placed along the boundary of the floor.
+Second, interior walls are generated at the interface between
+adjacent but distinct functional areas, such as between two
+different rooms or between a room and the corridor. This
+ensures that all enclosed spaces are properly delineated.
+Door Placement.For each enclosed room, we identify po-
+tential locations for doors. The primary candidates are wall
+segments adjacent to open areas like living rooms, followed
+by segments adjacent to corridors. This prioritization en-
+sures better circulation and connectivity. From the valid can-
+didate locations—those unobstructed by furniture—a door
+is randomly placed. Additionally, a main entrance door is
+added at the designated entry point of the floorplan.
+Window Placement.Windows are placed on the exterior
+walls of the floor. For each room and corridor, we identify
+all segments of its boundary that lie on the floor’s exterior
+and are not blocked by furniture. We then sample from these
+candidate locations to place several windows, ensuring ade-
+quate natural light.
+C Additional Ablation Studies
+We evaluate the impact of two key constraints and co-
+optimization through ablation studies.
+Ablation of Key Constraints.As shown in Fig. 7, we
+present results under the same input where only accessibility
+constraints are removed (second column) and only corridor
+connectivity constraints are omitted (third column), com-
+pared with our full method (fifth column). The visual com-
+parison clearly shows that both constraints are crucial. With-
+out the accessibility constraint, furniture often blocks poten-
+tial locations for room entrances, rendering rooms inacces-
+sible. Similarly, when the corridor connectivity constraint is
+removed, the resulting layout may contain disjointed corri-
+dor segments, making certain areas of the floor unreachable.
+(a) I live with a friend 
+and need a one-story 
+house of 80 square 
+meters. Need two 
+bedrooms and a 
+common bathroom as 
+well as a living room 
+and kitchen.
+User Input Full Method
+(b) Please design 
+an L-shaped 
+apartment of about 
+120 sq m. There 
+should be a double 
+bed and a wardrobe 
+in the master 
+bedroom. There 
+should be a two-
+seater sofa sofa and 
+two small sofas in 
+the living room.
+w/o Accessibility w/o Corridor Connectivity w/o Co-Optimization
+Figure 7: Ablation studies on the impact of key constraints and co-optimization. Outdoor areas are indicated by cross-hatching,
+walls by thick black lines, doors by sectors, windows by white line segments, and furniture by rectangles. Unreasonable layouts,
+such as inaccessible areas or rooms, are highlighted with red boxes.
+Ablation of Co-optimization.We compare our co-
+optimization approach with a sequential one that first op-
+timizes rooms and then furniture (fourth column of Fig. 7).
+This sequential process often results in unreachable rooms
+and disconnected corridors. Such issues arise because the
+furniture optimization phase lacks global information and
+constraints regarding room accessibility and connectivity,
+which are only considered during the room layout stage.
+By modeling the layout using a grid representation and
+optimizing rooms and furniture jointly through coupled con-
+straints, we explicitly encode connectivity and accessibility
+constraints and respect them in the final solution.
+D Detailed Results for User Study
+As mentioned in the main paper, we conducted a com-
+prehensive user study to evaluate our method against two
+state-of-the-art baselines: Holodeck and AnyHome. The
+study involved rating five distinct test cases on three crite-
+ria—semantic alignment, layout rationality, and path clear-
+ance—and ranking the methods for each case. Fig. 8
+presents the detailed per-case results for each metric. The
+charts clearly show that our method obtained an over-
+whelming advantage across all metrics. Furthermore, our
+method achieved a significantly higher Mean Reciprocal
+Rank (MRR), indicating that participants preferred our lay-
+outs over the baselines. These detailed results reinforce
+the aggregated findings in the main paper, highlighting our
+method’s superior performance in generating high-quality,
+functional, and user-preferred interior layouts.
+Figure 8: Detailed user study results for each of the five test cases, comparing our method with Holodeck and AnyHome. Our
+method (blue) consistently outperforms the baselines across all metrics and nearly all cases.

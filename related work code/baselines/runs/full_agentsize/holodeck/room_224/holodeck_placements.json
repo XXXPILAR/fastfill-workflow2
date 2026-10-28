@@ -1,0 +1,86 @@
+{
+ "floor": [
+  {
+   "assetId": "chair-0",
+   "id": "chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.95,
+    "y": 0.475,
+    "z": 0.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     156.0,
+     37.5
+    ],
+    [
+     156.0,
+     112.5
+    ],
+    [
+     234.0,
+     112.5
+    ],
+    [
+     234.0,
+     37.5
+    ],
+    [
+     156.0,
+     37.5
+    ]
+   ],
+   "object_name": "chair-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "ornaments-0",
+   "id": "ornaments-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.95,
+    "y": 1.8,
+    "z": 0.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     235.0,
+     0.0
+    ],
+    [
+     235.0,
+     8.0
+    ],
+    [
+     155.0,
+     8.0
+    ],
+    [
+     155.0,
+     0.0
+    ],
+    [
+     235.0,
+     0.0
+    ]
+   ],
+   "object_name": "ornaments-0"
+  }
+ ]
+}

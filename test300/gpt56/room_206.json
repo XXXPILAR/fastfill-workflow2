@@ -1,0 +1,74 @@
+{
+ "k": 206,
+ "source": "SpatialLM",
+ "room_type": "secondary bedroom",
+ "latency_s": 37.90231070900336,
+ "usage": [
+  {
+   "prompt_tokens": 1153,
+   "completion_tokens": 1971,
+   "total_tokens": 3124,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1696,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.6,
+     1.2,
+     2.1
+    ],
+    "bottom_center_m": [
+     0.75,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.52,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.55,
+     1.85,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     2.0,
+     1.35,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.0,
+     1.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bed is the largest item, so it is placed lengthwise against the left wall, leaving the doorway and a clear circulation route along the right side of the room. The wardrobe is placed against the lower wall, away from the door opening and windows, with clear access from the center. The chair is positioned beyond the foot of the bed on the bed’s centerline; the bed faces the chair as required, and the chair faces back toward the bed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.2,\"depth_m\":0.6,\"height_m\":2.1,\"x\":0.75,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.48,\"depth_m\":0.52,\"height_m\":0.85,\"x\":2.55,\"y\":1.85,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":1.35,\"depth_m\":2,\"height_m\":0.55,\"x\":1,\"y\":1.85,\"z\":0,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nsecondary bedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.870 m x 3.800 m x 2.640 m\nfloor polygon (x, y): [[0.71, 3.8], [0.71, 3.2], [0.3, 3.2], [0.3, 2.94], [0.0, 2.94], [0.0, 0.0], [3.45, 0.0], [3.45, 0.3], [3.87, 0.3], [3.87, 2.94], [3.45, 2.94], [3.45, 3.2], [2.73, 3.2], [2.73, 3.8]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"},\n{\"id\": \"obj_0001\", \"category\": \"dining chair\", \"description\": \"dining chair\"},\n{\"id\": \"obj_0002\", \"category\": \"bed\", \"description\": \"bed\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.71, 3.62], \"wall_from\": [0.71, 3.8], \"wall_to\": [0.71, 3.2], \"width_m\": 0.36, \"height_m\": 1.75, \"sill_height_m\": 0.43}, {\"type\": \"door\", \"centre_xy\": [3.06, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [3.45, 0.0], \"width_m\": 0.78, \"height_m\": 2.128}, {\"type\": \"window\", \"centre_xy\": [2.73, 3.62], \"wall_from\": [2.73, 3.2], \"wall_to\": [2.73, 3.8], \"width_m\": 0.36, \"height_m\": 1.75, \"sill_height_m\": 0.43}, {\"type\": \"window\", \"centre_xy\": [1.72, 3.8], \"wall_from\": [2.73, 3.8], \"wall_to\": [0.71, 3.8], \"width_m\": 2.02, \"height_m\": 1.75, \"sill_height_m\": 0.43}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "sofa-0",
+   "id": "sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.0400000000000005,
+    "y": 0.425,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     156.50000000000003,
+     115.0
+    ],
+    [
+     156.50000000000003,
+     305.0
+    ],
+    [
+     251.50000000000003,
+     305.0
+    ],
+    [
+     251.50000000000003,
+     115.0
+    ]
+   ],
+   "object_name": "sofa-0"
+  },
+  {
+   "assetId": "clothes rack-0",
+   "id": "clothes rack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 0.8,
+    "z": 0.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     5.0
+    ],
+    [
+     50.5,
+     115.0
+    ],
+    [
+     -4.5,
+     115.0
+    ],
+    [
+     -4.5,
+     5.0
+    ]
+   ],
+   "object_name": "clothes rack-0"
+  }
+ ],
+ "wall": []
+}

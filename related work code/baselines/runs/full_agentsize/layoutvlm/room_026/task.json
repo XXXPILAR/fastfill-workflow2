@@ -1,0 +1,41 @@
+{
+ "task_description": "a bedroom of about 3.4m x 2.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the lounge chair (o0000) should be between the desk (o0007) and the desk (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.3800000000000003,
+    0.0,
+    0.0
+   ],
+   [
+    3.3800000000000003,
+    2.9499999999999997,
+    0.0
+   ],
+   [
+    0.0,
+    2.9499999999999997,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {}
+ }
+}

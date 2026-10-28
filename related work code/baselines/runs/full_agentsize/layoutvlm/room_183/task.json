@@ -1,0 +1,42 @@
+{
+ "task_description": "a treatment_room of about 3.5m x 4.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the trolley cart (o0004) should be against a wall. the massage table (o0002) should be within 0.50 m of the privacy screen (o0005). the shelving unit (o0001) should be against a wall. the massage table (o0002) should be within 0.10 m of the stool (o0008)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.5000000000000004,
+    0.0,
+    0.0
+   ],
+   [
+    3.5000000000000004,
+    4.0,
+    0.0
+   ],
+   [
+    0.0,
+    4.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.79999995
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {}
+ }
+}

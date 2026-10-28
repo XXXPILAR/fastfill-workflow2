@@ -1,0 +1,28 @@
+# secrets: never commit keys
+.env
+*.env
+.fastfill_api.env
+.fastfill_openai.env
+*.key
+# environments and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+# the shared request log of a running experiment (timestamps only)
+.rpm_state*.json
+# large data fetched separately (see README)
+data_v4_v2_fixed/
+# baseline repositories and environments (fetched / built on the server, see README)
+related work code/baselines/Holodeck/
+related work code/baselines/LayoutVLM/
+related work code/baselines/LayoutGPT/
+related work code/baselines/IDesign/
+related work code/baselines/respace/
+related work code/baselines/envs/*/
+# heavy per-room artefacts of LayoutVLM (assets, renders); result.json / layout.json are kept
+related work code/baselines/runs/**/assets/
+related work code/baselines/runs/**/group_*/
+related work code/baselines/runs/**/*.gif

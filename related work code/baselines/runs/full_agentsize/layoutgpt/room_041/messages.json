@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bench, bin, box, candle, carpet, couch, decoration, flowerpot, lamp, mirror, picture, seat, stool, table, tray, tv, umbrella, vase \nOverall furniture frequencies: (bench: 0.0667; bin: 0.0; box: 0.0333; candle: 0.0667; carpet: 0.0333; couch: 0.0667; decoration: 0.1333; flowerpot: 0.1333; lamp: 0.0333; mirror: 0.0333; picture: 0.0333; seat: 0.1; stool: 0.0333; table: 0.1; tray: 0.0333; tv: 0.0333; umbrella: 0.0333; vase: 0.0333)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.28m, max width 4.09m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "candle[obj_0000] {length: 0.50m; height: 0.33m; width: 0.27m; orientation: 0 degrees; left: 0.14m; top: 0.49m; depth: 0.00m;}\ncarpet[obj_0001] {length: 0.48m; height: 0.01m; width: 0.35m; orientation: -180 degrees; left: 5.93m; top: 0.79m; depth: 0.00m;}\nflowerpot[obj_0002] {length: 0.33m; height: 0.52m; width: 0.33m; orientation: 90 degrees; left: 5.70m; top: 0.26m; depth: 0.00m;}\nstool[obj_0003] {length: 0.48m; height: 0.70m; width: 0.48m; orientation: -180 degrees; left: 5.87m; top: 1.39m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.19m, max width 4.18m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "box[obj_0000] {length: 0.14m; height: 0.15m; width: 0.15m; orientation: -180 degrees; left: 5.92m; top: 1.48m; depth: 0.00m;}\nseat[obj_0001] {length: 0.60m; height: 0.78m; width: 1.13m; orientation: -90 degrees; left: 0.60m; top: 3.61m; depth: 0.00m;}\npicture[obj_0002] {length: 0.64m; height: 0.03m; width: 0.64m; orientation: -90 degrees; left: 1.50m; top: 3.85m; depth: -0.03m;}\nflowerpot[obj_0003] {length: 0.45m; height: 0.15m; width: 0.38m; orientation: -180 degrees; left: 5.81m; top: 2.08m; depth: 0.00m;}\nseat[obj_0004] {length: 0.50m; height: 0.89m; width: 0.59m; orientation: 0 degrees; left: 0.30m; top: 2.68m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.29m, max width 4.08m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "flowerpot[obj_0000] {length: 0.38m; height: 0.30m; width: 0.31m; orientation: -180 degrees; left: 5.84m; top: 2.88m; depth: 0.00m;}\ntray[obj_0001] {length: 0.50m; height: 0.08m; width: 0.60m; orientation: -90 degrees; left: 4.80m; top: 1.08m; depth: 0.00m;}\ndecoration[obj_0002] {length: 0.50m; height: 0.03m; width: 0.50m; orientation: -180 degrees; left: 5.75m; top: 2.28m; depth: 0.00m;}\ncouch[obj_0003] {length: 1.41m; height: 0.87m; width: 0.82m; orientation: -180 degrees; left: 5.59m; top: 1.08m; depth: 0.00m;}\nmirror[obj_0004] {length: 0.98m; height: 0.04m; width: 2.00m; orientation: 90 degrees; left: 0.60m; top: 1.09m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.21m, max width 4.06m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "table[obj_0000] {length: 1.19m; height: 0.52m; width: 0.83m; orientation: -180 degrees; left: 5.58m; top: 0.76m; depth: 0.00m;}\nbench[obj_0001] {length: 1.17m; height: 0.78m; width: 0.65m; orientation: 90 degrees; left: 4.20m; top: 0.39m; depth: 0.00m;}\nflowerpot[obj_0002] {length: 0.45m; height: 0.15m; width: 0.38m; orientation: 0 degrees; left: 0.19m; top: 3.76m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.23m, max width 4.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "decoration[obj_0000] {length: 0.67m; height: 0.00m; width: 0.65m; orientation: -180 degrees; left: 5.78m; top: 1.90m; depth: 0.00m;}\ncandle[obj_0001] {length: 0.50m; height: 0.33m; width: 0.27m; orientation: 0 degrees; left: 0.14m; top: 1.90m; depth: 0.00m;}\nlamp[obj_0002] {length: 0.21m; height: 0.36m; width: 0.21m; orientation: -180 degrees; left: 6.00m; top: 1.30m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.32m, max width 4.02m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bench[obj_0000] {length: 1.00m; height: 0.45m; width: 0.35m; orientation: -180 degrees; left: 5.82m; top: 0.72m; depth: 0.00m;}\ntable[obj_0001] {length: 0.60m; height: 0.44m; width: 0.46m; orientation: -180 degrees; left: 5.77m; top: 3.42m; depth: 0.00m;}\ntable[obj_0002] {length: 0.60m; height: 0.44m; width: 0.46m; orientation: -180 degrees; left: 5.77m; top: 2.22m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.19m, max width 4.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "decoration[obj_0000] {length: 0.50m; height: 0.03m; width: 0.50m; orientation: 0 degrees; left: 0.25m; top: 1.00m; depth: 0.00m;}\nvase[obj_0001] {length: 0.60m; height: 0.76m; width: 0.60m; orientation: -180 degrees; left: 5.69m; top: 0.40m; depth: 0.00m;}\ndecoration[obj_0002] {length: 0.50m; height: 0.03m; width: 0.50m; orientation: 0 degrees; left: 0.25m; top: 3.40m; depth: 0.00m;}\ncouch[obj_0003] {length: 1.20m; height: 0.60m; width: 1.20m; orientation: 0 degrees; left: 0.60m; top: 2.20m; depth: 0.00m;}\numbrella[obj_0004] {length: 2.99m; height: 2.40m; width: 3.06m; orientation: -180 degrees; left: 1.91m; top: 2.20m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.30m, max width 4.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "seat[obj_0000] {length: 0.73m; height: 0.89m; width: 0.85m; orientation: 0 degrees; left: 0.69m; top: 2.50m; depth: 0.00m;}\ntv[obj_0001] {length: 1.38m; height: 0.08m; width: 0.85m; orientation: 0 degrees; left: 0.43m; top: 1.30m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: balcony\nRoom Size: max length 6.24m, max width 4.14m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nbin[obj_0000]: A cylindrical wooden planter with a smooth finish and visible wood grain patterns.\nseat[obj_0001]: A wicker armchair with a cushioned seat and backrest, featuring two decorative pillows. It has wooden legs and a sturdy build.\ntray[obj_0002]: A round table with a textured surface that appears to be made of a mosaic-like pattern. The table has a flat top and a slightly raised edge.\nmirror[obj_0003]: A rectangular mirror with a black frame, positioned on the floor with a small object nearby.\nFloor polygon (left, top): (0.00, 0.00), (6.24, 0.00), (6.24, 4.14), (0.00, 4.14)\nConstraint: {\"type\": \"faces\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0002\"}\nLayout:\n"
+ }
+]

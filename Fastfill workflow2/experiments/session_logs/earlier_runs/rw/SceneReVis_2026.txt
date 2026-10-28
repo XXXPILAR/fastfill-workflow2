@@ -1,0 +1,1031 @@
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene
+Synthesis via Multi-turn RL
+Yang Zhao1 2 Shizhao Sun 2 Meisheng Zhang 2 3 Yingdong Shi 2 4 Xubo Yang1 Jiang Bian 2
+Abstract
+Current one-pass 3D scene synthesis methods of-
+ten suffer from spatial hallucinations, such as col-
+lisions, due to a lack of deliberative reasoning.
+To bridge this gap, we introduce SceneReVis, a
+vision-grounded self-reflection framework that
+employs an iterative “diagnose-and-act” loop to
+explicitly intercept and resolve spatial conflicts
+using multi-modal feedback. To support this step-
+wise paradigm, we construct SceneChain-12k, a
+large-scale dataset of causal construction trajec-
+tories derived through a novel reverse engineer-
+ing pipeline. We further propose a two-stage
+training recipe that transitions from Supervised
+Fine-Tuning to Agentic Reinforcement Learning,
+evolving the model into an active spatial planner.
+Extensive experiments demonstrate that SceneRe-
+Vis achieves state-of-the-art performance in high-
+fidelity generation and goal-oriented optimization,
+with robust generalization to long-tail domains.
+1. Introduction
+Scalable and diverse 3D environments are critical infras-
+tructures for the era of spatial computing, underpinning
+advancements in Embodied AI, immersive gaming, and au-
+tomated content creation. For these virtual worlds to be
+actionable, they demand strict adherence to both semantic
+coherence and physical laws. In the research community,
+3D indoor scene synthesis is typically formulated as a lay-
+out prediction task, determining the arrangement of objects
+represented by 3D bounding boxes and semantic labels (Fu
+et al., 2021; Paschalidou et al., 2021). However, automating
+this process to generate high-fidelity scenes that rival man-
+ual design remains a formidable challenge, largely due to the
+Work done during an internship at Microsoft Research Asia.
+1Shanghai Jiao Tong University, Shanghai, China2Microsoft Re-
+search Asia, Beijing, China 3Peking University, Beijing, China
+4ShanghaiTech University, Shanghai, China. Correspondence to:
+Shizhao Sun <shizsu@microsoft.com>, Xubo Yang <yangx-
+ubo@sjtu.edu.cn>.
+Preprint. February 11, 2026.
+complexity of satisfying intricate geometric and functional
+constraints.
+Current paradigms (Feng et al., 2023; Paschalidou et al.,
+2021; Tang et al., 2024) primarily treat scene generation
+as a static, “one-pass” prediction task—directly mapping
+input prompts to a complete layout configuration in a sin-
+gle inference step. Analogous to “System 1” thinking, this
+approach relies on rapid, intuitive pattern matching. How-
+ever, it fundamentally lacks the “System 2” deliberative rea-
+soning required for iterative self-correction (Evans, 1984;
+Kahneman, 2003), inevitably resulting in “Spatial Hallu-
+cinations”—such as floating objects and severe collisions.
+Although some approaches (Yang et al., 2024b; C ¸elen et al.,
+2024) attempt to mitigate these errors via constraint-based
+post-processing, they heavily rely on the quality of the ini-
+tial scene priors. Once the initialization exhibits significant
+structural flaws—such as extreme overcrowding or spar-
+sity—this paradigm effectively becomes trapped in local
+optima, making it incapable of correcting fundamental lay-
+out deficiencies.
+To bridge the gap between intuition and reasoning, we intro-
+duceSceneReVis, an on-the-fly self-reflection framework
+that transforms scene synthesis into a dynamic, step-wise
+decision process. SceneReVis operates through an iterative
+“diagnose-and-act” loop(Figure 1(c)). At each timestep, it
+perceives the evolving environment via multi-modal feed-
+back—synergizing rendered visual observations with se-
+mantic scene graphs. Based on this real-time diagnosis,
+it explicitly selects and executes atomic operations from
+a discrete toolset to progressively construct or adjust the
+layout. Crucially, this mechanism fundamentally diverges
+from one-pass generation and traditional post-processing
+strategies. Instead of attempting to blindly output a com-
+plete layout at once or waiting to repair a fully generated but
+flawed scene, SceneReVis performs early error interception:
+it detects and resolves issues the moment they emerge. This
+“fix-as-you-go” mechanism is critical for two reasons: phys-
+ically, it maintains a valid geometric foundation at every
+step, avoiding the entangled spatial conflicts typical of one-
+pass predictions which are difficult to decouple post-hoc;
+semantically and aesthetically, the continuous visual feed-
+back enables SceneReVis to actively align objects based on
+1
+arXiv:2602.09432v1  [cs.CV]  10 Feb 2026
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+Figure 1.Comparison of generation paradigms. (a) One-Pass Generationlacks intermediate reasoning, leading to severe physical
+violations.(b) Post-Processing Generationtends to be trapped in local optima, yielding suboptimal visual and semantic quality.(c)
+SceneReVis (Ours)employs an self-reflection paradigm to ensure physical plausibility and aesthetic coherence.
+visual harmony.
+The first fundamental challenge in training such a multi-turn
+framework is the scarcity of process-oriented data. Existing
+3D datasets (Fu et al., 2021; Zhong et al., 2025; Yu et al.,
+2025; Khanna et al., 2024) offer only static final snapshots,
+lacking the temporal trajectories required to learn step-wise
+generation. To address this, we implement a Reverse Engi-
+neering Pipeline inspired by EditRoom (Zheng et al., 2025).
+Instead of merely dismantling scenes, we systematically
+deconstruct high-quality static layouts step-by-step into an
+empty state and record the reverse construction sequences re-
+quired to recover the optimal layout. This process generates
+executable tool invocation sequences, mapping the trajec-
+tory from an empty room to the final scene, culminating in
+our large-scale dataset,SceneChain-12k.
+With SceneChain-12k available, a straightforward approach
+is to apply Supervised Fine-Tuning (SFT) to teach the LLM
+to imitate these tool usages embedded in the dataset. How-
+ever, relying solely on this recipe fails to achieve satisfactory
+performance due to the second challenge: the insufficiency
+of behavioral mimicry. SFT restricts the agent to surface-
+level imitation of the provided toll calls, failing to instill the
+robust spatial diagnostic policy or long-horizon planning
+capability required to resolve unseen geometric conflicts. To
+tackle this, we advance our training paradigm from SFT to
+multi-turn Agentic Reinforcement Learning (RL). Utilizing
+Group Relative Policy Optimization (GRPO) (Guo et al.,
+2025), we integrate rendered visual feedback and apply
+dense rewards tailored to the specific characteristics of dif-
+ferent turns. This process evolves the model from a passive
+tool imitator into an active spatial planner, enabling it to mas-
+ter the self-reflection loop and optimize non-differentiable
+objectives such as physical rigor and aesthetics.
+In summary, our contributions are three-fold:
+• We formulate 3D scene generation as a vision-
+grounded sequential decision-making process. To ad-
+dress this, we proposeSceneReVis, a vision-grounded
+self-reflection framework that utilizes visual feedback
+to proactively intercept and resolve spatial conflicts.
+• We introduce a holistic pipeline utilizing Reverse En-
+gineering to synthesize the process-oriented dataset,
+SceneChain-12k. We further employ a two-stage train-
+ing recipe—advancing from SFT to Agentic RL—to
+evolve the agent into an active spatial planner.
+• We demonstrate thatSceneReVisachieves state-of-
+the-art performance in text-conditioned standard scene
+generation, scene generation in long-tail domains, and
+goal-oriented scene optimization.
+2. Related work
+3D Indoor Scene Synthesis.Research on indoor scene syn-
+thesis has evolved through three paradigms.(1) One-Pass
+Generation(Bucher & Armeni, 2025; Feng et al., 2023;
+Yang et al., 2025b; Paschalidou et al., 2021; Yang et al.,
+2024a; Pan & Liu, 2025; Tang et al., 2024; Lin & Mu, 2024;
+Choi et al., 2026) leverages learned priors from datasets like
+3D-FRONT (Fu et al., 2021) or language models. However,
+due to their one-pass nature, these methods lack mecha-
+nisms to rectify initial predictions, often leaving physical
+collisions unresolved.(2) Post-Processing( C ¸elen et al.,
+2024; Yang et al., 2024b; Sun et al., 2025; Ling et al., 2025;
+Gao et al., 2025) employs solvers to enforce validity. Yet,
+optimization on simplified abstract shapes (e.g., bounding
+boxes) ignores rendered geometry, leading to local optima
+and fine-grained visual inconsistencies.(3) Agentic Gen-
+eration(Yang et al., 2025a) introduces iterative feedback
+but suffers from structural inefficiency—relying on cum-
+bersome external tools—and a lack of policy adaptation, as
+2
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+frozen LLMs prioritize linguistic plausibility over physical
+success. In contrast,SceneReVisutilizes Agentic RL to
+internalize spatial priors directly into the policy, shifting
+probability mass toward physically valid actions.
+Spatial Chain-of-Thought.Recent advancements have ap-
+plied Chain-of-Thought (CoT) reasoning to 3D synthesis
+tasks. However, existing approaches (Ran et al., 2025; Hao
+et al., 2025) predominately function as open-loop text plan-
+ners, deriving layouts solely from linguistic priors without
+access to rendered visual feedback. Consequently, they of-
+ten suffer from spatial hallucinations and lack the capability
+to self-correct during generation. In contrast, we propose
+a Vision-Grounded Spatial Diagnostic CoT that integrates
+visual perception into the reasoning loop by learning from
+editing chains constructed via reverse engineering, thereby
+enabling the model to explicitly master dynamic “diagnose-
+and-act” capabilities for precise spatial adjustment.
+Reinforcement Learning in 3D Scene Synthesis.Com-
+pared to prior RL exploration in 3D synthesis, existing ap-
+proaches (Bucher & Armeni, 2025; Hao et al., 2025; Ran
+et al., 2025; Yang et al., 2025b; Pan & Liu, 2025) primar-
+ily leverage DPO (Rafailov et al., 2023) or single-turn RL
+for alignment. However, DPO is hindered by restricted
+exploration due to its reliance on static offline data, while
+single-turn RL operates as a one-pass mechanism, lacking
+the interactive feedback loop required to self-correct in-
+termediate errors. In contrast, we formulate synthesis as
+a multi-turn POMDP to enable iterative refinement. Fur-
+thermore, while general Agentic RL has succeeded in text-
+based reasoning (Wang & Ammanabrolu, 2025; Feng et al.,
+2025; Singh et al., 2025; Dong et al., 2025), applying such
+paradigms to 3D presents unique challenges, particularly in
+grounding abstract reasoning into physical reality. To bridge
+this gap, we integrate visual and physical grounding directly
+into the optimization loop, empowering the agent to align
+spatial reasoning with physical reality beyond the reach of
+pure linguistic priors.
+3. Method
+We formulate the task as a POMDP defined by the tu-
+pleM= (S,A,T,R,Ω,O,γ) . Here, S denotes the la-
+tent simulator state, projected by O into the observation
+space Ω. As visualized in the Figure 2(c), the observation
+ot = (I,G t,Vt,Ht−1)∈Ω integrates the instruction I,
+structured scene graphGt, visual renderingVt, and interac-
+tion historyHt−1. The agent generates composite actions
+at∈A to update the scene via the transition function T .
+The objective is to maximize the return defined by reward
+Rand discountγ.
+The remainder of this section details the five core compo-
+nents of our framework: (1) a vision-grounded iterative
+reasoning mechanism, (2) two-stage policy alignment, (3)
+automated data synthesis via reverse engineering, (4) a hy-
+brid reward formulation, and (5) extended applications of
+our framework.
+3.1. Vision-Grounded Self-Reflection Framework
+The inference mechanism operates as a closed-loop POMDP
+cycle. The process initiates by instantiating an initial scene
+graph based on the user instruction to form the initial state
+s0. At each step t, the policy πθ perceives a multi-modal
+observationot = (I,G t,Vt,Ht−1), integrating the global
+instruction, current semantic and visual states, and the cu-
+mulative interaction history. The rendered feedback Vt is
+particularly critical for exposing fine-grained geometric de-
+tails latent in the structured graph.
+Adopting aDiagnose-and-Actparadigm, SceneReVis first
+generates a Spatial Diagnosis CoT to identify semantic
+gaps or physical violations, yielding a structured tool in-
+vocationut∈A prim. This primitive space Aprim encom-
+passes atomic actions for instantiation (Add), affine transfor-
+mations (Move, Rotate, Scale), and semantic updates
+(Replace,Remove).
+Driven by this decision, the environment transitionT exe-
+cutes a retrieval-augmented pipeline to realize the instan-
+tiation primitives specified inut. Specifically, we employ
+a coarse-to-fine strategy: a candidate set is first retrieved
+based on the semantic category predicted inut, followed by
+selecting the asset that minimizes the aspect ratio alignment
+error with the target dimensions generated by the agent.
+Inspired by (C ¸elen et al., 2024; Yang et al., 2024b; 2025a),
+we mitigate residual collisions via a lightweight optimiza-
+tion step that applies pose micro-perturbations and prunes
+overlapping entities to ensure physical plausibility inS.
+3.2. Two-Stage Policy Learning
+Our training framework consists of two sequential phases:
+supervised initialization to establish policy priors, and rein-
+forcement learning for objective alignment.
+Stage I: Structural Priors via SFT (Figure 2(b))We
+initialize the policy by fine-tuning a pre-trained MLLM
+on flattened trajectories formatted as multi-turn dialogues.
+In each turn, the model processes the observation ot =
+(I,Gt,Vt,Ht−1) to predict a composite response at =
+(zt,ut), comprising the spatial diagnostic CoT and exe-
+cutable tool call. Treating this as a standard sequence model-
+ing task, we maximize the likelihood of the agent’s action to-
+kens conditioned on the interaction history. We apply a loss
+masking strategy to ensure gradients are backpropagated
+exclusively on agent outputs, ignoring user instructions and
+visual tokens. This cold-start phase serves a dual purpose:
+(1)Syntactic Alignment, forcing strict adherence to the out-
+3
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+Figure 2.Overview of the SceneReVis learning framework. The pipeline consists of three stages: (a)Data Construction:We employ a
+Reverse Engineering strategy to decompose static 3D scenes into causal construction trajectories (SceneChain-12k). (b)Cold Start:A
+Supervised Fine-Tuning (SFT) stage initializes the agent with basic tool usage capabilities. (c)Legend:Legend explaining the contents
+of various parts. (d)Agentic RL:The core stage utilizes Group Relative Policy Optimization (GRPO). The agent interacts with a
+physics-enabled simulator via a ”diagnose-and-act” loop, receiving multi-modal feedback and optimizing against non-differentiable
+objectives.
+put protocol; and (2)Semantic Prior Injection, allowing the
+model to implicitly clone the spatial layout priors embedded
+in the static demonstrations. To achieve it, we construct a
+dataset of multi-turn CoT trajectories, the synthesis details
+of which are elaborated in the Section 3.3.
+Stage II: Objective Alignment via GRPO (Figure 2(d))
+To enable the “diagnose-and-act” capability, we formulate
+the optimization as a multi-stage sequential decision pro-
+cess driven by visual feedback. Utilizing Group Relative
+Policy Optimization (GRPO) as the backbone, we structure
+the learning curriculum into three distinct phases. At the
+initial step (t= 0 ), the agent establishes the global context
+by defining the scene’s template, shape, and dimensions.
+During intermediate turns (0<t<T ), the agent executes
+the iterative “diagnose-and-act” loop to populate objects
+and rectify spatial conflicts. Crucially, each turn incorpo-
+rates visual feedback from rendered top-down and random
+diagonal views, allowing the agent to perceive geometric
+relations explicitly. Finally, at the terminal step ( t=T ),
+the completed layout undergoes a comprehensive quality
+assessment. This structured progression enables us to apply
+targeted supervision across different stages, serving as the
+foundation for the reward design detailed in Section 3.4.
+3.3. Synthesis of Multi-Turn Reasoning Trajectories
+To equip the agent with long-horizon planning capabilities,
+we constructSceneChain-12k(Figure 2(a)), a large-scale
+instruction-tuning datasetD={(I,τ)} . For each scene,
+the trajectory is formulated asτ= (o 0,a 0,...,o T ), where
+the composite action at = (zt,ut) consists of aSpatial
+Diagnostic Chain-of-Thought (CoT)zt and an executable
+tool callut. The construction ofD follows a rigorous three-
+stage pipeline:
+Step 1: Primitive Sequence Generation via Reverse
+Engineering.First, we generate the ground-truth prim-
+itive action sequence u0:T−1 of length T by recursively
+dismantling high-fidelity scenes. Utilizing 3D-FRONT (Fu
+et al., 2021) as the raw source, we filter 4,059 valid scenes
+and employ aScene Reverse Editorto stochastically
+sample inverse primitives ˆuk from the atomic spaceAprim =
+{Add,Remove,Move,Rotate,Scale,Replace} . (Zheng
+et al., 2025) The recorded deconstruction chain is then
+temporally inverted (ut = ˆu−1
+T−1−t ) to form the forward
+trajectory. Crucially, to align with human design priors,
+we implement aStage-Aware Deconstructionstrategy:
+the sampling probability is conditioned on object volume
+relative to the editing progress. Small decorative items are
+prioritized for removal in early reverse stages, while large
+structural entities are retained until the end, mathematically
+enforcing a logical “coarse-to-fine” hierarchy in the final
+forward generation.
+Step 2: Quality Assurance via Automated Filtration.
+Second, we screen the generated sequences to eliminate
+suboptimal behaviors derived from stochastic inversion. We
+synthesizeN= 10 candidate trajectories for each scene and
+employ GPT-5 to evaluate them using a multi-dimensional
+scoring system. Focusing onEditing Coherence,Natural-
+ness, andTransition Quality, we retain only the top-3 trajec-
+tories that satisfy strict physical constraints. This rigorous
+selection process yields a final corpus of12,177high-quality
+4
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+samples, effectively purging invalid or unnatural transitions.
+Step 3: Diagnostic CoT Synthesis.Finally, we synthe-
+size the diagnostic reasoning zt to bridge the visual state
+st and the tool callut. We reframe scene construction as a
+sequential optimization process. Conditioned on the visual
+state, we prompt the LLM to generate reasoning following
+a structured taxonomy ofScene Bugs: (1)Physical Con-
+flicts, (2)Layout Rationality, and (3)Spatial Distribution.
+The synthesized CoT enforces a strict logic flow: Spatial
+Diagnosis (identifying the bug)→ Patching Strategy (for-
+mulating a fix)→ Execution (tool invocation), transforming
+the generation task into a reasoned constraint-satisfaction
+problem.
+3.4. Policy Optimization via Hybrid Feedback
+Mechanisms
+Training an agent to generate complex 3D scenes requires
+balancing structural validity, physical feasibility, and se-
+mantic alignment. To guide the policy πθ efficiently, we
+construct a composite reward mechanism operating across
+three temporal phases.
+Structural Initialization (t= 0 ).The process initiates by
+constructing the geometric scaffold. At this stage, the objec-
+tive is to ensure the room layout is well-formed. We define
+an initialization rewardrinit to enforce Schema Compliance
+and Geometric Validity, strictly penalizing fatal errors such
+as unparsable JSON outputs, as well as degenerate room
+geometries (e.g., overly irregular shapes or dimensions vio-
+lating realistic size constraints), ensuring the episode starts
+from a valid state.
+Iterative Refinement (0<t<T ).During the generation
+process, we provide dense feedback to steer the agent. The
+intermediate rewardrt is computed as a weighted sum:
+rt(st,at) =λfmtrfmt(at) +λphyrphy(st)
++λsemrsem(st,st−1) (1)
+The format termrfmt ensures the generated tool calls follow
+valid syntax for execution. The physical termrphy penalizes
+immediate collisions and out-of-bounds errors detected by
+the physics engine. Crucially, the semantic termrsem serves
+as a Goal Progress Signal. Instead of just assessing the
+current state, it evaluates thesemantic deltabetween st and
+st−1 (e.g., successfully adding a required object from the
+instruction), explicitly penalizing stagnation or degradation
+to encourage efficient, step-wise planning.
+Terminal Assessment and Trajectory Aggregation.At
+the conclusion (t=T ), we calculate a Hierarchical Final
+RewardRfinal to assess the holistic quality:
+Rfinal(sT ) =ωfmtRfmt(sT ) +ωobjRobj(sT )
++ωsceneRscene(sT ) (2)
+where components are normalized to [−1,1] .Rfmt verifies
+final output structure.Robj checks the completeness of core
+furniture defined in the instruction and validates the correct-
+ness of object scales.Rscene combines rigid physical rules
+to judge overall physical plausibility with a VLM-based
+evaluator to score visual aesthetics and semantic coherence.
+Finally, the total trajectory rewardJ(τ) aggregates the mean
+intermediate reward and the final reward to balance safe ex-
+ecution with high-fidelity results:
+J(τ) =α·
+ 
+1
+T
+T−1X
+t=0
+rt(st,at)
+!
+| {z }
+Process Consistency
++β·R final(sT )| {z }
+Outcome Quality
+(3)
+This formulation ensures the agent is penalized for inter-
+mediate invalid actions while primarily incentivizing the
+semantic and physical integrity of the final layout.
+3.5. Broad Application
+Text-driven Standard Scene Generation.This task con-
+structs a complete scene from scratch based on text. Current
+“one-pass” methods (Feng et al., 2023; Tang et al., 2024) of-
+ten suffer from spatial hallucinations, while post-processing
+approaches (Yang et al., 2024b) heavily rely on initializa-
+tion quality and are prone to getting trapped in local optima.
+In contrast, our agent builds scenes sequentially from an
+empty state, leveraging the diagnose-and-act loop to ensure
+rigorous physical validity without optimization dead-ends.
+Unified Generalization in Long-tail Domains.This ca-
+pability targets open-vocabulary concepts unseen during
+training. Conventional diffusion models (Tang et al., 2024)
+struggle here due to fixed vocabularies. Conversely, purely
+LLM-based methods (Feng et al., 2023), while semantically
+rich, rely on linguistic priors and lack physical grounding,
+often yielding chaotic layouts. We bridge this by initializing
+with a coarse LLM-generated graph and iteratively refining
+it to enforce physical constraints, effectively decoupling
+semantic imagination from physical realization.
+Goal-Oriented Scene Optimization.Moving beyond
+ab initiogeneration, this task refines arbitrary sub-
+optimal layouts—whether chaotic, incomplete, or mis-
+aligned—conditioned on an instruction I. Unlike prior
+works (Tang et al., 2024) that fragment rearrangement and
+completion into distinct problems, we unify these under
+a single formulation. Leveraging ourSpatial Diagnostic
+CoT, a single policy πθ iteratively repairs geometric vio-
+lations and completes missing components, steering any
+configuration toward physical plausibility.
+4. Experiment
+Datasets.We constructSceneChain-12k(12,177 trajec-
+tories, 4,059 scenes) from 3D-FRONT (Fu et al., 2021),
+5
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+Table 1.Quantitative comparison on Bedroom and Living Room.‘Avg.‘ is the mean of Ra, Spa, and Ac. Best results arebolded, and
+second-best results are underlined.
+Method
+Bedroom Living Room Avg. (Bed + Living)
+Physics Visual & Semantics Physics Visual & Semantics Physics Visual & Semantics
+OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑
+Diffuscene 46.2 33.8 8.2 6.2 6.9 7.1 28.0 41.5 7.3 7.5 8.2 7.7 37.1 37.7 7.8 6.9 7.6 7.4
+Respace 14.7 41.9 6.8 6.1 7.0 6.6 11.5 40.3 6.9 6.6 7.3 6.9 13.1 41.1 6.9 6.4 7.2 6.8
+LayoutGPT 34.3 45.9 7.8 5.6 7.6 7.0 15.0 35.7 7.5 7.3 8.7 7.8 24.7 40.8 7.7 6.5 8.2 7.5
+I-Design 15.5 18.2 8.3 6.6 8.1 7.7 17.8 14.1 8.3 6.5 8.6 7.8 16.7 16.2 8.3 6.6 8.4 7.8
+Holodeck 15.4 22.2 7.18.18.6 7.910.0 3.15.98.2 8.87.6 12.7 12.7 6.58.28.7 7.8
+LayoutVLM 11.5 44.9 7.0 7.6 8.0 7.5 14.3 28.7 6.8 7.9 8.7 7.8 12.9 36.8 6.9 7.8 8.4 7.7
+Ours 2.8 4.6 9.38.0 8.9 8.7 1.24.4 9.58.0 8.8 8.8 2.0 4.5 9.48.0 8.9 8.8
+Table 2.Quantitative comparison on Dining Room and Study Room.‘Avg.‘ is the mean of Ra, Spa, and Ac. Best results arebolded,
+and second-best results are underlined.
+Method
+Dining Room Study Room Avg. (Dining + Study)
+Physics Visual & Semantics Physics Visual & Semantics Physics Visual & Semantics
+OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑
+LayoutGPT 6.2 26.2 6.9 7.78.87.8 16.6 52.18.57.2 8.3 8.0 11.4 39.2 7.7 7.5 8.6 7.9
+I-Design 17.60.77.8 5.78.87.4 16.3 4.5 8.2 6.98.98.0 17.0 2.6 8.0 6.38.97.7
+Holodeck 11.9 3.3 6.4 8.0 8.5 7.6 13.7 5.1 6.78.4 8.98.0 12.8 4.2 6.6 8.2 8.7 7.8
+LayoutVLM 19.2 27.0 6.5 7.88.87.7 12.3 36.6 6.9 7.6 8.6 7.7 15.8 31.8 6.7 7.7 8.7 7.7
+Ours 0.12.8 8.1 8.38.6 8.3 0.5 2.18.2 8.3 8.9 8.5 0.3 2.5 8.2 8.38.8 8.4
+strictly excluding a held-out pool of 300 trajectories for
+zero-shot evaluation.Training Datautilizes the remain-
+ing trajectories:SFT Dataprovides instruction-trajectory
+pairs (I,τ) (Sec 3.3) for behavioral cloning, whileRL Data
+combines 1,000 real training prompts and 1,000 GPT-5
+synthesized prompts—introduced to mitigate the scarcity
+of specific room types—to enable exploration.Test Data
+comprises two splits: the Standard Split (N=300), which
+merges 200 real held-out prompts with 100 GPT-synthesized
+prompts (50 Bedroom, 50 Living Room) for in-distribution
+testing; and the Generalization Split (N=100), containing
+synthesized prompts for long-tail categories (e.g., Dining,
+Study) to assess robustness on unseen scenarios. See Ap-
+pendix for details.
+Implementation Details.Our policy πθ is fine-tuned on
+the Qwen2.5-VL-7B (Bai et al., 2025b). Following SFT, we
+conduct RL training using the GRPO algorithm within the
+VeRL framework (Sheng et al., 2025). We employ Qwen3-
+VL-235B (Bai et al., 2025a) as the VLM reward model.
+Visual observations are rendered via Blender. SeeAppendix
+for full hyperparameters and hardware specifications.
+Baselines.We benchmark against: (1) Data-driven mod-
+els (DiffuScene (Tang et al., 2024), Respace (Bucher &
+Armeni, 2025)); (2) LLM-based few-shot learners (Layout-
+GPT (Feng et al., 2023)); and (3) LLM with post-processing
+methods (I-Design ( C ¸elen et al., 2024), Holodeck (Yang
+et al., 2024b), LayoutVLM (Sun et al., 2025)). We exclude
+SceneWeaver (Yang et al., 2025a) due to prohibitive latency
+(∼64 mins/prompt), while OptiScene (Yang et al., 2025b)
+and DirectLayout(Ran et al., 2025) are omitted due to lack
+of open-source code. For Goal-oriented Optimization, We
+specifically compare with DiffuScene and LayoutVLM, two
+models that are specifically designed for tasks related to
+scene optimization, under three conditions:Chaotic & Miss-
+ing,Chaotic Only, andMissing Only.
+Metrics.We report Physical Fidelity via Out-of-Bounds
+Rate (OBR) and Collision Rate (CNR), adopting the proto-
+cols from (Ran et al., 2025). Since physical metrics alone
+fail to capture high-level functional logic and aesthetics, we
+introduce Visual & Semantic Quality assessed by GPT-5
+across three dimensions:Rationality (Ra.),Spatial Layout
+(Spa.), andAccessibility (Ac.). Detailed definitions are pro-
+vided in Appendix.
+4.1. Performance on Standard Scene Generation
+We provide quantitative evaluation results for the bedroom
+and living room scenarios in Table 1. Results demon-
+strate that SceneReVis achieves state-of-the-art performance
+across most metrics, outperforming both data-driven base-
+lines and closed-source LLM-based baselines. Holodeck
+demonstrates excellent physical rationality due to its rule-
+based post-processing mechanism. While It remains compet-
+itive in Spatial Layout (Spa), we observe that its placement
+strategy can occasionally lead to object crowding, resulting
+6
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+I want a modern 
+minimalist bedroom 
+with a king-size bed, 
+good lighting, seating, 
+and practical storage.
+Bedroom
+Prompt I-Design Holodeck LayoutVLM
+Diffuscene Respace LayoutGPT SceneReVis(Ours)
+Livingroom
+I-Design Holodeck LayoutVLM
+Diffuscene
+ Respace
+ LayoutGPT
+ SceneReVis(Ours)
+I want a stylish modern 
+livingroom with a beige 
+sofa, vintage corner 
+table, and a metallic 
+gold coffee table.
+Prompt
+Figure 3.Qualitative comparison of standard scenes.We visualize the 3D scenes generated by different methods forBedroom(top) and
+Living Room(bottom) scenarios based on the given text prompts.
+I-Design Holodeck LayoutVLM LayoutGPT SceneReVis(Ours)
+Diningroom
+Studyroom
+Figure 4.Qualitative comparison of long-tail scenes.We visualize the 3D scenes generated by different methods forDining room(top)
+andStudy Room(bottom) scenarios based on the given text prompts.
+in a slightly lower Accessibility score (Ac=8.7 avg.) com-
+pared to ours (Ac=8.9 avg.). In contrast, data-driven models
+and pure LLM baselines (LayoutGPT) exhibit high rates of
+physical violations, as they struggle to satisfy strict geomet-
+ric constraints. SceneReVis outperforms these methods by
+achieving the highest visual and semantic scores (Avg.=8.8)
+and SOTA physical metrics. We attribute this success to the
+synergy between our two-stage alignment training and phys-
+ical optimization. The former equips the agent with robust
+spatial diagnostic and goal-oriented planning capabilities,
+while the latter enforces granular physical validity. This de-
+sign effectively resolves the physical-semantic trade-off out-
+lined in the Introduction, securing dual SOTA performance.
+As illustrated in Figure 3, SceneReVis generates physically
+plausible and semantically precise layouts, whereas baseline
+methods frequently exhibit severe collisions and unnatural
+object placements (highlighted in red).
+4.2. Performance on Long-Tail Scenarios
+Table 2 evaluates performance on long-tail scenarios. Fol-
+lowing the evaluation protocol in SceneWeaver (Yang et al.,
+2025a), we exclude data-driven baselines (Tang et al., 2024;
+Bucher & Armeni, 2025) due to their incomplete coverage of
+these categories, restricting the comparison to training-free
+LLM-based methods. SceneReVis achieves near-perfect
+physical fidelity and high semantic scores. In contrast, base-
+7
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+Table 3.Quantitative comparison on Goal-oriented Scene Optimization tasks.‘Avg.‘ is the mean of Ra, Spa, and Ac. Best results are
+bolded, and second-best results are underlined.
+Method
+Cond 1: Chaotic & Missing Cond 2: Chaotic Only Cond 3: Missing Only Overall Average
+Physics Visual & Semantics Physics Visual & Semantics Physics Visual & Semantics Physics Visual & Semantics
+OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑OBR↓CNR↓Ra.↑Spa.↑Ac.↑Avg.↑
+Diffuscene 50.8 30.37.5 7.3 8.5 7.8 62.8 24.1 7.4 7.0 8.77.7 27.8 30.2 7.3 7.0 7.7 7.3 47.1 28.2 7.4 7.1 8.3 7.6
+LayoutVLM 10.039.7 6.7 6.3 8.7 7.2 8.1 63.1 7.2 6.6 8.3 7.4 6.5 31.0 6.5 6.48.77.2 8.2 44.6 6.8 6.4 8.6 7.3
+Ours 1.1 1.8 8.8 8.1 8.9 8.6 2.7 1.3 7.7 7.98.5 8.0 1.1 1.0 7.9 7.8 8.7 8.1 1.6 1.4 8.1 7.9 8.7 8.2
+Table 4.Ablation study of key components.VBL evaluates the
+volume of physical violations. Phy. denotes the average physical
+violation rate (mean of OBR and CNR). Final Reward denotes
+terminal reward, and Trajectory Reward represents the multi-turn
+accumulated reward.
+Components Metrics
+Physics Visual & Semantics
+SFT Final Reward Trajectory Reward Physical Opt.VBL↓Phy.↓Ra.↑Spa.↑Ac.↑Avg.↑
+✓- - - 544.5 30.4 8.7 7.1 7.8 7.9✓ ✓- - 154.0 15.8 7.7 7.1 8.9 7.9✓ ✓ ✓- 210.9 21.9 9.1 7.7 8.7 8.5
+✓ ✓ ✓ ✓ 25.6 3.3 9.4 8.0 8.9 8.8
+lines struggle significantly: LayoutGPT and LayoutVLM
+suffer from severe collisions, while all methods exhibit
+sub-optimal Out-of-Bounds rates. This validates that our
+spatial diagnostic reasoning fosters generalized planning
+rather than overfitting dominant categories. Consequently,
+SceneReVis effectively resolves physical violations in these
+domains without compromising semantic integrity, main-
+taining high visual quality alongside strict physical align-
+ment. Figure 4 shows SceneReVis generates coherent lay-
+outs in long-tail scenarios, unlike baselines plagued by se-
+vere collisions and layout flaws (red highlights); see Ap-
+pendix for more results.
+Cond 1
+Cond 2
+Cond 3
+Initial Intermediate Final
+I want a modern 
+livingroom with a sleek 
+media setup, stylish sofa, 
+and a simple side table.
+I want to design a small 
+contemporary 
+industrial bedroom 
+built around a single 
+bed...Please include two 
+matching industrial 
+nightstands...
+I want a classic, elegant 
+livingroom with a gray 
+floral sofa and functional 
+farmhouse-style storage 
+pieces.
+Goal
+Figure 5.Qualitative results for goal-oriented scene optimiza-
+tion.We visualize optimization trajectories under three condi-
+tions—Chaotic & Missing,Chaotic Only, andMissing Only.
+4.3. Performance on Goal-oriented Scene Optimization
+Table 3 highlights the superior robustness of SceneReVis
+across varying initial states. Our method achieves near-
+perfect physical alignment and minimal boundary viola-
+tions. In contrast, baselines exhibit distinct failure modes:
+Diffuscene lacks geometric grounding, leading to severe
+boundary violations, while LayoutVLM struggles with spa-
+Table 5.User study results based on human ranking.Partici-
+pants ranked the results of 5 methods from 1 (Best) to 5 (Worst).
+We report theAverage Rank(lower is better).
+Method Physical Plausibility↓Semantic Coherence↓Overall Quality↓
+I-Design 3.76 3.72 3.74LayoutVLM 3.76 3.66 3.71LayoutGPT 3.06 3.21 3.14Holodeck 2.61 2.59 2.60
+SceneReVis (Ours) 1.80 1.82 1.81
+tial clutter, incurring catastrophic collisions. These results
+validate that our diagnostic reasoning enables the agent to
+surgically rectify scenes, significantly outperforming the
+best baseline in both physical plausibility and semantic qual-
+ity (Avg. Score 8.2 vs. 7.6).
+4.4. Ablation and User Study
+Ablation Analysis.Table 4 shows the SFT baseline suffers
+from high physical violations , indicating supervision alone
+fails spatial constraints. Integrating the Final Reward sig-
+nificantly mitigates this, proving RL’s geometric efficacy.
+Second, the Trajectory Reward provides dense step-wise
+guidance, preventing the suboptimal convergence typical
+of sparse rewards and boosting semantic metrics. Finally,
+while RL drastically reduces aggregate violations (quanti-
+fied by VBL’ (Bucher & Armeni, 2025) and ‘Phy.’), the
+VLM overlooks subtle conflicts. Our physical optimization
+thus acts as a critical “last-mile” solver, eliminating these
+fine-grained defects to achieve minimal violations.
+User Study.We conducted a user study with 16 participants
+ranking SceneReVis against baselines. As shown in Table 5,
+our method achieves the superior average rank. By effec-
+tively balancing semantic fidelity with physical compliance,
+our framework emerges as the clear human preference.
+5. Conclusion
+In this paper, we introducedSceneReVis, a vision-grounded
+framework that redefines 3D synthesis as a multi-turn
+reasoning process. Empowered by ourSceneChain-12k
+dataset and a two-stage Agentic RL training strategy, the
+agent leverages iterative visual diagnosis to resolve complex
+geometric constraints. Extensive evaluations demonstrate
+state-of-the-art quality and robust generalization across di-
+verse domains.
+8
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+Impact Statement
+This paper presents work whose primary goal is to advance
+the field of 3D scene synthesis and machine learning. Poten-
+tial societal consequences include assisting content creators
+in efficient scene layout generation and providing high-
+quality environments for robotic simulation. We do not
+foresee any immediate negative societal consequences or
+ethical concerns that must be specifically highlighted here.
+References
+Bai, S., Cai, Y ., Chen, R., Chen, K., Chen, X., Cheng, Z.,
+Deng, L., Ding, W., Gao, C., Ge, C., Ge, W., Guo, Z.,
+Huang, Q., Huang, J., Huang, F., Hui, B., Jiang, S., Li, Z.,
+Li, M., Li, M., Li, K., Lin, Z., Lin, J., Liu, X., Liu, J., Liu,
+C., Liu, Y ., Liu, D., Liu, S., Lu, D., Luo, R., Lv, C., Men,
+R., Meng, L., Ren, X., Ren, X., Song, S., Sun, Y ., Tang,
+J., Tu, J., Wan, J., Wang, P., Wang, P., Wang, Q., Wang,
+Y ., Xie, T., Xu, Y ., Xu, H., Xu, J., Yang, Z., Yang, M.,
+Yang, J., Yang, A., Yu, B., Zhang, F., Zhang, H., Zhang,
+X., Zheng, B., Zhong, H., Zhou, J., Zhou, F., Zhou, J.,
+Zhu, Y ., and Zhu, K. Qwen3-vl technical report, 2025a.
+URLhttps://arxiv.org/abs/2511.21631.
+Bai, S., Chen, K., Liu, X., Wang, J., Ge, W., Song, S.,
+Dang, K., Wang, P., Wang, S., Tang, J., et al. Qwen2.
+5-vl technical report.arXiv preprint arXiv:2502.13923,
+2025b.
+Bucher, M. J. and Armeni, I. Respace: Text-driven 3d scene
+synthesis and editing with preference alignment.arXiv
+preprint arXiv:2506.02459, 2025.
+C ¸elen, A., Han, G., Schindler, K., Van Gool, L., Armeni, I.,
+Obukhov, A., and Wang, X. I-design: Personalized llm
+interior designer. InEuropean Conference on Computer
+Vision, pp. 217–234. Springer, 2024.
+Choi, J., Park, Y ., and Kim, H. J. Scenenat: Masked genera-
+tive modeling for language-guided indoor scene synthesis.
+arXiv preprint arXiv:2601.07218, 2026.
+Dong, G., Mao, H., Ma, K., Bao, L., Chen, Y ., Wang,
+Z., Chen, Z., Du, J., Wang, H., Zhang, F., et al.
+Agentic reinforced policy optimization.arXiv preprint
+arXiv:2507.19849, 2025.
+Evans, J. S. B. Heuristic and analytic processes in reasoning.
+British Journal of Psychology, 75(4):451–468, 1984.
+Feng, J., Huang, S., Qu, X., Zhang, G., Qin, Y ., Zhong, B.,
+Jiang, C., Chi, J., and Zhong, W. Retool: Reinforcement
+learning for strategic tool use in llms.arXiv preprint
+arXiv:2504.11536, 2025.
+Feng, W., Zhu, W., Fu, T.-j., Jampani, V ., Akula, A., He,
+X., Basu, S., Wang, X. E., and Wang, W. Y . Layout-
+gpt: Compositional visual planning and generation with
+large language models.Advances in Neural Information
+Processing Systems, 36:18225–18250, 2023.
+Fu, H., Cai, B., Gao, L., Zhang, L.-X., Wang, J., Li, C.,
+Zeng, Q., Sun, C., Jia, R., Zhao, B., et al. 3d-front: 3d
+furnished rooms with layouts and semantics. InPro-
+ceedings of the IEEE/CVF International Conference on
+Computer Vision, pp. 10933–10942, 2021.
+Gao, J., Zhou, D., Liang, M., Liu, L., Fu, C.-W., Hu, X.,
+and Heng, P.-A. Disco-layout: Disentangling and coordi-
+nating semantic and physical refinement in a multi-agent
+framework for 3d indoor layout synthesis.arXiv preprint
+arXiv:2510.02178, 2025.
+Guo, D., Yang, D., Zhang, H., Song, J., Zhang, R., Xu, R.,
+Zhu, Q., Ma, S., Wang, P., Bi, X., et al. Deepseek-r1: In-
+centivizing reasoning capability in llms via reinforcement
+learning.arXiv preprint arXiv:2501.12948, 2025.
+Hao, J., Liang, N., Luo, Z., XU, X., Zhong, W., Yi, R.,
+Jin, Y ., Lyu, Z., Zheng, F., Ma, L., et al. Mesatask:
+Towards task-driven tabletop scene generation via 3d
+spatial reasoning. InThe Thirty-ninth Annual Conference
+on Neural Information Processing Systems, 2025.
+Kahneman, D. Maps of bounded rationality: Psychology
+for behavioral economics.American economic review,
+93(5):1449–1475, 2003.
+Khanna, M., Mao, Y ., Jiang, H., Haresh, S., Shacklett, B.,
+Batra, D., Clegg, A., Undersander, E., Chang, A. X., and
+Savva, M. Habitat synthetic scenes dataset (hssd-200):
+An analysis of 3d scene scale and realism tradeoffs for
+objectgoal navigation. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition,
+pp. 16384–16393, 2024.
+Lin, C. and Mu, Y . Instructscene: Instruction-driven 3d
+indoor scene synthesis with semantic graph prior.arXiv
+preprint arXiv:2402.04717, 2024.
+Ling, L., Lin, C.-H., Lin, T.-Y ., Ding, Y ., Zeng, Y ., Sheng,
+Y ., Ge, Y ., Liu, M.-Y ., Bera, A., and Li, Z. Scenethesis:
+A language and vision agentic framework for 3d scene
+generation.arXiv preprint arXiv:2505.02836, 2025.
+Pan, Z. and Liu, H. Metaspatial: Reinforcing 3d spatial
+reasoning in vlms for the metaverse.arXiv preprint
+arXiv:2503.18470, 2025.
+Paschalidou, D., Kar, A., Shugrina, M., Kreis, K., Geiger,
+A., and Fidler, S. Atiss: Autoregressive transformers for
+indoor scene synthesis.Advances in Neural Information
+Processing Systems, 34:12013–12026, 2021.
+9
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+Rafailov, R., Sharma, A., Mitchell, E., Manning, C. D.,
+Ermon, S., and Finn, C. Direct preference optimiza-
+tion: Your language model is secretly a reward model.
+Advances in neural information processing systems, 36:
+53728–53741, 2023.
+Ran, X., Li, Y ., Xu, L., Yu, M., and Dai, B. Direct numerical
+layout generation for 3d indoor scene synthesis via spatial
+reasoning.arXiv preprint arXiv:2506.05341, 2025.
+Sheng, G., Zhang, C., Ye, Z., Wu, X., Zhang, W., Zhang, R.,
+Peng, Y ., Lin, H., and Wu, C. Hybridflow: A flexible and
+efficient rlhf framework. InProceedings of the Twentieth
+European Conference on Computer Systems, EuroSys
+’25, pp. 1279–1297. ACM, March 2025. doi: 10.1145/
+3689031.3696075. URL http://dx.doi.org/10.
+1145/3689031.3696075.
+Singh, J., Magazine, R., Pandya, Y ., and Nambi, A. Agentic
+reasoning and tool integration for llms via reinforcement
+learning.arXiv preprint arXiv:2505.01441, 2025.
+Sun, F.-Y ., Liu, W., Gu, S., Lim, D., Bhat, G., Tombari, F.,
+Li, M., Haber, N., and Wu, J. Layoutvlm: Differentiable
+optimization of 3d layout via vision-language models. In
+Proceedings of the Computer Vision and Pattern Recog-
+nition Conference, pp. 29469–29478, 2025.
+Tang, J., Nie, Y ., Markhasin, L., Dai, A., Thies, J., and
+Nießner, M. Diffuscene: Denoising diffusion models for
+generative indoor scene synthesis. InProceedings of the
+IEEE/CVF conference on computer vision and pattern
+recognition, pp. 20507–20518, 2024.
+Wang, R. and Ammanabrolu, P. A practitioner’s guide to
+multi-turn agentic reinforcement learning.arXiv preprint
+arXiv:2510.01132, 2025.
+Yang, Y ., Jia, B., Zhi, P., and Huang, S. Physcene: Physi-
+cally interactable 3d scene synthesis for embodied ai. In
+Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pp. 16262–16272, 2024a.
+Yang, Y ., Sun, F.-Y ., Weihs, L., VanderBilt, E., Herrasti, A.,
+Han, W., Wu, J., Haber, N., Krishna, R., Liu, L., et al.
+Holodeck: Language guided generation of 3d embodied
+ai environments. InProceedings of the IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition, pp.
+16227–16237, 2024b.
+Yang, Y ., Jia, B., Zhang, S., and Huang, S. Sceneweaver:
+All-in-one 3d scene synthesis with an extensible and self-
+reflective agent. InThe Thirty-ninth Annual Conference
+on Neural Information Processing Systems, 2025a.
+Yang, Y ., Luo, Z., Ding, T., Lu, J., Gao, M., Yang, J.,
+Sanchez, V ., and Zheng, F. Optiscene: Llm-driven indoor
+scene layout generation via scaled human-aligned data
+synthesis and multi-stage preference optimization. InThe
+Thirty-ninth Annual Conference on Neural Information
+Processing Systems, 2025b.
+Yu, H., Jia, B., Chen, Y ., Yang, Y ., Li, P., Su, R., Li, J., Li,
+Q., Liang, W., Zhu, S.-C., et al. Metascenes: Towards
+automated replica creation for real-world 3d scans. In
+Proceedings of the Computer Vision and Pattern Recog-
+nition Conference, pp. 1667–1679, 2025.
+Zheng, K., Chen, X., He, X., Gu, J., Li, L., Yang, Z., Lin,
+K., Wang, J., Wang, L., and Wang, X. E. Editroom:
+Llm-parameterized graph diffusion for composable 3d
+room layout editing. InThe Thirteenth International
+Conference on Learning Representations, 2025.
+Zhong, W., Cao, P., Jin, Y ., Li, L., Cai, W., Lin, J., Wang,
+H., Lyu, Z., Wang, T., XU, X., et al. Internscenes: A
+large-scale simulatable indoor scene dataset with real-
+istic layouts. InThe Thirty-ninth Annual Conference
+on Neural Information Processing Systems Datasets and
+Benchmarks Track, 2025.
+10
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+A. Algorithm Details
+A.1. Multi-Turn Edit Chain Generation
+We employ a reverse engineering approach (Algorithm 1) with a volume-stratified selection strategy to generate realistic
+editing chains.
+Algorithm 1Multi-Turn Edit Chain Generation via Reverse Engineering
+Require:Final sceneS final, target turnsT∼Uniform(4,8)
+Ensure:Conversation chainC
+1:P←{add: 0.35,move: 0.20,rotate: 0.20,scale: 0.05,replace: 0.10,remove: 0.10}
+2:S cur←S final,C rev←[]
+3:fort= 0toT−1do
+4:O←GetObjects(S cur)
+5:if|O|= 0then
+6:break
+7:end if
+8:p←t/(T−1){Progress:0→1}
+9:S ′←Copy(S cur),A←[]
+10:ift=T−1then
+11:// Last turn: clear all remaining objects
+12:foro∈Odo
+13:A.append(MakeAddCall(o))
+14:S ′.remove(o)
+15:end for
+16:else
+17:// Stochastic Editing Phase
+18:n←Uniform(1,|O|)
+19:fori= 1tondo
+20:op←WeightedSample(P)
+21:ifop=addthen
+22:// Volume-Based Selection
+23:ComputeV o foro∈O
+24:ifp<0.3then
+25:C←{o:V o <0.5m 3}{Small (decor)}
+26:else ifp<0.7then
+27:C←{o: 0.5≤V o <2.0m 3}{Medium}
+28:else
+29:C←{o:V o≥2.0m 3}{Large (core)}
+30:end if
+31:ifC=∅then
+32:C←O
+33:end if
+34:o←RandomSelect(C)
+35:else
+36:o←RandomSelect(O)
+37:end if
+38:Execute reverse operation onoand record forward action inA
+39:end for
+40:end if
+41:C rev.append((S′,A,S cur))
+42:S cur←S′
+43:end for
+44:returnReverse(C rev)
+11
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+A.2. Physics Optimization
+We apply a rule-based optimization (Algorithm 2) to resolve collisions and out-of-bounds (OOB) issues, prioritizing smaller
+objects and position perturbations.
+Algorithm 2Rule-Based Physics Optimization
+Require:SceneS, max stepsK= 5
+1:fork= 1toKdo
+2:C,U,M←CHECKPHYSICS(S)
+3:ifC=∅andU=∅then
+4:break
+5:end if
+6:D←∅{Objects to delete}
+7:// Phase 1: Resolve Out-of-Bounds (Move to center)
+8:fori∈Udo
+9: ⃗d←NORMALIZE(⃗ croom−⃗ pi)
+10:⃗ p i←⃗ pi + 0.2· ⃗d
+11:end for
+12:// Phase 2: Resolve Collisions (Perturb smaller object)
+13:for(i,j)∈GETCOLLISIONPAIRS(M)do
+14:ifi∈Dorj∈Dthen
+15:continue
+16:end if
+17:t←arg min k∈{i,j}Vk
+18:if¬RESOLVECOLLISION(t,M)then
+19:D←D∪{t}
+20:end if
+21:end for
+22:// Phase 3: Apply Deletions
+23:Remove objects inDfromS
+24:end for
+B. Reward System Details
+We implement a composite reward mechanism operating across three temporal phases: Structural Initialization, Iterative
+Refinement, and Terminal Assessment.
+B.1. Phase I: Structural Initialization (t= 0)
+The initialization reward rinit enforcesSchema ComplianceandGeometric Validityby strictly penalizing structural
+defects. Specifically, we apply negative rewards for the following violations:
+Penalty Triggers:
+• Degenerate Geometry:The room polygon is formed with invalid shapes (e.g., triangles or self-intersecting polygons)
+or possesses an unrealistic area (>30m 2).
+• Semantic Mismatch:The generated room type contradicts the user’s instruction (e.g., generating a bathroom when
+a bedroom is requested).
+• Syntax Errors:The output contains unparsable JSON format or fails to include the required <create scene> tags.
+12
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+B.2. Phase II: Iterative Refinement (0<t<T)
+During generation, the intermediate rewardrt provides dense feedback using a layered weight architecture:
+rt =λ fmtrfmt +λphyrphy +λsemrsem
+B.2.1. FORMATTERM(r fmt )
+Ensures valid syntax for tool execution. Letp be the accumulated penalty from syntax errors (e.g., missing params (0.1),
+invalid IDs (0.2), incorrect tag sequence (e.g., placing <tool calls> before <think>, penalty 0.8), or JSON parse
+errors (0.9)):
+rfmt = max(1.0−p,−1.0)
+B.2.2. PHYSICALTERM(r phy)
+Penalizes immediate geometric violations. The total physical score comprises four equally weighted components (w= 0.10
+each):
+• Collision Rate (Rcol):We set the SFT baseline collision rate (45%) as the zero-score anchor. Letrcol be the percentage
+of colliding objects:
+Rcol =
+
+
+
+1.0−0.5(r col/20)ifr col≤20%
+0.5−0.5(r col−20)/25if20%<r col≤45%
+−(rcol−45)/55ifr col >45%
+•Out-of-Bounds Rate (R oob):Similarly, anchored by the SFT baseline (30%):
+Roob =
+
+
+
+1.0−0.5(r oob/10)ifr oob≤10%
+0.5−0.5(r oob−10)/20if10%<r oob≤30%
+−(roob−30)/70ifr oob >30%
+•Penetration Depth (R pen):Penalizes the total intersection depthd pen (in meters) with strict thresholds:
+Rpen =
+
+
+
+1.0−5.0d pen ifd pen≤0.1m
+0.5−2.5(d pen−0.1)if0.1<d pen≤0.3m
+−0.5−1.25(d pen−0.6)if0.6<d pen≤1.0m
+−1.0ifd pen >1.0m
+•Out-of-Bounds Volume (R oob vol):Penalizes the total volume outside boundariesV oob (in m3):
+Roob vol =
+
+
+
+1.0−2.5V oob ifV oob≤0.2m 3
+0.5−1.67(V oob−0.2)if0.2<V oob≤0.5m 3
+−0.5−0.5(V oob−1.0)if1.0<V oob≤2.0m 3
+−1.0ifV oob >2.0m 3
+B.2.3. SEMANTICTERM(r sem): GOALPROGRESSSIGNAL
+Evaluates the semantic delta between steps using two VLM-based modules (w= 0.25each):
+• Scene Improvement (Rimp):A VLM discriminator compares the pre- and post-edit scenes to judge if the layout
+quality improved:
+Rimp∈{1.0(Improved),0.0(Changed but Neutral),−1.0(Worse/No Change)}
+•Key Objects (R key):The evaluation strategy adapts to the action type:
+13
+SceneReVis: A Self-Reflective Vision-Grounded Framework for 3D Indoor Scene Synthesis via Multi-turn RL
+– Case A (Add/Replace):ValidatesRelevance. R= 1.0 if all new objects match the room context; intermediate
+penalties (0.5/−0.5) apply for partial mismatches;R=−1.0if all are irrelevant.
+– Case B (Move/Remove/etc.):ChecksPresence. It adopts the same scoring metric as the final turn. Let r= found
+total
+be the ratio of mandatory objects present in the scene:
+Rkey =
+
+
+
+−1.0if anyessentialobject is missing (e.g., Bed in Bedroom)
+1.0ifr≥0.99(All mandatory objects present)
+0.0if0.5<r<0.99(Partially complete)
+−1.0ifr≤0.5(Majority missing)
+B.3. Phase III: Terminal Assessment (t=T)
+At the final step, we calculate the hierarchical rewardRfinal :
+Rfinal =ω fmtRfmt +ωobjRobj +ωsceneRscene
+B.3.1. 1. OUTPUTSTRUCTURE(R fmt )
+Verifies the integrity of the final scene JSON.
+•Object Count Override:If object count<4,R final =−1.0(forced failure).
+•Physics Skip:If valid objects<3, physics evaluation is skipped with penalty.
+B.3.2. OBJECTLAYER(R obj)
+Validates individual object correctness.
+• Key Objects Completeness (Rkey):Checks if essential furniture (e.g., Bed in Bedroom) defined in Section D is
+present.
+Rkey =
+
+
+
+−1.0Essential missing
+1.0Found Ratio≥0.99
+0.0Ratio>0.5
+• Size Proportion (Rsize):Programmatically validates object dimensions against priors derived from Holodeck (Yang
+et al., 2024b) annotations. It penalizes objects deviating significantly from valid ranges (e.g.,<50% of min or>200%
+of max).
+B.3.3. SCENELAYER(R scene)
+Combines rigid physical rules with VLM-based aesthetic evaluation.
+•Physical Plausibility (Weighted Sum):
+– Support Reward (R support):Checks if objects are properly supported (Floor/Surface/Wall).
+Rsupport = 1.0−max(0,r unsup/10)
+– Residual Violations:Re-evaluates final Collision, OOB, and Penetration metrics.
+•VLM Aesthetic & Semantic Score (R vlm scene):Consolidated evaluation across three dimensions:
+Rvlm scene = 1
+3(SRationality +S RequirementMatch +S SceneGraph)
+where each scoreS∈{−1.0,−0.5,0.0,0.5,1.0}.
+14

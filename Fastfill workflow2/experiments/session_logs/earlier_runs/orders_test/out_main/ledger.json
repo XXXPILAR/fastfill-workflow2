@@ -1,0 +1,65 @@
+{
+ "rooms": {
+  "29": {
+   "plan": {
+    "cost_usd": 0.001,
+    "calls": 1,
+    "prompt_tokens": 100,
+    "completion_tokens": 10,
+    "reasoning_tokens": 0
+   },
+   "A": {
+    "cost_usd": 0.003,
+    "calls": 3,
+    "prompt_tokens": 300,
+    "completion_tokens": 30,
+    "reasoning_tokens": 0
+   },
+   "B": {
+    "cost_usd": 0.02,
+    "calls": 20,
+    "prompt_tokens": 2000,
+    "completion_tokens": 200,
+    "reasoning_tokens": 0
+   },
+   "C": {
+    "cost_usd": 0.006,
+    "calls": 6,
+    "prompt_tokens": 600,
+    "completion_tokens": 60,
+    "reasoning_tokens": 0
+   }
+  },
+  "22": {
+   "plan": {
+    "cost_usd": 0.001,
+    "calls": 1,
+    "prompt_tokens": 100,
+    "completion_tokens": 10,
+    "reasoning_tokens": 0
+   },
+   "A": {
+    "cost_usd": 0.001,
+    "calls": 1,
+    "prompt_tokens": 100,
+    "completion_tokens": 10,
+    "reasoning_tokens": 0
+   },
+   "B": {
+    "cost_usd": 0.008,
+    "calls": 8,
+    "prompt_tokens": 800,
+    "completion_tokens": 80,
+    "reasoning_tokens": 0
+   },
+   "C": {
+    "cost_usd": 0.001,
+    "calls": 1,
+    "prompt_tokens": 100,
+    "completion_tokens": 10,
+    "reasoning_tokens": 0
+   }
+  }
+ },
+ "spent_usd": 0.041
+}

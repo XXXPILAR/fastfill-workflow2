@@ -1,0 +1,270 @@
+{
+ "k": 83,
+ "source": "InternScenes_gen",
+ "room_type": "diningroom",
+ "latency_s": 69.18948970898055,
+ "usage": [
+  {
+   "prompt_tokens": 1415,
+   "completion_tokens": 3721,
+   "total_tokens": 5136,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2719,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.4,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.1
+    ],
+    "bottom_center_m": [
+     3.0,
+     2.08,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.85,
+     1.6,
+     0.75
+    ],
+    "bottom_center_m": [
+     3.4,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.0,
+     3.05,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.8,
+     3.05,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.9
+    ],
+    "bottom_center_m": [
+     4.5,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.2,
+     0.025,
+     0.01
+    ],
+    "bottom_center_m": [
+     3.02,
+     2.42,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.46,
+     1.1,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.05,
+     0.23,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.2,
+     0.025,
+     0.01
+    ],
+    "bottom_center_m": [
+     3.78,
+     2.08,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.9
+    ],
+    "bottom_center_m": [
+     2.3,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.24,
+     0.38,
+     1.65
+    ],
+    "bottom_center_m": [
+     2.2,
+     0.12,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.26,
+     0.4,
+     1.65
+    ],
+    "bottom_center_m": [
+     3.86,
+     0.13,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.26,
+     0.4,
+     1.65
+    ],
+    "bottom_center_m": [
+     4.3,
+     0.13,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.1
+    ],
+    "bottom_center_m": [
+     3.82,
+     2.43,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.26,
+     0.4,
+     1.65
+    ],
+    "bottom_center_m": [
+     4.74,
+     0.13,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.26,
+     0.5,
+     1.65
+    ],
+    "bottom_center_m": [
+     2.13,
+     1.1,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.18,
+     0.04,
+     0.015
+    ],
+    "bottom_center_m": [
+     3.42,
+     2.25,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining table occupies the central-right portion of the room, with five chairs arranged around it. Chairs obj_0009 and obj_0005 are placed on opposite ends so the table is directly between them. This leaves a clear route from the right-side door into the dining area and preserves open space in front of the door at y = 2.0. The cabinet and four narrow shelving units line the lower wall, while the fifth shelf uses the short wall at x = 2. Tableware is distributed without overlap on the tabletop.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.9,\"x\":3.4,\"y\":1.45,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.1,\"x\":3,\"y\":2.08,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":1.6,\"depth_m\":0.85,\"height_m\":0.75,\"x\":3.4,\"y\":2.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.9,\"x\":3,\"y\":3.05,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.9,\"x\":3.8,\"y\":3.05,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.9,\"x\":4.5,\"y\":2.25,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0006\",\"width_m\":0.025,\"depth_m\":0.2,\"height_m\":0.01,\"x\":3.02,\"y\":2.42,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":1.1,\"depth_m\":0.46,\"height_m\":0.9,\"x\":3.05,\"y\":0.23,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.025,\"depth_m\":0.2,\"height_m\":0.01,\"x\":3.78,\"y\":2.08,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.9,\"x\":2.3,\"y\":2.25,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0010\",\"width_m\":0.38,\"depth_m\":0.24,\"height_m\":1.65,\"x\":2.2,\"y\":0.12,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.4,\"depth_m\":0.26,\"height_m\":1.65,\"x\":3.86,\"y\":0.13,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.4,\"depth_m\":0.26,\"height_m\":1.65,\"x\":4.3,\"y\":0.13,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.1,\"x\":3.82,\"y\":2.43,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":0.4,\"depth_m\":0.26,\"height_m\":1.65,\"x\":4.74,\"y\":0.13,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0015\",\"width_m\":0.5,\"depth_m\":0.26,\"height_m\":1.65,\"x\":2.13,\"y\":1.1,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0016\",\"width_m\":0.04,\"depth_m\":0.18,\"height_m\":0.015,\"x\":3.42,\"y\":2.25,\"z\":0.75,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndiningroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.289 m x 3.789 m x unknown\nfloor polygon (x, y): [[2.0, 2.0], [2.0, 0.0], [5.289, 0.0], [5.282, 2.383], [5.179, 2.926], [4.873, 3.373], [4.424, 3.673], [3.883, 3.783], [0.0, 3.789], [0.0, 2.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0002\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0003\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0004\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0005\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0006\", \"category\": \"utensil\", \"description\": \"utensil\"},\n{\"id\": \"obj_0007\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0008\", \"category\": \"utensil\", \"description\": \"utensil\"},\n{\"id\": \"obj_0009\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0010\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0011\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0012\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0013\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0014\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0015\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0016\", \"category\": \"spoon\", \"description\": \"spoon\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.285, 1.243], \"wall_from\": [5.289, 0.0], \"wall_to\": [5.282, 2.383], \"width_m\": 0.264, \"height_m\": 2.272}, {\"type\": \"window\", \"centre_xy\": [2.334, 3.785], \"wall_from\": [3.883, 3.783], \"wall_to\": [0.0, 3.789], \"width_m\": 2.073, \"height_m\": 1.464, \"sill_height_m\": 0.768}, {\"type\": \"window\", \"centre_xy\": [0.0, 2.7], \"wall_from\": [0.0, 3.789], \"wall_to\": [0.0, 2.0], \"width_m\": 1.01, \"height_m\": 1.444, \"sill_height_m\": 0.778}, {\"type\": \"door\", \"centre_xy\": [1.149, 2.0], \"wall_from\": [0.0, 2.0], \"wall_to\": [2.0, 2.0], \"width_m\": 0.976, \"height_m\": 2.272}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0002\", \"target_ids\": [\"obj_0009\", \"obj_0005\"]}]\n[/Task Constraints]"
+}

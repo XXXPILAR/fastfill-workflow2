@@ -1,0 +1,88 @@
+{
+ "k": 293,
+ "source": "Structured3D",
+ "room_type": "bedroom",
+ "latency_s": 15.046914957929403,
+ "usage": [
+  {
+   "prompt_tokens": 926,
+   "completion_tokens": 683,
+   "total_tokens": 1609,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 349,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.55,
+     3.035,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.0,
+     1.4,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.585,
+     2.26,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     1.0,
+     1.1
+    ],
+    "bottom_center_m": [
+     2.45,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.62,
+     3.035,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bed is the largest object, so it is centered against the north wall with its foot facing south. The two nightstands flank the head of the bed, satisfying the requirement that the bed be between them. A low cabinet is placed along the south wall, away from the west-wall door and clear of the east-wall window. The central and southwest floor areas remain open for circulation from the door to the bed, nightstands, and cabinet.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.55,\"x\":0.55,\"y\":3.035,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":1.4,\"depth_m\":2.0,\"height_m\":0.55,\"x\":1.585,\"y\":2.26,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":1.0,\"depth_m\":0.45,\"height_m\":1.1,\"x\":2.45,\"y\":0.225,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.55,\"x\":2.62,\"y\":3.035,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.170 m x 3.260 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [3.17, 0.0], [3.17, 3.26], [0.0, 3.26]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0001\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0002\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0003\", \"category\": \"nightstand\", \"description\": \"nightstand\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [3.17, 1.66], \"wall_from\": [3.17, 0.0], \"wall_to\": [3.17, 3.26], \"width_m\": 1.8, \"height_m\": 1.45, \"sill_height_m\": 0.9}, {\"type\": \"door\", \"centre_xy\": [0.0, 0.55], \"wall_from\": [0.0, 3.26], \"wall_to\": [0.0, 0.0], \"width_m\": 0.9, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0001\", \"target_ids\": [\"obj_0003\", \"obj_0000\"]}]\n[/Task Constraints]"
+}

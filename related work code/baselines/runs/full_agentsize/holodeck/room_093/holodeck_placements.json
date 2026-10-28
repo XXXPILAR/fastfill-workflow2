@@ -1,0 +1,750 @@
+{
+ "floor": [
+  {
+   "assetId": "stand-0",
+   "id": "stand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.275,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     255.0
+    ],
+    [
+     45.5,
+     345.0
+    ],
+    [
+     -4.5,
+     345.0
+    ],
+    [
+     -4.5,
+     255.0
+    ]
+   ],
+   "object_name": "stand-0"
+  },
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.96375,
+    "y": 0.275,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     91.375,
+     225.0
+    ],
+    [
+     91.375,
+     375.0
+    ],
+    [
+     301.375,
+     375.0
+    ],
+    [
+     301.375,
+     225.0
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "bathtub-0",
+   "id": "bathtub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.11375,
+    "y": 0.275,
+    "z": 5.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     121.375,
+     482.5
+    ],
+    [
+     121.375,
+     567.5
+    ],
+    [
+     301.375,
+     567.5
+    ],
+    [
+     301.375,
+     482.5
+    ]
+   ],
+   "object_name": "bathtub-0"
+  },
+  {
+   "assetId": "table-0",
+   "id": "table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 0.375,
+    "z": 0.355
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.0,
+     -4.5
+    ],
+    [
+     290.0,
+     75.5
+    ],
+    [
+     210.0,
+     75.5
+    ],
+    [
+     210.0,
+     -4.5
+    ]
+   ],
+   "object_name": "table-0"
+  },
+  {
+   "assetId": "desk-0",
+   "id": "desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.375,
+    "z": 5.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     435.0
+    ],
+    [
+     65.5,
+     565.0
+    ],
+    [
+     -4.5,
+     565.0
+    ],
+    [
+     -4.5,
+     435.0
+    ]
+   ],
+   "object_name": "desk-0"
+  },
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.9,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     115.0
+    ],
+    [
+     45.5,
+     185.0
+    ],
+    [
+     -4.5,
+     185.0
+    ],
+    [
+     -4.5,
+     115.0
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.61375,
+    "y": 0.39,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     221.375,
+     426.0
+    ],
+    [
+     221.375,
+     474.0
+    ],
+    [
+     301.375,
+     474.0
+    ],
+    [
+     301.375,
+     426.0
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "chair-0",
+   "id": "chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 0.425,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     69.0,
+     421.0
+    ],
+    [
+     69.0,
+     479.0
+    ],
+    [
+     131.0,
+     479.0
+    ],
+    [
+     131.0,
+     421.0
+    ],
+    [
+     69.0,
+     421.0
+    ]
+   ],
+   "object_name": "chair-0"
+  },
+  {
+   "assetId": "mat-0",
+   "id": "mat-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.51375,
+    "y": 0.0075,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     201.375,
+     140.0
+    ],
+    [
+     201.375,
+     210.0
+    ],
+    [
+     301.375,
+     210.0
+    ],
+    [
+     301.375,
+     140.0
+    ]
+   ],
+   "object_name": "mat-0"
+  },
+  {
+   "assetId": "box-0",
+   "id": "box-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.18,
+    "y": 0.15,
+    "z": 2.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     40.5,
+     200.0
+    ],
+    [
+     40.5,
+     250.0
+    ],
+    [
+     -4.5,
+     250.0
+    ],
+    [
+     -4.5,
+     200.0
+    ]
+   ],
+   "object_name": "box-0"
+  },
+  {
+   "assetId": "box-1",
+   "id": "box-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.155,
+    "y": 0.125,
+    "z": 3.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     35.5,
+     352.5
+    ],
+    [
+     35.5,
+     397.5
+    ],
+    [
+     -4.5,
+     397.5
+    ],
+    [
+     -4.5,
+     352.5
+    ]
+   ],
+   "object_name": "box-1"
+  },
+  {
+   "assetId": "backpack-0",
+   "id": "backpack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.0,
+    "y": 0.225,
+    "z": 5.67625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     121.0,
+     582.625
+    ],
+    [
+     121.0,
+     552.625
+    ],
+    [
+     79.0,
+     552.625
+    ],
+    [
+     79.0,
+     582.625
+    ]
+   ],
+   "object_name": "backpack-0"
+  },
+  {
+   "assetId": "backpack-1",
+   "id": "backpack-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.21,
+    "z": 0.095
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     170.0,
+     -4.5
+    ],
+    [
+     170.0,
+     23.5
+    ],
+    [
+     130.0,
+     23.5
+    ],
+    [
+     130.0,
+     -4.5
+    ]
+   ],
+   "object_name": "backpack-1"
+  },
+  {
+   "assetId": "backpack-2",
+   "id": "backpack-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.85375,
+    "y": 0.24,
+    "z": 1.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     269.375,
+     78.0
+    ],
+    [
+     269.375,
+     122.0
+    ],
+    [
+     301.375,
+     122.0
+    ],
+    [
+     301.375,
+     78.0
+    ]
+   ],
+   "object_name": "backpack-2"
+  },
+  {
+   "assetId": "shoe-0",
+   "id": "shoe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.81875,
+    "y": 0.06,
+    "z": 4.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     262.375,
+     389.5
+    ],
+    [
+     262.375,
+     410.5
+    ],
+    [
+     301.375,
+     410.5
+    ],
+    [
+     301.375,
+     389.5
+    ]
+   ],
+   "object_name": "shoe-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "towel-0",
+   "id": "towel-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.1796875,
+    "y": 1.7,
+    "z": 5.7562500000000005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     252.96875,
+     575.125
+    ],
+    [
+     252.96875,
+     578.125
+    ],
+    [
+     182.96875,
+     578.125
+    ],
+    [
+     182.96875,
+     575.125
+    ],
+    [
+     252.96875,
+     575.125
+    ]
+   ],
+   "object_name": "towel-0"
+  },
+  {
+   "assetId": "ledge-0",
+   "id": "ledge-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.89875,
+    "y": 1.52,
+    "z": 3.0390624999999996
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     296.875,
+     278.90624999999994
+    ],
+    [
+     296.875,
+     328.90624999999994
+    ],
+    [
+     284.875,
+     328.90624999999994
+    ],
+    [
+     284.875,
+     278.90624999999994
+    ],
+    [
+     296.875,
+     278.90624999999994
+    ]
+   ],
+   "object_name": "ledge-0"
+  },
+  {
+   "assetId": "ledge-1",
+   "id": "ledge-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.06999999999999999,
+    "y": 1.52,
+    "z": 4.9921875
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     12.0,
+     474.21875
+    ],
+    [
+     12.0,
+     524.21875
+    ],
+    [
+     0.0,
+     524.21875
+    ],
+    [
+     0.0,
+     474.21875
+    ],
+    [
+     12.0,
+     474.21875
+    ]
+   ],
+   "object_name": "ledge-1"
+  },
+  {
+   "assetId": "toilet paper-0",
+   "id": "toilet paper-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.89875,
+    "y": 0.7,
+    "z": 4.0390625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     296.875,
+     397.90625
+    ],
+    [
+     296.875,
+     409.90625
+    ],
+    [
+     284.875,
+     409.90625
+    ],
+    [
+     284.875,
+     397.90625
+    ],
+    [
+     296.875,
+     397.90625
+    ]
+   ],
+   "object_name": "toilet paper-0"
+  },
+  {
+   "assetId": "stopcock-0",
+   "id": "stopcock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.9087500000000004,
+    "y": 0.34,
+    "z": 4.0390625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     296.875,
+     399.90625
+    ],
+    [
+     296.875,
+     407.90625
+    ],
+    [
+     286.875,
+     407.90625
+    ],
+    [
+     286.875,
+     399.90625
+    ],
+    [
+     296.875,
+     399.90625
+    ]
+   ],
+   "object_name": "stopcock-0"
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+The scene is a bedroom with 16 objects, each named by its id: obj_0000 (container), obj_0001 (wardrobe), obj_0002 (lamp), obj_0003 (decoration), obj_0004 (shelf), obj_0005 (clock), obj_0006 (container), obj_0007 (rack), obj_0008 (container), obj_0009 (shelf), obj_0010 (wardrobe), obj_0011 (container), obj_0012 (container), obj_0013 (bed), obj_0014 (container), obj_0015 (lamp). Use each id as the object name of its layout line, exactly once per object, and place every one of them. Where given, an object's support (on the floor, against a wall, or placed on another object) is required.
+Units: 1 px = 1 cm. center_x runs along the 325px side, center_y along the 326px side, from the room's corner (0, 0). orientation is counter-clockwise; 0 degrees means the object's front faces the positive center_y direction, 90 degrees the negative center_x direction.
+Floor polygon (center_x, center_y; objects must stay inside it): (0, 326), (0, 0), (325, 0), (324, 326)
+door 200px wide, 210px high, from (324, 76) to (324, 276)
+Constraint: {"type": "between", "object_id": "obj_0004", "target_ids": ["obj_0008", "obj_0000"]}

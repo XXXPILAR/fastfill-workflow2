@@ -1,0 +1,88 @@
+{
+ "k": 210,
+ "source": "SpatialLM",
+ "room_type": "bedroom",
+ "latency_s": 37.39222504105419,
+ "usage": [
+  {
+   "prompt_tokens": 944,
+   "completion_tokens": 1895,
+   "total_tokens": 2839,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1552,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     1.9,
+     1.2,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.665,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.415,
+     0.92,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.415,
+     2.58,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.5,
+     1.3,
+     2.1
+    ],
+    "bottom_center_m": [
+     1.9,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bed is the largest item, so it runs lengthwise from the east wall with its head against that wall. The two nightstands sit beside the head of the bed on opposite sides, making the bed spatially between them. The wardrobe uses the available south-wall section to the right of the door, leaving the doorway and its approach clear. This arrangement preserves an open route from the entrance to the bed, wardrobe, and window while keeping the broad north-wall window largely unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.2,\"depth_m\":1.9,\"height_m\":0.55,\"x\":1.665,\"y\":1.75,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.55,\"x\":2.415,\"y\":0.92,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.55,\"x\":2.415,\"y\":2.58,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":1.3,\"depth_m\":0.5,\"height_m\":2.1,\"x\":1.9,\"y\":0.25,\"z\":0.0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.615 m x 2.895 m x 2.800 m\nfloor polygon (x, y): [[2.615, 2.895], [0.0, 2.895], [0.0, 0.0], [2.615, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0001\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0002\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0003\", \"category\": \"wardrobe\", \"description\": \"wardrobe\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.306, 2.895], \"wall_from\": [2.615, 2.895], \"wall_to\": [0.0, 2.895], \"width_m\": 2.155, \"height_m\": 1.9, \"sill_height_m\": 0.45}, {\"type\": \"door\", \"centre_xy\": [0.44, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.615, 0.0], \"width_m\": 0.78, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0000\", \"target_ids\": [\"obj_0002\", \"obj_0001\"]}, {\"type\": \"against_wall\", \"object_id\": \"obj_0003\"}]\n[/Task Constraints]"
+}

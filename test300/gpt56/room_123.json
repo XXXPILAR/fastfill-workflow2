@@ -1,0 +1,186 @@
+{
+ "k": 123,
+ "source": "MansionWorld",
+ "room_type": "clean utility room",
+ "latency_s": 65.75544704101048,
+ "usage": [
+  {
+   "prompt_tokens": 1281,
+   "completion_tokens": 3508,
+   "total_tokens": 4789,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2624,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.52,
+     0.62,
+     1.75
+    ],
+    "bottom_center_m": [
+     0.31,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.12,
+     0.9,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.06,
+     1.35,
+     1.45
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.04,
+     0.85,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.98,
+     1.45,
+     1.4
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.52,
+     0.62,
+     1.75
+    ],
+    "bottom_center_m": [
+     0.31,
+     3.32,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.55,
+     1.35,
+     1.05
+    ],
+    "bottom_center_m": [
+     2.2,
+     0.275,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.6,
+     1.2,
+     0.9
+    ],
+    "bottom_center_m": [
+     0.7,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.5,
+     0.72,
+     1.0
+    ],
+    "bottom_center_m": [
+     2.12,
+     3.85,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.55,
+     0.9,
+     2.2
+    ],
+    "bottom_center_m": [
+     2.725,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.07,
+     0.09,
+     0.22
+    ],
+    "bottom_center_m": [
+     1.08,
+     0.18,
+     0.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.55,
+     0.9,
+     2.2
+    ],
+    "bottom_center_m": [
+     2.725,
+     3.85,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.28,
+     1.1,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.35,
+     4.86,
+     1.25
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe sink cabinet and work counter occupy the south wall as a connected cleaning station, with the soap bottle on the sink. The tall storage cabinets line the east wall; the linen cart is immediately beside the northern cabinet for convenient loading. The two matching supply carts are grouped along the west side with a small gap between them. Wall-mounted storage and display items use otherwise open wall sections. A clear central aisle leads from the door to every workstation, and the floor directly inside the doorway remains unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.62, \"depth_m\": 0.52, \"height_m\": 1.75, \"x\": 0.31, \"y\": 2.55, \"z\": 0.0, \"facing_deg\": 0}, {\"id\": \"obj_0001\", \"width_m\": 0.9, \"depth_m\": 0.12, \"height_m\": 0.18, \"x\": 0.06, \"y\": 1.35, \"z\": 1.45, \"facing_deg\": 0}, {\"id\": \"obj_0002\", \"width_m\": 0.85, \"depth_m\": 0.04, \"height_m\": 0.65, \"x\": 2.98, \"y\": 1.45, \"z\": 1.4, \"facing_deg\": 180}, {\"id\": \"obj_0003\", \"width_m\": 0.62, \"depth_m\": 0.52, \"height_m\": 1.75, \"x\": 0.31, \"y\": 3.32, \"z\": 0.0, \"facing_deg\": 0}, {\"id\": \"obj_0004\", \"width_m\": 1.35, \"depth_m\": 0.55, \"height_m\": 1.05, \"x\": 2.2, \"y\": 0.275, \"z\": 0.0, \"facing_deg\": 90}, {\"id\": \"obj_0005\", \"width_m\": 1.2, \"depth_m\": 0.6, \"height_m\": 0.9, \"x\": 0.7, \"y\": 0.3, \"z\": 0.0, \"facing_deg\": 90}, {\"id\": \"obj_0006\", \"width_m\": 0.72, \"depth_m\": 0.5, \"height_m\": 1.0, \"x\": 2.12, \"y\": 3.85, \"z\": 0.0, \"facing_deg\": 180}, {\"id\": \"obj_0007\", \"width_m\": 0.9, \"depth_m\": 0.55, \"height_m\": 2.2, \"x\": 2.725, \"y\": 2.55, \"z\": 0.0, \"facing_deg\": 180}, {\"id\": \"obj_0008\", \"width_m\": 0.09, \"depth_m\": 0.07, \"height_m\": 0.22, \"x\": 1.08, \"y\": 0.18, \"z\": 0.9, \"facing_deg\": 90}, {\"id\": \"obj_0009\", \"width_m\": 0.9, \"depth_m\": 0.55, \"height_m\": 2.2, \"x\": 2.725, \"y\": 3.85, \"z\": 0.0, \"facing_deg\": 180}, {\"id\": \"obj_0010\", \"width_m\": 1.1, \"depth_m\": 0.28, \"height_m\": 0.75, \"x\": 2.35, \"y\": 4.86, \"z\": 1.25, \"facing_deg\": 270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nclean utility room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.000 m x 5.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [3.0, 0.0], [3.0, 5.0], [0.0, 5.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"mobile clean supply cart\", \"description\": \"A hospital cart with a set of clear drawers, iv pole and a red biohazard disposal container.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"mop and broom wall rack\", \"description\": \"A wooden coat hanger with gold hooks.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0002\", \"category\": \"wall notice board\", \"description\": \"A poster of blueprints for a picture frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0003\", \"category\": \"mobile clean supply cart\", \"description\": \"A hospital cart with a set of clear drawers, iv pole and a red biohazard disposal container.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"cleaning work counter\", \"description\": \"A light brown colored shelf unit with blue crates.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"utility sink cabinet\", \"description\": \"A kitchen sink with a wood cabinet.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"clean linen cart\", \"description\": \"a blue three-tier cart with two bins and wheels.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"tall clean storage cabinet\", \"description\": \"Two stacked locker units that are yellow and gray.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"hand soap dispenser bottle\", \"description\": \"White soap bottle model\", \"support_parent\": \"obj_0005\"},\n{\"id\": \"obj_0009\", \"category\": \"tall clean storage cabinet\", \"description\": \"Two stacked locker units that are yellow and gray.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"open wall shelf unit\", \"description\": \"A purple set of shelves with green and purple shelving.\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [1.156, 5.0], \"wall_from\": [3.0, 5.0], \"wall_to\": [0.0, 5.0], \"width_m\": 1.05, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0009\"}, {\"type\": \"near\", \"object_id\": \"obj_0006\", \"target_id\": \"obj_0009\", \"max_distance_m\": 0.2}, {\"type\": \"against_wall\", \"object_id\": \"obj_0005\"}, {\"type\": \"near\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0003\", \"max_distance_m\": 0.3}]\n[/Task Constraints]"
+}

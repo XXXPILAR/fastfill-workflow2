@@ -1,0 +1,711 @@
+Under review at TMLR
+SceneNAT: Masked Generative Modeling for Language-
+Guided Indoor Scene Synthesis
+Jeongjun Choi∗ lojol2327@snu.ac.kr
+Seoul National University
+Yeonsoo Park∗ ys_park@snu.ac.kr
+Seoul National University
+H. Jin Kim hjinkim@snu.ac.kr
+Seoul National University
+Abstract
+We present SceneNAT, a masked non-autoregressive Transformer for 3D indoor scene syn-
+thesis from natural language instructions. It generates complete scenes in a few parallel
+decoding passes, improving both quality and efficiency over prior methods. SceneNAT is
+trained via masked modeling over fully discretized representations of both semantic and
+spatial attributes. By applying a masking strategy at both the attribute level and the in-
+stance level, the model can better capture intra-object and inter-object structure. To boost
+relational reasoning, SceneNAT employs a relational reasoning module (RRM) that captures
+implicit spatial constraints. By formulating relation modeling as a set prediction task, it
+extracts structure-aware features to guide the layout generation without explicit sequential
+parsing. Extensive experiments on 3D-FRONT show that SceneNAT outperforms state-
+of-the-art autoregressive and diffusion baselines in both semantic compliance and spatial
+arrangement accuracy while using substantially lower computational cost, enabling high-
+throughput generation of diverse scenes at scale.
+	…object 1object 2object 3object n
+…Generated Scene Matrix
+SceneNAT	𝑥	𝑣	𝑡	𝑙	𝜃…
+Masked Scene Matrix Object RetrievalIterative Unmasking…
+ classappearancelayout
+“CHAIR”↺UnmaskRemask	𝑥	𝑣	𝑡	𝑙	𝜃 	𝑥	𝑣	𝑡	𝑙	𝜃
+Natural Language Instruction
+Highly scalable generator
+a fast, low-cost, plausible generator for high-throughput spa0al genera0on
+“ Put a grey fabric sofa behind coffee table. And add a wooden dining table with a luxurious wine cabinet nearby, and fabric chairs arranged around it.” 
+Failure Case Augmenta0onInterac0ve Scene Edi0ng
+Massive Environment Sampling
+⚙
+Simula0on-ready Scenes
+∗Equal contribution.
+1
+arXiv:2601.07218v2  [cs.CV]  11 Aug 2026
+Under review at TMLR
+Figure 1: An illustration of the proposed method for text-driven 3D indoor scene generation. Given a text instruction,
+our model iteratively predicts the attributes (class, appearance, layout) for a set of initially masked objects in a non-
+autoregressive manner (top). The resulting set of object attributes guides the retrieval and placement of 3D assets
+to construct the scene. The middle row relates cost to quality: (a) plots FID against inference time per scene, where
+SceneNAT attains the lowest FID at 1.35 s, and (b) plots latency against batch size, where SceneNAT stays nearly
+flat. The bottom row shows downstream uses this efficiency enables: simulation-ready scenes, massive environment
+sampling, failure-case augmentation, and interactive scene editing.
+1 Introduction
+Generating realistic 3D indoor scenes that faithfully adhere to text instructions is essential for applications,
+ranging from creative design tools like virtual staging (Ji et al., 2023; Tukur et al., 2023; 2024) and AR/VR
+contentcreation(Dionisioetal.,2013;Coelhoetal.,2022;Lietal.,2020)tolarge-scalesyntheticenvironments
+for robot learning and embodied AI (Fernandez-Chaves et al., 2022; Deitke et al., 2022; Huang et al., 2024;
+Fu et al., 2025; Yang et al., 2024a; Khanna et al., 2024; Kim et al., 2026). For these applications to be
+practically useful—especially in interactive design or simulation settings—users must be able to flexibly and
+reliably steer the output to match their intent. This requires fine-grained control over both object content and
+spatial layout through natural language. Such instructions would encode complex object attributes, spatial
+relationships, and implicit commonsense constraints, making it particularly difficult to ground language
+accurately and generate structured layouts in a controllable manner.
+As a result, many prior works have proposed and advanced approaches based on either autoregressive or
+diffusion models. Representative autoregressive approaches (Wang et al., 2021; Paschalidou et al., 2021;
+Leimer et al., 2022; Liu et al., 2023a; Para et al., 2023; Zhao et al., 2024) formulate scene synthesis as
+set generation conditioned on room type and layout, enabling diverse and structured layout generation.
+However, their sequential decoding suffers from inefficient generation and error accumulation, and it also
+prevents bidirectional reasoning due to reliance on pre-defined decoding orders across scene elements (e.g.,
+category→attributes→layout). More recently, diffusion models (Ho et al., 2020; Nichol & Dhariwal, 2021)
+have been widely adopted in this domain (Zhai et al., 2023; Wei et al., 2023; Tang et al., 2024; Lin & Mu,
+2024; Maillard et al., 2024; Hu et al., 2026; Zhai et al., 2025; Bai et al., 2025), harnessing their strengths in
+capturing fine-grained semantics and spatial detail. However, their reliance on hundreds of sampling steps
+leads to high computational cost and latency, limiting their applicability in real-time settings. Beyond these
+data-driven paradigms, LLM- and VLM-based agentic frameworks (Yang et al., 2024c; Çelen et al., 2024;
+Yang et al., 2025a; Berdoz et al., 2026; Gao et al., 2025; Xia et al., 2026; Pfaff et al., 2026) have emerged
+as another line of approach, offering high flexibility and generality through iterative reasoning. However,
+their sequential API querying and multi-step physical optimization make them ill-suited for large-scale scene
+production, where throughput becomes critical. We view these directions as serving different roles: agent-
+based methods excel at open-ended, high-flexibility scenarios, whereas large-scale conditional generation calls
+for a complementary approach optimized for throughput.
+Orthogonal to the choice of generative paradigm, another important line of research has studied controllable
+3D scene generation, aiming to better align outputs with detailed user input. Prior works (Paschalidou et al.,
+2021; Wang et al., 2021; Hu et al., 2026; Zhai et al., 2023; 2025; Feng et al., 2023; Tang et al., 2024; Lin &
+Mu, 2024; Sun et al., 2025; Bai et al., 2025) have sought to enhance controllability using various conditioning
+inputs, including floorplans, scene graphs, and natural language instructions. Although notable progress has
+been made, reflecting detailed user intent is further complicated when instructions containmultiplespatial
+relations, nested object dependencies, or detailed numerical constraints (Ye et al., 2024; Tam et al., 2026).
+Consequently, generated layouts frequently deviate from the desired configuration, especially as instruction
+complexity increases.
+In this paper, we introduce a novel Masked Indoor Scene Modeling (MISM) approach for instruction-
+conditioned 3D layout generation using a non-autoregressive transformer designed for parallel decoding.
+This modeling strategy progressively reconstructs complete 3D scenes from fully masked tokens through it-
+erative refinement, enabling efficient inference and bidirectional context modeling. To address the challenges
+of complex instructions, we also introduce a dedicated relational reasoning module (RRM). This module uses
+2
+Under review at TMLR
+a transformer decoder to produce relation-aware features with auxiliary supervision from sparse symbolic
+constraints formatted as (subject, predicate, object) triplets. At inference time, SceneNAT does not de-
+code symbolic triplets; only the learned relational features are used to guide layout generation. This design
+provides robust and interpretable guidance, leading to more structured and accurate scene layouts.
+Our contributions are as follows:
+•We present SceneNAT, the first framework to leverage a non-autoregressive transformer with carefully
+designed masked modeling for language-guided 3D indoor scene synthesis. Our model achieves superior
+results while significantly reducing computational costs compared to diffusion-based approaches.
+•We propose a novel approach that disentangles relational reasoning from scene generation using a dedi-
+cated relational reasoning module (RRM). By explicitly modeling inter-object dependencies as a direct set
+prediction problem with bipartite matching under auxiliary triplet supervision, our approach overcomes
+a fundamental limitation of prior methods, enabling our model to achieve superior controllability and
+fidelity with complex language instructions.
+•Extensive experiments on high-quality 3D scene benchmark demonstrate that SceneNAT achieves state-
+of-the-art performance, outperforming representative baselines in spatial accuracy, semantic alignment,
+and overall scene quality, while offering substantially improved scalability for large-scale scene generation.
+2 Related Works
+3D Scene SynthesisThe synthesis of realistic 3D layouts has been a long-standing challenge. Early
+approaches utilized convolutional networks (Wang et al., 2018; 2019; Ritchie et al., 2019) and graph encoders
+(Li et al., 2019; Zhou et al., 2019), while recent works incorporate hierarchical structures (Pun et al., 2026)
+or autoregressive Transformers (Wang et al., 2021; Paschalidou et al., 2021) to sequentially generate scene
+elements. More recently, diffusion models (Huang et al., 2023; Maillard et al., 2024; Lin & Mu, 2024; Zhai
+et al., 2023; Bai et al., 2025) have been introduced. These approaches, including those leveraging geometric
+scene graphs (Ruiz et al., 2025; Yang et al., 2025b) or semantic layouts (Sun et al., 2026), excel at generating
+diverse and physically plausible layouts but are computationally expensive due to their iterative sampling
+process. In parallel, recent works have explored leveraging large language models (LLMs) (Feng et al., 2023;
+Yang et al., 2024b; Sun et al., 2025; Ran et al., 2025; Bucher & Armeni, 2025; Yang et al., 2025a) to directly
+map text into structured 3D scene representations.
+Controllable 3D Scene GenerationA critical aspect of scene generation is controllability, enabling users
+to specify objects, their arrangement, and style. Various control signals have been explored, including floor
+plans (Paschalidou et al., 2021; Wang et al., 2021), scene graphs (Zhou et al., 2019; Zhai et al., 2023;
+Gao et al., 2026), etc. Among these, natural language offers the most intuitive way to specify detailed
+configurations. However, its free-form nature makes accurate interpretation highly challenging, particularly
+for fine-grained object relations and spatial constraints. Most text-conditioned frameworks (Wang et al.,
+2021; Lin & Mu, 2024) rely on global text representations, which often fail to capture these details. Recent
+LLM-based planners and agentic frameworks (Yang et al., 2024c; Çelen et al., 2024; Yang et al., 2025a;
+Berdoz et al., 2026; Gao et al., 2025; Xia et al., 2026; Pfaff et al., 2026) can interpret high-level language and
+align with user preferences through iterative reasoning, but their sequential querying and multi-step physical
+optimization incur high latency compared to one-pass generative models. Since these API calls cannot be
+batched or parallelized across scenes, the cost scales linearly with the number of scenes generated, making
+them ill-suited for large-scale production.
+Non-AutoregressiveTransformers(NATs)Originallydevelopedformachinetranslation(Ghazvininejad
+et al., 2019; Gu & Kong, 2021), NATs have since been adopted across various generation tasks such as image
+(Chang et al., 2022; Lezama et al., 2022; Chang et al., 2023; Li et al., 2023; Ni et al., 2024; Bai et al., 2024),
+video editing (Ma et al., 2024), motion synthesis (Guo et al., 2024), and object-centric visual generation
+(Nakano et al., 2025), where fast and scalable inference is essential. As an alternative to sequential and
+diffusion-based models, they enable fast and scalable inference by decoding all elements in parallel, while
+still supporting bidirectional context modeling with fewer steps. Despite their potential, NATs remain
+largely unexplored for 3D scene layout generation, where aligning object semantics with spatial structure is
+inherently difficult, and further complicated by the need to satisfy complex language instructions.
+3
+Under review at TMLR
+     Appearance Decoder
+       Layout Decoder
+Object-wise MASKToken-wise MASK
+Text Encoder
+❄
+Reconstructed attributes
+Instruction
+Masked scene attributeobject feature
+Object slot
+         Scene Decoder
+𝐿!"#$#x	𝑆.𝐴.	𝐶.𝐴.decoded feature
+𝐿%%&x	𝑆.𝐴.	𝐶.𝐴.
+	𝑆.𝐴.	𝐶.𝐴.
+relation feature
+	𝑆.𝐴.	𝐶.𝐴.o
+learnable query
+	𝑥	𝑣	𝑡	𝑙	𝜃
+	𝑆.𝐴. Cross-Attention	𝐶.𝐴.Self-Attention
+Auxiliary triplet supervision
+appearance query
+ClassHeadAppearanceHead
+LayoutHead
+Arrange a grey multi-seat sofa behind grey tv stand. And add a black coffee table in front of the sofa. Then, put a silver metallic ceiling lamp above a white marble dining table.
+𝐿’()*+,x
+𝐿(--#(..x
+Relational Reasoning Module (RRM)
+TripletHead
+Bipartitematching(sofa, behind, tv stand)(coffee table, in front of, sofa){𝑠0, 𝑝0, 𝑜0}{𝑠1, 𝑝1, 𝑜1}{𝑠2, 𝑝2, 𝑜2}{𝑠3, 𝑝3, 𝑜3}(∅, ∅, ∅)(ceiling lamp, above, dining table)
+CE loss
+GT attributes
+TRANING ONLY
+Figure 2: An overview of the SceneNAT framework. To achieve both visual quality and controllability, our model
+employs two specialized components. A scene decoder uses masked modeling to generate a globally coherent scene
+structure. Concurrently, relational reasoning module (RRM) transforms a set of learnable queries into relation-aware
+features, guided by constraints parsed from the text instruction. These intermediate relational features are fused into
+the layout decoder via cross-attention layers to generate the final indoor scene attributes.
+3 Method
+3.1 Problem Definition and Scene Representation
+We formulate 3D scene synthesis from natural language as a masked modeling task over structured object-
+level attributes. Each sceneri is represented as a set ofni objects, where a scene consists of a maximum
+ofNobjects. Each object is described by its categoryx∈C, vector-quantized appearance tokensv∈Z 4,
+and discretized layout parameters: 3D positiont∈Z 3, scalel∈Z 3, and yaw rotationθ∈Z. We obtain the
+discrete appearance tokenvfrom features extracted by a pretrained OpenShape encoder (Liu et al., 2023b)
+using the vector-quantized tokenizer from InstructScene (Lin & Mu, 2024). The layout variables are also
+uniformly discretized into fixed bins. Collectively, these attributes define a structured scene representation
+ri ={x j,vj,tj,lj,θj}ni
+j=1, including both semantic and geometric information. Given a text instructionI,
+the objective is to model the conditional distributionP(R|I)and generate a plausible scene consistent with
+the described configuration. Following common practice, the instruction is encoded using a pretrained CLIP
+text encoder (Radford et al., 2021).
+3.2 SceneNAT Framework
+Our goal is to establish a MISM framework that enables controllable 3D layout generation conditioned
+on text instruction. To this end, we formulate the task as masked modeling. Given a partially masked
+scene representationR∼M, the model learns to infer the masked tokensRM by modeling the conditional
+distributionP(R|R ∼M,I),whereMdenotes the set of masked positions. An overview of the pipeline is
+provided in Fig. 2, and we detail its components in the following subsections.
+Object Attribute EmbeddingEach object is represented by discrete tokens forx,v,t,l, andθ(Sec-
+tion 3.1). Each attribute type has its own embedding table. These embedding features are aggregated across
+attributes to form a representative feature vector for each object. We reuse the embedding tables in the
+final attribute prediction heads via weight tying (Press & Wolf, 2017; Inan et al., 2017), reducing parameters
+while keeping input and output token spaces consistent.
+Decoder ArchitectureThe decoder stage of SceneNAT operates on the object embeddings to produce the
+final scene layout. The scene decoder reconstructs masked object slots by leveraging contextual information
+from visible slots and guidance from the text instruction to capture the global structure. However, attribute
+decoding alone is often insufficient for grounding complex instructions that involve inter-object relations. To
+support such relation-aware modeling, our architecture incorporates RRM. This module separates relational
+reasoning from the primary attribute reconstruction task. Instead of treating relations as simple text tokens,
+4
+Under review at TMLR
+this module is trained to encode relational semantics into a set of learnable queries. These queries are
+supervised using ground-truth subject-predicate-object triplets parsed from training instructions, effectively
+inducingthe model tocapturesymbolic constraintswithinthe latentfeatures. In thesetriplets, the predicates
+from a predefined setPspecify how objects are arranged. We provide further details on this module in
+Section 3.3.
+Attribute Prediction HeadsThe decoded features are passed to attribute-specific heads to generate the
+complete scene. The class head determines the object’s category, while the appearance head recovers fine-
+grained style. The layout head predicts translation, scale, and rotation by integrating both the contextual
+features from the scene decoder and therelational embeddingsfrom RRM. This ensures the final object
+placement complies with the symbolic constraints expressed in the instruction. Together, these predictions
+complete the scene matrix, yielding a structured 3D layout that coherently reflects both semantics and
+geometry.
+3.3 Relational Reasoning via Direct Set Prediction
+To explicitly model the inter-object relationships dictated by the language instruction, we frame relational
+reasoning as a direct set prediction problem (Carion et al., 2020). This formulation allows us to capture
+the permutation-invariant nature of scene relationships without imposing an artificial order. Our RRM,
+illustrated in Fig. 2, uses a transformer decoder to transform a fixed set ofNq learnabletriplet queriesinto
+relation-aware featuresF rel. While we employ auxiliary heads (FFNs) to map these features to symbolic
+triplets (subject, predicate, object) for supervision, the primary role of this module during inference is to
+inject the learnedFrel into the scene decoder to guide layout generation. Each head’s output includes an
+additional class to represent a “no-relation” (∅) class, allowing the model to handle scenes with fewer than
+Nq constraints.
+Since the relational constraints form a set where the order is arbitrary, we employ a permutation-invariant
+set-based loss that finds an optimal bipartite matching between the ground-truth and predicted triplets. Let
+the ground-truth set beY={y j}Nt
+j=1, where eachyj = (sj,pj,oj). Let the predicted set beˆY={ˆy k}Nq
+k=1,
+where each predictionˆyk = (ˆsk,ˆpk,ˆok)is a bundle containing the logits for a subject, predicate, and object.
+We use the Hungarian algorithm to find the optimal matchingˆσthat minimizes the overall matching cost:
+ˆσ= arg min
+σ∈SNq
+Nt∑
+j=1
+Cmatch(yj,ˆyσ(j)) (1)
+The pair-wise matching costCmatch is defined as a linear combination of the negative log-probabilities for the
+ground-truth subject, predicate, and object classes. For instance, the predicate cost isCp(pj,ˆpk) =−P ˆpk(pj),
+whereP ˆpk is the probability distribution from the softmax of the predicate logitsˆpk. Once the optimal
+matchingˆσis established, we define the target for each of theNq prediction queries to compute the triplet
+loss. The target for each predictionˆyk, denotedy′
+k, is the matched ground-truth tripletyj if a match exists
+(i.e.,k= ˆσ(j)), and the null triplet(∅,∅,∅)otherwise. The final triplet loss is a weighted sum of cross-entropy
+losses over allNq predictions against their corresponding targets,y′
+k = (s′
+k,p′
+k,o′
+k). The loss is formulated
+as:
+Ltriplet =
+Nq∑
+k=1
+[
+λsLCE(s′
+k,ˆsk) +λpLCE(p′
+k,ˆpk)
++λoLCE(o′
+k,ˆok)
+]
+.
+(2)
+To balance the training, we apply a lower weight to the loss for the∅class. This entire mechanism enables
+end-to-end learning of relational structures, producing robust feature guidance for the layout generation
+task.
+3.4 Training and Inference
+We optimize SceneNAT with a token-level reconstruction loss over masked scene attributes. For each masked
+tokeni∈M, the model is trained to maximize the likelihood of the ground-truth tokenri given the unmasked
+5
+Under review at TMLR
+t= 0
+t=10 t=20 t=30 t=40 t=50
+Figure 3: Visualization of the iterative sampling process.Left:the initial mask state at step 0, where each row of
+the scene matrix corresponds to an object and each column to an attribute, with all elements masked and appearing
+dark.Right:the 50-step sampling trajectories for a bedroom and a dining room scene, shown at every 10th step.
+For each scene, the upper row displays the top-down renders and the lower row shows the corresponding mask state,
+with fixed (unmasked) elements highlighted in color.
+contextR∼M and the instructionI. This reconstruction objective is a form of cross-entropy loss, applied
+separately to each attribute type. Formally, the reconstruction loss is a weighted sum of cross-entropy losses
+for each attribute, defined as:
+Lrecon =λ xLCE(x,ˆx) +λvLCE(v,ˆv) +λtLCE(t, ˆt)
++λlLCE(l, ˆl) +λθLCE(θ, ˆθ).
+(3)
+wherex,v,t,l,θare the ground-truth attributes andˆx,ˆv, ˆt, ˆl, ˆθare the model’s predictions. Theλterms
+are hyperparameters used for attribute-specific loss weighting. This reconstruction loss is defined to be
+equivalent to minimizing the negative log-likelihood of the ground-truth tokens, and it can be expressed as:
+Lrecon =
+∑
+i∈M
+−logP(r i|R∼M,I) (4)
+wherer i is the ground-truth token at positioni. The overall training objective combines this reconstruction
+loss with the relational reasoning loss from Section 3.3 and is given byLtotal =L recon +λtripletLtriplet,where
+λtriplet is a hyperparameter to balance two terms.
+Masking StrategyFollowing prior works (Chang et al., 2022; 2023; Guo et al., 2024), we use a cosine-
+based dynamic masking schedule, where the masking ratio is sampled fromγ(τ) = cos
+(πτ
+2
+)
+withτ∼
+U(0,1). To better capture the multi-modal nature of 3D scenes and disentangle local and global context,
+we stochastically split the total masking ratio between object-level and token-level masking. Specifically,
+we sample a proportionpobj∼U(0,1)and assignp obj·γ(τ)of the masking to the object level, with the
+remainder assigned to the token level. This stochastic masking schedule encourages the model to handle
+various levels of corruption during training, from fully observed to nearly fully masked inputs, enabling joint
+6
+Under review at TMLR
+learning of representation and generation (Li et al., 2023). Additionally, we apply a BERT-style (Devlin
+et al., 2019) replace-and-remask policy, simulating noise-injected refinement during inference.
+Sampling StrategyFor inference, our model starts from a fully masked scene representation and performs
+parallel decoding conditioned on the instructionI, progressively refining its predictions to reconstruct a
+complete scene layout. During this phase, the auxiliary subject/predicate/object classification heads are not
+used; only the relational featuresFrel from RRM are injected into layout decoding. We adopt an iterative
+masked token prediction strategy inspired by MaskGIT (Chang et al., 2022), where uncertain tokens are
+progressively refined through parallel decoding. At each iteration, the model remasks and re-predicts tokens
+with low confidence, measured by the maximum softmax probability. This process is repeated for a fixed
+number of steps, with the remasking ratio at each step determined by a cosine schedule, consistent with
+the masking strategy used during training. This iterative refinement gradually improves the quality and
+consistency of the generated scene. Fig. 11 visualizes this process, showing how the fully masked scene
+matrix is progressively filled over 50 sampling steps.
+4 Experiment
+4.1 Experimental Setup
+DatasetWe conduct all experiments on the extended 3D-FRONT dataset introduced in In-
+structScene (Chenguolin, 2024), which augments 3D-FRONT (Fu et al., 2021a) and 3D-FUTURE (Fu et al.,
+2021b) with instruction annotations. To improve instruction quality and coverage, we enhance the original
+templatedinstructionswithmorediversesentencestructuresandincreasethenumberofrelationsperinstruc-
+tion. We support up to four constraints to accommodate more complex guidance, whereas InstructScene (Lin
+& Mu, 2024) typically uses only one or two per instruction. We set this limit on the number of relations
+based on the maximum token length of the CLIP (Radford et al., 2021) text encoder. Instructions with more
+than four relations typically exceed this length, leading to a loss of information through truncation. Further
+details of the instruction refinement process are provided in Section B.
+BaselinesWe compare against three baseline models, including state-of-the-art methods that cover diverse
+architectural paradigms in 3D indoor scene generation. ATISS (Paschalidou et al., 2021) is an autoregressive
+transformer model that sequentially generates object attributes conditioned on previously generated outputs.
+DiffuScene (Tang et al., 2024) represents scene components as a fixed-size 2D matrix and generates the matrix
+through a continuous diffusion process. InstructScene (Lin & Mu, 2024) adopts a semantic scene graph with
+object relation edges as an intermediate representation and employs atwo-stagecascaded diffusion model.
+To ensure fair comparison, we reimplemented all baselines following InstructScene and trained them from
+scratch using our instruction set. As a more recent method, FreeScene (Bai et al., 2025) introduces a mixed-
+graph diffusion framework for 3D scene synthesis from free-form prompts. Since its official training code
+is not publicly available, we report its metrics from the original paper and provide a separate comparison.
+Implementation details for both baselines and our method are provided in Section A.
+4.2 Metrics
+We evaluate generated scenes based on instruction adherence, visual quality, and physical plausibility. In-
+struction adherence is measured using iRecall (Lin & Mu, 2024), which reports the recall of spatial relation
+triplets specified in the instruction that are realized in the generated scene. Following prior works (Paschali-
+dou et al., 2021; Liu et al., 2023a; Tang et al., 2024; Lin & Mu, 2024), we assess the visual plausibility
+of rendered scenes using three metrics. FID (Heusel et al., 2017) measures feature distribution differences,
+FIDCLIP (Kynkäänniemi et al., 2023) assesses perceptual alignment using CLIP embeddings, and KID (Gru-
+ber & Buettner, 2024) provides an unbiased kernel-based similarity estimate. For all metrics, lower values
+indicate a closer alignment to the real scene distribution. Finally, to assess physical plausibility, we re-
+port SceneEval-style layout metrics: non-accessibility violation (NAV), object collision (COL), accessibility
+(ACC), and floor penetration (Floor Pen.). Additional collision metrics and a more comprehensive evaluation
+are provided in Section A.7.
+7
+Under review at TMLR
+Add a black marble coffee tablewith a black basetothe right ofa black and white tv standwith drawers. Additionally, put a black corner side tablewith a round base behinda black multi-seat sofa.
+Put a silver flower coffee tabletotheright ofa patterned dining chair. And add a multi seat sofatothe right ofa black marble dining tablewith two legs.
+ ✔
+❌rightright
+(a) Instruction(b) A TISS(c) DiffuScene(d) InstructScene(e) Ours
+Figure 4: Comparison of qualitative results on language-guided scene generation. SceneNAT demonstrates superior
+performance in generating realistic 3D scenes that faithfully adhere to complex instructions. Additional qualitative
+results can be found in Section F.
+1 2 3 4 5 6
+20
+40
+60
+80
+#of relations
+iRecall (%)
+Bedroom
+1 2 3 4 5 6
+20
+40
+60
+#of relations
+Living room
+ATISS DiffuScene InstructScene Ours
+1 2 3 4 5 6
+20
+40
+60
+#of relations
+Dining room
+Figure 5: iRecall against the number of relational constraints. The shaded band marks 5 and 6 constraints, which
+exceed the maximum of 4 seen during training.
+Table 1: Quantitative comparison on text-conditioned scene synthesis on three room types. We report the mean
+and standard deviation over 10 independent trials for generative quality and instruction adherence metrics. For all
+metrics, lower is better except for iRecall, NAV, and ACC. The best results are highlighted in bold, and the second-
+best are underlined.
+iRecall(%) (↑) FID (↓) FID-CLIP (↓) KID×1e3(↓) NAV(%) (↑) COL(%) (↓) ACC(%) (↑) Floor Pen. (↓)
+Bedroom LayoutGPT 45.32 133.31 8.77 3.49 73.45 51.64 41.65 0.0274
+ATISS 31.30 (1.76) 128.50 (1.28) 7.50 (0.14) 3.59 (0.71) 78.7 52.6 53.3 0.056
+DiffuScene 45.98 (2.30) 119.37 (1.53) 6.71 (0.14) 1.04 (0.82) 83.6 34.8 54.50.014
+InstructScene 66.72(2.00) 115.76(1.71) 6.50 (0.19) -0.33 (0.49) 79.9 29.3 53.0 0.016
+Ours 70.45(1.92) 109.55(1.36) 6.19(0.12) -1.18(0.16) 84.9 23.9 58.0 0.019
+Living room LayoutGPT 40.65 142.34 9.94 22.93 83.78 44.18 61.98 0.0348
+ATISS 20.46 (1.41) 134.71 (2.75) 8.46 (0.22) 52.26 (3.93)96.354.978.70.029
+DiffuScene 27.39 (1.57) 115.09 (1.62) 5.64 (0.13) 14.03 (2.11) 93.4 34.6 74.5 0.014
+InstructScene 47.97(2.71) 111.58(1.07)5.31(0.06) 9.30 (0.95) 93.1 36.0 71.0 0.018
+Ours 50.01(2.25) 110.28(1.18) 5.49(0.09) 6.18(1.11) 94.3 26.5 71.8 0.018
+Dining room LayoutGPT 38.44 155.04 10.68 20.43 76.68 46.09 59.49 0.0301
+ATISS 30.52 (3.01) 157.60 (2.07) 10.65 (0.31) 61.31 (4.38)91.355.379.70.041
+DiffuScene 36.68 (2.14) 132.97 (0.70) 7.93 (0.23) 16.61 (1.53) 87.9 30.5 73.8 0.011
+InstructScene 46.54(3.22) 132.91(1.37) 7.64 (0.20) 14.81 (1.87) 86.4 34.4 68.9 0.019
+Ours 56.29(2.47) 129.65(1.68) 7.51(0.17) 12.26(0.99) 87.2 23.8 71.9 0.017
+4.3 3D Indoor Scene Synthesis from Natural Language
+Table 1 reports quantitative results across three room categories. LayoutGPT provides an LLM-based
+reference point, while ATISS, DiffuScene, and InstructScene are data-driven baselines. SceneNAT achieves
+the best iRecall and visual quality in all room types, while maintaining competitive physical plausibility
+8
+Under review at TMLR
+Table 2: Additional comparison with recent state-of-the-art (FreeScene vs. Ours). FreeScene values are directly
+reported from the original paper (Bai et al., 2025). For direct comparability with prior settings, iRecall of Ours is
+additionally evaluated with up to two relational constraints (Nrel≤2).
+iRecall (↑) FID (↓) FID CLIP (↓) KID×1e3 (↓)
+Bedroom FreeScene 73.69 111.21 6.43 0.35
+Ours 77.96 109.55 6.19 -1.18
+Living room FreeScene 58.16 110.55 5.83 7.95
+Ours 59.56 110.28 5.49 6.18
+Dining room FreeScene 63.39 127.28 8.01 14.83
+Ours 61.89 129.65 7.51 12.26
+Table 3: Comparison of computational costs. The reported TFLOPs are calculated by multiplying the TFLOPs per
+step by the number of sampling timesteps required for each model.
+ModelInference time (s) Params (M) TFLOPs FID iRecall (%)
+ATISS 0.14 33.5 0.2 128.50 31.30
+DiffuScene 33.28 63.4 63.5 119.37 45.98
+InstructScene 6.73 87.7 44.3 115.76 66.72
+SceneNAT-S (Lscene = 4) 1.02 53.1 7.9 110.91 67.06
+SceneNAT-B (Lscene = 8) 1.35 69.9 10.3109.55 70.45
+under NAV, COL, ACC, and Floor Pen. metrics. Table 2 additionally compares with FreeScene using the
+metrics reported in the original paper, where SceneNAT remains competitive under theNrel≤2setting.
+ComparedwithLayoutGPT,SceneNATissubstantiallystrongeroninstructionadherenceandrendered-scene
+quality, indicating that in-domain training remains important for text-conditioned indoor layout generation.
+Among data-driven baselines, ATISS is physically plausible on some accessibility metrics but lacks language
+controllability, while DiffuScene and InstructScene improve generation quality at the cost of either slow
+inference or weaker relation handling. SceneNAT offers a better balance by improving iRecall and FID/FID-
+CLIP while also reducing object collisions across all room types.
+Fig. 5 further shows that SceneNAT maintains strong iRecall as relational complexity increases. This robust-
+ness comes from our masked modeling strategy, which captures realistic scene distributions, and RRM, which
+injects relation-aware features learned through auxiliary triplet supervision. The qualitative comparisons are
+presented in Fig. 4.
+Robustness to Unseen Relational ComplexityTo evaluate highly complex scenarios, we test instruc-
+tions with 5 and 6 relational constraints, exceeding the maximum of 4 constraints used during training.
+We prune non-essential descriptive words to avoid text-encoder truncation while preserving core relational
+information.
+As shown in Fig. 5, SceneNAT maintains high iRecall on these unseen complexity levels, whereas In-
+structScene degrades more clearly as constraints increase. This suggests that the auxiliary relational su-
+pervision in RRM helps the decoder generalize beyond the relation counts observed during training.
+4.4 Computational Efficiency
+Table 3 summarizes the computational efficiency of SceneNAT against key baselines on the bedroom dataset.
+For clarity, SceneNAT-B is our full model, and SceneNAT-S is its smaller variant that uses only half of the
+scene decoder layers. For fair comparison, inference time and TFLOPs are measured at batch size 128
+over 50 iterations after warmup. While ATISS is fast, its generative quality and instruction adherence are
+significantly weaker. In contrast, the superiority of SceneNAT is clearly evidenced in comparison with the
+powerful diffusion-based models. As illustrated in Fig. 6a, we achieve superior scene quality and instruction
+adherence in just 30 steps, whereas diffusion models such as DiffuScene and InstructScene require 1,000 and
+110 (100+10) steps, respectively. This efficiency leads to a dramatic reduction in inference time, making
+our model approximately 5x faster than InstructScene and over 24.7x faster than DiffuScene. Furthermore,
+this efficiency is achieved with over 20% fewer parameters than InstructScene, requiring 4.3x lower TFLOPs
+9
+Under review at TMLR
+10 20 30 50 100 500 1,000
+100
+150
+200
+FID
+DiffuScene InstructScene Ours
+10 20 30 50 100 500 1,000
+20
+40
+60
+80
+Inference Steps
+iRecall (%)
+(a) FID and iRecall vs. inference steps.
+1 8 32 64 128
+0
+2
+4
+6
+Batch Size
+Latency (s)
+InstructScene SceneNAT-B SceneNAT-S
+(b) Inference latency vs. batch size.
+Figure 6: Scaling behavior of the proposed method. (a) Generative quality and instruction adherence as a function
+of the number of inference steps. (b) Inference latency (in seconds) as a function of batch size.
+(b) High-Level Spatial Reasoning
+Place a bookshelf behind a dining table and ...
+(a) open-vocainstruction
+Let multi-seat sofa andsmall table nearbya bookshelf. And, set up an armchair aroundthe sofa.Add a brown and grey entertainment centerbehind a marble cocktail table with a metal frame.
+Put a dining_tablein front of a multi_seat_sofa, and ..
+Use the bookshelf to create a separation between the dining area and the relaxing area.
+We host board game nights every weekend. For that, I want a massive table dead center, surrounded by a big sofa on one side and armchairs on the other so everyone can reach the board.
+Figure 7: Generalization results on unseen instructions. SceneNAT handles unseen object/relation expressions and
+LLM-assisted rewritten prompts.
+than InstructScene and 6x lower than DiffuScene. Notably, SceneNAT-S also surpasses the performance
+of InstructScene with 6.6x faster inference speed and 5.6x lower TFLOPs. This advantage holds across
+throughput regimes, as shown in Fig. 6b. Even at batch size 1, SceneNAT-S (0.49s) is roughly5×faster
+than InstructScene (2.46s), and the gap widens as scenes are processed in parallel: at batch size 128,
+InstructScene’s latency surges to 6.73s while SceneNAT-B reaches only 1.35s. Together, these findings
+highlight the effectiveness of our non-autoregressive parallel decoding for instruction-guided scene synthesis,
+and its scalability for real-world, high-demand deployment.
+4.5 Generalization Capability
+Robustness to free-form and “in-the-wild” instructions is essential for practical language-conditioned scene
+generation. Although SceneNAT is trained on templated instructions, it generalizes well to unseen lexical and
+semantic patterns. In Fig. 7(a), the model correctly handles unseen object/relation expressions, and Fig. 8
+shows similarly stable object selection and spatial arrangement across diverse open-vocabulary prompts. We
+also evaluate an LLM-assisted inference mode in which a general-purpose LLM rewrites raw prompts into
+structured relational instructions; as shown in Fig. 7(b), this lightweight preprocessing improves robustness
+on long, functional, and abstract inputs while preserving layout consistency. Together, these results indicate
+two complementary generalization paths, direct CLIP-based semantic transfer and lightweight LLM-based
+instruction rewriting for unconstrained prompts.
+10
+Under review at TMLR
+A bright, playful bedroom for young child.
+Create a bedroom that can also function as a workspace.
+(a) Instruction(b) ATISS(c) DiffuScene(d) InstructScene(e) Ours
+Figure 8: Additional qualitative comparisons on unseen “in-the-wild” prompts.
+Table 4: Ablation studies on key components of the
+SceneNAT architecture.
+ConfigurationFID iRecall (%)
+Full relation supervision 110.76 65.16
+w/o replace/remasking 191.69 -
+w/o RRM 110.91 62.77
+w/o object masking 110.06 66.11
+w/o token masking 111.20 68.26
+Ours (Full) 109.55 70.45
+Table 5: Ablation study on spatial discretization gran-
+ularity.
+# of Bins 32 64 128 256
+Bedroom iRecall (%) 70.1770.4569.93 68.02
+FID 110.28 109.55 109.69108.56
+Living room iRecall (%) 49.19 50.01 50.8052.60
+FID 109.30 110.28108.98110.41
+Dining room iRecall (%) 53.36 56.29 56.0259.52
+FID 130.70 129.65127.72129.92
+4.6 Ablation Study
+To validate the effectiveness of our model’s key components, we conduct a series of ablation studies. We
+systematically remove or alter parts of our architecture and training strategy to observe the impact on
+performance. The results are summarized in Table 4.
+Relational Reasoning ModuleRRM is fundamental to our model’s ability to reason about relational
+structures. Removing this module causes a significant decrease in iRecall. This highlights its critical role
+in translating high-level semantic constraints into a coherent and accurate spatial arrangement of objects.
+Further validation of our design choice is detailed in Section A.5.
+Full Relation SupervisionWe also evaluate full relation supervision, a method similar to the entire
+scene graph approach used in InstructScene. Our findings suggest that it is more beneficial to supervise
+RRM primarily on the relations explicitly provided in the input, rather than on an entire scene graph. Our
+approach allows the scene decoder to more effectively manage the natural layout and implicit relations,
+leading to higher iRecall and more globally consistent scenes.
+Masking StrategyThe masking strategy is another cornerstone of our approach. The replace-and-
+remasking is essential for stable non-autoregressive training, and removing it severely degrades generation
+quality. Our approach further decomposes this strategy into token-level and object-level masking. While
+both strategies contribute to a better FID, object-level masking is more critical for improving iRecall. The
+full model utilizing both strategies achieves the best performance across both FID and iRecall.
+Discretization GranularityWe vary the number of bins for layout attributes (t,l,θ) from 32 to 256 and
+observe that SceneNAT remains robust across granularities (Table 5). Coarser bins slightly reduce iRecall,
+while denser settings bring only marginal gains; we therefore use 64 bins as a practical balance between
+generation quality and search-space complexity.
+5 Conclusion
+We introduced SceneNAT, a masked non-autoregressive transformer for controllable 3D indoor scene gener-
+ation. Its key design combines masked indoor scene modeling (MISM) with a dedicated RRM for complex
+11
+Under review at TMLR
+relational instructions, trained with auxiliary triplet supervision and used at inference through relation-
+aware features only. This design consistently outperforms strong diffusion-based baselines while reducing
+computational cost. These results support masked generative modeling as a practical direction for scalable
+3D scene synthesis, with future extensions to multimodal inputs and larger, relation-rich environments.
+Broader Impact Statement
+We acknowledge that our framework, by utilizing pretrained models (e.g., CLIP (Radford et al., 2021),
+OpenShape (Liu et al., 2023b)), may inherit societal biases from broad and unfiltered web data. However,
+these potential risks are inherently limited. This is primarily due to our focus on the low-risk domain of
+indoor scenes, the use of public and non-sensitive training data, and a model architecture that prioritizes
+structural plausibility over unconstrained generation. In line with our commitment to research integrity, we
+will release our work under a restrictive license to prevent misuse.
+Reproducibility Statement
+We provide comprehensive details in the Appendix to ensure the reproducibility of our work. We offer a full
+breakdown of our model’s architecture, scene representation, masking strategy, and the complete training
+procedure, including all hyperparameters in Appendix A. Additionally, we describe our methodology for
+generating an enhanced instruction dataset with more complex relations in Appendix B and detail our
+re-implementation of baselines to ensure a fair comparison in Appendix A.3. The source code is publicly
+available athttps://github.com/lojol2327/SceneNAT-official.
+References
+Awni Altabaa and John Lafferty. Disentangling and integrating relational and sensory information in trans-
+former architectures. InInternational Conference on Machine Learning, 2025.
+Awni Altabaa, Taylor Whittington Webb, Jonathan D. Cohen, and John Lafferty. Abstractors and rela-
+tional cross-attention: An inductive bias for explicit relational reasoning in transformers. InInternational
+Conference on Learning Representations, 2024.
+Jinbin Bai, Tian Ye, Wei Chow, Enxin Song, Qing-Guo Chen, Xiangtai Li, Zhen Dong, Lei Zhu, and
+Shuicheng Yan. Meissonic: Revitalizing masked generative transformers for efficient high-resolution text-
+to-image synthesis. InThe Thirteenth International Conference on Learning Representations, 2024.
+Tongyuan Bai, Wangyuanfan Bai, Dong Chen, Tieru Wu, Manyi Li, and Rui Ma. Freescene: Mixed graph
+diffusion for 3d scene synthesis from free prompts. InProceedings of the Computer Vision and Pattern
+Recognition Conference, pp. 5893–5903, 2025.
+Frédéric Berdoz, Luca A. Lanzendörfer, Nick Tuninga, and Roger Wattenhofer. Text-to-scene with large
+reasoning models. InProceedings of the AAAI Conference on Artificial Intelligence, pp. 2435–2443, 2026.
+Arwen Bradley and Preetum Nakkiran. Classifier-free guidance is a predictor-corrector.Transactions on
+Machine Learning Research, 2025, 2025.
+Martin JJ Bucher and Iro Armeni. Respace: Text-driven 3d scene synthesis and editing with preference
+alignment.arXiv preprint arXiv:2506.02459, 2025.
+Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, and Sergey
+Zagoruyko. End-to-end object detection with transformers. InEuropean conference on computer vision,
+pp. 213–229. Springer, 2020.
+Ata Çelen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton Obukhov, and Xi Wang. I-design:
+Personalized LLM interior designer. InEuropean Conference on Computer Vision Workshops, pp. 217–234,
+2024.
+12
+Under review at TMLR
+Huiwen Chang, Han Zhang, Lu Jiang, Ce Liu, and William T Freeman. Maskgit: Masked generative image
+transformer. InProceedings of the IEEE/CVF conference on computer vision and pattern recognition, pp.
+11315–11325, 2022.
+Huiwen Chang, Han Zhang, Jarred Barber, Aaron Maschinot, Jose Lezama, Lu Jiang, Ming-Hsuan Yang,
+Kevin Patrick Murphy, William T Freeman, Michael Rubinstein, et al. Muse: Text-to-image generation
+via masked generative transformers. InInternational Conference on Machine Learning, pp. 4055–4075.
+PMLR, 2023.
+Chenguolin. Instructscene dataset.https://huggingface.co/datasets/chenguolin/InstructScene_
+dataset, 2024.
+Hugo Coelho, Pedro Monteiro, Guilherme Gonçalves, Miguel Melo, and Maximino Bessa. Authoring tools
+for virtual reality experiences: a systematic review.Multimedia Tools Appl., 81(19):28037–28060, August
+2022. ISSN 1380-7501. doi: 10.1007/s11042-022-12829-9. URLhttps://doi.org/10.1007/s11042-022-
+12829-9.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador, Winson Han, Eric
+Kolve, Aniruddha Kembhavi, and Roozbeh Mottaghi. Procthor: Large-scale embodied ai using procedural
+generation.Advances in Neural Information Processing Systems, 35:5982–5994, 2022.
+JacobDevlin, Ming-WeiChang, KentonLee, andKristinaToutanova. Bert: Pre-trainingofdeepbidirectional
+transformers for language understanding. InProceedings of the 2019 conference of the North American
+chapter of the association for computational linguistics: human language technologies, volume 1 (long and
+short papers), pp. 4171–4186, 2019.
+John David N Dionisio, William G Burns Iii, and Richard Gilbert. 3d virtual worlds and the metaverse:
+Current status and future possibilities.ACM computing surveys (CSUR), 45(3):1–38, 2013.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu, Xin Eric
+Wang, and William Yang Wang. Layoutgpt: Compositional visual planning and generation with large
+language models.Advances in Neural Information Processing Systems, 36:18225–18250, 2023.
+David Fernandez-Chaves, Jose-Raul Ruiz-Sarmiento, Alberto Jaenal, Nicolai Petkov, and Javier Gonzalez-
+Jimenez. Robot@ virtualhome, an ecosystem of virtual environments and tools for realistic indoor robotic
+simulation.Expert Systems with Applications, 208:117970, 2022.
+HuanFu, BowenCai, LinGao, Ling-XiaoZhang, JiamingWang, CaoLi, QixunZeng, ChengyueSun, Rongfei
+Jia, Binqiang Zhao, et al. 3d-front: 3d furnished rooms with layouts and semantics. InProceedings of the
+IEEE/CVF International Conference on Computer Vision, pp. 10933–10942, 2021a.
+Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve Maybank, and Dacheng Tao. 3d-
+future: 3d furniture shape with texture.International Journal of Computer Vision, 129:3313–3337, 2021b.
+Rao Fu, Jingyu Liu, Xilun Chen, Yixin Nie, and Wenhan Xiong. Scene-llm: Extending language model for
+3d visual reasoning. InProceedings of the IEEE/CVF Winter Conference on Applications of Computer
+Vision, 2025.
+Jialin Gao, Donghao Zhou, Mingjian Liang, Lihao Liu, Chi-Wing Fu, Xiaowei Hu, and Pheng-Ann Heng.
+Disco-layout: Disentangling and coordinating semantic and physical refinement in a multi-agent framework
+for 3d indoor layout synthesis.arXiv preprint arXiv:2510.02178, 2025.
+Penggang Gao, Yonas Teodros Tefera, Darwin G. Caldwell, and Nikhil Deshpande. Incremental3d: Real-time
+incremental 3d scene generation with scene graphs.Transactions on Machine Learning Research, 2026,
+2026.
+Marjan Ghazvininejad, Omer Levy, Yinhan Liu, and Luke Zettlemoyer. Mask-predict: Parallel decoding
+of conditional masked language models. InProceedings of the 2019 Conference on Empirical Methods in
+Natural Language Processing and the 9th International Joint Conference on Natural Language Processing
+(EMNLP-IJCNLP), pp. 6111–6120, 2019.
+13
+Under review at TMLR
+Sebastian Gregor Gruber and Florian Buettner. A bias-variance-covariance decomposition of kernel scores
+for generative models. InInternational Conference on Machine Learning, pp. 16460–16501, 2024.
+Jiatao Gu and Xiang Kong. Fully non-autoregressive neural machine translation: Tricks of the trade. In
+Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th
+International Joint Conference on Natural Language Processing, pp. 120–133, 2021.
+Chuan Guo, Yuxuan Mu, Muhammad Gohar Javed, Sen Wang, and Li Cheng. Momask: Generative masked
+modeling of 3d human motions. InProceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, pp. 1900–1910, 2024.
+Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp Hochreiter. Gans
+trained by a two time-scale update rule converge to a local nash equilibrium.Advances in neural infor-
+mation processing systems, 30, 2017.
+Jonathan Ho and Tim Salimans. Classifier-free diffusion guidance. InNeurIPS 2021 Workshop on Deep
+Generative Models and Downstream Applications, 2021.
+Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffusion probabilistic models.Advances in neural
+information processing systems, 33:6840–6851, 2020.
+Siyi Hu, Diego Martín Arroyo, Stephanie Debats, Fabian Manhardt, Luca Carlone, and Federico Tombari.
+Mixed diffusion for 3d indoor scene synthesis. InProceedings of the IEEE/CVF Winter Conference on
+Applications of Computer Vision, pp. 1262–1272, 2026.
+Jiangyong Huang, Silong Yong, Xiaojian Ma, Xiongkun Linghu, Puhao Li, Yan Wang, Qing Li, Song-Chun
+Zhu, Baoxiong Jia, and Siyuan Huang. An embodied generalist agent in 3d world. InInternational
+Conference on Machine Learning, pp. 20413–20451, 2024.
+Siyuan Huang, Zan Wang, Puhao Li, Baoxiong Jia, Tengyu Liu, Yixin Zhu, Wei Liang, and Song-Chun Zhu.
+Diffusion-based generation, optimization, and planning in 3d scenes. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition, pp. 16750–16761, 2023.
+Hakan Inan, Khashayar Khosravi, and Richard Socher. Tying word vectors and word classifiers: A loss
+framework for language modeling. InProceedings of the 5th International Conference on Learning Repre-
+sentations (ICLR), 2017.
+Guanzhou Ji, Azadeh O Sawyer, and Srinivasa G Narasimhan. Virtual home staging: Inverse rendering and
+editing an indoor panorama under natural illumination. InInternational Symposium on Visual Computing,
+pp. 329–342. Springer, 2023.
+Mukul Khanna, Yongsen Mao, Hanxiao Jiang, Sanjay Haresh, Brennan Shacklett, Dhruv Batra, Alexander
+Clegg, Eric Undersander, Angel X Chang, and Manolis Savva. Habitat synthetic scenes dataset (hssd-
+200): An analysis of 3d scene scale and realism tradeoffs for objectgoal navigation. InProceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 16384–16393, 2024.
+Yejin Kim, Wilbert Pumacay, Omar Rayyan, Max Argus, Winson Han, Eli VanderBilt, Jordi Salvador,
+Abhay Deshpande, Rose Hendrix, Snehal Jauhri, et al. Molmospaces: A large-scale open ecosystem for
+robot navigation and manipulation. InRobotics: Science and Systems, 2026.
+Tuomas Kynkäänniemi, Tero Karras, Miika Aittala, Timo Aila, and Jaakko Lehtinen. The role of imagenet
+classes in fréchet inception distance. InInternational Conference on Learning Representations, 2023.
+Kurt Leimer, Paul Guerrero, Tomer Weiss, and Przemyslaw Musialski. Layoutenhancer: Generating good
+indoor layouts from imperfect data. InSIGGRAPH Asia 2022 Conference Papers, pp. 1–8, 2022.
+José Lezama, Huiwen Chang, Lu Jiang, and Irfan Essa. Improved masked image generation with token-critic.
+InEuropean Conference on Computer Vision, pp. 70–86. Springer, 2022.
+14

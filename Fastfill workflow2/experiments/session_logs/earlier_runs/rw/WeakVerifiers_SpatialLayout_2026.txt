@@ -1,0 +1,987 @@
+Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation
+SHARON ZHANG,Stanford University, USA
+R. KENNY JONES,Stanford University, USA
+JIAJUN WU,Stanford University, USA
+MANEESH AGRAWALA,Stanford University, USA and Roblox, USA
+Fig. 1. We introduce a pipeline to verify the outputs of spatial layout generators against specific task descriptions. Our approach builds a collection of
+LLM-based weak verifiers using a layout verification DSL, and then aggregates them into a single strong verifier. We apply our verification pipeline to 3D room
+layouts and 2D poster designs. Here, the resulting task-specific strong verifiers mark layouts as positive (green check) if they match the task description and
+negative (red X) if they fail to match. For each negative example we include a brief note on what violates the task description. We show how these verifiers can
+be used in conjunction with a layout generator to automatically identify generated layouts that match the task descriptions.
+We present a pipeline for building and aggregating task-specific, LLM-
+generated weak (imperfect) verifiers into a strong verifier for spatial layout
+domains. Given a task description, our pipeline asks an LLM to synthesize
+a collection of verifier programs using a layout verification DSL. Each in-
+dividual LLM-generated verifier usually provides an imperfect check for a
+match between the layout and the corresponding task description. We show
+that by aggregating the responses of many such verifiers we can produce a
+stronger verifier. Moreover, by applying techniques from weak learning, our
+pipeline can learn how to aggregate the weak verifiers from a very sparse
+set of human labeled example layouts (about 10). We find that the strong
+verifiers produced by our pipeline outperform the status-quo approach of
+using a set of LLM judges to directly check whether a layout matches a
+task description, raising F1-scores by up to 7X across a variety of 3D room
+layout and 2D poster design tasks. We also demonstrate that verifier-guided
+layout generation using natural language feedback from our strong verifiers
+improves layout quality of a base layout generator by up to 66.2% according
+to a human evaluator.
+Authors’ Contact Information: Sharon Zhang, szhang25@stanford.edu, Stanford Uni-
+versity, Stanford, California, USA; R. Kenny Jones, rukjones4@gmail.com, Stanford
+University, Stanford, California, USA; Jiajun Wu, jiajunwu@cs.stanford.edu, Stanford
+University, Stanford, California, USA; Maneesh Agrawala, maneesh@cs.stanford.edu,
+Stanford University, Stanford, California, USA and Roblox, San Mateo, California, USA.
+1 Introduction
+Generative models have demonstrated tremendous progress in pro-
+ducing spatial layouts in a variety of settings including 3D room lay-
+out and 2D poster design. But they often require repeated sampling
+before producing a layout that captures all of the properties desired
+by a user. For example, a user might ask the model to generate a
+music practice room for a string quartet (Figure 1 top), manually
+check the generated response, and iteratively repeat the generation
+request until the response passes manual verification. Such manual
+verification is typically slow and requires expertise in layout design.
+One way to automate this verification process is to simply ask an
+LLM to judge how well a generated layout matches the task descrip-
+tion [Zheng et al. 2023; Zhu et al. 2023]. However, LLMs typically
+lack strong spatial understanding [Mayer et al . 2025; Wang et al.
+2024] and produce noisy, inconsistent evaluations that are poorly
+calibrated to human judgments of layout design [Lin et al . 2024].
+Another approach is to ask the user to label a set of example layouts
+as positive or negative (i.e., passing or failing their verification judg-
+ments) and then train a verification model on this data. However,
+this type of human verification labeling does not scale and it is
+difficult to learn an accurate verifier from sparse training data.
+arXiv:2606.05268v1  [cs.GR]  3 Jun 2026
+2•Zhang et al.
+Weak learning offers an appealing approach to solve this problem.
+Given a set of weak (imperfect) verifiers, the weak learning paradigm
+analyzes the voting patterns of these verifiers on unlabeled data
+to produce a strong verifier [Ratner et al. 2016a]. Originally, these
+weak verifiers were hand-written procedural “labeling functions”
+authored by domain experts, but more recent approaches have con-
+sidered whether LLMs can serve as the weak verifiers. Weaver [Saad-
+Falcon et al. 2025] is a state-of-the-art method that treats different
+LLMs as imperfect judges, and learns a weighting of these LLM votes
+that has been shown to surpass the naive majority vote alternative.
+However, Weaver and other LLM judge approaches have primarily
+been applied to problems in natural language QA [Cook et al. 2024;
+Gundawar et al. 2024], coding [Shinn et al. 2023; Zhuge et al. 2025]
+and math QA [Cobbe et al. 2021; Zhang et al. 2024], areas where the
+capabilities of LLMs are stronger.
+In this paper we show how to adapt these ideas from weak learn-
+ing into a pipeline for building and aggregating task-specific, LLM-
+generated weak verifiers into a strong aggregate verifier for spatial
+layout. Rather than directly using an LLM as a judge, our approach
+is to ask the LLM (GPT-5.4) to synthesize a set of task-specific veri-
+fier programs using a layout verification DSL that provides access
+to low-level spatial queries over layout elements. We analyze sev-
+eral methods for aggregating the resulting weak verifiers, including
+naive majority vote, logistic regression, the top-1 weak verifier and
+Weaver [Saad-Falcon et al. 2025].
+We also use our strong verifiers to performverifier-guided layout
+generation—a process that automates the iterative generate-then-
+verify loop. We investigate two different forms of verifier feedback
+in this loop.Binaryfeedback simply uses the verifier True/False
+response.Detailedfeedback provides natural language messages
+explaining the verifier response, which we obtain in two steps. First,
+we ask an LLM to modify each programmatic weak verifier by an-
+notating each exit point with a descriptive feedback message. Then,
+we combine these feedback messages using the learned aggregation
+weights of each weak verifier.
+Our experiments find support for three main claims; (1) Using
+our programmatic weak verifiers in combination with any of the ag-
+gregation techniques outperforms directly using LLMs as judges by
+up to 7X in F1-score; (2) Weaver aggregation generally outperforms
+the other aggregation methods with as few as 10 labeled layout
+examples; (3) Using our strong verifiers in verifier-guided layout
+generation with Detailed feedback improves a base layout generator
+by 66.2% according to a human evaluator.
+2 Related Work
+Weak supervision for data labeling.Weak supervision is a para-
+digm of machine learning which aims to learn a model of data from
+both labeledandunlabeled data [Chapelle et al . 2009]. One primary
+application of weak supervision is in data programming [Ratner
+et al. 2016b], which aims to create large labeled datasets by learn-
+ing how to aggregate multiple weak labeling functions into one
+stronger-performing label predictor. These weak labeling functions
+are often designed based on domain heuristics and can be both
+incomplete (i.e., only label a subset of the data and abstain on the
+rest) and noisy (i.e., not always accurate). A common approach is
+to learn a generative model on top of the votes of these weak label-
+ing functions that can predict a single probabilistic label [Fu et al.
+2020; Ratner et al. 2017, 2019]. Our work builds on ideas from weak
+learning to create verifiers for spatial layout tasks.
+Verification with LLMs.LLM judges have been used to evaluate
+and select responses to generative queries [Wu et al. 2024; Zheng
+et al. 2023; Zhu et al. 2023] or provide reward signals to improve
+models during training [Wang et al. 2023]. However, LLM judges on
+their own are not entirely reliable [Tan et al. 2024] and in particular
+suffer from poor performance on direct spatial reasoning tasks [Ma
+et al. 2026; Mayer et al . 2025; Wang et al . 2024]. A common ap-
+proach to address this is to aggregate multiple models [Saad-Falcon
+et al. 2025; Verga et al . 2024]. In this paper, we take inspiration
+from Weaver [Saad-Falcon et al. 2025], which uses weak supervi-
+sion to aggregate the responses of LLM judges. Rather than directly
+querying an off-the-shelf LLM to verify the outputs of our genera-
+tors, we query the LLM to write weak verificationprogramsusing
+a layout verification DSL that we provide. The idea of using LLM-
+generated verification programs has been explored in the context of
+2D vector graphics animation [Ma and Agrawala 2025], image syn-
+thesis [Sun et al. 2025] and scene generation [Hu et al. 2024; Yin et al.
+2026]. However, instead of relying on a single (possibly imperfect)
+LLM-generated verification program we aggregate feedback from
+multiple LLM-generated weak verifier programs. SceneEval [Tam
+et al. 2026] evaluates scene generators with a set of predefined task-
+agnostic checks and some prompt-specific verifiers, but requires a
+human-in-the-loop.
+Layout generation.Creating layouts is an important step in many
+visual creation pipelines, and layout generation methods have been
+proposed in both 2D graphic design [Chen et al . 2024; Feng et al.
+2023; Wu et al . 2025; Zhang et al . 2025] and computer-aided de-
+sign [Du et al. 2024; Jones et al. 2025; Li et al. 2025]. Many recent
+generation systems focus on creating 3D scenes, as they have ap-
+plications in interior design, game environments and embodied-AI
+training [Feng et al. 2023; Gu et al. 2025; Gumin et al. 2025; Littlefair
+et al. 2025; Para et al. 2023; Paschalidou et al. 2021; Pfaff et al. 2026;
+Wang et al. 2018, 2020; Zhang et al. 2023; Zhou et al. 2024]. Recently,
+LLMs have been incorporated into scene generation as critics for
+verifier-guided layout generation [Hu et al. 2024; Yin et al. 2026].
+Our work uses feedback from our aggregated strong verifiers, which
+we show results in stronger generators.
+3 Method
+Our verification pipeline (Figure 2) takes a user’s task description
+describing the desired layout as input and outputs a strong verifier
+that evaluates whether a generated layout matches the prompt. The
+pipeline includes includes four main stages.
+Stage 1: Dataset generation.We sample a layout generator to pro-
+duce a dataset of layouts. These generated layouts serve as training
+data for the aggregation in Stage 4 of our pipeline. This dataset is
+unlabeled but is assumed to contain some layouts which meet all
+the properties in the task description and some that fail to meet
+them. The task of the verifier is to distinguish the positive samples
+from the negative samples.
+Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation•3
+Fig. 2. The four stages of our verification pipeline.1. Dataset generation.We first curate a dataset of training examples from a generator or an existing
+dataset.2. Dev set labeling.The user then labels a small random subset (about 10) of these examples as positive or negative, possibly providing notes
+alongside each label, e.g. “the piano is not in the corner. "2. Weak verifier generation.We provide an LLM with the user prompt, the labeled dev set examples,
+and documentation of our DSL and query it to generate a set of weak verifiers.3. Weak verifier aggregation.We run all the weak verifiers on our entire
+training dataset and aggregate them into a single verifier. On a new unlabeled example, the aggregate verifier determines a singleTrueorFalselabel from
+the labels of the weak verifiers.
+Stage 2: Dev set labeling.The user assigns ground truth labels
+(positive/negative) for a small number of the layouts (about 10)
+to form adevelopment set(or “dev set”). These labels may also be
+accompanied with user notes about why each label was assigned.
+The dev set is a small set of ground truth data that is used for
+generating weak verifiers in Stage 3 and aggregating them in Stage 4.
+Stage 3: Weak verifier generation.We use an LLM to generate a
+collection of weak verification programs using our layout verifica-
+tion DSL (Section 3.1). This LLM has access to the task description
+as well as the labeled dev set of positive/negative example layouts.
+Stage 4: Weak verifier aggregation.We use the information from
+the dev set with the votes of the LLM-generated weak verifiers on
+the unlabeled dataset to learn how to aggregate the weak verifiers
+into a single strong verifier (Section 3.2).
+3.1 Weak Verifier Generation
+A weak (imperfect) verifier is a function which takes in a layout and
+outputs a response in { True, False, Abstain}. In the weak learn-
+ing paradigm, the outputs of many weak verifiers are aggregated
+together to form a stronger verifier. The approach is based on the
+idea that it is often far easier for people to manually write multiple
+imperfect verification functions than to write a single high-quality
+verification function that can perfectly distinguish between posi-
+tive (desired) outputs and negative (undesired) outputs. Yet, in our
+setting of layout design, manually writing even imperfect verifiers
+requires design expertise, time and effort.
+Thus, our approach is to ask an LLM to write verification functions
+using a domain specific language (DSL) that we have developed to
+support layout verification. LLMs have made significant strides
+in programming tasks [White et al . 2025] but are known to lack
+strong spatial understanding [Mayer et al. 2025; Wang et al. 2024].
+Our layout verification DSL is therefore designed to let the LLM
+programmatically access accurate spatial information about the
+layout. We first present our layout verification DSL and then discuss
+how we use the LLM to generate the collection of weak verifiers.
+Full details on our weak verifier generation are included in Section 3
+of the supplemental materials.
+Layout verification DSL.Our layout verification DSL consists of a
+data model for representing spatial layouts and a set of low-level
+spatial queries that can query properties of any such layout. Our
+data model treats a layoutLas a collection of geometric elements
+𝑒𝑖∈ L, each with id, class, position, size, orientation, bbox
+and mesh attributes. This set is extensible so that each layout domain
+can include domain specific attributes (e.g. elements in 2D poster
+designs might also include a font-family attribute). In general, the
+data model should include attributes that the layout generator can
+control and whose values the verifiers might consider when labeling
+positive or negative layouts.
+Our DSL also includes a variety of low-level spatial queries (e.g.
+intersects(), facing(), distance() ) that can help separate
+positive and negative layouts. At a high-level, these queries fall into
+five major groups:layout-level queries, which check how individual
+elements relate to the bounds of the overall layout;position queries,
+which check relationships between the position attributes of el-
+ements;size queries, which check relationships between the size
+attributes of elements;orientation queries, which check relationships
+between the orientation attributes of elements; andintersection
+queries, which check how elements overlap. By default, the queries
+operate on the bbox geometry of elements, but they can also be in-
+voked on the mesh attribute for more fine grained geometric queries.
+Using these low-level queries, we can express a variety of higher-
+level spatial relationships used in layout descriptions. For example,
+we can express whether a set of chairs “surrounds" a table by check-
+ing whether each chair is facing towards the table, ensuring that the
+chairs are all within a certain distance of the table, and that none
+of the chairs intersect with each other. A full description of our
+data model and DSL is included in Tables 1-4 of the supplemental
+materials.
+LLM-based verifier generation.Given the dev set, the DSL and
+the task description, we ask an LLM to write a set of weak verifier
+functions that address the entire task (including any user notes in
+the dev set). Each weak verifier is generated in two steps. First, we
+ask the LLM to generate aplanas a natural language docstring
+coarsely describing the set of checks the verifier should perform.
+Next, we query the LLM to provide animplementationof the func-
+tion using our DSL according to the docstring plan. By separating
+planning and implementation we split the complex task of crafting
+a holistic program that captures the entire task description into
+simpler subtasks. Moreover, the LLM can generate different plans
+4•Zhang et al.
+for each weak verifier in the collection, thereby encouraging greater
+diversity which is useful for aggregation (Section 3.3). Finally, for
+each weak verifier we ask the LLM to add natural languagefeedback
+messagesto each exit point that results in the verifier voting False.
+The messages describe specific reasons for why a layout does not
+match the task description and is useful for verifier-guided layout
+generation (Section 3.4). Additional details for each of these steps
+are provided in Section 3.1 of the supplemental materials.
+3.2 Weak Verifier Aggregation
+The aggregation stage of our pipeline is responsible for learning
+how to weight each weak verifier’s responses to produce a single,
+more accurate verification label. Intuitively the weights represent
+how much we should trust each weak verifier to correctly label a
+layout. We consider four aggregation methods that use different
+approaches for learning these weights.
+Naive Majority.This method weights each weak verifier equally
+and labels a layout as positive if the majority of the verifiers which
+do not output Abstain vote True. This is a conservative approach
+that assumes all of the verifiers are equally accurate and there-
+fore warrant equal trust. However, if there is strong variance in
+the accuracies of the verifiers, naive majority will split the differ-
+ence between them, and so the presence of good verifiers can be
+counterbalanced by inaccurate verifiers.
+Logistic Regression.This method trains a regression model to find
+an optimal weighting for the verifiers based on the ground truth
+labels in the dev set. Thus, it assigns high weights to verifiers that are
+likely to be more accurate based on their performance on the dev set
+and low weights to those that are likely to be inaccurate. It therefore
+has a higher upper-bound than Naive Majority when it finds an
+optimal weighting. However, with a very small dev set to learn from,
+this method has a higher likelihood to assign inaccurate weights
+and may thus perform sub-optimally. In general, this method is
+susceptible to high variance in its overall accuracy depending on
+the dev set.
+Top-1.This method identifies the best weak verifier as the one that
+is most accurate over the dev set (randomly choosing between ties).
+It assigns all the weight to this top verifier and zero weight to all the
+others. If the collection of verifiers contains some that are highly
+accurate this method can identify them, while down-weighting
+ones that are especially inaccurate. However, the weighting scheme
+over the verifiers is especially sharp and it is upper-bounded in
+performance by the accuracy of the single top verifier. Like Logistic
+Regression, when the dev set is small this method may pick a sub-
+optimal verifier and yield worse results.
+Weaver.Unlike the other aggregation methods, Weaver [Saad-Falcon
+et al. 2025] uses the voting patterns of the weak verifiers on both the
+dev set and theunlabeleddataset to determine how to weight the
+verifiers. At a high level, verifiers that vote in a consistent pattern in
+relation to other verifiers tend to be upweighted, while those whose
+outputs appear noisy or uninformative are downweighted. More
+precisely, these weights estimate the true positive rate (TPR) and
+true negative rate (TNR) of each weak verifier. Weaver relies on
+two core assumptions about the collection of weak verifiers. First, it
+assumes sufficientdiversitybetween verifiers—enough differences
+in the verifier voting patterns. Second, it assumes each verifier offers
+predictive signalthat is better than random.
+3.3 Adapting Weaver to Spatial Layout Verification
+To successfully apply Weaver in spatial layout domains our approach
+addresses three key factors.
+Programmatic weak verifiers.While Weaver uses LLM-judges,
+we find that LLMs are not well-suited for spatial layout verification
+(Section 3.1). Thus, we use Weaver to aggregate the votes from LLM-
+generated programmatic verifiers written with our spatial layout
+verification DSL.
+Weak verifier diversity.Weaver assumes diversity in the voting
+patterns of the weak verifiers. To encourage such diversity, our
+weak verifier generation uses a two-step procedure (Section 3.1):
+first generating a docstring plan, and then a verifier function imple-
+menting that plan. In this way, each LLM generated weak verifier is
+conditioned on a different docstring plan, thereby promoting diverse
+solutions. Further, for both plan and implementation generation, we
+sample the LLM with high temperature.
+Pre-filtering to increase predictive signal.Weaver also assumes
+each verifier offers predictive signal that is better than random.
+Weaver addresses this filtering out verifiers with extreme marginal
+voting behavior (e.g. vote uniformly True or False). We find that
+with this filtering alone Weaver fails in our setting. We develop a
+stronger filter by checking the performance of the weak verifiers
+on the dev set. Specifically we select for verifiers with at least one
+of the following properties: balanced precision and recall; very high
+precision alone; or very high negative predictive value (negative
+precision). In our setting there is a strong negative class imbalance,
+so we aim to filter out verifiers that produce false negatives, as these
+are especially difficult for Weaver to incorporate.
+3.4 Verifier-Guided Layout Generation
+We can leverage our strong verifier within an iterative pipeline
+which we callverifier-guided layout generation. The layout generator
+synthesizes a layout, the verifier evaluates it. If the layout fails
+verification, the verifier provides feedback to the generator and asks
+it to generate another layout.
+As noted in Section 3.1, we designed our LLM-generated weak
+verifiers to to providefeedback messagesfor this application. After
+generating each weak verifier, we query the LLM to identify each
+exit branch in the verifier body resulting in the verifier votingFalse
+and write a natural language string that describes the reason for that
+exit. This message provides context about what causes a verifier to
+fail. We incorporate such feedback messages from aggregated weak
+verifiers into a verifier-guided layout generation pipeline using two
+possible approaches.
+Binary feedback.This feedback consists of the most recent negative
+layout and the corresponding verifier result ( False). There is no
+explicit natural language text describing the reason for the rejection.
+Such pass/fail feedback enables a baseline form of verifier-guided
+generation that is similar to rejection sampling.
+Detailed feedback.Detailed feedback consists of the most recent
+negative layout and the verifier result (False), as well as a natural
+Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation•5
+Table 1. Comparison against aggregating LLM judges. Our programmatic
+weak verifiers outperform using LLM Judges as weak verifiers by a significant
+margin, regardless of the aggregation method being used.
+3D Rooms
+Verifier Type F1-Scores (↑)
+Weaver NM LR Top-1
+LLM Vision Judges 0.26 0.35 0.12 0.34
+LLM Judges 0.25 0.49 0.11 0.43
+Ours 0.84 0.79 0.77 0.79
+2D Posters
+Verifier Type F1-Scores (↑)
+Weaver NM LR Top-1
+LLM Vision Judges 0.46 0.52 0.35 0.59
+LLM Judges 0.21 0.21 0.21 0.23
+Ours 0.79 0.62 0.69 0.74
+language feedback describing reasons for the negative result. While
+this type of feedback can be difficult to elicit from a verifier in many
+domains, our strong strong verifier is composed of weak verifiers
+which output such feedback messages.
+We aggregate those feedback messages into a single feedback
+message as follows. For each aggregation method (Section 3.2), we
+define thereliabilityweight of a weak verifier as its aggregation
+weight. For example, the reliability weights in Logistic Regression
+are determined by normalizing the logits for each verifier. In Top-1
+only one weak verifier is used and therefore has a reliability weight
+of1 .0. In Naive Majority all the verifiers are aggregated with equal
+reliability weight. In Weaver, we define the reliability weight of a
+feedback message as the harmonic mean of the TPR and TNR of the
+corresponding weak verifier (see Section 3.2).
+We create an aggregate feedback message by identifying which
+weak verifiers voted False, annotating that feedback message with
+the weak verifier reliability weight, and then concatenating the feed-
+back messages in order from highest to lowest reliability (Figure 3).
+Additional details and examples are in Section 7 of the supplemental
+materials.
+3.5 Implementation Details
+The implementation for Stage 1 is domain-dependent, but we have
+experimented with datasets of size 100-1000 per task. In Stage 2,
+we randomly sample from the unlabeled dataset until we reach 10
+examples or until the user has labeled at least one positive and one
+negative example, whichever is later. In Stage 3, we independently
+sample the LLM (GPT-5.4) for 50 different weak verifiers. In Stage 4,
+our filtering step for Weaver (Section 3.3) only keeps weak verifiers
+which have an F1-score of at least 0.5, precision of at least 0.75 or
+predictive negative value of at least 0.75 on the dev set. For complete
+details about our implementation, see Section 3 of the supplemental
+materials.
+4 Results and Evaluation
+Our verification pipeline includes two main components: weak ver-
+ifier generation and weak verifier aggregation. Our evaluation con-
+siders two main questions about these components. First, how does
+our DSL-based weak verifier generation compare to using off-the-
+shelf LLM as black-box judges (Section 4.2)? Second, when is a
+particular aggregation method most effective and why (Section 4.3)?
+Finally, we compare verifier-guided layout generators using our
+verifiers against the standard approach of using an LLM judge as a
+critic (Section 4.4).
+4.1 Experiment Design
+Domains.We apply our verification pipeline to two layout domains,
+3D rooms and 2D posters. Our 3D rooms focus on enclosed and
+furnished spaces and our 2D posters focus on static graphic designs
+with typography. For both layout domains, we find that existing
+generation systems are unable to handle complex spatial arrange-
+ments when specified (e.g., shapes, alignment, symmetry, etc.), so
+we implement two LLM-based generators. The 3D Rooms generator
+outputs layouts directly in our data model, readily populated with
+3D assets and textures from BlenderKit [BlenderKit Team 2016].
+The 2D Posters generator outputs layouts in HTML/CSS, which we
+then parse into our data model. For each dataset in Stage 1 of the
+verification pipeline (Section 3.1) we sample 100 examples using
+these generators. In general, we sample a dataset for each task, but
+we also experiment with amortizing dataset generation by sharing
+datasets across tasks (e.g., three of our 3D Rooms tasks use the same
+dataset). Section 6.3 of the supplemental materials also includes
+multiple 3D layout tasks which all use the pre-existing 3D-FRONT
+dataset [Fu et al. 2021]. Additional details on both generators as well
+as layouts from existing generators are included in Section 4 of the
+supplemental materials.
+Layout verification tasks.We define a layout verification task
+asuser-centric; given some domain and decision criteria, the user
+can sort layout instances into positive or negative buckets. We ask
+users to convert this decision criteria into text, and call this atask
+description. The job of our weak verification pipeline is to learn a
+verifier per task from limited labeled data. We have developed a
+representative set of such layout tasks (13 tasks for 3D Rooms, 13
+tasks for 2D Posters) that range in complexity with respect to layout
+requirements. Figures 4-8 show examples from our poster and room
+layout domains along with possible task descriptions a user might
+specify. Examples include:
+• T1: Symmetric Nightstands (3D Rooms).“A bedroom with
+symmetric identical nightstands. " (supplemental materials, Fig-
+ure 7)
+• T10: College Dorm (3D Rooms).“A dorm room for two college
+students. One of them is very messy (leaving books and clothes
+on the floor) and the other is very neat. " (Figure 5)
+• T16: Sparrows (2D Posters).This task describes a book cover
+with specific requirements on the title text and sparrow images
+scattered throughout. Figure 1 (bottom) gives the full task de-
+scription.
+A comprehensive list of all 26 tasks and their descriptions is included
+in the supplemental materials (Section 5).
+Note that in many cases such descriptions are under-specified,
+as people often have implicit notions of positive/negative layouts
+that can be difficult to fully describe in text. For example,T1: Sym-
+metric Nightstands (3D Rooms)does not explicitly specify that
+the nightstands should beplaced at the head of the bed, but that is
+commonly assumed to be the right placement. Ultimately, only the
+6•Zhang et al.
+Table 2. F1-scores of our verifiers with four aggregation methods. The top performing verifier per-task is bolded in each column, though in the case of ties we
+bold Weaver. Overall, our Weaver verifier performs strongest on average and is the top-performing verifier on the most number of tasks (18 out of 26 tasks).
+3D Rooms (F1-Scores↑)
+Method T1 T2 T3 T4 T5 T6 T7 T8 T9 T10 T11 T12 T13 Avg
+Naive Majority 0.820.920.94 0.66 0.86 0.75 0.83 0.80 0.56 0.80 0.820.850.70 0.79
+Logistic Regression 0.82 0.910.950.59 0.84 0.46 0.80 0.80 0.73 0.80 0.81 0.81 0.68 0.77
+Top-1 0.80 0.910.950.67 0.85 0.68 0.77 0.790.750.83 0.79 0.78 0.73 0.79
+Weaver 0.840.91 0.940.74 0.86 0.76 0.86 0.820.740.90 0.840.820.91 0.84
+2D Posters (F1-Scores↑)
+Method T14 T15 T16 T17 T18 T19 T20 T21 T22 T23 T24 T25 T26 Avg
+Naive Majority 0.94 0.87 0.91 0.06 0.92 0.91 0.200.830.290.850.22 0.72 0.29 0.62
+Logistic Regression 0.94 0.84 0.91 0.93 0.59 0.90 0.95 0.77 0.210.850.13 0.66 0.28 0.69
+Top-1 0.93 0.81 0.890.950.90 0.870.960.67 0.38 0.81 0.30 0.69 0.46 0.74
+Weaver 0.94 0.90 0.910.930.94 0.910.94 0.770.380.840.46 0.74 0.59 0.79
+user can determine whether a generated layout fully matches their
+implicit notions for an acceptable layout (i.e., provide ground truth
+labeling). In our pipeline, users may encounter examples which
+violate these implicit notions in the dev set, and make those notions
+explicit via the dev set notes.
+Evaluating verification performance.To evaluate verifier perfor-
+mance we require a test set of generated layouts for each of our task
+prompts with corresponding ground truth positive/negative labels.
+To this end we ask a user to manually provide the 100 examples
+in each task dataset with positive/negative ground truth labels. In
+this process, we found that both our layout generators are largely
+biased towards producing negative samples (on 23 out of 26 tasks
+we observe a positive label rate of less than 50%). Because of this
+ground truth imbalance we primarily evaluate performance of our
+weak verification pipeline using F1-scores rather than accuracy. For
+each task, we report the average F1-score across three different
+randomly sampled dev sets. We also report accuracy, precision and
+recall in the supplemental materials (Section 6).
+4.2 Comparison with LLM Judges
+Our DSL-based verifiers outperform LLM judges by up to 7X.
+The status quo approach for producing weak verifiers is to directly
+ask multiple LLM judges to check that a generated output (a gen-
+erated layout in our setting) matches the task prompt. Here we
+compare verification performance when aggregating our program-
+matic weak verifiers against aggregating LLM judges. Current fron-
+tier models have both text and vision capabilities, so we consider
+two approaches to using LLM judges: one where each LLM judge
+receives our data model representation of the layout along with
+documentation of the data model, and one where each LLM re-
+ceives a top-down rendering of the layout instead (denoted LLM
+Vision Judges). In our experiments, we use an ensemble of frontier
+vision-capable LLMs: GPT-5.4, LLaVA, Gemma4 and Qwen3.
+We report the results of this experiment in Table 1. We find that
+across all four aggregation methods (Weaver, Naive Majority, Logis-
+tic Regression and Top-1) our programmatic weak verifiers strongly
+outperform LLM judges, by at least 1.2X and up to 7X. These results
+show that directly using aggregated LLM judges is insufficient for
+verifying spatial layout, even when the LLMs have vision capabil-
+ities. For example, inT9: Dining Room (3D Rooms)the LLM
+judges often incorrectly accept rooms where a seating arrangement
+for 8 people explicitly violates the requirement that all chairs face
+the long side of the table (supplemental materials, Figure 15). In
+T15: Art Show (2D Posters), the LLM judges incorrectly accept
+posters where explicit text-alignment requirements are not satisfied
+(supplemental materials, Figure 21). In both instances, our strong
+verifier is able to correctly label these examples. These results sug-
+gest that LLM-generated weak verification programs are better at
+analyzing spatial layout than directly using LLMs.
+4.3 Analysis of Aggregation Methods
+We compare the performance of each of the four aggregation meth-
+ods discussed in Section 3.2 across the full set of tasks 26 in Table 2.
+Weaver is the top-performing aggregation method.Across tasks,
+aggregating verifiers with Weaver is consistently the strongest,
+achieving the best average F1-score overall and the best F1-score on
+18 out of 26 tasks (see Table 2). On 4 of the remaining tasks, Weaver
+performs second-best and is within 0.01 of the best F1-score. This
+trend is consistent with the intuition that our programmatic weak
+verifiers tend to overlap in what they check, producing redundant
+but noisy votes with agreement structure that Weaver can exploit to
+downweight unreliable voters and amplify more consistent verifiers.
+Logistic Regression and Top-1 are unreliable on small dev set.
+Both Logistic Regression and Top-1 greatly vary in their relative per-
+formance among the four aggregation methods. Logistic Regression
+is the best aggregation method on 4 tasks but also the worst aggre-
+gator on 9 tasks. Similarly, Top-1 is the best aggregation method
+on 5 tasks and the worst on 8 tasks. Since the dev set is the only
+source of information that these methods use, this result suggests
+that the signal from a small dev set of 10 examples is often too noisy
+or misaligned for Logistic Regression. We also find that increasing
+the dev set size up to 50 examples does not necessarily improve
+the performance of Logistic Regression or Top-1 relative to Weaver,
+and even with larger dev sets both Logistic Regression and Top-1
+still exhibit high variance in performance (supplemental materials,
+Figure 33).
+Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation•7
+Naive Majority performs poorly with low recall weak verifiers.
+Naive Majority does not require any labeled data and is easy to
+understand, hence it is a commonly used method for aggregating
+votes from independent voters. When many of the voters have
+comparably strong predictive signal, Naive Majority performs well.
+Indeed, we find that it is more consistent than Logistic Regression
+and Top-1 (best on 8 out of 26 tasks and the second-best on 9 other
+tasks). However, we find that it underperforms when many weak
+verifiers have low recall. This is relatively common in our tasks. As
+we have seen, the base layout generators are negatively-skewed
+and thus the dev sets have very few positive examples. Since the
+weak verifiers are generated using these biased dev sets, they tend
+to reject true positives and thus have low recall. Because Naive
+Majority weights all weak verifiers equally, the low recall verifiers
+hurt performance. In four layout tasks where the average recall of
+the weak verifiers is less than 0.33, Naive Majority performs the
+worst or second-worst, whereas the other aggregation methods
+find more optimal ways to weight the weak verifier (supplemental
+materials, Figure 34).
+4.4 Verifier-Guided Layout Generation
+We evaluate three different verifier-guided layout generators (Sec-
+tion 3.4) on our 3D Rooms layout tasks. The first uses a single
+vision-enabled LLM judge (GPT-5.4) to verify that the generated
+layout matches the task description and to provide natural language
+feedback on the failing layouts (denoted LLM+Vision). The second
+uses our strong Weaver-aggregated verifier withBinaryfeedback.
+The third uses our strong Weaver-aggregated verifier withDetailed
+feedback (Figure 3). Each verifier-guided generator is allowed a
+maximum of 10 iterations per task. As a baseline for comparison
+we include the non-iterative base 3D layout generator operating
+without verifier feedback (Section 4.1).
+Table 3 reports results for 5 different 3D Room layout tasks. We
+use each generator to sample 25 layouts per task. We then ask a
+human evaluator to determine whether each layout sample matches
+the corresponding task description. Table 3 (top) gives the percent-
+age of samples that pass this human evaluation. Overall we find
+that our Binary and Detailed feedback improve the human pass rate
+by 42.2% and 66.2% respectively on average over the base generator
+(no verifier). In contrast, using the LLM+Vision feedback performs
+worseon average than using our Binary and Detailed feedback. For
+taskT4it even underperforms the base generator, because many
+generated layouts pass the LLM+Vision verifier but not the human
+evaluator.
+Table 3 (bottom) gives the average number of iterations each
+generator required to produce a single layout. We find that Detailed
+feedback requires an average of just over 2 iterations to produce a
+layout that passes verification. In contrast Binary feedback requires
+over 6 iterations. While the LLM+Vision feedback requires about 3
+iterations to generate a layout that passes its verifier, the resulting
+layouts are significantly lower in quality than those produced by
+using Binary or Detailed feedback from our strong verifier. This is
+evident in the lower human pass rates in the top part of the Table.
+Together these results suggest that the detailed natural language
+Table 3. We compare three different verifier-guided 3D Rooms layout gen-
+erators (LLM+Vision, Ours (Binary), Ours (Detailed)). We include a base 3D
+Rooms layout generator with no verifier as a baseline. We report the human
+evaluator pass rates over 25 samples per task (top), as well as the average
+number of iterations required to pass each generator’s verifier (bottom). On
+average, using Detailed feedback produces the highest human pass rate
+while requiring the fewest iterations.
+Human Evaluator Pass Rate (↑)
+Feedback Type T3 T4 T9 T10 T11 Avg.
+Base (No verifier) 18% 14% 30% 21% 34% 23.4%
+LLM+Vision 28% 12% 60% 56% 48% 40.8%
+Ours (Binary) 40% 64% 84% 40% 100% 65.6%
+Ours (Detailed) 96% 100% 84% 84%84% 89.6%
+Number of Iterations (↓)
+Feedback Type T3 T4 T9 T10 T11 Avg.
+LLM+Vision 2.126.881.722.201.44 2.87
+Ours (Binary) 6.28 5.52 2.28 7.76 10.0 6.37
+Ours (Detailed) 2.161.881.921.443.64 2.21
+feedback of our Detailed feedback approach provides useful guid-
+ance to the base generator on how to repair layouts that do not pass
+our strong verification.
+4.5 Limitations
+A limitation of our verification pipeline is that we require a dataset
+for each task, specifically when aggregating with Weaver. If the
+generator is expensive to sample from, this may limit its applicability.
+However, we can amortize the cost of dataset generation by reusing
+a single dataset across multiple similar layout tasks. For example,
+in our experiments we use the same dataset for three 3D Rooms
+tasks (T1: Symmetric Nightstands,T12: Reading NookandT13:
+Study Area) as all three tasks are about bedrooms. In supplemental
+materials, we report on a second experiment in which we use the
+3D-FRONT dataset [Fu et al. 2021] for five different 3D Room layout
+tasks. The key requirement for reusing a dataset is that it contains
+both positive and negative layouts for every task description. We
+also note that once a strong verifier has been constructed, it can be
+repeatedly used for verifier-guided layout generation—for example,
+to generate varying bedroom layouts in a video game environment.
+References
+BlenderKit Team. 2016.BlenderKit: Online Asset Library for Blender 3D. https://www.
+blenderkit.com Accessed: 2026-05-07.
+O. Chapelle, B. Scholkopf, and A. Zien, Eds. 2009. Semi-Supervised Learning (Chapelle,
+O. et al., Eds.; 2006) [Book reviews].IEEE Transactions on Neural Networks20, 3
+(2009), 542–542. doi:10.1109/TNN.2009.2015974
+Jian Chen, Ruiyi Zhang, Yufan Zhou, Jennifer Healey, Jiuxiang Gu, Zhiqiang Xu, and
+Changyou Chen. 2024. TextLap: Customizing Language Models for Text-to-Layout
+Planning.arXiv preprint arXiv:2410.12844(2024).
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz
+Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher
+Hesse, and John Schulman. 2021. Training Verifiers to Solve Math Word Problems.
+arXiv:2110.14168 [cs.LG] https://arxiv.org/abs/2110.14168
+Jonathan Cook, Tim Rocktäschel, Jakob Foerster, Dennis Aumiller, and Alex Wang.
+2024. TICKing All the Boxes: Generated Checklists Improve LLM Evaluation and
+Generation. arXiv:2410.03608 [cs.AI] https://arxiv.org/abs/2410.03608
+Yuhao Du, Shunian Chen, Wenbo Zan, Peizhao Li, Mingxuan Wang, Dingjie Song, Bo
+Li, Yan Hu, and Benyou Wang. 2024. BlenderLLM: Training Large Language Models
+for Computer-Aided Design with Self-improvement. arXiv:2412.14203 [cs.HC]
+https://arxiv.org/abs/2412.14203
+8•Zhang et al.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sug-
+ato Basu, Xin Eric Wang, and William Yang Wang. 2023. LayoutGPT: Composi-
+tional Visual Planning and Generation with Large Language Models.arXiv preprint
+arXiv:2305.15393(2023).
+Daniel Y. Fu, Mayee F. Chen, Frederic Sala, Sarah M. Hooper, Kayvon Fatahalian, and
+Christopher Ré. 2020. Fast and three-rious: speeding up weak supervision with
+triplet methods. InProceedings of the 37th International Conference on Machine
+Learning (ICML’20). JMLR.org, Article 307, 12 pages.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng,
+Chengyue Sun, Rongfei Jia, Binqiang Zhao, and Hao Zhang. 2021. 3D-FRONT:
+3D Furnished Rooms with layOuts and semaNTics. In2021 IEEE/CVF International
+Conference on Computer Vision (ICCV). 10913–10922. doi:10.1109/ICCV48922.2021.
+01075
+Zeqi Gu, Yin Cui, Max Li, Fangyin Wei, Yunhao Ge, Jinwei Gu, Ming-Yu Liu, Abe Davis,
+and Yifan Ding. 2025. ArtiScene: Language-Driven Artistic 3D Scene Generation
+Through Image Intermediary.arXiv preprint arXiv: 2506.00742(2025).
+Maxim Gumin, Do Heon Han, Seung Jean Yoo, Aditya Ganeshan, R. Kenny Jones,
+Kailiang Fu, Rio Aguina-Kang, Stewart Morris, and Daniel Ritchie. 2025. Procedural
+Scene Programs for Open-Universe Scene Generation: LLM-Free Error Correction
+via Program Search. InProceedings of the SIGGRAPH Asia 2025 Conference Papers
+(SA Conference Papers ’25). Association for Computing Machinery, New York, NY,
+USA, Article 141, 11 pages. doi:10.1145/3757377.3763930
+Atharva Gundawar, Karthik Valmeekam, Mudit Verma, and Subbarao Kambhampati.
+2024. Robust Planning with Compound LLM Architectures: An LLM-Modulo Ap-
+proach. arXiv:2411.14484 [cs.CL] https://arxiv.org/abs/2411.14484
+Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia
+Schmid, and Alireza Fathi. 2024. SceneCraft: an LLM agent for synthesizing 3D
+scenes as blender code. InProceedings of the 41st International Conference on Machine
+Learning(Vienna, Austria)(ICML’24). JMLR.org, Article 776, 31 pages.
+B. T. Jones, Z. Zhang, F. Hähnlein, W. Matusik, M. Ahmad, V. Kim,
+and A. Schulz. 2025. A Solver-Aided Hierarchical Language for
+LLM-Driven CAD Design.Computer Graphics Forum44, 7 (2025),
+e70250. arXiv:https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.70250
+doi:10.1111/cgf.70250
+Jiahao Li, Weijian Ma, Xueyang Li, Yunzhong Lou, Guichun Zhou, and Xiangdong Zhou.
+2025. CAD-Llama: Leveraging Large Language Models for Computer-Aided Design
+Parametric 3D Model Generation. In2025 IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR). 18563–18573. doi:10.1109/CVPR52734.2025.01730
+Zhiqiu Lin, Deepak Pathak, Baiqi Li, Jiayao Li, Xide Xia, Graham Neubig, Pengchuan
+Zhang, and Deva Ramanan. 2024. Evaluating Text-to-Visual Generation with Image-
+to-Text Generation.arXiv preprint arXiv:2404.01291(2024).
+Gabrielle Littlefair, Niladri Shekhar Dutt, and Niloy J Mitra. 2025. FlairGPT: Repurposing
+LLMs for Interior Designs.arXiv preprint arXiv:2501.04648(2025).
+Jiaju Ma and Maneesh Agrawala. 2025. MoVer: Motion Verification for Motion Graphics
+Animations.ACM Trans. Graph.44, 4, Article 33 (July 2025), 17 pages. doi:10.1145/
+3731209
+Xianzheng Ma, Tao Sun, Shuai Chen, Yash Bhalgat, Jindong Gu, Angel X Chang, Iro
+Armeni, Iro Laina, Songyou Peng, and Victor Adrian Prisacariu. 2026. Do 3D Large
+Language Models Really Understand 3D Spatial Relationships?. InThe Fourteenth
+International Conference on Learning Representations. https://arxiv.org/abs/2603.
+23523
+Julius Mayer, Mohamad Ballout, Serwan Jassim, Farbod Nosrat Nezami, and Elia Bruni.
+2025. iVISPAR – An Interactive Visual-Spatial Reasoning Benchmark for VLMs.
+arXiv:2502.03214 [cs.CL] https://arxiv.org/abs/2502.03214
+Wamiq Reyaz Para, Paul Guerrero, Niloy Mitra, and Peter Wonka. 2023. COFS: COn-
+trollable Furniture layout Synthesis. InACM SIGGRAPH 2023 Conference Proceedings
+(Los Angeles, CA, USA)(SIGGRAPH ’23). Association for Computing Machinery,
+New York, NY, USA, Article 36, 11 pages. doi:10.1145/3588432.3591561
+Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and
+Sanja Fidler. 2021. ATISS: Autoregressive Transformers for Indoor Scene Synthesis.
+InAdvances in Neural Information Processing Systems (NeurIPS).
+Nicholas Pfaff, Thomas Cohn, Sergey Zakharov, Rick Cory, and Russ Tedrake.
+2026. SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes.
+arXiv:2602.09153 [cs.RO] https://arxiv.org/abs/2602.09153
+Alexander Ratner, Stephen H. Bach, Henry Ehrenberg, Jason Fries, Sen Wu, and Christo-
+pher Ré. 2017. Snorkel: rapid training data creation with weak supervision.Proc.
+VLDB Endow.11, 3 (Nov. 2017), 269–282. doi:10.14778/3157794.3157797
+Alexander Ratner, Braden Hancock, Jared Dunnmon, Frederic Sala, Shreyash Pandey,
+and Christopher Ré. 2019. Training complex models with multi-task weak su-
+pervision. InProceedings of the Thirty-Third AAAI Conference on Artificial Intelli-
+gence and Thirty-First Innovative Applications of Artificial Intelligence Conference
+and Ninth AAAI Symposium on Educational Advances in Artificial Intelligence(Hon-
+olulu, Hawaii, USA)(AAAI’19/IAAI’19/EAAI’19). AAAI Press, Article 585, 9 pages.
+doi:10.1609/aaai.v33i01.33014763
+Alexander Ratner, Christopher De Sa, Sen Wu, Daniel Selsam, and Christopher Ré.
+2016a. Data programming: creating large training sets, quickly. InProceedings of the
+30th International Conference on Neural Information Processing Systems(Barcelona,
+Spain)(NIPS’16). Curran Associates Inc., Red Hook, NY, USA, 3574–3582.
+Alexander Ratner, Christopher De Sa, Sen Wu, Daniel Selsam, and Christopher Ré.
+2016b. Data programming: creating large training sets, quickly. InProceedings of the
+30th International Conference on Neural Information Processing Systems(Barcelona,
+Spain)(NIPS’16). Curran Associates Inc., Red Hook, NY, USA, 3574–3582.
+Jon Saad-Falcon, E. Kelly Buchanan, Mayee F. Chen, Tzu-Heng Huang, Brendan
+McLaughlin, Tanvir Bhathal, Shang Zhu, Ben Athiwaratkun, Frederic Sala, Scott
+Linderman, Azalia Mirhoseini, and Christopher Ré. 2025. Weaver: Shrinking the
+Generation-Verification Gap with Weak Verifiers. InConference on Neural Informa-
+tion Processing Systems. doi:10.48550/arXiv.2506.18203
+Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan,
+and Shunyu Yao. 2023. Reflexion: Language Agents with Verbal Reinforcement
+Learning. arXiv:2303.11366 [cs.AI]
+Jiao Sun, Deqing Fu, Yushi Hu, Su Wang, Royi Rassin, Da-Cheng Juan, Dana Alon,
+Charles Herrmann, Sjoerd Van Steenkiste, Ranjay Krishna, and Cyrus Rashtchian.
+2025. DreamSync: Aligning Text-to-Image Generation with Image Understanding
+Feedback. InProceedings of the 2025 Conference of the Nations of the Americas Chapter
+of the Association for Computational Linguistics: Human Language Technologies
+(Volume 1: Long Papers), Luis Chiruzzo, Alan Ritter, and Lu Wang (Eds.). Association
+for Computational Linguistics, Albuquerque, New Mexico, 5920–5945. doi:10.18653/
+v1/2025.naacl-long.304
+Hou In Ivan Tam, Hou In Derek Pun, Austin T. Wang, Angel X. Chang, and Manolis
+Savva. 2026. SceneEval: Evaluating Semantic Coherence in Text-Conditioned 3D
+Indoor Scene Synthesis. InProceedings of the IEEE Winter Conference on Applications
+of Computer Vision (W ACV).
+Sijun Tan, Siyuan Zhuang, Kyle Montgomery, Willian Y. Tang, Alejandro Cuadron,
+Chenguang Wang, Raluca Ada Popa, and Ion Stoica. 2024. JudgeBench: A Benchmark
+for Evaluating LLM-Based Judges. https://arxiv.org/abs/2410.12784
+Pat Verga, Sebastian Hofstatter, Sophia Althammer, Yixuan Su, Aleksandra Piktus,
+Arkady Arkhangorodsky, Minjie Xu, Naomi White, and Patrick Lewis. 2024. Replac-
+ing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models.
+arXiv:2404.18796 [cs.CL] https://arxiv.org/abs/2404.18796
+Jiayu Wang, Yifei Ming, Zhenmei Shi, Vibhav Vineet, Xin Wang, Yixuan Li, and Neel
+Joshi. 2024. Is A Picture Worth A Thousand Words? Delving Into Spatial Reasoning
+for Vision Language Models. InThe Thirty-Eighth Annual Conference on Neural
+Information Processing Systems.
+Kai Wang, Manolis Savva, Angel X. Chang, and Daniel Ritchie. 2018. Deep convolutional
+priors for indoor scene synthesis.ACM Trans. Graph.37, 4, Article 70 (July 2018),
+14 pages. doi:10.1145/3197517.3201362
+Peiyi Wang, Lei Li, Zhihong Shao, RX Xu, Damai Dai, Yifei Li, Deli Chen, Y Wu, and
+Zhifang Sui. 2023. Math-shepherd: Verify and reinforce llms step-by-step without
+human annotations.CoRR, abs/2312.08935(2023).
+Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. 2020. SceneFormer: Indoor
+Scene Generation with Transformers.2021 International Conference on 3D Vision
+(3DV)(2020), 106–115. https://api.semanticscholar.org/CorpusID:229297859
+Colin White, Samuel Dooley, Manley Roberts, Arka Pal, Benjamin Feuer, Siddhartha
+Jain, Ravid Shwartz-Ziv, Neel Jain, Khalid Saifullah, Sreemanti Dey, Shubh-Agrawal,
+Sandeep Singh Sandha, Siddartha Venkat Naidu, Chinmay Hegde, Yann LeCun, Tom
+Goldstein, Willie Neiswanger, and Micah Goldblum. 2025. LiveBench: A Challenging,
+Contamination-Free LLM Benchmark. InThe Thirteenth International Conference on
+Learning Representations.
+Ronghuan Wu, Wanchao Su, and Jing Liao. 2025. Chat2SVG: Vector Graphics Generation
+with Large Language Models and Image Diffusion Models. InProceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR). 23690–
+23700.
+Tong Wu, Guandao Yang, Zhibing Li, Kai Zhang, Ziwei Liu, Leonidas Guibas, Dahua
+Lin, and Gordon Wetzstein. 2024. GPT-4V(ision) is a Human-Aligned Evaluator for
+Text-to-3D Generation. InCVPR.
+Shaofeng Yin, Jiaxin Ge, Zora Zhiruo Wang, Xiuyu Li, Michael J. Black, Trevor Darrell,
+Angjoo Kanazawa, and Haiwen Feng. 2026. Vision-as-Inverse-Graphics Agent via
+Interleaved Multimodal Reasoning. arXiv:2601.11109 [cs.CV] https://arxiv.org/abs/
+2601.11109
+Lunjun Zhang, Arian Hosseini, Hritik Bansal, Mehran Kazemi, Aviral Kumar, and
+Rishabh Agarwal. 2024. Generative Verifiers: Reward Modeling as Next-Token
+Prediction. InThe 4th Workshop on Mathematical Reasoning and AI at NeurIPS’24.
+https://openreview.net/forum?id=CxHRoTLmPX
+Qihang Zhang, Chaoyang Wang, Aliaksandr Siarohin, Peiye Zhuang, Yinghao Xu,
+Ceyuan Yang, Dahua Lin, Bo Dai, Bolei Zhou, Sergey Tulyakov, and Hsin-Ying Lee.
+2023. SceneWiz3D: Towards Text-guided 3D Scene Composition. InarXiv.
+Xilin Zhang, Hao Wang, Jianbiao Dai, and Pinpin Zhu. 2025. InfoDesignLM: An LLM
+for Interactive and Controllable Infographic Designing Through Text. InDocument
+Analysis and Recognition – ICDAR 2025: 19th International Conference, Wuhan, China,
+September 16–21, 2025, Proceedings, Part I(Wuhan, China). Springer-Verlag, Berlin,
+Heidelberg, 200–218. doi:10.1007/978-3-032-04614-7_12
+Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation•9
+Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao
+Zhuang, Zi Lin, Zhuohan Li, Dacheng Li, Eric. P Xing, Hao Zhang, Joseph E. Gonzalez,
+and Ion Stoica. 2023. Judging LLM-as-a-judge with MT-Bench and Chatbot Arena.
+arXiv:2306.05685 [cs.CL]
+Xiaoyu Zhou, Xingjian Ran, Yajiao Xiong, Jinlin He, Zhiwei Lin, Yongtao Wang, Deqing
+Sun, and Ming-Hsuan Yang. 2024. Gala3d: Towards text-to-3d complex scene genera-
+tion via layout-guided generative gaussian splatting.arXiv preprint arXiv:2402.07207
+(2024).
+Lianghui Zhu, Xinggang Wang, and Xinlong Wang. 2023. JudgeLM: Fine-tuned Large
+Language Models are Scalable Judges. (2023). arXiv:2310.17631 [cs.CL]
+Mingchen Zhuge, Changsheng Zhao, Dylan R. Ashley, Wenyi Wang, Dmitrii Khizbullin,
+Yunyang Xiong, Zechun Liu, Ernie Chang, Raghuraman Krishnamoorthi, Yuandong
+Tian, Yangyang Shi, Vikas Chandra, and Jürgen Schmidhuber. 2025. Agent-as-
+a-Judge: Evaluate Agents with Agents. InProceedings of the 42nd International
+Conference on Machine Learning (Proceedings of Machine Learning Research, Vol. 267),
+Aarti Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix Berkenkamp,
+Tegan Maharaj, Kiri Wagstaff, and Jerry Zhu (Eds.). PMLR, 80569–80611. https:
+//proceedings.mlr.press/v267/zhuge25a.html
+10•Zhang et al.
+Fig. 3.Verifier-guided layout generation with Detailed feedback.A single layout example is generated by iteratively sampling a layout, verifying the
+output with our strong Weaver verifier, and re-generating using the verifier feedback (red boxes) if the verifier response isFalse. We repeat this until the
+layout passes or until we reach a maximum number of iterations.
+Fig. 4. The LLM judges incorrectly reject the two positive layouts on the left and accept the two negative layouts on the right. In the first negative layout, the
+dining table area crowd the pool table and do not leave enough space to play. In the second negative layout, there is no indication that the room is an arcade
+game room.
+Fig. 5. The LLM judges incorrectly reject the two positive layouts on the left and accept the two negative layouts on the right. In both negative layouts there
+are many major object intersections, such as between the wardrobes and chairs or the desk and nightstands. In the first negative layout, the paintings are also
+oriented perpendicularly to the walls, which is not physically plausible. In the second negative layout, it is not entirely clear that one student is very neat,
+as the clutter on the floor is close to both student desks. These requirements are expressed through the task description and the user’s dev set notes (see
+supplemental).
+Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation•11
+Fig. 6. The LLM judges incorrectly reject the two positive layouts on the left and accept the two negative layouts on the right. In the first negative layout, the
+location is out of bounds. In the second negative layout, the date is both out of bounds and hard to read due to extreme rotation.
+Fig. 7. The LLM judge incorrectly reject the two positive layouts on the left and accept the two negative layouts on the right. In the first negative layout the
+title words are not properly top-aligned and bottom-aligned. In the second negative layout, the title words are not contained in the four columns.
+Fig. 8. The LLM judges incorrectly reject the two positive layouts on the left and accept the two negative layouts on the right. In the first negative layout, the
+letters in ’CROSSWORD’ are off-center and spaced inconsistently. In the second negative layout, the title is not centered on the cover and extends out of
+bounds.
+Supplemental Materials: Aggregating LLM-Based Weak Verifiers for Spatial
+Layout Generation
+SHARON ZHANG,Stanford University, USA
+R. KENNY JONES,Stanford University, USA
+JIAJUN WU,Stanford University, USA
+MANEESH AGRAWALA,Stanford University, USA and Roblox, USA
+1 Overview
+This document provides additional details about our method and evaluations. The sections are organized as follows:
+• Section 2 provides more details about our data model and layout verification DSL, including a descriptions of
+all the queries in our DSL and a full list of attributes forelementsin our two domains;
+• Section 3 provides additional details about our weak verifier generation (Section 3.1) and weak verifier
+aggregation (Section 3.2);
+• Section 4 explains the details our generators for 3D room layouts and 2D posters, as well as our setups for
+Holodeck [8] and FlairGPT [4];
+•Section 5 provides descriptions of all 26 layout verification tasks;
+•Section 6 reports additional layout verification results and analysis;
+•Section 7 includes additional details and results on verifier-guided layout generation.
+The remaining sections list code examples and prompts:
+•Section 8 contains code listings referenced throughout the supplemental materials;
+•and Section 9 includes all the system prompts we use.
+2 Layout Verification DSL
+Table 1. The basic data model for anElement.
+Name Syntax Description
+Data model attributes
+id𝑒.idA unique identifier for𝑒.
+class𝑒.classThe class of𝑒.
+position𝑒.positionThe(𝑥, 𝑦, 𝑧)position of𝑒. In 2D layouts,𝑧indicates rendering depth order.
+size𝑒.sizeThe width, height, length of𝑒. In 2D layouts, length is ommitted.
+orientation𝑒.orientation In 3D, a set of up, forward and right direction vectors. In 2D, the rotation angle of the element.
+bbox𝑒.bboxThe oriented bounding box of𝑒.
+mesh𝑒.meshThe mesh geometry of𝑒.
+Table 1 lists the basic attributes in our data model for an Element. For each of the 3D rooms and 2D poster designs,
+we extend this list to include relevant domain-specific attributes that are useful for writing verifiers. Tables 2 shows
+Authors’ Contact Information: Sharon Zhang, szhang25@stanford.edu, Stanford University, Stanford, California, USA; R. Kenny Jones, rukjones4@gmail.
+com, Stanford University, Stanford, California, USA; Jiajun Wu, jiajunwu@cs.stanford.edu, Stanford University, Stanford, California, USA; Maneesh
+Agrawala, maneesh@cs.stanford.edu, Stanford University, Stanford, California, USA and Roblox, San Mateo, California, USA.
+1
+2 Zhang et al.
+Table 2. Attributes in our 3D scene layout implementation of theElementdata model.
+3D Scene Layouts
+Attribute Description
+idThe unique identifier of the element.
+classThe class category of the element.
+positionThe (x, y, z) position of the element center.
+sizeThe (width, height, depth) of the element.
+orientationWe express orientation as three(𝑥, 𝑦, 𝑧)vectors:right,up, andforward.
+bboxThe bounding box of an element.
+meshThe underlying mesh geometry of an element.
+Table 3. Attributes in our 2D poster layout implementation of theElementdata model.
+2D Poster Layouts
+Attribute Description
+idThe unique identifier of the element.
+classThe category of the element. In our posters we specify five different categories: {title,description,date,
+locationandhero_graphic}.
+positionThe (x, y) position of the element center.
+sizeThe (width, height) of the element.
+orientationThe angle, in degrees, of the orientation of the element.
+z-indexThe depth ordering of the element.
+textThe text string within the text box, may be empty.
+font_familyThe font family of the text.
+font_weightThe font weight of the text.
+justificationThe justification of the text.
+font_sizeThe font size of the text.
+text_colorThe color of the text.
+image_pathThe path to the image file, may be empty.
+the full data model for 3D scenes and and Table 3 shows the full data model 2D poster designs. Table 4 contains a
+comprehensive list of queries and descriptions in our layout verification DSL.
+3 Additional Method Details
+This section provides additional details about how we generate weak verifiers (Section 3.1), how we aggregate them
+(Section 3.2), and how we use the LLM judges (Section 3.3).
+3.1 Weak Verifier Generation
+The LLM-based weak verifier generation is split into three stages: documentation, implementation and verification
+message addition. The documentation stage prompts the LLM to generate Python function signatures and docstrings
+for each weak verifier. The implementation stage then prompts the LLM to implement the weak verifier based on the
+docstring. This two-step process splits the weak verifier generation process into planning and execution subtasks, but
+also encourages diversity in the weak verifiers.
+3.1.1 Documentation.In the documentation stage, we provide the LLM with either a holistic or property-specific system
+prompt, which includes a description of the domain-specific data model. The user prompt contains the task description
+and the dev set examples expressed in our data model. Each dev set example is annotated with the user-assigned
+positive/negative label, and any user notes. We query the LLM 50 times with the same user prompt to generate 50
+different function signatures and docstrings. The system prompt for this step is in Section 9, Listing 8.
+Supplemental Materials: Aggregating LLM-Based Weak Verifiers for Spatial Layout Generation 3
+Table 4. Our data model represents layouts as collections of elements. Our layout verification DSL includes layout-level and
+element-level queries about the positions, orientations and intersection properties of elements.
+Name Syntax Description
+Layout-level queries
+existsL, cls, n True if there exists at least 𝑛 instances of elements of a class cls in the layoutL.
+in_boundsL,𝑒,𝜖True if𝑒is contained entirely within𝜖of the bounds of layoutL.
+Position queries
+above𝑒 𝑖,𝑒 𝑗 True if any part of𝑒 𝑖 is above𝑒 𝑗 in the global𝑦-axis.
+entirely_above𝑒 𝑖,𝑒 𝑗 True if all of𝑒 𝑖 is above𝑒 𝑗 in the global𝑦-axis.
+below𝑒 𝑖,𝑒 𝑗 In 3D, true if any part of𝑒 𝑖 is below𝑒 𝑗 in the global𝑦-axis.
+entirely_below𝑒 𝑖,𝑒 𝑗 In 3D, true if all of𝑒 𝑖 is below𝑒 𝑗 in the global𝑦-axis.
+in_front𝑒 𝑖,𝑒 𝑗 ,orig,dirIn 3D, true if any part of𝑒 𝑖 is greater than𝑒 𝑗 along the𝑧-axis in the reference
+frame of a viewer standing atorigand looking in the directiondir. In 2D,
+simply𝑒 𝑖 .𝑧>𝑒 𝑗 .𝑧.
+entirely_in_front𝑒 𝑖,𝑒 𝑗 ,orig,dir In 3D, true if all of 𝑒𝑖 is greater than 𝑒 𝑗 along the 𝑧-axis in the reference frame of
+a viewer standing atorigand looking in the directiondir. In 2D,𝑒 𝑖 .𝑧>𝑒 𝑗 .𝑧
+and axis-aligned overlap in𝑥 𝑦.
+behind𝑒 𝑖,𝑒 𝑗 ,orig,dir In 3D, true if any part of 𝑒𝑖 is less than 𝑒 𝑗 along the 𝑧-axis in the reference frame
+of a viewer standing atorigand looking in the directiondir. In 2D, simply
+𝑒𝑖 .𝑧<𝑒 𝑗 .𝑧.
+entirely_behind𝑒 𝑖,𝑒 𝑗 ,orig,dirIn 3D, true if all of𝑒 𝑖 is less than𝑒 𝑗 along the𝑧-axis in the reference frame of a
+viewer standing at orig and looking in the direction dir. In 2D, 𝑒𝑖 .𝑧<𝑒 𝑗 .𝑧 and
+axis-aligned overlap in𝑥 𝑦.
+left_of𝑒 𝑖,𝑒 𝑗 ,ref In 3D, true if any part of 𝑒𝑖 is less than 𝑒 𝑗 along the 𝑥-axis in the reference frame
+ref. In 2D, we only use the global reference frame.
+right_of𝑒 𝑖,𝑒 𝑗 ,refIn 3D, true if any part of𝑒 𝑖 is greater than𝑒 𝑗 along the𝑥-axis in the reference
+frameref. In 2D, we only use the global reference frame.
+between𝑒 𝑖,𝑒 𝑗 ,𝑒 𝑘 True if𝑒 𝑖 intersects the convex hull of thebboxof𝑒 𝑗 and𝑒 𝑘.
+distance𝑒 𝑖,𝑒 𝑗 Returns the shortest distance between any two points on𝑒 𝑖 .bboxand𝑒 𝑗 .bbox.
+Size queries
+larger_than𝑒 𝑖,𝑒 𝑗 Checks if𝑒 𝑖 has greater volume (3D) or area (2D) than𝑒 𝑗 .
+smaller_than𝑒 𝑖,𝑒 𝑗 Checks if𝑒 𝑖 has smaller volume (3D) or area (2D) than𝑒 𝑗 .
+Orientation queries (3D only)
+facing_towards𝑒 𝑖,𝑒 𝑗 True if extruding the forward face of𝑒 𝑖 intersects𝑒 𝑗 .
+facing_away_from𝑒 𝑖,𝑒 𝑗 True if notfacing_towards(𝑒 𝑖,𝑒 𝑗 ).
+Bounding box queries
+contains𝑒 𝑖,𝑒 𝑗 Checks if𝑒 𝑖 contains𝑒 𝑗 .
+inside𝑒 𝑖,𝑒 𝑗 Checks if𝑒 𝑖 is entirely inside𝑒 𝑗 .
+iou𝑒 𝑖,𝑒 𝑗 Returns the intersection over union of the𝑒 𝑖.bboxand𝑒 𝑗 .bbox.
+coverage𝑒 𝑖,𝑒 𝑗 Returns the percentage of𝑒 𝑗 .bboxoverlapping with𝑒 𝑖.bbox.
+3.1.2 Implementation.In this stage, we provide the LLM with the system prompt in Section 9, Listing 10 (3D Rooms)
+and Section 9, Listing 11 (2D Posters) that includes our layout verification DSL and the element categories. We give the
+docstring generated in the documentation stage and the labeled dev set examples in the user prompt. An example (with
+dev set examples elided for brevity):
+1Implement the verifier function in Python from the following stub ( signature , docstring , and
+placeholder body ) .
+2
+3def verifier_12 ( scene : Scene3DLayout ) -> int :
+4'''
+5Holistically verify that the scene depicts a cozy bedroom with a bed and a
+6matched pair of nightstands that are identical and symmetrically arranged .
+7

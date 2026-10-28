@@ -1,0 +1,293 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.055,
+    "y": 0.325,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     215.5,
+     55.0
+    ],
+    [
+     215.5,
+     245.0
+    ],
+    [
+     -4.5,
+     245.0
+    ],
+    [
+     -4.5,
+     55.0
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 0.4,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     255.0
+    ],
+    [
+     50.5,
+     345.0
+    ],
+    [
+     -4.5,
+     345.0
+    ],
+    [
+     -4.5,
+     255.0
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "cabinet-1",
+   "id": "cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 0.425,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     365.0
+    ],
+    [
+     50.5,
+     475.0
+    ],
+    [
+     -4.5,
+     475.0
+    ],
+    [
+     -4.5,
+     365.0
+    ]
+   ],
+   "object_name": "cabinet-1"
+  },
+  {
+   "assetId": "cabinet-2",
+   "id": "cabinet-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 0.425,
+    "z": 5.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     485.0
+    ],
+    [
+     50.5,
+     595.0
+    ],
+    [
+     -4.5,
+     595.0
+    ],
+    [
+     -4.5,
+     485.0
+    ]
+   ],
+   "object_name": "cabinet-2"
+  },
+  {
+   "assetId": "shelf-0",
+   "id": "shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.1,
+    "y": 0.9,
+    "z": 6.569284648895263
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     560.0,
+     676.9284648895264
+    ],
+    [
+     560.0,
+     636.9284648895264
+    ],
+    [
+     460.0,
+     636.9284648895264
+    ],
+    [
+     460.0,
+     676.9284648895264
+    ]
+   ],
+   "object_name": "shelf-0"
+  },
+  {
+   "assetId": "shelf-1",
+   "id": "shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.9,
+    "y": 0.45,
+    "z": 6.594284648895264
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     435.0,
+     676.9284648895264
+    ],
+    [
+     435.0,
+     641.9284648895264
+    ],
+    [
+     345.0,
+     641.9284648895264
+    ],
+    [
+     345.0,
+     676.9284648895264
+    ]
+   ],
+   "object_name": "shelf-1"
+  },
+  {
+   "assetId": "table-0",
+   "id": "table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.419284172058106,
+    "y": 0.375,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     506.92841720581055,
+     25.0
+    ],
+    [
+     506.92841720581055,
+     155.0
+    ],
+    [
+     576.9284172058105,
+     155.0
+    ],
+    [
+     576.9284172058105,
+     25.0
+    ]
+   ],
+   "object_name": "table-0"
+  },
+  {
+   "assetId": "carpet-0",
+   "id": "carpet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.6,
+    "y": 0.0075,
+    "z": 1.605
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     485.0,
+     -4.5
+    ],
+    [
+     485.0,
+     325.5
+    ],
+    [
+     235.0,
+     325.5
+    ],
+    [
+     235.0,
+     -4.5
+    ]
+   ],
+   "object_name": "carpet-0"
+  }
+ ],
+ "wall": []
+}

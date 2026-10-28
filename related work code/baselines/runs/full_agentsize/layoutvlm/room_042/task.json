@@ -1,0 +1,37 @@
+{
+ "task_description": "a kitchen of about 8.0m x 8.7m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the oven (o0001) should be against a wall. the fridge (o0002) should be within 0.50 m of the stand (o0005). the cabinet (o0003) should be against a wall. the cabinet (o0004) should be within 0.20 m of the stand (o0005)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    8.045,
+    0.0,
+    0.0
+   ],
+   [
+    8.045,
+    8.732468,
+    0.0
+   ],
+   [
+    0.0,
+    8.732468,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {}
+ }
+}

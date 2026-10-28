@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bed, cabinet, carpet, chair, desk lamp, king size bed, lighting, nightstand, sofa, wardrobe \nOverall furniture frequencies: (bed: 0.2222; cabinet: 0.0556; carpet: 0.0556; chair: 0.0556; desk lamp: 0.0; king size bed: 0.0556; lighting: 0.0556; nightstand: 0.2222; sofa: 0.0556; wardrobe: 0.2222)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.69m, max width 3.19m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bed[obj_0000] {length: 1.57m; height: 0.94m; width: 2.10m; orientation: 180 degrees; left: 1.64m; top: 1.00m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.72m, max width 3.23m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bed[obj_0000] {length: 1.98m; height: 0.86m; width: 2.28m; orientation: 0 degrees; left: 1.14m; top: 1.04m; depth: 0.00m;}\nnightstand[obj_0001] {length: 0.64m; height: 0.98m; width: 0.59m; orientation: 0 degrees; left: 0.29m; top: 2.31m; depth: 0.00m;}\nwardrobe[obj_0002] {length: 1.82m; height: 2.50m; width: 0.58m; orientation: -90 degrees; left: 0.91m; top: 2.94m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.68m, max width 3.17m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bed[obj_0000] {length: 1.43m; height: 1.62m; width: 1.90m; orientation: 0 degrees; left: 1.07m; top: 1.59m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 1.65m; height: 2.40m; width: 0.41m; orientation: -90 degrees; left: 0.82m; top: 2.96m; depth: 0.00m;}\nnightstand[obj_0002] {length: 0.50m; height: 1.19m; width: 0.50m; orientation: 0 degrees; left: 0.37m; top: 0.54m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.67m, max width 3.17m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 1.70m; height: 2.40m; width: 0.54m; orientation: -90 degrees; left: 1.82m; top: 2.90m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.70m, max width 3.15m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "king size bed[obj_0000] {length: 2.30m; height: 0.78m; width: 2.42m; orientation: 0 degrees; left: 1.21m; top: 1.15m; depth: 0.00m;}\nnightstand[obj_0001] {length: 0.57m; height: 0.80m; width: 0.39m; orientation: 0 degrees; left: 0.11m; top: 2.40m; depth: 0.00m;}\nwardrobe[obj_0002] {length: 2.43m; height: 2.31m; width: 0.60m; orientation: -90 degrees; left: 1.26m; top: 2.85m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.66m, max width 3.24m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "cabinet[obj_0000] {length: 1.76m; height: 2.73m; width: 0.65m; orientation: 90 degrees; left: 0.88m; top: 0.33m; depth: -0.00m;}\nnightstand[obj_0001] {length: 0.53m; height: 1.20m; width: 0.50m; orientation: 0 degrees; left: 0.40m; top: 2.85m; depth: 0.00m;}\nbed[obj_0002] {length: 1.69m; height: 1.17m; width: 2.09m; orientation: 0 degrees; left: 1.04m; top: 1.76m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.73m, max width 3.25m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "lighting[obj_0000] {length: 0.02m; height: 2.34m; width: 0.03m; orientation: -90 degrees; left: 2.73m; top: 1.18m; depth: -0.09m;}\ncarpet[obj_0001] {length: 2.08m; height: 0.00m; width: 1.47m; orientation: 0 degrees; left: 0.97m; top: 1.07m; depth: -0.00m;}\nsofa[obj_0002] {length: 1.59m; height: 1.05m; width: 2.12m; orientation: 180 degrees; left: 1.63m; top: 0.90m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.68m, max width 3.26m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "chair[obj_0000] {length: 0.68m; height: 0.81m; width: 0.70m; orientation: -150 degrees; left: 0.96m; top: 2.69m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bedroom\nRoom Size: max length 2.70m, max width 3.20m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nwardrobe[obj_0000]: wardrobe\nbed[obj_0001]: bed\nnightstand[obj_0002]: nightstand\ndesk lamp[obj_0003]: desk lamp\nnightstand[obj_0004]: nightstand\nFloor polygon (left, top): (2.70, 0.00), (2.70, 3.20), (0.00, 3.20), (0.00, 0.00)\ndoor 0.80m wide at left 2.70m, top 0.42m\nwindow 1.80m wide at left 1.50m, top 3.20m\nLayout:\n"
+ }
+]

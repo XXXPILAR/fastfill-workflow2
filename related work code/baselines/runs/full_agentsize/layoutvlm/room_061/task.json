@@ -1,0 +1,76 @@
+{
+ "task_description": "a kitchen of about 6.6m x 7.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.78 m wide centred at (6.56, 5.20) (keep the floor in front of it clear); a window 1.86 m wide centred at (5.01, 7.81). the chair (o0005) should be between the chair (o0004) and the chair (o0010). the chair (o0010) should face the chair (o0005). the bin (o0001) should be within 0.10 m of the cabinet (o0017)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0390625,
+    7.8125,
+    0.0
+   ],
+   [
+    0.0,
+    7.7734375,
+    0.0
+   ],
+   [
+    0.0,
+    5.2734375,
+    0.0
+   ],
+   [
+    3.671875,
+    0.0390625,
+    0.0
+   ],
+   [
+    3.7109375,
+    0.0,
+    0.0
+   ],
+   [
+    6.5234375,
+    0.0,
+    0.0
+   ],
+   [
+    6.5625,
+    0.0390625,
+    0.0
+   ],
+   [
+    6.5625,
+    7.7734375,
+    0.0
+   ],
+   [
+    6.5234375,
+    7.8125,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {},
+  "o0018-0": {},
+  "o0019-0": {}
+ }
+}

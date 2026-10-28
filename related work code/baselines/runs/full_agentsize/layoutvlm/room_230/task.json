@@ -1,0 +1,106 @@
+{
+ "task_description": "a living room of about 11.2m x 7.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (7.89, 7.21) (keep the floor in front of it clear); a door 0.80 m wide centred at (6.64, 7.22) (keep the floor in front of it clear); a window 2.98 m wide centred at (0.00, 4.34); a door 0.88 m wide centred at (5.08, 2.25) (keep the floor in front of it clear); a door 1.85 m wide centred at (6.78, 2.25) (keep the floor in front of it clear); a door 0.96 m wide centred at (8.85, 0.00) (keep the floor in front of it clear); a door 2.80 m wide centred at (9.70, 1.40) (keep the floor in front of it clear); a window 3.41 m wide centred at (11.23, 4.75). the combination sofa (o0003) should be against a wall. the dining table combination (o0001) should be within 0.10 m of the refrigerator (o0000). the refrigerator (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    9.70003369140625,
+    6.250000122070313,
+    0.0
+   ],
+   [
+    9.70003369140625,
+    6.450000122070312,
+    0.0
+   ],
+   [
+    7.8880336914062505,
+    6.450000122070312,
+    0.0
+   ],
+   [
+    7.8880336914062505,
+    7.750000122070313,
+    0.0
+   ],
+   [
+    6.6380336914062505,
+    7.750000122070313,
+    0.0
+   ],
+   [
+    6.6380336914062505,
+    6.450000122070312,
+    0.0
+   ],
+   [
+    0.0,
+    6.450000122070312,
+    0.0
+   ],
+   [
+    0.0,
+    2.2499999389648435,
+    0.0
+   ],
+   [
+    7.86635595703125,
+    2.2499999694824218,
+    0.0
+   ],
+   [
+    7.86635595703125,
+    0.0,
+    0.0
+   ],
+   [
+    9.70003369140625,
+    0.0,
+    0.0
+   ],
+   [
+    9.70003369140625,
+    3.24,
+    0.0
+   ],
+   [
+    9.94003369140625,
+    3.24,
+    0.0
+   ],
+   [
+    9.94003369140625,
+    3.04,
+    0.0
+   ],
+   [
+    11.22803369140625,
+    3.04,
+    0.0
+   ],
+   [
+    11.22803369140625,
+    6.450000122070312,
+    0.0
+   ],
+   [
+    9.94003369140625,
+    6.450000122070312,
+    0.0
+   ],
+   [
+    9.94003369140625,
+    6.250000122070313,
+    0.0
+   ]
+  ],
+  "wall_height": 2.9
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

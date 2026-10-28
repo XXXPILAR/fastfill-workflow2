@@ -1,0 +1,221 @@
+{
+ "floor": [
+  {
+   "assetId": "freestanding pantry cabinet-0",
+   "id": "freestanding pantry cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 1.0,
+    "z": 2.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     145.0
+    ],
+    [
+     50.5,
+     255.0
+    ],
+    [
+     -4.5,
+     255.0
+    ],
+    [
+     -4.5,
+     145.0
+    ]
+   ],
+   "object_name": "freestanding pantry cabinet-0"
+  },
+  {
+   "assetId": "rolling kitchen cart-0",
+   "id": "rolling kitchen cart-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.45,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     407.5
+    ],
+    [
+     55.5,
+     492.5
+    ],
+    [
+     -4.5,
+     492.5
+    ],
+    [
+     -4.5,
+     407.5
+    ]
+   ],
+   "object_name": "rolling kitchen cart-0"
+  },
+  {
+   "assetId": "oven and stove unit-0",
+   "id": "oven and stove unit-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.67,
+    "y": 0.45,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     329.5,
+     400.0
+    ],
+    [
+     329.5,
+     500.0
+    ],
+    [
+     404.5,
+     500.0
+    ],
+    [
+     404.5,
+     400.0
+    ]
+   ],
+   "object_name": "oven and stove unit-0"
+  },
+  {
+   "assetId": "kitchen cabinet lower-1",
+   "id": "kitchen cabinet lower-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.695,
+    "y": 0.45,
+    "z": 2.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     334.5,
+     155.0
+    ],
+    [
+     334.5,
+     345.0
+    ],
+    [
+     404.5,
+     345.0
+    ],
+    [
+     404.5,
+     155.0
+    ]
+   ],
+   "object_name": "kitchen cabinet lower-1"
+  },
+  {
+   "assetId": "oven and stove unit-1",
+   "id": "oven and stove unit-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.45,
+    "z": 0.33
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     400.0,
+     -4.5
+    ],
+    [
+     400.0,
+     70.5
+    ],
+    [
+     300.0,
+     70.5
+    ],
+    [
+     300.0,
+     -4.5
+    ]
+   ],
+   "object_name": "oven and stove unit-1"
+  },
+  {
+   "assetId": "kitchen cabinet lower-0",
+   "id": "kitchen cabinet lower-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.25,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     220.0,
+     -4.5
+    ],
+    [
+     220.0,
+     65.5
+    ],
+    [
+     30.0,
+     65.5
+    ],
+    [
+     30.0,
+     -4.5
+    ]
+   ],
+   "object_name": "kitchen cabinet lower-0"
+  }
+ ],
+ "wall": []
+}

@@ -1,0 +1,43 @@
+{
+ "task_description": "a restroom male of about 5.0m x 5.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.02 m wide centred at (3.20, 0.00) (keep the floor in front of it clear); a window 1.22 m wide centred at (4.08, 5.00); a window 1.22 m wide centred at (2.57, 5.00); a window 1.22 m wide centred at (0.99, 5.00). the toilet suite (o0009) should be between the toilet suite (o0011) and the toilet suite (o0003). the entry bench (o0001) should be against a wall. the cleaning cabinet (o0008) should be within 0.20 m of the waste bin (o0005)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.0,
+    5.0,
+    0.0
+   ],
+   [
+    0.0,
+    5.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.2
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {}
+ }
+}

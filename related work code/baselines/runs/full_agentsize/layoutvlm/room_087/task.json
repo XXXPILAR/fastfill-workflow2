@@ -1,0 +1,62 @@
+{
+ "task_description": "a kitchen of about 3.3m x 5.3m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 2.15 m wide centred at (1.92, 0.00); a window 2.25 m wide centred at (3.26, 1.81); a door 0.89 m wide centred at (3.26, 4.19) (keep the floor in front of it clear); a window 1.48 m wide centred at (0.00, 1.42). the oven (o0008) should be between the cabinet (o0000) and the cabinet (o0017). the cabinet (o0017) should be against a wall. the refrigerator (o0012) should be within 0.10 m of the shelf (o0010)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.5,
+    0.5,
+    0.0
+   ],
+   [
+    0.5,
+    0.0,
+    0.0
+   ],
+   [
+    3.2601194381713867,
+    0.0,
+    0.0
+   ],
+   [
+    3.2601194381713867,
+    5.260119438171387,
+    0.0
+   ],
+   [
+    0.0,
+    5.260119438171387,
+    0.0
+   ],
+   [
+    0.0,
+    0.5,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {},
+  "o0018-0": {},
+  "o0019-0": {},
+  "o0020-0": {}
+ }
+}

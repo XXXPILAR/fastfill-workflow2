@@ -1,0 +1,190 @@
+{
+ "floor": [
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     200.0,
+     -4.5
+    ],
+    [
+     200.0,
+     65.5
+    ],
+    [
+     70.0,
+     65.5
+    ],
+    [
+     70.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "shelf-1",
+   "id": "shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.65,
+    "y": 0.9,
+    "z": 3.0992167663574217
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     207.5,
+     332.4216766357422
+    ],
+    [
+     207.5,
+     287.4216766357422
+    ],
+    [
+     122.5,
+     287.4216766357422
+    ],
+    [
+     122.5,
+     332.4216766357422
+    ]
+   ],
+   "object_name": "shelf-1"
+  },
+  {
+   "assetId": "shelf-0",
+   "id": "shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.18,
+    "y": 0.9,
+    "z": 0.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     40.5,
+     2.5
+    ],
+    [
+     40.5,
+     87.5
+    ],
+    [
+     -4.5,
+     87.5
+    ],
+    [
+     -4.5,
+     2.5
+    ]
+   ],
+   "object_name": "shelf-0"
+  },
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.355,
+    "y": 0.9,
+    "z": 1.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     75.5,
+     95.0
+    ],
+    [
+     75.5,
+     175.0
+    ],
+    [
+     -4.5,
+     175.0
+    ],
+    [
+     -4.5,
+     95.0
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "mirror-0",
+   "id": "mirror-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 1.6,
+    "z": 0.03
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     165.0,
+     0.0
+    ],
+    [
+     165.0,
+     4.0
+    ],
+    [
+     105.0,
+     4.0
+    ],
+    [
+     105.0,
+     0.0
+    ],
+    [
+     165.0,
+     0.0
+    ]
+   ],
+   "object_name": "mirror-0"
+  }
+ ]
+}

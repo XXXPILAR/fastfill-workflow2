@@ -1,0 +1,105 @@
+{
+ "k": 254,
+ "source": "SpatialLM",
+ "room_type": "study room",
+ "latency_s": 67.304939791793,
+ "usage": [
+  {
+   "prompt_tokens": 1086,
+   "completion_tokens": 3561,
+   "total_tokens": 4647,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3154,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0003 (bookcase) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0001 (desk) violates constraint"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.3,
+     0.65,
+     1.25
+    ],
+    "bottom_center_m": [
+     3.075,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.6,
+     1.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.3,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.14,
+     0.18,
+     0.24
+    ],
+    "bottom_center_m": [
+     2.78,
+     3.48,
+     1.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.3,
+     0.8,
+     1.9
+    ],
+    "bottom_center_m": [
+     2.77,
+     3.468,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.4,
+     1.17,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe desk is placed along the south wall, clear of the south doorway, with its working side facing north. The chair sits in front of it and faces back toward the desk. A smaller bookcase is positioned close to the chair along the east wall, while the second bookcase occupies the narrow north-wall section to the right of the window; both are in the desk’s forward direction. The ornament rests on the north bookcase. The central and western portions remain open, providing a clear route between both doors and access to the window and furniture.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.65,\"depth_m\":0.3,\"height_m\":1.25,\"x\":3.075,\"y\":1.25,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":1.2,\"depth_m\":0.6,\"height_m\":0.75,\"x\":2.3,\"y\":0.3,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.18,\"depth_m\":0.14,\"height_m\":0.24,\"x\":2.78,\"y\":3.48,\"z\":1.9,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.8,\"depth_m\":0.3,\"height_m\":1.9,\"x\":2.77,\"y\":3.468,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.85,\"x\":2.4,\"y\":1.17,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.225 m x 3.618 m x 2.800 m\nfloor polygon (x, y): [[0.0, 3.618], [0.0, 0.0], [3.225, 0.0], [3.225, 3.617]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"bookcase\", \"description\": \"bookcase\"},\n{\"id\": \"obj_0001\", \"category\": \"desk\", \"description\": \"desk\"},\n{\"id\": \"obj_0002\", \"category\": \"ornaments\", \"description\": \"ornaments\"},\n{\"id\": \"obj_0003\", \"category\": \"bookcase\", \"description\": \"bookcase\"},\n{\"id\": \"obj_0004\", \"category\": \"chair\", \"description\": \"chair\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.0, 2.993], \"wall_from\": [0.0, 3.618], \"wall_to\": [0.0, 0.0], \"width_m\": 0.85, \"height_m\": 2.35}, {\"type\": \"door\", \"centre_xy\": [0.505, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [3.225, 0.0], \"width_m\": 0.85, \"height_m\": 2.35}, {\"type\": \"window\", \"centre_xy\": [1.502, 3.618], \"wall_from\": [3.225, 3.617], \"wall_to\": [0.0, 3.618], \"width_m\": 1.62, \"height_m\": 1.81, \"sill_height_m\": 0.528}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0003\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0003\"}, {\"type\": \"near\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0004\", \"max_distance_m\": 0.3}, {\"type\": \"faces\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,128 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_022",
+ "room_type": "living room",
+ "room": {
+  "width": 10.1967,
+  "length": 3.96,
+  "height": 2.6
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 7
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "tv stand",
+   "asset_key": "tv_stand_526ee300",
+   "description": "A modern media console with a sleek design, featuring multiple compartments and drawers for storage. It has a rectangular shape with a flat top surface and is supported by thin legs.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "wine cabinet",
+   "asset_key": "wine_cabinet_1ab3b3ce",
+   "description": "A tall, dark-colored wine rack cabinet with multiple shelves and compartments. It features a central section for storing wine bottles in a diamond pattern, surrounded by open shelves and closed cabinets at the bottom.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "l shaped sofa",
+   "asset_key": "l_shaped_sofa_ee10a9e0",
+   "description": "A modern sectional sofa with a light gray fabric upholstery and dark wooden legs. It features a chaise lounge on one side and multiple cushioned seats along its length.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "washing machine",
+   "asset_key": "washing_machine_6390f65c",
+   "description": "A black washing machine with a circular door and control panel on the top right side. It has a sleek design with smooth surfaces and a rectangular base.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "potted plant",
+   "asset_key": "potted_plant_af71f13d",
+   "description": "A potted plant with broad green leaves and a textured brown trunk, placed in a white spherical pot on a black square base.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "coffee table",
+   "asset_key": "coffee_table_0af84799",
+   "description": "A modern ottoman with a sleek design, featuring a rectangular shape and rounded edges. It has a dark gray or black cushioned top and a lighter gray base with a wavy texture along the edge.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "sideboard",
+   "asset_key": "sideboard_bfe92a3b",
+   "description": "A wooden cabinet with a dark brown finish and three gray doors. It has a simple design with a flat top surface and a base that extends slightly outward.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  }
+ ]
+}

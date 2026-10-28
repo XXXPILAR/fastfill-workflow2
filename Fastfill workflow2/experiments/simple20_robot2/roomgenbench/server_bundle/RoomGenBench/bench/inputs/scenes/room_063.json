@@ -1,0 +1,932 @@
+{
+ "scene_key": "room_063",
+ "room_type": "room",
+ "building_style": "",
+ "prompt": "",
+ "room": {
+  "dimensions": {
+   "width": 6.484375,
+   "length": 7.65625,
+   "height": 2.8
+  },
+  "position": {
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "ceiling_height": 2.8,
+  "walls": [
+   {
+    "id": "wall_0",
+    "start_point": {
+     "x": 0.0,
+     "y": 7.6171875,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 0.0390625,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_1",
+    "start_point": {
+     "x": 0.0,
+     "y": 0.0390625,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0390625,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_2",
+    "start_point": {
+     "x": 0.0390625,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.4453125,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_3",
+    "start_point": {
+     "x": 6.4453125,
+     "y": 0.0,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.484375,
+     "y": 0.0390625,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_4",
+    "start_point": {
+     "x": 6.484375,
+     "y": 0.0390625,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.484375,
+     "y": 7.6171875,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_5",
+    "start_point": {
+     "x": 6.484375,
+     "y": 7.6171875,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 6.4453125,
+     "y": 7.65625,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_6",
+    "start_point": {
+     "x": 6.4453125,
+     "y": 7.65625,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0390625,
+     "y": 7.65625,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   },
+   {
+    "id": "wall_7",
+    "start_point": {
+     "x": 0.0390625,
+     "y": 7.65625,
+     "z": 0.0
+    },
+    "end_point": {
+     "x": 0.0,
+     "y": 7.6171875,
+     "z": 0.0
+    },
+    "height": 2.8,
+    "thickness": 0.1
+   }
+  ],
+  "doors": [
+   {
+    "id": "opening_0",
+    "wall_id": "wall_4",
+    "position_on_wall": 0.222815,
+    "width": 1.9152,
+    "height": 1.9136,
+    "door_type": "door"
+   },
+   {
+    "id": "opening_1",
+    "wall_id": "wall_4",
+    "position_on_wall": 0.675424,
+    "width": 3.7723,
+    "height": 2.1539,
+    "door_type": "door"
+   }
+  ],
+  "windows": []
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "cabinet",
+   "description": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "position": {
+    "x": 5.0107,
+    "y": 0.348,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 1.2717902660369873,
+    "length": 0.5712657570838928,
+    "height": 1.010715126991272
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0001",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 1.25,
+    "y": 2.55,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.5363155007362366,
+    "length": 0.5182479023933411,
+    "height": 0.9723103642463684
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0002",
+   "type": "table",
+   "description": "table",
+   "asset_key": "table_c3ee137d",
+   "position": {
+    "x": 3.5,
+    "y": 2.48,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.3999999999999751
+   },
+   "dimensions": {
+    "width": 1.0294276475906372,
+    "length": 1.0222750902175903,
+    "height": 0.7427564859390259
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0003",
+   "type": "basket",
+   "description": "basket",
+   "asset_key": "basket_c9be014f",
+   "position": {
+    "x": 0.7,
+    "y": 1.45,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.5999999999999627
+   },
+   "dimensions": {
+    "width": 0.4886169135570526,
+    "length": 0.48619747161865234,
+    "height": 0.45208287239074707
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0004",
+   "type": "table",
+   "description": "table",
+   "asset_key": "table_c3ee137d",
+   "position": {
+    "x": 1.25,
+    "y": 3.35,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.5753840208053589,
+    "length": 0.6377292275428772,
+    "height": 0.7318282723426819
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0005",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 1.25,
+    "y": 4.1,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.5655736923217773,
+    "length": 0.5672942399978638,
+    "height": 0.952425479888916
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0006",
+   "type": "refrigerator",
+   "description": "refrigerator",
+   "asset_key": "refrigerator_a473593d",
+   "position": {
+    "x": 3.13,
+    "y": 0.362,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.09999999999999377
+   },
+   "dimensions": {
+    "width": 0.7715087532997131,
+    "length": 0.7219148874282837,
+    "height": 1.808068871498108
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0007",
+   "type": "cabinet",
+   "description": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "position": {
+    "x": 3.905,
+    "y": 0.334,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.3999999999999751
+   },
+   "dimensions": {
+    "width": 0.7506583333015442,
+    "length": 0.6609127521514893,
+    "height": 0.9697605967521667
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0008",
+   "type": "cabinet",
+   "description": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "position": {
+    "x": 0.45,
+    "y": 7.333,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -179.9
+   },
+   "dimensions": {
+    "width": 0.7507014274597168,
+    "length": 0.6451569199562073,
+    "height": 0.9057018756866455
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0009",
+   "type": "cup",
+   "description": "cup",
+   "asset_key": "cup_ad00c690",
+   "position": {
+    "x": 3.83,
+    "y": 2.48,
+    "z": 0.7427564859390259
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.29999999999998134
+   },
+   "dimensions": {
+    "width": 0.2751017212867737,
+    "length": 0.2945200502872467,
+    "height": 0.24755460023880005
+   },
+   "place_id": "obj_0002"
+  },
+  {
+   "id": "obj_0010",
+   "type": "backpack",
+   "description": "backpack",
+   "asset_key": "backpack_d49f2e76",
+   "position": {
+    "x": 3.25,
+    "y": 6.7,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 179.2
+   },
+   "dimensions": {
+    "width": 0.3811217248439789,
+    "length": 0.3555992543697357,
+    "height": 0.4304194152355194
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0011",
+   "type": "cabinet",
+   "description": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "position": {
+    "x": 1.2354,
+    "y": 7.3236,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 0.6966856718063354,
+    "length": 0.5954057574272156,
+    "height": 0.9182066917419434
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0012",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 0.5,
+    "y": 3.35,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 0.5626710057258606,
+    "length": 0.4989379644393921,
+    "height": 0.9983682036399841
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0013",
+   "type": "cabinet",
+   "description": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "position": {
+    "x": 5.0107,
+    "y": 1.7401,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.7408549785614014,
+    "length": 0.7126230001449585,
+    "height": 0.9207967519760132
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0014",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 1.95,
+    "y": 3.35,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.5018689036369324,
+    "length": 0.5063762664794922,
+    "height": 0.9915845990180969
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0015",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 4.95,
+    "y": 5.4,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 90.0
+   },
+   "dimensions": {
+    "width": 0.539288341999054,
+    "length": 0.5406749844551086,
+    "height": 0.9213094115257263
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0016",
+   "type": "dishwasher",
+   "description": "dishwasher",
+   "asset_key": "dishwasher_35f1e81b",
+   "position": {
+    "x": 5.9877,
+    "y": 0.3558,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.6600693464279175,
+    "length": 0.6316829323768616,
+    "height": 1.0195178985595703
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0017",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 2.8,
+    "y": 1.6,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.5133750438690186,
+    "length": 0.5180909037590027,
+    "height": 0.8871616125106812
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0018",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 5.4,
+    "y": 6.1,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 116.59999999999998
+   },
+   "dimensions": {
+    "width": 0.5286985039710999,
+    "length": 0.5690515041351318,
+    "height": 0.9015559554100037
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0019",
+   "type": "couch",
+   "description": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "position": {
+    "x": 3.98,
+    "y": 4.01,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.3999999999999751
+   },
+   "dimensions": {
+    "width": 2.3510892391204834,
+    "length": 1.0372798442840576,
+    "height": 0.9322060942649841
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0020",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 2.55,
+    "y": 6.4,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -124.60000000000001
+   },
+   "dimensions": {
+    "width": 0.5307130217552185,
+    "length": 0.5793078541755676,
+    "height": 0.8709433674812317
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0021",
+   "type": "kettle",
+   "description": "kettle",
+   "asset_key": "kettle_95188fa6",
+   "position": {
+    "x": 4.7711,
+    "y": 1.8609,
+    "z": 0.9207967519760132
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.4999999999999689
+   },
+   "dimensions": {
+    "width": 0.24650968611240387,
+    "length": 0.2530406415462494,
+    "height": 0.24943026900291443
+   },
+   "place_id": "obj_0013"
+  },
+  {
+   "id": "obj_0022",
+   "type": "can",
+   "description": "can",
+   "asset_key": "can_7e9219a0",
+   "position": {
+    "x": 5.1411,
+    "y": 1.8596,
+    "z": 0.9207967519760132
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.3999999999999751
+   },
+   "dimensions": {
+    "width": 0.25090712308883667,
+    "length": 0.2463289052248001,
+    "height": 0.23760059475898743
+   },
+   "place_id": "obj_0013"
+  },
+  {
+   "id": "obj_0023",
+   "type": "box",
+   "description": "box",
+   "asset_key": "box_c7d8a6d7",
+   "position": {
+    "x": 0.35,
+    "y": 2.05,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.7000000000000074
+   },
+   "dimensions": {
+    "width": 0.37581005692481995,
+    "length": 0.37364619970321655,
+    "height": 0.27903932332992554
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0024",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 2.15,
+    "y": 1.68,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -117.60000000000001
+   },
+   "dimensions": {
+    "width": 0.5587370991706848,
+    "length": 0.5570802688598633,
+    "height": 0.823195219039917
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0025",
+   "type": "table",
+   "description": "table",
+   "asset_key": "table_c3ee137d",
+   "position": {
+    "x": 4.0,
+    "y": 5.4,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.4999999999999689
+   },
+   "dimensions": {
+    "width": 0.6456671357154846,
+    "length": 0.5771990418434143,
+    "height": 0.7021765112876892
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0026",
+   "type": "stool",
+   "description": "stool",
+   "asset_key": "stool_377a599d",
+   "position": {
+    "x": 2.0,
+    "y": 7.25,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.29999999999998134
+   },
+   "dimensions": {
+    "width": 0.45971623063087463,
+    "length": 0.4338017404079437,
+    "height": 0.41015559434890747
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0027",
+   "type": "couch",
+   "description": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "position": {
+    "x": 2.9,
+    "y": 5.4,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -90.0
+   },
+   "dimensions": {
+    "width": 1.1791625022888184,
+    "length": 1.0506007671356201,
+    "height": 0.8562769293785095
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0028",
+   "type": "cup",
+   "description": "cup",
+   "asset_key": "cup_ad00c690",
+   "position": {
+    "x": 3.82,
+    "y": 5.23,
+    "z": 0.7021765112876892
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.5999999999999627
+   },
+   "dimensions": {
+    "width": 0.21033300459384918,
+    "length": 0.23389975726604462,
+    "height": 0.17305880784988403
+   },
+   "place_id": "obj_0025"
+  },
+  {
+   "id": "obj_0029",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 4.2,
+    "y": 1.6,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.527689516544342,
+    "length": 0.5412608981132507,
+    "height": 0.872468113899231
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0030",
+   "type": "cabinet",
+   "description": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "position": {
+    "x": 2.327,
+    "y": 0.347,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.6904550790786743,
+    "length": 0.6139460206031799,
+    "height": 0.8457491993904114
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0031",
+   "type": "chair",
+   "description": "chair",
+   "asset_key": "chair_851e13a6",
+   "position": {
+    "x": 3.5,
+    "y": 1.6,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.0
+   },
+   "dimensions": {
+    "width": 0.5757628679275513,
+    "length": 0.5840349197387695,
+    "height": 0.9462687373161316
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "obj_0032",
+   "type": "cup",
+   "description": "cup",
+   "asset_key": "cup_ad00c690",
+   "position": {
+    "x": 4.16,
+    "y": 5.23,
+    "z": 0.7021765112876892
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -0.4999999999999689
+   },
+   "dimensions": {
+    "width": 0.21105994284152985,
+    "length": 0.2138662189245224,
+    "height": 0.17968830466270447
+   },
+   "place_id": "obj_0025"
+  },
+  {
+   "id": "obj_0033",
+   "type": "couch",
+   "description": "couch",
+   "asset_key": "couch_2d9dbdc5",
+   "position": {
+    "x": 4.0,
+    "y": 6.4,
+    "z": 0.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": -180.0
+   },
+   "dimensions": {
+    "width": 1.063285231590271,
+    "length": 0.9700813293457031,
+    "height": 0.6629611849784851
+   },
+   "place_id": "floor"
+  },
+  {
+   "id": "fixed_0001",
+   "type": "fireplace",
+   "description": "fireplace",
+   "asset_key": "fireplace_7b363470",
+   "position": {
+    "x": 1.1648871639178902,
+    "y": 0.27837685213693675,
+    "z": 0.008756865173254136
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0.164324267885896
+   },
+   "dimensions": {
+    "width": 1.5637078105427045,
+    "length": 0.580552946820354,
+    "height": 1.2954399119517368
+   },
+   "place_id": "floor"
+  }
+ ]
+}

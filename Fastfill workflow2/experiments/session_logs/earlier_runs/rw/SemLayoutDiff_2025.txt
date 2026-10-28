@@ -1,0 +1,1173 @@
+SemLayoutDiff: Semantic Layout Generation with Diffusion Model
+for Indoor Scene Synthesis
+Xiaohao Sun1 Divyam Goel 2 Angel X. Chang 1,3
+1Simon Fraser University 2CMU 3Alberta Machine Intelligence Institute (Amii)
+3dlg-hcvc.github.io/SemLayoutDiff/
+Architecture Mask Conditioning
+Semantic Map
+3D LayoutFinal Scene
+Arch Mask
+LivingRoom
+Semantic MapFinal Scene
+Unconditional
+Living Room
+Figure 1. S EMLAYOUT DIFF generates 3D scenes conditioned on an architectural map or unconditionally. Left (full pipeline): With
+architectural conditioning and room type label, S EMLAYOUT DIFF synthesizes a 2D semantic layout map, predicts 3D attributes to form
+bounding box layouts, and retrieves objects to construct a final scene. Right: In the unconditional setting, SEMLAYOUT DIFF generates the
+architecture map and the semantic layout map from noise and room type label before synthesizing the scene (3D layout stage not shown).
+Abstract
+We present SemLayoutDiff, a unified model for synthe-
+sizing diverse 3D indoor scenes across multiple room types.
+The model introduces a scene layout representation com-
+bining a top-down semantic map and attributes for each
+object. Unlike prior approaches, which cannot condition
+on architectural constraints, SemLayoutDiff employs a cat-
+egorical diffusion model capable of conditioning scene syn-
+thesis explicitly on room masks. It first generates a coher-
+ent semantic map, followed by a cross-attention-based net-
+work to predict furniture placements that respect the syn-
+thesized layout. Our method also accounts for architectural
+elements such as doors and windows, ensuring that gen-
+erated furniture arrangements remain practical and unob-
+structed. Experiments on the 3D-FRONT dataset show that
+SemLayoutDiff produces spatially coherent, realistic, and
+varied scenes, outperforming previous methods.
+1. Introduction
+Automatic 3D indoor environment generation has many ap-
+plications such as assisting content designers for AR/VR,
+video games, and serving as training data for computer vi-
+sion models [29] and embodied AI agents [6]. Various
+approaches have been proposed for generating 3D indoor
+scenes. Typically, these methods separate the task into two
+steps: 1) generating a coarse layout specifying the seman-
+tic categories and positions of objects, and 2) retrieving and
+placing suitable objects based on the generated layout.
+Early attempts used design guidelines [25] to deter-
+mine the object arrangement. These approaches used hand-
+crafted rules, limiting generalization to diverse types of
+scenes. Fisher et al. [9] introduced data-driven object place-
+ment. Since then, various deep learning techniques have
+been used for layout generation, including autoregressive
+models [27, 41, 43], graph neural networks [42], and diffu-
+sion over graphs [39]. More recently, LLMs have been used
+for open-vocabulary scene generation [1].
+While LLMs are useful for providing priors on what ob-
+jects are present and semantic relations between objects,
+they struggle to precisely place objects. Thus, researchers
+still actively investigate what can be learned via training on
+3D scenes [16, 39]. Recent works trained on 3D scenes
+share common limitations: 1) room architecture is not han-
+dled, 2) interpenetration of objects, 3) lack of unified model
+that can be conditioned with different inputs (separate mod-
+els typically trained for each room type).
+To address the first two issues, we propose the use of a
+2D top-down semantic map to represent the layout. In this
+semantic map, each cell represents one object category. By
+including architectural elements such as floors, doors, and
+windows, the representation also accommodatesgeneration
+of the room as well as layout of objects in the room. The
+representation naturally ensures that objects do not overlap
+arXiv:2508.18597v2  [cs.GR]  6 Sep 2025
+and floorplan constraints are properly maintained as shown
+in related work [34, 53]. Specifically, we use a categori-
+cal diffusion model to generate the top-down semantic map.
+From the semantic map, we extract the object instances and
+their attributes (e.g., semantic category, size, orientation).
+We also tackle training a unified model across room
+types that can be conditioned on the architecture and room
+type. We demonstrate that we can train a unified model that
+handles different room types and generates more plausible
+and realistic layouts. In summary, our contributions are:
+• A novel scene representation using semantic layout maps
+with instance attributes, which enables simultaneous ob-
+ject placement and better captures spatial relationships
+• A categorical diffusion model for scene synthesis by gen-
+erating semantic maps, enabling a unified approach that
+efficiently handles diverse layouts across room types, cap-
+tures architectural constraints and furniture relationships,
+and reduces out-of-bound and object intersection issues.
+• Our model incorporates architectural elements by gener-
+ating the room together with the objects, and conditioning
+on the architecture.
+2. Related work
+Rule-based and statistical prior indoor scene synthesis.
+Early work relied on placement constraints [47] and rules
+based on interior design principles [25] to place objects.
+Following these works, Fisher et al. [9] learned object ar-
+rangements from a 3D scene database by modeling the co-
+occurrence and spatial relationship of pairs of objects and
+constructing scenes hierarchically based on support.
+Deep-learning based scene synthesis. Wang et al. [41], in-
+troduced auto-regressive scene generation and used CNNs
+for scene synthesis by representing scenes as 2D top-down
+images, with multiple channels encoding information such
+as floor layout, object semantic mask, etc. Followup work
+improved generation efficiency [30], and used transformers
+to decode the objects [26, 27, 37, 43]. Scenes were also
+modeled using graphs: a scene-hierarchy [12, 20], a rela-
+tionship graph [23, 42, 51, 54], or a hybrid representation
+that combines scene-graphs with top-down image based
+representation [53]. Recent work [21, 36, 39] trains de-
+noising diffusion model to generate the scene graph, with
+some work incorporating a floor plan as a conditioning sig-
+nal [16, 24] and loss terms to avoid collisions [49].
+We advocate the use of 2D top-down images as in Wang
+et al. [41]. Instead of autoregressively adding one object at
+a time, we use diffusion to layout all objects together. By
+working directly in image space, the model can ensure that
+the position of the objects is within the floor plan. Concur-
+rent to our work, Su et al. [34] used diffusion-based models
+to generate a semantic layout conditioned on floor plan, but
+uses continuous instead of discrete categorical outputs.
+LLM/VLM-based scene generation. As LLMs and VLMs
+capture common-sense knowledge about object placements
+in rooms, researchers developed frameworks that lever-
+age LLMs to generate more open-world scenes based on
+text [3, 17, 45, 50] and/or visual information [35]. While
+the use of LLMs/VLMs is a promising direction, we inves-
+tigate whether we can train a unified model that generates
+reasonable semantic layouts using diffusion.
+Combined layout and object generation. With advances
+in 3D shape generation, recent work has studied how to gen-
+erate objects for a specified layout using NeRF in a com-
+positional setting [5, 22, 28]. Our model can be used to
+specify the initial layout used by these compositional ap-
+proaches. Some works generate both the layout and the ob-
+jects [11, 40, 51, 52], typically with a graph-based repre-
+sentation for the layout and then a shape generator for each
+object. Some [51, 52] still learn priors on the placement of
+objects from 3D datasets such as 3D-FRONT [10], while
+others [11] use an LLM to convert text to semantic scene-
+graphs, which are then used to generate relative positions of
+objects. We demonstrate in Fig. 8 that layouts generated by
+our model can also be combined with generated objects.
+Diffusion models for layout generation. Diffusion has
+also been applied to 2D layout synthesis [14, 31–33]. Chai
+et al. [4] explore graphic layout generation with a newly de-
+signed transformer-based denoiser. Inoue et al. [18] formu-
+late a discrete diffusion model for layout generation, which
+can solve diverse tasks via a single model using complex
+layout constraints. Another work [15] shows that using a
+multinomial diffusion model over categorical data, it is pos-
+sible to generate 2D semantic maps. We take inspiration
+from diffusion for 2D layouts, and use diffusion to gener-
+ate a 2D top-down semantic map that captures the spatial
+relationship between all objects.
+3. Semantic Layout Representation
+In recent scene generation work, the scene is represented
+as a sequence of objects [27] with corresponding attributes
+(category, location, etc.) or a scene graph [39] where nodes
+indicate objects and edges indicate object relations. Both
+approaches face the problem of overlapping objects and do
+not necessarily respect the floor boundary.
+To tackle this problem, we represent the scene as a se-
+mantic map with exact instance annotation, shown in Fig. 2.
+The semantic map, denoted asS∈ RH×W , represents the
+semantic segmentation of a top-down projection of a room,
+encoding both location and object category. Each pixel cor-
+responds to fixed physical dimensions. We use a scale of
+s = 0.01 meters (i.e., a pixel is 0.01 meters). We denote the
+instance-level annotations asI ={Oi} wherei = 1,...,N ,
+where N is the total number of objects within the room.
+Each instanceOi is defined by Oi ={ci,si,pi,ri}, repre-
+senting an object’s category, size, position, and orientation.
+The category ci ∈ {0, 1}K is a categorical variable over
+Figure 2. Semantic map representation example. We represent the
+scene in two parts: the 2D top-down semantic map with a fixed
+physical unit per pixel (middle) and the 3D bounding boxes with
+orientations for object-level attributes (right). Note that the left
+image is the corresponding rendered scene.
+the total number of semantic categories K in the dataset,
+where K = C + 4. Here, C is the number of object
+types, and the additional categories represent architectural
+elements: void (outside room boundaries), floor, door,
+and window. Including floors, doors, and windows enables
+our model to generate the room together with the objects,
+while also handling architectural constraints. Our frame-
+work can be simplified to scenarios without doors and win-
+dows by reducing the semantic categories to K = C + 2,
+representing only floor and void. This simplified setting
+is similar to conditioning by floor as in prior work [16, 27].
+However, our method simultaneously generates the room
+and object layouts, even under unconditional generation.
+For each object instance Oi, in addition to the semantic
+categoryci, we also specify the bounding box sizesi∈ R3,
+position pi ∈ R3, and orientation ri. For the orientation,
+we only consider the rotation of objects about the up (ver-
+tical) axis. From analyzing the orientation of objects in
+3D-FRONT, we observed that over 97% of orientations are
+aligned with the coordinate axes. Thus we restrict our prob-
+lem to predicting four distinct orientation classes and use a
+categorical variableri∈{ 0, 1, 2, 3} to indicate the object’s
+front direction corresponding to 0◦, 90◦, 180◦, 270◦.
+We process the scene data using BlenderProc [7] to ren-
+der top-down views of the rooms, producing both semantic
+map and instance-level annotations. The camera parameters
+ensure consistent pixel-to-meter scaling. Images are padded
+to a fixed size (1200× 1200, representing 12m× 12m). Fi-
+nally, we apply the filtering strategy from ATISS [27] to
+ensure data quality. More details are in App. B.1.
+4. Method
+Unlike previous methods [16, 27, 39], our unified model
+generates all room types with a single model. It generates
+both the architecture and furniture objects at the same time
+in an unconditional way. Furthermore, it takes a room mask
+as input condition, and generates layouts conditioned on
+just the floormask or the full architecture mask (archmask
+for short). Our model has two stages: 1) a semantic layout
+diffusion model (Fig. 3a) for predicting the layout, and 2)
+an attribute prediction model (Fig. 3b). The two stages are
+trained separately and combined at the inference stage.
+4.1. Semantic Layout Generation
+The first stage is based on the multinomial diffusion
+model [15], shown in Figure 3 (a). The multinomial dif-
+fusion model is a categorical discrete diffusion model de-
+signed for categorical data perfectly suited for our data rep-
+resentation. We modify the multinomial diffusion model
+to make it a unified model conditioned on possible room
+masks for all room types.
+During training, the input is a 2D segmentation map
+S ∈RH×W×K, where pixels indicate semantic ID. Each
+pixel value is a one-hot vector x∈{ 0, 1}K, whereK is the
+number of categories. We set K = 38 semantic categories
+with 34 for object types, 3 for architecture elements (floor,
+door, window), and 1 for void. For conditioning, we spec-
+ify the room type croom and the room mask A ∈RH×W
+whereAi,j∈{ 0, 1, 2, 3} denotes void, floor, door, and
+window respectively. Note that we can also condition with
+the floor (i.e., the room mask without doors or windows),
+which can be expressed as a binary mask, or do uncondi-
+tional generation of both the room architecture and the ob-
+jects.
+We denote the noise pixel value at time step t as xt∈
+{0, 1}K. If xt belongs to category k, then xtk = 1 and
+xtj = 0 forj̸=k. The probability of xt given x0 is
+q(xt|x0) =C(xt|¯αtx0 + (1− ¯αt/K)
+whereC is the categorical distribution with parametersαt =
+1−βt and ¯αt =Qt
+τ =1ατ .
+The objective of the multinomial diffusion model is to
+minimize the KL divergence of the categorical distribution
+between the generated data and ground truth, which is
+LMDM = Ex,t [KL (q(xt−1|xt, x0),p (xt−1|xt,A,c room))]
+whereq(xt−1|xt, x0) is the ground-truth categorical poste-
+rior andp(xt−1|xt,A,c room) is the predicted distribution at
+timet−1 given previous timet distribution, room mask and
+room type condition. See Hoogeboom et al. [15] for details
+of the multinomial diffusion model.
+Figure 3 shows how the room maskA is passed through
+an embedding layer and an MLP to get the room mask em-
+bedding, then added to the xt embedding to control denois-
+ing so the generated layout can respect the input mask. Fur-
+thermore, the room type croom embedding is added to the
+timestep embedding to allow generating the desired room
+type. The embedding size for both the room mask and room
+type is 64. These two conditions allow a unified model for
+all room types that generates the room semantic layout with
+Diffusion Process
+Object Retrieval
+Cross Attention𝑡𝑐!""#
+𝑄𝐾
+𝑉
+Instance MasksRoom mask(floor or arch)
+Image encoderMLP
+𝐸!"#$%&
+𝐸’"()
+(𝑎) (𝑏)
+UNet
+Embedding
+𝑠!
+𝑝!
+𝑟!
+(𝑐)
+Figure 3. SemLayoutDiff overview. From left: (a) is the unified diffusion model that is conditioned on the room mask, and room type
+croom. During the denoising process, the archmask or floormask embedding is added to the noise input embedding. The room type
+embedding is added to the timestep embedding. (b) is the object attribute prediction model with a semantic layout map as input. si, pi, ri
+indicate the ith instance’s size, position, and orientation. At training time, we use ground-truth instance masks. During inference the
+semantic layout map is split into instance masks by using connected component analysis. The layout feature and the mask feature are
+passed to a cross-attention layer to get the final object instance feature, which is used to predict attributes. (c) During inference, objects are
+retrieved to match the category ci and size si, and arranged using the position pi and orientation ri.
+different room types and masks as input. By adding an-
+other control for the type of room mask used for condition-
+ing (e.g., none, floor, arch), we can train a single unified
+model for all room and mask types (see App. D.4).
+4.2. Attribute Prediction
+The generated semantic layout only gives potential object
+instances and their 2D location on the projected plane.
+Thus, we design an attribute prediction model (APM) to
+predict attributes (s,p,r ) for each object as shown in Fig-
+ure 3 (b). Based on each instance mask, we obtain the 2D
+position and 2D size (width and length). The APM network
+then predicts the vertical size and position.
+The input of the APM is the semantic map and the ex-
+tracted instance masks, while the output is the instance-level
+object attributes, including vertical size syi∈ R1, vertical
+position pyi ∈ R1, and orientation ri ∈ {0, 1, 2, 3}. We
+pass the semantic layout map and instance mask to the en-
+coder Elayout and Emask respectively to get the layout fea-
+ture flayout ∈ R128×32×32 and the instance mask feature
+fmask∈ R128×32×32. We treatflayout as the query andfmask
+as the key and value to perform cross-attention to obtain the
+final object instance feature finst ∈ R128×32×32. Finally,
+we use different prediction heads, consisting of a shared 2-
+layer MLP followed by a 1-layer MLP for each attribute,
+to predict attributes usingfinst. During training, we use the
+ground-truth instance masks. We use MSE loss for size and
+position heads, defined asLs,Lp, and cross-entropy loss for
+orientation lossLr. The total loss for the APM is a sum of
+the three losses:LAPM =Ls +Lp +Lr.
+4.3. Inference
+At inference, we follow the pipeline in Fig. 3 to generate the
+final scene (see App. A for details). Semantic layout sam-
+pling. Given the room maskA and room typecroom as con-
+ditions, we sample a semantic layout map S using the se-
+mantic layout diffusion model. Instance extraction. Based
+on the generated semantic mapS, we extract instances us-
+ing connected component analysis. As there may be noisy
+pixels, we define category-specific size thresholds to filter
+out object instances that are too small. We determine the
+category-specific thresholds by calculating the minimum ra-
+tio of object pixels to total room pixels per object type. If an
+object’s pixel ratio falls below the type-specific threshold, it
+is deemed invalid and excluded from subsequent attribute
+prediction and object retrieval. Attribute prediction. Af-
+ter we have both the semantic map and instance masks, we
+pass them to the attribute prediction model to predict at-
+tributes for each instance. Room construction and object
+retrieval. Lastly, we use the attributes to retrieve and place
+the objects. For unconditioned generation, we also con-
+struct the room based on the generated architecture mask.
+5. Experiments
+We compare our S EMLAYOUT DIFF with two recent diffu-
+sion methods (D IFFU SCENE , M IDIFFUSION ). See App. B
+for additional experimental and training details.
+Experimental protocol. We use the experimental setup
+from prior work [27, 39], but we revisit the evaluation pro-
+tocol and show that rendering choices can greatly influence
+common evaluation metrics for scene generation (App. C).
+We advocate for a specific set of choices (rendering using a
+unified color palette that groups semantically close objects
+together, with a floormask, and shows more object details).
+Dataset. We train our model using the 3D-Front [10] train-
+ing split from ATISS [27] with 4616 rooms containing bed-
+rooms, living rooms, and dining rooms. We use 38 semantic
+classes (34 object types, 3 arch-element types, and void).
+Baselines. We select two recent diffusion-based indoor
+scene synthesis methods [16, 39] with training code for
+comparison. We do not compare against CHoRD [34] as
+Bedroom
+Livingroom
+Figure 4. Example textured synthesized scenes with unconditional
+generation. We generate the room architecture together with the
+placement of the objects.
+there is no code available, and report results for a pretrained
+PhyScene [49] model in App. D.6. Note that MIDIFFUSION
+was originally designed to support floormask conditioning,
+while DIFFU SCENE do not. In addition, both works trained
+separate models for each room type. For fair compari-
+son, we add room-type conditioning to prior methods (see
+App. B.3 for implementation details), and consider three
+generation modes for room mask conditioning: no room
+mask (none), conditioned on the floor, and architecture.
+5.1. Examples of generated scenes
+To demonstrate our model’s ability to generate plausible
+room layouts, we show examples of generated rooms (ob-
+jects and the room itself) in Fig. 4. We also compare gen-
+erated scenes from our S EMLAYOUT DIFF to those gener-
+ated by D IFFU SCENE and M IDIFFUSION with the three
+generation modes: no room mask (Fig. 5), conditioned on
+floor (appendix Fig. D.8), and on architecture (Fig. 6). For
+the comparison, we use semantically colored renderings
+with orthographic projection to clearly show the layout (see
+App. C). These are the same renderings used in the quan-
+titative evaluation and user studies. We provide additional
+qualitative results and renderings in App. D.8.
+SEMLAYOUT DIFF can generate the architecture mask
+without conditioning. In Fig. 5, we show examples of dif-
+ferent rooms generated by our SEMLAYOUT DIFF and other
+methods. As prior methods (DIFFU SCENE , MIDIFFUSION )
+cannot generate the architecture mask, we show the scenes
+with a square floor. In contrast, our proposed SEMLAYOUT-
+DIFF effectively generates diverse and realistic arch masks
+(including floors, doors, and windows) even without ex-
+plicit architectural conditioning. The scenes produced by
+SEMLAYOUT DIFF exhibit more plausible and varied room
+shapes and furniture placements, highlighting its capability
+to create coherent indoor scenes.
+SEMLAYOUT DIFF respects the architecture mask bet-
+ter. From Fig. 6, we observe that D IFFU SCENE and M ID-
+IFFUSION struggle to place furniture with respect to archi-
+Table 1. Distribution match to ground-truth scenes. We report
+the FID ↓ , KID ↓ , SCA % , and CKL ↓ with different levels of
+architecture conditioning: unconditioned (None), conditioned on
+the floor (Floor), and the architecture map (Arch). Bold indicates
+best results. Our S EMLAYOUT DIFF outperforms other methods.
+Condition Method FID ↓ KID↓ SCA% CKL↓
+None
+DIFFUSCENE[39] 125.46 88.09 99.75 24.70
+MIDIFFUSION[16] 100.54 41.27 97.35 28.31
+SEMLAYOUTDIFF(Ours) 93.93 10.72 96.76 17.21
+Floor
+DIFFUSCENE[39] 90.82 30.13 94.43 23.93
+MIDIFFUSION[16] 91.79 26.23 97.27 23.64
+SEMLAYOUTDIFF(Ours) 81.79 14.52 89.83 5.99
+Arch
+DIFFUSCENE[39] 88.47 30.22 95.02 20.42
+MIDIFFUSION[16] 93.51 31.06 95.28 36.97
+SEMLAYOUTDIFF(Ours) 71.06 8.65 86.96 4.78
+Table 2. Physical plausibility of generated scenes. We compare
+out-of-bounds (OOB) ratios at the scene (OOBS ↓) and object level
+(OOBO ↓), as well as the collision rate (COL ↓), and navigability
+(NA V↑). We do not include D IFFU SCENE and MIDIFFUSION for
+the none condition as they do not generate any room architecture,
+so most of the metrics are irrelevant.
+Condition Method OOB S↓ OOBO↓ COL↓ NA V↑
+None S EMLAYOUTDIFF(Ours) 2.04 0.46 17.70 95.30
+Floor
+DIFFUSCENE[39] 69.93 28.92 37.68 94.99
+MIDIFFUSION[16] 70.17 31.83 35.92 96.02
+SEMLAYOUTDIFF(Ours) 24.60 6.93 19.61 96.69
+Arch
+DIFFUSCENE[39] 66.47 20.03 40.97 94.34
+MIDIFFUSION[16] 60.68 34.66 51.62 96.19
+SEMLAYOUTDIFF(Ours) 16.63 6.62 16.13 96.36
+tectural elements, often resulting in objects blocking doors,
+windows, or extending beyond room boundaries. In con-
+trast, our proposed S EMLAYOUT DIFF consistently gener-
+ates coherent, organized, and realistic furniture arrange-
+ments, effectively respecting architectural constraints such
+as doors, windows, and floor boundaries.
+5.2. Quantitative evaluation
+We evaluate the generated scenes by comparing against the
+distribution of real scenes, and evaluating the overall plau-
+sibility based on object collisions and how well the room
+mask is respected. For each condition, we generate 1000
+scenes for evaluation.
+Metrics. For comparison of synthesized and real scenes, we
+follow ATISS [27] and report the KL divergence (CKL) be-
+tween object category distributions, and Fr ´echet inception
+distance (FID) [13] and Kernel inception distance (KID)
+[2] against the test set. Following prior work, we report
+the CKL as CKL ×102 and the KID as KID ×103. We
+also report the scene classification accuracy (SCA), which
+scores how well a trained classifier can distinguish synthe-
+sized scenes from real-world scenes.
+For SCA, the closer the score is to 50%, the more diffi-
+cult it is for the classifier to distinguish between generated
+and real scenes. We find that in our experiments, the se-
+MiDiffusionDiffuScene SemLayoutDiff
+Bedroom
+Diningroom
+Livingroom
+Figure 5. Comparison of scenes generated by prior methods and SEMLAYOUT DIFF without room mask (i.e., no floor or arch) conditioning.
+Since prior methods (left) cannot generate architectural elements, a square floor is used by default. Our method (right) generates feasible
+furniture placements aligned with its generated architectural layouts, leaving doors and windows unobstructed.
+Arch MiDiffusion
+DiffuScene
+SemLayoutDiffArch
+ SemLayoutDiff
+MiDiffusionDiffuScene
+Bed
+Bed
+Bed
+Bed
+Living
+Living
+Dining
+Dining
+Obj-Arch IntersectionBlocked DoorwayImplausible LayoutImplausible OrientationObj-ObjIntersection
+Figure 6. Comparison of generated scenes using different methods with arch mask conditioning. For each scene, we show the bounding
+box layout before object retrieval, inset on the upper left. Errors are indicated with color-coded circles (see Sec. 5.3 for error types). Our
+SEMLAYOUT DIFF generates scenes with fewer errors and respects architectural constraints by keeping furniture within room boundaries
+and maintaining clear spaces around doors (red) and windows (pink), whereas DIFFU SCENE and MIDIFFUSION do not.
+lection of objects is severely limited, causing the SCA to
+easily identify generated scenes (see App. C.3). For the
+view-based metrics (KID, FID, SCA), we use a top-down
+semantic-colored rendering that clearly shows the objects
+and includes the architectural elements (see App. C.1).
+To assess scene plausibility, we report the Out-of-
+Bounds (OOB) ratio [8] (ratio of objects placed outside
+room boundaries). We report both the percentage of scenes
+(OOBS) and the percentage of objects (OOBO) with OOB
+issues. Finally, we report object collision rate (COL) and
+scene navigability (NA V) following SceneEval [38].
+We report the performance of the different methods in
+Tabs. 1 and 2, where we see that our S EMLAYOUT DIFF
+consistently outperforms other unified methods.
+Table 3. Comparison of different training strategies for SEMLAYOUT DIFF: single condition (per-masktype) vs mixed conditions.
+Distribution Plausibility
+Condition Training FID ↓ KID↓ SCA% CKL↓ OOBS ↓ OOBO ↓ COL↓ NA V↑
+None per-masktype 93.93 10.72 96.76 17.21 2.04 0.46 17.70 95.30
+mixed 72.51 11.27 92.81 5.37 0.70 0.18 14.32 96.84
+Floor per-masktype 81.79 14.52 89.83 5.99 24.60 6.93 19.61 96.69
+mixed 76.24 10.60 86.04 4.38 21.50 5.07 14.67 96.63
+Arch
+per-roomtype 107.99 42.99 96.08 16.57 26.97 8.89 23.11 95.11
+per-masktype 71.06 8.65 86.96 4.78 16.63 6.62 16.13 96.36
+mixed 73.61 9.85 92.19 4.27 21.53 4.98 14.42 96.91
+Table 4. User rankings for the three methods on 40 samples.
+Rank Distribution
+Method AR ↓ 1st% 2 nd% 3rd%
+DIFFU SCENE [39] 2.21 11.11 57.22 31.67
+MIDIFFUSION [16] 2.55 8.47 28.33 63.19
+SEMLAYOUT DIFF (Ours) 1.25 80.42 14.44 5.14
+Table 5. Fine-grained user evaluation. Users were asked to assess
+errors found in generated scenes.
+Intersection Blocked Implausible
+Method Arch ↓ Obj↓ Door↓ Layout↓ Orientation↓
+DIFFUSCENE[39] 89.38 38.12 41.25 45.00 25.62
+MIDIFFUSION[16] 80.62 60.00 27.50 78.12 55.62
+SEMLAYOUTDIFF(Ours) 20.00 25.00 22.50 11.88 24.38
+SEMLAYOUT DIFF has a better distribution match to the
+ground-truth scenes. Compared to prior methods, S EM-
+LAYOUT DIFF maintains closer visual and object distribu-
+tion (see lower FID, KID, and CKL in Tab. 1). The other
+methods have unrealistic object distributions, such as plac-
+ing beds in living rooms or dining tables in bedrooms (e.g.,
+in Fig. 6, the M IDIFFUSION -generated dining room at the
+bottom right has a bed in the middle; the D IFFU SCENE -
+generated bedroom at the bottom left has two dining ta-
+bles). This issue arises because these models are trained on
+a mixed object distribution across room types, which can
+confuse learning. In contrast, our model treats scene layout
+generation as a semantic image synthesis problem, condi-
+tioned specifically by room type, thus facilitating more ef-
+fective learning of distinct object distributions.
+Conditioning on floor and arch mask improves perfor-
+mance. Table 1 shows that adding conditioning on the floor
+or arch mask significantly improves scene synthesis. The
+overall FID for SEMLAYOUT DIFF drops from 93.93 for no
+room mask to 81.79 with floor conditioning and 71.06 for
+arch conditioning. The drop in FID, KID, and CKL shows
+that architecture information enables more realistic layouts
+matching the ground-truth distribution.
+SEMLAYOUT DIFF better respects architectural con-
+straints and generates more plausible layouts. Table 2
+shows that our S EMLAYOUT DIFF consistently achieves
+significantly lower scene-level (OOB S) and object-level
+(OOBO) out-of-boundary ratios compared to prior methods,
+across all room types. For instance, in bedrooms, S EM-
+LAYOUT DIFF reduces the OOBS from approximately 55%
+(DIFFU SCENE ) and 60% (MIDIFFUSION ) to 13.8%, and
+the OOBO from over20% to only 4%. These results demon-
+strate our method’s superior ability to place furniture ob-
+jects accurately within architectural boundaries.
+SEMLAYOUT DIFF also consistently has the lowest
+object-object collisions and maintains high navigability
+scores. For navigability, the only slight drop appears in
+bedrooms, where our navigability metric treats lights po-
+sitioned below 2 meters as obstacles; such fixtures are com-
+mon in practice, so this penalty does not reflect a real limita-
+tion of the layout. Overall, the results show that our method
+generates navigable layouts with less collisions.
+Mixed-condition training. In our experiments so far, we
+have trained a separate model for each room mask type
+(none, floor, arch). We can also train one single unified
+model that can handle conditioning both on room type as
+well as different room mask types by training a single mixed
+condition model (see App. D.4 for details).
+In Tab. 3, we show that with the mixed training, we gen-
+erate scenes with slightly better distribution match and plau-
+sibility when conditioned on no room mask or just the floor
+mask. When conditioning on arch mask, the per-masktype
+model has slightly better distribution match. We also com-
+pare to training of a separate per-roomtype model. No-
+tably, we find that per-roomtype training results in gener-
+ated scenes that are further from the ground-truth distribu-
+tion (high FID / KID / CKL) and poor plausibility (more
+out-of-bounds and collisions). The per-roomtype training
+suffers from both poor performance as well as the need for
+multiple models. By including all room types and mixing
+the conditioning allows the models to be trained on more
+data and learn the overall distribution better. To handle the
+different conditioning types, the per-roomtype training (as
+common in prior work) would needM×R separate models
+whereR is the number of room-types andM is the number
+of mask types, vsM models for the per-masktype training,
+and 1 model for our proposed mixed condition training.
+Arch
+GeneratedResults
+Obj-Arch IntersectionBlocked DoorwayImplausible LayoutImplausible OrientationObj-Obj Intersection
+Figure 7. Examples of error cases for user study from S EMLAY-
+OUT DIFF-generated scenes with arch mask conditioning.
+5.3. User study
+To further compare the quality of the generated results, we
+conducted two user studies. As prior methods cannot gener-
+ate the architecture, for fairer comparison we focus on gen-
+eration conditioned on the arch mask. The first study asked
+participants to rank three generated scenes conditioned on
+the same architectural mask with different models accord-
+ing to plan adherence and overall layout plausibility. In
+Tab. 4, we report average ranking (AR) and the frequency
+of 1st, 2nd, and 3rd places. The second study examined
+five specific error types: object-architecture intersection or
+out-of-bounds, object-object intersection, blocked doorway,
+implausible layout, and implausible orientation (Fig. 7). We
+report the percentage of scenes in which each error appears
+(Tab. 5). See App. B.7 for more details on the user studies.
+SEMLAYOUT DIFF has the best performance. As shown
+in Tab. 4, S EMLAYOUT DIFF achieved the best average
+ranking (AR=1.25), with users selecting it as the best 80%
+of the time, and only 5% ranking it last. In the fine-
+grained evaluation (Tab. 5), SEMLAYOUT DIFF also outper-
+form DIFFU SCENE and MIDIFFUSION with users reporting
+lower issue rates in all 5 cases. Both user studies reinforces
+the findings from the automatic metrics: SEMLAYOUT DIFF
+generates the most plausible scenes as judged by people.
+5.4. Discussion
+Scene synthesis with generated object. In Fig. 8, we show
+that layouts from S EMLAYOUT DIFF can be converted into
+3-D scenes by pairing them with a 3D object generation
+model. Specifically, we use TRELLIS [46], prompting it
+with “A <category>” to create a 3D object for each cat-
+egory in the layout. Then each mesh is scaled, translated,
+and rotated according to the predicted attributes.
+Limitations. Despite the strong performance of our S EM-
+LAYOUT DIFF in unified indoor scene synthesis, it has sev-
+eral limitations. First, our method does not leverage object
+shape or contextual information, which could improve at-
+tribute predictions, such as orientation, and enhance object
+consistency. Second, S EMLAYOUT DIFF currently does not
+support conditioning on text or a partial scene, limiting the
+Figure 8. Example of our synthesized scenes with TRELLIS-
+generated objects. Top left is the top-down rendering with 3D-
+FUTURE retrieved objects using our STK rendering, and bottom
+is the TRELLIS-based rendering with Blender.
+level of user control. Third, relying on the small-scale 3D-
+FRONT dataset, which includes fewer than 5000 valid train-
+ing rooms, constrains our model’s potential; incorporating
+more diverse and extensive 2D and 3D scene data could en-
+able the generation of more complex, multi-room layouts.
+Lastly, since our method uses top-down semantic maps, it
+struggles with vertical occlusion and hierarchical object ar-
+rangements. Future work can address this using a full 3D
+semantic voxel grid [48] or integrating semantic maps from
+multiple viewpoints, enabling better vertical layout genera-
+tion.
+6. Conclusion
+In this work, we represent the indoor scene as the 2D se-
+mantic layout map with instance attributes to better capture
+the spatial relationship between objects and generalize to
+different room types. With this representation, we propose
+a novel indoor scene synthesis model called S EMLAYOUT-
+DIFF by leveraging the discrete denoising diffusion proba-
+bilistic model. Unlike most of the previous methods that
+are designed to train the models separately for different
+room types, our model is a unified model that can be gen-
+eralized to different room types. Our model demonstrates
+flexibility in generation modes: it can operate without any
+room mask, with floor mask conditioning, or with full ar-
+chitectural mask conditioning. The ability to incorporate
+architectural elements (doors and windows) beyond just the
+floor mask is particularly valuable for indoor scene syn-
+thesis, as these elements impose important constraints on
+furniture placement and overall room layout. Compared to
+prior works, our approach exceeds the performance in uni-
+fied room-type synthesis and can better place the objects in
+the conditioned room mask. Our proposed scene represen-
+tation and corresponding method are important to the future
+of 3D generative modeling. We hope our work can inspire
+the following work to generate more complex and realistic
+scenes.
+Acknowledgments
+This work was funded in part by a CIFAR AI Chair and
+NSERC Discovery Grants, and enabled by support from
+the Digital Research Alliance of Canada and a CFI/BCKDF
+JELF. We thank Ivan Tam for help with running SceneE-
+val; Yiming Zhang and Jiayi Liu for suggestions on figures;
+Derek Pun, Dongchen Yang, Xingguang Yan, and Manolis
+Savva for discussions, proofreading, and paper suggestions.
+We also thank the anonymous reviewers for their feedback.
+References
+[1] Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stew-
+art Morris, Seung Jean Yoo, Aditya Ganeshan, R Kenny
+Jones, Qiuhong Anna Wei, Kailiang Fu, and Daniel Ritchie.
+Open-universe indoor scene generation using LLM program
+synthesis and uncurated object databases. arXiv preprint
+arXiv:2403.09675, 2024. 1
+[2] Mikołaj Bi ´nkowski, Danica J Sutherland, Michael Arbel, and
+Arthur Gretton. Demystifying MMD GANs. InInternational
+Conference on Learning Representations, 2018. 5
+[3] Ata C ¸ elen, Guo Han, Konrad Schindler, Luc Van Gool,
+Iro Armeni, Anton Obukhov, and Xi Wang. I-design:
+Personalized LLM interior designer. arXiv preprint
+arXiv:2404.02838, 2024. 2
+[4] Shang Chai, Liansheng Zhuang, and Fengying Yan. Lay-
+outDM: Transformer-based diffusion model for layout gen-
+eration. In Proceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition , pages 18349–
+18358, 2023. 2
+[5] Dana Cohen-Bar, Elad Richardson, Gal Metzer, Raja Giryes,
+and Daniel Cohen-Or. Set-the-scene: Global-local train-
+ing for generating controllable nerf scenes. arXiv preprint
+arXiv:2303.13450, 2023. 2
+[6] Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs,
+Kiana Ehsani, Jordi Salvador, Winson Han, Eric Kolve,
+Aniruddha Kembhavi, and Roozbeh Mottaghi. ProcTHOR:
+Large-scale embodied AI using procedural generation. Ad-
+vances in Neural Information Processing Systems, 35:5982–
+5994, 2022. 1
+[7] Maximilian Denninger, Dominik Winkelbauer, Martin
+Sundermeyer, Wout Boerdijk, Markus Wendelin Knauer,
+Klaus H Strobl, Matthias Humt, and Rudolph Triebel.
+BlenderProc2: A procedural pipeline for photorealistic ren-
+dering. Journal of Open Source Software, 8(82):4901, 2023.
+3, 12
+[8] Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Ar-
+jun Akula, Xuehai He, Sugato Basu, Xin Eric Wang, and
+William Yang Wang. LayoutGPT: Compositional visual
+planning and generation with large language models. arXiv
+preprint arXiv:2305.15393, 2023. 6, 17, 18
+[9] Matthew Fisher, Daniel Ritchie, Manolis Savva, Thomas
+Funkhouser, and Pat Hanrahan. Example-based synthesis
+of 3D object arrangements. ACM Transactions on Graph-
+ics (TOG), 31(6):1–11, 2012. 1, 2
+[10] Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming
+Wang, Cao Li, Qixun Zeng, Chengyue Sun, Rongfei Jia,
+Binqiang Zhao, et al. 3D-Front: 3D furnished rooms with
+layouts and semantics. In Proceedings of the IEEE/CVF In-
+ternational Conference on Computer Vision , pages 10933–
+10942, 2021. 2, 4
+[11] Gege Gao, Weiyang Liu, Anpei Chen, Andreas Geiger, and
+Bernhard Sch ¨olkopf. GraphDreamer: Compositional 3D
+scene synthesis from scene graphs, 2023. 2
+[12] Lin Gao, Jia-Mu Sun, Kaichun Mo, Yu-Kun Lai, Leonidas J
+Guibas, and Jie Yang. SceneHGN: Hierarchical graph net-
+works for 3D indoor scene generation with fine-grained ge-
+ometry. IEEE Transactions on Pattern Analysis and Machine
+Intelligence, 45(7):8902–8919, 2023. 2
+[13] Martin Heusel, Hubert Ramsauer, Thomas Unterthiner,
+Bernhard Nessler, and Sepp Hochreiter. GANs trained by
+a two time-scale update rule converge to a local Nash equi-
+librium. Advances in neural information processing systems,
+30, 2017. 5
+[14] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffu-
+sion probabilistic models. Advances in Neural Information
+Processing Systems, 33:6840–6851, 2020. 2
+[15] Emiel Hoogeboom, Didrik Nielsen, Priyank Jaini, Patrick
+Forr´e, and Max Welling. Argmax flows and multinomial dif-
+fusion: Learning categorical distributions. Advances in Neu-
+ral Information Processing Systems, 34:12454–12465, 2021.
+2, 3
+[16] Siyi Hu, Diego Martin Arroyo, Stephanie Debats, Fabian
+Manhardt, Luca Carlone, and Federico Tombari. Mixed
+diffusion for 3D indoor scene synthesis. arXiv preprint
+arXiv:2405.21066, 2024. 1, 2, 3, 4, 5, 7, 13, 15, 20, 21,
+22, 23
+[17] Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong
+Yue, David A Ross, Cordelia Schmid, and Alireza Fathi.
+SceneCraft: An LLM agent for synthesizing 3D scene as
+Blender code. In ICLR 2024 Workshop on Large Language
+Model (LLM) Agents, 2024. 2
+[18] Naoto Inoue, Kotaro Kikuchi, Edgar Simo-Serra, Mayu
+Otani, and Kota Yamaguchi. LayoutDM: Discrete diffusion
+model for controllable layout generation. In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 10167–10176, 2023. 2
+[19] Diederik P. Kingma and Jimmy Ba. Adam: A method
+for stochastic optimization. In International Conference on
+Learning Representations, 2015. 13
+[20] Manyi Li, Akshay Gadi Patil, Kai Xu, Siddhartha Chaudhuri,
+Owais Khan, Ariel Shamir, Changhe Tu, Baoquan Chen,
+Daniel Cohen-Or, and Hao Zhang. GRAINS: Generative re-
+cursive autoencoders for indoor scenes. ACM Transactions
+on Graphics (TOG), 38(2):1–16, 2019. 2
+[21] Chenguo Lin and Yadong Mu. InstructScene: Instruction-
+driven 3D indoor scene synthesis with semantic graph prior.
+In International Conference on Learning Representations ,
+2024. 2
+[22] Yiqi Lin, Haotian Bai, Sijia Li, Haonan Lu, Xiaodong Lin,
+Hui Xiong, and Lin Wang. CompoNeRF: Text-guided multi-
+object compositional nerf with editable 3D scene layout.
+arXiv preprint arXiv:2303.13843, 2023. 2
+[23] Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B
+Tenenbaum. End-to-end optimization of scene layout. In
+Proceedings of the IEEE/CVF Conference on Computer Vi-
+sion and Pattern Recognition, pages 3754–3763, 2020. 2
+[24] L ´eopold Maillard, Nicolas Sereyjol-Garros, Tom Durand,
+and Maks Ovsjanikov. DeBaRA: Denoising-based 3D room
+arrangement generation. Advances in Neural Information
+Processing Systems, 2024. 2
+[25] Paul Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala,
+and Vladlen Koltun. Interactive furniture layout using in-
+terior design guidelines. ACM transactions on graphics
+(TOG), 30(4):1–10, 2011. 1, 2
+[26] Wamiq Reyaz Para, Paul Guerrero, Niloy Mitra, and Peter
+Wonka. COFS: Controllable furniture layout synthesis. In
+ACM SIGGRAPH Conference Proceedings, 2023. 2
+[27] Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten
+Kreis, Andreas Geiger, and Sanja Fidler. ATISS: Autore-
+gressive transformers for indoor scene synthesis. Advances
+in Neural Information Processing Systems, 34:12013–12026,
+2021. 1, 2, 3, 4, 5, 12, 13, 15, 17, 18, 21
+[28] Ryan Po and Gordon Wetzstein. Compositional 3D scene
+generation using locally conditioned diffusion. arXiv
+preprint arXiv:2303.12218, 2023. 2
+[29] Alexander Raistrick, Lahav Lipson, Zeyu Ma, Lingjie Mei,
+Mingzhe Wang, Yiming Zuo, Karhan Kayan, Hongyu Wen,
+Beining Han, Yihan Wang, Alejandro Newell, Hei Law,
+Ankit Goyal, Kaiyu Yang, and Jia Deng. Infinite photore-
+alistic worlds using procedural generation. In Proceedings
+of the IEEE/CVF Conference on Computer Vision and Pat-
+tern Recognition, pages 12630–12641, 2023. 1
+[30] Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and flex-
+ible indoor scene synthesis via deep convolutional genera-
+tive models. In Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition , pages 6182–
+6190, 2019. 2
+[31] Jascha Sohl-Dickstein, Eric Weiss, Niru Maheswaranathan,
+and Surya Ganguli. Deep unsupervised learning using
+nonequilibrium thermodynamics. In International Confer-
+ence on Machine Learning, pages 2256–2265. PMLR, 2015.
+2
+[32] Jiaming Song, Chenlin Meng, and Stefano Ermon. Denois-
+ing diffusion implicit models. In International Conference
+on Learning Representations, 2021.
+[33] Yang Song and Stefano Ermon. Improved techniques for
+training score-based generative models. Advances in neural
+information processing systems, 33:12438–12448, 2020. 2
+[34] Chong Su, Yingbin Fu, Zheyuan Hu, Jing Yang, Param
+Hanji, Shaojun Wang, Xuan Zhao, Cengiz ¨Oztireli, and
+Fangcheng Zhong. CHOrD: Generation of collision-free,
+house-scale, and organized digital twins for 3D indoor
+scenes with controllable floor plans and optimal layouts.
+arXiv preprint arXiv:2503.11958, 2025. 2, 4
+[35] Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat,
+Federico Tombari, Manling Li, Nick Haber, and Jiajun Wu.
+LayoutVLM: Differentiable optimization of 3D layout via
+vision-language models. arXiv preprint arXiv:2412.02193,
+2024. 2
+[36] Kaifan Sun, Bingchen Yang, Peter Wonka, Jun Xiao, and
+Haiyong Jiang. RelTriple: Learning plausible indoor layouts
+by integrating relationship triples into the diffusion process.
+arXiv preprint arXiv:2503.20289, 2025. 2
+[37] Qi Sun, Hang Zhou, Wengang Zhou, Li Li, and Houqiang
+Li. Forest2Seq: Revitalizing order prior for sequential in-
+door scene synthesis. In European Conference on Computer
+Vision, 2024. 2
+[38] Hou In Ivan Tam, Hou In Derek Pun, Austin T Wang, An-
+gel X Chang, and Manolis Savva. SceneEval: Evaluating
+semantic coherence in text-conditioned 3D indoor scene syn-
+thesis. arXiv preprint arXiv:2503.14756, 2025. 6, 13
+[39] Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Jus-
+tus Thies, and Matthias Nießner. DiffuScene: Scene graph
+denoising diffusion probabilistic model for generative indoor
+scene synthesis. arXiv preprint arXiv:2303.14207, 2023. 1,
+2, 3, 4, 5, 7, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23
+[40] Alexander Vilesov, Pradyumna Chari, and Achuta Kadambi.
+CG3D: Compositional generation for text-to-3D via gaussian
+splatting. arXiv preprint arXiv:2311.17907, 2023. 2
+[41] Kai Wang, Manolis Savva, Angel X Chang, and Daniel
+Ritchie. Deep convolutional priors for indoor scene syn-
+thesis. ACM Transactions on Graphics (TOG), 37(4):1–14,
+2018. 1, 2
+[42] Kai Wang, Yu-An Lin, Ben Weissmann, Manolis Savva, An-
+gel X Chang, and Daniel Ritchie. PlanIT: Planning and in-
+stantiating indoor scenes with relation graph and spatial prior
+networks. ACM Transactions on Graphics (TOG), 38(4):1–
+15, 2019. 1, 2
+[43] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner.
+Sceneformer: Indoor scene generation with transformers. In
+2021 International Conference on 3D Vision (3DV) , pages
+106–115. IEEE, 2021. 1, 2
+[44] Qiuhong Anna Wei, Sijie Ding, Jeong Joon Park, Rahul
+Sajnani, Adrien Poulenard, Srinath Sridhar, and Leonidas
+Guibas. Lego-net: Learning regular rearrangements of ob-
+jects in rooms. In Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, pages 19037–
+19047, 2023. 13
+[45] Zehao Wen, Zichen Liu, Srinath Sridhar, and Rao Fu. Any-
+Home: Open-vocabulary generation of structured and tex-
+tured 3D homes. arXiv preprint arXiv:2312.06644, 2023. 2
+[46] Jianfeng Xiang, Zelong Lv, Sicheng Xu, Yu Deng, Ruicheng
+Wang, Bowen Zhang, Dong Chen, Xin Tong, and Jiaolong
+Yang. Structured 3D latents for scalable and versatile 3D
+generation. In IEEE Conference on Computer Vision and
+Pattern Recognition, 2025. 8
+[47] Ken Xu, James Stewart, and Eugene Fiume. Constraint-
+based automatic placement for scene composition. InGraph-
+ics Interface, pages 25–34, 2002. 2
+[48] Ming-Jia Yang, Yu-Xiao Guo, Bin Zhou, and Xin Tong.
+Indoor scene generation from a collection of semantic-
+segmented depth images. In Proceedings of the IEEE/CVF
+International Conference on Computer Vision, pages 15203–
+15212, 2021. 8
+[49] Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan
+Huang. PhyScene: Physically interactable 3D scene synthe-
+sis for embodied AI. In Proceedings of the IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition, pages
+16262–16272, 2024. 2, 5, 23
+[50] Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro
+Herrasti, Winson Han, Jiajun Wu, Nick Haber, Ranjay Kr-
+ishna, Lingjie Liu, et al. Holodeck: Language guided gener-
+ation of 3D embodied AI environments. InIEEE Conference
+on Computer Vision and Pattern Recognition, pages 20–25.
+IEEE/CVF, 2024. 2
+[51] Guangyao Zhai, Evin Pinar ¨Ornek, Shun-Cheng Wu,
+Yan Di, Federico Tombari, Nassir Navab, and Benjamin
+Busam. CommonScenes: Generating commonsense 3D in-
+door scenes with scene graphs. Advances in Neural Informa-
+tion Processing Systems, 2023. 2
+[52] Guangyao Zhai, Evin Pınar ¨Ornek, Dave Zhenyu Chen, Ruo-
+tong Liao, Yan Di, Nassir Navab, Federico Tombari, and
+Benjamin Busam. Echoscene: Indoor scene generation via
+information echo over scene graph diffusion. In European
+Conference on Computer Vision , pages 167–184. Springer,
+2024. 2
+[53] Zaiwei Zhang, Zhenpei Yang, Chongyang Ma, Linjie Luo,
+Alexander Huth, Etienne V ouga, and Qixing Huang. Deep
+generative modeling for scene synthesis via hybrid represen-
+tations. ACM Transactions on Graphics (TOG), 39(2):1–21,
+2020. 2
+[54] Yang Zhou, Zachary While, and Evangelos Kalogerakis.
+SceneGraphNet: Neural message passing for 3D indoor
+scene augmentation. In Proceedings of the IEEE/CVF Inter-
+national Conference on Computer Vision, pages 7384–7392,
+2019. 2
+SemLayoutDiff: Semantic Layout Generation with Diffusion Model
+for Indoor Scene Synthesis
+Supplementary Material
+In this supplement, we present model details (App. A),
+additional information about our experimental setup
+(App. B), preliminary experiments to investigate the impact
+of rendering changes to evaluation metrics (App. C), and
+additional results (App. D).
+A. Model details
+Instance extraction. Given the semantic map, we extract
+instances by finding connected components (with horizon-
+tal and vertical grid cells as neighbors) and identifying each
+connected region with the same category label as an individ-
+ual object instance. Specifically, we use the label function
+in scipy library to process the binary mask for each category.
+Object retrieval. For each extracted object instance, we
+retrieve a corresponding 3D model from a subset of 3D-
+FUTURE assets, which are used in the filtered rooms, by
+computing the mean squared error (MSE) between the pre-
+dicted 3D size of the instance and the sizes of available as-
+sets within the same category. The asset with the lowest
+MSE is selected as the best match:
+a∗ = arg min
+a∈Ac
+MSE(sp, sa)
+where
+MSE(sp, sa) = 1
+3
+X
+d∈{x,y,z}
+(sp,d−sa,d)2,
+and sp and sa denote the predicted and candidate asset sizes
+respectively, andAc is the set of assets for categoryc.
+Room construction. Based on the generated semantic map,
+we extract the outline of the floor for two cases: (1) For
+floor- or architecture-conditioned generation, we directly
+use the floor or architecture mask, mapping each pixel to
+real-world coordinates on the xy-plane at a height of 0, with
+each pixel representing 0.01 meters. (2) For unconditional
+generation, we treat all non-zero pixels as floor, and simi-
+larly, extract the positions of doors and windows from their
+respective mask regions. We assume that doors are 2 me-
+ters tall and windows are rectangular, with a vertical offset
+of 0.5 meters to 2 meters. We construct the 3D geometry
+of the room by taking the room outline and creating planar
+walls, assuming a wall height of 3 meters, and cutting out
+rectangular holes for the doors and windows.
+B. Experimental details
+We provide details on our experimental setup, including the
+data preprocessing and filtering (App. B.1) for our experi-
+ments, the unified set of object categories (App. B.2), how
+baseline models are adapted and trained (App. B.3), training
+details for our SEMLAYOUT DIFF (App. B.4), discussion of
+compute and memory cost (App. B.5), evaluation metric de-
+tails (App. B.6), and details of our user study (App. B.7).
+B.1. Data processing
+We preprocess the data and use BlenderProc [7], to render
+top-down views of the scenes. For the semantic scene lay-
+out, we render both instance and semantic masks. We fol-
+low the steps below for processing the data:
+1. We first extract rooms from scenes based on their room
+types (e.g. bedroom, living room, dining room) and fil-
+ter the data following DiffuScene [39]. Specifically, we
+remove rooms with unnatural dimensions (e.g., overly
+large sizes or extreme heights), discard infrequent ob-
+jects appearing in fewer than 15 rooms, and exclude
+scenes containing overlapping or misplaced objects, as
+well as rooms with an insufficient or excessive number
+of objects.
+2. After this filtering process, the dataset includes 4041
+bedrooms, 900 living rooms, and 813 dining rooms. For
+the unified dataset, we combine all room types and split
+the processed data into 70% training, 10% validation,
+and 20% test following prior work [27, 39].
+3. We render the top-down 2D semantic layout map us-
+ing orthographic projection, where the camera is posi-
+tioned at the center top of the room. To ensure that
+each pixel on the map represents a consistent physi-
+cal unit s, we compute the desired image dimensions
+in pixels (wimg,h img) from the input room width wroom
+and length lroom in meters. As we render a top-down
+view, the image dimensions are given by:(wimg,h img) =
+(wroom,l room)/s. We set the Blender orthographic scale
+(OS)1 to the maximum of the room width and length
+(OS = max(wroom,l room)). We pad the image to1200×
+1200 (corresponding to 12m×12m) for later training and
+inference.
+4. We then extract the objects’ category, size, vertical po-
+sition (offset from floor), and orientation based on the
+annotations. The offset is determined by measuring the
+maximum distance from the object’s bounding box to the
+floor.
+1The Blender orthographic scale specifies the larger dimension in scene
+units (meters)
+B.2. Unified object categories
+We use the same object categories following ATISS
+and DiffuScene. In those works, different sets of ob-
+ject categories were used for different room types.
+To obtain a unified set of object categories, we com-
+bine object types from different room types into a
+single unified set. To ensure clarity regarding the
+object categories used in our analysis, we provide a
+list of the unified categories as follows: kids bed,
+single bed, double bed, corner side table,
+round end table, coffee table, console
+table, tv stand, desk, dressing table,
+table, dining table, stool, dressing chair,
+dining chair, chinese chair, armchair,
+chair, lounge chair, loveseat sofa, lazy
+sofa, sofa, multi seat sofa, chaise longue
+sofa, l shaped sofa, nightstand, shelf,
+bookshelf, children cabinet, wine cabinet,
+cabinet, wardrobe, pendant lamp, ceiling
+lamp, floor, door, window, void .
+B.3. Adapting prior methods
+For fair comparison, we adapt D IFFU SCENE and M IDIF-
+FUSION to train unified models that handle all room types,
+instead of their original separate models per room type.
+We modify these methods to accept both architecture plan
+and room type as conditioning inputs. To allow condition-
+ing by room type, we adapt the models so that the room
+type is passed in as a one-hot vector and then converted
+into a dense representation using a Multi-Layer Percep-
+tron (MLP). We also modified DIFFU SCENE and MIDIFFU -
+SION to incorporate architectural plan conditioning. DIF-
+FUSCENE [39] represents scenes as fully connected graphs,
+with each node corresponding to an object and its attributes.
+It also uses dense representations for room type and floor-
+plan as instance-level attributes, supplemented with posi-
+tional encodings to position objects accurately.
+During inference, this ensures the generation of coherent
+scenes aligned with the provided floorplan and room type.
+Without floor conditioning, the floorplan vector is omitted
+during training. To adapt this method, we represent the ar-
+chitectural planA as a single-channel image and extract ar-
+chitecture features using a ResNet-18 encoder.
+MIDIFFUSION [16] represents scenes as sequences of
+objects with attributes, similar to ATISS and DIFFU SCENE .
+However, it treats object attributes as both discrete (ob-
+ject categories) and continuous (size, orientation, position).
+MIDIFFUSION incorporates additional spatial information
+by representing the floor as a set of 2D points with nor-
+mals, following the approach described in [44]. It employs
+a PointNet encoder, trained from scratch, to extract fea-
+tures from the floormask. To incorporate architectural con-
+straints, we extract points and normals from the architecture
+Table 6. Compute and memory cost of different models
+Train Inference
+Time Mem Time Mem
+DIFFUSCENE 52h 5G (batch=128) 25.0s 0.5G
+MIDIFFUSION 120h 4G (batch=128) 11.0s 0.4G
+SEMLAYOUTDIFF 60h 11G (batch=24) 18.2s 1.4G
+mask separately, including floor, door, and window infor-
+mation. We encode the door and window features using
+a PointNet encoder and sum these features together. The
+summed feature is then concatenated with the floormask
+feature obtained from the original M IDIFFUSION approach
+to form the architecture conditioning feature for the model.
+B.4. SEMLAYOUT DIFF Training details
+Semantic Layout Generation. We train the diffusion
+model using the Adam optimizer [19] with 4000 diffusion
+steps and a batch size of 64. We use a constant learning rate
+of 1e-4. Training was conducted on a single 48G A40 GPU
+over 1000 epochs, completed in 24 hours.
+Attribute Prediction Module. We train the APM using
+the Adam optimizer [19] with a weight decay of 1e-3 and
+a learning rate of 1e-5. The model processed images at a
+resolution of 1200×1200 using a batch size of 24. Training
+was conducted on a single 48G A40 GPU for 300 epochs,
+taking∼36 hours.
+B.5. Model efficiency
+Under the architecture-mask conditioning and unified set-
+ting, S EMLAYOUT DIFF samples a room in 18.2 seconds:
+18s for the 4, 000 diffusion steps and 0.2s for attribute pre-
+diction. Its semantic layout map and attribute models are
+trained in 24h and 36h, respectively; trained in parallel, the
+wall-clock time is 36h. M IDIFFUSION needs 11s per scene
+with a 1, 000-step schedule but 120h for training. D IF-
+FUSCENE spends 25s per scene with the same 1, 000 steps
+and trains in 52h. Hence, S EMLAYOUT DIFF attains moder-
+ate inference latency and a lower training time than M ID-
+IFFUSION . See Tab. 6 for a summary.
+B.6. Evaluation metric details
+To assess the quality of generated scenes, we use a set of
+quantitative metrics that cover visual fidelity, semantic con-
+sistency, category distribution, spatial plausibility, and navi-
+gability. Following prior work [27, 39], we adopt FID, KID,
+and SCA for image-based evaluation and CKL for measur-
+ing the category distribution alignment. From SceneEval
+[38], we adopt COL to assess object-level collisions and
+NA V to evaluate scene navigability. In addition, we im-
+plement our own OOB-scene and OOB-object metrics to
+check whether objects extend beyond the floor boundary.
+(a)
+(c) (b)
+Figure B.1. User study details. (a) shows the detailed instruction of our overall quality evaluation user study; (b) shows the detailed
+instruction of our fine-grained user study to evaluate specific error types in the generated rooms; (c) shows an example of the provided
+sample, including arch plan and randomly ordered generated rooms from three different methods.
+Together, these metrics provide a complementary and thor-
+ough evaluation of scene generation quality.
+FID and KID. Fr´echet Inception Distance (FID) and Ker-
+nel Inception Distance (KID) are standard image generation
+evaluation metrics for measuring how well the generated
+images match the distribution of the training images. For
+scene generation, rendered images are typically used. FID
+computes the distance between Gaussian distributions fitted
+on features of generated and real images:
+FID =∥µr−µg∥2
+2 + Tr
+
+Σr + Σg− 2(ΣrΣg)1/2
+
+,
+where (µr, Σr) and (µg, Σg) are the mean and covariance of
+real and generated features. KID instead uses the squared
+Maximum Mean Discrepancy (MMD) with a polynomial
+kernel:
+KID = E[k(xr,x′
+r)] + E[k(xg,x′
+g)]− 2E[k(xr,xg)],
+wherek is a polynomial kernel and expectations are taken
+over real (xr) and generated (xg) features.
+SCA. Scene classifier accuracy (SCA) measures whether
+generated images preserve semantic consistency, by clas-
+sifying each generated scene image into a room type and
+reporting the classification accuracy. For the SCA classifier,
+the classifier is trained for each set of generated scenes. The
+classifier is trained to distinguish the ground truth training
+scenes from 500 different synthesized scenes (half of 1000).
+The trained classifier is then evaluated on the other 500 syn-
+thesized scenes and the ground truth test scenes.
+CKL. Category KL divergence (CKL) evaluates the align-
+ment of category distributions between generated and real
+scenes. Let p(c) andq(c) be the normalized category fre-
+quencies (GT and generated). We compute:
+CKL =
+X
+c
+p(c) logp(c) +ε
+q(c) +ε, ε = 10−6.
+A lower value indicates that the generated scenes reproduce
+the real-world category frequency more faithfully.
+OOB-scene and OOB-object. The out-of-boundary
+(OOB) metrics detect objects that extend beyond the floor
+boundary based on their 3D bounding boxes. An object
+is marked OOB if any part lies outside the floor polygon.
+OOB-object reports the ratio of such objects over all ob-

@@ -1,0 +1,426 @@
+{
+ "floor": [
+  {
+   "assetId": "whiteboard-0",
+   "id": "whiteboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.4,
+    "y": 0.9,
+    "z": 3.019999960000001
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.0,
+     334.4999960000001
+    ],
+    [
+     290.0,
+     269.4999960000001
+    ],
+    [
+     190.0,
+     269.4999960000001
+    ],
+    [
+     190.0,
+     334.4999960000001
+    ]
+   ],
+   "object_name": "whiteboard-0"
+  },
+  {
+   "assetId": "side chair-0",
+   "id": "side chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.05,
+    "y": 0.41,
+    "z": 3.019999960000001
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     135.0,
+     334.4999960000001
+    ],
+    [
+     135.0,
+     269.4999960000001
+    ],
+    [
+     75.0,
+     269.4999960000001
+    ],
+    [
+     75.0,
+     334.4999960000001
+    ]
+   ],
+   "object_name": "side chair-0"
+  },
+  {
+   "assetId": "desk-0",
+   "id": "desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.355,
+    "y": 0.375,
+    "z": 1.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     75.5,
+     105.0
+    ],
+    [
+     75.5,
+     255.0
+    ],
+    [
+     -4.5,
+     255.0
+    ],
+    [
+     -4.5,
+     105.0
+    ]
+   ],
+   "object_name": "desk-0"
+  },
+  {
+   "assetId": "filing pedestal-0",
+   "id": "filing pedestal-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.28,
+    "y": 0.3,
+    "z": 0.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     60.5,
+     49.0
+    ],
+    [
+     60.5,
+     101.0
+    ],
+    [
+     -4.5,
+     101.0
+    ],
+    [
+     -4.5,
+     49.0
+    ]
+   ],
+   "object_name": "filing pedestal-0"
+  },
+  {
+   "assetId": "task chair-0",
+   "id": "task chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.475,
+    "z": 1.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     82.5,
+     142.5
+    ],
+    [
+     82.5,
+     217.5
+    ],
+    [
+     157.5,
+     217.5
+    ],
+    [
+     157.5,
+     142.5
+    ],
+    [
+     82.5,
+     142.5
+    ]
+   ],
+   "object_name": "task chair-0"
+  },
+  {
+   "assetId": "floor lamp-0",
+   "id": "floor lamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.155,
+    "y": 0.85,
+    "z": 2.85
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     35.5,
+     265.0
+    ],
+    [
+     35.5,
+     305.0
+    ],
+    [
+     -4.5,
+     305.0
+    ],
+    [
+     -4.5,
+     265.0
+    ]
+   ],
+   "object_name": "floor lamp-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "world map print-0",
+   "id": "world map print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.02,
+    "y": 1.9,
+    "z": 1.7999999600000012
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     2.0,
+     119.99999600000012
+    ],
+    [
+     2.0,
+     239.99999600000012
+    ],
+    [
+     0.0,
+     239.99999600000012
+    ],
+    [
+     0.0,
+     119.99999600000012
+    ],
+    [
+     2.0,
+     119.99999600000012
+    ]
+   ],
+   "object_name": "world map print-0"
+  },
+  {
+   "assetId": "art print-0",
+   "id": "art print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.1000001000000015,
+    "y": 1.85,
+    "z": 3.2799999600000014
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     140.00001000000015,
+     327.9999960000001
+    ],
+    [
+     140.00001000000015,
+     329.9999960000001
+    ],
+    [
+     80.00001000000015,
+     329.9999960000001
+    ],
+    [
+     80.00001000000015,
+     327.9999960000001
+    ],
+    [
+     140.00001000000015,
+     327.9999960000001
+    ]
+   ],
+   "object_name": "art print-0"
+  },
+  {
+   "assetId": "photograph print-0",
+   "id": "photograph print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.02,
+    "y": 1.65,
+    "z": 0.44999996000000125
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     2.0,
+     22.499996000000124
+    ],
+    [
+     2.0,
+     67.49999600000012
+    ],
+    [
+     0.0,
+     67.49999600000012
+    ],
+    [
+     0.0,
+     22.499996000000124
+    ],
+    [
+     2.0,
+     22.499996000000124
+    ]
+   ],
+   "object_name": "photograph print-0"
+  },
+  {
+   "assetId": "photograph print-1",
+   "id": "photograph print-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.02,
+    "y": 1.65,
+    "z": 0.8999999600000013
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     2.0,
+     69.99999600000012
+    ],
+    [
+     2.0,
+     109.99999600000012
+    ],
+    [
+     0.0,
+     109.99999600000012
+    ],
+    [
+     0.0,
+     69.99999600000012
+    ],
+    [
+     2.0,
+     69.99999600000012
+    ]
+   ],
+   "object_name": "photograph print-1"
+  },
+  {
+   "assetId": "clock-0",
+   "id": "clock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.4500001000000013,
+    "y": 2.35,
+    "z": 3.2649999600000013
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     260.00001000000015,
+     324.9999960000001
+    ],
+    [
+     260.00001000000015,
+     329.9999960000001
+    ],
+    [
+     230.00001000000015,
+     329.9999960000001
+    ],
+    [
+     230.00001000000015,
+     324.9999960000001
+    ],
+    [
+     260.00001000000015,
+     324.9999960000001
+    ]
+   ],
+   "object_name": "clock-0"
+  }
+ ]
+}

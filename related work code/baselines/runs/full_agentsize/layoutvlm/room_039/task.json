@@ -1,0 +1,35 @@
+{
+ "task_description": "a garage of about 8.2m x 7.5m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the drawer desk (o0003) should be against a wall. the file cabinet (o0000) should be within 0.50 m of the file cabinet (o0001). the drawer desk (o0003) should be within 0.30 m of the file cabinet (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    8.231288,
+    0.0,
+    0.0
+   ],
+   [
+    8.231288,
+    7.513467,
+    0.0
+   ],
+   [
+    0.0,
+    7.513467,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

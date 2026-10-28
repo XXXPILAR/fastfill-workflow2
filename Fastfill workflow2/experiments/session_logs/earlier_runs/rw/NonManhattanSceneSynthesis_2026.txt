@@ -1,0 +1,1239 @@
+Text-Driven 3D Indoor Scene Synthesis in Non-Manhattan Environments
+Xianhui Meng1,2, Zirui Song2,3, Yuchen Zhang2,4, Li Zhang1,
+Yongxuan Lv1, Xiuying Chen3, Kun Wang5, Yan Luo6, Kai Chen7, Hangjun Ye2,
+Long Chen2, Jun Liu1∗, Xiaoshuai Hao2∗,
+1University of Science and Technology of China ,2Xiaomi EV,
+3Mohamed bin Zayed University of Artificial Intelligence,4Georgia Institute of Technology,
+5Nanyang Technological University,6Massachusetts Institute of Technology,
+7The Hong Kong University of Science and Technology,
+junliu@ustc.edu.cn, haoxiaoshuai@xiaomi.com
+Abstract
+Large Language Models (LLMs) have demonstrated remark-
+able capabilities in 3D indoor synthesis for Manhattan en-
+vironments. However, existing methods often fail to capture
+plausible object layout patterns in non-Manhattan settings,
+primarilybecausetheystruggletomodelnon-orthogonalspa-
+tial relationships, leading to high geometric violations and
+low physical fidelity. To address this challenge, we propose
+SPG-Layout, a novel text-driven framework designed to gen-
+erate physically plausible indoor scenes within complex non-
+Manhattanenvironments.Specifically,wefirstutilizestatisti-
+calpriorsofobjectdistributionstoguidethetrainingprocess,
+enhancingenvironmentalunderstandingandfidelity.Further-
+more, mirroring human design workflows, we adopt ahierar-
+chical layout strategythat prioritizes the placement of large
+objects, thereby substantially minimizing layout violations.
+By synergizing these components,SPG-Layoutachieves a
+balancedoptimizationofsemanticrealismandphysicalplau-
+sibility. To evaluate performance in these complex settings,
+weconstructedanewbenchmarkcomprising500diversenon-
+Manhattanenvironments.Extensiveexperimentsdemonstrate
+thatSPG-Layoutconsistently and significantly outperforms
+existing methods across both Manhattan and non-Manhattan
+environments. The code will be publicly released.
+1 Introduction
+Recent advancements in Large Language Models (LLMs)
+haverevolutionizedtext-driven3Dscenesynthesis,enabling
+users to generate complex environments using natural lan-
+guage (Bucher and Armeni 2025; Yang et al. 2024d; Tang
+et al. 2024; Hu et al. 2024a; Maillard et al. 2024; Sun et al.
+2024a;Fengetal.2023;Haoetal.2025).However,acritical
+disparity remains between academic benchmarks and real-
+worldarchitecturalcomplexity.Thevastmajorityofexisting
+methods predominantly focus on Manhattan environments,
+characterizedbysimplifiedlayoutswithorthogonalwallsand
+axis-alignedstructures.WhiletheManhattanAssumptionfa-
+cilitates grid-based generation, it significantly limits appli-
+cability in practical scenarios. In real-world indoor scenes,
+non-Manhattantopologiesarenotmerelyedgecasesbutare,
+∗Corresponding author.
+Copyright©2027, Association for the Advancement of Artificial
+Intelligence (www.aaai.org). All rights reserved.
+Figure 1:Manhattanvs.Non-Manhattan Environments.
+Manhattan environments (left) are simple, characterized by
+orthogonal structures. In contrast, non-Manhattan environ-
+ments(right)aredifficulttounderstandduetotheirarbitrary,
+irregular,andcurvedgeometries,requiringprecisereasoning
+about mesh details and rotation angles.
+infact,prevalent.Contemporaryarchitecturefrequentlyem-
+ploys complex geometric primitives, characterized by arbi-
+trary turning angles, curvilinear boundaries, and irregular
+polygons, as illustrated in Fig. 1.
+However, extending current generative paradigms to non-
+Manhattansettingspresentsnon-trivialchallenges.First,ex-
+isting approaches (Bucher and Armeni 2025; Song et al.
+2025; Yang et al. 2024d; Wang et al. 2023; Zhai et al. 2024;
+Lin and Mu 2024; Sun et al. 2024b; Feng et al. 2023, 2025)
+learned distributions implicitly assume axis-aligned bound-
+aries, so high-likelihood placements in Manhattan rooms
+may become physically infeasible once walls turn obliquely.
+Second, existing methods (Çelen et al. 2024; Fu et al. 2024;
+Hu et al. 2024b; Littlefair, Dutt, and Mitra 2025; Yang et al.
+2024c;Wangetal.2024;Aguina-Kangetal.2024;Xiaetal.
+2025) suffer from a semantic-spatial misalignment. While
+LLMs (Yang et al. 2024a; Shao et al. 2024) excels at de-
+composing abstract instructions into object lists, it lacks the
+intrinsic geometric intuition to model the strong conditional
+spatialdependenciesbetweenobjects(e.g.,thecanonicalrel-
+ativeposebetweenabedandanightstand).Innon-Manhattan
+environments, where spatial relations cannot be implicitly
+learned via axis-aligned patterns, this deficiency leads to
+arXiv:2607.02407v1  [cs.AI]  2 Jul 2026
+layouts that are physically valid but functionally incoherent.
+To bridge these gaps, we presentSPG-Layout, a novel text-
+drivenframeworktailoredforgeneratingphysicallyplausible
+indoorsceneswithincomplexnon-Manhattanenvironments.
+Totackletheissueofspatiallyincoherentlayouts,wepro-
+pose a two-stage training paradigm empowered bySpatial
+Prior Guidance. Specifically, we align the LLM with struc-
+tured scene representations and subsequently optimize the
+model using reinforcement learning. To ensure generation
+quality,wedesignverifiablerewardsderivedfromthestatis-
+tical distribution of non-Manhattan environments. Further-
+more, to mitigate physical collisions, we introduce aHier-
+archical Layout Strategyinspired by human interior design
+cognition. By adopting a coarse-to-fine workflow that pri-
+oritizes large-scale furniture before allocating smaller items
+to the remaining space, we effectively mitigate spatial con-
+flicts and ensure physical plausibility, even in constrained
+geometries. Validating performance in non-Manhattan set-
+tings remains challenging due to data scarcity. To address
+this, we curated a novel dataset of 500 high-quality non-
+Manhattan scenes. We extracted irregular boundaries from
+publiclyavailableprofessionalfloorplansandgeneratedini-
+tial 3D layouts, which were subsequently polished via man-
+ual refinement to ensure quality. This dataset is then used to
+benchmark model performance in non-Manhattan environ-
+ments. For completeness, we also conducted extensive ex-
+perimentsonstandardManhattandatasets.Empiricalresults
+demonstratethatourproposedSPG-Layoutsignificantlyout-
+performstheexistingstate-of-the-artbaselinesinbothMan-
+hattan and non-Manhattan environments, establishing itself
+asaversatileandrobustframeworkfortext-driven3Dindoor
+scene synthesis.
+Our contributions are threefold:First, we proposeSPG-
+Layout, the first text-driven framework specifically opti-
+mizedfornon-Manhattanindoorenvironments.Bybreaking
+the “Manhattan Assumption", our approach enables physi-
+cally plausible and semantically coherent 3D scene genera-
+tion in complex architectural spaces with irregular bound-
+aries and arbitrary angles.Second, we introduce a dual-
+optimization strategy that mirrors human design cognition:
+(i)SpatialPriorGuidance(SPG),whichintegratesstatistical
+distributions of object-boundary and object-object relation-
+shipsintoareinforcementlearningreward;and(ii)aHierar-
+chical Layout Strategy (HLS), which prioritizes large-scale
+furnituretoresolvespatialfragmentationandminimizephys-
+ical collisions.Third, we propose the benchmark consisting
+of500diversenon-Manhattanenvironmentstobridgethegap
+in existing datasets. Extensive evaluations demonstrate that
+SPG-Layoutsignificantly outperforms current methods in
+both layout fidelity and violation metrics across Manhattan
+and non-Manhattan settings, establishing a robust baseline
+for future research.
+2 Related Work
+2.1 Indoor Scene Layout Generation
+Earlyindoorscenelayoutgenerationreliedonheuristicrules,
+proceduralmodeling,andoptimization-basedtechniques(Qi
+et al. 2018; Weiss et al. 2018; Fisher et al. 2015; Purkait
+etal.2020),wherehandcraftedspatialconstraintsandexpert
+knowledge were designed to produce functional and physi-
+cally plausible layouts. With the emergence of deep learn-
+ing,data-drivenapproachesgraduallyreplacedmanuallyde-
+signed rules. Representative methods include CNN-based
+scene priors (Wang et al. 2018), autoregressive transformer
+models(Ritchie,Wang,andLin2019;Wang,Yeshwanth,and
+Nießner2021;Paschalidouetal.2021;Sunetal.2024b),and
+more recently diffusion-based approaches (Tang et al. 2024;
+Hu et al. 2024a; Wei et al. 2023; Maillard et al. 2024; Yang
+et al. 2024b). By learning object distributions from large-
+scale indoor scene datasets, these methods substantially im-
+prove layout realism and generation quality. Nevertheless,
+they primarily rely on learned spatial priors and predefined
+conditioningsignals,makingitdifficulttoflexiblysynthesize
+scenes according to diverse user requirements.
+2.2 Language-Guided Indoor Scene Generation
+Recent advances in large language models (LLMs) have
+enabled indoor scene synthesis directly from natural lan-
+guage descriptions. Early work such as CLIP-Layout
+(?) explored language-conditioned layout generation using
+vision-language representations. Building upon instruction-
+following LLMs, subsequent methods—including Layout-
+GPT (Feng et al. 2023), LayoutVLM (Sun et al. 2024a),
+I-Design (Çelen et al. 2025), Holodeck (Yang et al. 2024d),
+LLPlace (Yang et al. 2024c), InstructScene (Lin and Mu
+2024), SceneWeaver (Yang et al. 2025), Ctrl-Room (Fang
+et al. 2025), and ReSpace (Bucher and Armeni 2025)—sig-
+nificantlyimprovesemanticcontrollabilitybyallowingusers
+to specify layout requirements through natural language in-
+stead of manually designing optimization objectives or spa-
+tialconstraints.Despitetheseadvances,existingmethodsare
+almost exclusively developed and evaluated on Manhattan-
+style environments, where room geometry can be approxi-
+mated by axis-aligned boundaries.
+2.3 Challenges of Non-Manhattan Scene
+Generation
+Real-world indoor environments frequently deviate from
+the Manhattan-world assumption, exhibiting arbitrary wall
+orientations and irregular room boundaries. Such non-
+Manhattan geometries have been extensively studied in in-
+door layout estimation, floor-plan reconstruction, and scene
+understanding(Zouetal.2018;Sunetal.2019;Kalervoetal.
+2019;Zhengetal.2020),leadingtoincreasinglyaccuratege-
+ometricrepresentationsofcomplexindoorspaces.However,
+these studies primarily focus on recovering room structures
+rather than generating object layouts conditioned on user in-
+tent. Consequently, although recent LLM-based scene syn-
+thesis methods achieve impressive language understanding
+and semantic reasoning capabilities, they generally lack ex-
+plicit modeling of non-orthogonal spatial relationships and
+polygonalroomgeometries.Applyingthemdirectlytoirreg-
+ular floor plans often results in physically implausible ob-
+ject placements and inconsistent orientations. However, our
+methodlearnsfeaturesundernon-Manhattanlayoutsbycon-
+structing spatial priors, enabling text-driven scene synthesis
+to generalize to general non-Manhattan environments.
+Figure 2:Overview of the proposed SPG-Layout framework.(i) Provides an intuitive comprehension of structured scene
+representation (Sec. 3.1). (ii) Structural alignment by full parameter fine-tuning (Sec. 4.3 stage 1). (iii) Inference Pipeline
+illustrates the hierarchical layout strategy for progressive generation (Sec. 4.4). (iv) Reinforcement Learning optimizes the
+model using a multi-objective reward function via GRPO (Sec. 4.3 stage 2).
+3 Preliminaries and Problem Statement
+3.1 Preliminaries
+We represent a 3D indoor scene using aStructured Scene
+Representation (SSR), which disentangles the scene into an
+architectural layout and a set of object instances.
+Layout Definition.Let the room layoutLbe defined by
+the ceiling and floor boundaries, each represented as an or-
+dered sequence of vertices,V top = (v top
+1 ,...,v top
+m )and
+Vbottom = (vbottom
+1 ,...,v bottom
+m ), wherevtop
+i ,vbottom
+i ∈
+R3. Adjacent vertices in each sequence define the polygon
+edges, and the first and last vertices are connected to form
+closedpolygonsinEuclideanspace.Theseboundariesspec-
+ify the room envelope and impose structural constraints for
+object placement.
+ObjectParameterization.Tosupportopen-vocabularysyn-
+thesis, we represent each objectoi as a tuple that decouples
+semantics from geometry:
+oi = (di,si,pi,qi),(1)
+whered i denotes the natural language description (e.g., “a
+leather sofa”), andsi∈R 3,p i∈R 3,q i∈R 4 correspond
+tothe3Dscale,position,androtation,respectively.Thisfac-
+torization enables asset-agnostic synthesis via cross-modal
+retrieval.
+3.2 Problem Statement
+We formulate text-driven indoor scene synthesis as a con-
+ditional sequence generation task. At generation stept, the
+scene state is represented asGt = (τ,L,O t), whereτde-
+notes the semantic room type inferred from the user prompt
+u,Lrepresents the geometric layout, andOt ={o i}n
+i=1 is
+the set of instantiated objects.
+ToleveragethegenerativecapabilitiesofLLMs,weintro-
+duce a serialization functionS:G→J, which maps the
+structured scene state spaceGinto a discrete SSR sequence
+spaceJ. Given the user promptuand the serialized context
+Jt =S(G t)ofthecurrentstate,ourobjectiveistogeneratea
+layout-compliantstructuralincrementˆy∈Jbymaximizing
+the conditional likelihood:
+ˆy= arg max
+y∈J
+pθ(y|u,J t).(2)
+The SSR is then updated in the serialized space asJt+1 =
+Jt⊕ˆy, where⊕denotes the SSR update operator. The up-
+dated structured scene stateGt+1 is subsequently sampled
+fromJ t+1, after which concrete assets are retrieved and in-
+stantiated to obtain the executable 3D scene. The generation
+processisinitializedatt= 0withG 0 = (τ(u),L,∅),whose
+serialized form isJ0 =S(G 0).
+4 Framework
+This section details our 3D indoor scene synthesis frame-
+work (see Fig. 2). We first describe the non-Manhattan data
+generation pipeline (Sec. 4.1). Then, we introduce the Spa-
+tial Prior Guidance mechanism (Sec. 4.2) and the two-stage
+trainingprocess(Sec.4.3).Finally,wepresentthehierarchi-
+cal strategy used for inference in Sec. 4.4.
+Figure 3:Mechanism of Spatial Prior Guidance (SPG).
+SPG explicitly integrates geometric boundary priors and se-
+manticco-occurrenceaffinitiestoprovidecomputablereward
+signals for reinforcement learning-based scene generation.
+4.1 Non-Manhattan Data Collection
+To facilitate our research on non-Manhattan Environments,
+we present a semi-automated data generation pipeline, illus-
+trated in Fig. 7, to construct a dataset of non-Manhattan 3D
+indoor scenes. Specifically, we first curate a large-scale col-
+lectionofrawfloorplantemplatesfromwebrepositoriesand
+extracttheirgeometricboundaries,formulatedasL.Topop-
+ulate these empty rooms, we utilize a model pre-trained on
+Manhattan datasets (specifically, the ReSpace (Bucher and
+Armeni 2025) model integrated with our HLS strategy) to
+synthesize coarse non-Manhattan scenes. Since direct trans-
+fer may introduce artifacts, we subsequently employ a man-
+ualrefinementprocesswhereannotatorsmanuallyadjustthe
+pose and scale of objects to ensure physical plausibility and
+semanticcoherence.Thispipelineultimatelyyieldsacurated
+dataset of500high-quality refined scenes. See more details
+in Sec. 8.
+4.2 Spatial Prior Guidance
+WhileLLMsexcelatsemanticdecomposition—parsinguser
+promptsintoobjecttupleso i = (di,si,pi,qi)—theyexhibit
+significant limitations in spatial positioningpi and geomet-
+ric reasoning. Existing autoregressive approaches directly
+regress object parameters, effectively memorizing coordi-
+nate distributions from training data. In non-Manhattan en-
+vironments with irregular boundariesL, these memorized
+distributions fail to generalize: positions that are valid in
+Manhattan settings may fall outside the valid polygon, caus-
+ing collisions or implausible placements. Moreover, without
+explicit spatial priors, the model lacks the inductive bias to
+capture conditional dependenciesP(o i |o j)between se-
+mantically affiliated objects (e.g., a nightstand adjacent to a
+bed) in irregular geometries.
+To address these challenges, we introduceSpatial Prior
+Guidance (SPG). Instead of relying solely on the textual
+likelihood,weexplicitlymodelthestatisticalpriorsofobject-
+boundary relationships and object-object affinities, as illus-
+trated in Fig. 3. Formally, we quantify the SPG as a scoring
+functionR spg that evaluates the spatial validity of the gener-
+ated position:
+Rspg(oi,L,O <i) =α·B(o i,L)
++β·
+X
+oj∈O<i
+wj·A(oi,oj), (3)
+whereB(·)measures the object-architecture prior consis-
+tency,andA(·)calculatesthesemantic-awarespatialaffinity
+betweenthecurrentobjectanditsneighborsinthepreviously
+generated setO<i. Sensitivity coefficientsαandβbalance
+the contribution of each prior. The weightwj is computed
+via an attention mechanism:
+wj = exp(A(oi,oj)/τ)P
+ok∈O<i
+exp(A(oi,ok)/τ),(4)
+whereτis a learnable temperature parameter. Unlike naive
+averaging, which dilutes the spatial signal with noise from
+weakly related objects, this attention-weighted aggregation
+dynamically assigns higher weights to semantically stronger
+spatial anchors (e.g., the bed as the primary anchor for a
+nightstand), while still retaining information from all previ-
+ously placed objects. This formulation transforms abstract
+spatial constraints into a computable metric.Rspg serves as
+an intrinsic reward signal that guides policy optimization
+in the reinforcement learning stage. We emphasize thatRspg
+providesthemodelwithdirectionalguidancetowardhuman-
+preferred spatial distributions rather than exposing ground-
+truth answers; combined with the KL divergence penalty in
+GRPO, this prevents reward hacking and ensures the model
+learns generalizable spatial reasoning rather than overfitting
+to specific evaluation criteria.
+4.3 Two-Stage Training Strategy
+We propose a two-stage training pipeline to adapt a general-
+purposeLLMfor3Dscenelayoutgeneration.Thefirststage
+aligns the model to the SSR format via Supervised Fine-
+Tuning, and the second stage enforces geometric constraints
+viaReinforcementLearningwithGroupRelativePolicyOp-
+timization (GRPO).Stage 1: Supervised Fine-Tuning for
+Structural Alignment.
+A key requirement for text-driven scene synthesis is ad-
+herence to the SSR format defined in Sec. 3.1. We fine-
+tune the Qwen3-4B backbone on SSR-3DFRONT (Bucher
+and Armeni 2025)—a structured version of 3D-FRONT (Fu
+et al. 2021). We use full-parameter fine-tuning rather than
+LoRA (Hu et al. 2022), as LoRA achieves only a 78% for-
+mat success rate compared to 99% for full fine-tuning after
+trainingfor100epochs.Suchhighformatcomplianceisnec-
+essaryfortheRLstagetocorrectlyparseandoptimizeobject
+parameters.
+Stage 2: Reinforcement Learning via GRPO.
+While the first stage enables valid syntax generation, it
+does notenforce continuous physicalconstraints such asob-
+jectintersectionsorboundaryviolations.Wefurtheroptimize
+theSFTmodelusingGRPOtoimprovegeometricplausibil-
+ity.
+Tobalancegeometricconsistency,formatcompliance,se-
+mantic matching, and spatial reasoning, we employ a multi-
+objective reward function, as defined in Eq. 5:
+Rtotal =
+
+
+
+Rfmt, R fmt̸= 1,
+γ1Rgeo +γ 2Rsem
++γ3
+N
+PN
+i=1Rspg,otherwise.
+(5)
+whereγ i (i∈ {1,2,3}) represents the weight coefficient
+for each reward component, andNdenotes the number of
+objects in the synthesized scene. The specific definitions of
+each reward component are as follows:
+Geometric Consistency Reward (Rgeo).We design the ge-
+ometricrewardtoenforcephysicalconstraintsbyminimizing
+an energy-based cost. Thegeometric energyEgeo measures
+the severity of boundary violations and object collisions:
+Egeo =
+X
+i
+∥Vi⊙(1−V env)∥1| {z }
+Boundary Violation
++
+X
+i<j
+∥Vi⊙Vj∥1| {z }
+Collision
+,(6)
+whereV i denotes the voxelized grid of thei-th object, and
+Venv represents the environment layout (with1indicating
+valid interior space).⊙denotes the Hadamard product, and
+∥·∥ 1 is theL 1 norm measuring the volume of overlap.
+The final reward is obtained by normalizing this energy via
+exponential normalization:Rgeo = exp(−Egeo/σgeo). This
+mapping ensures that collision-free layouts receive a reward
+approaching1, while invalid configurations yield smooth
+penalties to facilitate gradient-based optimization.
+FormatComplianceReward(R fmt).Toguaranteethatthe
+generated outputs constitute a valid Structured Scene Rep-
+resentation (SSR) as defined in Sec. 3.1, we impose a strict
+structural constraint. LetΦ(oi)be a validation function that
+returns1if and only if the generated objectoi can be suc-
+cessfully parsed into the tuple(di,si,pi,qi)with correct
+dimensionality (si,pi∈R 3,qi∈R 4). The reward is the
+average validity overNgenerated objects:
+Rfmt = 1
+N
+NX
+i=1
+Φ(oi).(7)
+Thisensuresthemodelstrictlyadherestothedefinedschema,
+preventingmalformedoutputsthatwouldfailthesubsequent
+rendering process.
+SemanticMatchingReward(R sem).Wequantifysemantic
+fidelity by measuring the recall of mandatory attribute key-
+words, complementing latent-space metrics. LetKdenote
+the set of keywords extracted from the user prompt (e.g.,
+{“red”, “leather”}),andWi bethesetoftokensinthegener-
+ated object description. The reward is defined as the average
+keyword coverage:
+ri = 1
+|K|
+X
+w∈K
+I[w∈
+[
+i
+Wi], R sem = 1
+N
+X
+i
+ri.(8)
+Thismetricexplicitlypenalizestheomissionoffine-grained
+constraints, ensuring the synthesized scene textually aligns
+with specific user instructions. Note that, if|K|= 0, this
+term is excluded from the overall reward.
+Figure 4:The Illustration of HLS.
+4.4 Hierarchical Layout Strategy
+While SPG-Layout excels in incremental object placement
+withinexistingscenes,text-driven3Dscenesynthesisneces-
+sitates the ability to generate holistic scenes from scratch.
+In the absence of established spatial references, the unprior-
+itized placement of smaller objects risks fragmenting the
+continuous free space. This fragmentation creates severe
+geometric constraints, often rendering the subsequent ac-
+commodation of larger structures infeasible due to collision
+conflicts. Conversely, prioritizing larger entities establishes
+a spatial backbone, ensuring sufficient allocation for domi-
+nant structures while allowing smaller items to be flexibly
+positioned within the remaining interstices.
+Drawinginspirationfromhumancognitivestrategiesinin-
+terior design—where dominant furniture pieces (e.g., beds,
+sofas) are positioned prior to supplementary items (e.g.,
+stools, side tables)—we introduce the Hierarchical Lay-
+out Strategy (HLS). Specifically, we categorize objects into
+three distinct tiers based on area occupancy: large (Olarge,
+area >1.2), medium (Omedium,0.3≤area≤1.2) and
+small(O small,area<0.3).HLSstrictlyenforcesadescend-
+ing order of placement (Olarge→O medium→O small), prior-
+itizing the localization of large objects before determining
+the coordinates for smaller entities (As shown in Fig. 4).
+Furthermore, HLS is adapted as a dynamic conflict res-
+olution mechanism during single-object addition. When the
+initial scene layout is suboptimal and leads to collisions be-
+tween the SPG-Layout prediction and existing objects, HLS
+temporarilyretractsallexistingobjectssmallerthanthenew
+entity into a candidate pool. The system then re-optimizes
+the layout by placing all objects in the pool (including the
+new one) following the hierarchical size-descending proto-
+col.Thisapproachfacilitatestheseamlessintegrationofnew
+objects while maximally preserving the structural integrity
+and semantic consistency of the original scene.
+5 Experiments
+WeevaluateSPG-Layoutontwotasksinnon-Manhattanen-
+vironments: 1)Single Object Addition:inserting new ob-
+jectsintoexistinglayoutsviatextinstructions;2)FullScene
+Synthesis:generating complete layouts from text descrip-
+tions alone. We also benchmark against methods restricted
+toorthogonalgeometriesinstandardManhattansettings.Fi-
+nally, we conduct ablation studies to validate each proposed
+module.
+5.1 Experimental Setup
+Weevaluateonthe500non-ManhattanscenesfromSec.4.1,
+partitionedinto‘bed’(252),‘liv’(148),and‘all’(500)splits
+Table 1:Quantitative comparison on layout generation.We report results asSingle Object Addition/Full Scene Synthesis
+tasks.LayoutViolationsmetricsaremultipliedby10 3 forreadability.↑indicateshigherisbetter,and↓indicateslowerisbetter.
+Boldindicates the best performance for each setting respectively. “n/a” denotes inapplicable metrics.
+Category Method Layout Violations Layout Fidelity
+↓OOB×103 ↓MBL×103 ↓VBL×103 ↑OOR(%)↑OAR(%)↑ATR(%)↑PMS(%)
+Bed.
+LayoutGPT (Feng et al. 2023) 850.91 / 2243.30 251.20 / 662.26 1102.11 / 2905.56 8.15 / 6.02 11.39 / 8.42 16.03 / 11.85 n/a / n/a
+LayoutVLM (Sun et al. 2024a) 192.22 / 506.76 193.58 / 510.36 385.80 / 1017.12 34.64 / 25.61 40.14 / 29.67 47.91 / 35.41 n/a / n/a
+InstructScene (Lin and Mu 2024) 338.22 / 891.68 414.73 / 1093.38 752.95 / 1985.06 17.16 / 12.69 25.36 / 18.74 32.55 / 24.06 n/a / n/a
+ATISS (Paschalidou et al. 2021) 237.7 / 523.2 156.7 / 330.8 394.4 / 853.2 33.13 / 23.87 41.54 / 29.78 56.78 / 34.90 52.00 / n/a
+MiDiffusion (Hu et al. 2024a) 158.0 / 422.3 114.1 / 298.8 272.2 / 721.1 36.87 / 28.78 47.89 / 35.94 61.52 / 39.02 50.00 / n/a
+ReSpace (Bucher and Armeni 2025) 53.22 / 261.5 11.17 / 167.2 64.39 / 428.7 58.32 / 60.69 74.01 / 71.8189.68/ 77.3891.00/ 87.00
+SPG-Layout (Ours) 1.56/29.30 1.63/30.39 3.19/59.69 63.64/62.8179.42/75.7188.71 /81.5791.00/89.00
+Liv.
+LayoutGPT (Feng et al. 2023) 724.85 / 1910.96 213.99 / 564.15 938.83 / 2475.10 8.48 / 6.27 11.86 / 8.77 16.68 / 12.33 n/a / n/a
+LayoutVLM (Sun et al. 2024a) 163.74 / 431.68 164.91 / 434.75 328.65 / 866.43 36.06 / 26.65 41.78 / 30.88 49.86 / 36.86 n/a / n/a
+InstructScene (Lin and Mu 2024) 288.12 / 759.58 353.29 / 931.40 641.41 / 1690.98 17.86 / 13.20 26.39 / 19.51 33.88 / 25.04 n/a / n/a
+ATISS (Paschalidou et al. 2021) 197.0 / 504.3 131.2 / 254.8 328.2 / 759.1 36.13 / 29.56 43.54 / 31.59 58.78 / 36.88 56.00 / n/a
+MiDiffusion (Hu et al. 2024a) 142.3 / 352.6 99.76 / 237.2 242.0 / 589.8 41.08 / 31.73 48.70 / 32.21 67.52 / 37.94 57.00 / n/a
+ReSpace (Bucher and Armeni 2025) 31.01 / 190.5 13.29 / 65.20 44.30 / 255.7 61.21 / 63.43 65.99 / 65.38 89.05 / 83.4190.00/89.00
+SPG-Layout (Ours) 1.47/4.05 1.30/6.06 2.77/10.11 66.69/65.5467.63/69.6689.60/84.3790.00/89.00
+All
+LayoutGPT (Feng et al. 2023) 787.88 / 2077.12 232.59 / 613.20 1020.47 / 2690.33 8.31 / 6.15 11.63 / 8.59 16.35 / 12.09 n/a / n/a
+LayoutVLM (Sun et al. 2024a) 177.98 / 469.22 179.25 / 472.55 357.23 / 941.77 35.35 / 26.13 40.96 / 30.28 48.89 / 36.13 n/a / n/a
+InstructScene (Lin and Mu 2024) 313.17 / 825.63 384.01 / 1012.39 697.18 / 1838.02 17.51 / 12.95 25.87 / 19.12 33.21 / 24.55 n/a / n/a
+ATISS (Paschalidou et al. 2021) 221.7 / 631.4 114.5 / 108.5 336.1 / 739.8 35.92 / 27.56 44.04 / 23.66 57.09 / 28.76 55.00 / n/a
+MiDiffusion (Hu et al. 2024a) 153.5 / 327.4 102.9 / 87.10 256.4 / 414.5 39.77 / 29.02 47.00 / 26.88 65.10 / 31.23 53.00 / n/a
+ReSpace (Bucher and Armeni 2025) 34.33 / 218.4 12.26 / 91.94 46.60 / 310.3 60.24 / 60.61 73.17 / 69.0789.23/ 82.5190.00/ 90.00
+SPG-Layout (Ours) 0.59/14.93 1.12/14.36 1.71/29.29 66.18/65.7176.68/74.7889.09 /83.6389.00 /92.00
+following ReSpace (Bucher and Armeni 2025). For Man-
+hattan comparison, we sample an equivalent subset from
+SSR-3DFRONT(BucherandArmeni2025).WereportLay-
+out Violation metrics (OOB, MBL, VBL) and Layout Fi-
+delity metrics (OOR, OAR, ATR, PMS), with definitions in
+Sec. 9. Independent SceneEval (Tam et al. 2026) results are
+in Sec. 13.1.
+5.2 Main Results
+The model is trained on SSR-3DFRONT (Bucher and Ar-
+meni2025)for110epochs,comprising100epochsofsuper-
+vised fine-tuning and 10 epochs of reinforcement learning.
+GRPO is adopted with a group size of 8, whereα= 0.55
+andβ= 0.45in Eq. 3, andγ 1-3 = 0.3,0.3,0.4in Eq. 5.
+Single Object Addition.Tab. 1 shows SPG-Layout outper-
+forms baselines by a significant margin. In the ‘bedroom’
+subset, OOB, MBL, and VBL are reduced by 51.66, 9.54,
+and61.2,respectively.OORandOARimprovebyanaverage
+of 5.58 and 3.52 across all categories.
+Full Scene Synthesis.Starting from an empty scene, the
+model must synthesize the entire layout from text alone.
+Tab. 1 demonstrates layout violation reductions of 86%,
+96%, and 91% in the Bedroom, Living room, and All cat-
+egories over the runner-up, while achieving SOTA fidelity.
+The attention-weighted SPG (Eq. 3) improves OOR from
+63.39%to65.71%intheAllcategorycomparedtotheaver-
+aging baseline, confirming that dynamically weighting spa-
+tial anchors yields more effective guidance. Qualitative re-
+sults are shown in Fig. 6 and Fig. 5.
+Figure 5:Qualitative Results on non-Manhattan Dataset.
+Givenreal-worldroomtype,SPG-Layoutgeneratescomplete
+scene layouts guided by specific user instructions.
+5.3 Generalization Capacity and User Study
+Generalization Capacity.To evaluate generalization, we
+test in standard Manhattan environments (Tab. 2). Results
+show that our method outperforms existing approaches in
+both non-Manhattan and conventional Manhattan settings.
+User Study.We conducted a user study to evaluate per-
+ceptual quality in non-Manhattan scenes. We generated 100
+comparisonsets,eachcontainingourmethod’soutputalong-
+side all baselines, presented in randomized and anonymized
+order. Twenty participants voted for the layout that best pre-
+served spatial fidelity, object arrangement rationality, and
+consistency with the input description (Tab. 3).
+Table 2:Generalization results in conventional Manhattan environments.↑indicates higher is better, and↓indicates lower
+is better. Layout Violations are multiplied by103 for readability.Boldindicate the best performance.
+Method Layout Violations Layout Fidelity
+↓OOB×1e3 ↓MBL×1e3 ↓VBL×1e3 ↑OOR(%)↑OAR(%)↑ATR(%)↑PMS(%)
+LayoutGPT (Feng et al. 2023)1199.7 84.21 1284.09.87 12.78 15.32 n/a
+LayoutVLM (Sun et al. 2024a)78.6 84.34 162.933.78 39.24 46.45 n/a
+InstructScene (Lin and Mu 2024)211.45 125.71 337.1623.38 33.79 38.20 n/a
+ATISS (Paschalidou et al. 2021)412.75 250.8 663.5526.87 32.78 37.85 n/a
+Mi-Diff (Hu et al. 2024a)422.3 298.8 721.135.06 41.37 44.98 n/a
+ReSpace (Bucher and Armeni 2025)88.8 124.60 213.469.61 77.29 78.32 72.00
+SPG-Layout (Ours) 8.12 9.73 17.85 73.21 81.23 85.07 89.00
+Figure 6: Qualitative results of layout generation in complex non-Manhattan environments compared to the existing methods.
+Red circles highlight instances of layout violations, such as object collisions or boundary penetrations.
+Table 3:User Study Results.Twenty participants blindly
+voted for the best layout among anonymized results in each
+comparison set.
+Method LayoutGPT LayoutVLM InstructScene ATISS Mi-Diff ReSpace Ours
+Votes34 71 48 56 83 3461362
+5.4 Ablation Study
+We report two aggregated metrics:avg_LV(mean of OOB,
+MBL,VBL)andavg_LF(meanofOOR,OAR,ATR,PMS).
+Impact of Reward Signals.As shown in the second row of
+Tab.4,theSPGmoduleimproveslayoutqualityandreduces
+violations. Without SPG,avg_LFof the three categories
+drops by 15.6%, 12.8% and 11.4%, and the averageavg_LV
+increasesby50.74.ThespatialpriorofSPGenhancesscene
+understanding and yields more reasonable layout coordinate
+predictions. Ablation on geometric rewardRgeo (third row)
+revealsthatremovingR geo slightlyraisesavg_LV.Itsimpact
+is negligible compared with HLS, indicatingRgeo is not a
+core factor for mitigating layout violations.
+Impact of Hierarchical Layout Strategy.As shown in the
+fourthrowofTab.4,HLSiscriticalformitigatinglayoutvi-
+olations.Thefullmodelreducesavg_LVby100.73,108.89,
+and 113.16 on the ‘bed’, ‘liv’, and ‘all’ splits compared with
+the model without HLS. This indicates that the hierarchical
+constraintsofHLSpreventunreasonableplacementofsmall
+Table 4:Ablation Study.
+Settings avg_LV(↓)avg_LF(↑)
+bed liv all bed liv all
+baseline285.78 170.47 206.86 74.22 75.31 75.54
+SPG-Layout (w/oRspg) 88.09 54.77 75.41 65.18 67.24 69.45
+SPG-Layout (w/oRgeo) 102.77 86.09 78.76 76.64 75.08 77.89
+SPG-Layout (w/oHLS) 140.52 115.63 132.68 73.25 74.81 76.39
+SPG-Layout (full) 39.79 6.74 19.52 77.2777.1478.36
+objects and effectively avoid collisions between objects.
+6 Conclusion
+In this paper, we presentSPG-Layout, a novel text-driven
+framework for 3D indoor scene synthesis that effectively
+addresses the limitations of existing methods in handling
+non-Manhattan environments. By integratingSpatial Prior
+GuidanceandHierarchical Layout Strategywithin a two-
+stage training framework, our approach achieves unprece-
+dented advancements on complex non-Manhattan bench-
+mark. Furthermore, comprehensive experiments reveal that
+SPG-Layout not only leads state-of-the-art baselines in gen-
+eralbutalsofarexceedstheperformanceofexistingmethods
+on standard Manhattan Environments.
+Appendix
+This technical appendix provides additional details of met-
+rics,implementationdetailsofourmethod,aswellasexper-
+imental results that are omitted from the main body of this
+paper due to the page limit.
+7 Preliminary: Group Relative Policy
+Optimization (GRPO)
+GRPOisareinforcementlearningalgorithmforpost-training
+large language models (LLMs). Compared with Proximal
+Policy Optimization (PPO), GRPO removes the need for an
+additional value (critic) network by estimating advantages
+through relative reward comparison within a group of sam-
+pled responses. This design significantly reduces computa-
+tionalandmemoryoverheadwhilemaintainingstablepolicy
+optimization.
+Given an input promptx, the old policyπθold samples a
+group ofGresponses,
+{y1,y 2,...,y G}∼π θold(·|x).
+Each response is assigned a scalar rewardri, and its advan-
+tage is computed by group-wise normalization:
+Ai = ri−mean({rj}G
+j=1)
+std({rj}G
+j=1) +ϵ ,
+whereϵis a small constant for numerical stability.
+GRPO optimizes the policy using the following clipped
+surrogate objective:
+LGRPO(θ) =
+E
+"
+1
+G
+GX
+i=1
+ 
+min
+
+ri(θ)Ai,clip
+ 
+ri(θ),1−ε,1 +ε
+
+Ai
+
+−βD KL
+ 
+πθ∥π ref
+
+!#
+,
+(9)
+where
+ri(θ) = πθ(yi|x)
+πθold(yi|x)
+denotes the importance sampling ratio,πref is the reference
+policy,εis the clipping coefficient, andβcontrols the KL
+regularization strength. The clipped objective constrains the
+policy update, while the KL term prevents the optimized
+policy from deviating excessively from the reference model.
+The above formulation is adopted as the reinforcement
+learning backbone in our method. Readers are referred to
+theoriginalGRPOpaperforacomprehensivederivationand
+theoretical analysis.
+8 Details of Non-Manhattan Data Collection
+Our dataset is collected in a copyright-respecting manner.
+All floor plans and related materials are obtained from pub-
+licly accessible sources under appropriate usage conditions,
+and we only use the information necessary for research pur-
+poses. We do not redistribute any proprietary raw content,
+and all collected data are processed into derived represen-
+tations (e.g., geometric layouts and annotations) that do not
+retain identifiable copyrighted elements.
+Our prior extraction strategy is highly robust. Its main
+purpose is to prevent the model from simply memorizing
+absolute coordinates, and instead encourage it to learn the
+underlying distributions of object–object distances and ob-
+ject–wall distances in realistic indoor environments. Impor-
+tantly, the priors are not extracted from the 500 test scenes.
+Instead, we estimate the priors using an additional set of
+200 non-Manhattan scenes processed with the same refine-
+ment pipeline, combined with 100 manually refined scenes
+from conventional Manhattan environments. We adopt this
+mixed prior estimation strategy because relying solely on
+non-Manhattan data may reduce the model’s generalization
+ability.Thetotalnumberofsamplesusedforpriorestimation
+islimitedto300duetothesubstantialhumancostofdatare-
+finement: even with a semi-automatic annotation workflow,
+polishingeachscenestillrequiresapproximately10–15min-
+utes of annotator effort. Therefore, we only use 300 high-
+quality scenes for prior extraction, which we believe best
+reflect real-world object arrangement patterns. As shown in
+Tab. 2, our method maintains strong generalization perfor-
+manceandstillsignificantlyoutperformsexistingapproaches
+without re-estimating the priors.
+9 Detailed Definitions of Evaluation Metrics
+In this section, we provide the formal definitions and calcu-
+lation details for the metrics used to evaluate our model. Let
+Sdenote a generated scene containing a set ofNobjects,
+denoted asO={o 1,o 2,...,o N}. LetRrepresent the 3D
+space occupied by the room boundary.
+9.1 Layout Violation Metrics
+To strictly evaluate the physical plausibility of the synthe-
+sized scenes, we employ mesh-based voxelization to calcu-
+late violations with high precision, rather than relying on
+coarse bounding box approximations. We report the follow-
+ing three metrics:
+•Out-Of-Bounds (OOB):This metric quantifies the vol-
+ume of objects penetrating the room layout boundaries
+(e.g., floor, walls, ceiling). For each objectoi, we com-
+pute its voxelized mesh representationV(oi). The OOB
+loss is defined as the total volume of object voxels lying
+outside the valid room spaceR:
+LOOB =
+NX
+i=1
+Vol(V(oi)\R),(10)
+whereVol(·)denotesthephysicalvolumecalculatedfrom
+the voxel occupancy, and\represents the set difference
+operation.
+•Mesh-BasedLayoutLoss(MBL):Thismetricmeasures
+the severity of inter-object collisions. It is calculated as
+the sum of the intersection volumes between all pairs of
+distinct objects in the scene. Unlike bounding-box IoU,
+Figure 7:Semi-Automated Data Generation Pipeline.We extract geometric boundaries (a) and generate coarse scenes (b),
+followed by manual refinement of object attributes (c) to construct a curated dataset of 500 non-Manhattan scenes (d).
+this metric accounts for the detailed geometry of the as-
+sets:
+LMBL =
+X
+1≤i<j≤N
+Vol(V(oi)∩V(o j)),(11)
+where∩denotestheintersectionofthevoxelizedmeshes.
+•Voxelization-Based Loss (VBL):VBL aggregates both
+boundaryviolationsandinter-objectcollisionsintoasin-
+gle measure of layout infeasibility:
+LVBL =L OOB +L MBL.(12)
+Inourreportedtables,thesemetrics(L OOB,L MBL,L VBL)
+are typically scaled (e.g.,×103) for better readability.
+9.2 Layout Fidelity Metrics
+To assess how well the generated layouts align with human
+design distributions and the input textual intent, we utilize
+the following four metrics:
+•AttributeMatch(ATR):ATRevaluatesthesemanticac-
+curacyofthegeneratedobjectcategories.Foragenerated
+objecto i and its expected category from the promptcgt
+i ,
+the score is calculated as:
+ATR= 1
+N
+NX
+i=1
+I(Cat(oi) =c gt
+i ),(13)
+whereI(·)istheindicatorfunction,andCat(·)returnsthe
+semantic category of the object.
+•Object-Architecture Relationship (OAR):This metric
+assesses the consistency of object placement relative to
+the room structure (walls). For each objectoi belonging
+to categoryci, we measure its Euclidean distance to the
+nearest wall, denoted asd(oi,L). Using the category-
+specificwalldistancemeanµ w
+ci andstandarddeviationσ w
+ci
+derived from the human-refined dataset statistics, OAR
+is calculated as the ratio of objects that fall within the
+expected statistical range:
+OAR= 1
+N
+NX
+i=1
+I
+ 
+|d(oi,L)−µ w
+ci|≤σ w
+ci
+
+,(14)
+whereI(·)is the indicator function. A higher OAR indi-
+catesthatthespatialdistributionofobjectsrelativetothe
+room boundaries mimics human design habits.
+•Object-Object Relationship (OOR):This metric mea-
+sures whether the pairwise spatial arrangements between
+objectsfollowthelearnedpriordistributionofthedataset.
+For any pair of objects(oi,oj)with semantic categories
+(ci,cj),letdist(o i,oj)bethedistancebetweentheircen-
+ters. LetPbe the set of all unique pairs in the scene,
+where|P|= N(N−1)
+2 . The OOR score is defined as:
+OOR = 1
+|P|
+X
+(oi,oj )∈P
+I
+
+dist(oi,oj)−µ p
+ci,cj
+≤σ p
+ci,cj
+
+,
+(15)
+whereµ p
+ci,cj andσ p
+ci,cj represent the mean and standard
+deviation of the pairwise distance for the category com-
+bination(ci,cj)as recorded in the statistical priors. This
+metricquantifiestheplausibilityoffunctionalgroupings,
+such as the typical proximity between a bed and a night-
+stand.
+•Prompt-Matching Score (PMS):PMS quantifies the
+instruction-following capability by measuring the recall
+of words from the input prompt found in the description
+of the generated 3D asset. For a given input promptpi
+and the descriptiondi of the generated asset, the score is
+defined as:
+PMS(pi,di) = 1
+|pi|
+X
+wj∈pi
+Iwj∈di,(16)
+wherew j represents thej-th word in the promptpi,|p i|
+denotesthetotalwordcountoftheprompt,andI condition
+is the indicator function that equals 1 if the wordwj is
+present in the asset descriptiondi, and 0 otherwise.
+10 The Detailed Implementation of Spatial
+Prior Guidance
+In this section, we provide a detailed and reproducible de-
+scriptionofhowtheSpatialPriorGuidance(SPG)module
+is implemented, including (i) how the statistical spatial pri-
+ors are computed from human-refined scenes, and (ii) how
+thesepriorsareinstantiatedasacomputablerewardtoguide
+layout generation.
+10.1 Overview and Notation
+Given a generated sceneScontainingNobjectsO=
+{o1,...,o N}and a room layout boundaryL, SPG intro-
+duces two types of priors:
+•Object-Architecture Prior:category-dependent wall
+distance statistics(µw
+c,σw
+c ).
+•Object-Object Prior:category-pair-dependent relative
+distance statistics(µp
+ci,cj,σp
+ci,cj).
+These priors are estimatedofflinefrom the human-refined
+dataset,whichexhibitsadistributionmorealignedwithreal-
+world scenarios, and are subsequently used during training
+toprovideadenserewardsignalthatbiasesthemodeltoward
+spatially plausible configurations.
+10.2 Estimating Object-Architecture Priors
+We first estimate the object-architecture priors used for
+evaluating and guidingObject-Architecture Relationship
+(OAR). For each objectoi with semantic categoryci, we
+compute its Euclidean distance to the nearest wall in the
+room layoutL:
+d(oi,L).(17)
+Wethencollectallwall-distancesamplesforeachcategory
+c:
+Dw
+c ={d(o i,L)|Cat(o i) =c}.(18)
+Finally, we compute the category-wise mean and standard
+deviation:
+µw
+c = 1
+|Dwc|
+X
+d∈Dwc
+d,
+σw
+c =
+vuut 1
+|Dwc|−1
+X
+d∈Dwc
+(d−µ wc )2.
+(19)
+These statistics capture human design preferences regarding
+object placements relative to architectural boundaries (e.g.,
+beds and cabinets are often placed close to walls).
+10.3 Estimating Object-Object Priors
+Wenextestimatetheobject-objectpriorsusedforevaluating
+and guidingObject-Object Relationship (OOR). For any
+objectpair(o i,oj)withcategories(c i,cj),wecomputetheir
+pairwise center distance:
+dist(oi,oj).(20)
+We aggregate distances for each category pair(ci,cj):
+Dp
+ci,cj =
+n
+dist(oi,oj)
+ Cat(oi) =c i,
+Cat(oj) =c j, i<j
+o
+.
+(21)
+Then, we compute the mean and standard deviation:
+µp
+ci,cj = 1
+|Dp
+ci,cj|
+X
+d∈Dp
+ci ,cj
+d,
+σp
+ci,cj =
+vuut 1
+|Dp
+ci,cj|−1
+X
+d∈Dp
+ci ,cj
+(d−µ p
+ci,cj)2.
+(22)
+Thesestatisticsreflecttypicalfunctionalgroupingsinindoor
+scenes, such as the expected proximity between a bed and a
+nightstand.
+10.4 InstantiatingB(·)andA(·)in SPG
+Given a sceneSand an objecto i with categoryc i, SPG
+introduces two components modeled as Gaussian kernels:
+Object-ArchitectureTermB(·).ThetermB(·)quantifies
+the consistency of an object’s placement with the category-
+specificwalldistancedistribution.ItisformulatedasaGaus-
+sian function:
+B(oi,L) = exp
+
+−(d(oi,L)−µ w
+ci)2
+2(σwci)2
+
+.(23)
+Object-Object TermA(·).The termA(·)measures how
+well the relative distance between two objects conforms to
+the learned category-pair distribution:
+A(oi,oj) = exp
+ 
+−
+(dist(oi,oj)−µ p
+ci,cj)2
+2(σp
+ci,cj)2
+!
+.(24)
+10.5 Discussion: Why SPG Improves OOR/OAR
+and Alleviates Collisions
+ImprovingOOR/OAR.Byconstruction,SPGdirectlyop-
+timizes the same statistical consistency criteria used by
+OORandOAR.Therefore,maximizingR SPGencouragesthe
+modeltogeneratelayoutsthatliewithinthehigh-probability
+regions of human-refined spatial distributions, leading to
+higher OOR and OAR scores.
+Alleviating Collisions.Although SPG does not explicitly
+compute mesh intersections, it implicitly discourages ob-
+ject collisions through the object-object prior. In particular,
+whentwoobjectsoverlap,theirpairwisedistancedist(o i,oj)
+tends to be abnormally small and thus deviates from the
+learned meanµp
+ci,cj for most functional category pairs. As
+a result, such configurations are assigned lowRspg, making
+themunlikelyundertheSPG-guidedgenerationdistribution.
+This explains why SPG can reduce collision frequency in
+practice, even without explicitly using voxel-based collision
+penalties.WeemphasizethatSPGservesasastatisticalplau-
+sibility prior rather than a hard feasibility constraint. Thus,
+while SPG improves spatial rationality and reduces viola-
+tions,strictcollision-freeguaranteesrequirecomplementary
+geometric constraints, which are addressed by other compo-
+nents of the full framework.
+Figure 8:Expansion Capability of SPG-Layout.
+11 Expansion Capability of Our framework
+Leveraging Structured Scene Representation (SSR), our
+framework goes beyond scene synthesis and naturally sup-
+ports object-level scene editing, including removal and re-
+placement of existing entities. Under the explicit, object-
+centricSSRformulation,objectremovalbecomesastraight-
+forward and interpretable procedure. Specifically, we first
+enumerate and inspect the set of instantiated objects in the
+current scene. We then employ a zero-shot large language
+model (LLM) to parse the user instruction and identify the
+target object category or entity to be removed. Next, we
+perform semantic matching between the extracted target de-
+scriptionandtheexistingobjectcandidatesusingCLIP-based
+similarity, and eliminate the most semantically aligned ob-
+ject from the SSR. Because subsequent 3D asset retrieval
+andscenerenderingareconditionedontheupdatedSSR,the
+removed object is consistently absent from the regenerated
+scene.
+Similarly,objectreplacementcanbeformulatedasacom-
+positionofremovalfollowedbyinsertion:wefirstremovethe
+original object using the above strategy, and then introduce
+the requested new object into the SSR, triggering the corre-
+sponding asset retrieval and rendering steps. Fig. 8 provides
+qualitativedemonstrationsofourframeworkonbothremove
+and replace operations.
+12 3D Asset Sampling
+We retrieve 3D assets using a stochastic sampling process
+that balances semantic alignment and geometric fit. For a
+generated objectoi with descriptiondi and target scalesi,
+weassignaselectionscoretoeachcandidatemeshm j inthe
+asset library. The scoring function is defined as:
+Score(mj) =λ·sim sem(di,dj)
++ (1−λ)·sim geo(si,sj). (25)
+whered j ands j denote the textual description and spatial
+dimensions of the candidate meshmj, respectively.
+Specifically, the semantic similarity simsem is computed
+via the dot product of L2-normalized SigLIP embeddings.
+The geometric similarity simgeo is calculated using a Gaus-
+sian kernel based on the Euclidean distance of 3D bounding
+box dimensions:
+simgeo(si,sj) = exp
+
+−∥si−sj∥2
+2
+2σ2
+
+,(26)
+where∥·∥ 2 denotes theL2 norm. The final asset is selected
+via nucleus (top-p) sampling over the temperature-scaled
+softmax distribution derived from these scores. In line with
+thereferenceimplementation,wesettheweightingparameter
+λ= 0.5to give equal importance to text description and
+spatial dimensions during retrieval.
+13 Additional Experimental Results
+13.1 Independent Evaluation with SceneEval
+Metrics
+To address potential concerns about reward-metric circu-
+larity, we additionally evaluate our method using the inde-
+pendent metrics from SceneEval (?), which defines evalua-
+tion criteria independently of our reward design. As shown
+in Tab. 5, SPG-Layout consistently outperforms baselines
+acrossallindependentmetrics,confirmingthatourimprove-
+mentsreflectgenuinelayoutqualityratherthanoverfittingto
+the reward formulation.
+Table5:IndependentevaluationusingSceneEvalmetrics
+on Full Scene Synthesis (non-Manhattan, ‘all’ split).
+Method CNT↑ATR↑COL ob↓SUP↑NAV↑OOB↓
+ATISS 10.72 7.29 56.27 82.77 78.12 31.86
+MiDiffusion 12.85 11.32 43.78 88.58 88.96 18.97
+ReSpace 65.81 38.49 2.37 98.32 98.71 0.16
+SPG-Layout 82.33 55.76 0.24 99.23 99.40 0.03
+13.2 Failure Cases
+Collisions and out-of-bound placements are very rare in
+SPG-Layout and generally occur only when scenes contain
+anexcessivenumberofobjects.Themajorityofcurrentfail-
+ure cases relate to functional failures, particularly the ori-
+entation of small objects. We hypothesize that large objects
+typically have more distinctive features and stronger spatial
+relationships with other objects, making their distributions
+easier for the network to capture. In contrast, small objects
+are more numerous and span more diverse categories, mak-
+ingitharderforthemodeltolearnsufficientlydiscriminative
+features. Failure case visualizations are available at Fig. 9.
+13.3 Additional Qualitative Results
+More visualization results are provided in this section, in-
+cluding additional visualization results generated by SPG-
+Layout(Fig.10),aswellasstackedscenesshowninFig.11.
+Figure 9:Failure Cases.Although no collisions occur, the
+generated layout severely deviates from human aesthetics,
+with cluttered and disorganized furniture arrangements.
+13.4 Additional Ablation Study
+To explore the impact of different aggregation operators in
+the SPG module, we conduct ablation experiments on the
+full scene synthesis task. The quantitative results are sum-
+marized in Table 6. We take two widely used aggregation
+strategies, Mean and Max, as baselines, and compare them
+withourproposedattention-basedaggregationoperator.Two
+evaluation metrics are adopted in our work: avg_LV (lower
+is better) and avg_LF (higher is better). We report the per-
+formanceonbedroom(bed),livingroom(liv)andallscenes
+separately.
+Asshowninthetable,Maxaggregationachievesmarginal
+improvementsoverMeanaggregationonmostmetrics,while
+it obtains slightly worse avg_LV results on the bedroom
+scene. However, both simple aggregation methods can-
+not fully model complex feature interactions. By contrast,
+ourattention-basedaggregationachievescompetitiveperfor-
+manceandobtainstheoptimalresultsonlivandallscenesin
+terms of avg_LV. Specifically, our method achieves avg_LV
+values of 39.79, 6.74 and 19.52 for bed, liv and all scenes,
+respectively,reachingthelowestavg_LVonlivingroomand
+overall scenes. Meanwhile, our approach obtains the high-
+est avg_LF score of 77.14 on the living room, with avg_LF
+scores of 77.27 and 78.36 for bedroom and all scenes corre-
+spondingly.
+The above results indicate that static aggregation opera-
+tionslikeMeanandMaxfailtocapturetheimportanceofdif-
+ferentfeatures.Benefitingfromadaptiveweightassignment,
+the attention mechanism can effectively fuse multi-source
+featuresandmodellatentdependencies.Thisclearlyverifies
+therationalityandeffectivenessofourdesignedaggregation
+operator for full scene synthesis.
+Limitations
+Although SPG-Layout achieves strong performance across
+diverse indoor environments, it still has several limitations.
+Its reliance on spatial priors learned from 300 scenes may
+Table 6:Ablation of aggregation operators in SPG (Full
+Scene Synthesis).
+Aggregation avg_LV(↓)avg_LF(↑)
+bed liv all bed liv all
+Mean 35.62 9.35 20.32 79.34 76.21 78.11
+Max 35.77 8.63 19.82 79.89 76.36 78.62
+Attention (Ours)39.79 6.74 19.52 77.27 77.14 78.36
+limit generalization to long-tail object categories. During
+single-object editing, HLS may introduce unintended global
+rearrangements when no collision-free insertion exists. In
+addition,fine-grainedorientationremainschallenging,espe-
+cially for asymmetric or small objects, leading to occasional
+functionalfailures.Finally,thevoxel-basedgeometricreward
+improves physical plausibility but incurs substantial compu-
+tational overhead, reducing training efficiency.
+Figure 10: More Visualizations.
+Figure 11: Stacked Cases.
+References
+Aguina-Kang, R.; Gumin, M.; Han, D. H.; Morris, S.; Yoo,
+S. J.; Ganeshan, A.; Jones, R. K.; Wei, Q. A.; Fu, K.; and
+Ritchie, D. 2024. Open-universe indoor scene generation
+usingllmprogramsynthesisanduncuratedobjectdatabases.
+arXiv preprint arXiv:2403.09675.
+Bucher, M. J.; and Armeni, I. 2025. ReSpace: Text-Driven
+3DSceneSynthesisandEditingwithPreferenceAlignment.
+arXiv preprint arXiv:2506.02459.
+Çelen, A.; Han, G.; Schindler, K.; Van Gool, L.; Armeni, I.;
+Obukhov, A.; and Wang, X. 2024. I-Design: Personalized
+LLM interior designer. InProceedings of the European
+Conference on Computer Vision (ECCV), 217–234.
+Fang, C.; Dong, Y.; Luo, K.; Hu, X.; Shrestha, R.; and
+Tan, P. 2025. Ctrl-Room: Controllable Text-to-3D Room
+Meshes Generation with Layout Constraints. InProceed-
+ings of the International Conference on 3D Vision (3DV),
+692–701. IEEE.
+Feng,W.;Zhou,H.;Liao,J.;Cheng,L.;andZhou,W.2025.
+CasaGPT: cuboid arrangement and scene assembly for in-
+terior design. InProceedings of the Computer Vision and
+Pattern Recognition Conference, 29173–29182.
+Feng,W.;Zhu,W.;Fu,T.-j.;Jampani,V.;Akula,A.;He,X.;
+Basu, S.; Wang, X. E.; and Wang, W. Y. 2023. Layoutgpt:
+Compositionalvisualplanningandgenerationwithlargelan-
+guage models.Advances in Neural Information Processing
+Systems, 36: 18225–18250.
+Fisher, M.; Savva, M.; Hanrahan, P.; and Nießner, M. 2015.
+Activity-Centric Scene Synthesis for Functional 3D Scene
+Modeling.ACM Transactions on Graphics (TOG), 34(6):
+179:1–179:13.
+Fu, H.; Cai, B.; Gao, L.; Zhang, L.-X.; Wang, J.; Li, C.;
+Zeng,Q.;Sun,C.;Jia,R.;Zhao,B.;etal.2021. 3d-front:3d
+furnishedroomswithlayoutsandsemantics. InProceedings
+oftheIEEE/CVFInternationalConferenceonComputerVi-
+sion, 10933–10942.
+Fu, R.; Wen, Z.; Liu, Z.; and Sridhar, S. 2024. AnyHome:
+Open-vocabulary generation of structured and textured 3D
+homes. InProceedingsoftheEuropeanConferenceonCom-
+puter Vision (ECCV), 52–70.
+Hao, X.; Zhou, L.; Huang, Z.; Hou, Z.; Tang, Y.; Zhang,
+L.; Li, G.; Lu, Z.; Ren, S.; Meng, X.; et al. 2025. MiMo-
+Embodied: X-Embodied Foundation Model Technical Re-
+port.arXiv preprint arXiv:2511.16518.
+Hu,E.J.;Shen,Y.;Wallis,P.;Allen-Zhu,Z.;Li,Y.;Wang,S.;
+Wang, L.; Chen, W.; et al. 2022. Lora: Low-rank adaptation
+of large language models.ICLR, 1(2): 3.
+Hu, S.; Arroyo, D. M.; Debats, S.; Manhardt, F.; Carlone,
+L.; and Tombari, F. 2024a. Mixed Diffusion for 3D Indoor
+Scene Synthesis.arXiv preprint arXiv:2405.21066.
+Hu, Z.; Iscen, A.; Jain, A.; Kipf, T.; Yue, Y.; Ross, D. A.;
+Schmid,C.;andFathi,A.2024b.SceneCraft:AnLLMAgent
+for Synthesizing 3D Scenes as Blender Code. InProceed-
+ings of the International Conference on Machine Learning
+(ICML), volume 235, 19252–19282.
+Kalervo, A.; Ylioinas, J.; Häikiö, M.; Karhu, A.; and Kan-
+nala, J. 2019. CubiCasa5K: A Dataset and an Improved
+Multi-TaskModelforFloorplanImageAnalysis.InProceed-
+ingsoftheIEEE/CVFInternationalConferenceonComputer
+Vision Workshops (ICCVW).
+Lin, C.; and Mu, Y. 2024. Instructscene: Instruction-driven
+3d indoor scene synthesis with semantic graph prior.arXiv
+preprint arXiv:2402.04717.
+Littlefair, G.; Dutt, N. S.; and Mitra, N. J. 2025. FlairGPT:
+RepurposingLLMsforinteriordesigns.InComputerGraph-
+ics Forum, e70036.
+Maillard, L.; Sereyjol-Garros, N.; Durand, T.; and Ovs-
+janikov, M. 2024. Debara: Denoising-based 3d room ar-
+rangementgeneration.AdvancesinNeuralInformationPro-
+cessing Systems, 37: 109202–109232.
+Paschalidou, D.; Kar, A.; Shugrina, M.; Kreis, K.; Geiger,
+A.; and Fidler, S. 2021. Atiss: Autoregressive transformers
+for indoor scene synthesis.Advances in Neural Information
+Processing Systems, 34: 12013–12026.
+Purkait, P.; Zach, C.; Chin, T.-J.; and Reid, I. 2020. Flexi-
+ble Indoor Scene Synthesis Based on Multi-object Particle
+Swarm Intelligence Optimization and User Intentions with
+3D Gesture.Computers & Graphics, 93: 1–12.
+Qi, S.; Zhu, Y.; Huang, S.; Jiang, C.; and Zhu, S. 2018.
+Human-Centric Indoor Scene Synthesis Using Stochastic
+Grammar. InProceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR), 5899–
+5908.
+Ritchie, D.; Wang, K.; and Lin, Y.-a. 2019. Fast and flexi-
+bleindoorscenesynthesisviadeepconvolutionalgenerative
+models. InProceedings of the IEEE/CVF conference on
+computer vision and pattern recognition, 6182–6190.
+Shao,Z.;Wang,P.;Zhu,Q.;Xu,R.;Song,J.;Bi,X.;Zhang,
+H.; Zhang, M.; Li, Y.; Wu, Y.; et al. 2024. Deepseekmath:
+Pushing the limits of mathematical reasoning in open lan-
+guage models.arXiv preprint arXiv:2402.03300.
+Song, Z.; Ouyang, G.; Fang, M.; Na, H.; Shi, Z.; Chen, Z.;
+Yujie, F.; Zhang, Z.; Jiang, S.; Fang, M.; et al. 2025. Haz-
+ards in daily life? enabling robots to proactively detect and
+resolve anomalies. InProceedings of the 2025 Conference
+oftheNationsoftheAmericasChapteroftheAssociationfor
+Computational Linguistics: Human Language Technologies
+(Volume 1: Long Papers), 7399–7415.
+Sun,C.;Hsiao,C.;Sun,M.;andChen,H.2019. HorizonNet:
+Learning Room Layout with 1D Representation and Pano
+StretchDataAugmentation.InProceedingsoftheIEEE/CVF
+Conference on Computer Vision and Pattern Recognition
+(CVPR), 1047–1056.
+Sun,F.-Y.;Liu,W.;Gu,S.;Lim,D.;Bhat,G.;Tombari,F.;Li,
+M.;Haber,N.;andWu,J.2024a.LayoutVLM:Differentiable
+Optimization of 3D Layout via Vision-Language Models.
+arXiv preprint arXiv:2412.02193.
+Sun, Q.; Zhou, H.; Zhou, W.; Li, L.; and Li, H. 2024b. For-
+est2seq: Revitalizing order prior for sequential indoor scene
+synthesis. InEuropean Conference on Computer Vision,
+251–268.

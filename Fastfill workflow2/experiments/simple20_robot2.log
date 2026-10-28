@@ -1,0 +1,23 @@
+model gpt-5.6-sol at https://api.openai.com/v1: reachable
+room 200 objects   2 clean          34.4s $0.068 (total $0.07) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room 129 objects   4 clean          55.1s $0.108 (total $0.18) plan llm+rules sizes {'given': 4, 'catalog': 0} 
+room 197 objects   3 clean          67.1s $0.148 (total $0.32) plan llm+rules sizes {'given': 3, 'catalog': 0} 
+room  43 objects   8 clean          62.3s $0.135 (total $0.46) plan llm+rules sizes {'given': 8, 'catalog': 0} 
+room  70 objects   6 clean         101.3s $0.191 (total $0.65) plan llm+rules sizes {'given': 6, 'catalog': 0} 
+room  15 objects   4 best_effort   210.5s $0.325 (total $0.98) plan llm+rules sizes {'given': 4, 'catalog': 0} 
+room 109 objects   9 clean         124.3s $0.223 (total $1.20) plan llm+rules sizes {'given': 9, 'catalog': 0} 
+room  29 objects  16 clean         123.7s $0.271 (total $1.47) plan llm+rules sizes {'given': 16, 'catalog': 0} 
+room  68 objects  11 clean          79.1s $0.166 (total $1.63) plan llm+rules sizes {'given': 11, 'catalog': 0} 
+room  22 objects   7 best_effort   338.4s $0.503 (total $2.14) plan llm+rules sizes {'given': 7, 'catalog': 0} 
+room  61 objects  20 clean         184.1s $0.369 (total $2.51) plan llm+rules sizes {'given': 20, 'catalog': 0} 
+room  79 objects  16 clean         152.3s $0.302 (total $2.81) plan llm+rules sizes {'given': 16, 'catalog': 0} 
+room  81 objects  24 clean         146.6s $0.309 (total $3.12) plan llm+rules sizes {'given': 24, 'catalog': 0} 
+room  84 objects  28 clean         113.8s $0.255 (total $3.37) plan llm+rules sizes {'given': 28, 'catalog': 0} 
+room  63 objects  34 clean         240.7s $0.492 (total $3.86) plan llm+rules sizes {'given': 34, 'catalog': 0} 
+room  66 objects  38 best_effort   323.4s $0.495 (total $4.36) plan llm+rules sizes {'given': 38, 'catalog': 0} 
+room  86 objects  53 best_effort   239.8s $0.511 (total $4.87) plan llm+rules sizes {'given': 53, 'catalog': 0} 
+room 110 objects  45 clean         258.1s $0.510 (total $5.38) plan llm+rules sizes {'given': 45, 'catalog': 0} 
+room 108 objects  45 best_effort   728.6s $0.527 (total $5.91) plan llm+rules sizes {'given': 45, 'catalog': 0} 
+room 103 objects  49 best_effort  1711.0s $0.536 (total $6.44) plan llm+rules sizes {'given': 49, 'catalog': 0} 
+summary: {"rooms_picked": 20, "rooms_done": 20, "status": {"best_effort": 6, "clean": 14}, "spent_usd": 6.4425, "tokens": {"prompt_tokens": 360677, "completion_tokens": 260396, "reasoning_tokens": 221577}, "wall_s": {"median": 152.35, "max": 1711.02, "sum": 5294.6}, "size_fallback_rooms": 0, "error_recovered_rooms": 0}
+evaluate exit 0; report: experiments/simple20_robot2/eval/report.json

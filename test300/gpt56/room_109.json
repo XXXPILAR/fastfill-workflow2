@@ -1,0 +1,158 @@
+{
+ "k": 109,
+ "source": "MansionWorld",
+ "room_type": "study room",
+ "latency_s": 79.08529462502338,
+ "usage": [
+  {
+   "prompt_tokens": 1270,
+   "completion_tokens": 4229,
+   "total_tokens": 5499,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3609,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.44,
+     1.8,
+     0.76
+    ],
+    "bottom_center_m": [
+     1.4,
+     2.76,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     1.0,
+     1.0,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.1,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.65,
+     0.68,
+     1.15
+    ],
+    "bottom_center_m": [
+     1.4,
+     0.6,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.2,
+     0.28,
+     0.02
+    ],
+    "bottom_center_m": [
+     4.1,
+     2.25,
+     0.75
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.05,
+     0.35,
+     0.35
+    ],
+    "bottom_center_m": [
+     4.9,
+     2.975,
+     2.35
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.2,
+     0.35,
+     0.18
+    ],
+    "bottom_center_m": [
+     2.0,
+     1.52,
+     0.78
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.75,
+     1.8,
+     0.78
+    ],
+    "bottom_center_m": [
+     1.4,
+     1.4,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.05,
+     1.0,
+     0.65
+    ],
+    "bottom_center_m": [
+     3.4,
+     0.025,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.15,
+     2.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe executive work zone occupies the left side: the desk is set across the room with its chair on the south side, while the credenza is beyond the desk against the north wall. This lets the chair face both the desk and the credenza, with usable clearance between the desk and credenza. The round meeting table and visitor chair form a separate group in the northeast. The central route from the east-side door remains clear, and neither west-wall window is obstructed. Desktop accessories are contained on their required supporting surfaces, while the clock and artwork use open wall areas.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.8,\"depth_m\":0.44,\"height_m\":0.76,\"x\":1.4,\"y\":2.76,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":1.0,\"depth_m\":1.0,\"height_m\":0.75,\"x\":4.1,\"y\":2.25,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.68,\"depth_m\":0.65,\"height_m\":1.15,\"x\":1.4,\"y\":0.6,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.28,\"depth_m\":0.2,\"height_m\":0.02,\"x\":4.1,\"y\":2.25,\"z\":0.75,\"facing_deg\":180},{\"id\":\"obj_0004\",\"width_m\":0.35,\"depth_m\":0.05,\"height_m\":0.35,\"x\":4.9,\"y\":2.975,\"z\":2.35,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.35,\"depth_m\":0.2,\"height_m\":0.18,\"x\":2.0,\"y\":1.52,\"z\":0.78,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":1.8,\"depth_m\":0.75,\"height_m\":0.78,\"x\":1.4,\"y\":1.4,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":1.0,\"depth_m\":0.05,\"height_m\":0.65,\"x\":3.4,\"y\":0.025,\"z\":1.4,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.15,\"y\":2.25,\"z\":0.0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.000 m x 3.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [6.0, 0.0], [6.0, 3.0], [0.0, 3.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"low credenza\", \"description\": \"The table is wooden with shelves, drawers, and a cabinet.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"meeting table round\", \"description\": \"A round all brown kitchen table.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"executive task chair\", \"description\": \"A black office chair from minecraft.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"notepad\", \"description\": \"Paper scroll with lines of handwriting.\", \"support_parent\": \"obj_0001\"},\n{\"id\": \"obj_0004\", \"category\": \"wall clock\", \"description\": \"A black wall clock.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0005\", \"category\": \"desk organizer\", \"description\": \"A wooden crate with compartments that is used to hold things.\", \"support_parent\": \"obj_0006\"},\n{\"id\": \"obj_0006\", \"category\": \"executive desk\", \"description\": \"A dark colored wooden desk with drawers on both sides.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"wall art\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0008\", \"category\": \"visitor chair\", \"description\": \"This is a black folding chair.\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [6.0, 1.068], \"wall_from\": [6.0, 0.0], \"wall_to\": [6.0, 3.0], \"width_m\": 1.081, \"height_m\": 2.1}, {\"type\": \"window\", \"centre_xy\": [0.0, 2.147], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.239, \"height_m\": 1.225, \"sill_height_m\": 0.9}, {\"type\": \"window\", \"centre_xy\": [0.0, 0.858], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.239, \"height_m\": 1.225, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0005\", \"parent_id\": \"obj_0006\"}, {\"type\": \"faces\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

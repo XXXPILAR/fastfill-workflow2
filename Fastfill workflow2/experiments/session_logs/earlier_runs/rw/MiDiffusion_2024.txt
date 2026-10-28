@@ -1,0 +1,1329 @@
+Mixed Diffusion for 3D Indoor Scene Synthesis
+Siyi Hu1 Diego Martin Arroyo2 Stephanie Debats2 Fabian Manhardt2
+Luca Carlone1 Federico Tombari2,3
+1Massachusetts Institute of Technology 2Google, Inc 3Technische Universit¨at M¨unchen
+{siyi, lcarlone }@mit.edu
+{martinarroyo, sdebats, fabianmanhardt, tombari }@google.com
+Abstract
+Generating realistic 3D scenes is an area of growing in-
+terest in computer vision and robotics. However, creating
+high-quality, diverse synthetic 3D content often requires ex-
+pert intervention, making it costly and complex. Recently,
+efforts to automate this process with learning techniques,
+particularly diffusion models, have shown significant im-
+provements in tasks like furniture rearrangement. How-
+ever, applying diffusion models to floor-conditioned indoor
+scene synthesis remains under-explored. This task is espe-
+cially challenging as it requires arranging objects in contin-
+uous space while selecting from discrete object categories,
+posing unique difficulties for conventional diffusion meth-
+ods. To bridge this gap, we present MiDiffusion, a novel
+mixed discrete-continuous diffusion model designed to syn-
+thesize plausible 3D indoor scenes given a floor plan and
+pre-arranged objects. We represent a scene layout by a 2D
+floor plan and a set of objects, each defined by category,
+location, size, and orientation. Our approach uniquely ap-
+plies structured corruption across mixed discrete semantic
+and continuous geometric domains, resulting in a better-
+conditioned problem for denoising. Evaluated on the 3D-
+FRONT dataset, MiDiffusion outperforms state-of-the-art
+autoregressive and diffusion models in floor-conditioned 3D
+scene synthesis. Additionally, it effectively handles partial
+object constraints via a corruption-and-masking strategy
+without task-specific training, demonstrating advantages in
+scene completion and furniture arrangement tasks.
+1. Introduction
+Generating diverse and realistic 3D indoor scenes has at-
+tracted extensive research in computer vision and graphics.
+In recent years, this problem has been largely motivated by
+interior designs of apartments and houses, as well as auto-
+matic 3D virtual environment creation for video games and
+data-driven 3D learning tasks [8, 29, 56, 57].
+To assist these applications, we focus on object-based
+3D indoor scene synthesis, which aims at predicting a set
+of objects with both semantic labels and consistent geomet-
+ric arrangements. These predicted objects can be rendered
+into photorealistic scenes using furniture CAD models or
+other downstream shape prediction methods [39]. State-of-
+the-art works have recently shown that it is relatively easy
+to predict reasonable object labels, yet, generating accurate
+geometric arrangements of objects, i.e. predicting realistic
+positions and orientations, is still very challenging[32, 49].
+In particular, as most of the existing approaches are based
+on autoregressive models, these models tend to quickly start
+diverging upon a bad prediction in an earlier step. There-
+fore, “de-noising” approaches that jointly refine all objects
+are thus better suited for this type of problems [51].
+We propose to adopt diffusion models [40] for this prob-
+lem, as the iterative denoising scheme is well suited for im-
+proving object geometry in 3D scenes. Denoising Diffusion
+Probabilistic Models (DDPM) [17] adopt Gaussian corrup-
+tion and denoising of continuous domain data, resulting in
+efficient training of diffusion models for image synthesis
+tasks. Discrete Denoising Diffusion Probabilistic Models
+(D3PM) [2] extended the pioneering work of Hoogeboom
+et al. [19] to structured categorical corruption processes for
+data in discrete state space. Unlike continuous diffusion
+models, discrete diffusion involves data corruption and re-
+covery using transition probabilities between discrete states.
+Since object attributes are naturally defined on both discrete
+and continuous domains, we derive a novel mixed discrete-
+continuous diffusion model, optimally suited for 3D scene
+synthesis problems.
+A handful of works have recently also adopted diffusion
+models or iterative denoising strategies for 3D scene syn-
+thesis problems [15, 20, 46, 51]. The closest work to ours
+is DiffuScene [46], which generates 3D indoor scenes using
+1
+arXiv:2405.21066v2  [cs.CV]  9 Dec 2024
+DDPM by first converting semantic labels to one-hot encod-
+ing vectors and then combining with geometric features in
+the continuous domain. While this works overall well, for
+categorical data, discrete diffusion captures dependencies
+more naturally and more effectively. Therefore, we pro-
+pose a novel mixed discrete-continuous denoising formu-
+lation which which jointly corruptss and denoises discrete
+object categories and continuous geometric arrangements,
+leading to superior results. Note that we focus on floor-
+conditioned problems, as these are more practical setups in
+automatic design of real or virtual worlds. We present three
+technical contributions:
+• We propose MiDifussion, a novel mixed discrete-
+continuous diffusion model combining DDPM and
+D3PM to iteratively denoise objects’ semantic and geo-
+metric attributes which are naturally defined in discrete
+and continuous domains, respectively.
+• We propose a modified version of a time variant trans-
+former denoising network that is compatible with our
+mixed diffusion formulation and floor plan conditioning.
+• For applications with partial object constraints, such as
+scene completion given existing objects, we propose a
+corruption-and-masking strategy to handle known object
+conditions without the need to re-train the models.
+We compare MiDiffusion against state-of-the-art autore-
+gressive and diffusion models on the common 3D-
+FRONT [10] dataset, demonstrating that our approach gen-
+erates more realistic scene layouts, outperforming all ex-
+isting methods. Code and data are available at https:
+//github.com/MIT-SPARK/MiDiffusion.
+2. Related Works
+In this section, we review key works in 3D scene synthesis,
+followed by an overview of diffusion models, and conclude
+with relevant studies on layout synthesis using diffusion.
+3D Scene Synthesis. 3D scene synthesis is typically
+achieved by generating a set of object layouts from scratch.
+Classical approaches in the computer graphics community
+typically employ procedural modeling to apply a set of
+functions that capture object relationships in indoor [29,
+36, 55, 56] and outdoor [5, 21, 29, 33, 45, 55] settings.
+A handful of methods are based on graph representations
+of the scene. Meta-Sim [21] and Meta-Sim2 [5] learn to
+modify attributes of scene graphs obtained from probabilis-
+tic scene grammars to match synthesized and target im-
+ages. SG-V AE [34] learns a grammar-based auto-encoder
+to capture relationships and decode the latent space to a
+parse tree. Most recently, it is common to learn inter-
+object relationships implicitly without specifying hand-
+crafted rules. Existing models include feed-forward net-
+works [60], V AEs [34, 53], GANs [54], and autoregressive
+models [26, 31, 32, 36, 37, 48, 49, 60, 62]. The state-of-
+the-art autoregressive models [32, 49] are commonly built
+with a transformer [47] backbone, making them capable of
+modeling object interactions through attention.
+Diffusion Models. Diffusion probabilistic models [2,
+17, 30, 41, 43] are generative models defined by two
+Markov processes. The forward process slowly injects ran-
+dom noise to the data, whereas the reverse denoising pro-
+cess recovers the data. Conceptually, this approach has con-
+nections with denoising score matching methods [42, 44].
+Following the pioneering work by [40], diffusion models
+first gained popularity in 2D image synthesis [23, 41], out-
+performing existing works [6, 22]. Starting from Denoising
+Diffusion Probabilistic Models (DDPM) [17, 40], diffusion
+models typically work with latent variables in the continu-
+ous domain. However, it is more natural to represent dis-
+crete variables, such as text, in discrete state space. Dis-
+crete diffusion models were first applied to text generation
+in argmax flow [19]. In the following, Diffusion Probabilis-
+tic Models (D3PMs) [2] and VQ-Diffusion [13] have further
+demonstrated strong results also on character level image
+generation and text-to-image synthesis.
+Diffusion Models for Layout Synthesis. Very recently,
+diffusion models became popular for layout synthesis, in-
+cluding document layout generation [15, 20], 3D scene
+synthesis [46], furniture re-arrangement [46, 51], graph-
+conditioned 3D layout generation [58, 59], text conditioned
+scene synthesis [9, 12, 27], and 3D scene mesh genera-
+tion [28, 52]. LayoutDM [20] applies diffusion models in
+discrete state space. After discretizing position and size
+to a fixed number of bins, it uses the discrete corruption
+process by VQ-Diffusion [13] to train the reverse trans-
+former network to predict category, position, and size for
+document layout generation. Most related to ours, Dif-
+fuScene [46] predicts 3D scene layouts using DDPM after
+converting semantic labels to one-hot encodings, allowing
+joint diffusion with geometric attributes in the continuous
+domain. In contrast, our model operates on mixed discrete-
+continuous domains, leading to more realistic scene layouts
+and increased robustness. Note that DiffuScene includes
+a simple demonstration of text-conditioned scene synthe-
+sis with a pretrained text parser. However, since we fo-
+cus on joint semantic and geometric prediction, this line of
+work [7, 18, 27, 39] is not directly comparable to ours.
+3. Preliminary: Diffusion Models
+Diffusion models [40] typically consist of two Markov
+processes: a forward corruption process and a reverse
+denoising process. The forward process q(x1:T|x0) =QT
+t=1q(xt|xt−1) typically corrupts the data x0 ∼ q(x0)
+into a sequence of latent variables x1:T by iteratively in-
+jecting controlled noise. The reverse process pθ(x0:T ) =
+p(xT )QT
+t=1pθ(xt−1|xt) progressively denoises the latent
+variables via a learned denoising network θ. The standard
+approach to train the denoising network is to minimize the
+variational bound on the negative log-likelihood:
+Eq(x0)[− logpθ(x0)]≤ Eq(x0:T )
+
+− log pθ(x0:T )
+q(x1:T|x0)
+
+=:Lvb
+(1)
+2
+which can be re-arranged to
+Lvb =Eq(x0)[DKL (q(xT|x0)||p(xT ))| {z }
+LT
++
+TX
+t=2
+Eq(xt|x0)[DKL(q(xt−1|xt,x0)||pθ(xt−1|xt))]| {z }
+Lt−1
++ Eq(x1|x0)[− logpθ(x0|x1)]| {z }
+L0
+].
+(2)
+If the forward process injects known noise, the approximate
+posteriorq has no learnable parameters and hence LT can
+be ignored. Then, efficient learning of network θ requires:
+(1) efficient sampling ofxt fromq(xt|x0); and (2) tractable
+computation ofq(xt−1|xt,x0).
+Diffusion models also apply to conditional synthesis
+problems, such as text conditioned image generation [2, 17].
+Given a conditional input y, we can write the reverse pro-
+cess aspθ(x0:T|y) =p(xT )QT
+t=1pθ(xt−1|xt,y) and sub-
+stitutepθ(xt−1|xt) bypθ(xt−1|xt,y) in Eq. (2). We drop
+y in the remainder of this section for simplicity.
+Continuous State Space. Denoising Diffusion Prob-
+abilistic Model (DDPM) [17] injects Gaussian noise to a
+continuous state variable x0 with fixed variance schedule
+β1,...,β T∈ (0, 1):
+q(xt|xt−1) :=N (xt;
+p
+1−βtxt−1,βtI). (3)
+Therefore, there is a closed form expression for sampling
+xt givenx0 at any timet:
+q(xt|x0) =N (xt;√¯αtx0, (1− ¯αt)I), (4)
+where αt := 1 −βt and ¯αt := Qt
+s=1αs. The forward
+process posteriors are also tractable when conditioned on
+x0:
+q(xt−1|xt,x0) =N (xt−1; ˜µt(xt,x0), ˜βtI), (5)
+where ˜µt(xt,x0) :=
+√¯αt−1βt
+1−¯αt
+x0 +
+√αt(1−¯αt−1)
+1−¯αt
+xt and
+˜βt := 1−¯αt−1
+1−¯αt
+βt. To best approximate Eq. (5), the reverse
+distributions are Gaussian as well:
+pθ(xt−1|xt) =N (xt−1;µθ(xt,t ), Σθ(xt,t )). (6)
+In practice, the covarianceΣθ(xt,t ) =σ2I can be learned,
+or fixed toσ2 = ˜βt orσ2 =βt.
+Discrete State Space. For discrete data, such as seman-
+tic labels, it is more natural to define corruption in the dis-
+crete domain. We denote a scalar discrete variable with K
+categories by z ∈ ZK and use v(zt) ∈ {0, 1}K to rep-
+resent its one-hot encoding. The variational bound over
+continuous vectorx in Eq. (2) also holds for z. For multi-
+dimensionalz, training loss is summed over all elements.
+Then the forward process at timet is defined by a transition
+probability matrix Qt, with [Qt]mn = q(zt = m|zt−1 =
+n). The categorical distribution overzt givenzt−1 is
+q(zt|zt−1) := Cat(zt;p =Qtv(zt−1)) (7)
+=v(zt)TQtv(zt−1). (8)
+With the Markov property, we can derive
+q(zt|z0) =v(zt)T ¯Qtv(z0) (9)
+q(zt−1|zt,z 0) =
+ 
+v(zt)TQtv(zt−1)
+ 
+v(zt−1)T ¯Qt−1v(z0)
+
+v(zt)T ¯Qtv(z0)
+(10)
+where ¯Qt = QtQt−1··· Q1. The denoising network θ is
+trained to compute the categorical distributionspθ(zt−1|zt).
+We implement the mask-and-replace strategy by VQ-
+Diffusion [13], which improves upon the proposed choices
+of Qt in [2] by introducing an additional special token
+[MASK].
+4. 3D Scene Synthesis via Mixed Diffusion
+We present MiDiffusion, a mixed discrete-continuous dif-
+fusion model for 3D indoor scene synthesis. We assume
+each scene S is in a world frame with the origin at the
+center. It consists of a floor plan and at most N objects.
+We denote the floor plan by a conditional vector y. Each
+object in the scene is characterized by its semantic label
+z ∈ {1, 2,...,C }, centroid position t ∈ R3, bounding
+box size s ∈ R3, and rotation angle around the verti-
+cal axis ϕ ∈ SO(2). Inspired by LEGO-Net [51], we
+represent ϕ as [cos(γ), sin(γ)]T to maintain continuity on
+SO(2) [61]. We concatenate all geometric attributes to
+x = (t,s,ϕ ). Then, we can represent a 3D indoor scene
+asS = ({(zi,xi)}1≤i≤N,y). We designate the last se-
+mantic label z = C to be an “empty” label to work with
+scenes containing less thanN objects and define geometric
+attributes to all zeros for an “empty” object.
+The problem of synthesising 3D scenes can be viewed as
+learning a network θ that maximizes logpθ(zi
+0,xi
+0|y) over
+all objects and across all scenes, i.e. the same variational
+bound in Eq. (2) but over two domains. We drop the super-
+scripti for simplicity.
+4.1. Diffusion in Mixed Discrete-Continuous Do-
+mains
+Although object semantic and geometric attributes are in
+separate domains, we define a corruption process in MiDif-
+fusion that independently injects domain-specific noises to
+zt andxt as in D3PM and DDPM, respectively:
+q (zt,xt|zt−1,xt−1) := ˜q(zt|zt−1)· ˆq(xt|xt−1). (11)
+This means we can samplezt,xt independently in training,
+and factor the posterior distribution as
+q (zt−1,xt−1|zt,xt,z 0,x0) = ˜q(zt−1|zt,z 0)·ˆq(xt−1|xt,x0).
+(12)
+3
+Semantic
+attribute
+Geometric
+attributes
+Semantic
+embedding
+PointNet
+Floor plan
+Transformer decoderTransformer block
+Transformer block
+t
+MLP
+MLP
+MLP
+0
+condition
+input
+time
+AdaLN Multi-Head 
+Attention AdaLN Multi-Head 
+Attention outputFeed
+forward
+Figure 1. Denoising network. The time-variant decoder backbone takes object features as input, conditioned on the floor plan feature. We
+utilize the time-variant transformer decoder block from VQ-Diffusion [13].
+In the backward diffusion process, we force the network θ
+to compute updates by domains conditioned on the previous
+latent variables:
+pθ (zt−1,xt−1|zt,xt,y)
+:= ˜pθ(zt−1|zt,xt,y)· ˆpθ(xt−1|xt,zt,y). (13)
+Note that the general loss function to train diffusion
+models in Eq. (2) consists of two types:{Lt−1}2≤t≤T , the
+KL-divergence terms, and L0, a negative log probability.
+The factorization in Eq. (11) to (13) allows us to re-arrange
+these terms to a pair of domain specific losses:
+Lmixed
+t−1 = Eq(zt,xt|z0,x0)[DKL(q (zt−1,xt−1|zt,xt,z 0,x0)
+||pθ (zt−1,xt−1|zt,xt,y))]
+= E˜q(zt|z0)[DKL(˜q(zt−1|zt,z 0)||˜pθ(zt−1|zt,xt,y))]| {z }
+LD3P M
+t−1
++ Eˆq(xt|x0)[DKL(ˆq(xt−1|xt,x0)||ˆpθ(xt−1|xt,zt,y))]| {z }
+LDDP M
+t−1
+,
+(14)
+Lmixed
+0 = Eq(z1,x1|z0,x0) [− logpθ (z0,x0|z1,x1,y)]
+= E˜q(z1|z0) [− log ˜pθ (z0|z1,x1,y)]| {z }
+LD3P M
+0
++ Eˆq(x1|x0) [− log ˆpθ (x0|x1,z 1,y)]| {z }
+LDDP M
+0
+.
+(15)
+Since (xt,y) is the joint condition term in the reverse step
+pθ to predictzt−1, the first term in Eq. (14) matches exactly
+Lt−1 in D3PM. Similarly, the second term matches Lt−1
+in DDPM. The factorization in Eq. (15) is similar to that in
+Eq. (14). We provide more details about the factorization
+step in Eq. (14) in Appendix B.
+Note that the resulting loss, i.e. Eq. (14) and (15), is the
+exact sum of variational bounds in D3PM and DDPM. The
+only constraint is that the denoising network has to obey
+Eq. (13). Intuitively, summing over discrete and contin-
+uous losses is similar to summing losses over each coor-
+dinate given multi-dimensional data in vanilla DDPM or
+D3PM. We use a simplified version of LDDPM
+vb after re-
+parameterizing the forward process as suggested in DPPM
+to improve training stability and efficiency. We add an aux-
+iliary loss, LD3PM
+aux , as proposed in D3PM to encourage
+good predictions for z0 at each time step. We include re-
+parameterization steps as suggested by DDPM and D3PM
+in Appendix A. The combined loss for MiDiffusion is:
+Lmixed =LDDPM
+vb +LD3PM
+vb +λLD3PM
+aux . (16)
+4.2. Denoising Network
+We use a transformer-based denoising network as shown
+in Fig. 1, which takes in latent variables (zt,xt) in step t
+and predicts the categorical distribution pθ(zt−1|zt,xt,y),
+together with the Gaussian mean of pθ(xt−1|xt,zt,y) as-
+suming a fixed covariance. At test time, we can simply sam-
+ple from these distributions to retrieve (zt−1,xt−1).
+Feature encoder.We encode the object features by pass-
+ing geometric attributes through an MLP and combine them
+with trainable semantic embeddings. For each scene, we
+sample 256 points from a floor plan image along the bound-
+ary and compute outward normal vectors. We use the Point-
+Net [35] floor plan feature extractor from LEGO-Net [51]
+as it is more lightweight and better captures floor boundary
+than image-based feature extractors. The floor plan feature
+is then sent to the transformer backbone as a conditioning
+vector.
+Transformer decoder. The backbone of our denois-
+ing network is a time-variant transformer decoder adapted
+from VQ-Diffusion [13]. Within each transformer block,
+the time step is injected through the Adaptive Layer Nor-
+malization (AdaLN) [3] operator. The conditioning inputs
+are sent through a multi-head cross-attention layer. Via this
+transformer decoder, the discrete semantic and continuous
+geometric features are jointly processed through attention
+to predict the next diffusion update.
+4
+Feature extractor. Finally, we feed the output of the
+transformer decoder to two MLPs to predict a categorical
+distribution for the semantic labels and Gaussian means for
+the geometric features respectively.
+4.3. Partial Condition on Objects
+3D scene synthesis is sometimes constrained by known ob-
+ject information, as for example in scene completion a given
+set of furniture pieces. DiffuScene [46] considers these as
+additional condition inputs to the denoising network, which
+requires at least a task-specific feature encoder for the con-
+ditioning inputs and hence also re-training of the entire
+model. We instead propose to address this issue through
+a corruption-and-masking strategy which does not require
+any additional training. Since the core idea of diffusion
+models is to recover real data by learning the inverse of a
+known corruption process, we can force the constrained sec-
+tions of the latent variables to follow exactly the inverse of
+the controlled corruption steps in the denoising process. For
+example, for scene completion: given M objects, we first
+compute a sequence of latent variables {(zi
+t,xi
+t)}1≤i≤M
+through the corruption process. This allows us to mask out
+the first M objects using pre-computed latent variables at
+timet in the reverse process. These latent variables eventu-
+ally converge to the known input{(zi
+0,xi
+0)}1≤i≤M without
+additional training. This strategy can generalize to other
+applications, such as furniture arrangement and label con-
+ditioned scene synthesis, by targeting different sections of
+the latent variables.
+5. Experimental Evaluation
+In this section, we present evaluation results comparing
+MiDiffusion against existing state-of-the-art methods and
+provide ablation studies, demonstrating the usefulness of
+our contributions. We also show that, without any re-
+training, our models can be applied to other tasks such as
+scene completion and furniture arrangement. Further results
+and implementation details can be found in the appendix.
+Dataset. We use the common 3D-FRONT [10] bench-
+mark for evaluation. 3D-FRONT is a synthetic dataset of
+18,797 rooms furnished by 7,302 textured objects from 3D-
+FUTURE [11]. We evaluate on three room types: 4041 bed-
+rooms, 900 dining rooms, and 813 living rooms. We use the
+same data processing and train/test data split as [32]. We
+use rotation augmentations in 90◦ increments during train-
+ing as in [46] to be consistent with the baselines.
+Baselines. We compare our proposed approaches
+against two state-of-the-art 3D scene synthesis methods: (1)
+ATISS [32], an autoregressive model with a transformer en-
+coder backbone that generates sequential predictions of ob-
+jects; (2) DiffuScene [46], a diffusion model with a condi-
+tional 1D U-Net [38] denoising backbone based on DDPM.
+For each baseline model we use their open-source code
+and default hyper parameters, which includes a pretrained
+ResNet-18 [14] model as the floor plan feature extractor.
+For completeness, we additionally compare MiDiffusion
+with DiffuScene in its original application, i.e. uncondi-
+tioned scene synthesis, in Appendix E.
+Implementation. We train all our models using the
+Adam optimizer [24] with a learning rate of lr = 2e−4 and
+a 0.5 decay rate every 10k for 50k epochs on the bedroom
+dataset, and every 15k for 100k epochs on the dining room
+and living room datasets. We setλ = 0.05 for the auxiliary
+loss termLD3PM
+aux . More details about implementation and
+network parameters are presented in Appendix C.
+Evaluation Metrics. We randomly select 1000 floor
+plans from the test set as input and evaluate all mod-
+els using common metrics from prior works [32, 46, 49]:
+KL divergence of object label distributions (KL ×0.01),
+Fr´echet inception distance (FID), Kernel inception distance
+(KID×0.001), and classification accuracy (CA%) follow-
+ing the implementation by ATISS. While the KL divergence
+evaluates the predicted object label distributions, the other
+metrics are used to compare the layout images with the
+ground-truth test data. We render each scene to a 256 x
+256 image using CAD models from 3D-FUTURE through
+top-down orthographic projection. Each image captures a
+6.2m square for bedrooms, or a 12.2m square living or din-
+ing room. In line with DiffuScene, we color each object
+according to its semantic class. Appendix D includes ex-
+ample layout images. We report CA % over 10 runs with
+random sampling of predicted layouts for training and test-
+ing. Note that realistic layouts should have a low FID/KID,
+a low KL and a CA% that is close to 50%. We also compute
+additional metrics, averaged over all scenes to further eval-
+uate object placement, including the number of generated
+objects (Obj), percentage of out-of-boundary objects (OOB
+%), and bounding box intersection over union (IoU %). We
+dilate the room boundary by 0.1m for OOB % computation
+to account for slight under estimation of floor boundary in
+the raw data.
+5.1. Floor Plan Conditioned 3D Scene Synthesis
+In this section, we first compare MiDiffusion against the
+state-of-the-art in floor-conditioned 3D scene synthesis ex-
+periments without existing objects, before showing several
+ablations that highlight the impact of our proposed mixed
+diffusion paradigm.
+Comparison with state-of-the-art. In Fig. 2, we
+present qualitative results rendered with PyVista. Note that
+the object meshes are retrieved from the 3D-FUTURE [11]
+dataset by finding the closest match in size given the pre-
+dicted semantic category. We replace the original tex-
+tures in the CAD models by a label-specific color for clar-
+ity. We include examples of orthographic projection im-
+ages which are used for quantitative evaluations in the ap-
+pendix. In general, our approach is able to generate realis-
+tic object arrangements whilst respecting the boundary con-
+straints. ATISS generates slightly less precise object place-
+ments compared to the two diffusion based approaches,e.g.
+the table-chairs furniture set in the last example of Fig. 2 is
+5
+ATISS
+[32]
+DiffuScene
+[46]
+MiDiffusion
+(Ours)
+Figure 2. Floor-conditioned scene synthesis . The meshes are retrieved from the 3D-FUTURE [11] dataset by size matching within
+predicted semantic category. MiDiffusion generates realistic arrangements while respecting boundary constraints.
+not exactly symmetric. Both DiffuScene and ATISS show a
+higher tendency to place objects outside the floor boundary
+than ours. This problem is more prominent for DiffuScene,
+probably because the conditional U-Net architecture in the
+denoising network was not intended for learning boundary
+constraints.
+We show quantitative results in Tables 1 and 2. Overall,
+our approach achieves substantially better performance in
+generating realistic layouts, especially in the dining room
+and living room datasets. There are large margins between
+our models and the baseline models for FID, KID ×0.001
+and CA %, when comparing images of synthesized lay-
+outs. As for object label distributions, there are no large
+differences between the individual methods with respect to
+KL×0.01. In Table 2, there is a trade-off between keep-
+ing objects inside the boundary (low OOB%) and main-
+taining minimal overlap (low IoU%). Although DiffuScene
+achieves the lowest IoU%, their models tend to place more
+objects outside the boundary than other methods, which ex-
+plains their sub-optimal performance in Table 1. Overall,
+our approach remains superior in terms of object place-
+ment, ensuring consistency between objects and compati-
+bility with floor boundaries.
+Ablation study. We start by ablating our main con-
+tribution, i.e. joint discrete-continuous diffusion. To this
+end, we first compare MiDiffusion (Mixed + PointNet) to
+a naive 2-stage approach (2-stage + PointNet). In the first
+stage we predict a set of object labels through discrete dif-
+fusion, which we then feed to the second stage to estimate
+their geometric attributes conditioned on the obtained se-
+mantic labels. For a fair comparison, we employ the same
+denoising architecture as in Fig. 1 for both stages and only
+remove the unused feature encoder or extractor from each
+stage. The networks are trained independently. Overall, this
+2-stage approach is less efficient and less mathematically
+principled, and therefore obtains significantly worse results
+across all metrics compared to MiDiffusion in Table 3.
+Next, we provide three variants of the joint prediction
+approach using the same transformer decoder backbone to
+show the effects of mixed diffusion against DDPM, and
+PointNet floor plan feature extractor against ResNet. Note
+that the first variant, DDPM+ResNet, only differs from Dif-
+fuScene in its transformer backbone and it already surpasses
+DiffuScene in Table 1, suggesting that the transformer ar-
+chitecture is better at learning boundary than its U-Net
+counterpart. When using the same floor plan extractor, the
+mixed diffusion variant always achieves better performance
+than the DDPM variant, stressing the importance of mixed
+diffusion. Further, while Mixed+ResNet uses the same floor
+feature extractor as the baselines in Table 1, it results in
+better performance. The more lightweight PointNet floor
+feature extractor brings a significant performance boost in
+the dining and living room datasets compared to ResNet,
+but results in slightly worse performance in the bedroom
+dataset. Since there are much less training scenes for din-
+ing and living rooms, and these scenes are larger in physi-
+cal size, it is likely that PointNet works better under com-
+plex and limited training data while suffering from sampling
+noise during conversion of the floor plan image to boundary
+points and normals. Overall, we achieve the best results
+with our complete formulation (Mixed+PointNet) in which
+the mixed diffusion approach avoids lifting the discrete in-
+puts to a continuous space as required by the DDPM for-
+mulation. We include additional evaluation results in Ap-
+pendix E
+Diversity. We study the diversity of the predicted layouts
+6
+Method Bedroom Dining room Living room
+FID KIDx0.001 CA % KLx0.01 FID KIDx0.001 CA % KLx0.01 FID KIDx0.001 CA % KLx0.01
+ATISS [32] 65.76 1.21 54.44 ±3.69 0.94 41.06 10.54 64.06 ±5.63 1.89 38.03 9.20 63.98 ±4.60 1.55
+DiffuScene [46] 66.45 1.05 58.70 ±4.93 3.41 45.88 9.30 65.34 ±6.55 1.55 47.91 11.75 73.96 ±4.93 1.95
+MiDiffusion (Ours)63.71 0.24 53.65 ±2.46 1.05 30.63 2.74 52.10 ±1.72 1.90 28.60 1.64 54.04 ±3.33 1.54
+Table 1. Evaluation results for floor-conditioned 3D scene synthesis.
+Method Bedroom Dining room Living room
+Obj OOB % IoU % Obj OOB % IoU % Obj OOB % IoU %
+ATISS [32] 5.52 16.26 1.00 11.43 17.43 1.86 13.00 17.39 1.49
+DiffuScene [46] 5.05 8.06 0.41 10.90 28.16 0.56 11.79 33.75 0.43
+MiDiffusion (Ours) 5.22 3.91 0.61 10.92 5.77 0.91 11.91 7.93 0.98
+Ground truth 5.22 3.37 0.24 11.11 0.73 0.48 11.67 1.55 0.27
+Table 2. Geometric evaluations for floor-conditioned 3D scene synthesis.
+Method Bedroom Dining room Living room
+FID KIDx0.001 CA % KLx0.01 FID KIDx0.001 CA % KLx0.01 FID KIDx0.001 CA % KLx0.01
+2-stage + PointNet 65.54 1.53 57.83±4.89 3.50 38.80 7.02 61.53 ±7.85 5.08 35.35 6.30 61.97 ±6.55 4.73
+DDPM+ResNet 63.73 0.35 54.86 ±4.22 4.72 31.35 3.77 53.58 ±4.06 5.88 30.44 3.05 63.48 ±6.21 6.06
+Mixed+ResNet 63.88 0.20 54.41 ±4.03 2.66 31.29 3.81 53.41 ±3.48 2.04 30.15 2.81 57.21 ±3.97 1.74
+DDPM+PointNet 65.25 1.25 57.00±4.67 2.14 31.43 2.85 52.71 ±4.55 2.72 28.63 1.68 55.27 ±5.44 1.93
+Mixed+PointNet 63.71 0.24 53.65±2.46 1.05 30.63 2.74 52.10 ±1.72 1.90 28.60 1.64 54.04 ±3.33 1.54
+Table 3. Ablation study for floor-conditioned 3D scene synthesis.
+by measuring the average standard deviation (std) of object
+centroid positions and bounding box sizes. Since vertical
+positions are highly correlated with semantic labels, which
+are already evaluated through KL-divergence, we compute
+the average std over the two planar axes only. The results
+are shown in Table 4, where the “IB” suffix means results
+are computed over “in-boundary” objects only to remove
+bad object placement. All three approaches are quite sim-
+ilar in terms of diversity. Overall, our approach generates
+the most diverse object placements that are within the floor
+boundary (i.e. Position-IB), but is slightly worse than Dif-
+fuScene in size variety.
+5.2. Floor Plan Conditioned 3D Scene Synthesis
+with Object Constraints
+Recall from Sec. 4.3 that we can re-use the same MiDif-
+fusion models for problems involving partial object con-
+straints through a corruption-and-masking strategy. This
+approach forces the relevant object attributes to follow the
+reverse of a pre-computed corruption process in the denois-
+ing step, without the need of task-specific retraining. Al-
+though it is also feasible to directly mask out relevant fea-
+tures by known inputs in each denoising step as proposed
+in [27], this approach creates out-of-distribution latent vari-
+ables in the intermediate denoising step and is therefore less
+principled. We show comparison between the two masking
+approaches and additional applications in Appendix.
+5.2.1 Scene completion
+We first compare our approach with baselines for scene
+completion (i.e. scene synthesis conditioned on existing ob-
+jects). We train the DiffuScene-SC variant, which includes
+an additional module to learn existing object features as a
+conditional input, using their suggested hyper-parameters
+Figure 3. Scene completion. Bedroom (top) and living room (bot-
+tom) scene completion examples.
+and providing 3 existing objects during training. The num-
+ber of existing objects can be arbitrary at test time. We
+use the same models for ATISS and MiDiffusion. We use
+the proposed corruption-and-masking strategy over MiDif-
+fusion models trained in Section 5.1. Fig. 3 shows a sim-
+ple example of completing a bedroom design that originally
+only consists of a single bed and another more complex ex-
+ample for completion of a living space. Note that MiDif-
+fusion is able to generate a natural and symmetric set of
+furniture layout.
+We show quantitative evaluations in Table 5. This is an
+easier problem for ATISS and DiffuScene than the previous
+problem. In particular, ATISS is autoregressive and there-
+fore existing objects allow the models to skip the first few
+iterations reducing the chance for mistakes. DiffuScene-SC
+is, on the other hand, specifically designed and trained for
+this task. Compared to results in Table 1, these approaches
+indeed benefit from using existing objects as anchors. Nev-
+7
+Method Bedroom Dining room Living room
+Position Position-IB Size Size-IB Position Position-IB Size Size-IB Position Position-IB Size Size-IB
+ATISS [32] 1.074 1.035 0.709 0.663 1.586 1.504 0.434 0.385 1.730 1.663 0.442 0.409
+DiffuScene [46] 1.073 1.059 0.718 0.691 1.596 1.427 0.454 0.423 1.752 1.575 0.482 0.439
+MiDiffusion (Ours) 1.073 1.067 0.698 0.680 1.568 1.558 0.414 0.399 1.668 1.667 0.439 0.428
+Ground truth 1.091 1.082 0.722 0.690 1.623 1.618 0.450 0.447 1.735 1.729 0.463 0.460
+Table 4. Average std of predicted object positions and sizes for floor-conditioned 3D scene synthesis.
+Method Bedroom Dining room Living room
+FID KID x 0.001 KL x 0.01 OOB % FID KID x 0.001 KL x 0.01 OOB % FID KID x 0.001 KL x 0.01 OOB %
+1 obj
+ATISS [32] 60.59 0.19 1.04 13.52 36.63 7.77 1.79 15.30 34.34 7.15 1.46 16.19
+DiffuScene-SC [46] 83.90 19.17 18.34 3.11 34.12 4.82 1.59 12.13 36.32 6.64 1.30 21.74
+MiDiffusion (ours)60.08 -0.03 0.91 3.32 28.56 1.88 1.58 5.29 27.86 1.98 1.49 7.81
+3 obj
+ATISS [32] 51.83 -0.57 0.66 8.89 33.53 5.39 1.60 12.26 31.78 5.39 1.43 13.03
+DiffuScene-SC [46]42.77 -1.08 0.80 5.13 30.58 3.67 0.84 10.04 32.07 4.58 0.57 16.13
+MiDiffusion (ours) 52.19 -0.32 1.00 4.05 27.60 1.85 1.72 3.97 27.45 1.91 0.98 6.76
+Table 5. Evaluation results for scene completion.
+Method Bedroom Dining room Living room
+FID KIDx0.001 OBB % IoU % FID KIDx0.001 OBB % IoU % FID KIDx0.001 OBB % IoU %
+DiffuScene-FA [46] 61.03 0.14 8.03 0.75 33.90 4.14 12.30 1.16 34.62 6.04 17.84 1.31
+MiDiffusion (ours)59.08 -0.24 7.34 0.55 31.72 3.91 6.35 0.96 30.02 3.64 8.33 0.98
+Table 6. Evaluation results for furniture arrangement experiment.
+ertheless, without any retraining, our approach still outper-
+forms these baselines when given only 1 existing object.
+When given 3 objects, our models are still better on the
+dining room and living room datasets, however, are outper-
+formed by DiffuScene-SC on the bedroom dataset. Note
+that DiffuScene-SC is particularly optimized for the 3 ob-
+jects scenario and that the bedroom data has only an aver-
+age of only 5.22 objects. Hence, specifically trained net-
+works, such as DiffuScene-SC, might be better suited given
+the very high percentage of pre-existing objects.
+5.2.2 Furniture Arrangement
+Figure 4. Furniture arrangement. Different table-chair arrange-
+ments (top) and different furniture placement directions (bottom).
+MiDiffusion can also be used for furniture arrangement,
+a scene synthesis problem conditioned on object labels and
+bounding box sizes without an initial configuration. We use
+our proposed corruption-and-masking strategy over these
+attributes to test our models in this setting, and compare
+the results against DiffuScene’s furniture arrangement vari-
+ant (DiffuScene-FA). ATISS models are not suited for this
+task, since replacing the predicted object label by con-
+straints breaks the stopping condition in their autoregressive
+pipeline. Fig. 4 shows two pairs of example results with
+each pair generated from the same input. We show quan-
+titative results in Table 6. Without re-training, our models
+outperform DiffuScene-FA in all metrics.
+6. Limitations
+Though our method shows competitive performance in dif-
+ferent layout generation tasks, it has several limitations: the
+current definition of objects as a collection of bounding box
+features and labels is not the most precise representation
+for a 3D setting, and gaining a good understanding of 3D
+features can potentially improve upon this aspect. In addi-
+tion, MiDiffusion still requires a model retrieving strategy
+to compose the final 3D scene configuration. In the future
+we want to investigate the use of strong 3D shape priors (in
+the form of a point cloud or mesh encoder) and integrat-
+ing mesh and texture synthesis capabilities such as Scene-
+Tex [4], to enhance realism.
+7. Conclusion
+In this work we introduced MiDiffusion, a novel mixed dif-
+fusion model combining DDPM and D3PM for object based
+3D indoor scene synthesis. This formulation circumvents
+the need of adopting one-hot representations of semantic
+labels in the continuous domain as done in prior works.We
+designed a denoising architecture that has a time-variant
+transformer decoder backbone and outputs predictions sep-
+arately for discrete semantic attributes and continuous ge-
+ometric attributes. We proposed a corruption-and-masking
+8
+strategy to conduct scene completion and furniture arrange-
+ment without the need to re-train our models. We provided
+extensive experimental evaluation using common bench-
+marks against state-of-the-art autoregressive and diffusion
+models. The results show a clear advantage of our approach
+over the state-of-the-art with or without partial constraints.
+We also presented ablation studies supporting our design of
+the mixed diffusion framework as well as the denoising ar-
+chitecture.
+References
+[1] Katharopoulos Angelos and Despoina Paschalidou. simple-
+3dviz. https://simple-3dviz.com, 2020. 13
+[2] Jacob Austin, Daniel D. Johnson, Jonathan Ho, Daniel Tar-
+low, and Rianne van den Berg. Structured Denoising Diffu-
+sion Models in Discrete State-Spaces. InAdvances in Neural
+Information Processing Systems, 2021. 1, 2, 3, 12
+[3] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E. Hinton.
+Layer Normalization, 2016. 4
+[4] Dave Zhenyu Chen, Haoxuan Li, Hsin-Ying Lee, Sergey
+Tulyakov, and Matthias Nießner. Scenetex: High-quality tex-
+ture synthesis for indoor scenes via diffusion priors, 2023. 8
+[5] Jeevan Devaranjan, Amlan Kar, and Sanja Fidler. Meta-
+Sim2: Unsupervised Learning of Scene Structure for Syn-
+thetic Data Generation. In Computer Vision – ECCV 2020 ,
+pages 715–733. Springer International Publishing, 2020. 2
+[6] Patrick Esser, Robin Rombach, and Bjorn Ommer. Tam-
+ing Transformers for High-Resolution Image Synthesis. In
+2021 IEEE/CVF Conference on Computer Vision and Pat-
+tern Recognition (CVPR) , pages 12868–12878, Nashville,
+TN, USA, 2021. IEEE. 2
+[7] Weixi Feng, Wanrong Zhu, Tsu-Jui Fu, Varun Jampani, Ar-
+jun Reddy Akula, Xuehai He, S. Basu, Xin Eric Wang,
+and William Yang Wang. LayoutGPT: Compositional Vi-
+sual Planning and Generation with Large Language Models.
+In Conference on Neural Information Processing Systems ,
+2023. 2
+[8] Matthew Fisher, Manolis Savva, and Pat Hanrahan. Char-
+acterizing structural relationships in scenes using graph ker-
+nels. In ACM SIGGRAPH 2011 papers, pages 1–12. Associ-
+ation for Computing Machinery, 2011. 1
+[9] Rafail Fridman, Amit Abecasis, Yoni Kasten, and Tali Dekel.
+SceneScape: text-driven consistent scene generation. In
+Advances in Neural Information Processing Systems , pages
+39897–39914. Curran Associates Inc., 2024. 2
+[10] Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming
+Wang, Cao Li, Qixun Zeng, Chengyue Sun, Rongfei Jia, Bin-
+qiang Zhao, et al. 3d-front: 3d furnished rooms with layouts
+and semantics. In Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision, pages 10933–10942,
+2021. 2, 5
+[11] Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang
+Zhao, Steve Maybank, and Dacheng Tao. 3d-future: 3d fur-
+niture shape with texture. International Journal of Computer
+Vision, pages 1–25, 2021. 5, 6
+[12] Gege Gao, Weiyang Liu, Anpei Chen, Andreas Geiger, and
+Bernhard Sch ¨olkopf. GraphDreamer: Compositional 3D
+Scene Synthesis from Scene Graphs. InConference on Com-
+puter Vision and Pattern Recognition (CVPR), pages 21295–
+21304, Seattle, W A, USA, 2024. IEEE. 2
+[13] Shuyang Gu, Dong Chen, Jianmin Bao, Fang Wen, Bo
+Zhang, Dongdong Chen, Lu Yuan, and Baining Guo. Vec-
+tor Quantized Diffusion Model for Text-to-Image Synthesis.
+In 2022 IEEE/CVF Conference on Computer Vision and Pat-
+tern Recognition (CVPR), pages 10686–10696. IEEE, 2022.
+2, 3, 4, 12
+[14] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+Deep residual learning for image recognition. In 2016
+IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), pages 770–778, 2016. 5, 12
+[15] Liu He, Yijuan Lu, John Corring, Dinei Florencio, and
+Cha Zhang. Diffusion-based Document Layout Generation,
+2023. 1, 2
+[16] Dan Hendrycks and Kevin Gimpel. Gaussian Error Linear
+Units (GELUs), 2016. 12
+[17] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising Dif-
+fusion Probabilistic Models. In Advances in Neural Infor-
+mation Processing Systems, pages 6840–6851. Curran Asso-
+ciates, Inc., 2020. 1, 2, 3, 12
+[18] Lukas H ¨ollein, Ang Cao, Andrew Owens, Justin Johnson,
+and Matthias Nießner. Text2Room: Extracting Textured 3D
+Meshes from 2D Text-to-Image Models. In 2023 IEEE/CVF
+International Conference on Computer Vision (ICCV), pages
+7875–7886. IEEE, 2023. 2
+[19] Emiel Hoogeboom, Didrik Nielsen, Priyank Jaini, Patrick
+Forr´e, and Max Welling. Argmax Flows and Multinomial
+Diffusion: Learning Categorical Distributions. In Advances
+in Neural Information Processing Systems, 2021. 1, 2, 12
+[20] Naoto Inoue, Kotaro Kikuchi, Edgar Simo-Serra, Mayu
+Otani, and Kota Yamaguchi. LayoutDM: Discrete Diffu-
+sion Model for Controllable Layout Generation. In 2023
+IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), pages 10167–10176. IEEE, 2023. 1,
+2
+[21] Amlan Kar, Aayush Prakash, Ming-Yu Liu, Eric Cameracci,
+Justin Yuan, Matt Rusiniak, David Acuna, Antonio Torralba,
+and Sanja Fidler. Meta-Sim: Learning to Generate Synthetic
+Datasets. In 2019 IEEE/CVF International Conference on
+Computer Vision (ICCV) , pages 4550–4559, Seoul, Korea
+(South), 2019. IEEE. 2
+[22] Tero Karras, Miika Aittala, Janne Hellsten, Samuli Laine,
+Jaakko Lehtinen, and Timo Aila. Training Generative Adver-
+sarial Networks with Limited Data. In Advances in Neural
+Information Processing Systems, pages 12104–12114. Cur-
+ran Associates, Inc., 2020. 2
+[23] Tero Karras, Timo Aila, Miika Aittala, and Samuli Laine.
+Elucidating the Design Space of Diffusion-Based Generative
+Models. In 36th Conference on Neural Information Process-
+ing Systems, 2022. 2
+[24] Diederik P. Kingma and Jimmy Ba. Adam: A method for
+stochastic optimization. In 3rd International Conference on
+Learning Representations, ICLR 2015, San Diego, CA, USA,
+May 7-9, 2015, Conference Track Proceedings, 2015. 5
+[25] Alex Krizhevsky, Ilya Sutskever, and Geoffrey E Hinton.
+ImageNet classification with deep convolutional neural net-
+works. In Conference on Neural Information Processing Sys-
+tems, pages 1097–1105, 2012. 15
+[26] Manyi Li, Akshay Gadi Patil, Kai Xu, Siddhartha Chaudhuri,
+Owais Khan, Ariel Shamir, Changhe Tu, Baoquan Chen,
+9
+Daniel Cohen-Or, and Hao Zhang. GRAINS: Generative Re-
+cursive Autoencoders for INdoor Scenes. ACM Transactions
+on Graphics, 38:12:1–12:16, 2019. 2
+[27] Chenguo Lin and Yadong Mu. InstructScene: Instruction-
+Driven 3D Indoor Scene Synthesis with Semantic Graph
+Prior. In International Conference on Learning Represen-
+tations (ICLR), 2024. 2, 7
+[28] Quan Meng, Lei Li, Matthias Nießner, and Angela Dai.
+LT3SD: Latent Trees for 3D Scene Diffusion, 2024. 2
+[29] Paul Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala,
+and Vladlen Koltun. Interactive furniture layout using in-
+terior design guidelines. In ACM SIGGRAPH 2011 papers,
+pages 1–10. Association for Computing Machinery, 2011. 1,
+2
+[30] Alexander Quinn Nichol and Prafulla Dhariwal. Improved
+Denoising Diffusion Probabilistic Models. In 38th Interna-
+tional Conference on Machine Learning , pages 8162–8171.
+PMLR, 2021. 2
+[31] Wamiq Para, Paul Guerrero, Tom Kelly, Leonidas Guibas,
+and Peter Wonka. Generative Layout Modeling using Con-
+straint Graphs. In 2021 IEEE/CVF International Conference
+on Computer Vision (ICCV), pages 6670–6680. IEEE, 2021.
+2
+[32] Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten
+Kreis, Andreas Geiger, and Sanja Fidler. ATISS: Autoregres-
+sive Transformers for Indoor Scene Synthesis. In Advances
+in Neural Information Processing Systems , pages 12013–
+12026. Curran Associates, Inc., 2021. 1, 2, 5, 6, 7, 8, 12,
+13, 15
+[33] Aayush Prakash, Shaad Boochoon, Mark Brophy, David
+Acuna, Eric Cameracci, Gavriel State, Omer Shapira, and
+Stan Birchfield. Structured Domain Randomization: Bridg-
+ing the Reality Gap by Context-Aware Synthetic Data. In
+2019 International Conference on Robotics and Automation
+(ICRA), pages 7249–7255, Montreal, QC, Canada, 2019.
+IEEE Press. 2
+[34] Pulak Purkait, Christopher Zach, and Ian Reid. SG-V AE:
+Scene Grammar Variational Autoencoder to Generate New
+Indoor Scenes. In ECCV, pages 155–171. Springer Interna-
+tional Publishing, 2020. 2
+[35] Charles R Qi, Hao Su, Kaichun Mo, and Leonidas J Guibas.
+Pointnet: Deep learning on point sets for 3D classification
+and segmentation. In 2017 IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR) , pages 652–
+660, 2017. 4, 12
+[36] Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and
+Song-Chun Zhu. Human-centric Indoor Scene Synthesis Us-
+ing Stochastic Grammar. In 2018 IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR). arXiv,
+2018. 2
+[37] Daniel Ritchie, Kai Wang, and Yu-An Lin. Fast and Flexible
+Indoor Scene Synthesis via Deep Convolutional Generative
+Models. In 2019 IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR) , pages 6175–6183. IEEE,
+2019. 2
+[38] Olaf Ronneberger, Philipp Fischer, and Thomas Brox. U-
+Net: Convolutional Networks for Biomedical Image Seg-
+mentation. In Medical Image Computing and Computer-
+Assisted Intervention – MICCAI 2015 , pages 234–241.
+Springer International Publishing, 2015. 5
+[39] Jonas Schult, Sam Tsai, Lukas H ¨ollein, Bichen Wu, Jialiang
+Wang, Chih-Yao Ma, Kunpeng Li, Xiaofang Wang, Felix
+Wimbauer, Zijian He, Peizhao Zhang, Bastian Leibe, Peter
+Vajda, and Ji Hou. ControlRoom3D: Room generation us-
+ing semantic proxy rooms. In 2024 IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR), pages
+6201–6210. IEEE, 2024. 1, 2
+[40] Jascha Sohl-Dickstein, Eric Weiss, Niru Maheswaranathan,
+and Surya Ganguli. Deep Unsupervised Learning using
+Nonequilibrium Thermodynamics. In Proceedings of the
+32nd International Conference on Machine Learning, pages
+2256–2265. PMLR, 2015. 1, 2
+[41] Jiaming Song, Chenlin Meng, and Stefano Ermon. Denois-
+ing Diffusion Implicit Models. In International Conference
+on Learning Representations, 2020. 2
+[42] Yang Song and Stefano Ermon. Generative Modeling by Es-
+timating Gradients of the Data Distribution. In Advances in
+Neural Information Processing Systems. Curran Associates,
+Inc., 2019. 2
+[43] Yang Song and Stefano Ermon. Improved Techniques for
+Training Score-Based Generative Models. In Advances
+in Neural Information Processing Systems , pages 12438–
+12448. Curran Associates, Inc., 2020. 2
+[44] Yang Song, Jascha Sohl-Dickstein, Diederik P. Kingma, Ab-
+hishek Kumar, Stefano Ermon, and Ben Poole. Score-Based
+Generative Modeling through Stochastic Differential Equa-
+tions. In International Conference on Learning Representa-
+tions, 2021. 2
+[45] Jerry O. Talton, Yu Lou, Steve Lesser, Jared Duke, Radom ´ır
+Mˇech, and Vladlen Koltun. Metropolis procedural modeling.
+ACM Transactions on Graphics, 30(2):11:1–11:14, 2011. 2
+[46] Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus
+Thies, and Matthias Nießner. DiffuScene: Scene Graph De-
+noising Diffusion Probabilistic Model for Generative Indoor
+Scene Synthesis. In 2024 IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR), 2024. 1, 2, 5,
+6, 7, 8, 12, 13, 15
+[47] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszko-
+reit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia
+Polosukhin. Attention is All you Need. In Advances in Neu-
+ral Information Processing Systems. Curran Associates, Inc.,
+2017. 2
+[48] Kai Wang, Yu-An Lin, Ben Weissmann, Manolis Savva, An-
+gel X. Chang, and Daniel Ritchie. PlanIT: planning and
+instantiating indoor scenes with relation graph and spatial
+prior networks. ACM Transactions on Graphics, 38(4):1–15,
+2019. 2
+[49] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner.
+SceneFormer: Indoor Scene Generation with Transformers.
+In 2021 International Conference on 3D Vision (3DV), pages
+106–115, London, United Kingdom, 2021. IEEE. 1, 2, 5
+[50] Michael L. Waskom. seaborn: statistical data visualization.
+Journal of Open Source Software, 6(60):3021, 2021. 13
+[51] Qiuhong Anna Wei, Sijie Ding, Jeong Joon Park, Rahul
+Sajnani, Adrien Poulenard, Srinath Sridhar, and Leonidas
+Guibas. LEGO-Net: Learning Regular Rearrangements of
+Objects in Rooms. In 2023 IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR), pages 19037–
+19047, Vancouver, BC, Canada, 2023. IEEE. 1, 2, 3, 4, 12
+[52] Zhennan Wu, Yang Li, Han Yan, Taizhang Shang, Weix-
+uan Sun, Senbo Wang, Ruikai Cui, Weizhe Liu, Hiroyuki
+10
+Sato, Hongdong Li, and Pan Ji. BlockFusion: Expandable
+3D Scene Generation using Latent Tri-plane Extrapolation.
+ACM Trans. Graph., 43(4):43:1–43:17, 2024. 2
+[53] Haitao Yang, Zaiwei Zhang, Siming Yan, Haibin Huang,
+Chongyang Ma, Yi Zheng, Chandrajit Bajaj, and Qixing
+Huang. Scene Synthesis via Uncertainty-Driven Attribute
+Synchronization. In 2021 IEEE/CVF International Confer-
+ence on Computer Vision (ICCV) , pages 5610–5620. IEEE,
+2021. 2
+[54] Ming-Jia Yang, Yu-Xiao Guo, Bin Zhou, and Xin Tong.
+Indoor Scene Generation from a Collection of Semantic-
+Segmented Depth Images. In 2021 IEEE/CVF International
+Conference on Computer Vision (ICCV) , pages 15183–
+15192, Montreal, QC, Canada, 2021. IEEE. 2
+[55] Yi-Ting Yeh, Lingfeng Yang, Matthew Watson, Noah D.
+Goodman, and Pat Hanrahan. Synthesizing open worlds with
+constraints using locally annealed reversible jump MCMC.
+ACM Transactions on Graphics, 31(4):56:1–56:11, 2012. 2
+[56] Lap-Fai Yu, Sai-Kit Yeung, Chi-Keung Tang, Demetri Ter-
+zopoulos, Tony F. Chan, and Stanley J. Osher. Make
+it home: automatic optimization of furniture arrangement.
+ACM Transactions on Graphics, 30(4):86:1–86:12, 2011. 1,
+2
+[57] Lap-Fai Yu, Sai-Kit Yeung, and Demetri Terzopoulos. The
+Clutterpalette: An Interactive Tool for Detailing Indoor
+Scenes. IEEE Transactions on Visualization and Computer
+Graphics, 22(2):1138–1148, 2016. 1
+[58] Guangyao Zhai, Evin Pınar ¨Ornek, Shun-Cheng Wu, Yan
+Di, Federico Tombari, Nassir Navab, and Benjamin Busam.
+CommonScenes: Generating Commonsense 3D Indoor
+Scenes with Scene Graphs, 2023. 2
+[59] Guangyao Zhai, Evin Pınar ¨ornek, Dave Zhenyu Chen, Ruo-
+tong Liao, Yan Di, Nassir Navab, Federico Tombari, and
+Benjamin Busam. EchoScene: Indoor Scene Generation via
+Information Echo over Scene Graph Diffusion. In European
+Conference on Computer Vision (ECCV), 2024. 2
+[60] Zaiwei Zhang, Zhenpei Yang, Chongyang Ma, Linjie Luo,
+Alexander Huth, Etienne V ouga, and Qixing Huang. Deep
+Generative Modeling for Scene Synthesis via Hybrid Rep-
+resentations. ACM Transactions on Graphics , 39(2):1–21,
+2020. 2
+[61] Yi Zhou, Connelly Barnes, Jingwan Lu, Jimei Yang, and Hao
+Li. On the Continuity of Rotation Representations in Neu-
+ral Networks. In 2019 IEEE/CVF Conference on Computer
+Vision and Pattern Recognition (CVPR) , pages 5738–5746.
+IEEE, 2019. 3
+[62] Yang Zhou, Zachary While, and Evangelos Kalogerakis.
+SceneGraphNet: Neural Message Passing for 3D Indoor
+Scene Augmentation. In 2019 IEEE/CVF International
+Conference on Computer Vision (ICCV), pages 7383–7391.
+IEEE, 2019. 2
+11
+A. Diffusion Models
+A.1. DDPM forward process re-parameterization,
+simplified loss
+DDPM [17] suggests re-parameterizing Eq. (4) as
+xt(x0,ϵ) =√¯αtx0 +
+√
+1− ¯αtϵ (17)
+with ϵ ∼ N(0,I). Then, let ϵθ be a function approxi-
+mator to predict ϵ fromxt such that for the reverse pro-
+cess µθ(xt,t ) = 1√αt
+
+xt− βt√1−¯αt
+ϵθ(xt,t )
+
+and Lt−1
+for 2≤t≤T in (2) becomes
+Lt−1 =Ex0,ϵ
+ β2
+t
+2σ2
+tαt(1− ¯αt)
+ϵ−ϵθ(√¯αtx0 +
+√
+1− ¯αtϵ,t )
+2i
++ const
+(18)
+where the constant term can be dropped in training.
+On image data, [17] found it beneficial to sample quality
+to train on this simplified version of the variational bound
+(L0:T−1):
+Lsimple(θ) := Et,x0,ϵ
+hϵ−ϵθ(√¯αtx0 +
+√
+1− ¯αtϵ,t )
+2i
+(19)
+with uniform t between 1 and T , dropping the scaling fac-
+tors of the squared norms. We use Eq. (19) to compute
+LDDPM
+vb in MiDiffusion.
+A.2. D3PM reverse parameterization, auxiliary loss
+Similar to DDPM, [2, 19] suggested that approximating
+some surrogate variables gives better quality. Specifically,
+they trained a neural network ˜pθ(˜z0|zt), multiplied it with
+the posteriorq(zt−1|zt,z0), and marginalized ˜z0 to obtain
+pθ(zt−1|zt):
+pθ(zt−1|zt)∝
+X
+˜z0
+q(zt−1|zt,z 0)˜pθ(˜z0|zt). (20)
+D3PM [2] introduced an auxiliary denoising objective to
+encourage good predictions of the dataz0 at each time step.
+Their complete training loss is:
+Lλ(θ) =Lvb(θ) +λEq(z0)q(zt|z0)[− log ˜pθ(z0|zt)] (21)
+which correspond to LD3PM
+vb andλLD3PM
+aux in our MiDif-
+fusion algorithm. This can be implemented efficiently in
+training, since the parameterization of the backward step
+directly computes ˜pθ(z0|zt).
+B. MiDiffusion Loss Factorization
+We provide more details for the factorization step in
+Eq. (14). We first consider a general case comparing the
+KL-divergence between ˜q(z)ˆq(x) and ˜p(z)ˆp(x) for discrete
+z and continuousx:
+DKL(˜q(z)ˆq(x)||˜p(z)ˆp(x)) =
+Z
+x
+X
+z
+˜q(z)ˆq(x) log ˜q(z)ˆq(x)
+˜p(z)ˆp(x)
+=
+Z
+x
+X
+z
+
+˜q(z)ˆq(x) log ˜q(z)
+˜p(z) + ˜q(z)ˆq(x) log ˆq(x)
+ˆp(x)
+
+=
+X
+z
+˜q(z) log ˜q(z)
+˜p(z)
+Z
+x
+ˆq(x)
+| {z }
+1
++
+Z
+x
+ˆq(x) log ˆq(x)
+ˆp(x)
+X
+z
+˜q(z)
+| {z }
+1
+=DKL(˜q(z)||˜p(z)) +DKL(ˆq(x)||˜p(x)).
+(22)
+This means we can decouple KL-divergence computation
+between mixed-domain probability distributions to a sum
+of domain-specific KL-divergence computation. Note that
+this holds for any choices of˜q, ˆq, ˜p, ˆp. For our specific case:
+Lmixed
+t−1 = Eq(zt,xt|z0,x0) [DKL(q(zt−1,xt−1|zt,xt,z 0,x0)
+||pθ(zt−1,xt−1|zt,xt,y))]
+= E˜q(zt|z0)ˆq(xt|x0) [DKL(˜q(zt−1|zt,z 0)ˆq(xt−1|xt,x0)
+||˜pθ(zt−1|zt,xt,y))ˆpθ(xt−1|xt,zt,y))]
+= E˜q(zt|z0) [DKL(˜q(zt−1|zt,z 0)||˜pθ(zt−1|zt,xt,y)))]
++ Eˆq(xt|x0) [DKL(ˆq(xt−1|xt,x0)||ˆpθ(xt−1|xt,zt,y))],
+(23)
+where the last equality holds because of Eq. (22).
+C. Network and Implementation Details
+We include detailed network hyper-parameters for our de-
+noising network, and implementation for training.
+C.1. Network Hyper-parameters
+The architecture of MiDiffusion has at its core a series of
+8 transformer blocks using a hidden dimension of 512 with
+4 heads and feed-forward layers with an internal dimension
+of 2048. Following [13], we use GELU [16] as nonlinearity.
+The semantic attributes are embedded in a learned vector of
+length 512, and the geometric attributes are mapped by a
+3-layer MLP, with internal dimensions of [512, 1024], to a
+512-dimensional space before being fed to the transformer
+decoder blocks. We extract floor plan features of dimen-
+sion 64 using a 4-layer PointNet [35] with internal dimen-
+sions [64, 64, 512] as in LEGO-Net [51]. For baselines and
+ablation studies, we use the default ResNet-18 [14] image
+feature extractor proposed by ATISS [32] and also imple-
+mented by DiffuScene [46] to compute the 64-dimensional
+floor plan features from binary floor plan masks. The out-
+puts of the transformer decoder are fed to two separate
+MLPs to decode the semantic and geometric predictions.
+The semantic feature decoder is a 1-layer MLP that pro-
+duces a categorical distribution over z, and the geometric
+12
+feature decoder is a 3-layer MLP with hidden dimensions
+[512, 1024], producing the 8-dimensional Gaussian mean
+for the geometric attributesx.
+C.2. Implementation
+We set a fixed learning rate of lr = 2e−4 using the Adam
+optimizer, and a dropout ratio of 0.1 for multi-head attention
+and feed-forward layers in the transformer blocks. We train
+50k epochs on the bedroom dataset with 0.5 learning rate
+decay every 10k epochs, and 100k epochs on the living and
+dining room datasets with 0.5 decay every 15k epochs. We
+use a linear schedule over 1000 diffusion steps for all noise
+parameters in the forward process. In the discrete domain
+αt andγt range from 1− 1e−5 to 0.99999 and from 9e−6
+to 0.99999 respectively. In the continuous domain,βt starts
+from 1e−4 at reaches 0.02. We train all our models on a
+single NVIDIA V100 GPU with under 8GB of GPU RAM
+usage. The training time range from around 20 hours on
+living and dining room datasets to about 32 hours on the
+bedroom dataset for a batch size of 512 scenes.
+D. Example Synthesized Layout Images
+ATISS
+[32]
+DiffuScene
+[46]
+MiDiffusion
+(Ours)
+Ground-truth
+Figure 5. Example bedroom top-down orthographic projection im-
+ages for quantitative evaluations.
+We use texture-less objects rendered on white floor plans
+for quantitative evaluations, since floor and object textures
+affect the clarity of the results. The object labels are sorted
+in alphabetical order for each room type, and then the as-
+sociated colors are evenly sampled along a circular path
+using Seaborn’s [50] “hls” color palette. We render top-
+down layout images using simple-3dviz [1] in accordance
+ATISS
+[32]
+DiffuScene
+[46]
+MiDiffusion
+(Ours)
+Ground-truth
+Figure 6. Example dining room top-down orthographic projection
+images for quantitative evaluations.
+ATISS
+[32]
+DiffuScene
+[46]
+MiDiffusion
+(Ours)
+Ground-truth
+Figure 7. Example living room top-down orthographic projection
+images for quantitative evaluations.
+with prior works [32, 46]. We include examples of ren-
+dered images for three comparing approaches in Fig. 5, 6, 7
+from the floor-conditioned scene synthesis experiment in
+13
+Method Bedroom Dining room Living room
+FID KIDx0.001 CA % KLx0.01 FID KIDx0.001 CA % KLx0.01 FID KIDx0.001 CA % KLx0.01
+2-stage + PointNet 65.54 1.53 57.83 ±4.89 3.50 38.80 7.02 61.53 ±7.85 5.08 35.35 6.30 61.97 ±6.55 4.73
+2-stage (gt labels) + PointNet 64.37 0.67 56.19±5.45 – 32.47 5.07 56.29 ±4.80 – 32.26 5.86 58.85 ±6.29 –
+Mixed+PointNet 63.71 0.24 53.65 ±2.46 1.05 30.63 2.74 52.10 ±1.72 1.90 28.60 1.64 54.04 ±3.33 1.54
+Table 7. Additional ablation study for floor-conditioned 3D scene synthesis.
+Method Bedroom Dining room Living room
+Obj OOB % IoU % Obj OOB % IoU % Obj OOB % IoU %
+2stage + PointNet 5.04 5.67 0.72 11.30 11.80 1.57 11.50 13.35 1.48
+2stage (gt labels) + PointNet – 5.20 0.61 – 8.87 1.18 – 11.80 1.28
+DDPM+ResNet 5.07 6.63 0.50 10.87 7.08 0.70 11.90 10.93 0.70
+Mixed+ResNet 5.15 4.43 0.44 10.78 7.09 0.73 11.91 10.60 0.70
+DDPM+PointNet 4.92 5.29 0.70 10.78 6.75 0.78 11.83 10.37 0.64
+Mixed+PointNet 5.22 3.91 0.61 10.92 5.77 0.91 11.91 7.93 0.98
+Ground truth 5.22 3.37 0.24 11.11 0.73 0.48 11.67 1.55 0.27
+Table 8. Geometric evaluations on ablation study for floor-conditioned 3D scene synthesis.
+Method Bedroom Dining room Living room
+FID KIDx0.001 OBB % IoU % FID KIDx0.001 OBB % IoU % FID KIDx0.001 OBB % IoU %
+MiDiffusion + DM 59.43 -0.07 7.71 0.56 32.17 4.46 6.49 0.95 30.47 3.65 8.72 0.84
+MiDiffusion (ours)59.08 -0.24 7.34 0.55 31.72 3.91 6.35 0.96 29.79 3.13 8.33 0.84
+Table 9. Additional evaluation results for furniture arrangement experiment.
+Sec 2. Some ground-truth layouts include objects slightly
+out of boundary. This is a problem in the raw 3D-FRONT
+dataset. Therefore, we inflate the room boundary by 0.1m
+when counting the number of out of boundary objects. The
+bedroom datasets is the easiest (less number of objects,
+smaller in room size, more training data) so that all com-
+paring approaches can generate good predictions. On the
+harder living room and dining room datasets, MiDiffusion
+clearly outperforms the baselines by generating realistic ge-
+ometric arrangements with desired symmetry and alignment
+between objects, while respecting the floor boundary con-
+straints. DiffuScene is also capable of generating good ge-
+ometric arrangements but their architecture is less optimal
+for learning floor boundary constraints.
+E. Additional Experimental Evaluations
+We provide supplementary results to complement Sec. 5.
+We begin with additional results from the ablation studies
+to further support our proposed mixed diffusion formula-
+tion and network design. Then, we present more results on
+scene synthesis with partial constraints, including a com-
+parison with the direct masking strategy and applications to
+other conditional setups. Lastly, we show quantitative com-
+parison between MiDiffusion and DiffuScene in the uncon-
+ditioned scene synthesis experiment, which is original tar-
+get application of DiffuScene.
+E.1. Ablation Study
+We show an additional ablation study comparing MiDif-
+fusion (also referred as Mixed+PointNet in ablation stud-
+ies) and the 2-stage approach to supplement Table 3. The
+second row of Table 7 reports results of a 2-stage variant
+where ground-truth semantic labels are sent to the geomet-
+ric diffusion stage. While bypassing the first semantic dif-
+fusion stage improves performance, this variant still under-
+performs compared to MiDiffusion. This suggests that even
+with a perfect first-stage label predictor, the 2-stage ap-
+proach still produces less realistic scene layouts compared
+to ours.
+We show object evaluation results in Table 8. Across all
+three datasets, there is a consistent improvement over OOB
+% as we modify the floor plan feature extractor and dif-
+fusion framework towards our final design of MiDiffusion.
+This is consistent with the main results in Table 3.
+E.2. Masking Comparison
+In Sec. 5.2, we show that, with the proposed corruption-
+and-masking strategy, MiDiffusion models are able to gen-
+erate room layouts under various types of object constraints.
+Compared to ours, direct masking at each denoising step
+is less principled. We provide an example comparison in
+Table 9 to demonstrate that our proposed masking strategy
+yields better results.
+E.3. Additional Applications
+Our models can easily extend to other applications with dif-
+ferent masking ranges. For example, they can be applied to
+object category constrained scene synthesis given a set of
+desired object labels. Fig. 8 shows two examples of label
+constrained scene synthesis. In particular, the dining room
+scene is conditioned on five dining chairs, which occur less
+often than an even number of chairs. Our model is still able
+to generate reasonable layouts. We can even combine par-
+tial constraints on object attributes (e.g. label) with existing
+objects. Fig. 9 shows examples of such label constrained
+scene completion problems.
+14

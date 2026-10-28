@@ -1,0 +1,46 @@
+{
+ "k": 222,
+ "source": "SpatialLM",
+ "room_type": "children's bedroom",
+ "latency_s": 7.363347416976467,
+ "usage": [
+  {
+   "prompt_tokens": 816,
+   "completion_tokens": 268,
+   "total_tokens": 1084,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 127,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.635,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe single chair is placed against the right wall, away from the door opening and the window. It faces inward toward the open center of the room, leaving clear circulation from the doorway.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.45, \"depth_m\": 0.45, \"height_m\": 0.75, \"x\": 2.635, \"y\": 1.50, \"z\": 0.0, \"facing_deg\": 180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nchildren's bedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.860 m x 2.160 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [2.86, 0.0], [2.86, 2.16], [0.0, 2.16]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.43, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.86, 0.0], \"width_m\": 1.46, \"height_m\": 1.68, \"sill_height_m\": 0.67}, {\"type\": \"door\", \"centre_xy\": [0.555, 2.16], \"wall_from\": [2.86, 2.16], \"wall_to\": [0.0, 2.16], \"width_m\": 0.88, \"height_m\": 2.2}]\n[/Task Doors and Windows]"
+}

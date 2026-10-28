@@ -1,0 +1,864 @@
+RoboLayout: Differentiable 3D Scene Generation
+for Embodied Agents
+Ali Shamsaddinlou
+Abstract: Recent advances in vision–language models (VLMs)
+have shown strong potential for spatial reasoning and 3D scene
+layout generation from open-ended language instructions.
+However, generating layouts that are not only semantically
+coherent but also feasible for interaction by embodied agents
+remains challenging, particularly in physically constrained
+indoor environments. In this paper, RoboLayout is introduced
+as an extension of LayoutVLM that augments the original
+framework with agent-aware reasoning and improved opti-
+mization stability. RoboLayout integrates explicit reachability
+constraints into a differentiable layout optimization process,
+enabling the generation of layouts that are navigable and
+actionable by embodied agents. Importantly, the agent ab-
+straction is not limited to a specific robot platform and can
+represent diverse entities with distinct physical capabilities,
+such as service robots, warehouse robots, humans of different
+age groups, or animals, allowing environment design to be
+tailored to the intended agent. In addition, a local refinement
+stage is proposed that selectively re-optimizes problematic
+object placements while keeping the remainder of the scene
+fixed, improving convergence efficiency without increasing
+global optimization iterations. Overall, RoboLayout preserves
+the strong semantic alignment and physical plausibility of
+LayoutVLM while enhancing applicability to agent-centric
+indoor scene generation, as demonstrated by experimental
+results across diverse scene configurations.
+I. INTRODUCTION
+3D scene generation aims to synthesize spatially structured,
+semantically coherent, and physically plausible environments
+for applications such as robotics [2], AR/VR [3], world mod-
+eling [4], and architectural visualization [5]. A fundamental
+challenge in this domain lies in aligning high-level seman-
+tic intent expressed through natural language with low-level
+geometric, spatial, and agent-specific constraints that govern
+object placement and scene structure.
+Recent progress in vision–language models (VLMs) and
+differentiable optimization has enabled new approaches to
+this problem. LayoutVLM [1] represents a significant advance
+by formulating 3D layout generation as a differentiable opti-
+mization process guided by vision–language supervision. By
+integrating semantic reasoning with gradient-based refinement,
+LayoutVLM achieves improved alignment between textual
+descriptions and spatial layouts.
+In this paper, RoboLayout is proposed as an extension of
+LayoutVLM that incorporates agent-aware reachability and a
+Code available at https://github.com/alishams21/robolayout
+post-optimization cleaning process. First, explicit reachability
+constraints are integrated into the differentiable optimization
+loop, enabling the generation of layouts that are feasible and
+actionable for a broad class of embodied agents. Second, a lo-
+cal refinement stage selectively re-optimizes only problematic
+object placements while keeping the remainder of the layout
+fixed, improving convergence efficiency without increasing
+global iteration counts. This combination allows RoboLayout
+to disentangle global structural objectives from local relational
+refinement while maintaining semantic consistency.
+By building directly on the LayoutVLM framework, Robo-
+Layout preserves end-to-end differentiability and compatibility
+with vision–language supervision, and importantly, the agent
+abstraction enables layouts to be explicitly tailored to the
+intended actor’s physical capabilities, bringing environment
+design closer to practical deployment for diverse real-world
+scenarios.
+II. CONTRIBUTIONS
+The key contributions of this work are summarized as
+follows:
+1)Agent-Aware Reachability in Differentiable Layout
+Optimization: The LayoutVLM framework is extended
+by integrating explicit reachability constraints for em-
+bodied agents, such as robots, humans, or animals,
+directly into the differentiable optimization process. This
+allows the model to generate 3D layouts that are not only
+semantically coherent but also physically navigable and
+actionable by the intended agent.
+2)Efficient Local Refinement for Improved Layout
+Stability: A local refinement stage is introduced that
+selectively re-optimizes only problematic object place-
+ments while keeping the rest of the scene fixed. This
+improves convergence efficiency, ensures higher-quality
+layouts, and maintains semantic and structural consis-
+tency without increasing global optimization iterations.
+III. RELATEDWORK
+A. LLM and VLM-Based Layout Generation
+Large language models (LLMs) and vision–language mod-
+els (VLMs) have shown strong capabilities in understanding
+complex relationships and generating structured outputs that
+encode both visual and semantic information. LayoutGPT
+guides LLMs through prompts and templates to generate
+object parameters for scene layouts [16]. Graph-based scene
+generation approaches treat objects as nodes and synthesize
+scenes using learned relational structures [17].
+arXiv:2603.05522v2  [cs.AI]  9 Mar 2026
+Agentic and iterative frameworks have also been explored
+for 3D layout generation. SceneWeaver employs a reflective
+agentic approach that integrates language-model planning with
+generation tools to produce physically plausible indoor scenes
+[20]. Holodeck uses multi-round interactions with LLMs to
+generate semantically consistent 3D environments, including
+floors, walls, and object placements [21]. SceneX adopts a
+multi-agent formulation to construct explicit world models and
+generate executable layout scripts [22].
+While purely LLM-based methods achieve impressive re-
+sults, they often struggle with limited layout diversity, render-
+ing artifacts, and weak global planning, particularly in complex
+scenes.
+B. Optimization for 3D Scene Generation
+Constraint-based and optimization-driven approaches have
+long been used in 3D scene generation to balance multiple ob-
+jectives derived from physical laws, functional requirements,
+and spatial design principles. Physical constraints include ob-
+ject interpenetration, stability, and support, while layout-level
+constraints capture accessibility and functional relationships
+[11] [12].
+Data-driven models learn probabilistic object arrangements
+or hierarchical scene structures using graphical or neural
+representations [13] [14]. Hybrid discrete–continuous opti-
+mization techniques are particularly effective in settings that
+combine categorical decisions with continuous spatial parame-
+ters. LayoutVLM integrates vision–language supervision with
+differentiable optimization to refine 3D layouts from natural
+language descriptions. It improves spatial planning through
+complementary representations and self-consistent decoding
+[1] this is promising especially for use-cases where control
+and explainability are indispensable.
+IV. ARCHITECTURE
+RoboLayout comprises three main layers. Orchestration:
+The central orchestrator responsible for coordinating group-
+ings, rendering and other cognitive processes of the solver and
+sandbox. Sandbox: Translates constraints into feasible scene
+layouts. Solver: optimizer based on hard and soft constraints
+for spatial arrangements and refinement of the final optimized
+scene. As shown in Figure 1, the layered architecture of
+RoboLayout is composed of following steps:
+a) Initial state.:The pipeline takes the language instruc-
+tion (task description, layout criteria) and the room shape
+(boundary.floor vertices, wall height) plus the list of assets
+as the initial program state. The sandbox is initialized with
+walls and asset variables; positions and rotations are set to
+random feasible placements inside the boundary.
+b) Furniture grouping:An LLM groups furniture based
+on the prompt and task (e.g. “bed + nightstands”, “rug”,
+“seating”). Each group has a name and key spatial relations
+between assets, placement then runs group by group with
+group-specific layout criteria.
+c) Pose estimation and spatial relations.:For each
+(group of) assets, the system produces pose and spatial re-
+lations by calling an LLM with the current scene (top-down
+and side renderings) and the layout criteria. The LLM returns
+a constraint program: high-level relations such as against wall,
+align with, distance constraint.
+d) Conversion to Python program.:The LLM out-
+put is parsed into executable Python: constraint calls (e.g.
+solver.against wall(...), solver.distance constraint(...)) are ex-
+ecuted in the sandbox. That updates the in-memory constraint
+list.
+e) Optimization with reachability.:The gradient-based
+solver (e.g. GradSolver.optimize) minimizes a loss over posi-
+tions and rotations: overlap loss (no intersection), existing- and
+new-constraint losses (satisfy spatial relations), and reachabil-
+ity loss. Reachability encourages clearance between furniture
+so a virtual disc of radius robot radius can pass; it is disabled
+if robot radius is None or≤0. Optimization runs per group
+(or once in one shot), producing poses and optional per-step
+GIFs.
+f) Refinement.:After the main optimization, a cleanup
+step identifies problematic pairs (e.g. overlapping footprints),
+freezes non-problematic assets, and re-runs optimization only
+for the problematic subset. This refines the answer without
+full-scene re-optimization.
+1) Self-Consistency Filter:Self-consistent decoding typi-
+cally refers to sampling multiple outputs from the model (e.g.
+several constraint programs), then selecting one by a criterion
+(e.g. majority vote or best score). This codebase does not use
+self-consistent decoding: it obtains a single LLM constraint
+program per group (with retries on parse/execution failure),
+not multiple samples followed by selection. Self-consistency
+filter is what is implemented: before optimization, the sand-
+box runs self consistency filtering on the new constraints.
+It checks consistency with the current scene and existing
+constraints: rejects duplicate or conflicting constraints (e.g.
+duplicate against wall, or a second orientation constraint on
+the same object), resolves against wall to the nearest wall, and
+tightens distance constraints to feasible ranges.
+A. Orchestration
+This module coordinates the layout generation pipeline
+through semantic grouping, visual reasoning, and constraint
+synthesis. The task is formulated as an optimization problem
+Playout = (F,O,D),
+whereFis the set of furniture items,Ois the layout objective,
+andDdescribes the room domain.
+1)Furniture Grouping:A language-driven grouping func-
+tion
+G:O→{G 1,...,G K}
+maps the objective to an ordered list of furniture groups. Each
+group is defined as
+Gk = (gk,Fk,Rk),
+Fig. 1: Overall architecture of RoboLayout
+where
+gk :semantic group label and rationale,(1)
+Fk⊆F:furniture items in groupk,(2)
+Rk :intra-group spatial relationships.(3)
+Groups are processed from structural to decorative elements:
+priority(G1)<priority(G 2)<···<priority(G K).
+Constraint Generation.At stept, the current scene state is
+St ={(p i,θi)|f i∈F placed},
+wherep i ∈R 3 andθ i denote position and orientation.
+Rendered visual observations are grouped as
+It ={I top,I side,If1,...,I f|Fk|}.
+A vision–language model then produces executable con-
+straints:
+Ck = VLM(St,Fk,D,I t).
+These constraints are represented as a set of parametric
+functions over furniture poses:
+Ck =
+
+ϕj(paj,θaj,pbj,θbj;λ j)
+	Jk
+j=1,
+where eachϕ j converts a qualitative spatial rule into a quan-
+titative geometric relation.
+Iterative Positioning.Furniture is placed group by group
+using constrained optimization:
+F (0)
+placed =∅,(4)
+F (k)
+placed =F (k−1)
+placed ∪arg opt
+{pi,θi}fi∈Fk
+Ck,(5)
+fork= 1,...,K, until all items are positioned.
+2)Rendering:This module renders 3D scenes and projects
+world coordinates into image space for visual feedback.
+Camera Placement.LetB x,By denote all furniture bound-
+ing coordinates in the floor plane. The room center and scale
+are
+cfloor =
+
+
+max(Bx)+min(Bx)
+2max(By)+min(By)
+2
+0
+
+,(6)
+Wroom = max
+ 
+max(Bx)−min(B x),max(B y)−min(B y)
+
+.
+(7)
+Camera height is scaled proportionally:
+Hcam =αW room, α= 1.5.
+A general camera position using spherical angles(ϕ,θ)is
+ccam =c floor +H cam
+
+
+sinϕcosθ
+sinϕsinθ
+cosϕ
+
+.
+Coordinate Grid Overlay.Grid spacing adapts to room size:
+∆ = max
+
+∆0,
+Wroom
+500
+
+.
+Grid points on the floor are
+(xi,yj) = (xmin,y min) + (i∆,j∆),
+and their image projections form the overlay set
+M=
+
+(uij,vij) = project
+ 
+[xi,yj,0]T	
+.
+Furniture Orientation Annotation.For furnituref i with yaw
+angleθ i,z,
+pdir
+i =p i +ℓ
+
+
+cosθi,z
+sinθi,z
+0
+
+, ℓ= 0.75.
+The annotation in image space is
+ 
+project(pi),project(p dir
+i ),label i
+
+.
+Wall Annotation.For a wall segment(v i,vi+1), let
+di =v i+1−vi, ˆni = R90◦ di
+∥di∥2
+,
+whereR 90◦ rotates a 2D vector by90◦. The wall label position
+is then
+cwall = vi +vi+1
+2 −β ˆni, β= 0.2.
+B.Sandbox
+The sandbox module converts high-level constraint descrip-
+tions produced by the VLM into executable optimization code.
+It maintains a local namespace in which language-generated
+Python snippets map abstract rules (e.g., “furniture A should
+be near wall B”) into concrete geometric constraint functions.
+Also it filters invalid constraints, resolves conflicts, and en-
+sures all constraints correspond to feasible spatial relationships
+before optimization. Iterative multi-objective optimization is
+employed with soft and hard constraints, where hard con-
+straints enforce non-negotiable often physical constraints.
+1)Out-of-Bounds Placement Constraint::For each fur-
+niture itemf i with positionp i = [xi,yi,zi]T , orientationθ i,
+and sizes i, its oriented 2D footprint is computed as
+Ci = polygon(pi,θi,si),
+whereC i ∈R 4×2 contains the four ground-plane corners.
+The room boundary is a polygonPwith counter-clockwise
+vertices{b 1,...,b n}. A tolerance-expanded region is defined
+asP ϵ =P⊕B(0,ϵ).
+If any cornerc i,k lies outsideP ϵ, a corrective translation
+τi is computed.
+Case 1: All corners outside.
+p2D
+i = [xi,yi]T (8)
+pproj = arg min
+p∈∂P
+∥p−p 2D
+i ∥2 (9)
+ˆv= cP−p proj
+∥cP−p proj∥2
+(10)
+τi = ˆv
+ 
+∥pproj−p 2D
+i ∥2 +ϵ+δ
+
+(11)
+wherec P is the room centroid andδ= 0.15m is a safety
+margin.
+Case 2: Partial violation.
+τi = 1
+|Kout|
+X
+k∈Kout
+τi,k,
+whereK out indexes corners outsideP ϵ.
+The position update is
+p[t+1]
+i [: 2] =p [t]
+i [: 2] +τ i,
+iterated up toM= 10times or until all corners satisfyC i⊆
+Pϵ.
+Require:FurnitureF, boundaryP, toleranceϵ, marginδ,
+max stepsM
+1:foreachf i∈Fdo
+2:t←0
+3:whilet<MandC i̸⊆P ϵ do
+4:Computeτ i based on violation case
+5:p i[: 2]←p i[: 2] +τ i
+6:RecomputeC i
+7:t←t+ 1
+8:end while
+9:end for
+2)Rotation Constraint:For stabilizing stochastic rotations
+during optimization updates, each proposed step is projected
+onto the feasible manifold before acceptance. Given the cur-
+rent statexand a candidate steps(e.g., from Adam), the
+following conditions are enforced:
+∥s∥≤∆,x+s∈B, c rot(x+s) = 0,
+where∆is the trust-region radius,Bdenotes box bounds on
+positions and rotations, andc rot encodes rotation feasibility.
+This guarantees that all accepted updates remain inside the
+feasible set. Each rotation angleθ i is parameterized using
+(cosθi,sinθ i)constrained to lie on the unit circle:
+crot(x) = cos2θi + sin2θi−1 = 0∀i.
+The constrained optimization problem is therefore
+min
+x∈B
+f(x)s.t.c rot(x) = 0.
+Convergence tolerances are
+gtol=xtol=barrier tol= 10−12.
+Require:Initial statex 0, objectivef, boundsB
+1:x←x 0,∆←∆ 0
+2:whilenot convergeddo
+3:Propose steps
+4:Projectsso that∥s∥≤∆,x+s∈B,c rot(x+s) = 0
+5:Compute ratioρ= f(x)−f(x+s)
+predicted decrease
+6:ifρ>η 1 then
+7:x←x+s
+8:ifρ>η 2 then
+9:∆←min(γ 2∆,∆ max)
+10:end if
+11:else
+12:∆←γ 1∆
+13:end if
+14:end while
+15:returnx
+3)Reachability Constraint:The reachability constraint is
+implemented as awalking robot governed by pairwise clear-
+ance rule. For every pair of movable (non–on-top-of) assetsi,
+j, It takes their center positionsp i,p j in the ground plane and
+requires the center–center distance to be at leaste i +ej + 2r
+(half-footprint ofiplus half-footprint ofjplus robot diameter),
+then penalizes (via a soft loss) when the actual distance is
+smaller than this required clearance.
+Working in a top–down 2D view of the room. Let
+•Abe the set of all movable, non–fixture, non–ceiling
+assets that are optimized by the gradient solver.
+•For each asseti∈A, let its center position in the ground
+plane be
+pi∈R 2,
+corresponding to the(x,y)components of its 3D position.
+•Let its axis-aligned bounding box dimensions in the
+ground plane bew i (width inx) andh i (height iny).
+An effective in-plane “radius” is defined as
+ei ≜ 1
+2 min(wi,hi),
+so that the footprint is approximated by a disc of radius
+ei.
+•Letr>0be the radius of the virtual robot which is pro-
+vided via--robot_radiusthrough code intialization.
+Intuitively, the objective is for a robot of radiusrto be able
+to move between any two assetsiandjwithout colliding with
+their footprints. In a simple disc approximation, this means the
+distance between the centersp i andp j should be at least
+ei +ej + 2r.
+For each unordered pair(i,j)of assets withi̸=j, a
+required center-to-center distance is defined as
+dreq
+ij ≜e i +ej + 2r.(12)
+Let
+dij ≜∥p i−pj∥2 (13)
+be the actual Euclidean distance between the asset centers in
+the ground plane.
+Ideally, the goal is to enforce the hard constraint
+dij≥d req
+ij for all pairs(i,j).(14)
+Instead of imposing this as a strict feasibility constraint, it is
+relaxed into a differentiable soft penalty that can be optimized
+by gradient descent.
+In the implementation, squared distances are used to keep
+the loss smooth and easy to differentiate. For each pair(i,j),
+the squared distance is considered
+Dij ≜∥p i−pj∥2
+2,(15)
+and the squared required distance
+Rij ≜
+ 
+dreq
+ij
+2
+=
+ 
+ei +ej + 2r
+2
+.(16)
+The pairwise violation is then defined as
+vij ≜max
+ 
+0, Rij−Dij
+
+.(17)
+This quantity is zero whenever the actual squared distance
+Dij is at least the required squared distanceR ij, and grows
+linearly with the shortfall when assets are too close.
+The unscaledreachability lossover all eligible pairs is
+Lraw
+reach ≜
+X
+(i,j)∈P
+vij,(18)
+wherePis the set of unordered asset pairs that:
+•are both members ofA(movable, non–fixture, non–
+ceiling), and
+•are not marked as “on top of” one another (those pairs
+are handled by a separate constraint).
+To keep the magnitude of this loss term comparable to other
+components (overlap, existing constraints, new constraints), a
+small scalar factorα>0is applied:
+Lreach ≜αL raw
+reach =α
+X
+(i,j)∈P
+max
+ 
+0,Rij−Dij
+
+.(19)
+In the current implementation,α= 0.01.
+The reachability loss is combined with the other layout
+losses in the gradient solver. Let
+•L overlap be the non-overlap (bounding-box) loss,
+•L exist be the loss from existing constraints,
+•L new be the loss from new constraints for the current
+group of assets,
+•L reach be the reachability loss defined above.
+The total objective minimized by gradient descent is
+Ltotal =L overlap +L exist +L new +L reach.(20)
+Whenr≤0or no robot radius is provided, the implemen-
+tation setsL reach = 0, effectively disabling the reachability
+term.
+Table 1 shows the list of the hard and soft constraints used
+by the solver. Hard constraints are enforced by projection or
+by constraints in the solver. Soft constraints are implemented
+as differentiable loss terms that are minimized and are not
+strictly enforced.
+C.Solver
+Layout generation problem is solved as a hybrid dis-
+crete–continuous multi-objective optimization problem. Hard
+constraints are enforced via projection steps that keep every
+intermediate state feasible, while soft constraints remain in the
+differentiable objective and are optimized with gradient-based
+updates.
+1)Objective Function:Let each soft constraintϕact on a
+subset of furniture indicesI. The total loss is
+Ltotal =
+X
+(ϕ,I)
+ϕ(pI,θI),L= 0.1L total.
+2)Learning Rate Scaling:To normalize updates across
+room sizes, the following quantity is defined:
+Rroom = max
+ 
+max(Bx)−min(Bx),max(B y)−min(By),1
+
+,
+and use separate learning rates
+αpos = 3α0
+Rroom
+, α rot =α 0,
+whereα 0 is the base rate (typically0.03).
+Adam Update.For any parameterξ∈{p i,θi},
+mt =β 1mt−1 + (1−β 1)∇ξL,(21)
+vt =β 2vt−1 + (1−β 2)(∇ξL)2,(22)
+ξt =ξ t−1−αt
+mt/(1−β t
+1)p
+vt/(1−β t
+2) +ϵ
+,(23)
+withβ 1 =β 2 = 0.9andϵ= 10 −8. Gradients are clipped to
+∥∇ξL∥2≤10.
+The learning rate decays every 100 steps:
+αt =α·γ ⌊t/100⌋, γ= 0.95.
+3)Feasibility Enforcement:After each update, parameters
+are projected onto the feasible manifold (bounds + rotation
+constraints). Additional hard corrections are applied periodi-
+cally, for boundary projection every 80 steps.
+Require:FurnitureF, iterationsT, base rateα 0
+1:Initialize Adam momentsm 0,v 0←0
+2:ComputeR room,α pos,α rot
+3:fort= 1toTdo
+4:ComputeLand gradients
+5:Clip gradients
+6:Update parameters using Adam
+7:Project parameters onto feasible manifold
+8:iftmod 100 = 0then
+9:Enforce boundary constraints
+10:end if
+11:end for
+Applying a trust-region style projection at every iteration filters
+noisy gradient steps. Well-aligned updates pass through un-
+changed, while unstable steps are reduced or rejected, leading
+to smoother convergence without sacrificing the exploratory
+benefits of Adam.
+4)Refinement:Running the main layout optimization until
+full convergence often requires a large number of iterations
+and is costly. Therefinement(orcleanup) step avoids this by
+shrinking the optimization space: after the main run, only the
+problematicassets (e.g. those still overlapping) are identified
+andjust thoseare re-optimized while keeping the rest fixed.
+Thus there is no need to increase the main iteration count to
+converge; instead, a short, cheaper pass over a smaller variable
+set resolves remaining conflicts in less time. In the following,
+the terms “refinement” or “cleanup” are used for this step (the
+code also refers to it as cleanup).
+After the main optimization,problematicassets are iden-
+tified as those involved in at least one overlapping pair
+(excluding fixtures and stacked pairs):
+Iprob =
+
+i∈I\F
+∃j̸=i: (i,j)/∈S,P i∩Pj̸=∅
+	
+.(24)
+TABLE 1: List of hard and soft constraints.
+Type Name Rule
+Hard Boundary (inside room) Every asset’s 2D footprint must lie inside the room polygon. Any corner outside
+is projected onto the boundary.
+Hard On-top (vertical + horizontal) For each on top of(A,B): (1)A’szis set soAsits on top ofB(z=B.z+
+B.h/2+A.h/2). (2)A’sxyis projected ontoB’s 2D polygon soAis centered
+overB.
+Hard Rotation unit norm When using solver type of minimize, rotation is parameterized as(cosθ,sinθ)
+withcos 2θ+ sin 2θ= 1via NonlinearConstraint.
+Soft Overlap (no intersection) 2D footprints of non–on-top pairs must not overlap. Loss: IoU / bbox overlap
+(e.g. scaled by 1000); minimized so overlap goes to zero.
+Soft Reachability Pairs of objects should leave enough clearance for a disc of radius robot radius.
+Loss: penalize if center distance<(r a +r b + 2×robot radius).
+Soft Against wall Asset should be (1) close to a wall segment and (2) front parallel to the wall.
+Loss: distance of footprint to wall + angle between asset front and wall direction.
+Soft Distance constraint Distance between two centers should be in[min distance,max distance].
+Loss: penalize when outside the range (scaled by weight).
+Soft Point towards Asset1’s front should point toward asset2. Loss: 0 if the ray from asset1 in its
+front direction hits asset2’s polygon; otherwise cosine alignment loss with the
+direction to asset2.
+Soft Align with Two assets’ forward directions should be aligned (optional angle offset). Loss:
+cosine distance between (possibly rotated) forward vectors.
+Soft On top of (soft part) In addition to the hard on-top placement, the upper object should stay over the
+lower in 2D. Loss: negative IoU (clamped) so that overlap in the horizontal
+plane is encouraged.
+Soft Symmetric pair Two assets should be mirror-symmetric about a reference (wall or central asset).
+Loss: position reflection error + optional orientation mirror alignment.
+In code, polygon intersection is tested with Shapely (e.g.
+poly_i.intersects(poly_j)). Movable assets are par-
+titioned into:
+•Correct (frozen):I fix = (I\F)\I prob. Their positions
+and rotations are fixed at the current values ¯pi, ¯ri.
+•Problematic (optimized):I prob. Only these variables are
+updated during cleanup.
+Letp Iprob andr Iprob denote the positions and rotations of
+problematic assets; all others are fixed. The cleanup step
+solves, for a small number of iterationsT cleanup (e.g.40), the
+same total loss but with gradients taken only with respect to
+pi,r i fori∈I prob:
+min
+pi,ri,i∈I prob
+Ltotal
+ 
+pIprob,rIprob; ¯pIfix, ¯rIfix
+
+.(25)
+Only parameters fori∈ I prob have
+requires_grad=True; others are frozen, so constraint
+terms that depend only on fixed assets do not require gradients
+(handled byallow_nograd_constraints). Optimizer:
+Adam with learning rateη cleanup (e.g.0.01), gradient clipping
+(max norm1). EveryKsteps (e.g.10), apply the projection
+Πto keep layouts feasible.
+Require:Furniture setF, problematic furnitureF problem, iter-
+ationsT ft, learning rateα ft
+1:foreach furnituref i∈Fdo
+2:iff i /∈Fproblem then
+3:f i.optimize←0
+4:∇ piL←0,∇ θiL←0
+5:else
+6:f i.optimize←1
+7:p i.requires grad←True
+8:θ i.requires grad←True
+9:end if
+10:end for
+11:allow nograd constraints←True
+12:fort= 1toT ft do
+13:Compute∇ piL,∇ θiLforf i∈F problem
+14:Updatep i,θ i using Adam with learning rateα ft
+15:end for
+V. EXPERIMENTS
+A. Experimental Setup
+Evaluation ofRoboLayouton the task of 3D indoor scene
+layout generation is done under the following configuration:
+•VLM: GPT-4o
+•Optimization Strategy: Iterative multi-objective optimiza-
+tion
+•Spatial Configurations: Different rooms with varying
+shapes and dimensions
+•Object Sets: 5–10 furniture and decorative elements per
+scene
+•Contextual Constraints: Structural realism and semantic
+placement consistency
+B. Qualitative Results
+Figure 2 presents representative scenes generated byRobo-
+Layout. The results demonstrate that the system:
+•Consistently positions large furniture elements adjacent
+to walls while satisfying physical feasibility constraints
+•Preserves semantically appropriate inter-object spacing in
+accordance with predefined layout policies
+•Produces coherent object orientations that conform to
+common indoor design norms
+•Correctly models hierarchical spatial relationships (e.g.,
+decorative objects placed on supporting furniture) while
+maintaining structural realism
+C. Loss Curve
+Figure 3 contains two subplots that summarize thegradient
+descent optimizationof the layout solver. Each iteration is
+one step of gradient descent: the solver computes the loss,
+backpropagates to get gradients with respect to the layout pa-
+rameters (3D positions and rotations of objects), then updates
+those parameters via an optimizer (e.g. Adam). This isnot
+training of a neural network and no model weights are learned
+from data. The curves show the loss function minimized by
+gradient descent for a single scene layout problem. The two
+panels are:
+•Thetoppanel shows the evolution of several loss terms
+inlinearscale.
+•Thebottompanel shows the same quantities inlogarith-
+micscale (base 10) applied to the absolute value of each
+loss.
+At each optimization iterationi∈ {0,1,...,N−1}the
+solver stores a dictionary where some keys (e.g. reachability)
+may be absent if the corresponding term is disabled. Each
+entry can be a PyTorch tensor or a Python scalar; for plotting
+it is always converted to a floating–point number.
+VI. FUTUREWORK
+Future research directions include the following:
+•Integrating robot motion planning directly into the
+optimization process, replacing the current walking-
+robot–based clearance constraint. This would enable
+feasibility-aware layouts that account for kinematic reach-
+ability, collision-free trajectories, and task execution con-
+straints, resulting in more realistic and deployable solu-
+tions.
+•Extending the current robot reachability model from a
+planar, radius-based formulation to a full 3D represen-
+tation by incorporating vertical reach constraints. This
+would allow more accurate modeling of robot capabilities
+and improve the validity of generated layouts in real-
+world environments.
+•Investigating alternative optimization strategies beyond
+gradient-based methods currently used for soft constraint
+optimization. In particular, hybrid discrete–continuous
+or unified optimization techniques (e.g., mixed-integer
+optimization or sampling-based methods) could improve
+convergence robustness and better handle non-convex,
+combinatorial layout constraints.
+•Extending self-consistency beyond the current constraint-
+level filtering: (1) strengthening conflict resolution and
+redundancy removal in the constraint set, and (2) adopting
+self-consistent decoding by sampling several candidate
+programs and selecting the one that achieves the best
+solver objective (e.g., total loss or feasibility), thereby
+improving reliability of generated layouts.
+VII. CONCLUSION
+This paper presents RoboLayout, an extension of Lay-
+outVLM that integrates explicit agent-aware reachability into
+differentiable 3D layout optimization. By treating the “robot”
+as a general embodied agent, including robots, humans, or
+animals, RoboLayout generates layouts that are not only
+semantically coherent but also physically navigable and action-
+able by the intended agent. In addition, a local refinement stage
+selectively re-optimizes only problematic object placements
+while keeping the remainder of the scene fixed, improving
+convergence efficiency and layout stability without increasing
+global optimization cost. Experimental results demonstrate that
+RoboLayout preserves strong semantic alignment, improves
+optimization robustness, and produces agent-feasible indoor
+layouts across diverse scene configurations, bringing 3D scene
+generation closer to practical deployment in real-world envi-
+ronments.
+VIII. REFERENCES
+[1] Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam
+Bhat, Federico Tombari , Manling Li, Nick Haber, Jiajun
+Wu, Layoutvlm: Differentiable Optimization of 3D Layout via
+Vision-Language Models, 2025
+[2] K. Black, N. Brown, D. Driess, A. Esmail, M. Equi,
+C. Finn, N. Fusai, L. Groom, K. Hausman, B. Ichter,
+S. Jakubczak, T. Jones, L. Ke,S. Levine, A. Li-Bell, M.
+Mothukuri, S. Nair, K. Pertsch, L. X. Shi, J. Tanner, Q.
+Vuong, A. Walling, H. Wang, and U. Zhilinsky, “π0: A vision-
+language-action flow model for general robot control,”arXiv
+2410.24164, 2024.
+[3] M. M. Soliman, E. Ahmed, A. Darwish, and A. E.
+Hassanien, “Artificial intelligence powered metaverse: analy-
+sis, challenges and future perspectives,” Artificial Intelligence
+Review, vol. 57,no. 2, p. 36, 2024.
+[4] D. Liu, J. Zhang, A.-D. Dinh, E. Park, S. Zhang, and
+C. Xu, “Generative physical AI in vision: A survey,” arXiv
+2501.10928, 2025.
+[5] K. Chang, C. Cheng, J. Luo, S. Murata, M. Nourbakhsh,
+and Y . Tsuji, “Building-GAN: Graph-conditioned architectural
+volumetric design generation,” in ICCV , 2021
+[6]W. Zhao, Y . Cao, J. Xu, Y . Dong, and Y . Shan, “DI-PCG:
+diffusionbased efficient inverse procedural content generation
+for highquality 3D asset creation,” arXiv 2412.15200, 2024
+[7] W. Wu, L. Fan, L. Liu, and P. Wonka, “Miqp-based layout
+design for building interiors,” Computer Graphics Forum,
+2018.
+[8] Y . Li, O. Vinyals, C. Dyer, R. Pascanu, and P. W.
+Battaglia, “Learning deep generative models of graphs,” arXiv
+1803.03324, 2018
+[9] I. J. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu,
+D. Warde-Farley, S. Ozair, A. C. Courville, and Y . Bengio,
+Generative adversarial networks, in NIPS, 2014. [10] J. Ho,
+A. Jain, and P. Abbeel, “Denoising diffusion probabilistic
+models,” in NeurIPS, 2020.
+[11] P. Kan and H. Kaufmann, “Automatic furniture arrange-
+ment´using greedy cost minimization,” in VR, 2018
+(a) buffet restaurant
+ (b) bookstore
+ (c) game room
+ (d) computer room
+Fig. 2: Example spaces generated by RoboLayout
+Fig. 3: Loss Curve
+[12] Y . Zhao, K. Lin, Z. Jia, Q. Gao, G. Thattai, J. Thomason,
+and G. S. Sukhatme, “LUMINOUS: indoor scene generation
+for embodied AI challenges,” arXiv 2111.05527, 2021.
+[13] M. Fisher, D. Ritchie, M. Savva, T. A. Funkhouser,
+and P. Hanrahan, “Example-based synthesis of 3D object
+arrangements,” ACM TOG, vol. 31, no. 6, pp. 135:1–135:11,
+2012.
+[14] S. Zhang, S. Zhang, W. Xie, C. Luo, Y . Yang, and H.
+Fu, “Fast 3D indoor scene synthesis by learning spatial relation
+priors of objects,” IEEE TVCG, vol. 28, no. 9, pp. 3082–3092,
+2022.
+[15] S. Dasgupta, A. Gupta, S. Tuli, and R. Paul, “ActNeRF:
+Uncertainty-aware active learning of nerf-based object models
+for robot manipulators using visual and re-orientation actions,”
+in IROS, 2024.
+[16] W. Feng, W. Zhu, T. Fu, V . Jampani, A. R. Akula, X. He,
+S. Basu, X. E. Wang, and W. Y . Wang, “LayoutGPT: Com-
+positional visual planning and generation with large language
+models,” in NeurIPS, 2023.
+[17] K. Bhat, N. Khanna, K. Channa, T. Zhou, Y . Zhu, X.
+Sun, C. Shang, A. Sudarshan, M. Chu, D. Li, K. Deng, J.
+Fauconnier, T. Verhulsdonck, M. Agrawala, K. Fatahalian, A.
+Weiss, C. Reiser, R. K. Chirravuri, R. Kandur, A. Pelaez, A.
+Garg, M. Palleschi, J. Wang, S. Litz, L. Liu, A. Li, D. Harmon,
+D. Liu, L. Feng, D. Goupil, L. Kuczynski, J. Yoon, N. Marri, P.
+Zhuang, Y . Zhang, B. Yin, H. Jiang, M. van Workum, T. Lane,
+B. Erickson, S. Pathare, K. Price, A. Singh, and D. Baszucki,
+“Cube: A roblox view of 3D intelligence,” arXiv 2503.15475,
+2025.
+[18] Y . Yang, J. Lu, Z. Zhao, Z. Luo, J. J. Q. Yu, V .
+Sanchez, and F. Zheng, “LLplace: The 3D indoor scene
+layout generation and editing via large language model,” arXiv
+2406.03866, 2024.
+[19] R. Fu, Z. Wen, Z. Liu, and S. Sridhar, “AnyHome:
+Openvocabulary generation of structured and textured 3D
+homes,” in ECCV , 2024.
+[20] Yandan Yang1, Baoxiong Jia1, Shujie Zhang1, Siyuan
+Huang1, All-in-One 3D Scene Synthesis with an Extensible
+and Self-Reflective Agent 1State Key Laboratory of General
+Artificial Intelligence, BIGAI 2Tsinghua University
+[21] Y . Yang, F. Sun, L. Weihs, E. VanderBilt, A. Herrasti, W.
+Han, J. Wu, N. Haber, R. Krishna, L. Liu, C. Callison-Burch,
+M. Yatskar, A. Kembhavi, and C. Clark, “Holodeck: Language
+guided generation of 3D embodied AI environments,” in
+CVPR, 2024.
+[22] M. Zhou, J. Hou, C. Luo, Y . Wang, Z. Zhang, and J. Peng,
+“SceneX: procedural controllable large-scale scene generation
+via largelanguage models,” in AAAI, 2025.
+[23] R. Aguina-Kang, M. Gumin, D. H. Han, S. Morris, S.
+J. Yoo, A. Ganeshan, R. K. Jones, Q. A. Wei, K. Fu, and D.
+Ritchie, “Openuniverse indoor scene generation using LLM
+program synthesis and uncurated object databases,” arXiv
+2403.09675, 2024
+[24] Ian W. Eisenberg, The Unified Control Framework:
+Establishing a Common Foundation for Enterprise AI Gover-
+nance, Risk Management and Regulatory Compliance , 2025
+[25] Emmanouil Papagiannidis a , Patrick Mikalef, Kieran
+Conboy b Responsible artificial intelligence governance: A
+review and research framework Author links open overlay
+panel, The Journal of Strategic Information Systems, June
+2025, 101885
+[26] Automated architectural space layout planning using a
+physics-inspired generative design framework, Z. Li, S. Li, G.
+Hinchcliffe, N. Maitless, N. Birbilis, 2024.
+[27] Retail Innovation Through AI: Benefits and Liabilities ,
+W. Michael Schuster, Simon E. Corrigan, 2025.

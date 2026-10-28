@@ -1,0 +1,704 @@
+Learning an Interior Layout Policy in a Domain
+Specific Language Action Space
+Yuhao Lu Weichen Zhang Wenyi Xiao Haohui Chen Yiyun Fei
+Taobao & Tmall Group of Alibaba
+Abstract
+Indoor scene layout generation is a challenging task in interior design. Existing
+methods often oversimplify the task by reducing room conditions to coarse 3D
+bounding boxes and neglecting structural elements such as doors and windows.
+More fundamentally, many prior approaches formulate spatial reasoning as direct
+coordinate prediction, thereby casting interior layout design as continuous regres-
+sion over raw geometric parameters, which hinders the model from learning the
+underlying reasoning logic of intelligent layout design. We proposeLayoutDSL, a
+novel LLM-based framework for learning an interior layout policy in a domain-
+specific language (DSL) action space. The DSL provides an explicit symbolic
+representation of layout information and serves as a structured action space for
+layout reasoning, where each action corresponds to an interpretable design decision.
+Under this DSL-based policy learning paradigm, we construct 3D-FrontDSL, a
+dataset of room-structure annotations paired with synthetic DSL action sequences
+for supervised fine-tuning. To promote a more generalizable and scalable policy
+with verifiable feedback, we design rewards grounded in interior design principles
+and physical plausibility, and optimize the policy via reinforcement learning. Ex-
+tensive experiments demonstrate that LayoutDSL substantially improves spatial
+plausibility and design logicality over strong baselines and existing methods.
+1 Introduction
+Indoor scene layout generation is a central challenge in 3D indoor scene synthesis. Given a room and
+its structural constraints, the task is to produce a spatial arrangement that is both physically feasible
+and functionally meaningful. It has important applications in simulation-based data generation and
+automated interior design. Previous learning-based methods ( Paschalidou et al. (2021); Tang et al.
+(2024); Wang et al. (2021); Yang et al. (2024a); Wei et al. (2023)) typically employ diffusion-based
+or autoregression-based architectures to directly regress layout parameters, which exhibit limited
+scalability and extensibility in practical applications. Recent LLM-based works ( Feng et al. (2023);
+Fu et al. (2024); Çelen et al. (2024); Yang and et al. (2024); Aguina-Kang et al. (2024); Sun et al.
+(2025a); Yang et al. (2025c); Littlefair et al. (2025); Huang et al. (2025); Pun et al. (2025)) leverage
+the world knowledge of large language models to improve the generalization of layout generation.
+However, existing methods are constrained by their modeling paradigm. Many of them reduce the
+room to a coarse bounding box, omitting structural elements such as doors and windows that are
+critical for realistic layouts. More fundamentally, they cast layout generation as continuous parameter
+prediction, turning a structured, constraint-driven design problem into point estimation in Euclidean
+space. At a comparable training data scale, direct parameterization makes it difficult for the model to
+develop emergent layout intelligence, as object coordinates vary substantially across rooms depending
+on room geometry and context, as shown in Fig. 2. In contrast, DSL incorporates structural priors
+over spatial relations, resulting in more stable positional descriptions.
+Preprint.
+arXiv:2608.07547v1  [cs.CV]  31 Jul 2026
+LLM
+LayoutDSL InferencePipeline
+Text Decode
+Scene Synthesis Result
+Infer
+Thinking
+Human-AlignedReasoning
+{”layout_dsl”: [“place sofa1 orient:90.0 wall5 wall_center_left:0.028 distance:0.000”,“place tv_cabinet2 orient:270.0 wall1 wall_center_right:0.031 distance:0.000”,“place tea_table3 orient:90.0 sofa1 obj_front_center:0.000 distance:0.395”,…], ”furniture_size”: {…}}
+Figure 1: Reasoning paradigm of LAYOUTDSL. Given a pre-partitioned meta-room with known
+boundaries, the LLM sequentially predicts DSL actions to mimic human-like arrangement behavior,
+which are then decoded into layout parameters by a DSL interpreter for downstream scene synthesis.
+Direct Position Parameters: (3.613, 2.778, 0)DSL Snippet: Place night_table1 bed1 obj_left_down: 0 distance: 0.1
+Direct Position Parameters: (0.256, 2.910, 0)DSL Snippet : Place night_table1 bed1 obj_left_down: 0 distance: 0.097
+Direct Position Parameters: (1.170, 3.566, 0)DSL Snippet : Placewardrobe1 wall6 wall_center: 0 distance: 0
+Direct Position Parameters: (0.297, 2.130, 0)DSL Snippet : Place wardrobe1 wall6 wall_center: 0 distance: 0
+Figure 2: Direct position parameters show high variance across rooms, while DSL introduces
+structural priors that yield more stable positional descriptions.
+To address the aforementioned problems, we introduceLayoutDSL, a novel LLM-based framework
+for indoor scene layout generation that projects spatial computation and layout reasoning into
+the action space of a domain-specific language (DSL). Figure 1 outlines the modeling paradigm
+behind our layout reasoning pipeline. We design a layout DSL that symbolically encodes spatial
+relationships and geometric constraints, together with a generator–interpreter system for bidirectional
+conversion between layout parameters and DSL statements. And we construct3D-FrontDSL, a
+new layout dataset that incorporates key architectural elements—such as walls, doors, windows, and
+holes—together with corresponding layout DSL statements. Based on these paired annotations, we
+perform supervised fine-tuning (SFT) to align the LLM with the syntax and semantics of the layout
+DSL and to learn structured DSL action sequences for layout reasoning. To further enhance the layout
+quality and foster a more robust exploration mechanism, we incorporate reinforcement learning (RL)
+with verifiable rewards grounded in geometric feasibility and design constraints. Specifically, we
+construct a comprehensive reward signal by combining established geometric metrics (Collision,
+Out-of-bounds, Reachability) from prior work ( Çelen et al. (2024); Yang et al. (2024a); Tam et al.
+(2025)) with design-aware criteria (Forbidden-placement, Space Logicality), and update policy via
+Group Relative Policy Optimization (GRPO).
+2
+We conduct extensive comparative experiments to demonstrate that, after DSL-based fine-tuning
+and RL, a 4B-parameter LLM achieves significant layout performance gains over the baseline and
+surpasses much larger industry-leading LLMs that are evaluated in an unfine-tuned, few-shot setting.
+We also present comparative analyzes showing our method’s advantages over existing approaches
+across a comprehensive set of evaluation metrics. To summarize, our contributions are three-fold:
+• We design a layout domain-specific language and develop a DSL generator–interpreter system,
+turning indoor scene layout generation into a policy-learning problem over a structured and
+interpretable action space.
+• We construct 3D-FrontDSL, a new layout dataset with room-structure annotations and Layout
+DSL statements for room-structure-conditioned layout generation.
+• We propose comprehensive and verifiable layout rewards that incorporate design principles, and
+show that reinforcement learning with these rewards substantially improves layout generation
+performance.
+2 Related Works
+2.1 3D Indoor Scene Layout Generation
+Improving layout generation capabilities is the central challenge in the 3D indoor scene synthesis
+pipeline. Traditional methods ( Merrell et al. (2011); Weiss and et al. (2018); Raistrick et al. (2023,
+2024)) generate arrangements based on computational geometry and rule-based procedural generation.
+Recent popular layout generation approaches can be divided into two categories: learning-based
+methods ( Paschalidou et al. (2021); Tang et al. (2024); Wang et al. (2021); Yang et al. (2024a);
+Wei et al. (2023); Sun et al. (2025b); Zhai et al. (2023); Wang et al. (2018); Ritchie et al. (2019))
+that directly regress layout parameters using diffusion-based or autoregression-based architectures,
+and LLM-based methods ( Yang et al. (2025b); Fu et al. (2024); Çelen et al. (2024); Aguina-Kang
+et al. (2024); Yang and et al. (2024); Hu et al. (2024); Sun et al. (2025a); Wang et al. (2024); Yang
+et al. (2024b); Feng et al. (2023); Pun et al. (2025)) that leverage the inherent knowledge of LLMs
+to perform layout reasoning. Learning-based approaches often have limited generalization and
+extensibility, whereas LLM-based approaches offer a promising alternative by leveraging the world
+knowledge and compositional reasoning capabilities of large language models. Some recent works
+( Yang et al. (2025c); Ran et al. (2025); Bucher and Armeni (2025)) explore enhancing the layout
+reasoning capabilities of LLMs during post-training stages.
+2.2 Scene Layout Representation and Domain-Specific Language
+Scene layout representation plays a pivotal role in scene layout generation. The representation in
+existing approaches can be grouped into three paradigms: direct layout parameter, scene graph,
+and domain-specific language(DSL). Direct layout parameters represent scenes as collections of
+numerical attributes and are widely used in learning-based models ( Paschalidou et al. (2021); Tang
+et al. (2024); Wang et al. (2021); Yang et al. (2024a); Wei et al. (2023); Sun et al. (2025b); Zhang and
+et al. (2020)) and many LLM-based approaches ( Ran et al. (2025); Feng et al. (2023); Çelen et al.
+(2024); Yang et al. (2024b); Bucher and Armeni (2025); Yang et al. (2025c)). Scene graphs encode
+layouts as relational structures, where nodes denote scene objects and edges represent semantic or
+spatial relationships, and have been adopted to explicitly model relational dependencies in several
+works ( Lin and Mu (2024); Sun et al. (2025b); Yang and et al. (2024); Hu et al. (2024); Gao
+et al. (2024)). In contrast, DSLs formalize layouts as executable symbolic programs composed of
+human-interpretable primitives, and are used in works that explicitly design a DSL or grammar for
+layout representation ( Tang et al. (2026); Aguina-Kang et al. (2024); Avetisyan and et al. (2024); Qi
+et al. (2018)) as well as in action-based layout languages derived from programmatic functions ( Fu
+et al. (2024); Wang et al. (2024)).
+2.3 Reinforcement Learning for Large Reasoning Models
+Recent advances in reinforcement learning (RL) ( Zhang and et al. (2025); Chu and et al. (2025); Guo
+and et al. (2024, 2025); Shao and et al. (2024); Mu and et al. (2024); Peng and et al. (2025); Ke et al.
+(2025); Kumar et al. (2025); Xu et al. (2024)) have significantly improved the reasoning capabilities
+of large language models (LLMs), enabling multi-step problem solving through iterative feedback or
+3
+{"layout_dsl":["place sofa1 orient:0.0 wall0 wall_center_right:0.135 distance:0.014","place tv_cabinet2 orient:180.0 wall6 wall_center_left:0.529 distance:0.053","place tea_table3 orient:0.0 sofa1 obj_front_center:0.000 distance:0.232,……],"furniture_size":{"sofa1":{"length":2.4,"width":0.864,"height":0.909},"tv_cabinet2":{"length":2.0,"width":0.455,"height":0.61}, ……}
+{"room_type":"living","length":4.49,"width":3.72,"height":2.6,"boundaries":[{"edge_id":"wall0","edge_start":[4.49,3.72],"edge_end":[0.706,3.72],"edge_position":"north"},{"edge_id":"hole1","edge_start":[0.706,3.72],"edge_end":[0.0,3.72],"edge_position":"north"},…….]
+RoomInfo
+Rewards
+Layout DSL# Indoor Scene Layout Designer ## TaskYou are a professional interior layout designer.Following the reasoning process below, design a room layout based on the room information provided by the user and infer furniture placement details,……## Reasoning process Step 1 —Parse the input and build a complete understanding of the room environment. …….
+Instruction
+LLM
+{“layout_dsl”:[“place sofa1 orient:0.0 wall0 wall_center_right:0.135 distance:0.014”,“place tv_cabinet2 orient:180.0 wall6 wall_center_left:0.529 distance:0.053”,“place tea_table3 orient:0.0 sofa1 obj_front_center:0.000 distance:0.232”, …], “furniture_size”:{…}}
+DSL Generator
+LLM
+DSL Interpreter
+RoomInfo COLOOB
+Layout parameters FPREALOGPolicy Update
+Data SynthesisSFT
+GRPO
+Layout DSL
++Format Reward
+Figure 3: Overview.Data Synthesis: Raw layout data is processed by a DSL generator that
+identifies spatial relationships among furniture items and converts them into structured layout DSL
+representations.SFT: The synthesized Room–Layout DSL pairs are used to fine-tune the LLM,
+with an example input–output pair illustrated.GRPO: Generated layouts are assessed across five
+key dimensions (the red boxes highlight regions that violate the corresponding rule); these rewards,
+combined with a format reward, drive GRPO-based policy updates.
+reward-driven optimization. RL from Human Preferences (RLHF) ( Christiano et al. (2017); Ouyang
+and et al. (2022); Ziegler et al. (2019)) and RL with Verifiable Rewards (RLVR) ( Lambert and et al.
+(2024); Guo and et al. (2024); Shao and et al. (2024); Su and et al. (2025)) have emerged as the
+dominant post-training paradigms. In indoor scene layout generation, RL methods differ in both
+optimization strategy and architectural design: OptiScene ( Yang et al. (2025c)) exploits implicit
+human preference signals to distinguish high- and low-quality layouts, DirectLayout ( Ran et al.
+(2025)) proposes a CoT-grounded generative layout reward to assess layout plausibility using a VLM
+and a reasoning LLM, and ReSpace ( Bucher and Armeni (2025)) adopts preference optimization
+with verifiable rewards for object addition and removal.
+3 Methodology
+3.1 Overview
+We present LAYOUTDSL, a novel LLM-based framework that learns an interior layout policy in a
+structured and interpretable DSL action space. Given meta-room structure and room openings such
+as doors, windows, and holes, the model learns spatial reasoning to generate physically plausible
+room layouts from empty rooms. An overview of LAYOUTDSL is provided in Figure 3. The model
+is trained in two stages: (1)Alignment with Layout Domain-Specific Languagein Section 3.3,
+which maps geometric parameters to explicit semantic relational expressions and enables the LLM
+to learn layout reasoning in the DSL space; and (2)RL with Verifiable Rewardsin Section 3.4,
+which optimizes the policy with rule-based rewards derived from interior design principles via Group
+Relative Policy Optimization (GRPO).
+3.2 Problem Formulation
+We revisit the task of indoor scene layout generation, which aims to produce a complete furniture
+arrangement from an empty room. We define the concept of a meta-room: for any arbitrarily irregular-
+shaped input floor plan, each room is decomposed into one or more rectangular meta-rooms (e.g.,
+living area, dining area) using a computational geometry algorithm. Different from prior work
+that typically models rooms as coarse bounding boxes, our input preserves the true room boundary
+4
+geometry and structural parameters, including doors, windows, and holes. Formally, let a meta-room
+be represented as R= (T,L,W,H,B) , where T denotes the room type, L, W , and H are its
+length, width, and height. The boundary set B={b 1,b 2,...,b m} encodes all wall segments and
+architectural openings along the room perimeter. Each boundary elementbi is defined by:
+• anedge_idindicating its semantic type and instance index,
+• a start pointp start
+i ∈R 2 and end pointp end
+i ∈R 2 specifying its 2D coordinates in the floor plane,
+• anedge_position(e.g.,north,south,east,west) indicating the orientation it belongs to.
+Given a meta-roomR, we train an LLM to learn the conditional distributionpθ(S|R), whereS=
+(Ldsl,F s) denotes the layout DSL statements and the corresponding furniture sizes. Subsequently,
+a DSL interpreter translates S into concrete layout parameters L={l 1,l 2,...,l n}, where each
+li = (categoryi,xi,yi,zi,li,wi,hi,θi) denotes the category, 3D position, sizes, and orientation of
+thei-th furniture item.
+3.3 Alignment with Layout Domain-Specific Language
+We devise a layout domain-specific language (DSL) to encode layout information, together with a
+bidirectional transformation system that enables reversible conversion between layout parameters
+and layout DSL statements. Concretely, each layout DSL statement is a natural-language sentence
+composed of symbolic tokens that explicitly specify the exact position of a piece of furniture in
+the current room. The system has two modules: a generator that turns 3D position coordinates and
+orientations into layout statements and an interpreter that performs the reverse conversion. Based
+on the generator, we synthesize the 3D-FrontDSL dataset, which contains raw scene layouts, room-
+structure annotations, and layout DSL statements. Then, we steer the LLM to achieve cognitive
+alignment within the semantic space defined by the layout DSL via supervised fine-tuning (SFT).
+3.3.1 Layout Language Design
+Inspired by previous works ( Fu et al. (2024); Wang et al. (2024)) that employ placement functions to
+indirectly compute furniture positions, we aim to represent furniture positions and orientations in
+linguistic form comprehensively and equivalently. The core design principle of our layout DSL is as
+follows: given a target furniture item and the room layout, we first identify an anchor instance (either
+a wall or an already-placed furniture item), then classify the alignment relation between the target
+furniture and its anchor, and finally estimate associated alignment and distance values.
+The design of the layout DSL comprises two main aspects: (1) the top-level syntactic schema, which
+defines the basic structure of layout DSL statements. (2) the specification of a finite set of elements,
+each associated with a predefined vocabulary. Specifically, a layout DSL statement is composed of
+six elements:
+Statement = action + instance + orient:θ+ anchor + align:δ+ distance:d
+where:
+•actiondenotes the placement manner (e.g.,placefor floor-standing furniture).
+•instance denotes the furniture object to be placed, specified as a concatenation of its category
+name and a unique numeric ID (e.g.,bed0,chair1).
+•orientdenotes the furniture’s orientation, whereθrepresents the orientation angle in degrees.
+•anchor refers to an anchor instance that serves as the spatial reference for placing the furniture.
+Anchor instances fall into two categories: (1)wall anchors, derived from room geometry (e.g.,
+ceiling0,wall1), and (2)furniture anchors, drawn from previously placed furniture instances.
+•align specifies the alignment type, with 26 predefined options capturing the relative spatial
+relationships between the furniture and its anchor;δ denotes the corresponding alignment offset
+(in meters).
+•distance indicates the separation between the instance and its anchor;d denotes the separation
+value (in meters).
+Additional grammar details and the DSL generator-interpreter system are provided in the supplemen-
+tary Section A.
+5
+3.3.2 3D-FrontDSL Dataset
+To enable room-structure-conditioned layout generation and training with layout DSL, we construct
+the 3D-FrontDSL dataset from raw scenes in 3D-Front Fu et al. (2021). We first compute each
+room’s floor plan and extract door and window information from wall, door, and window geometries
+in the mesh. To alleviate the challenges posed by irregular floor plans, we adopt a hierarchical
+generation strategy that partitions each room into rectangular canonical placement zones; for example,
+a living-dining room can be split into separate living and dining zones, and an L-shaped bedroom
+can be transformed into a rectangular primary placement zone. We use a computational-geometry
+partitioning algorithm to subdivide irregular rooms, and treat any boundary shared with an adjacent
+region as a hole. We refer to each placement zone as a meta-room, which serves as the input unit for
+layout inference. We then extract the original furniture layouts corresponding to each meta-room and
+filter out cases with too few or too many items, as well as layouts with boundary violations. Finally,
+using the DSL generator described above, we generate layout DSL statements for each meta-room.
+In total, the resulting dataset contains9305 meta-room layout pairswith room-structure annotations
+and synthetic layout-DSL statements. Dataset statistics are provided in the supplementary Section B.
+3.3.3 Supervised Fine-tuning with Layout DSL
+We use supervised fine-tuning (SFT) to learn an interior layout policy in the DSL action space. The
+training pairs consists of (R,S) from the 3D-FrontDSL, whereR is the room structural information
+andS is the layout DSL statements with corresponding furniture sizes. During training, the LLM
+is prompted to generateS givenR as input. The system prompt serves as a cold-start instruction,
+guiding the model to generate structured DSL actions that implicitly encode furniture selection, size
+estimation, and spatial layout reasoning. The complete prompts are provided in the supplementary
+Section A.
+3.4 RL with Verifiable Rewards
+Although the fine-tuned model can generate coherent spatial layouts, it may still suffer from positional
+or circulation conflicts. We therefore leverage direct feedback from physical constraints and design
+principles, and use Group Relative Policy Optimization (GRPO) to further align the model with
+rule-based interior design preferences. Indoor scene layout generation is inherently verifiable, and
+previous works Tam et al. (2025); Yang et al. (2024a); Çelen et al. (2024) have proposed rule-based
+metrics such as collision, out-of-bounds, and reachability. Building on these, we introduce additional
+metrics to capture room structural constraints. The resulting reward function consists of five parts:
+Collision (COL), Out-of-Bounds (OBB), Forbidden-Placement (FP), Route Reachability (REA), and
+Space Logicality (LOG), each normalized to [0,1] given layout parametersL and room parameters
+R.
+Collision Reward (COL).The COL reward penalizes unreasonable pairwise bounding -box over-
+laps between furniture items. For a layoutL={l 1,...,l n}, letP⊆{(i,j)|i<j} denote the set of
+furniture pairs in which both items are subject to collision detection and whose overlap ratio exceeds
+a context-aware thresholdτij. For each (i,j)∈P , we compute the 2D overlap ratio oij∈[0,1]
+between the projections of their oriented bounding boxes onto the floor plan. The collision reward
+score is then:
+rCOL = (1−max
+(i,j)
+ 
+1{oij>τij }, oij
+
+)·min
+|L|
+N ,1
+
+(1)
+where|L| denotes the number of furniture items in the layout and we set N= 7 . The weighting
+factor min
+
+|L|
+N ,1
+
+acts as an anti-hacking penalty to discourage the model from evading collision
+penalties by generating overly sparse layouts with too few objects.
+Out-of-Bound Reward (OOB).The OOB reward encodes a binary criterion that penalizes layouts
+in which any furniture item extends beyond the room boundary. Let a(k)
+out denote the outside area
+of thek-th furniture item and a(k) its total area. The reward is 1 if all items satisfy the boundary
+constraint within a relative tolerancem, and 0 otherwise:
+rOOB =
+Y
+k
+1
+(
+a(k)
+out
+a(k) ≤ϵ OOB
+)
+(2)
+6
+where we setϵOOB = 0.01.
+Forbidden-Placement Reward (FP).The FP reward is designed specifically for room-structure-
+conditioned layout generation, penalizing layouts that place furniture in forbidden regions. Specifi-
+cally, We enforce two semantic constraints: (i) no furniture may occupy the rectangular clearance
+zone in front of any door, and (ii) tall cabinets (e.g., wardrobes or bookshelves) are prohibited
+from the frontal zones of windows. Let a(k)
+forb denote the overlap area between the k-th furniture
+item and forbidden regions, and a(k) its total area. The reward equals 1 if all items satisfy the
+forbidden-placement constraints within a relative toleranceϵ, and 0 otherwise:
+rFP =
+Y
+k
+1
+(
+a(k)
+forb
+a(k) ≤ϵ FP
+)
+(3)
+where we setϵFP = 0.01.
+Route Reachability Reward (REA).Inspired by the works ( Yang et al. (2024a); Tam et al.
+(2025)), the REA reward integrates walkability and object accessibility into a unified reachability
+measure. First, we compute thewalkable scoreas a binary indicator of global connectivity: it is 1 if
+the unoccupied floor area forms a single connected component, and 0 otherwise. Second, we evaluate
+object accessibility score, which measures the ratio of non-occupied area to the total area on its
+designated functional-side rectangle. The functional side configurations for each furniture category
+are automatically determined via offline LLM prompting. The overall REA reward is defined as
+follow:
+rREA =1
+Amax
+Afree
+≥τ walk
+
+· 1
+K
+KX
+k=1
+a(k)
+free
+a(k)
+func
+·min
+|L|
+N ,1
+
+(4)
+where the first term corresponds to thewalkable scorewith τwalk = 0.99, the second term represents
+theobject accessibility score, and the third is an anti-hacking penalty weight (as used in COL) that
+prevents the model from circumventing reachability constraints by generating fewer furniture items
+to artificially inflate object accessibility.
+Space Logicality Reward (LOG).The LOG reward evaluates layout plausibility based on interior
+design principles commonly followed by human designers, focusing on functional consistency and
+spatial harmony. First,functional consistencychecks whether the primary furniture category matches
+the room type; this yields a binary score of 1 if aligned and 0 otherwise. Second,spatial harmony
+enforces room-specific layout conventions: for bedrooms, it verifies whether the bed’s orientation
+conflicts with the door location, yielding 0 if conflicts and 1 otherwise; for dining rooms, it ensures
+that the dining area has traversable pathways in both horizontal and vertical directions, yielding
+1 if feasible and 0 otherwise. The overall LOG reward is defined as the product of the functional
+consistency and spatial harmony scores: rLOG =s func·s harm, where sfunc,s harm∈{0,1} are as
+defined above.
+4 Experiments
+4.1 Experiments Setup
+4.1.1 Implementation Details
+To reduce computational overhead in business-to-consumer applications, we adopt Qwen3-4B-Instruct
+( Yang et al. (2025a)) as the baseline model, trained on 8×NVIDIA RTX 4090 (24GB) GPUs. All
+training steps are performed using LoRA-based fine-tuning ( Hu et al. (2022)). For SFT, we train on
+9035 meta-room layout pairs from the 3D-FrontDSL dataset using LoRA with rank 32 andα= 64 .
+The model is optimized for 6 epochs with a learning rate of 1e−4 and an effective batch size of 6.
+For GRPO training, we sample 1000 meta-room’s structural inputs from the 3D-FrontDSL dataset,
+each of which is used to generate 8 layout candidates during policy optimization. The KL divergence
+coefficient in GRPO is set to 0.05. We use a lighter LoRA configuration with rank 16 andα= 32 .
+The model is trained for 10 epochs, with a batch size of 4, gradient accumulation over 4 steps, and a
+learning rate of1e−5.
+7
+Table 1: Quantitative comparison with LLMs and existing layout generation methods on RealHome60.
+Method Params (B) Fine-tuned RT (s) Success COL OOB FP REA LOG Mean
+Large Language Models
+Qwen3-max ( Yang et al. (2025a)) 1000+ No 12.48 95% 0.520 0.016 0.483 0.475 0.183 0.335
+Deepseek-v3 ( Liu and et al. (2024)) 671 No 20.78 95% 0.323 0.050 0.533 0.561 0.233 0.340
+GPT-5.1 ( OpenAI (2025)) – No 50.28 98.33% 0.499 0.167 0.467 0.605 0.633 0.474
+Gemini-3.1 ( Comanici and et al. (2025)) – No 3714 98.33% 0.659 0.566 0.583 0.579 0.683 0.614
+Existing Methods
+LayoutGPT ( Feng et al. (2023)) – No 6.73 100% 0.350 0.533 0.716 0.161 0.116 0.375
+AnyHome ( Fu et al. (2024)) – No 25.01 100% 0.521 0.933 0.633 0.324 0.216 0.525
+I-Design ( Çelen et al. (2024)) – No 74.49 100% 0.6881.0000.350 0.618 0.316 0.594
+Baseline and Ours
+Qwen3-4B-Instruct ( Yang et al. (2025a)) (Baseline) 4 No 15.24 98.33% 0.365 0.050 0.400 0.621 0.350 0.357
+LAYOUTDSL (Ours) 4 Yes 12.03 100%0.9670.8670.733 0.958 0.867 0.878
+LayoutDSLI-DesignGemini-3.1AnyHomeGPT-5Bed
+Living
+Dining
+Figure 4: Qualitative comparison with LLMs and existing layout generation methods in different
+rooms.
+4.1.2 Evaluation Metrics
+We manually curate a test set of 60 real-world residential rooms, denoted RealHome60, which mainly
+includes living rooms, dining rooms, and bedrooms with diverse spatial configurations. We evaluate
+layout quality using five objective metrics: COL, OOB, FP, REA, and LOG; their definitions and
+computation procedures are provided in Section 3.4. All metrics are normalized to [0,1] , with 1
+indicating the best performance, and we report their mean as an overall score. Since LLMs may
+generate format-invalid DSL outputs during inference, we also report the success rate, i.e., the
+proportion of samples that can be successfully decoded by the DSL interpreter. All results are
+averaged at the meta-room level.
+4.2 Scene Layout Generation Results
+Comparison with LLMsWe compare LAYOUTDSL with several industry-leading large
+LLMs Yang et al. (2025a); Liu and et al. (2024); Comanici and et al. (2025); OpenAI (2025).
+For these models, we use the same prompts augmented with few-shot examples for layout generation.
+As shown in Table 1, despite no fine-tuning, these LLMs achieve high success rates (95%–98.33%),
+with Gemini-3.1 obtaining the best mean score among them at 0.614. In contrast, LAYOUTDSL,
+trained with SFT and RL, enables a much smaller 4B model to achieve a 100% success rate and
+a mean score of 0.878, outperforming Gemini-3.1 by 26.4 percentage points. Figure 4 provides
+qualitative comparisons with GPT-5.1 and Gemini-3.1.
+Comparison with Existing MethodsWe compare LAYOUTDSL with previous room-conditioned
+layout generation methods Feng et al. (2023); Fu et al. (2024); Çelen et al. (2024). As shown in
+Table 1, LAYOUTDSL achieves a mean score of 0.878, outperforming the strongest baseline, I-Design,
+by 28.4 points. It also surpasses all compared methods on COL, FP, REA, and LOG, while remaining
+8
+Table 2: Comparison between direct parameter prediction and DSL-based generation.
+Method COL OOB FP REA LOG Mean
+Params-SFT 0.633 0.800 0.649 0.489 0.650 0.647
+DSL-SFT 0.715 0.667 0.716 0.576 0.750 0.685
+Params-RL0.9800.850 0.633 0.899 0.383 0.749
+DSL-RL 0.9670.867 0.733 0.958 0.867 0.878
+Table 3: Ablation study on SFT, RL, and anti-hacking.
+Method COL OOB FP REA LOG Mean
+Qwen3-4B-Instruct 0.365 0.050 0.400 0.621 0.350 0.357
+Qwen3-4B-SFT 0.715 0.667 0.716 0.576 0.750 0.685
+LAYOUTDSL w/o anti-hacking 0.778 0.9330.7830.7370.9000.825
+LAYOUTDSL (SFT+RL)0.9670.867 0.7330.9580.8670.878
+competitive on OOB. The relatively weaker FP and LOG performance of prior methods is largely
+due to the fact that they do not explicitly model structural constraints such as doors and windows.
+In addition, I-Design attains a perfect OOB score because its feedback-based workflow iteratively
+refines layouts until out-of-bounds violations are removed, whereas LAYOUTDSL generates layouts
+in a fully end-to-end, single-pass manner. These results demonstrate the effectiveness of our approach
+for room-conditioned layout generation. Figure 4 provides qualitative comparisons with AnyHome
+and I-Design.
+4.3 Ablation Experiments
+Direct Parameters vs. DSLWe compare direct parameter prediction with DSL-based generation
+under the same data and training settings. As shown in Table 2, the DSL representation consistently
+outperforms direct parameters in both the SFT and RL stages. Under SFT, DSL-SFT improves the
+mean score from 0.647 to 0.685. The gap becomes more pronounced under RL, where DSL-RL
+achieves a substantially higher mean score of 0.878 compared with 0.749 for Params-RL. This
+indicates that the DSL action space is more effective for layout reasoning than directly predicting
+parameters.
+SFT, RL, and Anti-HackingWe conduct an ablation study to evaluate the contributions of SFT,
+RL, and the anti-hacking penalty in COL and REA (Section 3.4). As shown in Table 3, the baseline
+model achieves a mean score of 0.357 and a low OOB score of 0.050, indicating frequent boundary
+violations. SFT substantially improves performance, raising the mean score to 0.685 and producing
+more plausible layouts. RL with rule-based rewards further boosts the mean score to 0.878, yielding
+the best overall physical feasibility and object placement. Removing the anti-hacking penalty degrades
+COL and REA, reducing the mean score to 0.825. This suggests that, without the penalty, the model
+tends to avoid violations by generating fewer objects, which leads to less realistic and less informative
+layouts.
+5 Conclusion
+In this work, we propose LAYOUTDSL, a novel paradigm for learning an interior layout policy in a
+domain-specific language (DSL) action space, enabling interpretable and structured layout reasoning.
+We further show that verifiable RL rewards can significantly improve performance. In the future,
+we think that large-scale RL will facilitate layout generation models to be effectively deployed in
+complex intelligent design applications. Meanwhile, more challenging layout generation scenarios,
+such as irregular room geometries and diverse user requirements, remain important directions for
+future work.
+9
+References
+Rio Aguina-Kang, Maxim Gumin, Do Heon Han, Stewart Morris, Seung Jean Yoo, Aditya Ganeshan, R Kenny
+Jones, Qiuhong Anna Wei, Kailiang Fu, and Daniel Ritchie. Open-universe indoor scene generation using llm
+program synthesis and uncurated object databases.arXiv preprint arXiv:2403.09675, 2024.
+Armen Avetisyan and et al. Scenescript: Reconstructing scenes with an autoregressive structured language
+model. InEuropean Conference on Computer Vision. Springer, 2024.
+Martin JJ Bucher and Iro Armeni. Respace: Text-driven 3d scene synthesis and editing with preference alignment.
+arXiv preprint arXiv:2506.02459, 2025.
+Ata Çelen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton Obukhov, and Xi Wang. I-design:
+Personalized llm interior designer. InEuropean Conference on Computer Vision, pages 217–234. Springer,
+2024.
+Paul F Christiano, Jan Leike, Tom Brown, Miljan Martic, Shane Legg, and Dario Amodei. Deep reinforcement
+learning from human preferences.Advances in neural information processing systems, 30, 2017.
+Tianzhe Chu and et al. Sft memorizes, rl generalizes: A comparative study of foundation model post-training.
+arXiv preprint arXiv:2501.17161, 2025.
+Gheorghe Comanici and et al. Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long
+context, and next generation agentic capabilities.arXiv preprint arXiv:2507.06261, 2025.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato Basu, Xin Eric Wang,
+and William Yang Wang. Layoutgpt: Compositional visual planning and generation with large language
+models.Advances in Neural Information Processing Systems, 36:18225–18250, 2023.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng, Chengyue Sun, Rongfei
+Jia, Binqiang Zhao, et al. 3d-front: 3d furnished rooms with layouts and semantics. InProceedings of the
+IEEE/CVF International Conference on Computer Vision, pages 10933–10942, 2021.
+Rao Fu, Zehao Wen, Zichen Liu, and Srinath Sridhar. Anyhome: Open-vocabulary generation of structured and
+textured 3d homes. InEuropean Conference on Computer Vision, pages 52–70. Springer, 2024.
+Gege Gao, Weiyang Liu, Anpei Chen, Andreas Geiger, and Bernhard Schölkopf. Graphdreamer: Compositional
+3d scene synthesis from scene graphs. InProceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, pages 21295–21304, 2024.
+Daya Guo and et al. Deepseek-coder: When the large language model meets programming–the rise of code
+intelligence.arXiv preprint arXiv:2401.14196, 2024.
+Daya Guo and et al. Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning.arXiv
+preprint arXiv:2501.12948, 2025.
+Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, Weizhu
+Chen, et al. Lora: Low-rank adaptation of large language models.ICLR, 2022.
+Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia Schmid, and Alireza
+Fathi. Scenecraft: An llm agent for synthesizing 3d scenes as blender code. InForty-first International
+Conference on Machine Learning, 2024.
+Ian Huang, Yanan Bao, Karen Truong, Howard Zhou, Cordelia Schmid, Leonidas Guibas, and Alireza Fathi.
+Fireplace: Geometric refinements of llm common sense reasoning for 3d object placement. InProceedings of
+the Computer Vision and Pattern Recognition Conference, pages 13466–13476, 2025.
+Zixuan Ke, Fangkai Jiao, Yifei Ming, Xuan-Phi Nguyen, Austin Xu, Do Xuan Long, Minzhi Li, Chengwei Qin,
+Peifeng Wang, Silvio Savarese, et al. A survey of frontiers in llm reasoning: Inference scaling, learning to
+reason, and agentic systems.arXiv preprint arXiv:2504.09037, 2025.
+Komal Kumar, Tajamul Ashraf, Omkar Thawakar, Rao Muhammad Anwer, Hisham Cholakkal, Mubarak Shah,
+Ming-Hsuan Yang, Phillip HS Torr, Fahad Shahbaz Khan, and Salman Khan. Llm post-training: A deep dive
+into reasoning large language models.arXiv preprint arXiv:2502.21321, 2025.
+Nathan Lambert and et al. Tulu 3: Pushing frontiers in open language model post-training.arXiv preprint
+arXiv:2411.15124, 2024.
+Chenguo Lin and Yadong Mu. Instructscene: Instruction-driven 3d indoor scene synthesis with semantic graph
+prior.arXiv preprint arXiv:2402.04717, 2024.
+10
+Gabrielle Littlefair, Niladri Shekhar Dutt, and Niloy J Mitra. Flairgpt: Repurposing llms for interior designs. In
+Computer Graphics Forum. Wiley Online Library, 2025.
+Aixin Liu and et al. Deepseek-v3 technical report.arXiv preprint arXiv:2412.19437, 2024.
+Paul Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala, and Vladlen Koltun. Interactive furniture layout
+using interior design guidelines.ACM transactions on graphics (TOG), 2011.
+Tong Mu and et al. Rule based rewards for language model safety.Advances in Neural Information Processing
+Systems, 37:108877–108901, 2024.
+OpenAI. GPT-5 System Card. Technical report, OpenAI, 2025.
+Long Ouyang and et al. Training language models to follow instructions with human feedback.Advances in
+neural information processing systems, 35:27730–27744, 2022.
+Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and Sanja Fidler. Atiss:
+Autoregressive transformers for indoor scene synthesis.Advances in Neural Information Processing Systems,
+34:12013–12026, 2021.
+Yingzhe Peng and et al. Lmm-r1: Empowering 3b lmms with strong reasoning abilities through two-stage
+rule-based rl.arXiv preprint arXiv:2503.07536, 2025.
+Hou In Derek Pun, Hou In Ivan Tam, Austin T Wang, Xiaoliang Huo, Angel X Chang, and Manolis Savva. Hsm:
+Hierarchical scene motifs for multi-scale indoor scene generation.arXiv preprint arXiv:2503.16848, 2025.
+Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and Song-Chun Zhu. Human-centric indoor scene
+synthesis using stochastic grammar. InProceedings of the IEEE Conference on Computer Vision and Pattern
+Recognition, pages 5899–5908, 2018.
+Alexander Raistrick, Lahav Lipson, Zeyu Ma, Lingjie Mei, Mingzhe Wang, Yiming Zuo, Karhan Kayan, Hongyu
+Wen, Beining Han, Yihan Wang, Alejandro Newell, Hei Law, Ankit Goyal, Kaiyu Yang, and Jia Deng. Infinite
+photorealistic worlds using procedural generation. InProceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pages 12630–12641, 2023.
+Alexander Raistrick, Lingjie Mei, Karhan Kayan, David Yan, Yiming Zuo, Beining Han, Hongyu Wen, Meenal
+Parakh, Stamatis Alexandropoulos, Lahav Lipson, Zeyu Ma, and Jia Deng. Infinigen indoors: Photorealistic
+indoor scenes using procedural generation. InProceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition (CVPR), pages 21783–21794, 2024.
+Xingjian Ran, Yixuan Li, Linning Xu, Mulin Yu, and Bo Dai. Direct numerical layout generation for 3d indoor
+scene synthesis via spatial reasoning.arXiv preprint arXiv:2506.05341, 2025.
+Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and flexible indoor scene synthesis via deep convolutional
+generative models. InProceedings of the IEEE/CVF conference on computer vision and pattern recognition,
+pages 6182–6190, 2019.
+Zhihong Shao and et al. Deepseekmath: Pushing the limits of mathematical reasoning in open language models.
+arXiv preprint arXiv:2402.03300, 2024.
+Yi Su and et al. Crossing the reward bridge: Expanding rl with verifiable rewards across diverse domains.arXiv
+preprint arXiv:2503.23829, 2025.
+Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat, Federico Tombari, Manling Li, Nick Haber, and
+Jiajun Wu. Layoutvlm: Differentiable optimization of 3d layout via vision-language models. InProceedings
+of the Computer Vision and Pattern Recognition Conference, pages 29469–29478, 2025a.
+Weilin Sun, Xinran Li, Manyi Li, Kai Xu, Xiangxu Meng, and Lei Meng. Hierarchically-structured open-
+vocabulary indoor scene synthesis with pre-trained large language model. InProceedings of the AAAI
+Conference on Artificial Intelligence, 2025b.
+Hou In Ivan Tam, Hou In Derek Pun, Austin T Wang, Angel X Chang, and Manolis Savva. Sceneeval: Evaluating
+semantic coherence in text-conditioned 3d indoor scene synthesis.arXiv preprint arXiv:2503.14756, 2025.
+Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner. Diffuscene: Denoising
+diffusion models for generative indoor scene synthesis. InProceedings of the IEEE/CVF conference on
+computer vision and pattern recognition, pages 20507–20518, 2024.
+11
+Song Tang, Kaiyong Zhao, Yuliang Li, Qingsong Yan, Penglei Sun, Junyi Zou, Qiang Wang, and Xiaowen
+Chu. Spatialgrammar: A domain-specific language for llm-based 3d indoor scene generation.arXiv preprint
+arXiv:2604.27555, 2026.
+Can Wang, Hongliang Zhong, Menglei Chai, Mingming He, Dongdong Chen, and Jing Liao. Chat2layout:
+Interactive 3d furniture layout with a multimodal llm.arXiv preprint arXiv:2407.21333, 2024.
+Kai Wang, Manolis Savva, Angel X Chang, and Daniel Ritchie. Deep convolutional priors for indoor scene
+synthesis.ACM Transactions on Graphics (TOG), 37(4):1–14, 2018.
+Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. Sceneformer: Indoor scene generation with
+transformers. In2021 International Conference on 3D Vision (3DV), pages 106–115. IEEE, 2021.
+Qiuhong Anna Wei, Sijie Ding, Jeong Joon Park, Rahul Sajnani, Adrien Poulenard, Srinath Sridhar, and Leonidas
+Guibas. Lego-net: Learning regular rearrangements of objects in rooms. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition, pages 19037–19047, 2023.
+Tomer Weiss and et al. Fast and scalable position-based layout synthesis.IEEE Transactions on Visualization
+and Computer Graphics, 2018.
+Shusheng Xu, Wei Fu, Jiaxuan Gao, Wenjie Ye, Weilin Liu, Zhiyu Mei, Guangju Wang, Chao Yu, and Yi Wu. Is
+dpo superior to ppo for llm alignment? a comprehensive study.arXiv preprint arXiv:2404.10719, 2024.
+An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao, Chengen
+Huang, Chenxu Lv, et al. Qwen3 technical report.arXiv preprint arXiv:2505.09388, 2025a.
+Yue Yang and et al. Holodeck: Language guided generation of 3d embodied ai environments. InProceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 16227–16237, 2024.
+Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang. Physcene: Physically interactable 3d scene
+synthesis for embodied ai. InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 16262–16272, 2024a.
+Yixuan Yang, Junru Lu, Zixiang Zhao, Zhen Luo, James JQ Yu, Victor Sanchez, and Feng Zheng. Llplace: The
+3d indoor scene layout generation and editing via large language model.arXiv preprint arXiv:2406.03866,
+2024b.
+Yandan Yang, Baoxiong Jia, Shujie Zhang, and Siyuan Huang. Sceneweaver: All-in-one 3d scene synthesis with
+an extensible and self-reflective agent.arXiv preprint arXiv:2509.20414, 2025b.
+Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi Gao, Jinyu Yang, Victor Sanchez, and Feng Zheng.
+Llm-driven indoor scene layout generation via scaled human-aligned data synthesis and multi-stage preference
+optimization.arXiv preprint arXiv:2506.07570, 2025c.
+Guangyao Zhai, Evin Pınar Örnek, Shun-Cheng Wu, Yan Di, Federico Tombari, Nassir Navab, and Benjamin
+Busam. Commonscenes: Generating commonsense 3d indoor scenes with scene graph diffusion.Advances in
+Neural Information Processing Systems, 2023.
+Kaiyan Zhang and et al. A survey of reinforcement learning for large reasoning models.arXiv preprint
+arXiv:2509.08827, 2025.
+Zaiwei Zhang and et al. Deep generative modeling for scene synthesis via hybrid representations.ACM
+Transactions on Graphics (TOG), 39(2):1–21, 2020.
+Daniel M Ziegler, Nisan Stiennon, Jeffrey Wu, Tom B Brown, Alec Radford, Dario Amodei, Paul Christiano, and
+Geoffrey Irving. Fine-tuning language models from human preferences.arXiv preprint arXiv:1909.08593,
+2019.
+12
+A Layout DSL Specification and Encoding
+A.1 SFT Prompt and Layout DSL Specification
+We provide the complete system prompt used during supervised fine-tuning (SFT) in Table 5. This
+prompt explicitly defines the structured input format, denoted asRoomInfo, and includes a step-
+by-step reasoning protocol to guide the model to generate layout DSL statements. Specifically, the
+prompt provides a detailed description of the syntax structure and element rules of the layout DSL,
+and theElement Rulesare documented in Table 6, which enumerates all DSL elements along with
+their syntactic rules and associated vocabulary sets.
+A.2 DSL Generator and Interpreter
+To achieve a reversible transformation between layout parameters and layout DSL statements, we
+design a reversible encoding system consisting of two components: aDSL generator, which encodes
+layout parameters into layout DSL statements, and aDSL interpreter, which decodes layout DSL
+statements back into layout parameters. We specify the algorithmic procedures of both the DSL
+generator (Algorithm 1) and the DSL interpreter (Algorithm 2), explaining how the DSL statements
+are encoded and decoded throughout the entire training and inference process. TheDSL generator
+takes as input the room structure information and the layout parameters of the furniture items. It first
+categorizes furniture items into a hierarchy of primary, secondary, and decorative types, and then
+sequentially generates the layout DSL for selected furniture items through a hierarchical planning
+process involving anchor selection, alignment detection, and attribute value computation. In contrast,
+theDSL interpretertakes as input the layout DSL statements, the furniture dimensions, the room
+structure information, and outputs the numerical layout parameters. Its core mechanism analyzes the
+six elements of each DSL statement and computes the 3D position and orientation angle through a
+set of predefined element semantic mapping functions.
+Algorithm 1DSL Generator
+Require:Meta-roomR= (T,L,W,H,B);
+1:Layout parametersL={l 1,...,l n}, with
+2:l i = (categoryi,xi,yi,zi,li,wi,hi,θi)
+Ensure:Layout DSL statementsL dsl = [d 1,...,d n]
+3:L dsl←∅,L placed←∅
+4:L seq←{l i∈L|category i∈PrimaryTypes}∪{l i∈L|category i∈SecondaryTypes}∪
+{li∈L|category i∈DecorativeTypes}
+5:foreachl i∈L seq do
+6:action←GetActionType(category i)
+7:instance←category i +i
+8:A candidates←B∪{j|l j∈L placed}
+9:anchor←SelectAnchor(l i,A candidates)
+10:(align_type,δ)←DetectAlign(l i,anchor_id)
+11:d←ComputeDist(align_type,l i,anchor)
+12:d i←action instance orient:θ i
+anchor align_type:δdistance:d
+13:L dsl.append(di)
+14:L placed.add(li)
+15:end for
+16:returnL dsl
+B Dataset Statistics for the 3D-FrontDSL
+We provide key statistics of the 3D-FrontDSL dataset, which contains 9,305 meta-room layout pairs
+with room structure annotations and corresponding Layout DSL statements.
+13
+Algorithm 2DSL Interpreter
+Require:Layout DSL statementsL dsl = [d 1,...,d n];
+1:Furniture sizesF s :id7→(l i,wi,hi);
+2:Meta-roomR= (T,L,W,H,B)
+Ensure:Layout parametersL={l 1,...,l n}, with
+3:l i = (categoryi,xi,yi,zi,li,wi,hi,θi)
+4:L←∅,F geom←∅
+5:foreachd i∈L dsl do
+6:(action,instance,θ i,anchor,
+[align_type,δ],d)←Parse(d i)
+7:ifanchor∈Bthen
+8:geom_ref←Boundary(B,anchor)
+9:else
+10:geom_ref←Furniture(F geom,anchor)
+11:end if
+12:func_call←GetAlignFunc(align_type)
+13:(x i,yi,zi)←func_call(action,instance,
+geom_ref,θi,δ,d)
+14:category i←GetCategory(instance)
+15:l i←(category i,xi,yi,zi,li,wi,hi,θi)
+16:L.append(l i)
+17:F geom.update(li)
+18:end for
+19:returnL
+Room Types.In the 3D-FrontDSL dataset, meta-rooms are categorized into five main room types.
+The distribution of room type counts is as follows: Bedroom (4,555), Dining (2,106), Living
+(1,918),Library(550), andKidsRoom(176).
+Furniture Categories.We consolidate all furniture categories from the training data into a
+unified set of 29 categories. The set includes bed, bench, bookshelf, cabinet, carpet,
+chair, children bed , children table , cloth cabinet , desk, dining chair , dining
+table, dresser, floor light , and mural. It further contains night table , pendant lamp ,
+shoe cabinet , side table , sideboard, single bed , single sofa , sofa, tea table , tv
+cabinet,wall lamp,bed lamp,wine cabinet, andwardrobe.
+Furniture Count Distribution.We analyze the furniture count distribution across meta-room
+samples to assess layout richness. As shown in Figure 5a, the majority of meta-rooms contain
+between 5 and 12 furniture items. The average number of furniture items per meta-room is 7.67.
+Room Dimensions.We analyze the distribution of room length and width to assess spatial diversity
+in terms of floor area. As shown in Figure 5b, both length and width are primarily concentrated in the
+range of 2 to 6 meters, reflecting typical residential room scales. The average room length is 3.722
+meters and the average width is 3.775 meters.
+Boundary Features.We examine the occurrence frequency and average segment length of boundary
+elements—doors, windows, holes—in meta-room annotations. These features capture the geometric
+and functional complexity of room layouts. On average, each room contains 0.95 doors with a length
+of 1.11 meters, 0.57 windows with a length of 1.18 meters, and 1.07 holes with a length of 2.55
+meters. These boundary elements vary across individual rooms and significantly influence furniture
+placement decisions and layout feasibility.
+14

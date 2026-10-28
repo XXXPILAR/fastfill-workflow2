@@ -1,0 +1,60 @@
+{
+ "task_description": "a living room of about 8.9m x 3.1m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.06 m wide centred at (8.70, 0.64) (keep the floor in front of it clear); a door 0.74 m wide centred at (8.87, 1.87) (keep the floor in front of it clear); a door 1.80 m wide centred at (7.36, 2.24) (keep the floor in front of it clear); a door 0.78 m wide centred at (4.66, 3.14) (keep the floor in front of it clear); a door 0.78 m wide centred at (3.49, 3.14) (keep the floor in front of it clear); a door 1.80 m wide centred at (0.00, 1.57) (keep the floor in front of it clear). the chair (o0002) should be between the table (o0001) and the table (o0005). the chair (o0002) should face the cabinet (o0000). the sofa (o0006) should be against a wall. the chair (o0002) should be within 0.30 m of the table (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    8.697503000000001,
+    0.000260000000000149,
+    0.0
+   ],
+   [
+    8.697503000000001,
+    1.499999,
+    0.0
+   ],
+   [
+    8.870000000000001,
+    1.4999980000000002,
+    0.0
+   ],
+   [
+    8.870000000000001,
+    2.2369980000000003,
+    0.0
+   ],
+   [
+    5.61,
+    2.2369980000000003,
+    0.0
+   ],
+   [
+    5.61,
+    3.1399980000000003,
+    0.0
+   ],
+   [
+    0.0,
+    3.1399980000000003,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {}
+ }
+}

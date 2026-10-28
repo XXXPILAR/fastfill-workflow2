@@ -1,0 +1,1366 @@
+LEGO-Net: Learning Regular Rearrangements of Objects in Rooms
+Qiuhong Anna Wei1 Sijie Ding* 1 Jeong Joon Park* 2 Rahul Sajnani1
+Adrien Poulenard2 Srinath Sridhar1 Leonidas Guibas2
+Brown University1 Stanford University2
+Figure 1. LEGO-Net LEarns to reGularly rearrange Objects in a messy indoor scene via an iterative denoising process. Different from
+scene synthesis or methods that require goal state speciﬁcation, our method learns clean re-arrangements directly from data, retains the
+ﬂavor of the original scene, and minimizes object travel distance. More about the project can be found at ivl.cs.brown.edu/projects/lego-net.
+Abstract
+Humans universally dislike the task of cleaning up a
+messy room. If machines were to help us with this task,
+they must understand human criteria for regular arrange-
+ments, such as several types of symmetry, co-linearity
+or co-circularity, spacing uniformity in linear or circu-
+lar patterns, and further inter-object relationships that re-
+late to style and functionality. Previous approaches for
+this task relied on human input to explicitly specify goal
+state, or synthesized scenes from scratch – but such meth-
+ods do not address the rearrangement of existing messy
+scenes without providing a goal state. In this paper, we
+present LEGO-Net, a data-driven transformer-based it-
+erative method for LEarning re Gular rearrangement of
+Objects in messy rooms. LEGO-Net is partly inspired by
+diffusion models – it starts with an initial messy state and
+iteratively “de-noises” the position and orientation of ob-
+jects to a regular state while reducing distance traveled.
+Given randomly perturbed object positions and orientations
+∗Core contribution.
+in an existing dataset of professionally-arranged scenes,
+our method is trained to recover a regular re-arrangement.
+Results demonstrate that our method is able to reliably re-
+arrange room scenes and outperform other methods. We
+additionally propose a metric for evaluating regularity in
+room arrangements using number-theoretic machinery.
+1. Introduction
+What makes the arrangement of furniture and objects in
+a room appear regular? While exact preferences may vary,
+humans have by-and-large universally shared criteria of reg-
+ular room arrangements: for instance, heavy cabinets are
+arranged to align with walls, chairs are positioned evenly
+around a table in linear or circular conﬁgurations, or night
+stands are placed symmetrically on the two sides of a bed.
+Humans also share a common dislike of physically perform-
+ing the task of rearranging a messy room. To build auto-
+mated robotic systems that can guide or actually rearrange
+objects in a room, we ﬁrst need methods that understand the
+shared human criteria for regular room rearrangements and
+respect the physical constraints of rearrangements.
+1
+arXiv:2301.09629v2  [cs.CV]  24 Mar 2023
+Human criteria for regular rearrangements can be sub-
+tle and complex, including geometric rules of reﬂexional,
+translational, or rotational symmetry, linear or circular
+alignments, and spacing uniformity. Functional and stylistic
+inter-object relationships are also important: for example, a
+TV tends to be in front of and facing a sofa, chairs are next
+to a table, etc. Many of these criteria interact and, at times,
+conﬂict with one another. As a result, in general, there is
+more than one desirable clean arrangement for any given
+messy arrangement. In our setting, we further desire that
+the clean rearrangement we create to be informed by the
+initial messy arrangement – and not be entirely different –
+for multiple reasons. First, there may have been a particular
+clean arrangement that gave rise to the messy one – and it
+may be desirable to recover a similar arrangement. Second,
+we want to minimize the motion of objects as much as pos-
+sible to respect the physical constraints and effort involved
+– especially the motion of big and heavy furniture. Unfortu-
+nately, extant methods fail to capture these criteria: methods
+for scene synthesis from scratch [29, 34, 42, 74, 75, 77] ig-
+nore the initial state of objects in a room, and rearrangement
+methods often require scene-speciﬁc human input in the
+form of a goal state [1, 51] or language description [32, 52].
+In this paper, we present LEGO-Net, a method for
+LEarning re Gular rearrangement of Objects in rooms di-
+rectly from data. Different from work that focuses on ar-
+ranging new objects from scratch or requires goal state
+speciﬁcation, we focus on rearranging existing objects
+without any additional input at inference time. We take as
+input the position, orientation, class label, and extents of
+room objects in a speciﬁc arrangement, and output a room
+with the same objects but regularly re-arranged. LEGO-Net
+uses a transformer-based architecture [58] that is, in part,
+motivated by recent denoising diffusion probabilistic mod-
+els that learn a reverse diffusion process for generative mod-
+eling [19, 54, 55]. We learn human criteria for regular rear-
+rangements from a dataset of professionally designed clean
+(regular) scenes [17], and represent each scene as a collec-
+tion of objects and a ﬂoor plan. Prior to training, we perturb
+the regular scenes to generate noisy conﬁgurations. During
+training, our transformer learns to predict the original, de-
+noised arrangement from the perturbed scene and its ﬂoor
+plan. During inference, instead of directly re-arranging
+scenes with our model, which would amount to na ¨ıve re-
+gression, we run a Langevin dynamics-like reverse process
+to iteratively denoise object positions and orientations. This
+iterative process retains the ﬂavor of original room state,
+while limiting object movement during re-arrangement.
+We conduct extensive experiments on public datasets to
+show that our approach realistically rearranges noisy scene
+arrangements, while respecting initial object positions. We
+also demonstrate that our method is able to generalize to
+previously unseen collection of objects in a wide variety of
+ﬂoor plans. Furthermore, we include extensive experimen-
+tal results (e.g., Fig. 1 and Fig. 4), including a new metric to
+evaluate regularity of re-arrangements, aimed at measuring
+the presence of sparse linear integer relationships among
+object positions in the ﬁnal state (using the PSLQ algo-
+rithm [15]). To sum up, we contribute:
+• A generalizable, data-driven method that learns toreg-
+ularly re-arrange the position and orientation of ob-
+jects in various kinds of messy rooms.
+• An iterative approach to re-arrangement at inference
+time that retains ﬂavor of the original arrangement and
+minimizes object travel distance.
+• An in-depth analysis of the performance and charac-
+teristics of the denoising-based scene rearrangement.
+• A new metric to measure the regularity of object ar-
+rangements based on integer relation algorithms.
+2. Related Work
+In this section, we discuss literature in two related areas:
+(1) scene synthesis from scratch, (2) scene rearrangement
+where an end goal is speciﬁed, and (3) diffusion models.
+Indoor 3D Scene Synthesis : Indoor room synthesis is the
+problem of synthesizing the layout of objects in a scene
+from scratch. Many classical methods in the computer
+graphics literature use heuristics and guidelines to constrain
+the location of pre-speciﬁed objects [6,67,69,72]. [36] iden-
+tiﬁed a collection of functional, visual, and design con-
+straints and formulated an optimization problem. Work has
+also focused exclusively on inter-object relationships [30].
+Other methods [70] address the open world layout problem
+when objects are not pre-speciﬁed.
+An alternative approach is to adopt procedural model-
+ing using generative grammars [5, 7, 10, 40, 42, 57]. Some
+methods adopt the scenegraph representation and formu-
+late it as a graph problem [29, 34, 38, 62, 74, 75, 77]. Both
+procedural and graph-based methods often rely on curated
+data [16]. Some methods learn directly from data using neu-
+ral networks, for instance from images [44]. Both Scene-
+Former [65] and ATISS [39] introduce autoregressive meth-
+ods for scene generation. Different from all these methods,
+we focus on rearranging rooms given an initial messy state.
+Scene Rearrangement: Scene rearrangement takes an ini-
+tial state of the scene and aims to bring it to a goal state spec-
+iﬁed by the user. This task is deeply connected to planning
+in robotics [1, 47, 53]. Some works consider robot pushing
+and manipulation for rearrangement [2,8,9,13,23,24,26,27,
+50,51]. Many of these methods require datasets for training
+and often use datasets like AI2-THOR [25], Habitat [56]
+or Gibson [28]. Some of these methods operate on visual
+observations [23], while others assume fully-observed syn-
+thetic environments [8]. To specify the goal state, some re-
+cent methods use language input [32, 52] driven by large
+2
+Current 
+Scene State
+Denoising 
+Gradient
+Cleaner 
+Scene State
+Denoising Process Denoising Transformer Architecture
+Transformer
+Object Attribute
+ Encoder
+PE
+PE
+PE
+PointNet
+Floor Plan
+Figure 2. Pipeline overview. LEGO-Net takes an input messy scene and attempts to clean it via iterative denoising. Given the current scene
+state, it computes the denoising gradient towards the clean manifold, and changes the scene accordingly. This denoising step is repeated
+until the scene is “regular.” On the right, we show our backbone transformer blockfθ that computes the denoising gradient at each step. It
+takes the scene attributes of the current state and outputs 2D transformations of each object that would make the scene “cleaner”.
+language models [11, 43]. Related to these advances in
+robotics, there have also been attempts to apply these specif-
+ically for room rearrangements [61, 66].
+In this paper, we focus on the task of room rearrange-
+ments without the need to specify the goal state. We directly
+learn arrangements that satisfy human criteria from pro-
+fessionally arranged dataset provided by 3D-FRONT [17].
+Note that a concurrent work [68] addresses the same prob-
+lem but with a focus on physical simulation, incorporating
+reinforcement learning and path planning.
+Denoising Diffusion Models : 2D Diffusion models [19,
+54, 55] have emerged as a powerful technique for uncondi-
+tional image synthesis, outperforming existing 2D genera-
+tive models [14, 22]. Diffusion models have also seen great
+success in conditional image generations, receiving condi-
+tions in the form of class labels [12], text [37, 45], or input
+images [48]. Various methods [33, 35, 48] apply diffusion
+models for restoring corrupted or user-provided images to
+realistic images. Our method shares the same philosophy
+and adopts related techniques from the diffusion models,
+e.g., Langevin Dynamics, to project messy object conﬁgu-
+rations onto the manifold of “clean” scenes.
+3. Method
+3.1. Preliminaries
+Our method takes the position, orientation, class label,
+and extents of objects in a ‘messy’ room as input and out-
+puts a rearranged version in a ‘regular’ state. Since objects
+in rooms primarily move on the ﬂoor, we only consider 2D
+object pose, but our method can be combined with existing
+instance segmentation [64, 71] and canonicalization meth-
+ods [49] to directly operate from a 3D mesh or point cloud.
+We represent each sceneX as an unordered set ofn objects
+and their attributes:
+X ={o1,...,o n}, o i = (ci,ti,ri,bi,hi), (1)
+where ci ∈ Rk, ti ∈ R2, ri ∈ SO(2), and bi ∈ R2 re-
+spectively denote the semantic class, translation, rotation,
+and bounding box dimensions of the object oi. hi∈ R128
+is the pose-canonicalized shape features obtained by run-
+ning ConDor [49] on each object’s point cloud (see sup-
+plementary for details). The furniture semantic class labels
+ci’s are represented as one-hot vectors of thek classes. We
+represent the rotation ri∈ SO(2) by the ﬁrst column vec-
+tor [cos(θ), sin(θ)]⊺ of its rotation matrix, following [76] to
+representSO(2) without any discontinuity. Note that ti is
+normalized to be in [−1, 1] to have the same range as ri’s
+sinusoidal representation to balance their importance dur-
+ing training. We deﬁne that a scene Xa is a rearrangement
+ofXb (denotedXa∼Xb) iff there exists a bijection ρ be-
+tween object indices such thatha
+i≈hb
+ρ(i).
+3.2. LEGO-Net: Learning Regular Room Rear-
+rangements
+Fig. 2 shows our approach to solving the regular room re-
+arrangement task. Our method takes an input ‘messy’ scene
+˜X and outputs a rearranged, ‘regular’ scene X. Towards
+this goal, we design a denoising Transformer [58]fθ that is
+trained to predict a clean scene given its perturbed version.
+During inference, we take an iterative approach as it gives
+us rich control of the rearrangement process, e.g., moving
+lighter objects farther. At each time step τ of the denoising
+process, we pass the current scene state ˜Xτ to the denoising
+Transformer fθ that provides gradients towards the mani-
+fold of ‘clean’ scenes. We repeat the denoising process until
+the magnitude of the predicted gradient is small enough to
+ﬁnally obtain a clean manifold projection of the input scene.
+Manifold Projection via Denoising Autoencoder : We
+now describe our approach from a manifold learning per-
+spective. We can consider the input to our method as
+an off-manifold point ˜X (i.e., a messy scene) and aim to
+project it to the closest pointX on the manifold of ‘regular’
+3
+scenes. Our objective is to learn a functionfθ( ˜X) (with net-
+work parametersθ) that ﬁnds such manifold projected point
+X, i.e., fθ( ˜X)≈ X. Motivated by the denoising autoen-
+coders [60] and their recent extensions to score-matching
+models [19, 54], we train suchf ( ˜X) by perturbing the reg-
+ular dataX employing a noise kernel qσ( ˜X|X) with noise
+parameterσ. The training is done by minimizing a denois-
+ing objective function:
+Edn(θ) = Eqσ( ˜X,X )
+[
+Ldn
+(
+fθ( ˜X),X
+)]
+. (2)
+The joint distribution qσ( ˜X,X ) = n(σ)qσ( ˜X|X)q0(X),
+where n(σ) is the distribution of the noise parameter and
+q0(X) is the discrete uniform distribution of the training
+examples. Here, the lossLdn is deﬁned as the average dis-
+tance between the pairs of objects infθ( ˜X) andX:
+Ldn = 1
+n
+n∑
+i=1
+||˜ti−ti||2
+2 +|| ˜ri−ri||2
+2
++λ1(||˜ti−ti||1 +|| ˜ri−ri||1), (3)
+where ˜ti and ˜ri’s are the object rotation and translation pa-
+rameters offθ( ˜X), andλ1 is a balancing parameter for the
+L1 loss. While we can use the object correspondences from
+the perturbation process, we choose to re-establish object
+pairing by computing Earth Mover’s Distance [46] between
+the same class of objects in original and perturbed scenes.
+Intuitively, the networkfθ( ˜X) learns to project ˜X to the
+clean manifold. However, it is not trained to ﬁnd a random
+point in the clean manifold, but rather tries to ﬁnd X that
+shares similarities with ˜X, depending on the noise level.
+Connection to Score-based Models : While the trained
+denoising networkfθ can theoretically be applied to clean a
+messy scene directly, in practice, the quality of the output is
+suboptimal, as shown in Sec. 4. This is because the network
+fθ is trained with a regression loss, which is known to ﬁt to
+the average state of the conditional distribution qθ(X| ˜X),
+leading to blurry predictions [21, 73].
+Recently, score-based generative models (and the closely
+related diffusion models) [19, 54] have shown impres-
+sive image generation results using a trained denoiser.
+The score-based approaches [54, 59] approximate the
+gradient of likelihood of the perturbed data distribu-
+tion qσ( ˜X) with a neural network sφ, and showed
+that the optimal network s∗
+φ for the denoising objec-
+tive Eqσ( ˜X,X )
+[‖‖‖sφ( ˜X)−∇ ˜X logqσ( ˜X|X)
+‖‖‖
+2]
+satisﬁes
+s∗
+φ( ˜X)≈∇ ˜X logqσ( ˜X). Assuming a zero-mean Gaussian
+noise kernelqσ( ˜X|X), the score-based network training ob-
+jective becomes:
+Lscore(φ) = Eqσ( ˜X,X )
+
+
+‖‖‖‖‖sφ( ˜X)− X− ˜X
+σ2
+‖‖‖‖‖
+2
+. (4)
+Denoising Process
+Figure 3. Instead of directly regressing the ﬁnal rearranged state
+which can lead to non-diverse, suboptimal results, we adopt an
+iterative strategy based on Langevin Dynamics. At each step in
+our process (left to right), we gradually “de-noise” the scene until
+it reaches a regular state. During training, we follow the reverse
+process, i.e., perturb clean scenes to messy state (right to left).
+Since the trained score networks∗
+φ approximates the gra-
+dient of the data distribution, it can be used for autoregres-
+sively optimizing noisy data onto the manifold of clean data.
+In our context, X− ˜X amounts to the difference in object
+transformations between the clean and perturbed scenes,
+and the direction X− ˜X
+σ2 predicted by s∗
+φ( ˜X) is clearly to-
+wards the clean scene manifold.
+Rearrangement with Langevin Dynamics: After training
+with Eq. 2, we have a function that is optimized to approx-
+imate the denoised projection of an input, i.e., f∗
+θ ( ˜X) ≈
+X. Given that s∗
+φ( ˜X) ≈ X− ˜X
+σ2 , we have that s∗
+φ( ˜X) ∝
+f∗
+θ ( ˜X)− ˜X. We then follow the score-based methods to
+adopt Langevin dynamics [19,54] to recursively denoise the
+scene (see Fig. 3) using the estimated gradients:
+˜Xτ +1 = ˜Xτ +α(τ )
+(
+f∗
+θ ( ˜Xτ )− ˜Xτ
+)
++β(τ )zτ, (5)
+where α(τ ) and β(τ ) are monotonically-decreasing func-
+tions of time τ that is heuristically designed to balance the
+Langevin dynamics and zτ ∼ N(0, 1). We run the re-
+cursive computation until the magnitude of the gradient is
+small enough (i.e.,‖f∗
+θ ( ˜Xτi )− ˜Xτi‖ < κ, for constant κ)
+fork consecutive iterations for some constantk.
+3.3. Architecture
+LEGO-Net follows the recent success in the scene
+synthesis community to adopt the Transformer architec-
+ture [58] to represent our denoising function fθ, as il-
+lustrated in Fig. 2. Given an input scene ˜X, a Trans-
+former encoder network Fθ takes in | ˜X| + 1 number of
+512-dimensional tokens δi’s corresponding to the objects
+in the scene, as well as the room ﬂoor plan. Then, the
+network outputs absolute translation and rotation predic-
+tions for all object tokens (excluding the layout token),
+i.e.,Fθ : R(| ˜X|+1)×512↦→ R| ˜X|×4. We then apply the out-
+puts to guide the translation and rotation of each object in
+˜X. The denoiser fθ is deﬁned to include both operations.
+4
+Therefore, the ﬁnal processed scene is a rearrangement of
+the input scene:fθ( ˜X)∼ ˜X.
+Input Object Attribute Encoding : We use the following
+process to abstractoi into a token vectorδi. We employ po-
+sitional encodings of 32 frequencies, and an additional lin-
+ear layer forri, to independently process ti,ri,bi into vec-
+tors in R128. For object class ci, we employ a 2-layer MLP
+with leaky ReLU activation to process the one-hot encod-
+ing into an attribute in R128. Finally, we optionally process
+a pose-invariant shape feature hi from ConDor [49] with a
+2-layer MLP to obtain a feature inR128. The above attribute
+features are then concatenated and processed with a 2-layer
+MLP to form an object token δi∈ R512. We refer readers
+to supplementary for the full details of the processing.
+Floor Plan Encoder: Floor plans designating room bound-
+aries both impose important realistic constraints and pro-
+vide regularity information for the scene rearrangement
+task. Therefore, we pass the room layout in the form of
+an object token to the transformer so that other objects can
+attend to it. We employ a ﬂoor plan encoder to tokenize
+the ﬂoor plans as follows. We uniformly sample 250 points
+from the contour of the ﬂoor plan. These points along with
+their 2D surface normals are then processed with a simpli-
+ﬁed version of PointNet [41]. Finally, we speciﬁcally assign
+one bit of the 512 transformer input dimensions (for both
+objects and ﬂoor plans) to distinguish ﬂoor plan ‘objects’
+from normal ‘objects’. The ﬁnal output of the ﬂoor plan
+encoder for each scene is a feature in R512.
+Transformer Architecture: We use our custom positional
+encodings and procedures to prepare the tokens but use the
+original Transformer encoder architecture without notable
+modiﬁcations. We use 8 multi-headed attentions with 512-
+dimensional hidden layers and 512-dimensional key, query,
+and value vectors. The output of the transformer network is
+the estimated object transformations, a|X|× 4 matrix.
+3.4. Training and Inference
+Data: We employ the 3D-FRONT dataset [17] for the task
+of indoor scene rearrangement. For each valid clean scene
+in the dataset, we preprocess it into X ={o1,...,o n} and
+extract the contour of its ﬂoor plan.
+Training: We use the denoising auto-encoder formulation
+of Eq. 2 to train our denoiser functionfθ. We uniformly ran-
+domly sample training examples and sample a noise levelσ
+from a normal distribution. The sampled examples are per-
+turbed using an independent Gaussian kernel with standard
+deviationσ. For the perturbation, we do not consider ob-
+jects going outside of the ﬂoor plans or colliding with one
+another. Each perturbed scene uses its original clean scene
+as the source of ground truth but re-establishes object cor-
+respondence through Earth Mover’s Distance assignment to
+enable invariance among identical objects and further pro-
+mote distance minimization in movement prediction. We
+Symmetry & Parallelism Uniform Spacing
+Grouping by Shapes
+Initial Arrangement Rearrangement
+Figure 4. Regularities learning results. We train our denoising net-
+work to learn three different regularities. LEGO-Net successfully
+learns the complex regularity rules as demonstrated by the iterative
+denoising results shown on the right.
+use Adam optimizer with a learning rate of 10−4 to train.
+Inference: During inference, we use the Langevin Dynam-
+ics scheme of Eq. 5 to iteratively project a messy scene input
+˜X onto the manifold of clean scenes. We select a hyperbolic
+functionα(τ ) = α0/(1 +a1∗τ ) to regulate the step size.
+We additionally select an exponentialβ(τ ) = β0∗b⌊τ/b 2⌋
+1 ,
+where effectuallyβ0 is multiplied byb1 everyb2 iterations,
+to adjust the level of noise as the denoising process pro-
+ceeds. Refer to supplementary for details.
+4. Experiments
+We conduct a number of experiments to test LEGO-Net’s
+ability to automatically capture scene regularities from data.
+To this end, we prepare two testbeds for experiments:
+our custom-designed Table-Chair environment where we
+mathematically constructed the regularities among objects
+and 3D-Front [17], which contains tens of thousands of
+synthetic rooms designed by professionals. The Table-
+Chair dataset is useful because we can model one regu-
+larity at a time and quantify network performance. 3D-
+Front dataset exhibits complex and subtle rules that design-
+ers commonly perceive as ideal conﬁgurations, e.g., geom-
+etry, semantic relations, styles, and functionalities.
+4.1. Capturing Regularities from Data
+In the Table-Chair environment, we study four main
+regularities: symmetry, parallelism, uniform spacing, and
+grouping by shapes. For each of the proposed experiments,
+we generate clean scenes based on the designed rules. Then,
+for training, we perturb the scenes on the ﬂy to generate
+clean-messy pairs and re-associate objects within each class
+5
+Figure 5. Comparison against ATISS [39] on 3D-FRONT dataset. As the state-of-the-art scene synthesis method, ATISS is able to
+produce a realistic scene (3rd column) given the ﬂoor plan, but the generated objects and arrangements are entirely different. On the other
+hand, we solve the problem of re-arranging the given messy scene, directly using the existing objects. While ATISS has shown failure
+correction technique that solves similar problem to ours, we observe that when the scene is highly noisy, their algorithm tends to deteriorate
+signiﬁcantly. Moreover, being a one-shot prediction method, ATISS-failure does not consider the moving distance of the new arrangement.
+through Earth Mover’s Distance assignment to train a net-
+work with the loss of Eq. 2. We measure each task with the
+success rate of the rearrangement, whose speciﬁc criteria
+we discuss in the supplementary.
+Symmetry and Parallelism : One of the most important
+notions of regular arrangement is symmetry, which involves
+both object-object and room-level symmetries. We use a
+setup of 2 groups of rectangular tables and chairs. We ver-
+tically align the 2 tables and horizontally distribute them at
+a distance uniformly drawn from a ﬁxed range. We arrange
+3 chairs in a linear row on one side of the table and 3 chairs
+in another linear row on the opposite side.
+Uniform Spacing: We prepare a highly-challenging setup
+to stress test LEGO-Net’s ability to capture the concept of
+uniform spacing. In this setup, we have 2 circular tables,
+each with 2-6 chairs randomly and uniformly rotated around
+them. The network has to deal with the unknown number
+of chairs and the pair-wise spacing.
+Grouping by Shape: We test LEGO-Net’s ability to group
+objects based on their pose-invariant shapes. We augment
+our setup in ‘Symmetry and Parallelism’ to include 2 types
+of chairs with different shapes. We arrange the scenes such
+that chairs with the same shapes are on the same side of
+the table. The pose-invariant shape features hi∈ oi from
+Eq. (1) provide the necessary shape information.
+Results: We visualize the rearrangement results of LEGO-
+Net for the above three cases in Fig. 4. Across the board,
+the denoising network successfully learns to capture these
+important regularities from data, without explicit supervi-
+sion about the underlying rules. The success rate of each
+task is shown in Tab. 1. As expected, directly applying the
+regression-trained networkfθ results in the worst results.
+4.2. 3D-Front Experiments
+We benchmark LEGO-Net’s ability to conduct regular
+scene rearrangements on the bedrooms and livingrooms
+of the 3D-FRONT dataset, which respectively contains
+2338/587 and 5668/224 scenes for train/test splits.
+Symmetry &
+Parallelism↑
+Uniform
+Spacing↑
+Grouping
+by Shape↑
+Direct 16% 18.6% 23.6%
+Grad. w/o noise 91.2% 96% 87.8%
+Grad. w/ noise 91.4% 97.2% 89.2%
+Table 1. Denoising success rate by regularities and inference
+strategies. For the three regularities shown in Fig. 4, we measure
+the success rate of LEGO-Net for each of the inference variants.
+We train our LEGO-Net as described in Sec. 3 with
+σ∼N (0, 0.12). While we maintain a single denoising net-
+workfθ, we explore three variants of inference algorithms
+to provide greater insight of our approach: (1) LEGO-Net
+direct, (2) grad. with noise, and (3) grad. w/o noise respec-
+tively denote the inference strategy of predicting the clean
+outcome with one network pass, running Langevin Dynam-
+ics of Eq. (5) with noise termβ⁄= 0, andβ = 0.
+Baselines. We compare our rearrangement results against
+the current SOTA scene synthesis method, ATISS [39].
+While ATISS is designed to synthesize a scene from scratch
+rather than to rearrange one, it provides an auto-regressive
+generative model that can be ﬂexibly applied to our task.
+Speciﬁcally, we use three variants of ATISS that share the
+same network weights. First, ATISS vanilla performs its
+original scene synthesis task given a ﬂoor plan. Second,
+ATISS with labels performs object placement using a pre-
+deﬁned set of objects per scene. Third, ATISS failure-
+correction takes a noisy scene and cleans it up by itera-
+tively ﬁnding an object with low probability and re-placing
+it within the current scene. This variant of ATISS is given
+the same perturbed scene as LEGO-Net and aims to clean
+the scene. Note that we omit to compare against prior
+works that have already been compared against ATISS, e.g.,
+[44, 62, 65]. We could not ﬁnd a prior data-driven method
+that is designed to solve the same rearrangement problem
+as ours.
+6
+Living Room Bedroom
+KID↓ FID↓ Distance
+Moved
+↓ EMD
+to GT
+↓ KID↓ FID↓ Distance
+Moved
+↓ EMD
+to GT
+↓
+ATISS [39]
+vanilla 96 44.55 — — 33 50.49 — —
+labels 119 45.45 — 0.3758 49 52.62 — 0.5482
+failure-correction 280 61.55 0.1473 0.3378 240 73.95 0.2025 0.4673
+LEGO-NET (ours) grad. w/ noise 67 39.19 0.091 0.125 37 49.76 0.052 0.086
+grad. w/o noise 51 37.47 0.086 0.117 27 48.43 0.0492 0.0815
+Table 2. Quantitative experiment results using KID×10, 000, FID, distance moved, and Earth Mover’s Distance (EMD) against the ground
+truth arrangements. All scenes are situated within [−1, 1]2 canvas. Note that ATISS vanilla and ATISS labels start from empty ﬂoor plans
+and thus the distance moved metric is not applicable. ATISS failure-correction takes a noisy scene and iteratively resamples low-probable
+objects, and is thus directly comparable to our method.
+Metrics. To gauge how well LEGO-Net captures datasets’
+regularities, we adopt the popular FID and KID scores.
+These metrics compare the closeness of statistics of two
+data distributions. We follow prior works [39, 63] to render
+ground truth and generated scene arrangements from top-
+down views and compute the metrics in the image space.
+Note that KID is more applicable to our setting because FID
+is known to present huge bias when the number of data is
+low. Another important criterion for our rearrangement task
+is how much distance the objects travel between the initial
+and ﬁnal scene states. Similarly, when applicable, we mea-
+sure the Earth Mover’s Distance (EMD) between the ground
+truth scene and our cleaned-up scene.
+Finally, we introduce a new metric that measures scene
+regularities by ﬁnding integer relations among object posi-
+tional coordinates ti’s. To do this, we select two or three
+random objects within a scene and check if we can ﬁnd in-
+tegralai’s that satisfy:
+a1t1 +... +antn = 0, 0<|ai|<η, ∀ai (6)
+where η sets the maximum magnitude of the coefﬁcients.
+Intuitively, these integer relations can capture regularities
+such as colinearities (−t1 +t2 = 0 ) and symmetries (t1−
+2t2 +t3 = 0). See supplementary for detailed descriptions.
+Results. We conduct the 3D-FRONT arrangement experi-
+ments with ﬁve algorithms (three ATISS variants and two
+of ours) and compute their metrics. The main numerical re-
+sults, which can be found in Tab. 2, show that LEGO-Net
+outperforms all variants of ATISS, including the failure-
+correction variant that tackles the same object cleaning
+problem as demonstrated in the original paper.
+In Fig. 6, we plot the chance of ﬁnding integer relations
+in scenes perturbed with different noise levels, which peaks
+for the original clean 3D-FRONT scenes and sharply de-
+creases as noise is added. Also, note that the rearranged
+scenes of LEGO-Net demonstrate high regularities accord-
+ing to this measure, outperforming the results of ATISS
+variants. See supplementary for more experiment details.
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0 0.05 0.1 0.2 0.3 0.4
+Integer Relation Chance 
+Noise Level (std.)
+3 Object Relations,  != 3      
+Grou nd T ru th LEGO-Net w/o Noise
+LEGO-Net w Noise ATISS Vanilla
+ATISS Failure
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0 0.05 0.1 0.2 0.3 0.4
+Integer Relation Chance 
+Noise Level (std.)
+3 Object Relations,  != 3      
+Grou nd T ru th LEGO-Net w/o Noise LEGO-Net w Noise ATISS Vanilla ATISS Failure
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0 0.05 0.1 0.2 0.3 0.4
+Integer Relation Chance 
+Noise Level (std.)
+2 Object Relations,  != 2      
+Grou nd T ru th LEGO-Net w/o Noise
+LEGO-Net w Noise ATISS Vanilla
+ATISS Failure
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0 0.05 0.1 0.2 0.3 0.4
+Integer Relation Chance 
+Noise Level (std.)
+3 Object Relations,  != 3      
+Grou nd T ru th LEGO-Net w/o Noise LEGO-Net w Noise ATISS Vanilla ATISS Failure
+Figure 6. Integer relation occurences. We measure the chance
+of ﬁnding integer relations between the coordinates of two (left)
+and three (right) objects within a Living Room scene. Perturb-
+ing ground truth scenes sharply decreases the integer relation oc-
+curences, showing they are useful metric of regularities. Note that
+LEGO-Net outperforms ATISS variants in this metric.
+Qualitatively, as shown in Fig. 5, LEGO-Net is able to
+robustly project messy scenes onto clean manifolds. While
+ATISS and ATISS withlabels were able to synthesize real-
+istic rooms, their object arrangements are entirely different
+from the original input scene. Importantly, we notice that
+ATISS failure correction leads to unexpectedly low-quality
+results. We hypothesize that this is due to their discrete,
+one-object-at-a-time strategy, which can easily fall into the
+local minimum of the likelihood space. In contrast, our
+score-based iterative denoising leads to robust success rates.
+4.3. Analysis
+To more deeply understand the behavior of our system,
+we analyze and discuss important aspects of LEGO-Net.
+We refer to supplementary for more analysis of our method.
+Denoising Strategy. As we discuss throughout Sec. 4, we
+explore three inference strategies, namely direct, gradient
+with noise, and gradient without noise. For the 3D-FRONT
+experiment, we report that the grad. without noise vari-
+ant consistently outperforms the other variants. However,
+we believe that this is likely because we used relatively
+7
+Figure 7. LEGO-Net denoising results on different noise levels. When the perturbation added to the scene is low, LEGO-Net is able
+to closely reconstruct the clean version of the scene. In contrast, when the noise level is high, our denoising process ﬁnds a different
+realization of a regular scene, behaving more like an unconditional model. Similar phonemena have been observed by 2D diffusion
+projects, e.g., SDEdit [35].
+low noise to the scenes (std 0.1) to more naturally simu-
+late messy indoor rooms. Indeed, our experiment on the
+synthetic environments (Tab. 1) with larger noise (std 0.25)
+shows that the grad. with noise variant outperforms. The
+results suggest that adding noise during Langevin dynam-
+ics allows a better success rate for highly noisy data, but at
+the cost of losing accuracy in recovering the originals (as
+shown in Tab. 2).
+Cleaning Uncertainty. LEGO-Net is trained to handle in-
+put perturbations at various noise levels. In the high-noise
+regime, there is high uncertainty on the structure of the orig-
+inal information. As input noise increases, our denoising
+process converges into an unconditional generative model.
+On the other hand, LEGO-Net has the capacity to capture
+original regularities when the noise is low, leading to almost
+precise reconstruction of the original scenes. We visually
+show these insights in Fig. 7.
+Out-of-Distribution Inputs . We showcase LEGO-Net’s
+ability to handle scenes perturbed with noise patterns sig-
+niﬁcantly different from the one used in training, i.e., zero-
+mean Gaussian. In the ﬁrst example, we only perturb chairs.
+Secondly, we perturb the scene only in the translation di-
+mensions without rotations. Shown in Fig. 8, LEGO-Net
+can successfully handle out-of-distribution inputs, demon-
+strating the robustness and versatility of our algorithm.
+5. Conclusion
+In this paper, we presented LEGO-Net, a method for reg-
+ular rearrangement of objects in a room. Different from pre-
+vious methods, LEGO-Net learns human notions of regular-
+ity (including symmetry, alignments, uniform spacing, and
+stylistic and functional factors) directly from data without
+the need to explicitly specify a goal state. During training,
+we learn from a large dataset of professionally-designed
+room layouts that are randomly perturbed. During infer-
+ence, we follow a Langevin Dynamics-like strategy to iter-
+atively “denoise” the scene. Quantitative results including
+Figure 8. Out-of-distribution test. While our model is trained to
+denoise Gaussian noise, it demonstrates strong robustness to out-
+of-distribution inputs. In the ﬁrst row, only the chairs are per-
+turbed. In the second row, we perturbe the scene with translation
+noise only. Zoom-in for details.
+comparisons and ablations show that our method performs
+well, which qualitative results conﬁrm.
+Limitations & Future Work : Our method has important
+limitations that provide extensive opportunities for future
+work. First, our method is currently limited to 2D room
+rearrangement and cannot perform 3D rearrangement, for
+instance in kitchen shelves. However, we do incorporate
+3D shape features which can be used to extend our method
+to 3D. We also currently do not handle interpenetration of
+objects during denoising, which future work should explore.
+Acknowledgements
+This work was supported by AFOSR grant FA9550-21-
+1-0214, NSF CloudBank, an AWS Cloud Credits award,
+ARL grant W911NF-21-2-0104, a Vannevar Bush Faculty
+Fellowship, and a gift from the Adobe Corporation. We
+thank Kai Wang, Daniel Ritchie, Rao Fu, and Selene Lee.
+8
+References
+[1] Dhruv Batra, Angel X Chang, Sonia Chernova, Andrew J
+Davison, Jia Deng, Vladlen Koltun, Sergey Levine, Jiten-
+dra Malik, Igor Mordatch, Roozbeh Mottaghi, et al. Re-
+arrangement: A challenge for embodied ai. arXiv preprint
+arXiv:2011.01975, 2020. 2
+[2] Ohad Ben-Shahar and Ehud Rivlin. Practical pushing
+planning for rearrangement tasks. IEEE Transactions on
+Robotics and Automation, 14(4):549–565, 1998. 2
+[3] Paul J Besl and Neil D McKay. Method for registration of
+3-d shapes. In Sensor fusion IV: control paradigms and data
+structures, volume 1611, pages 586–606. Spie, 1992. 14
+[4] Mikołaj Bi´nkowski, Danica J Sutherland, Michael Arbel, and
+Arthur Gretton. Demystifying mmd gans. arXiv preprint
+arXiv:1801.01401, 2018. 14
+[5] Martin Bokeloh, Michael Wand, Hans-Peter Seidel, and
+Vladlen Koltun. An algebraic model for parameterized shape
+editing. ACM Transactions on Graphics (TOG), 31(4):1–10,
+2012. 2
+[6] Richard W Bukowski and Carlo H S ´equin. Object associa-
+tions: a simple and practical approach to virtual 3d manipu-
+lation. In Proceedings of the 1995 symposium on Interactive
+3D graphics, pages 131–ff, 1995. 2
+[7] Siddhartha Chaudhuri, Daniel Ritchie, Jiajun Wu, Kai Xu,
+and Hao Zhang. Learning generative models of 3d structures.
+In Computer Graphics Forum, volume 39, pages 643–666.
+Wiley Online Library, 2020. 2
+[8] Akansel Cosgun, Tucker Hermans, Victor Emeli, and Mike
+Stilman. Push planning for object placement on cluttered
+table surfaces. In 2011 IEEE/RSJ international conference
+on intelligent robots and systems , pages 4627–4632. IEEE,
+2011. 2
+[9] Michael Danielczuk, Andrey Kurenkov, Ashwin Balakr-
+ishna, Matthew Matl, David Wang, Roberto Mart ´ın-Mart´ın,
+Animesh Garg, Silvio Savarese, and Ken Goldberg. Mechan-
+ical search: Multi-step retrieval of a target object occluded
+by clutter. In 2019 International Conference on Robotics
+and Automation (ICRA), pages 1614–1621. IEEE, 2019. 2
+[10] Jeevan Devaranjan, Amlan Kar, and Sanja Fidler. Meta-
+sim2: Unsupervised learning of scene structure for synthetic
+data generation. In European Conference on Computer Vi-
+sion, pages 715–733. Springer, 2020. 2
+[11] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina
+Toutanova. Bert: Pre-training of deep bidirectional
+transformers for language understanding. arXiv preprint
+arXiv:1810.04805, 2018. 3
+[12] Prafulla Dhariwal and Alexander Nichol. Diffusion models
+beat gans on image synthesis. Advances in Neural Informa-
+tion Processing Systems, 34:8780–8794, 2021. 3
+[13] Mehmet R Dogar, Michael C Koval, Abhijeet Tallavajhula,
+and Siddhartha S Srinivasa. Object search by manipulation.
+Autonomous Robots, 36(1):153–167, 2014. 2
+[14] Patrick Esser, Robin Rombach, and Bjorn Ommer. Taming
+transformers for high-resolution image synthesis. In Pro-
+ceedings of the IEEE/CVF conference on computer vision
+and pattern recognition, pages 12873–12883, 2021. 3
+[15] Helaman R. P. Ferguson and David H. Bailey. A polynomial
+time, numerically stable integer relation algorithm. Number
+RNR-91-032, 1991. 2, 17
+[16] Matthew Fisher, Daniel Ritchie, Manolis Savva, Thomas
+Funkhouser, and Pat Hanrahan. Example-based synthesis
+of 3d object arrangements. ACM Transactions on Graphics
+(TOG), 31(6):1–11, 2012. 2
+[17] Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming
+Wang, Cao Li, Qixun Zeng, Chengyue Sun, Rongfei Jia, Bin-
+qiang Zhao, et al. 3d-front: 3d furnished rooms with layouts
+and semantics. In Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision, pages 10933–10942,
+2021. 2, 3, 5, 12, 14
+[18] Martin Heusel, Hubert Ramsauer, Thomas Unterthiner,
+Bernhard Nessler, and Sepp Hochreiter. Gans trained by a
+two time-scale update rule converge to a local nash equilib-
+rium. Advances in neural information processing systems ,
+30, 2017. 14
+[19] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffu-
+sion probabilistic models. Advances in Neural Information
+Processing Systems, 33:6840–6851, 2020. 2, 3, 4, 16
+[20] Alain Hore and Djemel Ziou. Image quality metrics: Psnr
+vs. ssim. In 2010 20th international conference on pattern
+recognition, pages 2366–2369. IEEE, 2010. 14
+[21] Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, and Alexei A
+Efros. Image-to-image translation with conditional adver-
+sarial networks. In Proceedings of the IEEE conference on
+computer vision and pattern recognition, pages 1125–1134,
+2017. 4
+[22] Tero Karras, Miika Aittala, Janne Hellsten, Samuli Laine,
+Jaakko Lehtinen, and Timo Aila. Training generative ad-
+versarial networks with limited data. Advances in Neural
+Information Processing Systems, 33:12104–12114, 2020. 3
+[23] Jennifer E King, Marco Cognetti, and Siddhartha S Srini-
+vasa. Rearrangement planning using object-centric and
+robot-centric action spaces. In2016 IEEE International Con-
+ference on Robotics and Automation (ICRA) , pages 3940–
+3947. IEEE, 2016. 2
+[24] Jennifer E King, Vinitha Ranganeni, and Siddhartha S Srini-
+vasa. Unobservable monte carlo planning for nonprehensile
+rearrangement tasks. In 2017 IEEE International Confer-
+ence on Robotics and Automation (ICRA), pages 4681–4688.
+IEEE, 2017. 2
+[25] Eric Kolve, Roozbeh Mottaghi, Winson Han, Eli VanderBilt,
+Luca Weihs, Alvaro Herrasti, Daniel Gordon, Yuke Zhu, Ab-
+hinav Gupta, and Ali Farhadi. Ai2-thor: An interactive 3d
+environment for visual ai. arXiv preprint arXiv:1712.05474,
+2017. 2
+[26] Athanasios Krontiris, Rahul Shome, Andrew Dobson, An-
+drew Kimmel, and Kostas Bekris. Rearranging similar ob-
+jects with a manipulator using pebble graphs. In 2014 IEEE-
+RAS International Conference on Humanoid Robots , pages
+1081–1087. IEEE, 2014. 2
+[27] Yann Labb ´e, Sergey Zagoruyko, Igor Kalevatykh, Ivan
+Laptev, Justin Carpentier, Mathieu Aubry, and Josef Sivic.
+Monte-carlo tree search for efﬁcient visually guided rear-
+rangement planning. IEEE Robotics and Automation Letters,
+5(2):3715–3722, 2020. 2
+9
+[28] Chengshu Li, Fei Xia, Roberto Mart ´ın-Mart´ın, Michael Lin-
+gelbach, Sanjana Srivastava, Bokui Shen, Kent Vainio, Cem
+Gokmen, Gokul Dharan, Tanish Jain, et al. igibson 2.0:
+Object-centric simulation for robot learning of everyday
+household tasks. arXiv preprint arXiv:2108.03272, 2021. 2
+[29] Manyi Li, Akshay Gadi Patil, Kai Xu, Siddhartha Chaudhuri,
+Owais Khan, Ariel Shamir, Changhe Tu, Baoquan Chen,
+Daniel Cohen-Or, and Hao Zhang. Grains: Generative re-
+cursive autoencoders for indoor scenes. ACM Transactions
+on Graphics (TOG), 38(2):1–16, 2019. 2
+[30] Qi Li, Kaichun Mo, Yanchao Yang, Hang Zhao, and
+Leonidas Guibas. Ifr-explore: Learning inter-object func-
+tional relationships in 3d indoor scenes. arXiv preprint
+arXiv:2112.05298, 2021. 2
+[31] Rosanne Liu, Joel Lehman, Piero Molino, Felipe Pet-
+roski Such, Eric Frank, Alex Sergeev, and Jason Yosinski.
+An intriguing failing of convolutional neural networks and
+the coordconv solution. Advances in neural information pro-
+cessing systems, 31, 2018. 16
+[32] Weiyu Liu, Chris Paxton, Tucker Hermans, and Dieter Fox.
+Structformer: Learning spatial structure for language-guided
+semantic rearrangement of novel objects. In 2022 Inter-
+national Conference on Robotics and Automation (ICRA) ,
+pages 6322–6329. IEEE, 2022. 2
+[33] Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher
+Yu, Radu Timofte, and Luc Van Gool. Repaint: Inpainting
+using denoising diffusion probabilistic models. In Proceed-
+ings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, pages 11461–11471, 2022. 3
+[34] Andrew Luo, Zhoutong Zhang, Jiajun Wu, and Joshua B
+Tenenbaum. End-to-end optimization of scene layout. In
+Proceedings of the IEEE/CVF Conference on Computer Vi-
+sion and Pattern Recognition, pages 3754–3763, 2020. 2
+[35] Chenlin Meng, Yang Song, Jiaming Song, Jiajun Wu, Jun-
+Yan Zhu, and Stefano Ermon. Sdedit: Image synthesis and
+editing with stochastic differential equations. arXiv preprint
+arXiv:2108.01073, 2021. 3, 8
+[36] Paul Merrell, Eric Schkufza, Zeyang Li, Maneesh Agrawala,
+and Vladlen Koltun. Interactive furniture layout using in-
+terior design guidelines. ACM transactions on graphics
+(TOG), 30(4):1–10, 2011. 2
+[37] Alex Nichol, Prafulla Dhariwal, Aditya Ramesh, Pranav
+Shyam, Pamela Mishkin, Bob McGrew, Ilya Sutskever, and
+Mark Chen. Glide: Towards photorealistic image generation
+and editing with text-guided diffusion models.arXiv preprint
+arXiv:2112.10741, 2021. 3
+[38] Wamiq Para, Paul Guerrero, Tom Kelly, Leonidas J Guibas,
+and Peter Wonka. Generative layout modeling using con-
+straint graphs. In Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision , pages 6690–6700,
+2021. 2
+[39] Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten
+Kreis, Andreas Geiger, and Sanja Fidler. Atiss: Autoregres-
+sive transformers for indoor scene synthesis. In Advances in
+Neural Information Processing Systems (NeurIPS), 2021. 2,
+6, 7, 14, 15
+[40] Pulak Purkait, Christopher Zach, and Ian Reid. Sg-vae:
+Scene grammar variational autoencoder to generate new in-
+door scenes. In European Conference on Computer Vision,
+pages 155–171. Springer, 2020. 2
+[41] Charles R Qi, Hao Su, Kaichun Mo, and Leonidas J Guibas.
+Pointnet: Deep learning on point sets for 3d classiﬁcation
+and segmentation. In Proceedings of the IEEE conference
+on computer vision and pattern recognition, pages 652–660,
+2017. 5, 12, 15
+[42] Siyuan Qi, Yixin Zhu, Siyuan Huang, Chenfanfu Jiang, and
+Song-Chun Zhu. Human-centric indoor scene synthesis us-
+ing stochastic grammar. In Proceedings of the IEEE Con-
+ference on Computer Vision and Pattern Recognition, pages
+5899–5908, 2018. 2
+[43] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,
+Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learn-
+ing transferable visual models from natural language super-
+vision. In International Conference on Machine Learning ,
+pages 8748–8763. PMLR, 2021. 3
+[44] Daniel Ritchie, Kai Wang, and Yu-an Lin. Fast and ﬂex-
+ible indoor scene synthesis via deep convolutional genera-
+tive models. In Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition , pages 6182–
+6190, 2019. 2, 6
+[45] Robin Rombach, Andreas Blattmann, Dominik Lorenz,
+Patrick Esser, and Bj ¨orn Ommer. High-resolution image
+synthesis with latent diffusion models. In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 10684–10695, 2022. 3
+[46] Yossi Rubner, Carlo Tomasi, and Leonidas J Guibas. The
+earth mover’s distance as a metric for image retrieval. In-
+ternational journal of computer vision, 40(2):99–121, 2000.
+4
+[47] Stuart J Russell. Artiﬁcial intelligence a modern approach .
+Pearson Education, Inc., 2010. 2
+[48] Chitwan Saharia, William Chan, Huiwen Chang, Chris Lee,
+Jonathan Ho, Tim Salimans, David Fleet, and Mohammad
+Norouzi. Palette: Image-to-image diffusion models. In
+ACM SIGGRAPH 2022 Conference Proceedings , pages 1–
+10, 2022. 3
+[49] Rahul Sajnani, Adrien Poulenard, Jivitesh Jain, Radhika
+Dua, Leonidas J Guibas, and Srinath Sridhar. Condor: Self-
+supervised canonicalization of 3d pose for partial shapes. In
+Proceedings of the IEEE/CVF Conference on Computer Vi-
+sion and Pattern Recognition, pages 16969–16979, 2022. 3,
+5, 12
+[50] Jonathan Scholz and Mike Stilman. Combining motion
+planning and optimization for ﬂexible robot manipulation.
+In 2010 10th IEEE-RAS International Conference on Hu-
+manoid Robots, pages 80–85. IEEE, 2010. 2
+[51] Rahul Shome and Kostas E Bekris. Synchronized multi-arm
+rearrangement guided by mode graphs with capacity con-
+straints. In International Workshop on the Algorithmic Foun-
+dations of Robotics, pages 243–260. Springer, 2020. 2
+[52] Mohit Shridhar, Lucas Manuelli, and Dieter Fox. Cliport:
+What and where pathways for robotic manipulation. In Con-
+ference on Robot Learning , pages 894–906. PMLR, 2022.
+2
+10
+[53] Herbert A Simon and Allen Newell. Computer simulation
+of human thinking and problem solving. Monographs of the
+Society for Research in Child Development, pages 137–150,
+1962. 2
+[54] Yang Song and Stefano Ermon. Generative modeling by esti-
+mating gradients of the data distribution.Advances in Neural
+Information Processing Systems, 32, 2019. 2, 3, 4
+[55] Yang Song, Jascha Sohl-Dickstein, Diederik P Kingma, Ab-
+hishek Kumar, Stefano Ermon, and Ben Poole. Score-based
+generative modeling through stochastic differential equa-
+tions. arXiv preprint arXiv:2011.13456, 2020. 2, 3
+[56] Andrew Szot, Alexander Clegg, Eric Undersander, Erik Wi-
+jmans, Yili Zhao, John Turner, Noah Maestre, Mustafa
+Mukadam, Devendra Singh Chaplot, Oleksandr Maksymets,
+et al. Habitat 2.0: Training home assistants to rearrange their
+habitat. Advances in Neural Information Processing Systems,
+34:251–266, 2021. 2
+[57] Jerry O Talton, Yu Lou, Steve Lesser, Jared Duke, Radom ´ır
+Mˇech, and Vladlen Koltun. Metropolis procedural modeling.
+ACM Transactions on Graphics (TOG), 30(2):1–14, 2011. 2
+[58] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszko-
+reit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia
+Polosukhin. Attention is all you need. Advances in neural
+information processing systems, 30, 2017. 2, 3, 4
+[59] Pascal Vincent. A connection between score matching and
+denoising autoencoders. Neural computation, 23(7):1661–
+1674, 2011. 4
+[60] Pascal Vincent, Hugo Larochelle, Yoshua Bengio, and
+Pierre-Antoine Manzagol. Extracting and composing robust
+features with denoising autoencoders. In Proceedings of the
+25th international conference on Machine learning , pages
+1096–1103, 2008. 4
+[61] Hanqing Wang, Wei Liang, and Lap-Fai Yu. Scene mover:
+Automatic move planning for scene arrangement by deep
+reinforcement learning. ACM Transactions on Graphics ,
+39(6), 2020. 3
+[62] Kai Wang, Yu-An Lin, Ben Weissmann, Manolis Savva, An-
+gel X Chang, and Daniel Ritchie. Planit: Planning and in-
+stantiating indoor scenes with relation graph and spatial prior
+networks. ACM Transactions on Graphics (TOG), 38(4):1–
+15, 2019. 2, 6
+[63] Kai Wang, Manolis Savva, Angel X Chang, and Daniel
+Ritchie. Deep convolutional priors for indoor scene syn-
+thesis. ACM Transactions on Graphics (TOG), 37(4):1–14,
+2018. 7
+[64] Weiyue Wang, Ronald Yu, Qiangui Huang, and Ulrich Neu-
+mann. Sgpn: Similarity group proposal network for 3d
+point cloud instance segmentation. In Proceedings of the
+IEEE conference on computer vision and pattern recogni-
+tion, pages 2569–2578, 2018. 3
+[65] Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner.
+Sceneformer: Indoor scene generation with transformers. In
+2021 International Conference on 3D Vision (3DV) , pages
+106–115. IEEE, 2021. 2, 6
+[66] Luca Weihs, Matt Deitke, Aniruddha Kembhavi, and
+Roozbeh Mottaghi. Visual room rearrangement. In Proceed-
+ings of the IEEE/CVF conference on computer vision and
+pattern recognition, pages 5922–5931, 2021. 3
+[67] Tomer Weiss, Alan Litteneker, Noah Duncan, Masaki
+Nakada, Chenfanfu Jiang, Lap-Fai Yu, and Demetri Ter-
+zopoulos. Fast and scalable position-based layout synthesis.
+IEEE Transactions on Visualization and Computer Graph-
+ics, 25(12):3231–3243, 2018. 2
+[68] Mingdong Wu, Fangwei Zhong, Yulong Xia, and Hao Dong.
+Targf: Learning target gradient ﬁeld for object rearrange-
+ment. arXiv preprint arXiv:2209.00853, 2022. 3
+[69] Ken Xu, James Stewart, and Eugene Fiume. Constraint-
+based automatic placement for scene composition. InGraph-
+ics Interface, volume 2, pages 25–34, 2002. 2
+[70] Yi-Ting Yeh, Lingfeng Yang, Matthew Watson, Noah D
+Goodman, and Pat Hanrahan. Synthesizing open worlds with
+constraints using locally annealed reversible jump mcmc.
+ACM Transactions on Graphics (TOG) , 31(4):1–11, 2012.
+2
+[71] Li Yi, Wang Zhao, He Wang, Minhyuk Sung, and Leonidas J
+Guibas. Gspn: Generative shape proposal network for 3d
+instance segmentation in point cloud. In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 3947–3956, 2019. 3
+[72] Lap Fai Yu, Sai Kit Yeung, Chi Keung Tang, Demetri
+Terzopoulos, Tony F Chan, and Stanley J Osher. Make
+it home: automatic optimization of furniture arrangement.
+ACM Transactions on Graphics (TOG)-Proceedings of ACM
+SIGGRAPH 2011, v. 30,(4), July 2011, article no. 86, 30(4),
+2011. 2
+[73] Richard Zhang, Phillip Isola, and Alexei A Efros. Colorful
+image colorization. In European conference on computer
+vision, pages 649–666. Springer, 2016. 4
+[74] Song-Hai Zhang, Shao-Kui Zhang, Wei-Yu Xie, Cheng-
+Yang Luo, and Hong-Bo Fu. Fast 3d indoor scene synthe-
+sis with discrete and exact layout pattern extraction. arXiv
+preprint arXiv:2002.00328, 2020. 2
+[75] Zaiwei Zhang, Zhenpei Yang, Chongyang Ma, Linjie Luo,
+Alexander Huth, Etienne V ouga, and Qixing Huang. Deep
+generative modeling for scene synthesis via hybrid represen-
+tations. ACM Transactions on Graphics (TOG), 39(2):1–21,
+2020. 2
+[76] Yi Zhou, Connelly Barnes, Jingwan Lu, Jimei Yang, and
+Hao Li. On the continuity of rotation representations in neu-
+ral networks. In Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition , pages 5745–
+5753, 2019. 3
+[77] Yang Zhou, Zachary While, and Evangelos Kalogerakis.
+Scenegraphnet: Neural message passing for 3d indoor scene
+augmentation. In Proceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision , pages 7384–7392,
+2019. 2
+11
+Supplementary Document
+A. Overview
+This supplementary document contains extended techni-
+cal details, along with qualitative and quantitative results
+that supplement the main document. After introducing our
+video results, we cover details of our network architectures
+and their applications (Sec C). We then provide detailed ex-
+planations of our two main experiment setups: Table-Chair
+(Sec. D) and 3D-FRONT (Sec. E). Next, we conduct addi-
+tional analysis experiments in Sec. F. Finally, we discuss
+failure modes (Sec. G) and future directions (Sec. H).
+B. Video Results
+In order to better visualize the 3D structures of the out-
+puts and the denoising process, we provide videos of these
+processes in the format of an HTML website. We highly
+encourage the viewers to open the ﬁle “LEGO.html” and
+watch the videos for a direct view of the denoising process.
+C. Architecture Details
+C.1. Input Object Attribute Encoding
+For each object attribute oi = (ci,ti,ri,bi,hi), we pro-
+cess it into an object tokenδi∈ R512 to input into the trans-
+former. The details are as follows.
+We embed the translation ti, rotation ri =
+[cos(θi), sin(θi)]T , and bounding box dimension bi
+with a sinusoidal positional encoding of 32 frequencies.
+The frequencies are a geometric sequence with initial term
+1 and common ratio 128
+1
+31 , which gives an ending term of
+128. The positional encoding is therefore
+PE (x) ={sin(128
+j
+31x), cos(128
+j
+31x)| 0≤j≤ 31}∈ R64.
+ApplyingPE toti = [ti,x,ti,y] andbi = [bi,x,bi,y] gives
+128-dimensional embeddings, whereas applying it to θi
+gives a 64-dimensional embedding. We then additionally
+processPE (θi) with a linear layer mapping to R128.
+As mentioned, for object class ci, we utilize a 2-layer
+MLP with leaky ReLU activation to process the one-hot en-
+coding into a 128-dimensional attribute. The above four
+features are concatenated to form a512-dimensional vector.
+We also optionally process a pose-invariant shape feature
+hi from ConDor [49]. More speciﬁcally, we pretrain Con-
+Dor on the 3D point clouds provided by 3D-FRONT [17],
+and extract the product of the Tensor Field Network layer
+output and spherical harmonics coefﬁcients from ConDor
+to provide pose-invariant features in R1024×128 capturing
+the shape of each object. Taking the mean across the 1024
+points gives a 128-dimensional feature, which we then pass
+through a 2-layer MLP with leaky ReLU activation to obtain
+the ﬁnal shape feature in R128. We apply the shape feature
+hi in the Grouping by Shapes experiment to demonstrate its
+effectiveness.
+Finally, the concatenated attributes for each object lie in
+R640 and are processed through 2 linear layers with leaky
+ReLU activation to produce a512-dimensional object token
+for the transformer. Note that if ﬂoor plan is utilized, we
+modify the ﬁnal layer to produce a511-dimensional feature,
+and utilize the last bit to distinguish object tokens from ﬂoor
+plan tokens.
+C.2. Floor Plan Encoder Architecture
+We represent each ﬂoor plan as 250 randomly sampled
+contour points. We represent each point through its 2D po-
+sition coordinate and the 2D normal of the line it is on. In
+aggregate, we represent each ﬂoor plan with a feature in
+R250×4.
+We employ a simpliﬁed PointNet [41] as the ﬂoor plan
+encoder to extract one uniﬁed ﬂoor plan feature from this
+representation. The encoder ﬁrst processes the feature
+with 3 linear layers and Leaky ReLU activation, mapping
+the feature dimension through [4, 64, 64, 512]. Then, we
+max pool the resulting embedding in R250×512 to obtain
+a global ﬂoor-plan encoding in R512. We then pass this
+global representation through one ﬁnal linear layer and ap-
+pend a binary bit distinguishing it from object tokens. Fi-
+nally, we combine this ﬂoor plan token with the | ˜X| num-
+ber of 512-dimensional object tokens and pass the resulting
+(| ˜X| + 1)× 512 input matrix to the transformer.
+C.3. Output Layers
+The backbone transformer outputs (| ˜X| + 1)× 512 fea-
+ture tokens. We ignore the ﬂoor plan token and use the| ˜X|
+object tokens to predict denoising transformations. We ap-
+ply 2 linear layers with leaky ReLU activation to the output
+tokens to map to 256 dimensions then 4 dimensions, and
+ﬁnally obtain the absolute transformation predictions.
+C.4. Inference Langevin Dynamics Parameters
+During inference, we use the Langevin Dynamics
+scheme to iteratively denoise a messy scene input. As men-
+tioned, for time step τ, we select α(τ ) = α0/(1 +a1∗τ )
+to regulate the step size and β(τ ) = β0∗b⌊τ/b 2⌋
+1 to regu-
+late the noise added at each iteration. We empirically select
+a1 = 0.005 andb1 = 0.9. For the living room, we adopt
+α0 = 0.1,β0 = 0.01, andb2 = 10. For bedroom, we adopt
+α0 = 0.08,β0 = 0.008, andb2 = 8.
+We break from the iterative denoising process upon
+any one of two conditions: (1) if for 3 consecutive itera-
+tions, both the predicted translation displacement vector has
+Frobenius norm less than0.01 and the predicted rotation an-
+gle displacement is less than 0.005 radians, or (2) we have
+reached 1500 iterations.
+12
+D. Table-Chair Experiment
+D.1. Data Generation
+To analyze the regularities our model can capture, we
+propose three synthetic Table-Chair experiment settings,
+with a focus on Symmetry and Parallelism, Uniform Spac-
+ing, and Grouping by Shapes respectively.
+For each of the proposed experiments, we generate clean
+scenes based on designed rules and take a bimodal approach
+at perturbations when generating clean-messy training data
+pair. More speciﬁcally, for half of the synthesized clean
+scenes, we employ a Gaussian noise kernel whose standard
+deviation is drawn from a zero-mean Gaussian distribution
+with a small standard deviation ( 0.01 for translation and
+π/90 for rotation angle). For the other half of the clean
+scenes, we employ a Gaussian noise kernel whose standard
+deviation is drawn from a zero-mean Gaussian distribution
+with a relatively larger standard deviation ( 0.25 for trans-
+lation and π/4 for rotation angle). For the other training
+details, we follow the same paradigm as in the 3D-FRONT
+experiments.
+D.2. Inference Parameters
+As for the 3D-FRONT experiments, we employ the
+Langevin Dynamics scheme to rearrange a given perturbed
+Table-Chair arrangement. We empirically adjust the param-
+eters to slightly increase the step size, accelerate the noise
+decay schedule, and loosen the termination condition. In
+particular, we select α0 = 0.12, a1 = 0.005, β0 = 0.01,
+b1 = 0.9, b2 = 2 , and terminate once the predicted dis-
+placements are small enough in magnitude for 1 iteration.
+D.3. Success Rate
+As mentioned, we measure LEGO-Net’s performance in
+each Table-Chair environment through the success rate of
+its rearrangement. We will now elaborate on its criteria.
+Symmetry and Parallelism : For a rearrangement to be
+classiﬁed as a success, it must satisfy the following:
+• The mean euclidean distance of per-object movement
+averaged across scenes is less than 0.5.
+• For each chair, the angular offset between its orienta-
+tion and the table-facing orientation is less than π/60
+radians.
+• Given the two rearranged table positions, we com-
+pute their respective chair positions and perform Earth
+Mover’s Distance assignment using these as target and
+the ﬁnal predicted chair positions as source. The to-
+tal distances summed across all 12 chairs for the 2 ta-
+bles need to be less than 0.08. Note that this metric
+integrates colinearity, parallelism, and symmetry, and
+penalizes collision.
+Figure 9. Regularities learning results (additional visualizations).
+We train our denoising network to learn three different regularities.
+LEGO-Net learns the complex regularity rules as demonstrated by
+the iterative denoising results shown on the right. Zoom in for
+details, especially for the shape-based grouping.
+Uniform Spacing : For a rearrangement in the Uniform
+Spacing experiment to be classiﬁed as a success, it must sat-
+isfy the ﬁrst two criteria for the Symmetry and Parallelism
+experiment. For the third criteria, because the number of
+chairs arranged around each of the 2 circular tables is vari-
+able, we cannot formulate the Earth Mover’s Distance as-
+signment as in the Symmetry and Parallelism experiment.
+Instead, to measure how well an arrangement captures the
+object-object relationships and regular relative positioning,
+we compute two other metrics.
+For each table, we compute the angular distances be-
+tween each adjacent pair of its chairs and measure the vari-
+ance of these distances. We designate that a successful ar-
+rangement must have an angular distance variance of less
+than 0.009 radians. Additionally, given we utilize a ﬁxed
+radius to generate clean chair arrangements around tables,
+we can measure the mean difference between the chair-to-
+closest-table distance and this radius. We designate that the
+magnitude of this difference needs to be less than 0.01 for
+an arrangement to be considered successful.
+Grouping by Shapes : Similarly, for a rearrangement in
+the Grouping by Shapes experiment to be classiﬁed as a
+success, it must satisfy the ﬁrst two criteria for the Sym-
+metry and Parallelism experiment. Additionally, we once
+again can compute the exact regular arrangement of chairs
+with respect to the table, enabling us to calculate the Earth
+13
+Mover’s Distance from the ﬁnal predicted chair positions to
+the clean conﬁguration with respect to the predicted table
+position. We designate that the distance summed across the
+6 chairs needs to be less than 0.05.
+Furthermore, to measure success at grouping, we require
+that each row must be assigned exactly 3 chairs and that all
+chairs assigned to the same row must have the same shape
+feature.
+D.4. Additional Qualitative Results
+In Fig. 9, we provide additional qualitative renderings
+for the three Table-Chair experiments.
+E. 3D-FRONT Experiment
+To process the 3D-FRONT dataset [17], we closely fol-
+low the preprocessing protocol of ATISS [39]. For each
+scene, we extract from the given meshes and parameters the
+translation, rotation, class, and bounding box size for every
+object, and we normalize all lengths to be in [−1, 1]. We
+additionally extract accurate contours of the ﬂoor plans by
+running an iterative closest point algorithm [3], using the
+contour corner points of ATISS’s binary ﬂoor plan masks
+as source and the relevant vertices from 3D-FRONT ﬂoor
+meshes as target.
+E.1. Baseline Description
+We compare against three variants of ATISS: vanilla,
+labels, and failure-correction. As described in the main
+text, vanilla is the original ATISS approach that generates
+a scene from scratch given the ﬂoor plan. ATISS labels
+is given the ﬂoor plan, as well as a set of furniture labels
+and the transformations and sizes of the labeled objects.
+ATISS failure-correction is proposed as an application to
+the probabilistic generative modeling of ATISS. It identi-
+ﬁes which object is likely to be a failure and resamples that
+object given all the other objects. While the original paper
+only showed the technique to work when a single object is
+perturbed, we ﬁnd it reasonable to extend the algorithm to
+multi-object perturbation cases. Speciﬁcally, we provide a
+scene with all objects perturbed (same input as LEGO-Net)
+and iteratively resample the lowest-probable object. We
+stop the iteration when it reaches 1,000 times or when the
+minimum probability is higher than a manually set thresh-
+old. We note that while failure-correction did not perform
+as expected when all of the objects are perturbed, as shown
+in Fig. 10, it is the closest baseline we could ﬁnd in the lit-
+erature that performs data-driven denoising of a scene.
+For the comparisons, we use the ofﬁcial training and test-
+ing code provided by the authors of ATISS without modi-
+ﬁcations. For ATISS failure-correction, we add a for-loop
+and stopping criteria on top of their implementation, and
+maintain the scales of objects as ﬁxed to be coherent with
+the rearrangement task.
+E.2. Metric Description
+For FID and KID computation, we ﬁrst generate the
+same number of scenes as in the test dataset and randomly
+select 500 from the generated scenes. We then randomly
+select 500 real scenes from the 3D-FRONT dataset to com-
+pare against. For both FID and KID, we repeat the metric
+computation 5 times and report the average. Note that for
+computing the FID scores for ATISS, we used the ofﬁcially
+provided code and followed their exact evaluation proce-
+dure, but we failed to reproduce their numbers. Hence, we
+use our own way of computing the metrics and report ours.
+We note that the Frechet Inception Distance (FID) [18]
+is known to present signiﬁcant positive bias when the num-
+ber of images is small (e.g., ≤ 2000). In our case, we’re
+dealing with an even smaller number of test images. There-
+fore, to compute a metric that is less biased in the small-data
+regime, we adopt the Kernel Inception Distance [4], which
+is known to address the bias problem and present small vari-
+ance even at a few hundred samples.
+Distance Traveled. As discussed in the main text, we aim
+at rearranging the messy scenes while retaining the ﬂavor
+of the original scenes. Practically, cleaning a room should
+move objects as minimally as possible while realizing reg-
+ularities. Therefore, we measure and report the mean of
+the average distance traveled for scenes. More speciﬁcally,
+for each scene, we compute the average Euclidean distance
+between the corresponding objects in the initial and ﬁnal
+states, and take the mean across scenes.
+Note that for ATISS vanilla, this metric is not applica-
+ble as the method randomly places objects into the scene.
+For ATISS failure-correction, we calculate this metric by
+computing the distance between the initial position of each
+object and its ﬁnal position after applying the algorithm.
+EMD to GT . In order to measure how accurately our
+method recovers the original scene conﬁguration, we mea-
+sure the Earth Mover’s Distance between the ﬁnal and the
+ground truth scene states. Note that computing the differ-
+ence between the denoising prediction and the ground truth
+is widely used in the image-denoising literature, using such
+metrics as PSNR or SSIM [20]. ATISS vanilla and labels
+do not receive the messy scene as input, so this metric is
+not applicable to them. On the other hand, ATISS failure-
+correction directly ﬁxes the input scene, thus we may mea-
+sure how accurately it recovers the original clean scene. Fi-
+nally, we note that the EMD to GT metric becomes highly
+noisy and irrelevant when the noise added to perturb the
+clean scenes becomes too high, as then, there is scarsely
+any locational information left in the messy inputs.
+E.3. Additional Qualitative Results
+We provide additional qualitative results on the 3D-
+FRONT dataset. We show more comparisons against the
+14

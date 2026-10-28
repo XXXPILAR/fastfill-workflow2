@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><title>{title}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html,body{{margin:0;height:100%;background:#f3f1ec;font:14px system-ui}}#info{{position:absolute;left:12px;top:10px;
+background:#fffd;padding:6px 10px;border-radius:6px}}button{{margin-left:8px}}</style></head><body><div id="info">{title} · drag to orbit, scroll to zoom
+<button id="walls">walls: low</button></div>
+<script type="importmap">{{"imports":{{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {{ OrbitControls }} from 'three/addons/controls/OrbitControls.js';
+import {{ GLTFLoader }} from 'three/addons/loaders/GLTFLoader.js';
+const renderer = new THREE.WebGLRenderer({{antialias: true}});
+renderer.setPixelRatio(devicePixelRatio); renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xf3f1ec);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a7f70, 2.0)); scene.add(new THREE.AmbientLight(0xffffff, .8));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(4, 8, 3); scene.add(sun);
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .05, 200);
+const controls = new OrbitControls(camera, renderer.domElement);
+const bytes = Uint8Array.from(atob("{glb}"), c => c.charCodeAt(0));
+new GLTFLoader().parse(bytes.buffer, '', g => {{
+  scene.add(g.scene);
+  const walls = [];
+  g.scene.traverse(o => {{ if (o.isMesh) {{ o.material.side = THREE.DoubleSide;
+    if (o.name.startsWith('shell_wall')) walls.push(o); }} }});
+  const modes = ['low', 'hidden', 'full']; let mode = 0;
+  const apply = () => walls.forEach(w => {{ w.visible = modes[mode] != 'hidden';
+    w.scale.set(1, 1, 1); if (modes[mode] == 'low') {{ w.material.transparent = true; w.material.opacity = .35; }}
+    else {{ w.material.transparent = false; w.material.opacity = 1; }} }});
+  apply();
+  document.getElementById('walls').onclick = e => {{ mode = (mode + 1) % 3; e.target.textContent = 'walls: ' + modes[mode]; apply(); }};
+  const box = new THREE.Box3().setFromObject(g.scene), c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+  controls.target.copy(c); camera.position.set(c.x + s.x * .6, c.y + Math.max(s.x, s.z) * 1.1, c.z + s.z * 1.1); controls.update();
+}});
+addEventListener('resize', () => {{ camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight); }});
+renderer.setAnimationLoop(() => {{ controls.update(); renderer.render(scene, camera); }});
+</script></body></html>

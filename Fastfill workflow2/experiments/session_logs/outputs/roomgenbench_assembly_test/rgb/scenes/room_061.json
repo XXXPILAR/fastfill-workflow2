@@ -1,0 +1,269 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_061",
+ "room_type": "room",
+ "room": {
+  "width": 6.5625,
+  "length": 7.8125,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    -0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    -0.8186574739897751,
+    -0.574282108619693,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    -0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.7071067811865475,
+    -0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    0.7071067811865475,
+    0.7071067811865475,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_8",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 20
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "bin",
+   "asset_key": "bin_9a5d5671",
+   "description": "bin",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "oven",
+   "asset_key": "oven_c534ed71",
+   "description": "oven",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "cup",
+   "asset_key": "cup_ad00c690",
+   "description": "cup",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "oven",
+   "asset_key": "oven_c534ed71",
+   "description": "oven",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "case",
+   "asset_key": "case_6406510c",
+   "description": "case",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "chair",
+   "asset_key": "chair_851e13a6",
+   "description": "chair",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "sink",
+   "asset_key": "sink_6f2b8356",
+   "description": "sink",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "table",
+   "asset_key": "table_c3ee137d",
+   "description": "table",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "box",
+   "asset_key": "box_c7d8a6d7",
+   "description": "box",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "basket",
+   "asset_key": "basket_c9be014f",
+   "description": "basket",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "microwave",
+   "asset_key": "microwave_ba44f547",
+   "description": "microwave",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "cabinet",
+   "asset_key": "cabinet_69d203a8",
+   "description": "cabinet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "bin",
+   "asset_key": "bin_9a5d5671",
+   "description": "bin",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_019"
+  }
+ ]
+}

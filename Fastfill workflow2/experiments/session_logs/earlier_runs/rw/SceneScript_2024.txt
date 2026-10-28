@@ -1,0 +1,564 @@
+SceneScript: Reconstructing Scenes With An
+Autoregressive Structured Language Model
+Armen Avetisyan1, Christopher Xie1, Henry Howard-Jenkins1, Tsun-Yi Yang1,
+Samir Aroudj1, Suvam Patra1, Fuyang Zhang2†, Duncan Frost1,
+Luke Holland1, Campbell Orme1, Jakob Engel1, Edward Miller1,
+Richard Newcombe1, and Vasileios Balntas1
+1 Meta Reality Labs 2 Simon Fraser University
+https://projectaria.com/scenescript
+Fig. 1: footnotesize(top) Given an egocentric video of an environment,SceneScript di-
+rectly predicts a 3D scene representation consisting of structured scene language com-
+mands. (bottom) Our method generalizes on diverse real scenes while being solely
+trained on synthetic indoor environments. (last column, bottom ) A notable advantage
+of our method is its capacity to easily adapt the structured language to represent novel
+scene entities. For example, by introducing a single new command,SceneScript can
+directly predict object parts jointly with the layout and bounding boxes.
+Abstract. We introduceSceneScript, a method that directly produces
+full scene models as a sequence of structured language commands using
+an autoregressive, token-based approach. Our proposed scene represen-
+tation is inspired by recent successes in transformers & LLMs, and de-
+parts from more traditional methods which commonly describe scenes
+as meshes, voxel grids, point clouds or radiance fields. Our method in-
+fers the set of structured language commands directly from encoded vi-
+sual data using a scene language encoder-decoder architecture. To train
+SceneScript, we generate and release a large-scale synthetic dataset
+called Aria Synthetic Environments consisting of 100k high-quality in-
+door scenes, with photorealistic and ground-truth annotated renders of
+egocentric scene walkthroughs. Our method gives state-of-the art results
+in architectural layout estimation, and competitive results in 3D object
+detection. Lastly, we explore an advantage forSceneScript, which is
+the ability to readily adapt to new commands via simple additions to
+the structured language, which we illustrate for tasks such as coarse 3D
+object part reconstruction.
+†Work done while the author was an intern at Meta.
+arXiv:2403.13064v1  [cs.CV]  19 Mar 2024
+2 Avetisyan et al.
+1 Introduction
+Scene representations play a crucial role in machine learning and computer vi-
+sion applications, enabling accurate understanding of the environment. Over the
+years, researchers have explored various options such as meshes, voxel grids,
+point clouds, and implicit representations, aiming to represent complex real-
+world scenes with high-fidelity. Each of these exhibits distinct advantages and
+limitations that impact their suitability for different tasks. Meshes offer detailed
+geometric information but can be expensive in both computation and mem-
+ory. Voxel grids provide a volumetric representation but suffer from a trade-off
+between resolution and memory requirements. Point clouds are efficient in rep-
+resenting sparse scenes but lack semantics and explicit connectivity information.
+Implicit representations, such as DeepSDF [32] and NeRF [25], can be infinitely
+precise but lack interpretability and editability. The selection of an appropriate
+representation directly impacts the performance and efficacy of various tasks in-
+cluding object recognition, scene understanding, and 3D reconstruction. In this
+paper, we propose a novel scene representation based on structured language
+commands as a more efficient and versatile solution.
+Our motivation stems from the recent advancements in the field of Large Lan-
+guage Models (LLMs) and “next token prediction” autoregressive methods [30],
+coupled with recent works on exploring generation of sequences to represent
+geometric structures. For example, PolyGen [28] demonstrated the ability to de-
+scribe 3D meshes as a sequence of vertices and faces generated using transform-
+ers [45]. Similarly, CAD-as-Language [14] showcased the effectiveness of gener-
+ating Computer-Aided Design (CAD) primitives to represent 2D CAD sketches.
+Our main goal is todirectly infer a metrically accurate representation
+of a full scene as a text-based sequence of specialized structured language
+commands.
+Our method, denoted SceneScript, autoregressively predicts a language of
+hand-designed structured language commands in pure text form. This language
+offers several distinct advantages: 1) As pure text, it is compact and reduces
+memory requirements of a large scene to only a fewbytes. 2) It is crisp and
+complete since the commands are designed to result in sharp and well-defined
+geometry (similar to scalable vector graphics). 3) It is interpretable, editable
+and semantically rich by design via the use ofhigh-level parametric commands
+such as make_door(*door_parameters). 4) It can seamlessly integrate novel
+geometric entities by simply adding new structured commands to the language.
+5) The fact that the scene representation is a series of language tokens similar
+to [30] opens up a plethora of potential new applications in the future such as
+ways to edit the scene, query it, or spin up chat interactions.
+We mainly focus on the problems of architectural layout estimation and ob-
+ject detection as proxy tasks for the efficacy of ourSceneScript language as
+a scene representation. Architectural entities such as walls, doors, and windows
+are highly structured entities, making them an ideal test-bed. However, one no-
+table drawback of language models is that they require vast amounts of data for
+training. Since there is no existing dataset of scene walkthroughs and their cor-
+SceneScript 3
+responding structured language commands, we publicly releasedAria Synthetic
+Environments (ASE), a synthetically generated dataset of 100k unique interior
+scenes. For each scene, we simulate egocentric trajectories with an entire suite
+of sensor data from Project Aria [24]. We also release multiple sources of ground
+truth including depth and instance segmentations. Importantly, for each ren-
+dered egocentric sequence, the architectural layout ground truth is given in our
+proposed SceneScript language.
+While architectural layout serves as a test-bed, we demonstrate that our
+method SceneScript can easily be extended to new tasks via simple exten-
+sions toSceneScript language while keeping both the visual input and network
+architecture fixed. We illustrate this on the problem of 3D object detection,
+which results in a method that jointly infers architectural layout and 3D ori-
+ented bounding boxes. Additionally, we demonstrate more proof-of-concept ex-
+periments that show that our method results in a significantly lower barrier
+to entry for new tasks including representing coarse 3D object reconstruction,
+curved entities, composition of entities, and entity states.
+Our core contributions are:
+– Wepropose SceneScript,amethodthatjointlypredictsarchitecturallayout
+and object bounding boxes of a scene in the form of structured language
+commands given a video stream.
+– We demonstrate that SceneScript can easily be extended to completely
+new tasks with simple additions of commands to our structured language,
+significantly lowering the barrier to entry for new tasks.
+– We release a large-scale synthetic dataset, namedAria Synthetic Environ-
+ments, comprized of100k unique high-quality 3D indoor scenes with GT,
+which will enable large scale ML training of scene understanding methods.
+– We show that trainingSceneScript on Aria Synthetic Environments leads
+to generalization on real scenes ( see videos/demos on the project page).
+2 Related Works
+2.1 Layout Estimation
+Layout estimation is an active research area, aiming to infer architectural el-
+ements. Scan2BIM [27] proposes heuristics for wall detection to produce 2D
+floorplans. Ochmann et al. [29] formulate layout inference as an integer linear
+program using constraints on detected walls. Shortest path algorithms around
+birds-eye view (BEV) free space [5] and wall plus room instance segmentation [7]
+have also been explored.
+Furukawa et al. [13] utilize aManhattan world -based multi-view stereo al-
+gorithm [12] to merge axis-aligned depth maps into a full 3D mesh of building
+interiors. RoomNet [21] predicts layout keypoints while assuming that a fixed
+set of Manhattan layouts can occur in a single image of a room. LayoutNet [53]
+improves on this by predicting keypoints and optimising the Manhattan room
+layout inferred from them. Similarly, AtlantaNet [34] predicts a BEV floor or
+4 Avetisyan et al.
+T able 1:Complete set of structured language commands designed for detailing archi-
+tectural layouts and object bounding boxes. Supported data types can includeint,
+float, bool . It is important to note that the language’s extensibility allows for easy
+augmentationbyintroducingnewcommandslike make_prim, make_pillar ,orenhanc-
+ing existing commands, such as incorporatingis_double_door (bool) .
+make_wall (int) make_door (int) make_window (int) make_bbox (int)
+id int
+a_x float
+a_y float
+a_z float
+b_x float
+b_y float
+b_z float
+height float
+id int
+wall0_id int
+wall1_id int
+position_x float
+position_y float
+position_z float
+width float
+height float
+id int
+wall0_id int
+wall1_id int
+position_x float
+position_y float
+position_z float
+width float
+height float
+id int
+class int
+position_x float
+position_y float
+position_z float
+angle_z float
+scale_x float
+scale_y float
+scale_z float
+ceiling shape and approximates the shape contour with a polygon resulting in
+an Atlanta world prior. SceneCAD [2] uses a graph neural network to predict
+object-object and object-layout relationships to refine its layout prediction.
+Our approach stands out by requiring neither heuristics nor explicitly defined
+prior knowledge about architectural scene structure. In fact, our method demon-
+strates geometric understanding of the scene which emerges despite learning to
+predict the GT scene language as a sequence of text tokens.
+2.2 Geometric Sequence Modelling
+Recent works have explored transformers for generating objects as text-based
+sequences. PolyGen [28] models 3D meshes as a sequence of vertices and faces.
+CAD-as-Language [14] represents 2D CAD sketches as a sequence of triplets
+in protobuf representation, followed by a sequence of constraints. Both Sketch-
+Gen [31] and SkexGen [48] use transformers to generate sketches. DeepSVG [6]
+learns a transformer-based variational autoencoder (VAE) that is capable of
+generating and interpolating through 2D vector graphics images. DeepCAD [47]
+proposes a low-level language and architecture similarly to DeepSVG, but ap-
+plies it to 3D CAD models instead of 2D vector graphics. Our approach stands
+out by utilisinghigh-level commands, offering interpretability and semantic rich-
+ness. Additionally, while low-level commands can represent arbitrarily complex
+geometries, they lead to prohibitively longer sequences when representing a full
+scene.
+The closest work to ours is Pix2Seq [8]. Pix2Seq proposes a similar archi-
+tecture to ours but experiments only with 2D object detection, thus requir-
+ing domain-specific augmentation strategies. Another closely related work is
+Point2Seq [49] that trains a recurrent network for autoregressively regressing
+continuous 3D bounding box parameters. Interestingly, they find the autoregres-
+sive ordering of parameters outperforms current standards for object detection
+architectures, including anchors [15] and centers [51].
+SceneScript 5
+Fig. 2: Aria Synthetic Environments: (top) Random samples of generated scenes show-
+ing diversity of layouts, lights and object placements. (bottom - left to right) A top
+down view of a scene filled with objects, a simulated trajectory (blue path), renderings
+of depth, RGB, and object instances, and lastly a scene pointcloud.
+3 SceneScript Structured Language Commands
+We first describe our structured language commands that define a full scene
+representation including both layout and objects. After this, we introduce our
+corresponding large scale training dataset:Aria Synthetic Environments .
+3.1 Commands and Parameters
+We begin with a parameterization that captures the most common layout ele-
+ments. For this purpose we use three commands:make_wall, make_door, and
+make_window. Each command comes with a set of parameters that results in
+well-defined geometry. For example, the full set of parameters formake_wall
+specifies a gravity-aligned 2D plane, whilemake_door and make_window spec-
+ify box-based cutouts from walls. It is worth noting that this parametrization
+is arbitrary, and is only made in the context of presenting a proof-of-concept
+SceneScript system. There are infinitely many parametrization schemes, in this
+work we opt for one that prioritizes ease of use and research iteration speed.
+In addition to representing these three major layout entities, we aim to jointly
+infer objects as oriented bounding boxes. Thus, we introduce a fourth command:
+ma ke _b bo x : id , class , position_x , position_y ,
+position_z , angle_z , scale_x , scale_y , scale_z
+This simple parametrization represents an oriented 3D bounding box that is
+assumed to be aligned with gravity (assuming it points in the−z direction).
+A summary of these commands and their respective parameters are shown in
+Table 1.
+6 Avetisyan et al.
+While we have described just four commands to capture structure and ob-
+jects in an indoor environment, importantly, this text-based parametrization can
+readily be extended geometrically and/or even semantically to include states
+or other functional aspects. For example, changing the mentionedmake_door
+command to include parameters such asopen_degree allows the language to
+represent door states. In Section 6, we demonstrate how such extensions to the
+language allows forSceneScript to readily adapt to new tasks including coarse
+3D object reconstruction.
+3.2 Scene Definition
+Asinglescenecanbedescribedasasequenceofourproposedstructuredlanguage
+commands. The sequence requires no specific ordering, and can be of arbitrary
+length. From this definition, the 3D scene can easily be obtained by parsing the
+commands through a simple custom interpreter.
+3.3 Training Dataset
+To enable practical indoor scene reconstruction based on our structured language
+commands (Section 3.1), we publicly released a new dataset calledAria Synthetic
+Environments. It consists of a large number of training pairs of egocentric scene
+walkthroughs linked with corresponding ground truth command sequences.
+Since transformers require vast amounts of data, we generated100k synthetic
+scenes,whichisincomparisoninfeasibleforreal-worlddata.Eachsyntheticscene
+comes with a floor plan model, a corresponding complete 3D scene as well as a
+simulated agent trajectory and a photo-realistic rendering of this trajectory. Fig.
+2 illustrates the basics ofAria Synthetic Environments . For brevity, we refer the
+reader to Appendix A for further details.
+4 SceneScript Network Architecture
+Our pipeline is a simple encoder-decoder architecture that consumes a video
+sequence and returns SceneScript language in a tokenized format. Figure 3
+illustrates a high-level overview of our method.
+We examine three encoder variants: a pointcloud encoder, a posed image set
+encoder, and a combined encoder. The decoder remains the same in all cases.
+4.1 Input Modalities and Encoders
+The encoder computes a latent scene code in the form of a 1D sequence from
+video walkthrough of the scene. The decoder is designed to consume these 1D se-
+quences as input. This enables the integration of various input modalities within
+a unified framework. As a preliminary, for each scene we assume access to a set
+of M posed camera images{I1,..., IM}, e.g., SLAM output.
+SceneScript 7
+SceneScript
+Image Encoder
+Pos. Embed and FlattenScene Context
+VoxeliseSparse 3D BackboneSparse 3D VolumeSparse 3D Features
+Sparse 3D BackboneSparse 3D VolumeSparse 3D Features
+Image Features
+Bidirectional 2D-3D Transformer
+Dense 3D VolumeDense 3D Features
+Image FeaturesImage Features
+Initialise
+Structured Scene Language
+Egocentric Sequence
+Scene Pointcloud
+Script Sequence<START>
+Autoregressive Decoder
+Points-only
+Images +Points
+Images-only
+Decoder
+Lift
+Lift
+make_wall, id=0, a_x=-2.10, a_y=-7.52, a_z=-0.02, b_x=1.40, b_y=-7.53, b_z=-0.02, height=3.40make_wall, id=1, a_x=-2.10, a_y=-7.52, a_z=-0.02, b_x=-2.10, b_y=0.47, b_z=-0.02, height=3.40make_wall, ……make_door, id=1000, wall_id=1, position_x=-2.10, position_y=-5.93, position_z=0.93, width=1.32, height=1.92make_door, id=1001, wall_id=5, position_x=4.90, position_y=-2.28, position_z=0.93, width=1.16, height=1.92make_door, …...make_window, id=2000, wall_id=11, position_x=-3.70, position_y=12.9, position_z=1.38, width=1.48, height=2.08make_window, id=2001, wall_id=3, position_x=3.00, position_y=-3.78, position_z=1.78, width=2.32, height=2.48make_window,……
+(Choiceof) Encoder
+Fig. 3: SceneScriptcorepipelineoverview.Rawimages&pointclouddataareencoded
+into a latent code, which is then autoregressively decoded into a sequence of commands
+that describe the scene. Visualizations are shown using a customly built interpreter.
+Note that for the results in this paper, the the point clouds are computed from the
+images using Aria MPS [37] – i.e. are not using a dedicated RGB-D / Lidar sensor.
+Point Clouds. A point cloudP ={p1,..., pN} consists ofN points, where pi
+is a 3D point coordinate. It can come from passive images usingSLAM or SfM,
+or RGB-D / Lidar sensors.
+Specifically, we use the Semi-dense Pointclouds from Project Aria’s Machine
+Perception Services [37], that are obtained from a visual-inertial SLAM system
+using Aria’s monochrome cameras and IMUs. We discretize the point cloud to
+5cm resolution, then employ a sparse 3D convolution library [40,41] to generate
+pooled features. The encoderEgeo applies a series of down convolutions, resulting
+in a reduction of the number of points in the lowest level.
+Fgeo =Egeo(P), P∈ RN×3, Fgeo∈ RK×512 (1)
+whereK≪N. Fgeo is a condensed latent representation of the point cloud that
+contains the necessary scene context. For later use in the transformer decoder,
+we treat Fgeo as a sequence of feature vectors where the entriesfi, i∈ 1...K
+are sorted lexicographically according to the coordinate of the active siteci, i∈
+1...K. To incorporate positional encoding, we append the coordinates of the
+active sites to their respective feature vectorsfi← cat(fi, ci).
+Point Clouds with Lifted Features.We additionally explore augmenting
+the point cloud with image features. From the original egocentric sequence and
+associated trajectory, we sample a set ofM keyframes, Ii where i∈ 1...M, and
+compute a set of image featuresFi for each. We then project each point into the
+set of keyframe cameras and retrieve the feature vector (output by a CNN) at
+the pixel location:
+fip =Fi(π(p)) p∈ P,i∈ 1...M, (2)
+where π(·) represents the projection function of a 3D point into the camera. If
+π(p) falls outside the image bounds, no feature is retrieved. We combine the set
+8 Avetisyan et al.
+of lifted features for a point through an average, resulting in a single feature
+vector for each point:fp = 1/M PM
+i=1 fip.
+We form our lifted-feature point cloud,P′ ={p′
+1,..., p′
+M}, by concatenating
+each point’s lifted feature with the original XYZ location:p′ = cat(fp, p). P′ is
+then encoded into a context sequence using sparse 3D convolutions, with only
+the input feature channels adjusted to match the new point feature dimension.
+End-to-end Encoding of Posed Views.In order to encode the egocentric
+sequencemoredirectlywithoutapre-computedpointcloud,weadopta2D ↔3D
+bidirectional transformer encoder following the form defined in RayTran [44].
+In this formulation, we initialize a volume representation of the scene as a
+dense voxel grid of features,V, that coincides with the scene geometry. In turn,
+we sample a subset ofM keyframes, Ii where i∈ 1...M, from the full stream of
+posed images. And for each of these keyframes we compute image features from a
+CNN, Fi. Repeated layers of bidirectional attention enable the image and voxel
+grid features to be refined iteratively in successive transformer blocks through
+the aggregation of view-point and global-scene information. As in RayTran [44],
+the interaction between the two representations is guided by the image-formation
+process by leveraging known camera parameters and poses. Attention in these
+transformer blocks is restricted by patch-voxel ray intersections, where each im-
+age patch attends to the voxels it observes and each voxel location attends to
+all the patches that observe it. The resulting voxel grid of features is flattened,
+concatenated with an encoded represention of its XYZ location, and passed to
+the decoder.
+4.2 Language Decoder
+We utilize a transformer decoder [45] to decode the scene latent code into a se-
+quence of structured language commands. The sequence of tokens passes through
+an embedding layer, followed by a positional encoding layer. Together with the
+encoded scene code (Section 4.1), the embedded tokens are passed into the sev-
+eral transformer decoder layers where a causal attention mask is used to ensure
+autoregressive generation. More implementation details can be found in Ap-
+pendix C.2.
+4.3 Language Tokenization
+We refer to the serialization the structured language into a sequence of tokens as
+tokenization. The goal is to construct a bijective mapping between a sequence
+of structured language commands (Section 3) and a sequence of integer tokens
+that can be predicted by the transformer decoder architecture. We utilize the
+following schema:
+[START, PART, CMD, PARAM_1, PARAM_2,..., PARAM_N, PART,..., STOP]
+SceneScript 9
+For example, a sample sequence for amake_door command may look like:
+[START, PART, MAKE_DOOR, POSITION_X, POSITION_Y, POSITION_Z,
+WALL0_IDX, WALL1_IDX, WIDTH, HEIGHT, PART,..., STOP]
+This schema enables 1D packing of tokens without requiring fixed-size slots or
+padding like other sequence modelling methods such as [47]. Additionally, it does
+not impose any limitations on the number or the hierarchy of sub-sequences, as
+they are flexibly separated by aPART token. This allows for arbitrarily complex
+scene representations.
+The tokenized sequence is discretized into integers at a 5cm resolution, then
+translated into a sequence of embeddings via learnable lookup table. Note that
+by designing the SceneScript language, we also design the tokenization. This
+tokenization scheme is notably different from standard NLP tokenization, which
+involves Byte-Pair Encodings (BPE) [30].
+5 Results
+In this section, we introduce the metrics we define to measure performance, and
+we discuss some qualitative and quantitative results that give insights to our
+proposed SceneScript method.
+5.1 Metrics
+To evaluate accuracy of the layout estimation, we make use of geometric metrics
+appliedbetweentheground-truthroomlayoutandourpredicted SceneScriptlan-
+guage. To do so, we define anentity distance,dE, between a pair of entities of the
+same class. Each entity,E, is represented as a 3D plane segment comprising of 4
+corners{c1,c 2,c 3,c 4}. The distance between two entities,E andE′ is computed
+as the maximum Euclidean distance between each corner and its counterpart as-
+signed via Hungarian mathcing, i.e.:dE(E,E′) = max{||ci−c′
+π(i)|| :i = 1,..., 4},
+where π(i) is the permutation also found via Hungarian matching.
+We thresholddE to define the success criteria for the predicted entities. We
+compute the following metrics:
+– F1 Score @threshold – the F1 score of the set of predictions is computed at
+a singledE threshold.
+– Average F1 Score – the F1 score is computed across a range of entity distance
+thresholds and averaged.
+The scores are computed for each class independently and averaged to overall
+score. In addition, scores are computed for each scene and averaged across the
+dataset. We use the following range of thresholds (cm) for the average F1 scores:
+T ={1, 2,..., 9, 10, 15, 25, 30, 50, 75, 100}.
+10 Avetisyan et al.
+Fig. 4: Qualitative samples between our model and SOTA methods onAria Synthetic
+Environments’s test set. Hierarchical methods like SceneCAD suffer from error cascad-
+ing which leads to missing elements in the edge prediction module. RoomFormer (a 2D
+method extruded to 3D) primarily suffers from lightly captured scene regions which
+leave a unnoticeable signal in the density map.
+T able 2: Layout Estimation on Aria Synthetic Environments Quantitative
+comparison between our method and related recent work.
+F1 @5cm Avg F1
+Method mean wall door window mean wall door window
+SceneCAD ’20 [2] - 0.048 - - - 0.275 - -
+RoomFormer ’23 [52] 0.139 0.159 0.148 0.110 0.464 0.505 0.481 0.407
+Ours (Point cloud) 0.848 0.930 0.922 0.692 0.784 0.816 0.811 0.724
+Ours (Lifted features)0.903 0.943 0.959 0.806 0.801 0.818 0.822 0.764
+Ours (Image-only) 0.661 0.687 0.798 0.497 0.719 0.727 0.772 0.658
+5.2 Layout Estimation
+We perform scene layout estimation with the the three encoder variants of
+SceneScript: a baseline model with sparse3d convolution pointcloud encoder,
+an RGB RayTran-based feature volume encoder [44], and our proposed lifted
+feature point encoder. The same transformer decoder is being used in all three
+scenarios.
+To provide comparison to existing works, we include results from two baseline
+methods, namely SceneCAD [2] and the recent RoomFormer [52]. For these
+experiments SceneCAD and RoomFormer were both trained onAria Synthetic
+Environments. Note that SceneCAD only predicts walls.
+Table 2 shows the main results for our F1-based metrics onAria Synthetic
+Environments. SceneScript exhibits a substantial performance advantage over
+SOTA layout estimation baselines across multiple metrics. Both baseline meth-
+SceneScript 11
+T able 3: 3D Object Detection Performance comparison against state-of-the-art
+methods on an 3D object detection task trained and evaluated by F1-score at 0.25 and
+0.5 IoU thresholds. By simply adding amake_bbox command SceneScript can achieve
+competitive object detection results.
+(a) Aria Synthetic Environments
+F1
+Method Input@.25 IoU @.50 IoU
+3DETR ’21 [26]Points 0.201 0.078
+Cube R-CNN ’23 [4]RGB 0.394 0.228
+ImVoxelNet ’22 [36]RGB 0.584 0.516
+Ours Points 0.620 0.577
+(b) ScanNet [10]
+F1
+Method Input @.25 IoU @.50 IoU
+3DETR ’21 [26]Points 0.480 0.349
+3DETR-m ’21 [26]Points 0.536 0.407
+SoftGroup ’22 [46]RGB Points0.622 0.573
+Ours RGB Points0.506 0.406
+ods encounter a significant decline in accuracy when dealing with finer details.
+See Figure 4 for qualitative comparisons between our method and baseline meth-
+ods.
+Encoder Ablation. The results demonstrate that SceneScript is robust to
+the encoding strategy chosen to encode the egocentric capture. It is able to
+infer highly accurate scene layouts in all configurations tested, and in each case
+SceneScript outperforms the included baselines by a significant margin.
+Relative comparison of the encoder strategies reveals that leveraging the
+pointclouds from a highly specialized and well-tuned system is still able to offer
+advantages of an, almost, entirely learned approach such as RayTran [44]. A
+light extension in the form of lifted image features can widen this gap even
+further. In particular, we observe that the discrepancy between the encoders
+becomes particularly apparent as the complexity of the scene increases in the
+form of increased room count – more details are included in Appendix F.2.
+In Appendix F.2, we also show a quantitative evaluation of per-entity error
+distances, which aids in further attribution of relative performance gains between
+the encoding methods.
+5.3 Object Detection
+In this section, we perform evaluation ofSceneScript for object detection on
+both Aria Synthetic Environments and ScanNet [10]. For comparison, we include
+recent and state-of-the-art baseline methods, namely Cube-RCNN [4], ImVoxel-
+Net [36], 3DETR [26], and SoftGroup [46].
+Worth noting is thatSceneScript does not predict a confidence score for
+each make_bbox command. This means that fair computation of the conventional
+mAP metric for this task is not possible, as detections cannot be ranked across
+scenes. Among other issues, this results in a metric that varies with the order in
+which scenes are evaluated. We therefore report F1-score-based metrics, which
+do not exhibit this order variance. Further discussion of this, and mAP numbers
+for the baselines for reference, can be found in Appendix G.4.
+12 Avetisyan et al.
+Fig. 5: Example scene reconstructions on scenes fromAria Synthetic Environments .
+(left) Visualisation of the decomposed meshes used to createmake_prim training pairs.
+(right) Views of full scene predictions, as well as close ups highlighting the fidelity of ob-
+ject reconstruction through the prediction volumetric primitives enabled bymake_prim.
+In Table 3a, all methods were trained on Aria Synthetic Environments .
+3DETR performs poorly due to its encoder being designed for relatively clean
+datasets such as ScanNet [10], while semi-dense point clouds fromAria Syn-
+thetic Environments exhibit more noise and less uniformity (see Figure 3 for
+an example). Cube R-CNN and ImVoxelNet both operate on RGB images, and
+detections are tracked for the entire sequence via a tracker [4] to provide com-
+petitive performance. In Table 3b, our method provides similar performance to
+both 3DETR and SoftGroup.
+Through the addition of the make_bbox command, SceneScript demon-
+strates object detection performance on par with SOTA baselines on multiple
+objectdetectiondatasets.Thisresultillustratestheextensibilityofatoken-based
+approach, and that our proposedSceneScript language representation does not
+suffer compared to specialised object detection network architectures.
+6 Extending the SceneScript Structured Language
+Akeyadvantageofferedby SceneScript’sstructuredlanguagepredictionparadigm
+is that the expressiveness of its reconstruction can be tailored without requiring
+a change to the method. Up to now, we have focussed on showcasing the efficacy
+of SceneScript for representing simple layout elements and objects as bounding
+boxes. In this section, we showcase this characteristic by increasing the fidelity
+of our scene representation by introducing coarse 3D object reconstruction.
+6.1 Objects as Volumetric Primitives
+We turn to a language based on volumetric primitives, motivated by works such
+as [43,50]. Using simple primitives such as cuboids and extruded cylinders, en-
+ables us to coarsely represent arbitrary object categories while maintaining ob-
+ject semantics (e.g. tabletops can be represented by a single cuboid). Thus, this
+language can describe many object categories simultaneously.
+SceneScript 13
+Fig. 6: Example scene reconstructions on real scenes with the addition of the
+make_prim command. Note thatSceneScript was trained only on synthetic data.
+This representation requires only one additional command over the layout
+and box commands already discussed previously, namely:
+ma ke _p ri m : bbox_id , prim_num , class , center_x , center_y
+, center_z , angle_x , angle_y , angle_z , scale_x ,
+scale_y , scale_z
+This command and its parameters describe a volumetric primitive (cuboid or
+extruded cylinder) via its 3D center, 3D rotation, and 3D scale. Theprim_num
+parameter can be associated with semantics, e.g. tabletops of different tables
+typically have the sameprim_num.
+Dataset. To obtain ground truth make_prim commands that align with the
+objects in Aria Synthetic Environments , we first run an extension of Yanget
+al. [50] to obtain cuboid and extruded cylinder primitives of a database of 3D
+CAD models (ABO [9], which was used to populateAria Synthetic Environ-
+ments). See Figure 5 (left) for example decompositions. For this proof-of-concept
+experiment, we use three categories:table, chair, andsofa. We then convert these
+decomposed primitives intomake_prim commands that are aligned with the ob-
+jects in the dataset, which results in training pairs.
+Results. We show qualitative results onAria Synthetic Environments in Fig-
+ure 5. In Figure 6, we show inferences in a few real-world environments despite
+only having trained on our simulated dataset. These results demonstrate that
+SceneScript’s general purpose architecture is capable of coarsely reconstructing
+objects of multiple categories through addition of a new command.
+6.2 Further Extensions
+In this section, we have explored just one extension ofSceneScript’s struc-
+tured scene language in order to demonstrate its flexibility. The result was
+greatly increased expressiveness of the scene reconstruction. In Appendix H, we
+14 Avetisyan et al.
+include additional explorations that can further increase the fidelity and accu-
+racy of SceneScript’s reconstructions. These explorations include reconstruct-
+ing curved walls, inferring object states (such as door opening angles), as well as
+direct prediction of parametric models using object models deployed commonly
+by tech artists (e.g., blender geometry nodes) for object reconstruction.
+7 Interactive Scene Reconstruction
+Scene reconstruction often occurs offline, on pre-recorded walkthroughs of an
+environment, or derivatives of them, such as a point cloud. However, we take
+advantage of SceneScript’s inference occurring at an interactive rate, which
+takes between 2-5s depending on the size of the environment, by implementing
+streaming of SceneScript’s live reconstructions into a modern VR headset.
+This enables an interactive experience where the user can see the reconstruction
+overlaid onto the environment they are exploring in real-time. See the video
+recording on the website for examples.
+With this the user can actively refine the results, for example through more
+thorough exploration of areas that may have been missed. Visualisations of this
+interface are included in the bottom half for Figure 1.
+8 Limitations and Future Work
+SceneScript exhibits certain limitations that should be acknowledged. First,
+the structured language commands are manually defined, which requires hu-
+man intervention at this stage. Secondly, due to the higher-level nature of our
+commands, it can be challenging to capture fine-grained geometric details with
+extremely high precision (i.e. mm). As a consequence, the resulting reconstruc-
+tions based on this representation tend to lead to simpler and coarser geometries,
+potentially missing intricate nuances at the very high detail level. These limita-
+tions potentially highlight areas for future research and optimization, aiming to
+automate the command definition process and explore techniques to enhance the
+representation’s ability to capture intricate geometric details accurately. How-
+ever, we believe that the ability to built scene representations that are based on
+structured language commands will be a key part in complex and efficient meth-
+ods of scene reconstruction in the future, enabling them to be used in conjunction
+with general purpose LLMs.
+9 Conclusion
+We introduced SceneScript, a novel reconstruction method that is based on
+a tokenized scene representation. SceneScript autoregressively predicts a se-
+quence of structured scene language commands given a video stream of an indoor
+space. This tokenized scene representation is compact, editable and intepretable.
+In addition, we showed that a strength ofSceneScript is the ability to extend to

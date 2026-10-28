@@ -1,0 +1,34 @@
+{
+ "task_description": "a kids room of about 3.4m x 3.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 2.06 m wide centred at (3.38, 2.04); a door 0.82 m wide centred at (0.00, 3.14) (keep the floor in front of it clear). the desk (o0000) should face the telescope (o0001). the dressing chair (o0002) should be against a wall. the dressing chair (o0002) should be within 0.10 m of the telescope (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.3809000000000013,
+    0.0,
+    0.0
+   ],
+   [
+    3.3809000000000013,
+    3.8075200000000002,
+    0.0
+   ],
+   [
+    0.0,
+    3.8075200000000002,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {}
+ }
+}

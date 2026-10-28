@@ -1,0 +1,318 @@
+{
+ "floor": [
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.75,
+    "y": 0.425,
+    "z": 0.255
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     125.0,
+     -4.5
+    ],
+    [
+     125.0,
+     55.5
+    ],
+    [
+     25.0,
+     55.5
+    ],
+    [
+     25.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.39,
+    "z": 0.345
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     174.0,
+     -4.5
+    ],
+    [
+     174.0,
+     73.5
+    ],
+    [
+     126.0,
+     73.5
+    ],
+    [
+     126.0,
+     -4.5
+    ]
+   ],
+   "object_name": "toilet-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "shelf-0",
+   "id": "shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.75,
+    "y": 1.47,
+    "z": 0.09999999999999999
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     107.5,
+     0.0
+    ],
+    [
+     107.5,
+     18.0
+    ],
+    [
+     42.5,
+     18.0
+    ],
+    [
+     42.5,
+     0.0
+    ],
+    [
+     107.5,
+     0.0
+    ]
+   ],
+   "object_name": "shelf-0"
+  },
+  {
+   "assetId": "shelf-1",
+   "id": "shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 1.47,
+    "z": 0.09
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     180.0,
+     0.0
+    ],
+    [
+     180.0,
+     16.0
+    ],
+    [
+     120.0,
+     16.0
+    ],
+    [
+     120.0,
+     0.0
+    ],
+    [
+     180.0,
+     0.0
+    ]
+   ],
+   "object_name": "shelf-1"
+  },
+  {
+   "assetId": "shelf-2",
+   "id": "shelf-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 1.47,
+    "z": 0.09
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     255.0,
+     0.0
+    ],
+    [
+     255.0,
+     16.0
+    ],
+    [
+     195.0,
+     16.0
+    ],
+    [
+     195.0,
+     0.0
+    ],
+    [
+     255.0,
+     0.0
+    ]
+   ],
+   "object_name": "shelf-2"
+  },
+  {
+   "assetId": "lamp-0",
+   "id": "lamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.9,
+    "y": 2.175,
+    "z": 0.06999999999999999
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     99.0,
+     0.0
+    ],
+    [
+     99.0,
+     12.0
+    ],
+    [
+     81.0,
+     12.0
+    ],
+    [
+     81.0,
+     0.0
+    ],
+    [
+     99.0,
+     0.0
+    ]
+   ],
+   "object_name": "lamp-0"
+  },
+  {
+   "assetId": "lamp-1",
+   "id": "lamp-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 2.175,
+    "z": 0.06999999999999999
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     69.0,
+     0.0
+    ],
+    [
+     69.0,
+     12.0
+    ],
+    [
+     51.0,
+     12.0
+    ],
+    [
+     51.0,
+     0.0
+    ],
+    [
+     69.0,
+     0.0
+    ]
+   ],
+   "object_name": "lamp-1"
+  },
+  {
+   "assetId": "lamp-2",
+   "id": "lamp-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 2.16,
+    "z": 0.06999999999999999
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     158.0,
+     0.0
+    ],
+    [
+     158.0,
+     12.0
+    ],
+    [
+     142.0,
+     12.0
+    ],
+    [
+     142.0,
+     0.0
+    ],
+    [
+     158.0,
+     0.0
+    ]
+   ],
+   "object_name": "lamp-2"
+  }
+ ]
+}

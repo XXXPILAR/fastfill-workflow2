@@ -1,0 +1,60 @@
+{
+ "k": 193,
+ "source": "SpatialLM",
+ "room_type": "kitchen",
+ "latency_s": 19.86737708398141,
+ "usage": [
+  {
+   "prompt_tokens": 886,
+   "completion_tokens": 942,
+   "total_tokens": 1828,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 702,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.9
+    ],
+    "bottom_center_m": [
+     0.35,
+     2.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.68,
+     0.64,
+     2.0
+    ],
+    "bottom_center_m": [
+     0.36,
+     0.34,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe refrigerator and stove are placed against opposite end walls, keeping both clear of the large window on the left wall. Their fronts face the room’s center, creating a compact galley arrangement. Both appliances occupy the left side, preserving an approximately 0.97 m-wide unobstructed aisle beside the full-length doorway on the right wall.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.6, \"depth_m\": 0.6, \"height_m\": 0.9, \"x\": 0.35, \"y\": 2.45, \"z\": 0.0, \"facing_deg\": 270}, {\"id\": \"obj_0001\", \"width_m\": 0.64, \"depth_m\": 0.68, \"height_m\": 2.0, \"x\": 0.36, \"y\": 0.34, \"z\": 0.0, \"facing_deg\": 90}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 1.670 m x 2.750 m x 2.414 m\nfloor polygon (x, y): [[1.67, 2.75], [0.0, 2.75], [0.0, 0.0], [1.67, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"gas stove\", \"description\": \"gas stove\"},\n{\"id\": \"obj_0001\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.0, 1.45], \"wall_from\": [0.0, 2.75], \"wall_to\": [0.0, 0.0], \"width_m\": 1.17, \"height_m\": 1.5, \"sill_height_m\": 0.95}, {\"type\": \"door\", \"centre_xy\": [1.67, 1.375], \"wall_from\": [1.67, 0.0], \"wall_to\": [1.67, 2.75], \"width_m\": 2.75, \"height_m\": 2.4}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,60 @@
+{
+ "k": 259,
+ "source": "SpatialLM",
+ "room_type": "bathroom",
+ "latency_s": 12.268309958046302,
+ "usage": [
+  {
+   "prompt_tokens": 886,
+   "completion_tokens": 568,
+   "total_tokens": 1454,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 331,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     0.9,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.7,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.72,
+     0.7,
+     0.78
+    ],
+    "bottom_center_m": [
+     0.75,
+     1.49,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe toilet is placed against the far wall, away from the entrance, with clear space in front for use. The bathroom cabinet is placed against the lower wall toward the window end, separated from the toilet and outside the door’s approach area. This arrangement preserves a clear walkway from the door through the center of the narrow room.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 0.9, \"depth_m\": 0.45, \"height_m\": 0.85, \"x\": 2.7, \"y\": 0.225, \"z\": 0.0, \"facing_deg\": 90}, {\"id\": \"obj_0001\", \"width_m\": 0.7, \"depth_m\": 0.72, \"height_m\": 0.78, \"x\": 0.75, \"y\": 1.49, \"z\": 0.0, \"facing_deg\": 270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.370 m x 1.850 m x 2.800 m\nfloor polygon (x, y): [[0.0, 1.85], [0.0, 0.0], [3.37, 0.0], [3.37, 1.85]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"bathroom cabinet\", \"description\": \"bathroom cabinet\"},\n{\"id\": \"obj_0001\", \"category\": \"toilet\", \"description\": \"toilet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.0, 0.57], \"wall_from\": [0.0, 1.85], \"wall_to\": [0.0, 0.0], \"width_m\": 0.8, \"height_m\": 2.2}, {\"type\": \"window\", \"centre_xy\": [3.37, 0.668], \"wall_from\": [3.37, 0.0], \"wall_to\": [3.37, 1.85], \"width_m\": 0.965, \"height_m\": 1.47, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

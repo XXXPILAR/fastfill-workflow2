@@ -1,0 +1,1318 @@
+Coarse Semantic Injection for LLM-Conditioned Structured Indoor Prediction
+Shuliang Zhu, Tomiwa Adey, Jinjia Zhou
+Abstract
+Large language models (LLMs) have recently been used as structured decoders for indoor understanding from 3D point-token
+inputs. However, point cloud encoders often under-represent thin structural elements such as doors and windows after voxelization
+and sparse pooling, and may miss individual furniture instances in cluttered scenes. We propose an interface-preserving semantic
+augmentation for LLM-conditioned structured decoding. The key idea is to associate semantic evidence with the point-cloud
+representation, reduce it to a coarse four-group code (furniture, walls, openings, and others), and encode it as an RGBB point
+interface: red for furniture, green for walls, blue for openings, and black for others, where RGBB denotes four semantic color states
+represented in three RGB channels rather than an additional fourth channel. This semantic color code is appended to the original
+raw point attributes before tokenization, so geometry and semantics share the same sparse tokenization path while the downstream
+language model decoder and output serialization remain unchanged. We further introduce a lightweight routed semantic shift
+module, with an auxiliary head used only for training-time ratio/budget regularization and analysis, to strengthen semantic cues
+after sparse pooling. The overall pipeline can use RGB-derived semantic evidence. Under these controlled semantic-source settings,
+the reported metrics improve across Structured3D, the SpatialLM dataset, and ARKitScenes, especially for opening localization
+and per-instance furniture detection in cluttered scenes. Ablations clarify the roles of semantic source, color coding, token fusion,
+and shift injection, while also showing that color/entropy effects remain nontrivial.
+Keywords:Structured indoor prediction, large language models, point cloud tokenization, semantic injection
+1. Introduction
+Structured indoor modeling aims to recover a compact and
+parameterized representation of indoor scenes, typically in-
+cluding architectural layout elements such as walls, doors,
+and windows, as well as object-level 3D bounding boxes.
+Such structured outputs support downstream applications in-
+cluding robotic navigation, embodied interaction, AR con-
+tent authoring, and editable indoor digital twins. Early in-
+door parsing and layout estimation methods studied geomet-
+ric room regularities from images Hedau et al. (2009); Lee
+et al. (2009), while later floorplan and layout reconstruction
+methods improved structured prediction from panoramic or
+multi-view observations Zou et al. (2018); Sun et al. (2019);
+Yue et al. (2023). Classical 3D systems reconstruct scene ge-
+ometry through structure-from-motion, multi-view stereo, and
+optimization-based fitting pipelines Schonberger and Frahm
+(2016), whereas learning-based methods increasingly predict
+dense geometry, layout, or object structure directly from im-
+ages, posed video, or point representations Nie et al. (2020);
+Murez et al. (2020); Sun et al. (2021). More recently, autore-
+gressive and language-conditioned models have been explored
+as structured decoders for indoor scenes, enabling walls, open-
+ings, and object boxes to be represented as serialized outputs
+rather than as independent task heads Avetisyan et al. (2024);
+Mao et al. (2025); Hong et al. (2023).
+In the LLM-conditioned paradigm, point cloud encoders con-
+vert 3D geometry into compact token sequences through vox-
+elization, sparse serialization, and pooling Qi et al. (2017a,b);
+Figure 1: Structured indoor modeling with semantic-colored point condition-
+ing. RGB views can provide semantic evidence, which is associated with the
+point-cloud representation and decoded into structured layout/floorplan out-
+puts. In the controlled experiments, evaluation starts from the point-cloud in-
+terface to isolate the effect of semantic-colored conditioning.
+Thomas et al. (2019); Zhao et al. (2021); Qian et al. (2022);
+Wu et al. (2025); Mao et al. (2025). This design provides an
+efficient bridge between unordered 3D points and sequence de-
+coders, and recent self-supervised or masked point pretraining
+further improves the transferability of point representations Yu
+et al. (2022); Pang et al. (2022); Wu et al. (2025); Zhang
+et al. (2026). However, sparse point-token pipelines still tend
+to attenuate fine structural evidence. Two failure modes are
+particularly common in structured indoor prediction: (i) thin
+or boundary-dominated elements such as doors and windows,
+which occupy few voxels and whose geometric evidence can
+arXiv:2605.16832v1  [cs.CV]  16 May 2026
+be diluted during sparse pooling, and (ii) individual furniture
+instances in cluttered multi-object arrangements, where over-
+lapping spatial extents reduce per-instance discriminability and
+frequently lead to missed boxes. These errors are related to
+broader challenges observed in 3D detection and point-based
+scene understanding, where sparse support, occlusion, and clut-
+ter can strongly affect object recall Qi et al. (2019); Liu et al.
+(2021); Choy et al. (2019). We address this limitation by modi-
+fying the point-token conditioning interface rather than replac-
+ing the downstream language decoder or changing the serial-
+ized output protocol.
+A natural complementary signal is coarse semantics derived
+from RGB views. Modern image segmentation models provide
+strong object and region masks from 2D images, ranging from
+fully convolutional semantic segmentation to instance, panop-
+tic, and promptable segmentation Long et al. (2015); He et al.
+(2017); Cheng et al. (2021, 2022); Kirillov et al. (2023); Car-
+ion et al. (2025). Such cues are especially relevant for the cate-
+gories where point cloud encoders struggle: doors and windows
+are often visually salient in 2D even when their 3D support
+is thin, and individual furniture instances can be separated in
+the image domain even when their 3D extents overlap. Related
+open-vocabulary and multimodal 3D mapping works also show
+that lifting 2D semantic or language-aligned features into 3D
+can improve scene-level interpretability and object-level asso-
+ciation Radford et al. (2021); Jatavallabhula et al. (2023); Peng
+et al. (2023); Takmaz et al. (2023); Kerr et al. (2023); Shafiullah
+et al. (2023). In contrast to these works, our goal is not open-
+vocabulary 3D segmentation or semantic mapping itself, but a
+minimal semantic conditioning interface for LLM-conditioned
+structured indoor decoding.
+Accordingly, we focus on a deliberately compact seman-
+tic representation. After lifting 2D masks to 3D, we partition
+points into four groups that are easy to obtain and directly rel-
+evant to structured indoor parsing: furniture, walls, openings
+(doors/windows), and “others”. We encode these groups us-
+ing a fixed four-color code in RGB space:Rfor furniture,G
+for walls,Bfor openings, andblackfor other points. This
+design provides point-level semantic association without re-
+quiring dense multi-class semantic supervision or an additional
+structured prediction head. It is also compatible with the same
+point-tokenization backbone and autoregressive language de-
+coder used by SpatialLM-style pipelines Mao et al. (2025); Wu
+et al. (2025); Wang et al. (2024a).
+The main technical challenge is to make such coarse 2D se-
+mantics survive the 3D tokenization pipeline. V oxelization, se-
+rialization, and sparse pooling can attenuate thin semantic re-
+gions and smear object boundaries, especially when the seman-
+tic evidence is injected only after encoding. Moreover, token-
+level fusion that assumes correspondence between geometric
+tokens and semantic tokens is brittle, because pooling and or-
+dering are not guaranteed to align across independently pro-
+cessed streams. Conditioning mechanisms such as feature-wise
+modulation have shown that auxiliary signals can effectively
+steer visual representations De Vries et al. (2017); Perez et al.
+(2018), but structured indoor prediction requires the condition-
+ing signal to remain spatially localized for doors, windows,
+and individual furniture instances. Therefore, simply append-
+ing global semantic features or fusing separate post-encoder
+streams is insufficient for our setting.
+We address this by designing a tokenization-compatible se-
+mantic interface: the four-color semantic code is appended
+to the original raw point attributes before sparse tokenization,
+so semantic cues and geometry share the same serialization
+and pooling path. On top of the resulting token sequence,
+we apply a lightweight semantic shift module that performs
+class-conditional residual injection with a geometry-side router.
+This module strengthens semantic evidence after sparse pool-
+ing while preserving the original LLM decoder and output se-
+rialization. The intervention is intentionally small: it improves
+the conditioning interface rather than introducing a new task-
+specific detector, layout head, or segmentation decoder.
+Beyond average-case improvements, the semantic color in-
+terface also provides input-level controllability. In the practical
+branch, a user can click on a target object in a 2D view, obtain a
+promptable segmentation mask Kirillov et al. (2023); Carion
+et al. (2025), associate the mask with the point-cloud repre-
+sentation, and replace the original raw point-cloud input with
+a target-specific semantic-colored input: only the target sup-
+port points are activated and all other points are black. Thus,
+the paper evaluates both a controlled point-cloud-interface set-
+ting and a practical click/SAM controllability setting within the
+same overall pipeline.
+We evaluate the proposed method primarily at the point-
+cloud interface. On Structured3D and the SpatialLM
+dataset Zheng et al. (2020); Mao et al. (2025), the language
+model decoder autoregressively generates a serialized struc-
+tured description of layout elements and furniture boxes from
+point tokens. On ARKitScenes Baruch et al. (2021), the
+same decoder predicts oriented furniture boxes from fixed
+point-cloud inputs, while the click/SAM study evaluates the
+RGB/SAM mask-acquisition branch for controllability. With
+only 0.2M additional trainable parameters over the SpatialLM
+baseline, the proposed interface improves controlled metrics for
+openings and furniture while preserving the structured decod-
+ing interface.
+Contributions.Our contributions are four-fold: (i) We formu-
+late aninterface-preserving semantic-colored point condi-
+tioning mechanismthat encodes coarse four-group semantics
+(furniture/walls/openings/others) as a fixed four-color point
+interface (R/G/B/black) and injects it before sparse tokeniza-
+tion so that semantic cues traverse the point-token pipeline. (ii)
+We introduce aclass-conditional routed semantic shift injec-
+tionwith only 0.2M additional trainable parameters, together
+with ratio/budget/entropy terms used as lightweight training-
+time regularizers and analysis tools. These components are
+intended to reduce degenerate routing and expose the induced
+layout–box trade-off, rather than to define a separate stability-
+learning paradigm. (iii) We establish acontrolled evaluation
+protocol over semantic sources and interface variants, in-
+cluding oracle RGBB, random four-color, post-encoder fusion,
+and no-shift variants, to diagnose when semantic coloring helps
+and where color/entropy confounds remain. (iv) We provide
+2
+apractical controllability extensionin which click/SAM-
+driven target-mask acquisition replaces the original point-cloud
+input with a target-specific semantic-colored input, activates
+only the target support points, and biases selective 3D box emis-
+sion on ARKitScenes.
+2. Related Work
+We review four lines of work relevant to our method: 3D
+reconstruction and indoor layout estimation, 2D segmentation
+and semantic lifting, point-cloud representations for structured
+scene understanding, and language-conditioned structured in-
+door modeling.
+2.1. 3D Reconstruction and Indoor Layout Estimation
+Classical structure-from-motion and multi-view stereo
+pipelines reconstruct scene geometry from multiple images
+through feature matching, camera estimation, triangulation, and
+global optimization Schonberger and Frahm (2016). Indoor
+layout estimation has also been studied from single images and
+panoramas by exploiting geometric priors such as Manhattan-
+world structure, wall-floor boundaries, and room-corner regu-
+larities Hedau et al. (2009); Lee et al. (2009); Zou et al. (2018);
+Sun et al. (2019). More recent structured reconstruction meth-
+ods predict floorplans, wall segments, or room layouts with
+learned query mechanisms and graph-like representations Yue
+et al. (2023). In parallel, single-view and multi-view learning-
+based systems recover object pose, layout, mesh geometry, or
+dense scene structure directly from RGB or posed image se-
+quences Nie et al. (2020); Murez et al. (2020); Sun et al. (2021).
+Recent feed-forward visual geometry models further reduce
+the need for expensive per-scene optimization by predicting
+point maps, depth, camera parameters, and 3D correspondences
+directly from image collections Wang et al. (2024b); Leroy et al.
+(2024); Wang et al. (2025a,b). Related calibration-free or un-
+calibrated works has also been studied through probabilistic tri-
+angulation, adaptive multi-view/temporal Transformer fusion,
+and CNN–Transformer fusion, which aggregate cross-view ev-
+idence without relying on explicit camera calibration Jiang et al.
+(2023); Shuai et al. (2023); Song et al. (2026). These models
+make image-to-point-cloud pipelines more practical, but they
+primarily focus on geometric reconstruction rather than struc-
+tured symbolic output. Our work uses such reconstructed point
+clouds as input and focuses on improving the downstream struc-
+tured prediction of walls, doors, windows, and furniture boxes
+through a semantic-colored point-token interface.
+2.2. 2D Segmentation, Semantic Lifting, and Multimodal 3D
+Semantics
+2D segmentation has progressed from dense semantic predic-
+tion with fully convolutional networks Long et al. (2015) to in-
+stance and panoptic segmentation frameworks based on region
+proposals, masks, and transformer-style mask decoding He
+et al. (2017); Cheng et al. (2021, 2022). Promptable segmen-
+tation models further allow masks to be generated from points,
+boxes, text-like concepts, or other user-specified prompts Kir-
+illov et al. (2023); Carion et al. (2025). These models provide
+strong 2D grouping cues that can complement sparse or incom-
+plete 3D geometry.
+A related line of work lifts 2D semantic, visual-language,
+or open-vocabulary features into 3D maps and point clouds.
+CLIP-style visual-language pretraining enables category-level
+alignment between visual regions and textual concepts Rad-
+ford et al. (2021), while ConceptFusion, OpenScene, Open-
+Mask3D, LERF, and CLIP-Fields explore open-set or language-
+aligned 3D scene representations by associating 2D features
+with 3D structures Jatavallabhula et al. (2023); Peng et al.
+(2023); Takmaz et al. (2023); Kerr et al. (2023); Shafiullah et al.
+(2023). These works aim mainly at semantic mapping, open-
+vocabulary querying, or 3D instance segmentation. By contrast,
+our method uses 2D segmentation only as a coarse, controllable
+conditioning signal for structured indoor decoding. The seman-
+tic representation is intentionally reduced to furniture, walls,
+openings, and others, because these groups correspond directly
+to the layout and box errors targeted by our structured predic-
+tion task.
+2.3. Point-Cloud Representations and 3D Scene Understand-
+ing
+Point-cloud understanding has evolved from early point-wise
+networks to hierarchical, convolutional, and transformer-based
+representations. PointNet and PointNet++introduced direct
+learning on unordered point sets and local hierarchical ag-
+gregation Qi et al. (2017a,b). KPConv and sparse convolu-
+tional networks improved local geometric processing and scal-
+able 3D perception Thomas et al. (2019); Choy et al. (2019).
+Transformer-style point models and improved point-network
+training recipes further strengthened point-level recognition
+and segmentation Zhao et al. (2021); Qian et al. (2022). For
+3D object detection, V oteNet and Group-Free 3D demonstrate
+how point features can be used to predict object centers and
+boxes in indoor scenes Qi et al. (2019); Liu et al. (2021).
+Self-supervised point pretraining has become increasingly
+important for robust 3D representation learning. Point-
+BERT and Point-MAE apply masked modeling ideas to point
+clouds Yu et al. (2022); Pang et al. (2022), while Sonata (Wu
+et al., 2025) and Utonia (Zhang et al., 2026) study stronger
+and more general point encoders for reliable point representa-
+tions across scenes and tasks. These methods provide compact
+and transferable 3D tokens, but they are typically optimized
+for recognition, segmentation, detection, or feature transfer.
+Our work builds on such point-token encoders, especially the
+SpatialLM/Sonata-style token interface, but specifically targets
+the under-representation of openings and cluttered furniture in-
+stances in LLM-conditioned structured indoor prediction.
+2.4. Language-Conditioned Structured Indoor Modeling
+Language models and autoregressive sequence decoders pro-
+vide a flexible way to represent structured scene outputs as seri-
+alized tokens. SceneScript reconstructs scenes with an autore-
+gressive structured language model Avetisyan et al. (2024), and
+3
+Figure 2: Overview of the proposed semantic-colored point interface. Coarse semantic cues are encoded as RGBB point attributes and injected before sparse
+tokenization, so geometry and semantics share the same point-token pipeline. The RGB/SAM branch illustrates how target masks can be obtained for the con-
+trollability extension, while the controlled experiments evaluate the semantic interface at the point-cloud input level. A lightweight semantic shift module injects
+class-conditioned residuals into the point-token stream before autoregressive structured decoding.
+SpatialLM trains large language models for structured indoor
+modeling from point-cloud tokens Mao et al. (2025). Related
+3D-language models explore how large language models can
+be grounded in point clouds or 3D scene representations for
+reasoning and interaction Hong et al. (2023). Vision-language
+decoders such as Qwen2-VL also demonstrate the broader po-
+tential of using language-model interfaces for structured visual
+reasoning Wang et al. (2024a).
+Closest to our setting is SpatialLM Mao et al. (2025), which
+conditions a language model on point-cloud tokens and outputs
+structured indoor layouts and object lists. SpatialLM shows
+that many indoor modeling tasks can be formulated as language
+modeling over 3D tokens, but its conditioning signal remains
+primarily geometric. Our work follows the same decoder-side
+formulation while modifying the point input interface: instead
+of adding a separate semantic decoder or changing the output
+language, we inject a coarse RGBB semantic code before to-
+kenization and apply a lightweight routed semantic shift after
+encoding. This preserves the original structured decoding pro-
+tocol while strengthening the evidence for thin openings and
+cluttered furniture instances. General conditioning mechanisms
+such as language-guided modulation and FiLM-style feature
+transformations motivate the use of auxiliary signals to steer vi-
+sual representations De Vries et al. (2017); Perez et al. (2018);
+however, our design differs by keeping the conditioning spa-
+tially localized at the point level and by routing the semantic
+residual within the point-token stream rather than using global
+feature modulation alone.
+3. Method
+3.1. Overview
+We follow the LLM-conditioned structured indoor prediction
+paradigm of SpatialLM Mao et al. (2025), where a language
+model decoder is conditioned on a sequence of 3D point tokens
+and autoregressively generates a serialized structured descrip-
+tion. The central motivation is to improve fine layout elements
+(e.g., doors/windows) and per-instance furniture detection with-
+out changing the downstream decoder, the output serialization,
+or the token budget, so that gains can be attributed to the condi-
+tioning interface rather than to a new decoding protocol.
+To this end, we inject coarse semantics as an explicit, lo-
+calized conditioning signal on top of unchanged 3D geometry
+tokens (rather than as a replacement for geometry). We im-
+plement this with a tokenization-compatible semantic-colored
+point interface and a minimal semantic shift module that coun-
+teracts semantic attenuation introduced by voxelization and
+sparse pooling, while keeping the token space and decoding
+protocol intact. Besides improving offline accuracy, the same
+interface provides an interpretable control knob at inference
+time (Section 4.4), and serves as a sanity check against degen-
+erate geometry-only shortcuts.
+The subsequent subsections naturally follow this intent: we
+first define how four-group semantics are lifted and encoded
+into points, then describe tokenization and LLM conditioning,
+then introduce the lightweight shift injection and its regulariza-
+tion/diagnostics, and finally summarize the training objective.
+3.2. Joint Raw and RGBB Point Attributes from Semantic
+Sources
+Point tokenization tends to dilute thin or boundary-
+dominated structures and to smear instance boundaries under
+sparse pooling; therefore, we want a semantic signal that is (i)
+easy to obtain, (ii) spatially localized, and (iii) able to survive
+the same voxelization/serialization path as geometry without re-
+quiring token-wise alignment after pooling. We achieve this by
+representing coarse semantics as RGBB point attributes and us-
+ing them jointly with the original raw point input to the point
+tokenization backbone.
+Concretely, we encode coarse semantic cues as a four-group
+point code (furniture/walls/openings/others) with a fixed
+four-color convention in RGB: R for furniture, G for walls, B
+for openings, and black for others. The name RGBB refers to
+four semantic color states encoded in a standard three-channel
+RGB vector; black is the all-zero RGB state, not an additional
+feature channel. We append this code to the original raw point
+attributesbeforesparse tokenization, so semantics and geome-
+4
+try share the same serialization/pooling path and no token-wise
+correspondence is required after pooling.
+LetP={(x i,f i)}
+Np
+i=1 be the input point cloud, wherex i∈R 3
+are 3D coordinates andfi∈R D are per-point attributes. We con-
+structf i to contain the original raw point attributes together with
+asemantic color codethat encodes a coarse partition withK=4
+groups: furniture, walls, openings (doors/windows), and oth-
+ers. We represent these groups using a four-color convention in
+RGB space:R(furniture),G(walls),B(openings), andblack
+(0,0,0) (others). The semantic code is obtained from ground-
+truth annotations when constructing oracle RGBB inputs for
+controlled quantitative experiments at the point-cloud interface.
+For the click-based controllability demonstration at inference
+time, the practical branch uses a click-ready SAM 3 promptable
+segmentation interface Carion et al. (2025) to obtain a target in-
+stance mask from the reference RGB view. In our implemen-
+tation, the point-cloud input is represented in the aligned point-
+map form used by VGGT-style point cloud maps, so each valid
+image pixel is associated with a 3D point. The SAM mask can
+therefore be applied directly to the aligned point-map pixels,
+and multi-view masks aggregate naturally into the four seman-
+tic groups.
+LetA(i) denote the aligned point-map pixels associated with
+pointiacross the available views. We obtain mutually exclusive
+binary masksM fur
+v ,M wall
+v , andM op
+v on each viewv, aggregate
+category support over (v,u)∈A(i), and assign points with no
+foreground support to “others”. This defines a hard 4-way as-
+signmentp i∈{0,1} 4 by
+pi =[p i,fur,p i,wall,p i,op,p i,oth],(1)
+wherep i,k=1 for the category with the largest accumulated sup-
+port among furniture, walls, openings, and others after mask
+exclusivity is enforced. We then encode the semantic group as
+an RGB vector with a black “others” default:
+csem
+i =[p i,fur,p i,wall,p i,op]∈{0,1} 3.(2)
+Finally, we define the point attribute as
+fi =[g i;c sem
+i ],(3)
+whereg i denotes the original raw appearance together with
+any remaining low-dimensional attributes expected by the point
+backbone implementation (e.g., coordinate-related input chan-
+nels). This provides point-level semantic association while
+injecting semanticsbeforetokenization, avoiding any require-
+ment of token-wise correspondence in latent space.
+The resulting interface is deliberately minimal: it preserves
+the original geometric pathway and introduces a coarse, ma-
+nipulable semantic cue that remains editable at the input level
+for controllability experiments, while keeping the downstream
+decoding protocol unchanged.
+The above hard semantic-color construction matches the im-
+plementation used in our experiments and enables direct in-
+put manipulation by toggling semantic-colored support points.
+While soft probabilities and multi-view confidence fusion are
+possible extensions, we do not use them in this work.
+3.3. Point Tokenization and LLM Conditioning
+To focus the analysis on the conditioning interface, we keep
+the point-token pipeline, token budget, and LLM decoding
+protocol unchanged while modifying theinput interfaceand
+adding only a lightweight token-level semantic shift. This de-
+sign aims to attribute changes to the semantic interface rather
+than to a different tokenization budget, a different backbone
+family, or a different serialization/decoding rule.
+Accordingly, we follow the point-token interface of Spa-
+tialLM Mao et al. (2025) while changing theinput point at-
+tributesand, when enabled, applying the lightweight shift mod-
+ule defined below. Concretely, we feed the point cloudPwith
+joint raw and RGBB attributes into the pretrained Sonata back-
+bone (Wu et al., 2025). Following the SpatialLM implementa-
+tion, each point provides an integer grid coordinate for sparse
+indexing and float attributes for feature encoding. The back-
+bone consumes a sparse dictionary with fieldsgrid_coord,
+coord, andfeat, and produces a token sequence
+H=E(P)∈R N×C,(4)
+whereNis the number of tokens after sparse serializa-
+tion/pooling andCis the token dimension. Unless otherwise
+stated, we use the pretrained encoderEto define the shared
+token pipeline and keep the token budget plus decoder-side
+protocol fixed, so performance differences are attributed to the
+semantic-coded input interface rather than to a different serial-
+ization strategy.
+Compared to a two-stream design (separately tokenizing ge-
+ometry and semantics and fusing in latent space), our construc-
+tion avoids latent token alignment issues caused by voxeliza-
+tion/pooling: the semantic signal is injected at the point level
+and thus naturally follows the same sparse tokenization path as
+geometry.
+We adopt an autoregressive language model decoder as a
+structured sequence generator (a Qwen2-VL model Wang et al.
+(2024a) in our implementation) and keep the output serializa-
+tion and decoding protocol identical to SpatialLM. To avoid
+ambiguity between the pre-shift backbone tokensHand the fi-
+nal tokens consumed by the LLM, Section 3.6 specifies the pro-
+jection and autoregressive objective after the optional semantic
+shift is defined. Thus, this subsection defines the shared token
+interface and the preconditioning representationH.
+3.4. Semantic Shift Injection Module
+Although semantic information is injected at the point level,
+sparse tokenization can still attenuate or smear signals due to
+voxel pooling and serialization, especially for openings and
+crowded furniture. The goal of the shift module is therefore
+not to redesign the backbone or introduce a separate semantic
+stream, but to provide a minimal adaptation layer that ampli-
+fies the injected signal in the token space while preserving the
+original representation and decoding protocol.
+To this end, we apply a lightweightsemantic shiftmodule on
+top of the point encoder output.
+In our implementation, the shift module is a class-conditional
+residual injection with a geometry-side router. We focus on
+5
+three non-background semantic groups (furniture, walls, and
+openings/doors-windows), while “others” are encoded as black
+and treated as background. LetH=[h 1,...,h N]⊤ ∈R N×C
+denote geometry tokens produced by the point encoder from
+the raw+RGBB point cloud. In addition, to avoid any ambi-
+guity introduced by sparse voxel pooling, we compute three
+semantic prototypes viaclass-filteredforward passes through
+the same point encoder. For each non-background groupk∈
+{furn,wall,op}, we construct a filtered point setP (k) by keeping
+only points whose semantic color matchesk(dropping all oth-
+ers) and run the same encoder to obtain a token setH (k). We
+then define
+pk =Pool(H (k))∈R C,k∈{furn,wall,op},(5)
+where Pool(·) is mean pooling and we setp k =0ifP (k) is
+empty. WithK=3 foreground groups, this requiresK+1 en-
+coder forwards per scene (one full forward plus three filtered
+forwards), but does not introduce any additional parameters
+and keeps the conditioning interface alignment-free. For each
+group, we map the pooled prototype through a small MLP
+and define the corresponding nonnegative class delta vector as
+δk =ϕ k(pk)∈R C, whereϕ k is implemented with a softplus out-
+put nonlinearity. We further restrict eachδ k to act on a disjoint
+channel block to reduce interference. For each geometry token
+hi, a router predicts routing weightsw i∈∆ 2:
+wi =softmax(r ω(hi))∈R 3,
+X
+k
+wi,k =1,(6)
+and we fuse the class deltas by a residual update
+h f
+i =h i +α
+X
+k∈{furn,wall,op}
+wi,k δk,(7)
+whereα >0 is a fixed residual-scale hyperparameter shared
+across experiments. This design preserves the original to-
+ken space and avoids any token-wise correspondence between
+separate geometry/semantic streams, since all semantics enter
+through the same semantic-colored point interfacebeforetok-
+enization.
+Practically, the benefit is a controlled, class-aware residual
+adjustment that counteracts semantic attenuation without mod-
+ifying the backbone or the decoder: tokens that are likely to cor-
+respond to furniture/walls/openings receive stronger, more sep-
+arable conditioning, while empty-group cases are safely han-
+dled byp k=0.
+Regularizing lightweight injection.We use three small auxil-
+iary terms (Eq. (12)) to regularize the shift module and make its
+routing behavior analyzable: (1)L ratio encourages the predicted
+global semantic ratio from the auxiliary head to match the em-
+pirical ratio implied by semantic-colored points; (2)L budget
+constrains the average routing mass to stay consistent with the
+empirical ratio, preventing collapse to a single group; (3)L ent
+encourages non-degenerate routing by maximizing the entropy
+ofw i. Overall, these terms are used with small weights and do
+not change the decoding protocol. Empirically, we treat them as
+lightweight constraints whose main role is to reduce degenerate
+routing and expose layout–box trade-offs, not as a standalone
+stability contribution.
+3.5. Auxiliary Decoder Head for Semantic Ratio Regulariza-
+tion
+Because the shift module uses routing and residual injection,
+we need a simple mechanism to (i) monitor whether the module
+reacts coherently to the injected semantics and (ii) regularize
+against degenerate routing behaviors, while still keeping the fi-
+nal structured outputs produced only by the language model de-
+coder. We therefore attach a lightweightauxiliary decoder head
+inside the semantic shift module that is used for training-time
+regularization and diagnostics, but not for prediction. The head
+produces a global distribution over the three non-background
+semantic groups (furniture, walls, openings); the black “others”
+group is treated as background and excluded from the ratio. Let
+s∈R 6 denote a compact summary vector computed from class-
+delta statistics:
+s=[µ furn,µ wall,µ op,ν furn,ν wall,ν op],(8)
+whereµ k andν k are the mean value and theℓ 2 norm of the cor-
+responding channel block ofδ k (computed per scene and con-
+catenated). We then predict
+ˆp=softmax  gψ(s)∈∆ 2,(9)
+whereg ψ is a shallow MLP and∆ 2 ={p∈R 3 :p k ≥
+0, P3
+k=1 pk =1}is the probability simplex. Throughout this
+subsection, we use the shared foreground order (furn,wall,op),
+which matches the RGB channel order in Eq. (2); ˆp,p gt, and
+¯ware all interpreted in this order. During training, we use ˆpto
+define a lightweight ratio-consistency regularizer (Eq. (13)) by
+matching it to the empirical ratio computed from the semantic-
+colored points; at inference time, this head is not used to pro-
+duce the final structured outputs (layout elements or 3D bound-
+ing boxes) generated by the language model decoder. Accord-
+ingly, the performance gains we report are attributed to the
+point-token conditioning interface and the shift injection itself,
+rather than to introducing a task-specific structured prediction
+head.
+This design keeps the overall intervention compact: it con-
+strains the behavior of the lightweight injection during training
+while preserving the original end-task interface and avoiding a
+separate supervised prediction head at test time.
+Inference-time controllability.Because semantics is encoded
+as RGB intensities, controllability can be implemented without
+retraining by modifying the semantic color channels of the in-
+put point cloud. Concretely, we consider two simple input-level
+controls already reflected in the Table 7 controllability analysis:
+(i)support manipulation(activate/deactivate semantic-colored
+target support points, without changing the downstream de-
+coder), and (ii)intensity scaling(multiply the semantic RGB
+by a scalar). Both operations perturb the same conditioning in-
+terface seen during training, so they provide an interpretable
+knob for steering box emission frequency. Since these controls
+do not alter point geometry or the decoding protocol, they also
+serve as a sanity check that the observed steering is not driven
+by a geometry-only shortcut.
+6
+Complexity.The shift module adds 0.2M trainable parameters
+(a small router MLP, three per-class MLPs, and the auxiliary de-
+coder head) on top of the 6.0M trainable-parameter SpatialLM
+baseline under our counting convention, which reports train-
+able parameters updated by the recipe and excludes frozen pre-
+trained weights; its runtime and memory overhead are modest
+relative to the point encoder and the LLM forward pass. This is
+a deliberate choice: we aim to attribute performance changes to
+the conditioning interface and a minimal adaptation layer rather
+than to a significantly larger model.
+3.6. LLM Conditioning and Training Objective
+The final component is to integrate the point tokens into
+an autoregressive structured generator without changing the
+decoder-side protocol. We therefore follow the SpatialLM con-
+ditioning interface Mao et al. (2025) and use the auxiliary head
+in Section 3.5 only for training-time regularization; it does
+not affect the decoding protocol or the final structured outputs.
+When the shift module is enabled, the final token sequence is
+H f from Eq. (7); when the shift module is disabled, we simply
+setH f =H. We project fused tokensH f into the embedding
+space of the LLM with a linear map:
+Z=H f Wp,W p∈R C×d,(10)
+wheredis the LLM embedding dimension. We then prependZ
+to the textual prompt tokensTand train the LLM to autoregres-
+sively generate the serialized target sequenceY:
+LAR =−
+X
+t
+logp Θ(yt|y <t,Z,T ),(11)
+whereΘincludes the learnable projection, the semantic shift
+injection module (Section 3.4), and (when enabled) the LLM
+parameters.
+The overall training objective in our implementation is
+L=L AR +λ ratioLratio +λ budgetLbudget−λ entLent,(12)
+with small weightsλ· (fixed across all runs unless specified).
+Overall, this objective provides a clear separation of roles:
+LAR trains the structured generator under the unchanged serial-
+ization protocol, while the auxiliary terms act as lightweight
+routing constraints that help us analyze how semantic injec-
+tion affects the layout–box trade-offwithout introducing new
+inference-time branches.
+Explicit form of regularizers.To avoid under-specifying the
+additional terms in Eq. (12), we make their implementation ex-
+plicit. Letw i ∈R 3 be the router weights in Eq. (6) and let
+¯w= 1
+N
+PN
+i=1 wi be the mean routing mass. We compute an em-
+pirical semantic ratiop gt∈∆ 2 from the RGBB semantic point
+assignments by counting points in the three non-background
+groups (furniture, walls, openings) and normalizing in that
+same order. We then define
+Lratio =D KL
+
+pgt∥ ˆp
+
+,(13)
+Lbudget =
+ ¯w−p gt2
+2,(14)
+and an entropy-style term that wemaximizeto discourage rout-
+ing collapse:
+Lent = 1
+N
+NX
+i=1
+−
+3X
+k=1
+wi,k log(wi,k +ϵ)
+.(15)
+These definitions match the qualitative roles described in Sec-
+tion 3.4:L ratio aligns predicted and empirical semantic ratios,
+Lbudget prevents degenerate global routing, andL ent encour-
+ages non-collapsed token-wise routing. In all experiments,ϵ
+denotes a fixed numerical stabilizer andαis fixed once as a
+shared residual-scale hyperparameter rather than being retuned
+per benchmark.
+We initialize from pretrained point backbones throughout.
+Unless explicitly noted, the experiments keep the token bud-
+get, decoding protocol, and output serialization fixed; whether
+a pretrained backbone is kept fixed or jointly optimized follows
+the corresponding training recipe, and ablations remove indi-
+vidual semantic-interface components while matching the re-
+maining setup.
+4. Experiments
+This section evaluates the proposed semantic-colored inter-
+face as a controlled point-cloud-input semantic-conditioning
+mechanism for LLM-conditioned structured indoor predic-
+tion. We studyStructured3DZheng et al. (2020) and the
+SpatialLM datasetMao et al. (2025) forpoint-cloud-to-
+structuredecoding, andARKitScenesBaruch et al. (2021)
+for point-cloud-to-3D-box decoding from fixed point inputs.
+The matched semantic-input controls instantiate the pipeline at
+the point-cloud interface, while the click/SAM study evaluates
+the practical RGB-view mask-acquisition branch. We compare
+against the LLM-based baselineSpatialLMMao et al. (2025)
+and the structured generation baselineSceneScriptAvetisyan
+et al. (2024), then expand the evaluation with controlled in-
+terface tests, backbone-transfer studies, efficiency accounting,
+inference-time controllability, and targeted failure-mode slices
+to characterize the mechanism’s gains, boundaries, and failure
+modes.
+4.1. Experimental Setup
+Benchmarks and evaluation regimes.Structured3DZheng
+et al. (2020) evaluateslayout elementprediction
+(walls/doors/windows) in a point-cloud-to-structure set-
+ting.SpatialLM datasetMao et al. (2025) is the canonical
+benchmark for LLM-conditioned structured indoor modeling.
+In Table 1, we separate its layout and furniture-box metrics
+for readability; in Tables 2, 4, and 5, we additionally report
+the officialfull-housescore, which jointly reflects layout
+and furniture-box quality under the original serialization and
+matching protocol.ARKitScenesBaruch et al. (2021) provides
+real-world oriented 3D furniture boxes; in our main compari-
+son, it is evaluated as point-cloud-to-box prediction from fixed
+point inputs. We report two complementary comparison tables.
+Table 1 provides a broad three-way summary across Scene-
+Script, SpatialLM, and our semantic-interface variant under
+7
+the semantic-source setting used in each benchmark block; it
+should therefore be read as a condition-specific summary rather
+than as a fully raw-input-only comparison. Table 2 reports
+the matched semantic-source controls: raw+RGBB controlled
+point-cloud results on Structured3D, the SpatialLM dataset,
+and ARKitScenes.
+Inputs, semantic sources, and backbone setup.On Struc-
+tured3D and the SpatialLM dataset, the model takes a point
+cloud and decodes layout elements plus furniture boxes. On
+ARKitScenes, the same structured decoder predicts oriented
+3D furniture boxes from fixed point-cloud inputs. Unless oth-
+erwise stated, we append a four-group semantic color code
+(R/G/B/black for furniture/walls/openings/others) to the orig-
+inal raw point attributes. This semantic cue is injectedbefore
+tokenization, so semantics and geometry share the same sparse
+serialization/pooling path and no token-wise latent alignment is
+required after pooling. For controlled quantitative results, the
+semantic colors come from dataset annotations and are evalu-
+ated at the point-cloud interface. These oracle or annotation-
+derived semantic-source settings are used to isolate the condi-
+tioning mechanism and are reported separately from the practi-
+cal click/SAM branch. The click/SAM study uses a reference-
+view target mask from the click-ready SAM 3 interface and ap-
+plies it to the aligned point-map representation to construct a
+target-specific semantic-colored input. We tokenize points with
+the pretrained Sonata backbone (Wu et al., 2025) used by Spa-
+tialLM Mao et al. (2025). Unless explicitly stated, comparisons
+use the same token budget, decoding protocol, and output for-
+mat so that changes reflect the semantic interface rather than
+decoder-side modifications.
+Training protocol and compute budget.We follow the Spa-
+tialLM conditioning interface Mao et al. (2025) to project point
+tokens into the LLM embedding space and train the autoregres-
+sive structured decoder. The point backbone is initialized from
+pretrained weights. Depending on the recipe, it may be jointly
+optimized together with the LLM-side projection/decoder and
+the lightweight semantic modules; throughout, we keep the
+decoding and output format unchanged across methods. Un-
+less explicitly noted, parameter counts in this paper report the
+complete set of trainable parameters under the corresponding
+recipe, i.e., every parameter updated by the optimizer in that
+run. If a pretrained backbone or decoder block is frozen by the
+recipe, it is not counted as trainable; if it is updated, it is in-
+cluded. Unless otherwise stated, runs use4×NVIDIA RTX
+PRO 6000 GPUswith mixed precision and distributed data
+parallelism, and Table 6 reports the concrete wall-clock times
+for each backbone/variant. We additionally report a reference
+baseline trained with the originalSpatialLMrecipe to separate
+interface effects from recipe-driven gains.
+4.2. Evaluation Metrics
+Layout metrics.For layout elements (walls, doors, windows),
+we report F1 at IoU 2D thresholds 0.25 and 0.5 using the Spa-
+tialLM matching protocol Mao et al. (2025). A predicted ele-
+ment is counted as correct when its best-matched ground-truth
+element exceeds the corresponding IoU threshold.
+Furniture-box metrics.For furniture boxes, we report F1 at
+IoU3D thresholds 0.25 and 0.5 following the ARKitScenes pro-
+tocol Baruch et al. (2021). A prediction is matched to the best
+ground-truth box of the same category and counted as correct
+only if the IoU 3D threshold is satisfied. We additionally report
+amiss rateat the @0.25 operating point to make missed pre-
+dictions explicit. For Structured3D, Miss@0.25 is computed
+from unmatched layout elements under IoU 2D@0.25; for the
+SpatialLM dataset, it is the complementary miss rate under the
+official full-house criterion at @0.25; and for ARKitScenes, it
+is the miss rate under IoU 3D@0.25. Table 1 reports only the
+primary accuracy metrics, while Table 2 adds the miss-rate col-
+umn on the controlled ARKitScenes block.
+SpatialLM full-house score.For the SpatialLM dataset, we
+additionally report the official full-house aggregate under the
+same decoding and serialization rules Mao et al. (2025); it is
+shown as Thr@0.25 and Thr@0.5 in Tables 2, 4, and 5. We
+use two raw references for different purposes. The “SpatialLM
+(raw input, original finetuned log)” row in Table 2 retains the
+finetuned raw-input evaluation log from the original pipeline for
+context and therefore reports that run only in official full-house
+form rather than as separate layout/object blocks. By contrast,
+Table 3 uses recipe-matched raw baselines that are retrained un-
+der the same protocol as the corresponding backbone variant,
+so comparisons in that table should be made only within each
+backbone block. Table 1 instead separates SpatialLM layout
+and box metrics.
+4.3. Main Comparisons
+We begin with three complementary comparison tables. Ta-
+ble 1 is the broad cross-method summary under the semantic-
+source settings used in each benchmark block. Table 2
+provides the controlled counterpart with matched semantic-
+source settings for Structured3D, the SpatialLM dataset, and
+ARKitScenes. Table 3 tests backbone transfer by replacing
+Sonata (Wu et al., 2025) with the newer Utonia encoder (Zhang
+et al., 2026). Figure 3 provides representative qualitative exam-
+ples from all three benchmarks.
+Backbone transfer as a main-table supplement.Table 3 com-
+plements the semantic-source controls by testing whether the
+gains persist when replacing Sonata (Wu et al., 2025) with Uto-
+nia (Zhang et al., 2026) under matched raw-vs-full settings.
+Table 1 is the primary cross-method comparison under the
+semantic-source settings used in each benchmark block. Struc-
+tured3D and the SpatialLM dataset are reported as point-cloud-
+to-structure results, with the SpatialLM dataset separated into
+layout and box metrics; ARKitScenes is reported as point-
+cloud-to-box prediction under the matched semantic point-
+input setting. TheOursrow is condition-specific: on Struc-
+tured3D/SpatialLM it uses annotation-derived RGBB, and on
+ARKitScenes it reports the matched oracle-RGBB point-input
+control. Numerically, Table 1 shows improvements over Spa-
+tialLM on the reported Structured3D, SpatialLM dataset, and
+ARKitScenes metrics under these condition-specific semantic-
+source settings. The controlled comparisons and diagnostics
+8
+Table 1:Broad three-way comparison with SceneScript, SpatialLM, and ours under the semantic-source settings used in each benchmark block.These
+controlled comparisons instantiate the pipeline at the point-cloud interface: Structured3D and the SpatialLM dataset report point-cloud-to-structure results, while
+ARKitScenes reports point-cloud-to-box prediction from fixed point inputs. For the SpatialLM dataset, we separate layout and box metrics instead of reporting only
+the full-house aggregate. TheOursrow is condition-specific: it uses annotation-derived RGBB on Structured3D/SpatialLM and oracle raw+RGBB point inputs
+on ARKitScenes, so the table isolates the value of the semantic interface rather than a fully practical RGB/SAM acquisition pipeline. The parameter column reports
+trainable parameters under the corresponding recipe. All metrics are higher-is-better.
+Method #Trainable Params
+Structured3D SpatialLM dataset ARKitScenes
+Layout Layout BBox Box
+F1@0.25 F1@0.5 F1@0.25 F1@0.5 F1@0.25 F1@0.5 F1@0.25 F1@0.5
+SceneScript 5.4M 0.3572 0.2368 0.5330 0.4418 0.3042 0.1523 0.3042 0.1922
+SpatialLM 6.0M 0.5919 0.4982 0.5644 0.4972 0.3660 0.2104 0.3662 0.2306
+Ours 6.2M 0.6340 0.5986 0.5954 0.5410 0.4300 0.2907 0.4013 0.3417
+Table 2:Controlled comparisons in the three-benchmark format.Structured3D and SpatialLM dataset columns report point-cloud-to-structure results under the
+raw+RGBB oracle interface, while ARKitScenes reports point-cloud-to-box results under the matched oracle-RGBB point-input control. The SpatialLM raw-input
+reference row is retained for context. “–” denotes an omitted benchmark/variant pair. Miss@0.25 is lower-is-better; all other metrics are higher-is-better.
+Method Structured3D: Layout SpatialLM dataset: Full-house ARKitScenes: Box
+F1@0.25 F1@0.5 Thr@0.25 Thr@0.5 F1@0.25 F1@0.5 Miss@0.25↓
+SpatialLM (raw input, original finetuned log) 0.6213 0.5315 0.3348 0.2871 0.2997 0.2053 0.7280
+SpatialLM (finetuned+RGBB (GT)) 0.6234 0.5896 0.3947 0.3201 0.4021 0.3267 0.6456
+Ours (oracle raw+RGBB+shift) 0.6340 0.5986 0.4515 0.3236 0.4013 0.3417 0.6438
+Table 3:Backbone transfer supplement to the main comparison.Replace Sonata (Wu et al., 2025) with the newer Utonia backbone (Zhang et al., 2026) and
+report the matched raw baseline versus raw+RGBB+shift. Entries in parentheses report the absolute gain of the full model over the raw baseline under the same
+backbone. To keep the table compact, we report the @0.25 operating point on each benchmark.
+Backbone Variant Structured3D Layout F1@0.25 SpatialLM Thr@0.25 ARKitScenes Box F1@0.25
+Sonata baseline 0.5919 0.4108 0.3662
+Sonata RGBB+shift (full) 0.6340 (+0.0421) 0.4515 (+0.0407) 0.4013 (+0.0351)
+Utonia baseline 0.5739 0.3970 0.3970
+Utonia RGBB+shift (full) 0.5862 (+0.0123) 0.4175 (+0.0205) 0.4127 (+0.0157)
+below then show how the gains depend on semantic source,
+interface variant, and benchmark setting, rather than claim-
+ing that a fully practical RGB/SAM pipeline uniformly dom-
+inates the raw baselines. Table 2 keeps the same three-
+benchmark reading order while reporting matched point-input
+controls; the RGB-view click/SAM practical extension is iso-
+lated to Table 7. Table 3 shows that the full interface im-
+proves over the matched raw baseline under both Sonata and
+Utonia, with gains of+0.0421/+0.0407/+0.0351 on Sonata
+and+0.0123/+0.0205/+0.0157 on Utonia across Structured3D
+/SpatialLM/ARKitScenes at the @0.25 operating point. Fig-
+ure 3 qualitatively matches this picture: openings are more
+precisely localized and cluttered furniture scenes show fewer
+missed or hallucinated boxes. The next subsection unpacks
+these gains with component removals, controlled interface vari-
+ants, efficiency accounting, and no-retraining controllability/
+failure-mode tests.
+4.4. Ablations and Analysis
+We next unpack the gains along five axes: component re-
+moval, controlled interface diagnostics, efficiency overhead,
+inference-time controllability, and failure-mode slices. All
+training-based variants keep the same data split, decoding
+protocol, and evaluation pipeline. Analyses marked as no-
+retraining leave the trained model fixed and manipulate only
+the semantic support presented at inference time.
+Component ablations under oracle raw+RGBB input.Table 4
+probes the role of the train-time additions on top of the shared
+raw+RGBB interface: the ratio, budget, and entropy constraints
+together with the shift module. To make comparison easier,
+we present these ablations in the same three-dataset layout
+used above; “–” marks omitted benchmark/variant pairs. The
+color-perturbation row is different: it is an inference-only stress
+test that directly perturbs the semantic code while keeping the
+trained model fixed.
+The table supports two takeaways. First, within the
+component-ablation group, the full model gives the strongest
+ARKitScenes box accuracy and remains competitive on Struc-
+tured3D layout; the no-entropy variant improves Structured3D
+layout scores but sacrifices ARKitScenes box accuracy, indi-
+cating a layout–box trade-offrather than a universally supe-
+rior “stability” objective. Second, the inference-time semantic-
+color perturbation stress test also hurts both Structured3D
+layout and ARKitScenes box prediction, confirming that the
+trained decoder is genuinely using the semantic signal rather
+than ignoring it.
+Controlled interface diagnostics.Table 5 keeps reconstruction
+output, token budget, and decoding/output protocol fixed while
+changing only the semantic interface or the presence of the shift
+module. These variants diagnose semantic source, color cod-
+ing, and fusion strategy; they are not designed to eliminate ev-
+ery color-related confound. Three comparisons are the most
+9
+Figure 3: Qualitative comparison on three benchmarks. On Structured3D and the SpatialLM dataset, we visualize point-cloud-to-structure predictions (layout
+elements and 3D furniture boxes). On ARKitScenes, we visualize point-cloud-to-bounding-box results under the matched semantic point-input setting. The
+semantic-colored point interface (R/G/B/black for furniture/walls/openings/others) improves opening localization and reduces missed furniture detections, particu-
+larly in cluttered multi-object scenes.
+Table 4: Unified component ablations in the three-dataset format. “–” marks omitted benchmark/variant pairs.†: no retraining (inference-time input edits); others
+are trained with identical budget and decoding/output protocol.
+Variant Structured3D: Layout SpatialLM dataset: Full-house ARKitScenes: Box
+F1@0.25 F1@0.5 Thr@0.25 Thr@0.5 F1@0.25 F1@0.5
+Ours (full) 0.6340 0.5986 0.4515 0.3236 0.4013 0.3417
+w/o ratio head (disableL ratio) 0.6034 0.5582 0.4001 0.3008 0.1482 0.1086
+w/o budget (disableL budget) 0.6072 0.5046 0.3695 0.2311 0.2216 0.1408
+w/o entropy (disableL ent) 0.6478 0.5851 0.4496 0.3083 0.3338 0.2608
+color perturbation on semantic RGB† 0.5631 0.4372 0.3381 0.2819 0.2960 0.2370
+interpretable. First, the random four-color control is weaker
+than the semantic RGBB variant in every reported column (for
+example, Structured3D layout F1@0.25: 0.5950 vs. 0.6340;
+SpatialLM Thr@0.25: 0.4153 vs. 0.4515; ARKitScenes box
+F1@0.25: 0.3701 vs. 0.4013), but it remains a useful control
+because it tests whether channelized color itself explains the
+gains. The consistent gap to semantic RGBB shows that the
+category assignment provides information beyond the color-
+channel prior. Second, naive post-encoder fusion is consis-
+tently weaker than the shared point-level interface, especially
+on ARKitScenes, which is consistent with latent token mis-
+alignment after sparse pooling. Third, comparing the full model
+with the same raw+RGBB input without the shift module shows
+that ARKitScenes F1@0.25 is nearly tied, while F1@0.5 favors
+the full model; the clearest gain of the routed shift appears on
+the SpatialLM full-house metrics.
+Taken together, these tests provide a diagnostic map of the
+interface: they show when semantic coloring helps, when shar-
+ing the point-level tokenization path matters, when the routed
+shift adds value beyond the same raw+RGBB input, and where
+color/entropy confounds remain intertwined with semantic ef-
+fects.
+Efficiency overhead.Accuracy gains are useful only if the
+added semantic path remains lightweight. Table 6 therefore re-
+ports training time, inference latency, peak GPU memory, and
+the encoder-forward overhead induced by evaluating the orig-
+inal geometry stream together with additional semantic sup-
+ports.
+Inference-time controllability on ARKitScenes.We report two
+no-retraining ARKitScenes analyses because they directly test
+whether the semantic-colored interface can serve as a useful,
+10
+Table 5: Controlled interface diagnostics. The token budget and decoding/output protocol are fixed; only the semantic interface, token-fusion strategy, or shift
+components vary. Raw-only baselines are reported separately in Tables 1 and 2 so that every row here remains a matched interface variant.
+Variant Structured3D: Layout SpatialLM dataset: Full-house ARKitScenes: Box
+F1@0.25 F1@0.5 Thr@0.25 Thr@0.5 F1@0.25 F1@0.5
+Ours (raw+RGBB+shift) 0.6340 0.5986 0.4515 0.3236 0.4013 0.3417
+Random 4-color code 0.5950 0.5622 0.4153 0.3076 0.3701 0.3121
+Naive post-encoder fusion (raw token+semantic token) 0.5842 0.4766 0.4496 0.3083 0.3086 0.2627
+Same raw+RGBB input w/o shift module 0.6234 0.5896 0.3947 0.3201 0.4021 0.3267
+Table 6: Efficiency overhead and encoder-forward cost.Kdenotes the number
+of additional semantic-support forwards; the full semantic interface therefore
+incursK+1 encoder forwards per scene.
+Variant Train h Lat. s Mem. GB Fwds
+Sonata raw baseline 8.64 0.151 33 1
+Sonata raw+RGBB+
+shift
+9.49 0.171 39K+1
+Utonia raw baseline 13.90 0.180 36 1
+Utonia raw+RGBB+
+shift
+14.62 0.182 42K+1
+Projection from 2d Prediction
+Figure 4: Controllability via click-based 2D segmentation. A user clicks on a
+target object to obtain a 2D instance mask via the SAM interface (left). The
+mask is associated with the aligned point-cloud representation to form a target-
+specific semantic-colored input (middle), where target support points carry the
+active semantic color and all non-target points use the black semantic state.
+The fixed pipeline then produces the corresponding oriented 3D bounding box
+(right). This branch is evaluated as the click/SAM controllability setting.
+but imperfect, control knob for the practical mask-acquisition
+branch. Figure 4 illustrates the intervention: the already trained
+pipeline receives a target-specific semantic-colored point in-
+put, while downstream reconstruction, decoding, serialization,
+and parsing components are kept fixed. In our aligned point-
+map representation, the original point input and the semantic-
+colored point input carry the same geometric support; the inter-
+vention therefore changes the target-specific semantic support
+presented to the fixed decoder. First, in a target-only study,
+we randomly choose one visible furniture bounding box per
+test scene, yielding one target per scene and 42 clicked targets
+in total. We then use a click-ready SAM 3 promptable seg-
+mentation interface to obtain the selected target instance mask
+from the reference RGB view. The mask is associated with
+the aligned point-cloud representation to identify the target sup-
+port points. We construct the target-specific semantic input so
+thatonlythe aligned target support points carry an active se-
+mantic color andall other points use the black semantic state.
+We evaluate (i)target hit-rate, i.e., whether the decoded output
+contains at least one predicted furniture box matched to the tar-
+get ground-truth instance at IoU 3D@0.25, and (ii)target-only
+success, i.e., whether the target is hit and the decoded output
+containsno additionalpredicted furniture boxes. Concretely,
+we parse the decoded sequence into a set of predicted furniture
+boxes using the same SpatialLM serialization/parsing pipeline,
+and define target-only success as: #(predicted furniture boxes)
+=1 and that single box matches the target at IoU 3D@0.25.
+Here #(predicted furniture boxes) countsall decoded boxes,
+including unmatched false positives; thus, emitting any extra
+box (matched or not) breaks target-only success. Second, we
+report acontrol-strength curveby scaling semantic color in-
+tensity to 100%/75%/50%/25% at inference time on this same
+clicked-target set, reusing the same selected targets and aligned
+masks while varying only semantic RGB intensity. For the F1
+curve, we also include a point-input reference evaluated on the
+same clicked-target set without click/SAM target-specific se-
+mantic control. For the controllability metrics, all settings use
+the 100% target-specific semantic input as the reference point.
+Specifically,∆FP denotes the increase in the average number of
+non-target false-positive boxes per scene relative to that 100%
+reference, andprecision dropdenotes the absolute decrease in
+box precision at IoU3D@0.25 relative to the same reference.
+Table 7: ARKitScenes control-strength curve. Scale semantic-color intensity
+(100/75/50/25%) at inference and report box F1 on the same clicked-target set
+used for the target-only study. The clicked-target set contains 42 randomly
+selected furniture targets, one per test scene. The point-input reference uses the
+same clicked-target set without click/SAM target-specific semantic control.
+Input
+Point-input
+reference 100% 75% 50% 25%
+F1@IoU3D@0.25 0.8041 0.8421 0.6467 0.3452 0.2105
+F1@IoU3D@0.5 0.6940 0.7158 0.5200 0.1929 0.0000
+Table 8 quantifies the controllability claim by reporting target
+hit-rate, target-only success,∆FP, and precision drop across the
+same inference-time intensity sweep.
+Table 8: Controllability metrics under semantic-intensity scaling on the same
+clicked-target set of 42 randomly selected furniture targets, one per test scene.
+∆FP is the increase in the average number of non-target false-positive boxes per
+scene relative to the 100% setting, and precision drop is the absolute decrease in
+precision at IoU3D@0.25 relative to the same reference. Higher target hit-rate/
+target-only success are better; lower∆FP and precision drop are better.
+Metric 100% 75% 50% 25%
+Target hit-rate 0.9524 0.8810 0.8095 0.2381
+Target-only success 0.8810 0.7143 0.5952 0.1667
+∆FP 0.0000+1.9524+2.5714+0.7143
+Precision drop 0.0000+0.4113+0.5354+0.5660
+Together with Tables 7 and 8, these analyses ask whether
+11
+manipulating semantic support merely increases box count or
+instead steers predictions in a targeted manner, with the point-
+input reference separating the clicked-target subset from the
+target-specific semantic intervention. The clearest positive sig-
+nal comes from the 100% target-only support setting. By
+contrast, the intensity-scaling sweep is a stress test of control
+strength, because lower intensities also incur substantial non-
+target false positives and precision loss.
+Failure-mode slices.Finally, Table 9 slices evaluation by three
+failure modes directly targeted by the proposed interface: thin
+openings, cluttered furniture, and low-support scenes (point
+sparsity/view coverage). We construct these as diagnos-
+tic, non-mutually-exclusive slices using dataset-derived scene
+statistics computed only on the evaluation split. Operationally,
+thin openings use scenes in the bottom quartile of annotated
+door/window span, cluttered furniture uses scenes in the top
+quartile of furniture-instance count, and low-support scenes use
+scenes in the bottom quartile of visible point count/view cov-
+erage after reconstruction. When ties occur at a quartile bound-
+ary, all tied scenes are included, so slice sizes can differ slightly
+across benchmarks. These slices separate average-case gains
+from the targeted robustness claim of the paper. Sensitivity to
+click-mask quality and lifting noise is analyzed through the no-
+retraining controllability results above.
+Table 9: Failure-mode slices targeted by the proposed semantic interface.
+Slices are constructed independently (i.e., they are not mutually exclusive)
+from opening-width, furniture-density, and support/coverage statistics within
+the evaluation split. Bottom-quartile opening width defines thin openings, top-
+quartile furniture-instance count defines cluttered furniture, and bottom-quartile
+visible point count/view coverage defines low support; boundary ties are in-
+cluded. Each row uses an independently reported primary metric aligned with
+that slice.
+Slice Primary metric Baseline Ours∆
+Thin openings Layout F1 @
+IoU2D@0.5
+0.4023 0.4824+0.0801
+Cluttered furniture Box F1 @
+IoU3D@0.25
+0.4270 0.4798+0.0528
+Point sparsity/view
+coverage
+Box F1 @
+IoU3D@0.25
+0.0893 0.3043+0.2150
+Qualitative failure-mode reduction.Figure 5 complements Ta-
+ble 9 by showing that the proposed interface suppresses empty-
+space hallucinations instead of simply encouraging the decoder
+to emit more boxes.
+Figure 5: Qualitative comparison highlighting reduced empty-space halluci-
+nation. Compared to the baseline, our semantic-colored interface with shift
+suppresses spurious boxes in regions with weak or missing point support, while
+preserving accurate openings and furniture extents under sparse tokenization.
+5. Conclusion
+We presented an interface-preserving semantic-colored point
+conditioning mechanism for LLM-conditioned structured in-
+door prediction. In the controlled setting, coarse semantic cues
+are lifted into a four-group RGBB code before tokenization so
+that semantics and geometry traverse the same sparse serial-
+ization/pooling path while the decoder-side protocol remains
+unchanged. A minimal routed semantic shift together with
+lightweight ratio/budget/entropy constraints provides a con-
+strained training and analysis design on top of this shared in-
+terface.
+Across Structured3D, the SpatialLM dataset, and ARK-
+itScenes, controlled point-cloud-interface evaluations show that
+the interface can improve opening localization and per-instance
+furniture box prediction when semantic support is well spec-
+ified, while the click/SAM branch further shows that target-
+specific semantic-colored support on the aligned point input
+can bias box emission toward a selected instance without
+changing the downstream decoder. The ablations also clar-
+ify the method’s boundaries: gains are not uniform across
+all benchmarks and metrics, the auxiliary constraints mainly
+shape a layout–box trade-off, and the random four-color con-
+trol shows that color/entropy confounds remain nontrivial. The
+intensity-scaling study also indicates that this controllability is
+not smooth and comes with a nontrivial precision/false-positive
+trade-off.
+Limitations therefore include the coarse semantic granu-
+larity, dependence on mask quality and view coverage, and
+the incomplete disentanglement between semantic meaning
+12
+and color-channel effects. Future work includes richer yet
+robust semantic codes, confidence-aware multi-view fusion,
+and stronger controls for separating semantic signal from
+color/entropy confounds.
+References
+Avetisyan, A., Xie, C., Howard-Jenkins, H., Yang, T.Y ., Aroudj,
+S., Patra, S., Zhang, F., Frost, D., Holland, L., Orme, C.,
+et al., 2024. SceneScript: Reconstructing scenes with an au-
+toregressive structured language model, in: European Con-
+ference on Computer Vision, Springer. pp. 247–263.
+Baruch, G., Chen, Z., Dehghan, A., Dimry, T., Feigin, Y ., Fu,
+P., Gebauer, T., Joffe, B., Kurz, D., Schwartz, A., et al.,
+2021. ARKitScenes: A diverse real-world dataset for 3D in-
+door scene understanding using mobile RGB-D data. arXiv
+preprint arXiv:2111.08897 .
+Carion, N., Gustafson, L., Hu, Y .T., Debnath, S., Hu, R.,
+Suris, D., Ryali, C., Alwala, K.V ., Khedr, H., Huang,
+A., et al., 2025. SAM 3: Segment anything with con-
+cepts. arXiv preprint arXiv:2511.16719 doi:10.48550/
+arXiv.2511.16719.
+Cheng, B., Misra, I., Schwing, A.G., Kirillov, A., Girdhar, R.,
+2022. Masked-attention mask transformer for universal im-
+age segmentation, in: Proceedings of the IEEE/CVF confer-
+ence on computer vision and pattern recognition, pp. 1290–
+1299.
+Cheng, B., Schwing, A., Kirillov, A., 2021. Per-pixel classi-
+fication is not all you need for semantic segmentation, in:
+Advances in Neural Information Processing Systems, pp.
+17864–17875.
+Choy, C., Gwak, J., Savarese, S., 2019. 4D spatio-temporal con-
+vnets: Minkowski convolutional neural networks, in: Pro-
+ceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition, pp. 3075–3084.
+De Vries, H., Strub, F., Mary, J., Larochelle, H., Pietquin, O.,
+Courville, A.C., 2017. Modulating early visual processing
+by language, in: Advances in Neural Information Processing
+Systems.
+He, K., Gkioxari, G., Dollár, P., Girshick, R., 2017. Mask R-
+CNN, in: Proceedings of the IEEE International Conference
+on Computer Vision, pp. 2961–2969.
+Hedau, V ., Hoiem, D., Forsyth, D., 2009. Recovering the spatial
+layout of cluttered rooms, in: 2009 IEEE 12th International
+Conference on Computer Vision, IEEE. pp. 1849–1856.
+Hong, Y ., Zhen, H., Chen, P., Zheng, S., Du, Y ., Chen, Z., Gan,
+C., 2023. 3D-LLM: Injecting the 3D world into large lan-
+guage models, in: Advances in Neural Information Process-
+ing Systems.
+Jatavallabhula, K.M., Kuwajerwala, A., Gu, Q., Omama, M.,
+Chen, T., Maalouf, A., Li, S., Iyer, G., Saryazdi, S., Keetha,
+N., et al., 2023. ConceptFusion: Open-set multimodal 3D
+mapping. arXiv preprint arXiv:2302.07241 .
+Jiang, B., Hu, L., Xia, S., 2023. Probabilistic triangulation
+for uncalibrated multi-view 3D human pose estimation, in:
+Proceedings of the IEEE/CVF International Conference on
+Computer Vision, pp. 14850–14860.
+Kerr, J., Kim, C.M., Goldberg, K., Kanazawa, A., Tancik,
+M., 2023. LERF: Language embedded radiance fields, in:
+Proceedings of the IEEE/CVF International Conference on
+Computer Vision, pp. 19729–19739.
+Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C.,
+Gustafson, L., Xiao, T., Whitehead, S., Berg, A.C., Lo,
+W.Y ., et al., 2023. Segment anything, in: Proceedings of
+the IEEE/CVF international conference on computer vision,
+pp. 4015–4026.
+Lee, D.C., Hebert, M., Kanade, T., 2009. Geometric reasoning
+for single image structure recovery, in: 2009 IEEE Confer-
+ence on Computer Vision and Pattern Recognition, IEEE. pp.
+2136–2143.
+Leroy, V ., Cabon, Y ., Revaud, J., 2024. Grounding image
+matching in 3D with MASt3R, in: European Conference on
+Computer Vision, Springer. pp. 71–91.
+Liu, Z., Zhang, Z., Cao, Y ., Hu, H., Tong, X., 2021. Group-
+free 3D object detection via transformers, in: Proceedings
+of the IEEE/CVF International Conference on Computer Vi-
+sion, pp. 2949–2958.
+Long, J., Shelhamer, E., Darrell, T., 2015. Fully convolutional
+networks for semantic segmentation, in: Proceedings of the
+IEEE Conference on Computer Vision and Pattern Recogni-
+tion, pp. 3431–3440. doi:10.1109/CVPR.2015.7298965.
+Mao, Y ., Zhong, J., Fang, C., Zheng, J., Tang, R., Zhu, H.,
+Tan, P., Zhou, Z., 2025. SpatialLM: Training large lan-
+guage models for structured indoor modeling. arXiv preprint
+arXiv:2506.07491 doi:10.48550/arXiv.2506.07491.
+Murez, Z., Van As, T., Bartolozzi, J., Sinha, A., Badri-
+narayanan, V ., Rabinovich, A., 2020. Atlas: End-to-end 3D
+scene reconstruction from posed images, in: European con-
+ference on computer vision, Springer. pp. 414–431.
+Nie, Y ., Han, X., Guo, S., Zheng, Y ., Chang, J., Zhang, J.J.,
+2020. Total3DUnderstanding: Joint layout, object pose and
+mesh reconstruction for indoor scenes from a single image,
+in: Proceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, pp. 55–64.
+Pang, Y ., Wang, W., Tay, F.E.H., Liu, W., Tian, Y ., Yuan,
+L., 2022. Point-MAE: Masked autoencoders for point
+cloud self-supervised learning, in: European Conference on
+Computer Vision, Springer. pp. 604–621. doi:10.1007/
+978-3-031-20086-1_35.
+13
+Peng, S., Genova, K., Jiang, C., Tagliasacchi, A., Pollefeys,
+M., Funkhouser, T., et al., 2023. OpenScene: 3D scene un-
+derstanding with open vocabularies, in: Proceedings of the
+IEEE/CVF conference on computer vision and pattern recog-
+nition, pp. 815–824.
+Perez, E., Strub, F., De Vries, H., Dumoulin, V ., Courville, A.,
+2018. FiLM: Visual reasoning with a general conditioning
+layer, in: Proceedings of the AAAI Conference on Artificial
+Intelligence. doi:10.1609/aaai.v32i1.11671.
+Qi, C.R., Litany, O., He, K., Guibas, L.J., 2019. Deep Hough
+V oting for 3D object detection in point clouds, in: Proceed-
+ings of the IEEE/CVF International Conference on Computer
+Vision, pp. 9277–9286.
+Qi, C.R., Su, H., Mo, K., Guibas, L.J., 2017a. Pointnet: Deep
+learning on point sets for 3D classification and segmentation,
+in: Proceedings of the IEEE conference on computer vision
+and pattern recognition, pp. 652–660.
+Qi, C.R., Yi, L., Su, H., Guibas, L.J., 2017b. PointNet++: Deep
+hierarchical feature learning on point sets in a metric space,
+in: Advances in Neural Information Processing Systems.
+Qian, G., Li, Y ., Peng, H., Mai, J., Hammoud, H., Elho-
+seiny, M., Ghanem, B., 2022. PointNeXt: Revisiting Point-
+Net++with improved training and scaling strategies, in:
+Advances in Neural Information Processing Systems, pp.
+23192–23204.
+Radford, A., Kim, J.W., Hallacy, C., Ramesh, A., Goh, G.,
+Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J.,
+Krueger, G., Sutskever, I., 2021. Learning transferable visual
+models from natural language supervision, in: Proceedings
+of the 38th International Conference on Machine Learning,
+PMLR. pp. 8748–8763.
+Schonberger, J.L., Frahm, J.M., 2016. Structure-from-motion
+revisited, in: Proceedings of the IEEE conference on com-
+puter vision and pattern recognition, pp. 4104–4113.
+Shafiullah, N.M.M., Paxton, C., Pinto, L., Chintala, S., Szlam,
+A., 2023. CLIP-Fields: Weakly supervised semantic fields
+for robotic memory, in: Proceedings of Robotics: Science
+and Systems, Daegu, Republic of Korea. doi:10.15607/
+RSS.2023.XIX.074.
+Shuai, H., Wu, L., Liu, Q., 2023. Adaptive multi-view and
+temporal fusing transformer for 3D human pose estima-
+tion. IEEE Transactions on Pattern Analysis and Machine
+Intelligence 45, 4122–4135. doi:10.1109/TPAMI.2022.
+3188716.
+Song, J., Yang, X., Wang, Y ., Zhang, J., Im, S.K., 2026. ECT-
+Former: Efficient CNN-transformer network for uncalibrated
+multiview 3-D human pose estimation. IEEE Sensors Journal
+26, 8487–8498. doi:10.1109/JSEN.2026.3658078.
+Sun, C., Hsiao, C.W., Sun, M., Chen, H.T., 2019. Horizon-
+Net: Learning room layout with 1D representation and pano
+stretch data augmentation, in: Proceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition,
+pp. 1047–1056.
+Sun, J., Xie, Y ., Chen, L., Zhou, X., Bao, H., 2021. NeuralRe-
+con: Real-time coherent 3D reconstruction from monocular
+video, in: Proceedings of the IEEE/CVF conference on com-
+puter vision and pattern recognition, pp. 15598–15607.
+Takmaz, A., Fedele, E., Sumner, R.W., Pollefeys, M., Tombari,
+F., Engelmann, F., 2023. OpenMask3D: Open-vocabulary
+3D instance segmentation. arXiv preprint arXiv:2306.13631
+.
+Thomas, H., Qi, C.R., Deschaud, J.E., Marcotegui, B.,
+Goulette, F., Guibas, L.J., 2019. KPConv: Flexible and de-
+formable convolution for point clouds, in: Proceedings of the
+IEEE/CVF international conference on computer vision, pp.
+6411–6420.
+Wang, J., Chen, M., Karaev, N., Vedaldi, A., Rupprecht, C.,
+Novotny, D., 2025a. VGGT: Visual geometry grounded
+transformer, in: Proceedings of the Computer Vision and Pat-
+tern Recognition Conference, pp. 5294–5306.
+Wang, P., Bai, S., Tan, S., Wang, S., Fan, Z., Bai, J., Chen,
+K., Liu, X., Wang, J., Ge, W., et al., 2024a. Qwen2-VL:
+Enhancing vision-language model’s perception of the world
+at any resolution. arXiv preprint arXiv:2409.12191 .
+Wang, S., Leroy, V ., Cabon, Y ., Chidlovskii, B., Revaud, J.,
+2024b. DUSt3R: Geometric 3D vision made easy, in: Pro-
+ceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition, pp. 20697–20709.
+Wang, Y ., Zhou, J., Zhu, H., Chang, W., Zhou, Y ., Li, Z., Chen,
+J., Pang, J., Shen, C., He, T., 2025b.π 3: Permutation-
+Equivariant Visual Geometry Learning. arXiv preprint
+arXiv:2507.13347 doi:10.48550/arXiv.2507.13347.
+Wu, X., DeTone, D., Frost, D., Shen, T., Xie, C., Yang, N.,
+Engel, J., Newcombe, R., Zhao, H., Straub, J., 2025. Sonata:
+Self-supervised learning of reliable point representations, in:
+Proceedings of the Computer Vision and Pattern Recognition
+Conference, pp. 22193–22204.
+Yu, X., Tang, L., Rao, Y ., Huang, T., Zhou, J., Lu, J., 2022.
+Point-BERT: Pre-training 3D point cloud transformers with
+masked point modeling, in: Proceedings of the IEEE/CVF
+conference on computer vision and pattern recognition, pp.
+19313–19322.
+Yue, Y ., Kontogianni, T., Schindler, K., Engelmann, F., 2023.
+Connecting the dots: Floorplan reconstruction using two-
+level queries, in: Proceedings of the IEEE/CVF conference
+on computer vision and pattern recognition, pp. 845–854.
+14

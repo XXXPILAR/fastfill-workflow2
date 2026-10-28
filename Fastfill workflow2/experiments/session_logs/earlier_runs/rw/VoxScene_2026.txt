@@ -1,0 +1,1143 @@
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene
+Arrangement
+HAOTIAN MAO, YUHAN HUANG, JIATAO LIN, YANG ZHAO, and HUI WANG,Shanghai Jiao Tong University,
+China
+YIHENG ZHANG,Hong Kong University of Science and Technology, China
+YUWANG WANG,Tsinghua University, China
+CHENLIANG ZHOU,University of Cambridge, United Kingdom
+YAN ZHANG,Shanghai Jiao Tong University, China
+FANGCHENG ZHONG,Peking University, China
+XUBO YANG,Shanghai Jiao Tong University, China
+Fig. 1.VoxSceneintroduces a voxel-based layout representation. By leveraging the spatial exclusivity of discrete occupancies, our method resolves object
+intersections (shown in the red box). Furthermore, the explicit 3D structure of voxels excels in handling fine-grained layouts within complex geometric contexts
+(shown in the blue boxes).
+We present VoxScene, a novel anchor-conditioned voxel diffusion frame-
+work tailored for 3D scene synthesis. Current data-driven layout generation
+techniques typically rely on bounding proxies or implicit representations,
+which overlook volumetric structures. This geometric blindness inevitably
+leads to severe physical collisions and structural entanglement, particularly
+in densely populated environments. To overcome these limitations, we shift
+the paradigm to an explicit, object-centric voxel representation. Our pipeline
+sequentially synthesizes discrete volumetric occupancies conditioned on
+prior anchors and local context. By exploiting the mutually exclusive nature
+of discrete voxels, our approach eliminates spatial ambiguities and guar-
+antees collision-free arrangements, even in highly complex environments.
+Furthermore, the synthesized high-fidelity voxel grids serve as discrimina-
+tive geometric queries for downstream asset retrieval. Extensive experiments
+demonstrate the universality of our method, achieving state-of-the-art phys-
+ical plausibility and unlocking shape diversity compared to existing layout
+planners.
+Authors’ Contact Information: Haotian Mao, maohaotian@sjtu.edu.cn; Yuhan
+Huang, huang_yuhan@sjtu.edu.cn; Jiatao Lin, 1169652042@sjtu.edu.cn; Yang Zhao,
+runder1103@sjtu.edu.cn; Hui Wang, Shanghai Jiao Tong University, Shanghai, China,
+wanghehv@sjtu.edu.cn; Yiheng Zhang, Hong Kong University of Science and Technol-
+ogy, Hong Kong, China, e1349382@u.nus.edu; Yuwang Wang, wang-yuwang@tsinghua.
+edu.cn, Tsinghua University, Beijing, China; Chenliang Zhou, chenliang.zhou@qq.com,
+University of Cambridge, United Kingdom; Yan Zhang, Shanghai Jiao Tong Univer-
+sity, Shanghai, China, zhangyan20086930@gmail.com; Fangcheng Zhong, Peking Uni-
+versity, China, zfc@pku.edu.cn; Xubo Yang, Shanghai Jiao Tong University, China,
+yangxubo@sjtu.edu.cn.
+1 Introduction
+3D indoor scene synthesis has drawn growing interest because
+of its extensive applications in virtual asset creation [Maleki and
+Zhao 2024; Wang et al. 2025], interior design [Liu et al. 2025b], and
+embodied AI [Duan et al . 2022; Liu et al . 2025a]. By automating
+the placement and instantiation of furniture, these generative tech-
+niques significantly accelerate prototype development and reduce
+manual labor. With the development of deep neural networks, gen-
+erative models, such as generative adversarial networks (GANs)
+[Nauata et al. 2020, 2021; Tang et al. 2023], autoregressive models
+[Esser et al. 2021; Vaswani et al. 2017], and diffusion models [Ho
+et al. 2020; Rombach et al. 2022], have significantly boosted layout
+diversity. More recently, large language models (LLMs) have enabled
+more flexible natural-language control for 3D generation [Çelen
+et al. 2024; Feng et al. 2023; Fisher et al. 2012; Sun et al. 2025b; Yang
+et al. 2026a, 2025, 2024b], leveraging their multi-modal reasoning
+abilities to improve the generalization of existing frameworks.
+Despite recent progress, synthesizing physically plausible dense
+scenes remains a formidable challenge. Existing paradigms share a
+fundamental flaw: they lack a direct, explicit perception of 3D phys-
+ical boundaries. Without such volume awareness, they inevitably
+suffer from severe spatial mismatches, instance entanglement, and
+arXiv:2605.17102v1  [cs.GR]  16 May 2026
+2•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+physical collisions. Initial work simplifies the layout problem by rep-
+resenting objects as bounding boxes [Lin and Mu 2024; Paschalidou
+et al. 2021], which overlooks the fine-grained shape details. Current
+state-of-the-art techniques typically employ implicit formats, such
+as latent features [Liu et al. 2023; Tang et al. 2024; Yang et al. 2024a]
+and signed distance fields (SDFs) [Bokhovkin et al . 2025; Meng
+et al. 2025; Wei et al. 2025], to model intricate geometries. However,
+these methods lack explicit geometric constraints, limiting their
+ability to prevent inter-object penetration. Although LLM-based
+systems leverage open-vocabulary capabilities and multi-modal vi-
+sual feedback to alleviate placement errors [Feng et al. 2023; Sun
+et al. 2025b], they remain bottlenecked by an absence of native 3D
+spatial understanding. This deficiency is critically magnified when
+handling complex spatial structural relations and densely populated
+arrangements such as nested and stacked configurations.
+To overcome these limitations, we propose VoxScene (Shown in
+Fig. 1), a novel voxel diffusion framework that shifts the scene mod-
+eling paradigm from ambiguous abstractions to an explicit, discrete
+volumetric representation. We formulate our task as an anchor-
+conditioned synthesis problem, positioning VoxScene as a highly
+robust generative backend that refines readily available spatial pri-
+ors from upstream methods into detailed and physically plausible
+3D arrangements. By operating directly on discrete voxel grids, our
+method naturally enforces hard occupancy constraints, substan-
+tially reducing inter-object penetrations and improving structural
+validity. To achieve high-fidelity volumetric structures while main-
+taining computational tractability during training, we design an
+object-centric diffusion strategy, which sequentially instantiates
+objects conditioned on their localized spatial context. This design
+effectively preserves instance-level boundaries and fine geometric
+details. Moreover, the explicit formulation allows our framework to
+better respect complex structural constraints, enabling dense object
+arrangements. Extensive experiments on both room-level and shelf-
+level synthesis demonstrate that VoxScene outperforms baselines in
+quantitative metrics. Conditioned on various upstream anchors from
+different sources, such as LLMs or other data-driven predictions,
+our method consistently enhances the physical plausibility (red box
+in Fig. 1). In particular, existing methods often break down under
+complex structural constraints, while VoxScene remains stable and
+produces plausible arrangements (blue box in Fig. 1). In addition,
+the explicit volumetric representation also promotes richer shape
+diversity, leading to greater geometric and structural variation in
+synthesized scenes.
+Our main contributions can be summarized as follows:
+• We introduce a novel explicit volumetric representation par-
+adigm for 3D scene layout synthesis. Its exclusive voxel oc-
+cupancy design enforces non-overlapping spatial allocation
+at the layout level.
+• We design an object-centric voxel diffusion framework con-
+ditioned on prior anchors. By sequentially instantiating
+objects within their localized spatial context, our frame-
+work rigorously preserves instance-level boundaries and
+fine-grained volumetric details.
+• We conduct extensive experiments to validate the effective-
+ness and flexibility of our approach in both room-level tasks
+and delicate object arrangements. VoxScene can serve as a
+plug-and-play generative backend compatible with diverse
+upstream anchor generators, achieving superior physical
+plausibility and shape diversity.
+2 Related Work
+2.1 Indoor Scene Synthesis
+Generating plausible indoor layouts has been widely explored in
+computer graphics. Traditional procedural approaches [Deitke et al.
+2022; Raistrick et al . 2024; Yu et al . 2011] synthesize large-scale
+scenes using hand-crafted rules or heuristics, but require substantial
+manual design. Recent LLM-based approaches [Chen et al . 2026;
+Hu et al. 2024; Sun et al. 2025a; Zhou et al. 2025] enable natural-
+language interaction and open-vocabulary control, yet their cov-
+erage is still limited by underlying heuristic rules. With the avail-
+ability of massive 3D datasets, such as 3D-FRONT [Fu et al. 2021],
+Matterport3D[Chang et al. 2017], Structured3D [Zheng et al. 2020]
+and M3DLayout [Zhang et al. 2025], data-driven generative models
+have made substantial progress. Existing methods employ diverse
+architectures, such as generative adversarial networks (GANs), vari-
+ational auto-encoders (VAEs), autoregressive models[Bai et al. 2025;
+Feng et al. 2025; Paschalidou et al. 2021; Wang et al. 2021], masked
+non-autoregressive methods [Kumar and Agarwal 2025] and diffu-
+sion models [Hu et al. 2026; Lin and Mu 2024; Tang et al. 2024; Yang
+et al. 2024a, 2026b; Zhai et al. 2024, 2023]. Another line of work lifts
+2D priors to 3D scenes via distillation [Gao et al. 2024; Zhou et al.
+2024], multi-view generation [Chen et al. 2025; Fang et al. 2025; Li
+et al. 2026], and projection-based techniques [Fisher et al . 2012].
+More recently, multi-modal LLM agentic systems have emerged
+for scene arrangement [Pfaff et al. 2026; Xia et al. 2026; Yang et al.
+2026a], which utilize the planning capabilities of LLMs to iteratively
+invoke various tools to synthesize comprehensive layouts. Despite
+impressive results, their long tool invocation chains and reliance on
+physics engines make them time-consuming and difficult to scale
+for batch generation.
+2.2 Object Representation in Scene Synthesis
+Object representation fundamentally dictates the editability and
+physical plausibility of synthesized scenes, particularly serving as a
+crucial basis for downstream object retrieval. Early methods, such
+as ATISS [Paschalidou et al. 2021], parameterize objects with bound-
+ing box attributes. While effective for coarse spatial planning, this
+formulation overlooks fine-grained geometry, significantly restrict-
+ing the diversity of generated scenes. Subsequent works encode 3D
+objects into implicit shape codes [Tang et al. 2024] using pre-trained
+models [Liu et al. 2023; Yang et al. 2018], facilitating their integra-
+tion into transformer-based networks. Although this latent repre-
+sentation improves the network’s generalization, optimizing lay-
+outs within the latent space inherently discards explicit boundaries.
+Consequently, decoding these representations often leads to severe
+mesh interpenetration. While some physics-guided frameworks like
+PhyScene [Yang et al. 2024a] incorporate physical constraints to
+mitigate this issue, they still struggle with out-of-bound errors and
+collisions, primarily due to the geometric mismatch between proxy
+representations and actual meshes. Recently, CASAGPT [Feng et al.
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene Arrangement•3
+Fig. 2.Method overview. We formulate scene synthesis as an anchor-conditioned generative process. Guided by prior anchors from various upstream
+sources (Part 1), our object-centric framework sequentially generates each target object, completing the whole scene represented in voxels through N iterations
+(Part 2). These generated voxels then serve as explicit geometric proxies for downstream asset retrieval, ultimately yielding a high-fidelity scene (Part 3).
+2025] decomposes 3D meshes into explicit cuboid primitives for
+autoregressive modeling to avoid object intersections. However,
+this abstraction sacrifices fine-grained geometric details such as
+curved surfaces or irregular shapes. In contrast, our method uses
+voxel grids to represent the precise spatial occupancy, which drives
+the subsequent retrieval process. By capitalizing on the discrete,
+non-overlapping nature of voxels, our pipeline guarantees more
+reasonable arrangements and scene synthesis.
+2.3 Voxel Diffusion for Scene Synthesis
+Voxel-based diffusion models have demonstrated remarkable suc-
+cess in 3D generation. While pioneering works like XCube [Ding
+et al. 2025; Ren et al. 2024; Sella et al. 2023; Xiang et al. 2025] utilize
+voxels for high-fidelity, object-level synthesis, scaling these discrete
+representations to complex scene-level generation remains challeng-
+ing. Current scene-level diffusion frameworks primarily focus on
+capturing the holistic room layout. Works like BlockFusion [Wu et al.
+2024], SceneFactor [Bokhovkin et al. 2025], and Lt3sd [Xiang et al.
+2025] model the entire scene as a monolithic global Signed Distance
+Field (SDF). While these global representations effectively model
+the overall spatial envelope, they fuse all furniture and architectural
+elements into a single continuous structure. Such techniques over-
+look instance-level isolation, significantly complicating downstream
+applications that require structural independence, such as object
+retrieval and interactive scene editing. Moreover, generating the
+entire scene in a single shot often sacrifices local details, degrading
+object-level geometry. Accordingly, our work introduces a context-
+aware object-centric pipeline, which explicitly maintains instance
+boundaries while maintaining fine-grained local geometries.
+3 Method
+We introduce VoxScene, a novel generative paradigm that reformu-
+lates 3D scene layout synthesis through explicit voxel representa-
+tions. As depicted in Fig. 2, our pipeline is driven by an anchor-
+conditioned, object-centric voxel diffusion model. Here, ananchor
+serves as a spatial condition to indicate the initial placement of an
+object. To preserve high-quality geometric details, our model instan-
+tiates objects sequentially. By conditioning the denoising network
+on previously synthesized objects and pending surrounding anchors
+as local spatial context, our approach ensures geometric consistency
+and collision avoidance. Ultimately, the generated voxel grids serve
+as robust geometric queries for retrieving high-quality 3D assets,
+completing the scene assembly.
+3.1 Anchor-conditioned Denoising Process
+Prior Anchor.Formally, letA={ a𝑖}𝑁
+𝑖=1 denote the set of spatial
+anchors, where 𝑁 is the number of target objects. Each anchor
+is parameterized asa 𝑖 ={ p𝑖, r𝑖, s𝑖, y𝑖}, encapsulating the spatial
+positionp𝑖∈R 3, the continuous 2D heading orientationr𝑖∈R 2, the
+geometric sizes𝑖∈R 3, and a semantic category vectory𝑖∈{ 0, 1}𝑁𝐶 ,
+where𝑁𝐶 denotes the total number of object classes. Conditioned on
+A and a structural constraint𝑆, our core objective is to synthesize
+a physically plausible and geometrically accurate layout, explicitly
+represented as a voxel grid where each occupied voxel is assigned a
+distinct instance identifier𝑖∈{1,...,𝑁}.
+Object-centric Generation.However, a monolithic voxel rep-
+resentation inherently lacks the structural isolation required to
+distinguish individual instances. Furthermore, this global approach
+severely compromises fine geometric details while imposing a pro-
+hibitive memory overhead. To overcome these limitations, we for-
+mulate the global scene synthesis as a sequential, target-centric
+generative process. For each anchora𝑖, we perform synthesis within
+4•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+Fig. 3.Training policy. We employ a stochastic masking policy to enable our model to generate in an arbitrary sequence. The anchor shift policy further
+improves the robustness and effectiveness.
+a local block𝐺𝑙 of fixed resolution𝐾3, which is centered atp𝑖 and
+aligned with the heading orientationr𝑖. Since global IDs are arbitrar-
+ily assigned and completely lack cross-scene consistency, directly
+feeding them into the neural network would severely disrupt the
+learning process. To address this, we remap these absolute identi-
+fiers into a relative state𝜏∈{ 0, 1, 2}, corresponding to free space
+(𝜏= 0), contextual objects (𝜏= 1), and the target object (𝜏= 2),
+respectively. Once generated, the voxels classified as𝜏= 2are in-
+versely transformed and written back into the global grid𝐺𝑜. This
+operation is exclusively restricted to the remaining free space in
+𝐺𝑜, preventing any modification to pre-existing non-empty voxels,
+which ensures that previously established geometries are rigorously
+preserved throughout the iterative process.
+Latent Space Compression.Although our object-centric for-
+mulation reduces the spatial scope, modeling the generative process
+directly on raw voxel grids remains computationally prohibitive.
+Therefore, we leverage a 3D fully convolutional Vector-Quantized
+Variational Autoencoder (VQ-VAE) to compress the local voxel grids
+by a factor of 4. Unlike standard continuous VAEs, which often
+blur sharp geometric boundaries due to their continuous Gaussian
+priors, the discrete codebook of VQ-VAE perfectly aligns with the
+categorical nature of our ternary states. Specifically, the complete
+local input volumex, including the discrete ternary states𝑥𝑆𝑡𝑎𝑡𝑒 and
+the continuous distance fields𝑥𝑆𝐷𝐹 , is quantized into a compressed
+discrete latentz 𝑞 through an encoder 𝐸. We employ a shared de-
+coder backbone𝐷 equipped with a primary state head 𝐻state and
+an auxiliary geometry head 𝐻SDF. These components are jointly
+optimized using the following objective:
+L=L 𝐶𝐸(x,𝐻𝑠𝑡𝑎𝑡𝑒(𝐷(z𝑞)))+
+L𝑞𝑢𝑎𝑛𝑡(𝐸(x),z 𝑞)+L 1(x,𝐻𝑆𝐷𝐹(𝐷(z𝑞))), (1)
+whereLCE represents the cross-entropy loss for the state channels
+𝑥𝑠𝑡𝑎𝑡𝑒 , andLquant denotes the standard codebook quantization and
+commitment loss to align the continuous encoder outputs𝐸(𝑥) with
+the discrete latent codesz𝑞. Notably, we independently compute the
+ground-truth SDF for the isolated target object as supervision for
+𝑥𝑆𝐷𝐹 , effectively guiding the network to better capture the geometric
+structures.
+Anchor Conditions.During the sequential generative process
+1...𝑁 , the conditioning signal at step 𝑖 is defined by three dis-
+joint subsets: the already generated and structural voxelsVgen =
+{v1,..., v𝑖−1, v𝑆}, the current target anchora𝑖, and the pending an-
+chorsAp ={ a𝑖+1,..., a𝑁}. As illustrated in Part 2 of Fig. 2, to ensure
+stable and precise spatial control, these geometric conditions are
+rasterized into dense voxel-wise condition tensors, denoted asc gen,
+ct, andc p, respectively.
+The generated contextV𝑔𝑒𝑛 is rasterized into an𝑁𝑐-channel ten-
+sor using its voxel occupancies and semantic labels. Since geometries
+of pending objects are unavailable, their anchors are converted to
+coarse Oriented Bounding Boxes (OBBs) and voxelized into another
+𝑁𝑐-channel tensor. Overlapping OBBs are merged by a logical OR
+operation, producing a multi-hot semantic encoding.
+For the target object condition𝑐𝑡 , we explicitly decouple its se-
+mantic and spatial signals. The semantic cue is given by the target
+category vectory𝑖, which specifies the object class. The spatial con-
+dition is a 2-channel tensor: One channel encodes the target OBB to
+restrict the generative region, while the other encodes an anisotropic
+volumetric kernel of sizes 𝑘∈Z 3 to indicate the synthesis origin.
+Compared with sparse point signals, this volumetric kernel is more
+robust to down-sampling and supports the anchor shifting strategy
+in Section 3.2.
+All spatial condition tensors (cgen,c p, and the spatial part ofc t)
+are processed through a 3D convolutional down-sampling network
+to the VQ-VAE latent resolution and concatenated with the noisy
+latent features. The semantic vectory𝑖 is broadcast across the latent
+space and concatenated as global category conditioning.
+Denoising process.Operating within the compact latent space
+of the VQ-VAE, we formulate the generative process as a Latent Dif-
+fusion Model (LDM). Letz 0 denote the clean latent feature extracted
+from the VQ-VAE encoder. In the forward pass,z0 is progressively
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene Arrangement•5
+Fig. 4.Effect of anchor shifting.
+corrupted by injecting Gaussian noise𝜖∼N( 0, I) over𝑇 discrete
+timesteps until it reaches a nearly pure isotropic Gaussian distribu-
+tion:
+𝑞(z𝑡|z𝑡−1)=N(z 𝑡 ;
+√︁
+1−𝛽 𝑡 z𝑡−1,𝛽𝑡 I),(2)
+where𝛽𝑡 is the variance schedule. Applying the reparameterization
+trick, the closed-form distribution of the noisy latent at any arbitrary
+timestep𝑡can be directly sampled without iterative computation:
+𝑞(z𝑡|z0)=N(z 𝑡 ;√ ¯𝛼𝑡 z0,(1− ¯𝛼𝑡)I),(3)
+where𝛼𝑡 := 1−𝛽 𝑡 and ¯𝛼𝑡 := ˛𝑡
+𝑠=1𝛼𝑠 represents the cumulative
+signal retention.
+To achieve superior geometric fidelity and faster convergence,
+our 3D U-Netu 𝜃 predicts the velocity targetu 𝑡 . Mathematically,
+the target velocityu 𝑡 is defined as the linear combination of the
+underlying noise and the clean latent data:
+u𝑡 :=√ ¯𝛼𝑡 𝝐− √1− ¯𝛼𝑡 z0.(4)
+During the reverse denoising process, the networkv𝜃 takes the
+noisy latentz 𝑡 , the timestep 𝑡, and the overall spatial condition
+c ={𝑐 𝑔𝑒𝑛,𝑐𝑝,𝑐𝑡} as inputs. The overall latent diffusion objective is
+thus optimized via the mean squared error against the ground-truth
+velocity:
+LLDM =E z0,𝝐∼N(0,I),𝑡
+
+∥𝒖𝜃(z𝑡,𝑡,c)−u 𝑡∥2
+2
+
+.(5)
+3.2 Training Policy
+The joint training policy for our generative pipeline, encompassing
+stochastic context masking and anchor shifting, is illustrated in
+Fig. 3.
+Stochastic Context Masking.To empower the model to synthe-
+size scenes in an arbitrary order, we introduce a stochastic context
+masking strategy during the training phase. For each surrounding
+object within the local data block, we independently apply a dropout
+probability (empirically set to𝑝= 0.5) to determine its generation
+state. Based on this probability, a context object is randomly parti-
+tioned into either the generated setVgen or the pending setAp. This
+randomized masking encourages the network to adapt to diverse
+context densities and arbitrary generation sequences encountered
+during inference.
+Anchor shifting.In practical inference scenarios, upstream an-
+chors may suffer from positional noise or geometric overlap. We
+perturb the target anchor kernel during training by applying a
+random translation 𝜹, sampled uniformly from[−E, E]∩Z 3. Ac-
+cordingly, we set the anchor kernel size tos 𝑘 = 2E+ 1, ensuring
+that the original center remains covered under any perturbation.
+The extents of the target and pending anchors, originallys 𝑡 ands𝑝,
+are expanded tos𝑡+ 2Eands 𝑝+ 2E, respectively. This expansion
+guarantees that the newly formed OBB fully encloses the original
+object geometry and provides sufficient space for voxel instantia-
+tion. Furthermore, to avoid a trivial center-bias where the network
+assumes the target is always aligned with the center of𝐺𝑙 , we inde-
+pendently shift the local grid origin by 𝜹𝑙 , sampled uniformly from
+[−E, E]. This strategy allows our model to fix the errors in prior
+anchors (shown in Fig. 4).
+Fig. 5.Effect of style clustering.
+3.3 Anisotropy Asset Retrieval.
+Once the iterative diffusion process synthesizes the entire scene
+layout, we instantiate each generated voxel object with a realistic
+model. All models are pre-normalized into a canonical unit coor-
+dinate system and voxelized at a fixed resolution of 𝐾3
+𝐴. During
+inference, the local block is sampled exactly at the anchor’s center
+without the spatial perturbation.
+For each generated object, we extract its raw voxel occupancy
+and apply an inverse transformation matrix𝑅𝑣 to map it into the
+canonical unit space. To ensure geometric plausibility and prevent
+excessive structural distortion, we implement an anisotropic scaling
+threshold𝑡𝑎. Specifically, while we allow independent scaling along
+the three local axes to fit the generated bounding box, any candidate
+asset that requires a scaling deformation exceeding𝑡𝑎 is discarded
+from the pool.
+For the remaining valid candidates with the identical semantic la-
+bel, we identify the optimal geometric match by computing the Soft
+Chamfer Score. Let𝑄={𝑞 𝑖}|𝑄|
+𝑖=1 and𝐶={𝑐 𝑗}|𝐶|
+𝑗=1 denote the voxel
+sets of the generated query and the candidate shapes, respectively.
+The unidirectional point-to-set distances are defined as:
+𝑑(𝑞𝑖,𝐶)=min
+𝑐𝑗∈𝐶
+∥𝑞𝑖−𝑐 𝑗∥2, 𝑑(𝑐 𝑗,𝑄)=min
+𝑞𝑖∈𝑄
+∥𝑐𝑗−𝑞𝑖∥2.(6)
+6•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+To robustly evaluate the structural similarity against voxel dis-
+cretization noise, the Soft Chamfer Score is formulated as a sym-
+metric Gaussian-weighted average:
+𝑆(𝑄,𝐶)= 1
+2
+'›
+«
+1
+|𝑄|
+∑︁
+𝑞𝑖∈𝑄
+𝑒−𝑑(𝑞𝑖,𝐶) 2
+2𝜎2 + 1
+|𝐶|
+∑︁
+𝑐𝑗∈𝐶
+𝑒−
+𝑑(𝑐𝑗,𝑄) 2
+2𝜎2 “ﬁ
+‹
+,(7)
+where𝜎 is the Gaussian tolerance in voxel units, we select the can-
+didate asset𝑀1 that yields the maximum score𝑆(𝑄,𝐶) and rigidly
+transform it back into the global scene coordinate to accomplish the
+final high-fidelity layout instantiation.
+Style Clustering.To improve stylistic consistency, we propose
+a style clustering policy, unifying generated instances with the
+same semantic label. Specifically, two instances are connected if
+their aligned voxel occupancy IoU exceeds𝑡IoU and their axis-wise
+size ratio lies within𝑡𝑠, and each connected component defines a
+style cluster. During the retrieval stage, we select the representative
+instance with the highest Soft Chamfer Score and assign its top-1
+retrieved CAD model to all instances in the cluster. This strategy
+effectively eliminates stylistic variations and enhances the overall
+visual coherence of the final instantiated scene (shown in Fig. 5).
+4 Experiment
+4.1 Experimental Setup
+Datasets.We evaluate the superiority of VoxScene on two distinct
+datasets spanning different spatial scales: 3D-FRONT [Fu et al. 2021]
+for room-level layout generation and M3D-Shelf [Zhang et al. 2025]
+for fine-grained object arrangement. 3D-FRONT is a large-scale
+benchmark dataset for indoor scene synthesis. While M3D-Shelf is
+a customized subset extracted from M3DLayout, concentrating on
+delicate object arrangement in the shelf region.
+Baseline and Upstream Integration.To demonstrate the uni-
+versality and superiority of VoxScene, we evaluate our pipeline in
+conjunction with four layout generation frameworks: DiffuScene
+[Tang et al. 2024], PhyScene [Yang et al. 2024a], Planner3D [Wei
+et al. 2025], and Layoutgpt [Feng et al. 2023] in 3D-FRONT evalua-
+tion. Particularly, these selected methods cover different types of
+input, including text prompts, floor plans, and scene graphs. In our
+experimental setup, these frameworks fulfill a dual role: First, their
+native layout predictions act as our primary competitivebaselines.
+In the meanwhile, they function as upstreamanchor generators
+for our method: we extract their predicted coarse spatial anchors
+and inject them as conditioning signals into our object-centric voxel
+diffusion model.
+In M3D-Shelf, we choose DiffuScene and SceneWeaver [Yang
+et al. 2026a] as our baselines, with DiffuScene also serving as our
+anchor generator. To accomplish this fine-grained object arrange-
+ment, we adapt it into a completion task where the shelf serves as
+the known condition for DiffuScene. For SceneWeaver, we execute
+its complete room-level generation pipeline and extract the shelf
+region for comparison.
+For asset retrieval, we utilize the 3D-FUTURE dataset as our
+primary CAD database. Since Planner3D natively synthesizes ge-
+ometries via SDFs, we preserve its original mesh extraction process.
+This respects the native geometric shapes, ensuring an optimal
+performance in physical plausibility.
+4.2 Evaluation on 3D-FRONT
+Evaluation MetricsTo comprehensively assess the generated scene
+layouts, we employ a suite of metrics focusing on statistical realism,
+physical plausibility, and shape diversity. Fréchet Inception Distance
+(FID) [Heusel et al. 2017] assesses overall distribution quality. To
+quantify the collision avoidance of our method, we introduce the
+average pairwise intersection 𝐼𝑝 and𝑂𝑅. And 𝑂𝑅 evaluates the
+total percentage of intersecting voxels across the entire scene space.
+Out-of-bound object (𝑅𝑜) and voxel (𝑅𝑣𝑜) ratios are measured with
+1-voxel tolerance in comparison with PhyScene. Regarding diversity,
+category-weighted diversity𝐶𝐷 calculates the utilization rate of
+unique CAD assets retrieved from the dataset. Note that𝐼𝑝 and𝑂𝑅
+values are scaled by a factor of10 3.
+Result.As demonstrated in Table 1 and Table 2, our explicit
+volumetric representation excels in physical plausibility while main-
+taining a competitive visual quality. Previous generative methods
+rely on object latent representations (DiffuScene and PhyScene)
+or implicit SDF representation (Planner3D), which inevitably in-
+troduce unexpected collisions. Moreover, Planner3D reconstructs
+independent SDFs without surrounding context, leading to more
+severe spatial intersections. And Layoutgpt heavily prioritize 2D
+visual layout patterns but fundamentally lack 3D spatial understand-
+ing, leaving significant room for geometric refinement. In contrast,
+VoxScene effectively resolves these spatial ambiguities. The non-
+overlapping nature of discrete voxel occupancies guarantees a more
+plausible arrangement. Regardless of the quality of the initial an-
+chors, our method can greatly improve the collision situation while
+maintaining a competitive realism, even when conditioned on se-
+verely colliding spatial priors from Planner3D. The visualization
+comparisons are shown in Fig. 6.
+Furthermore, VoxScene significantly enhances generationdiver-
+sity. Existing methods frequently suffer from mode collapse, repeat-
+edly retrieving only a narrow subset of the available CAD models.
+Instead, our pipeline successfully explores a much broader range.
+4.3 Evaluation on M3D-Shelf
+Evaluation Metrics.For physical evaluation, we assess the ratio
+of out-of-bounds objects𝑅𝑜, floating objects𝑅𝑓 , and shelf-colliding
+objects𝑅𝑠. We also retain the global overlap ratio𝑂𝑅 in the previous
+experiment. Besides, we also employ GPT-5.4 as an automated eval-
+uator to score the quality of realism (𝑆𝑟 ), layout (𝑆𝑙 ), and completion
+(𝑆𝑐).
+Results.As demonstrated in Table 3, VoxScene significantly
+outperforms the baseline methods across multiple dimensions. Il-
+lustrated in Fig. 7, although DiffuScene performs reasonably on
+room-level layouts, it fails to model fine-grained structural con-
+straints, leading to collapsed arrangements with severe geometric
+conflicts. Similarly, while SceneWeaver employs iterative rule-based
+optimization to refine arrangements and somewhat mitigates these
+errors, it still leaves a substantial number of unresolved collisions.
+In contrast, VoxScene robustly respects the structural constraints
+and produces plausible arrangements even when conditioned on
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene Arrangement•7
+Table 1. Quantitative results on 3D-FRONT. The best results are marked inbold. The symbol↓indicates that lower values are better.
+Methods Bedroom Livingroom Diningroom
+𝐹𝐼𝐷↓𝐼 𝑝↓𝑂𝑅↓𝐶𝐷 𝐹𝐼𝐷↓𝐼 𝑝↓𝑂𝑅↓𝐶𝐷 𝐹𝐼𝐷↓𝐼 𝑝↓𝑂𝑅↓𝐶𝐷
+DiffuScene25.378.53 20.45 0.522 41.77 2.34 8.35 0.545 38.23 2.51 19.16 0.555
+DiffuScene + Ours 27.793.89 7.08 0.715 38.83 1.89 7.18 0.911 36.88 1.65 11.92 0.842
+Planner3D 111.67 18.98 12.35 - 113.67 7.42 22.09 - 116.27 8.20 19.10 -
+Planner3D + Ours74.25 5.67 7.790.27677.39 0.70 0.810.42880.21 1.18 4.330.382
+LayoutGPT 73.66 4.00 1.26 0.21081.313.98 6.79 0.33786.370.82 1.790.318
+LayoutGPT + Ours72.69 2.93 0.08 0.26485.000.98 0.36 0.33987.440.42 0.400.296
+Table 2. Quantitative results on theLivingroomcompared with PhyScene.
+The best results are marked inbold. The symbol ↓ indicates that lower
+values are better.
+Methods𝐹𝐼𝐷↓𝐼 𝑝↓𝑂𝑅↓𝐶𝐷 𝑅 𝑜↓𝑅 𝑣𝑜↓
+PhyScene 45.25 3.30 13.36 0.292 8.05 19.82
+PhyScene + Ours38.00 0.69 4.93 0.990 4.01 13.81
+noisy anchors generated by DiffuScene. This correctness translates
+into superior perceptual quality, proving our method’s exceptional
+capability in generating high-quality arrangements within compli-
+cated structures, specifically tailored for delicate and dense object
+configurations.
+Beyond physical plausibility, our method demonstrates a decisive
+advantage in computational efficiency. Sceneweaver requires an
+average time of612.14seconds to synthesize a shelf containing
+merely5.49objects. This immense latency stems from its reliance on
+multiple external tool invocations, wherein its rule-based procedural
+solver alone consumes289.13seconds. Conversely, our method
+completes the generation in only43.40seconds, despite handling a
+denser average objects of8.09. This highlights the potential of our
+generative method to function as a collision handler, bypassing the
+computational overhead of traditional iterative solvers.
+4.4 Ablation Study
+We conduct extensive ablation studies on thelivingroomsplit of the
+3D-FRONT dataset, utilizing prior anchors generated by DiffuScene.
+Quantitative results are summarized in Table 4.
+Table 3. Quantitative results of different methods. Note that 𝑅𝐹 and OR
+are scaled by10 3. The best results are marked inbold.
+Methods Evaluation Metrics
+𝑅𝑜↓𝑅 𝑓 ↓𝑅 𝑠↓OR↓𝑆 𝑟 𝑆𝑙 𝑆𝑐
+DiffuScene 0.408 0.830 0.580 30.60 4.715 3.5655.965
+SceneWeaver 0.398 0.214 0.415 8.60 5.854 5.000 5.177
+DiffuScene+Ours0.080 0.184 0.034 3.37 6.275 5.9505.900
+Table 4.Ablation study on different settings. The best results are marked
+inbold. The symbol↓indicates that lower values are better.
+Settings𝐹𝐼𝐷↓𝐼 𝑝↓𝑂𝑅↓
+DiffuScene 41.77 2.34 8.35
+w/o SDF head 41.78 2.94 10.44
+w/o anchor shifting 41.20 2.52 8.66
+w/o pending anchor conditions 39.20 1.92 7.22
+w/o style cluster 38.911.86 7.07
+Full38.831.89 7.18
+Although the auxiliary SDF head is discarded during the final asset
+retrieval phase, its inclusion during training serves as a crucial geo-
+metric regularizer. Removing it degrades all metrics, indicating that
+implicit distance supervision is essential for learning well-formed
+geometric boundaries. Furthermore, without the anchor shifting
+strategy, the network fails to autonomously rectify the spatial de-
+viations inherent in upstream priors, leading to a noticeable drop
+in overall layout plausibility. Removing the pending anchor condi-
+tionsc𝑝 deprives the global context of uninstantiated objects. This
+absence of spatial foresight impairs the golistic coordination of the
+scene layout. Particularly, our style clustering policy presents an
+intentional trade-off between visual quality and physical constraints.
+While it achieves aesthetic harmony, assigning a shared representa-
+tive CAD model introduces slight geometric deviations compared
+to the optimally matched raw voxels.
+5 Conclusions
+In this paper, we have introduced VoxScene, a novel explicit vol-
+umetric representation paradigm for 3D scene layout synthesis.
+Conditioned on coarse spatial anchors, our object-centric diffusion
+framework synthesizes detailed, physically plausible volumetric
+occupancies, demonstrating superior spatial reasoning in complex
+structures. Furthermore, VoxScene functions as a highly versatile
+generative backend that can be seamlessly integrated with diverse
+upstream semantic planners—ranging from data-driven models and
+LLM-based agents to direct user inputs—to significantly elevate
+their geometric fidelity.
+Limitations and Future Work.Although our object-centric dif-
+fusion strategy robustly rectifies minor collisions, it is primarily de-
+signed for local geometric refinement rather than large-scale global
+8•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+repositioning. It may not correct the serious problem in prior an-
+chors, such as objects that overlap completely. This can be improved
+through a rejection policy for abnormal voxels, such as low chamfer
+scores or obvious absence. Future work could explore joint optimiza-
+tion strategies that propagate spatial collision gradients from our
+retrieval algorithm back to the upstream planners, thereby enabling
+a fully end-to-end, geometry-aware scene generation pipeline.
+References
+Tongyuan Bai, Wangyuanfan Bai, Dong Chen, Tieru Wu, Manyi Li, and Rui Ma. 2025.
+FreeScene: Mixed graph diffusion for 3D scene synthesis from free prompts. In
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+5893–5903.
+Aleksey Bokhovkin, Quan Meng, Shubham Tulsiani, and Angela Dai. 2025. Scenefactor:
+Factored latent 3d diffusion for controllable 3d scene generation. InProceedings of
+the Computer Vision and Pattern Recognition Conference. 628–639.
+Ata Çelen, Guo Han, Konrad Schindler, Luc Van Gool, Iro Armeni, Anton Obukhov, and
+Xi Wang. 2024. I-design: Personalized llm interior designer. InEuropean Conference
+on Computer Vision. Springer, 217–234.
+Angel Chang, Angela Dai, Thomas Funkhouser, Maciej Halber, Matthias Niessner,
+Manolis Savva, Shuran Song, Andy Zeng, and Yinda Zhang. 2017. Matterport3d:
+Learning from rgb-d data in indoor environments.arXiv preprint arXiv:1709.06158
+(2017).
+ChunTeng Chen, YiChen Hsu, YiWen Liu, WeiFang Sun, TsaiChing Ni, ChunYi Lee,
+Min Sun, and YuanFu Yang. 2026. SceneFoundry: Generating Interactive Infinite 3D
+Worlds.arXiv preprint arXiv:2601.05810(2026).
+Yiwen Chen, Hieu T Nguyen, Vikram Voleti, Varun Jampani, and Huaizu Jiang. 2025.
+HouseCrafter: Lifting Floorplans to 3D Scenes with 2D Diffusion Models. InPro-
+ceedings of the IEEE/CVF International Conference on Computer Vision. 28440–28450.
+Matt Deitke, Eli VanderBilt, Alvaro Herrasti, Luca Weihs, Kiana Ehsani, Jordi Salvador,
+Winson Han, Eric Kolve, Aniruddha Kembhavi, and Roozbeh Mottaghi. 2022. Proc-
+THOR: Large-Scale Embodied AI Using Procedural Generation.Advances in Neural
+Information Processing Systems35 (2022), 5982–5994.
+Lihe Ding, Shaocong Dong, Yaokun Li, Chenjian Gao, Xiao Chen, Rui Han, Yihao Kuang,
+Hong Zhang, Bo Huang, Zhanpeng Huang, et al. 2025. FullPart: Generating each
+3D Part at Full Resolution.arXiv preprint arXiv:2510.26140(2025).
+Jiafei Duan, Samson Yu, Hui Li Tan, Hongyuan Zhu, and Cheston Tan. 2022. A survey
+of embodied ai: From simulators to research tasks.IEEE Transactions on Emerging
+Topics in Computational Intelligence6, 2 (2022), 230–244.
+Patrick Esser, Robin Rombach, and Björn Ommer. 2021. Taming transformers for high-
+resolution image synthesis. InProceedings of the IEEE/CVF conference on computer
+vision and pattern recognition. 12873–12883.
+Chuan Fang, Heng Li, Yixun Liang, Jia Zheng, Yongsen Mao, Yuan Liu, Rui Tang, Zihan
+Zhou, and Ping Tan. 2025. Spatialgen: Layout-guided 3d indoor scene generation.
+arXiv preprint arXiv:2509.149813 (2025).
+Weitao Feng, Hang Zhou, Jing Liao, Li Cheng, and Wenbo Zhou. 2025. CasaGPT: cuboid
+arrangement and scene assembly for interior design. InProceedings of the Computer
+Vision and Pattern Recognition Conference. 29173–29182.
+Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Arjun Akula, Xuehai He, Sugato
+Basu, Xin Eric Wang, and William Yang Wang. 2023. Layoutgpt: Compositional
+visual planning and generation with large language models.Advances in Neural
+Information Processing Systems36 (2023), 18225–18250.
+Matthew Fisher, Daniel Ritchie, Manolis Savva, Thomas Funkhouser, and Pat Hanrahan.
+2012. Example-based synthesis of 3D object arrangements.ACM Transactions on
+Graphics (TOG)31, 6 (2012), 1–11.
+Huan Fu, Bowen Cai, Lin Gao, Ling-Xiao Zhang, Jiaming Wang, Cao Li, Qixun Zeng,
+Chengyue Sun, Rongfei Jia, Binqiang Zhao, et al. 2021. 3d-front: 3d furnished rooms
+with layouts and semantics. InProceedings of the IEEE/CVF International Conference
+on Computer Vision. 10933–10942.
+Gege Gao, Weiyang Liu, Anpei Chen, Andreas Geiger, and Bernhard Schölkopf. 2024.
+Graphdreamer: Compositional 3d scene synthesis from scene graphs. InProceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 21295–21304.
+Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp
+Hochreiter. 2017. Gans trained by a two time-scale update rule converge to a local
+nash equilibrium.Advances in neural information processing systems30 (2017).
+Jonathan Ho, Ajay Jain, and Pieter Abbeel. 2020. Denoising diffusion probabilistic
+models. InAdvances in neural information processing systems, Vol. 33. 6840–6851.
+Siyi Hu, Diego Martin Arroyo, Stephanie Debats, Fabian Manhardt, Luca Carlone, and
+Federico Tombari. 2026. Mixed diffusion for 3d indoor scene synthesis. InProceedings
+of the IEEE/CVF Winter Conference on Applications of Computer Vision. 1262–1272.
+Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia
+Schmid, and Alireza Fathi. 2024. Scenecraft: An llm agent for synthesizing 3d scenes
+as blender code. InForty-first International Conference on Machine Learning.
+Diederik P Kingma and Jimmy Ba. 2014. Adam: A method for stochastic optimization.
+arXiv preprint arXiv:1412.6980(2014).
+Vishesh Kumar and Akshay Agarwal. 2025. A unified, resilient, and explainable adver-
+sarial patch detector. InProceedings of the Computer Vision and Pattern Recognition
+Conference. 30387–30397.
+Sikuang Li, Chen Yang, Jiemin Fang, Taoran Yi, Jia Lu, Jiazhong Cen, Lingxi Xie, Wei
+Shen, and Qi Tian. 2026. Worldgrow: Generating infinite 3d world. InProceedings of
+the AAAI Conference on Artificial Intelligence, Vol. 40. 6433–6441.
+Chenguo Lin and Yadong Mu. 2024. Instructscene: Instruction-driven 3d indoor scene
+synthesis with semantic graph prior.arXiv preprint arXiv:2402.04717(2024).
+Jiachen Liu, Yuan Xue, Haomiao Ni, Rui Yu, Zihan Zhou, and Sharon X Huang. 2025b.
+Computer-aided layout generation for building design: A review.Computational
+Visual Media(2025).
+Minghua Liu, Ruoxi Shi, Kaiming Kuang, Yinhao Zhu, Xuanlin Li, Shizhong Han, Hong
+Cai, Fatih Porikli, and Hao Su. 2023. Openshape: Scaling up 3d shape representation
+towards open-world understanding.Advances in neural information processing
+systems36 (2023), 44860–44879.
+Yang Liu, Weixing Chen, Yongjie Bai, Xiaodan Liang, Guanbin Li, Wen Gao, and Liang
+Lin. 2025a. Aligning cyber space with physical world: A comprehensive survey on
+embodied ai.IEEE/ASME Transactions on Mechatronics(2025).
+Ilya Loshchilov and Frank Hutter. 2017. Decoupled weight decay regularization.arXiv
+preprint arXiv:1711.05101(2017).
+Mahdi Farrokhi Maleki and Richard Zhao. 2024. Procedural content generation in games:
+A survey with insights on emerging llm integration. InProceedings of the AAAI
+Conference on Artificial Intelligence and Interactive Digital Entertainment, Vol. 20.
+167–178.
+Quan Meng, Lei Li, Matthias Nießner, and Angela Dai. 2025. Lt3sd: Latent trees for
+3d scene diffusion. InProceedings of the Computer Vision and Pattern Recognition
+Conference. 650–660.
+Nelson Nauata, Kai-Hung Chang, Chin-Yi Cheng, Greg Mori, and Yasutaka Furukawa.
+2020. House-gan: Relational generative adversarial networks for graph-constrained
+house layout generation. InEuropean Conference on Computer Vision. Springer,
+162–177.
+Nelson Nauata, Sepidehsadat Hosseini, Kai-Hung Chang, Hang Chu, Chin-Yi Cheng, and
+Yasutaka Furukawa. 2021. House-gan++: Generative adversarial layout refinement
+network towards intelligent computational agent for professional architects. In
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition.
+13632–13641.
+Despoina Paschalidou, Amlan Kar, Maria Shugrina, Karsten Kreis, Andreas Geiger, and
+Sanja Fidler. 2021. Atiss: Autoregressive transformers for indoor scene synthesis.
+Advances in neural information processing systems34 (2021), 12013–12026.
+Nicholas Pfaff, Thomas Cohn, Sergey Zakharov, Rick Cory, and Russ Tedrake. 2026.
+Scenesmith: Agentic generation of simulation-ready indoor scenes.arXiv preprint
+arXiv:2602.09153(2026).
+Alexander Raistrick, Lingjie Mei, Karhan Kayan, David Yan, Yiming Zuo, Beining Han,
+Hongyu Wen, Meenal Parakh, Stamatis Alexandropoulos, Lahav Lipson, et al. 2024.
+Infinigen indoors: Photorealistic indoor scenes using procedural generation. In
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+21783–21794.
+Xuanchi Ren, Jiahui Huang, Xiaohui Zeng, Ken Museth, Sanja Fidler, and Francis
+Williams. 2024. Xcube: Large-scale 3d generative modeling using sparse voxel
+hierarchies. InProceedings of the IEEE/CVF conference on computer vision and pattern
+recognition. 4209–4219.
+Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Björn Ommer.
+2022. High-resolution image synthesis with latent diffusion models. InProceedings
+of the IEEE/CVF conference on computer vision and pattern recognition. 10684–10695.
+Etai Sella, Gal Fiebelman, Peter Hedman, and Hadar Averbuch-Elor. 2023. Vox-E:
+Text-guided Voxel Editing of 3D Objects. arXiv:2303.12048 [cs.CV]
+Chunyi Sun, Junlin Han, Weijian Deng, Xinlong Wang, Zishan Qin, and Stephen
+Gould. 2025a. 3d-gpt: Procedural 3d modeling with large language models. In2025
+International Conference on 3D Vision (3DV). IEEE, 1253–1263.
+Fan-Yun Sun, Weiyu Liu, Siyi Gu, Dylan Lim, Goutam Bhat, Federico Tombari, Manling
+Li, Nick Haber, and Jiajun Wu. 2025b. Layoutvlm: Differentiable optimization of
+3d layout via vision-language models. InProceedings of the Computer Vision and
+Pattern Recognition Conference. 29469–29478.
+Hao Tang, Zhenyu Zhang, Humphrey Shi, Bo Li, Ling Shao, Nicu Sebe, Radu Timofte,
+and Luc Van Gool. 2023. Graph transformer GANs for graph-constrained house
+generation. InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition. 2173–2182.
+Jiapeng Tang, Yinyu Nie, Lev Markhasin, Angela Dai, Justus Thies, and Matthias Nießner.
+2024. Diffuscene: Denoising diffusion models for generative indoor scene synthesis.
+InProceedings of the IEEE/CVF conference on computer vision and pattern recognition.
+20507–20518.
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N
+Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. In
+Advances in neural information processing systems. 5998–6008.
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene Arrangement•9
+Xinpeng Wang, Chandan Yeshwanth, and Matthias Nießner. 2021. Sceneformer: Indoor
+scene generation with transformers. In2021 International conference on 3D vision
+(3DV). IEEE, 106–115.
+Yuntao Wang, Qinnan Hu, Zhou Su, Linkang Du, Qichao Xu, and Weiwei Li. 2025.
+Large model empowered metaverse: State-of-the-art, challenges and opportunities.
+IEEE Network(2025).
+Yao Wei, Martin Renqiang Min, George Vosselman, Li Erran Li, and Michael Ying
+Yang. 2025. Planner3D: LLM-enhanced graph prior meets 3D indoor scene explicit
+regularization.IEEE transactions on pattern analysis and machine intelligence(2025).
+Zhennan Wu, Yang Li, Han Yan, Taizhang Shang, Weixuan Sun, Senbo Wang, Ruikai
+Cui, Weizhe Liu, Hiroyuki Sato, Hongdong Li, et al. 2024. Blockfusion: Expandable
+3d scene generation using latent tri-plane extrapolation.ACM Transactions on
+Graphics (ToG)43, 4 (2024), 1–17.
+Hongchi Xia, Xuan Li, Zhaoshuo Li, Qianli Ma, Jiashu Xu, Ming-Yu Liu, Yin Cui, Tsung-
+Yi Lin, Wei-Chiu Ma, Shenlong Wang, et al. 2026. Sage: Scalable agentic 3d scene
+generation for embodied ai.arXiv preprint arXiv:2602.10116(2026).
+Jianfeng Xiang, Zelong Lv, Sicheng Xu, Yu Deng, Ruicheng Wang, Bowen Zhang, Dong
+Chen, Xin Tong, and Jiaolong Yang. 2025. Structured 3d latents for scalable and
+versatile 3d generation. InProceedings of the IEEE/CVF conference on computer vision
+and pattern recognition. 21469–21480.
+Yaoqing Yang, Chen Feng, Yiru Shen, and Dong Tian. 2018. Foldingnet: Point cloud
+auto-encoder via deep grid deformation. InProceedings of the IEEE conference on
+computer vision and pattern recognition. 206–215.
+Yandan Yang, Baoxiong Jia, Shujie Zhang, and Siyuan Huang. 2026a. Sceneweaver:
+All-in-one 3d scene synthesis with an extensible and self-reflective agent.Advances
+in neural information processing systems38 (2026), 140319–140351.
+Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang. 2024a. Physcene: Physically
+interactable 3d scene synthesis for embodied ai. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition. 16262–16272.
+Yixuan Yang, Zhen Luo, Tongsheng Ding, Junru Lu, Mingqi Gao, Jinyu Yang, Victor
+Sanchez, and Feng Zheng. 2025. Llm-driven indoor scene layout generation via
+scaled human-aligned data synthesis and multi-stage preference optimization.arXiv
+e-prints(2025), arXiv–2506.
+Yue Yang, Fan-Yun Sun, Luca Weihs, Eli VanderBilt, Alvaro Herrasti, Winson Han, Jiajun
+Wu, Nick Haber, Ranjay Krishna, Lingjie Liu, et al . 2024b. Holodeck: Language
+guided generation of 3d embodied ai environments. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition. 16227–16237.
+Zhifei Yang, Guangyao Zhai, Keyang Lu, YuYang Yin, Chao Zhang, Zhen Xiao, Jieyi
+Long, Nassir Navab, and Yikai Wang. 2026b. FlowScene: Style-Consistent In-
+door Scene Generation with Multimodal Graph Rectified Flow.arXiv preprint
+arXiv:2603.19598(2026).
+Lap-Fai Yu, Sai Kit Yeung, Chi-Keung Tang, Demetri Terzopoulos, Tony F Chan, and
+Stanley J Osher. 2011. Make it home: Automatic optimization of furniture arrange-
+ment.ACM Trans. Graph.30, 4 (2011), 86.
+Guangyao Zhai, Evin Pınar Örnek, Dave Zhenyu Chen, Ruotong Liao, Yan Di, Nassir
+Navab, Federico Tombari, and Benjamin Busam. 2024. Echoscene: Indoor scene
+generation via information echo over scene graph diffusion. InEuropean Conference
+on Computer Vision. Springer, 167–184.
+Guangyao Zhai, Evin Pınar Örnek, Shun-Cheng Wu, Yan Di, Federico Tombari, Nassir
+Navab, and Benjamin Busam. 2023. Commonscenes: Generating commonsense 3d
+indoor scenes with scene graph diffusion.Advances in Neural Information Processing
+Systems36 (2023), 30026–30038.
+Yiheng Zhang, Zhuojiang Cai, Mingdao Wang, Meitong Guo, Tianxiao Li, Li Lin, and
+Yuwang Wang. 2025. M3DLayout: A Multi-Source Dataset of 3D Indoor Layouts and
+Structured Descriptions for 3D Generation.arXiv preprint arXiv:2509.23728(2025).
+Jia Zheng, Junfei Zhang, Jing Li, Rui Tang, Shenghua Gao, and Zihan Zhou. 2020.
+Structured3d: A large photo-realistic dataset for structured 3d modeling. InEuropean
+Conference on Computer Vision. Springer, 519–535.
+Mengqi Zhou, Yuxi Wang, Jun Hou, Shougao Zhang, Yiwei Li, Chuanchen Luo, Junran
+Peng, and Zhaoxiang Zhang. 2025. Scenex: Procedural controllable large-scale scene
+generation. InProceedings of the AAAI Conference on Artificial Intelligence, Vol. 39.
+10806–10814.
+Xiaoyu Zhou, Xingjian Ran, Yajiao Xiong, Jinlin He, Zhiwei Lin, Yongtao Wang, Deqing
+Sun, and Ming-Hsuan Yang. 2024. Gala3d: Towards text-to-3d complex scene genera-
+tion via layout-guided generative gaussian splatting.arXiv preprint arXiv:2402.07207
+(2024).
+10•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+Fig. 6.Qualitative comparisons in 3D-FRONT.
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene Arrangement•11
+Fig. 7.Qualitative comparisons in M3D-Shelf.Our model is generated conditioned on the anchors generated by DiffuScene. We chose the most similar
+scene from SceneWevaer as a comparison.
+Fig. 8.More Results of our voxel generation and retrieved assets.
+12•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+A Data Processing
+A.1 Voxelization
+Given a 3D scene 𝑅={𝑀 1,𝑀 2,...,𝑀 𝑁,𝑆} , composed of 𝑁 object
+meshes and a fixed architectural structure 𝑆, we first discretize
+the continuous scene into the global instance grid𝐺𝑜∈N 𝐷×𝑊×𝐻
+with voxel size𝑠𝑣. To prevent slender geometries from degrading
+or fracturing during this discrete sampling, we determine voxel
+occupancies using a robust surface-band threshold𝑏. Subsequently,
+a 3D morphological hole-filling algorithm is applied to solidify the
+internal cavities of the objects. Through this process, each object𝑀𝑖
+is converted to a corresponding dense volumetric occupancy grid
+𝑂𝑖, which explicitly encodes its corresponding semantic categoryy𝑖.
+Crucially, raw 3D assets often contain inherent interpenetrations,
+and the voxelization process itself can introduce quantization er-
+rors, occasionally causing a single voxel to be claimed by multiple
+instances. To resolve these spatial conflicts, we introduce a size-
+based priority heuristic: if a voxel’s occupancy is contested, it is
+exclusively assigned to the object with the larger bounding volume.
+This rigorously enforces a mutually exclusive assignment constraint
+𝑂𝑖∩𝑂 𝑗 =∅ , ensuring that any single voxel belongs to at most one
+specific instance, and is explicitly assigned a label(y𝑖,𝑖) to denote
+its semantic category and instance identifier.
+For each object𝑂𝑖, we establish a local voxel grid𝐺𝑖
+𝑙 with a fixed
+resolution of 𝐾3 centered at its origin, maintaining the identical
+physical voxel size𝑠𝑣 of the global space𝐺𝑜. Considering that forc-
+ing the network to model arbitrary orientations imposes an immense
+learning burden and severely compromises fine details, we explic-
+itly canonicalize each local volume by applying the inverse of the
+object’s spatial rotation. To guarantee global contextual consistency,
+we populate the local grid𝐺𝑖
+𝑙 by directly sampling the semantic and
+instance tuples from the global grid𝐺𝑜 via nearest-neighbor inter-
+polation. Consequently, each canonicalized local block encapsulates
+both the target object and its surrounding context information.
+B Experiment Details
+B.1 Dataset
+3D-FRONT.To ensure a fair and rigorous comparison, we strictly
+adhere to the data filtering protocols established by DiffuScene
+[Tang et al. 2024] in the 3D-FRONT experiment. The curated dataset
+comprises 4,041 bedrooms, 900 dining rooms, and 813 living rooms
+for training and testing.
+M3D-Shelf.M3DLayout is a high-quality indoor scene layout
+dataset that notably features the arrangement of delicate objects.
+To evaluate our model’s capability in fine-grained spatial reasoning,
+we curate a customized subset denoted as M3D-Shelf. To build this
+subset, we exclusively extract the cabinet/shelf structures alongside
+their supported items. Before voxelization, we convert every shelf
+and contained object Blender/Z-up frame into our project Y-up
+coordinate system. For each asset, we fit the mesh to the local axis-
+aligned bounding box provided by M3DLayout, apply the layout
+matrix_world, and then center the resulting shelf scene. This curated
+subset comprises 490 shelf environments, with each containing 3
+to 20 objects. We partition the data into training and testing splits
+using a standard 80%/20% ratio.
+Table 5. M3D-Shelf semantic categories and their corresponding evaluation
+colors. HEX values and visual swatches are provided for reference.
+Semantic category HEX & Visual Color
+largeshelf #7A8285
+bookcolumn #FABD2E
+bookstack #F29433
+bottle #00A1B8
+bowl #D17AC7
+can #8C94A3
+cup #3B7DF2
+foodbag #DB6E57
+foodbox #E6B24C
+hardware #333842
+jar #2EAD5C
+natureshelftrinkets #B28040
+pan #61616B
+plate #F2EBC7
+pot #A87052
+wineglass #6BCCEB
+In M3D-Shelf, the shelf body is treated as a structural context
+rather than as a generated furniture target. Concretely, the shelf
+body is assigned the semantic namelargeshelf, voxelized into the
+structure occupancy, and provided to both object-centric condi-
+tioning and downstream evaluation. The contained objects are the
+generation targets. Corresponding semantic categories and render-
+ing colors are listed in Table 5.
+B.2 Implementation Details
+In our experiment, we configure different voxel sizes for each dataset:
+0.0375𝑚 for 3D-FRONT and a finer0.01𝑚 for M3D-Shelf, consider-
+ing the varying spatial scales of our target domains. Across both
+experiments, the local bounding grid𝐺𝑙 maintains a fixed spatial
+resolution of64 3 voxels. The style clustering strategy is exclusively
+applied to the 3D-FRONT dataset, employing a 𝑡𝐼𝑜𝑈 = 0.3and
+𝑡𝑠 = 1.1. Regarding the spatial perturbation strategy, the maximum
+translation ranges for the random shift rangeEare empirically set
+to[4, 0, 4] and[6, 6, 6] voxels along the three spatial axes for the
+two datasets, respectively.
+We train individual object-centric diffusion models for each scene
+category. All experiments are conducted on two NVIDIA RTX 4090
+GPUs. The VQ-VAE is trained for 300 epochs using the standard
+Adam optimizer [Kingma and Ba 2014] with a constant learning
+rate of2× 10−4. Subsequently, the diffusion models are optimized
+via AdamW [Loshchilov and Hutter 2017] with a learning rate of
+1× 10−5 to ensure stable convergence and robust regularization.
+Specifically, to accommodate the distinct geometric complexities of
+the two tasks, the diffusion models undergo 450 training epochs for
+the 3D-FRONT dataset and 500 epochs for the fine-grained M3D-
+Shelf dataset.
+VoxScene: Anchor-Conditioned Voxel Diffusion for Indoor Scene Arrangement•13
+B.3 Baseline
+In the 3D-FRONT experiment, all comparative evaluations are con-
+ducted using the official open-source repositories of the respective
+baselines. For DiffuScene and PhyScene, we directly deploy their
+publicly released pre-trained weights. Because pre-trained weights
+were unavailable for Planner3D, we trained the model from scratch
+for 180 epochs across all room categories, strictly adhering to the
+configurations specified in their official documentation. Notably,
+since the official PhyScene repository only offers a checkpoint for
+the living rooms without the training code, our comparative analysis
+against this specific baseline is confined to the living room domain.
+In the M3D-Shelf experiment, we follow the official setting for
+DiffuScene, training the autoencoder for 1000 epochs and the diffu-
+sion model for 35000 epochs. For SceneWeaver, we used five room-
+conditioned prompts, each specifying a compact indoor scene with
+a single open-front shelf. The prompts share the same structural
+constraint: the shelf must remain visibly open and must not be con-
+verted into a closed cabinet with doors, drawers, or solid panels
+(Table 6). During testing, we sample prompts from this set and pass
+the selected text to SceneWeaver to meet the user demand.
+Unless otherwise specified, repeated SceneWeaver trials are pro-
+duced by sampling from these five prompts with replacement under
+the benchmark seed. No prompt is manually adjusted for a particular
+generated scene.
+B.4 Evaluation Metric Calculation Details
+All geometric metrics are computed after the retrieval stage using
+the placed CAD meshes. For each evaluated object mesh, we first
+build a surface voxel grid with pitch𝑠𝑒, then apply 3D hole filling to
+obtain a solid occupied voxel set𝑉𝑖. We choose0.02𝑚 and0.012𝑚
+in two experiments, respectively.
+Fréchet Inception Distance (FID).Following previous works,
+we render top-down orthographic images at a resolution of256×256,
+coloring instantiated objects according to their semantic category.
+Let(𝜇𝑟,Σ𝑟) and(𝜇𝑔,Σ𝑔) be the Gaussian statistics of Inception fea-
+tures from real and generated renderings. We compute
+FID=∥𝜇 𝑟−𝜇𝑔∥2
+2+Tr
+
+Σ𝑟+Σ𝑔−2(Σ 𝑟 Σ𝑔)1/2
+
+.(8)
+Average Pairwise Intersection (𝐼𝑝 ).For a scene with 𝑁 objects,
+letP={(𝑖,𝑗)| 1≤𝑖<𝑗≤𝑁} be all object pairs, and let 𝑉𝑖 be
+the solid occupied voxel set of object𝑖. The pairwise intersection
+severity is
+𝑠𝑖𝑗 =max
+|𝑉𝑖∩𝑉𝑗|
+|𝑉𝑖| ,|𝑉𝑖∩𝑉𝑗|
+|𝑉𝑗|
+
+.(9)
+Then𝐼 𝑝 is calculated as:
+𝐼𝑝 = 1
+|P|
+∑︁
+(𝑖,𝑗)∈P
+𝑠𝑖𝑗.(10)
+Global Overlap Ratio (OR).OR measures the total intersected
+object volume relative to non-overlapped occupied volume:
+OR=
+˝
+(𝑖,𝑗)∈P |𝑉𝑖∩𝑉𝑗|
+˝𝑁
+𝑖=1|𝑉𝑖|− ˝
+(𝑖,𝑗)∈P |𝑉𝑖∩𝑉𝑗|+𝜖
+.(11)
+Floor-plan violation (𝑅𝑜 and𝑅𝑣𝑜 ).For 3D-FRONT-style room
+scenes, let𝐹⊂R 2 be the valid floor-plan region on the horizontal
+𝑥𝑧 plane, and let𝜋𝑥𝑧 project a voxel center to this plane. To keep
+the notation consistent with the intersection metrics above, we use
+the same solid occupied voxel set𝑉𝑖 for object𝑖. With a boundary
+tolerance𝜂, the out-of-floor voxels of object𝑖are
+𝑉 out
+𝑖 ={x∈𝑉 𝑖|𝜋 𝑥𝑧(x)∉𝐹 +𝜂},(12)
+where𝐹+𝜂 denotes the floor-plan region expanded by 𝜂. We set
+𝜂= 0.02𝑚 in our 3D-Front experiment. The object-level violation
+rate is
+𝑅𝑜 = 1
+𝑁
+𝑁∑︁
+𝑖=1
+1
+
+|𝑉 out
+𝑖 |>0
+
+,(13)
+and the out-of-bound voxel ratio is
+𝑅𝑣𝑜 =
+˝𝑁
+𝑖=1|𝑉 out
+𝑖 |
+˝𝑁
+𝑖=1|𝑉𝑖|
+.(14)
+𝑅𝑜 measures how many objects cross the floor-plan boundary, while
+𝑅𝑣𝑜 measures how much occupied volume lies outside the valid floor
+region.
+M3D-Shelf spatial validity.Let Ω𝑆 denote the aligned valid
+shelf volume, with the front opening treated as the only permissive
+side. Using the same solid occupied voxel set𝑉𝑖 as above for object
+𝑖, we define the out-of-shelf voxels
+𝑉 out
+𝑖 ={x∈𝑉 𝑖|x∉Ω +𝜂
+𝑆 },(15)
+where Ω+𝜂
+𝑆 is the shelf volume. An object is counted as out-of-
+bounds if𝑉 out
+𝑖 is nonempty, except for a benign spill through the
+𝑧max opening whose projection remains inside the opening aperture
+and does not violate the other faces. The out-of-bounds rate is
+𝑅𝑜 = 1
+𝑁
+𝑁∑︁
+𝑖=1
+1
+
+|𝑉 out
+𝑖 |>0
+
+.(16)
+This metric has the same object-level meaning as the floor-plan
+𝑅𝑜, but the calculation is different: the floor-plan version checks a
+2D room boundary after projecting voxels to the 𝑥𝑧 plane, while
+the M3D-Shelf version checks a 3D shelf volume with a special
+opening-face exemption.
+The shelf-collision rate is
+𝑅𝑠 = 1
+𝑁
+𝑁∑︁
+𝑖=1
+1
+
+T𝑆∩𝐵−
+𝑖 ≠∅
+
+,(17)
+whereT𝑆 is the set of shelf mesh triangles and 𝐵−
+𝑖 is the object
+axis-aligned bounding box (AABB) shrunk by the intrusion margin.
+The floating rate is
+𝑅𝑓 = 1
+𝑁
+𝑁∑︁
+𝑖=1
+1
+
+ℎsup
+𝑖 is undefined∨ℎ bottom
+𝑖 −ℎ sup
+𝑖 >𝛿
+
+,(18)
+whereℎbottom
+𝑖 is the object bottom height and ℎsup
+𝑖 is the support
+height under the object center. OR uses the same object-object
+formulas above, computed only over contained objects.
+We set the tolerance margin to 0.012𝑚 for the open face and
+0.036𝑚for the remaining shelf boundaries.
+LLM assessment.We render one front-facing semantic-color
+view for each M3D-Shelf scene (following Table 5) and provide the
+image, semantic color mapping, and object metadata to the evaluator.
+The LLM assigns integer scores𝑔𝑛,𝑘∈{ 0,..., 10} for realism, layout,
+and completion. The evaluation prompt is shown in Table 10, for
+14•Haotian Mao, Yuhan Huang, Jiatao Lin, Yang Zhao, Hui Wang, Yiheng Zhang, Yuwang Wang, Chenliang Zhou, Yan Zhang, Fangcheng Zhong, and Xubo Yang
+Table 6. Prompts and invocation protocol for the SceneWeaver open-shelf test.
+SceneWeaver Open-Shelf Prompts
+Office:Design a compact office with one open-front shelf. The shelf must stay visibly open, with no doors, drawers, or closed cabinet panels. Make the
+shelf look naturally used by arranging appropriate small items inside its shelves.
+Kitchen:Design a compact kitchen with one open-front shelf. The shelf must stay visibly open, with no doors, drawers, or closed cabinet panels.
+Make the shelf look naturally used by arranging appropriate small items inside its shelves.
+Living room:Design a compact living room with one open-front shelf. The shelf must stay visibly open, with no doors, drawers, or closed cabinet
+panels. Make the shelf look naturally used by arranging appropriate small items inside its shelves.
+Bedroom:Design a compact bedroom with one open-front shelf. The shelf must stay visibly open, with no doors, drawers, or closed cabinet panels.
+Make the shelf look naturally used by arranging appropriate small items inside its shelves.
+Bathroom:Design a compact bathroom with one open-front shelf. The shelf must stay visibly open, with no doors, drawers, or closed cabinet panels.
+Make the shelf look naturally used by arranging appropriate small items inside its shelves.
+Invocation:For each trial, SceneWeaver first initializes a compact room using the sampled user prompt and room type, then reloads the scene and
+adds only small objects inside the existing shelf, using the shelf as the parent relation target.
+Table 7. Training resource usage of the M3D-Shelf VQ-VAE and object-
+centric diffusion models (measured on two NVIDIA RTX 4090 GPUs).
+Model (Setting) Batch Peak Mem. Time/Step
+VQ-VAE 4 8.1 GiB 0.12 s
+(643 local blocks)
+Diffusion 4 12.8 GiB 0.45 s
+(163 latents + online)
+Table 8. Average runtime of our M3D-Shelf generation pipeline (evaluated
+on a single NVIDIA RTX 4090 GPU over 200 scenes containing 1,617 objects).
+Pipeline Stage Execution Setting Time / Scene Time / Object
+Diffusion Generation Single-card 23.15 s 2.86 s
+CAD Retrieval Single-thread 20.25 s 2.50 s
+End-to-end Sequential 43.41 s 5.37 s
+Note:Diffusion time is derived from a single-card sequential estimate. Retrieval time is
+extrapolated from a single-thread sample. Per-object averages are amortized over the
+1,617 generated objects.
+which we made minimum modification from SceneWeaver to adapt
+it to our shelf-level tasks.
+C Other Results
+C.1 Memory Consumption
+We report our memory values in the training stage in Table 7.
+Table 9. Average SceneWeaver runtime for shelf population only, amortized
+per inserted object.
+Pipeline Stage Time / Scene Time / Object
+GPT object planning 60.39 s 10.61 s
+Load initialized scene 48.69 s 8.56 s
+Graph action 10.48 s 1.84 s
+Pre-solve asset population 123.66 s 21.73 s
+Shelf-placement solver core 63.07 s 11.08 s
+Solve and cleanup 226.06 s 39.73 s
+Record scene 253.99 s 44.64 s
+Shelf-population total 612.14 s 107.58 s
+C.2 Generation Efficiency
+The efficiency of our pipeline is reported in Table 8. As a comparison,
+we report the average wall-clock time over the 200 successful Sce-
+neWeaver open-shelf runs (Table 9). Times are measured in seconds.
+The initialization stage creates the compact room and open shelf,
+while the object-addition stage reloads the scene and places small
+objects inside the shelf.

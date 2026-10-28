@@ -1,0 +1,82 @@
+{
+ "floor": [
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.065000000000001,
+    "y": 0.425,
+    "z": 3.85
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     611.5000000000001,
+     240.0
+    ],
+    [
+     611.5000000000001,
+     530.0
+    ],
+    [
+     801.5000000000001,
+     530.0
+    ],
+    [
+     801.5000000000001,
+     240.0
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "air conditioner-0",
+   "id": "air conditioner-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.850000000000001,
+    "y": 2.35,
+    "z": 3.85
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     797.0000000000001,
+     340.0
+    ],
+    [
+     797.0000000000001,
+     430.0
+    ],
+    [
+     775.0000000000001,
+     430.0
+    ],
+    [
+     775.0000000000001,
+     340.0
+    ],
+    [
+     797.0000000000001,
+     340.0
+    ]
+   ],
+   "object_name": "air conditioner-0"
+  }
+ ]
+}

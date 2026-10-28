@@ -1,0 +1,36 @@
+{
+ "task_description": "a home office of about 4.6m x 3.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.97 m wide centred at (0.53, 0.00) (keep the floor in front of it clear); a window 2.02 m wide centred at (4.56, 1.93). the chair (o0001) should be between the wardrobe (o0000) and the wardrobe (o0003). the wardrobe (o0000) should be against a wall. the chair (o0002) should be within 0.20 m of the wardrobe (o0003). the chair (o0002) should be between the wardrobe (o0000) and the wardrobe (o0004)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    3.8775,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    4.5649999999999995,
+    0.0,
+    0.0
+   ],
+   [
+    4.5649999999999995,
+    3.8775,
+    0.0
+   ]
+  ],
+  "wall_height": 2.7999
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

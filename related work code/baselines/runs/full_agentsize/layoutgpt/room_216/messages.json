@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: air conditioner, cabinet, carpet, chair, coffee table, combination sofa, desk, dining chair, dining table, dining table combination, floor standing lamp, flowers, lighting, pillow, plants, refrigerator, shoe cabinet, side table, sink, sofa, table, tv, tv cabinet, wine cabinet \nOverall furniture frequencies: (air conditioner: 0.0267; cabinet: 0.0533; carpet: 0.04; chair: 0.16; coffee table: 0.0533; combination sofa: 0.0133; desk: 0.0267; dining chair: 0.0533; dining table: 0.0; dining table combination: 0.04; floor standing lamp: 0.0133; flowers: 0.0267; lighting: 0.0267; pillow: 0.0133; plants: 0.04; refrigerator: 0.0267; shoe cabinet: 0.0133; side table: 0.0267; sink: 0.0133; sofa: 0.1733; table: 0.0667; tv: 0.0133; tv cabinet: 0.0667; wine cabinet: 0.0133)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.80m, max width 9.81m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "lighting[obj_0000] {length: 0.01m; height: 2.60m; width: 0.02m; orientation: 180 degrees; left: 1.24m; top: 1.21m; depth: 0.00m;}\nside table[obj_0001] {length: 0.55m; height: 1.20m; width: 0.55m; orientation: 0 degrees; left: 1.55m; top: 0.58m; depth: -0.00m;}\ntv cabinet[obj_0002] {length: 2.16m; height: 0.86m; width: 0.41m; orientation: 180 degrees; left: 4.57m; top: 3.22m; depth: -0.00m;}\nsofa[obj_0003] {length: 3.30m; height: 1.02m; width: 0.97m; orientation: 0 degrees; left: 1.72m; top: 2.86m; depth: -0.00m;}\nside table[obj_0004] {length: 0.61m; height: 1.31m; width: 0.63m; orientation: 0 degrees; left: 1.62m; top: 5.07m; depth: -0.00m;}\nwine cabinet[obj_0005] {length: 2.91m; height: 2.60m; width: 0.47m; orientation: 0 degrees; left: 1.39m; top: 8.36m; depth: -0.00m;}\nlighting[obj_0006] {length: 0.01m; height: 2.60m; width: 0.02m; orientation: 180 degrees; left: 1.24m; top: 4.51m; depth: 0.00m;}\ndining table combination[obj_0007] {length: 2.32m; height: 0.99m; width: 2.32m; orientation: -90 degrees; left: 2.96m; top: 8.20m; depth: -0.00m;}\nsofa[obj_0008] {length: 2.02m; height: 1.02m; width: 0.90m; orientation: 90 degrees; left: 2.94m; top: 0.45m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.88m, max width 9.71m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "sofa[obj_0000] {length: 0.83m; height: 0.60m; width: 0.83m; orientation: 0 degrees; left: 1.83m; top: 0.59m; depth: 0.00m;}\ncabinet[obj_0001] {length: 1.05m; height: 1.21m; width: 0.43m; orientation: -90 degrees; left: 4.44m; top: 9.37m; depth: 0.00m;}\nsink[obj_0002] {length: 1.10m; height: 0.93m; width: 0.56m; orientation: -90 degrees; left: 0.63m; top: 6.84m; depth: 0.00m;}\ntable[obj_0003] {length: 1.20m; height: 0.81m; width: 0.60m; orientation: -180 degrees; left: 3.13m; top: 3.45m; depth: 0.00m;}\ntable[obj_0004] {length: 1.38m; height: 0.97m; width: 0.85m; orientation: -90 degrees; left: 2.29m; top: 7.10m; depth: 0.00m;}\nchair[obj_0005] {length: 0.60m; height: 0.45m; width: 0.35m; orientation: -180 degrees; left: 3.81m; top: 8.68m; depth: 0.00m;}\nchair[obj_0006] {length: 0.44m; height: 0.87m; width: 0.49m; orientation: 90 degrees; left: 2.64m; top: 6.61m; depth: 0.00m;}\nchair[obj_0007] {length: 0.44m; height: 0.87m; width: 0.49m; orientation: -90 degrees; left: 1.96m; top: 7.62m; depth: 0.00m;}\nchair[obj_0008] {length: 0.44m; height: 0.87m; width: 0.49m; orientation: -90 degrees; left: 2.66m; top: 7.62m; depth: 0.00m;}\nchair[obj_0009] {length: 0.44m; height: 0.87m; width: 0.49m; orientation: 90 degrees; left: 1.99m; top: 6.61m; depth: 0.00m;}\nsofa[obj_0010] {length: 3.71m; height: 0.87m; width: 2.05m; orientation: -180 degrees; left: 3.85m; top: 3.25m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 5.01m, max width 9.71m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dining chair[obj_0000] {length: 0.43m; height: 0.78m; width: 0.47m; orientation: -90 degrees; left: 2.02m; top: 5.27m; depth: 0.00m;}\ncarpet[obj_0001] {length: 3.09m; height: 0.01m; width: 2.10m; orientation: 0 degrees; left: 1.49m; top: 1.86m; depth: 0.00m;}\nsofa[obj_0002] {length: 1.30m; height: 0.74m; width: 0.80m; orientation: -90 degrees; left: 1.75m; top: 4.81m; depth: -0.00m;}\ndining chair[obj_0003] {length: 0.43m; height: 0.78m; width: 0.47m; orientation: 90 degrees; left: 1.50m; top: 4.32m; depth: 0.00m;}\ndining chair[obj_0004] {length: 0.43m; height: 0.78m; width: 0.47m; orientation: 90 degrees; left: 1.99m; top: 4.32m; depth: 0.00m;}\ndining chair[obj_0005] {length: 0.43m; height: 0.78m; width: 0.47m; orientation: -90 degrees; left: 1.53m; top: 5.27m; depth: 0.00m;}\ncoffee table[obj_0006] {length: 0.92m; height: 0.35m; width: 0.92m; orientation: 180 degrees; left: 2.04m; top: 1.83m; depth: 0.01m;}\nair conditioner[obj_0007] {length: 0.33m; height: 1.73m; width: 0.33m; orientation: 156 degrees; left: 3.79m; top: 0.37m; depth: 0.00m;}\nsofa[obj_0008] {length: 3.23m; height: 0.97m; width: 1.08m; orientation: 0 degrees; left: 0.58m; top: 1.91m; depth: 0.01m;}\ntv cabinet[obj_0009] {length: 2.00m; height: 0.45m; width: 0.39m; orientation: 180 degrees; left: 3.76m; top: 1.84m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.97m, max width 10.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "cabinet[obj_0000] {length: 1.96m; height: 2.90m; width: 0.55m; orientation: 0 degrees; left: 1.22m; top: 1.01m; depth: -0.00m;}\nchair[obj_0001] {length: 0.46m; height: 0.77m; width: 0.56m; orientation: -90 degrees; left: 2.59m; top: 5.26m; depth: 0.00m;}\nsofa[obj_0002] {length: 2.30m; height: 0.97m; width: 0.87m; orientation: 90 degrees; left: 3.13m; top: 0.97m; depth: 0.00m;}\nrefrigerator[obj_0003] {length: 0.60m; height: 2.22m; width: 0.60m; orientation: 180 degrees; left: 3.63m; top: 9.64m; depth: 0.00m;}\ntable[obj_0004] {length: 1.30m; height: 0.43m; width: 0.70m; orientation: -90 degrees; left: 3.16m; top: 2.11m; depth: 0.01m;}\nchair[obj_0005] {length: 0.46m; height: 0.77m; width: 0.56m; orientation: -90 degrees; left: 3.25m; top: 5.29m; depth: 0.00m;}\ntable[obj_0006] {length: 1.38m; height: 0.76m; width: 0.80m; orientation: -90 degrees; left: 2.98m; top: 4.57m; depth: 0.00m;}\nchair[obj_0007] {length: 0.50m; height: 0.30m; width: 0.50m; orientation: -90 degrees; left: 2.12m; top: 1.88m; depth: -0.00m;}\nsofa[obj_0008] {length: 0.77m; height: 0.91m; width: 0.84m; orientation: 158 degrees; left: 4.44m; top: 1.75m; depth: -0.00m;}\nchair[obj_0009] {length: 0.46m; height: 0.77m; width: 0.56m; orientation: 90 degrees; left: 2.52m; top: 3.89m; depth: 0.00m;}\nchair[obj_0010] {length: 0.46m; height: 0.77m; width: 0.56m; orientation: 90 degrees; left: 3.28m; top: 3.91m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 5.08m, max width 9.78m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "sofa[obj_0000] {length: 3.07m; height: 0.82m; width: 1.03m; orientation: 180 degrees; left: 4.61m; top: 7.37m; depth: 0.01m;}\ncarpet[obj_0001] {length: 3.65m; height: 0.03m; width: 2.77m; orientation: 0 degrees; left: 3.42m; top: 7.38m; depth: -0.00m;}\ntv cabinet[obj_0002] {length: 3.12m; height: 1.07m; width: 0.46m; orientation: 0 degrees; left: 1.64m; top: 7.45m; depth: 0.00m;}\nshoe cabinet[obj_0003] {length: 1.42m; height: 2.48m; width: 0.32m; orientation: 0 degrees; left: 3.75m; top: 0.82m; depth: -0.00m;}\nflowers[obj_0004] {length: 0.56m; height: 0.54m; width: 0.39m; orientation: 180 degrees; left: 1.75m; top: 2.03m; depth: 1.88m;}\npillow[obj_0005] {length: 1.17m; height: 0.37m; width: 1.19m; orientation: 0 degrees; left: 3.09m; top: 5.46m; depth: -0.00m;}\ndining table combination[obj_0006] {length: 1.59m; height: 1.51m; width: 2.02m; orientation: 90 degrees; left: 3.01m; top: 3.19m; depth: 0.00m;}\nsofa[obj_0007] {length: 0.97m; height: 0.64m; width: 0.83m; orientation: -90 degrees; left: 3.24m; top: 9.18m; depth: -0.00m;}\ncoffee table[obj_0008] {length: 1.70m; height: 0.56m; width: 1.08m; orientation: 180 degrees; left: 3.10m; top: 7.35m; depth: 0.01m;}\nplants[obj_0009] {length: 0.86m; height: 1.45m; width: 0.56m; orientation: 0 degrees; left: 1.69m; top: 9.35m; depth: -0.00m;}\nrefrigerator[obj_0010] {length: 0.88m; height: 1.88m; width: 0.67m; orientation: 0 degrees; left: 1.69m; top: 2.00m; depth: 0.00m;}\nfloor standing lamp[obj_0011] {length: 0.40m; height: 1.65m; width: 0.40m; orientation: 180 degrees; left: 4.58m; top: 9.22m; depth: -0.00m;}\nplants[obj_0012] {length: 0.81m; height: 1.62m; width: 0.81m; orientation: 180 degrees; left: 4.68m; top: 5.15m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 5.05m, max width 10.04m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "tv cabinet[obj_0000] {length: 2.87m; height: 0.78m; width: 0.48m; orientation: 180 degrees; left: 3.51m; top: 8.46m; depth: -0.00m;}\nplants[obj_0001] {length: 0.64m; height: 0.87m; width: 0.30m; orientation: 45 degrees; left: 0.31m; top: 5.55m; depth: 0.00m;}\ncombination sofa[obj_0002] {length: 3.57m; height: 1.88m; width: 2.52m; orientation: 0 degrees; left: 1.26m; top: 8.15m; depth: 0.00m;}\ntv[obj_0003] {length: 1.22m; height: 0.75m; width: 0.08m; orientation: 180 degrees; left: 3.70m; top: 8.44m; depth: 0.75m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.86m, max width 9.42m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dining table combination[obj_0000] {length: 1.78m; height: 0.73m; width: 1.78m; orientation: -90 degrees; left: 2.13m; top: 8.23m; depth: -0.00m;}\nsofa[obj_0001] {length: 0.72m; height: 0.68m; width: 0.99m; orientation: -63 degrees; left: 1.85m; top: 5.79m; depth: -0.00m;}\ncoffee table[obj_0002] {length: 0.40m; height: 0.53m; width: 0.38m; orientation: -90 degrees; left: 1.11m; top: 5.36m; depth: 0.01m;}\ncarpet[obj_0003] {length: 4.28m; height: 0.01m; width: 2.56m; orientation: 0 degrees; left: 1.39m; top: 3.43m; depth: -0.00m;}\ncoffee table[obj_0004] {length: 1.37m; height: 0.94m; width: 0.93m; orientation: 180 degrees; left: 2.10m; top: 3.53m; depth: 0.01m;}\nflowers[obj_0005] {length: 0.30m; height: 0.37m; width: 0.32m; orientation: -90 degrees; left: 2.22m; top: 8.12m; depth: 0.73m;}\nsofa[obj_0006] {length: 0.91m; height: 0.70m; width: 0.98m; orientation: 66 degrees; left: 1.93m; top: 1.13m; depth: 0.00m;}\nair conditioner[obj_0007] {length: 0.47m; height: 1.86m; width: 0.47m; orientation: 84 degrees; left: 3.12m; top: 0.60m; depth: -0.00m;}\ntv cabinet[obj_0008] {length: 4.45m; height: 0.24m; width: 0.35m; orientation: 180 degrees; left: 3.38m; top: 3.26m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 5.17m, max width 10.17m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "chair[obj_0000] {length: 1.72m; height: 1.94m; width: 1.88m; orientation: 180 degrees; left: 2.08m; top: 8.55m; depth: -0.00m;}\ndesk[obj_0001] {length: 2.47m; height: 0.80m; width: 0.60m; orientation: 180 degrees; left: 4.84m; top: 6.15m; depth: 0.00m;}\ndesk[obj_0002] {length: 1.83m; height: 1.79m; width: 1.25m; orientation: 0 degrees; left: 1.62m; top: 3.18m; depth: 0.00m;}\ncabinet[obj_0003] {length: 0.82m; height: 2.50m; width: 0.66m; orientation: 180 degrees; left: 4.84m; top: 8.73m; depth: -0.00m;}\ncabinet[obj_0004] {length: 1.21m; height: 1.01m; width: 0.40m; orientation: 180 degrees; left: 3.22m; top: 1.17m; depth: 0.00m;}\nchair[obj_0005] {length: 1.72m; height: 1.94m; width: 1.88m; orientation: 180 degrees; left: 2.12m; top: 5.60m; depth: -0.00m;}\ntable[obj_0006] {length: 0.75m; height: 0.72m; width: 0.75m; orientation: -90 degrees; left: 3.65m; top: 3.80m; depth: 0.00m;}\nsofa[obj_0007] {length: 2.00m; height: 0.90m; width: 0.89m; orientation: 180 degrees; left: 4.73m; top: 3.81m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: living room\nRoom Size: max length 4.88m, max width 9.82m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\ncoffee table[obj_0000]: coffee table\ndining chair[obj_0001]: dining chair\ndining chair[obj_0002]: dining chair\ndining table[obj_0003]: dining table\ndining chair[obj_0004]: dining chair\nsofa[obj_0005]: sofa\ndining chair[obj_0006]: dining chair\ndining chair[obj_0007]: dining chair\nside table[obj_0008]: side table\ncarpet[obj_0009]: carpet\nfloor standing lamp[obj_0010]: floor standing lamp\nsofa[obj_0011]: sofa\ncoffee table[obj_0012]: coffee table\nFloor polygon (left, top): (4.85, 9.82), (1.29, 9.82), (1.29, 4.81), (0.00, 4.81), (0.00, 3.29), (1.31, 3.29), (1.31, 0.00), (4.24, 0.00), (4.24, 3.97), (4.88, 3.97), (4.88, 5.22), (4.86, 5.22)\nwindow 2.89m wide at left 3.03m, top 9.82m\ndoor 0.91m wide at left 0.47m, top 4.81m\ndoor 0.92m wide at left 0.62m, top 3.29m\ndoor 0.78m wide at left 1.31m, top 0.70m\ndoor 2.14m wide at left 2.79m, top 0.00m\nConstraint: {\"type\": \"between\", \"object_id\": \"obj_0003\", \"target_ids\": [\"obj_0006\", \"obj_0004\"]}\nConstraint: {\"type\": \"faces\", \"object_id\": \"obj_0006\", \"target_id\": \"obj_0007\"}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0005\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0005\", \"target_id\": \"obj_0011\", \"max_distance_m\": 0.5}\nLayout:\n"
+ }
+]

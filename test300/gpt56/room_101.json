@@ -1,0 +1,494 @@
+{
+ "k": 101,
+ "source": "MansionWorld",
+ "room_type": "pantry break area",
+ "latency_s": 88.8340724168811,
+ "usage": [
+  {
+   "prompt_tokens": 2317,
+   "completion_tokens": 4757,
+   "total_tokens": 7074,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2945,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.42,
+     0.58,
+     0.35
+    ],
+    "bottom_center_m": [
+     6.65,
+     3.45,
+     1.55
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.45
+    ],
+    "bottom_center_m": [
+     3.5,
+     1.05,
+     0.95
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.55,
+     3.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.1
+    ],
+    "bottom_center_m": [
+     0.35,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.25,
+     3.15,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.1
+    ],
+    "bottom_center_m": [
+     0.35,
+     1.7,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     4.6,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     0.55,
+     2.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.65,
+     2.7,
+     0.9
+    ],
+    "bottom_center_m": [
+     6.675,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.1
+    ],
+    "bottom_center_m": [
+     5.7,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     2.4,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.37,
+     3.35,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.85
+    ],
+    "bottom_center_m": [
+     5.7,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.45,
+     0.5,
+     0.85
+    ],
+    "bottom_center_m": [
+     5.7,
+     2.1,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     2.4,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     4.08,
+     3.05,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.6,
+     0.7,
+     2.2
+    ],
+    "bottom_center_m": [
+     6.25,
+     4.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     4.25,
+     3.05,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     3.5,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.7,
+     3.0,
+     0.95
+    ],
+    "bottom_center_m": [
+     3.5,
+     1.05,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.18,
+     0.2,
+     0.2
+    ],
+    "bottom_center_m": [
+     4.25,
+     3.28,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.45,
+     3.15,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.55,
+     3.35,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.35,
+     0.5,
+     0.35
+    ],
+    "bottom_center_m": [
+     6.65,
+     1.2,
+     0.9
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.4,
+     0.5,
+     0.35
+    ],
+    "bottom_center_m": [
+     5.4,
+     4.7,
+     2.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.65,
+     0.75,
+     1.55
+    ],
+    "bottom_center_m": [
+     6.675,
+     3.45,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.73,
+     3.35,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     3.5,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     4.42,
+     3.05,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.78
+    ],
+    "bottom_center_m": [
+     4.6,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.4,
+     0.5,
+     0.35
+    ],
+    "bottom_center_m": [
+     6.25,
+     4.7,
+     2.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.25,
+     2.38,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.6,
+     0.7,
+     2.2
+    ],
+    "bottom_center_m": [
+     5.4,
+     4.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe pantry cabinets and appliance tower are placed along the east wall, with the tall storage cabinets in the northern alcove. The bar counter occupies the open southern area, with three stools on each side; obj_0027 is centered between obj_0010 and obj_0006 as required. Two bistro groups occupy the northwest and central-north areas, while remaining clear of the broad doorway approach. Recycling bins stay near the pantry, plants soften unused corners, and all supported accessories fit within their parent surfaces.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.58,\"depth_m\":0.42,\"height_m\":0.35,\"x\":6.65,\"y\":3.45,\"z\":1.55,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.45,\"x\":3.5,\"y\":1.05,\"z\":0.95,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":0.75,\"x\":0.55,\"y\":3.35,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1.1,\"x\":0.35,\"y\":0.35,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":0.75,\"x\":4.25,\"y\":3.15,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1.1,\"x\":0.35,\"y\":1.7,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0006\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":4.6,\"y\":0.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.82,\"x\":0.55,\"y\":2.45,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":2.7,\"depth_m\":0.65,\"height_m\":0.9,\"x\":6.675,\"y\":1.55,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0009\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1.1,\"x\":5.7,\"y\":0.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0010\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":2.4,\"y\":0.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.18,\"x\":0.37,\"y\":3.35,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.85,\"x\":5.7,\"y\":1.45,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0013\",\"width_m\":0.5,\"depth_m\":0.45,\"height_m\":0.85,\"x\":5.7,\"y\":2.1,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0014\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":2.4,\"y\":1.75,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0015\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.18,\"x\":4.08,\"y\":3.05,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0016\",\"width_m\":0.7,\"depth_m\":0.6,\"height_m\":2.2,\"x\":6.25,\"y\":4.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0017\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.18,\"x\":4.25,\"y\":3.05,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0018\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":3.5,\"y\":1.75,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0019\",\"width_m\":3,\"depth_m\":0.7,\"height_m\":0.95,\"x\":3.5,\"y\":1.05,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0020\",\"width_m\":0.2,\"depth_m\":0.18,\"height_m\":0.2,\"x\":4.25,\"y\":3.28,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0021\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.82,\"x\":3.45,\"y\":3.15,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0022\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.18,\"x\":0.55,\"y\":3.35,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0023\",\"width_m\":0.5,\"depth_m\":0.35,\"height_m\":0.35,\"x\":6.65,\"y\":1.2,\"z\":0.9,\"facing_deg\":180},{\"id\":\"obj_0024\",\"width_m\":0.5,\"depth_m\":0.4,\"height_m\":0.35,\"x\":5.4,\"y\":4.7,\"z\":2.2,\"facing_deg\":270},{\"id\":\"obj_0025\",\"width_m\":0.75,\"depth_m\":0.65,\"height_m\":1.55,\"x\":6.675,\"y\":3.45,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0026\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.18,\"x\":0.73,\"y\":3.35,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0027\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":3.5,\"y\":0.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0028\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.18,\"x\":4.42,\"y\":3.05,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0029\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.78,\"x\":4.6,\"y\":1.75,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0030\",\"width_m\":0.5,\"depth_m\":0.4,\"height_m\":0.35,\"x\":6.25,\"y\":4.7,\"z\":2.2,\"facing_deg\":270},{\"id\":\"obj_0031\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.82,\"x\":4.25,\"y\":2.38,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0032\",\"width_m\":0.7,\"depth_m\":0.6,\"height_m\":2.2,\"x\":5.4,\"y\":4.7,\"z\":0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\npantry break area\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 7.000 m x 5.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [7.0, 0.0], [7.0, 5.0], [5.0, 5.0], [5.0, 4.0], [0.0, 4.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"microwave oven\", \"description\": \"A small controlled oven.\", \"support_parent\": \"obj_0025\"},\n{\"id\": \"obj_0001\", \"category\": \"small potted plant\", \"description\": \"A bunch of big leaves inside of a white pot.\", \"support_parent\": \"obj_0019\"},\n{\"id\": \"obj_0002\", \"category\": \"bistro table\", \"description\": \"bistro table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"freestanding plant\", \"description\": \"A green plant with spiky leaves in a flower pot.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"bistro table\", \"description\": \"bistro table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"freestanding plant\", \"description\": \"A green plant with spiky leaves in a flower pot.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"bar stool\", \"description\": \"A stool with a metal leg and foot rest with a round black cushion.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"side chair\", \"description\": \"A dull white chair with four black legs the back two angled and the front two straight.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"pantry lower cabinets\", \"description\": \"Kitchen cabinets, a stove, a sink, and a range hood.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"freestanding plant\", \"description\": \"A green plant with spiky leaves in a flower pot.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"bar stool\", \"description\": \"A stool with a metal leg and foot rest with a round black cushion.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"sugar packet holder\", \"description\": \"A plain tan beverage half gallon carton with a white twist top.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0012\", \"category\": \"recycle bin set\", \"description\": \"A green trashcan with a black top and yellow recycling symbol.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"recycle bin set\", \"description\": \"A green trashcan with a black top and yellow recycling symbol.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"bar stool\", \"description\": \"A stool with a metal leg and foot rest with a round black cushion.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0015\", \"category\": \"sugar packet holder\", \"description\": \"A plain tan beverage half gallon carton with a white twist top.\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0016\", \"category\": \"tall storage cabinet\", \"description\": \"A light wooden wardrobe.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"sugar packet holder\", \"description\": \"A plain tan beverage half gallon carton with a white twist top.\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0018\", \"category\": \"bar stool\", \"description\": \"A stool with a metal leg and foot rest with a round black cushion.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0019\", \"category\": \"bar counter\", \"description\": \"A short long black dresser with a light wooden top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0020\", \"category\": \"napkin dispenser\", \"description\": \"A white box with the top open.\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0021\", \"category\": \"side chair\", \"description\": \"A dull white chair with four black legs the back two angled and the front two straight.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0022\", \"category\": \"sugar packet holder\", \"description\": \"A plain tan beverage half gallon carton with a white twist top.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0023\", \"category\": \"dish rack\", \"description\": \"A set of dishes.\", \"support_parent\": \"obj_0008\"},\n{\"id\": \"obj_0024\", \"category\": \"storage box\", \"description\": \"A wooden box with the lid off and the word fragile written on the side.\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0025\", \"category\": \"appliance tower\", \"description\": \"A light brown bookcase with three shelves.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0026\", \"category\": \"sugar packet holder\", \"description\": \"A plain tan beverage half gallon carton with a white twist top.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0027\", \"category\": \"bar stool\", \"description\": \"A stool with a metal leg and foot rest with a round black cushion.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0028\", \"category\": \"sugar packet holder\", \"description\": \"A plain tan beverage half gallon carton with a white twist top.\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0029\", \"category\": \"bar stool\", \"description\": \"A stool with a metal leg and foot rest with a round black cushion.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0030\", \"category\": \"storage box\", \"description\": \"A wooden box with the lid off and the word fragile written on the side.\", \"support_parent\": \"obj_0016\"},\n{\"id\": \"obj_0031\", \"category\": \"side chair\", \"description\": \"A dull white chair with four black legs the back two angled and the front two straight.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0032\", \"category\": \"tall storage cabinet\", \"description\": \"A light wooden wardrobe.\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [2.184, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [7.0, 0.0], \"width_m\": 2.394, \"height_m\": 1.177, \"sill_height_m\": 1.0}, {\"type\": \"window\", \"centre_xy\": [4.793, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [7.0, 0.0], \"width_m\": 2.394, \"height_m\": 1.177, \"sill_height_m\": 1.0}, {\"type\": \"door\", \"centre_xy\": [2.081, 4.0], \"wall_from\": [5.0, 4.0], \"wall_to\": [0.0, 4.0], \"width_m\": 1.997, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0028\", \"parent_id\": \"obj_0004\"}, {\"type\": \"between\", \"object_id\": \"obj_0027\", \"target_ids\": [\"obj_0010\", \"obj_0006\"]}]\n[/Task Constraints]"
+}

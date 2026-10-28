@@ -1,0 +1,378 @@
+{
+ "floor": [
+  {
+   "assetId": "tall clean storage cabinet-0",
+   "id": "tall clean storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 1.0,
+    "z": 0.255
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     200.0,
+     -4.5
+    ],
+    [
+     200.0,
+     55.5
+    ],
+    [
+     100.0,
+     55.5
+    ],
+    [
+     100.0,
+     -4.5
+    ]
+   ],
+   "object_name": "tall clean storage cabinet-0"
+  },
+  {
+   "assetId": "tall clean storage cabinet-1",
+   "id": "tall clean storage cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.745,
+    "y": 1.0,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     244.5,
+     0.0
+    ],
+    [
+     244.5,
+     100.0
+    ],
+    [
+     304.5,
+     100.0
+    ],
+    [
+     304.5,
+     0.0
+    ]
+   ],
+   "object_name": "tall clean storage cabinet-1"
+  },
+  {
+   "assetId": "clean linen cart-0",
+   "id": "clean linen cart-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.72,
+    "y": 0.475,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     239.5,
+     125.0
+    ],
+    [
+     239.5,
+     225.0
+    ],
+    [
+     304.5,
+     225.0
+    ],
+    [
+     304.5,
+     125.0
+    ]
+   ],
+   "object_name": "clean linen cart-0"
+  },
+  {
+   "assetId": "utility sink cabinet-0",
+   "id": "utility sink cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.695,
+    "y": 0.45,
+    "z": 4.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     234.5,
+     360.0
+    ],
+    [
+     234.5,
+     490.0
+    ],
+    [
+     304.5,
+     490.0
+    ],
+    [
+     304.5,
+     360.0
+    ]
+   ],
+   "object_name": "utility sink cabinet-0"
+  },
+  {
+   "assetId": "cleaning work counter-0",
+   "id": "cleaning work counter-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.28,
+    "y": 0.45,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     60.5,
+     70.0
+    ],
+    [
+     60.5,
+     230.0
+    ],
+    [
+     -4.5,
+     230.0
+    ],
+    [
+     -4.5,
+     70.0
+    ]
+   ],
+   "object_name": "cleaning work counter-0"
+  },
+  {
+   "assetId": "mobile clean supply cart-1",
+   "id": "mobile clean supply cart-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.9,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     237.5
+    ],
+    [
+     55.5,
+     312.5
+    ],
+    [
+     -4.5,
+     312.5
+    ],
+    [
+     -4.5,
+     237.5
+    ]
+   ],
+   "object_name": "mobile clean supply cart-1"
+  },
+  {
+   "assetId": "mobile clean supply cart-0",
+   "id": "mobile clean supply cart-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.745,
+    "y": 0.9,
+    "z": 2.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     244.5,
+     237.5
+    ],
+    [
+     244.5,
+     312.5
+    ],
+    [
+     304.5,
+     312.5
+    ],
+    [
+     304.5,
+     237.5
+    ]
+   ],
+   "object_name": "mobile clean supply cart-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "open wall shelf unit-0",
+   "id": "open wall shelf unit-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.16,
+    "y": 2.05,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     30.0,
+     90.0
+    ],
+    [
+     30.0,
+     210.0
+    ],
+    [
+     0.0,
+     210.0
+    ],
+    [
+     0.0,
+     90.0
+    ],
+    [
+     30.0,
+     90.0
+    ]
+   ],
+   "object_name": "open wall shelf unit-0"
+  },
+  {
+   "assetId": "mop and broom wall rack-0",
+   "id": "mop and broom wall rack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.06999999999999999,
+    "y": 1.275,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     12.0,
+     405.0
+    ],
+    [
+     12.0,
+     495.0
+    ],
+    [
+     0.0,
+     495.0
+    ],
+    [
+     0.0,
+     405.0
+    ],
+    [
+     12.0,
+     405.0
+    ]
+   ],
+   "object_name": "mop and broom wall rack-0"
+  },
+  {
+   "assetId": "wall notice board-0",
+   "id": "wall notice board-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.975,
+    "y": 1.85,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     300.0,
+     135.0
+    ],
+    [
+     300.0,
+     215.0
+    ],
+    [
+     297.0,
+     215.0
+    ],
+    [
+     297.0,
+     135.0
+    ],
+    [
+     300.0,
+     135.0
+    ]
+   ],
+   "object_name": "wall notice board-0"
+  }
+ ]
+}

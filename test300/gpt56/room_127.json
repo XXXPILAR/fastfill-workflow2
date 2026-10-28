@@ -1,0 +1,214 @@
+{
+ "k": 127,
+ "source": "MansionWorld",
+ "room_type": "standard room 4",
+ "latency_s": 70.11604058393277,
+ "usage": [
+  {
+   "prompt_tokens": 1236,
+   "completion_tokens": 3734,
+   "total_tokens": 4970,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2931,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.4,
+     1.1,
+     0.48
+    ],
+    "bottom_center_m": [
+     2.2,
+     0.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.0,
+     1.0,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.2,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     1.0,
+     1.1
+    ],
+    "bottom_center_m": [
+     6.0,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     1.4,
+     0.75
+    ],
+    "bottom_center_m": [
+     6.0,
+     0.9,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.6,
+     1.2,
+     2.2
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.2,
+     1.0,
+     0.25
+    ],
+    "bottom_center_m": [
+     4.9,
+     2.9,
+     1.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.08,
+     0.9,
+     1.2
+    ],
+    "bottom_center_m": [
+     8.2,
+     0.04,
+     1.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.85
+    ],
+    "bottom_center_m": [
+     7.5,
+     1.8,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.7
+    ],
+    "bottom_center_m": [
+     8.55,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.55,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     3.05,
+     2.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.4,
+     1.5,
+     0.6
+    ],
+    "bottom_center_m": [
+     7.5,
+     2.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     0.9
+    ],
+    "bottom_center_m": [
+     6.0,
+     1.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.2,
+     1.0,
+     0.25
+    ],
+    "bottom_center_m": [
+     6.1,
+     2.9,
+     1.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe single bed is placed lengthwise against the north wall, with its bedside table beside the head and the luggage bench at the foot. The wardrobe occupies the south wall beyond the entrance, preserving a clear route from the wide west-wall door. The writing desk and storage cabinet form a work zone farther east; the desk chair faces south toward both the desk and the aligned storage cabinet, satisfying the facing constraint. At the east end, the side chair faces the TV console, while the floor lamp provides nearby lighting without obstructing the window. Shelves and the mirror occupy clear wall sections above unobstructed floor areas. A continuous circulation route remains through the room.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.1,\"depth_m\":0.4,\"height_m\":0.48,\"x\":2.2,\"y\":0.75,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":1,\"depth_m\":2,\"height_m\":0.55,\"x\":2.2,\"y\":2,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":1,\"depth_m\":0.45,\"height_m\":1.1,\"x\":6,\"y\":0.225,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":1.4,\"depth_m\":0.6,\"height_m\":0.75,\"x\":6,\"y\":0.9,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":1.2,\"depth_m\":0.6,\"height_m\":2.2,\"x\":4,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":1,\"depth_m\":0.2,\"height_m\":0.25,\"x\":4.9,\"y\":2.9,\"z\":1.65,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":0.9,\"depth_m\":0.08,\"height_m\":1.2,\"x\":8.2,\"y\":0.04,\"z\":1,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":0.85,\"x\":7.5,\"y\":1.8,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1.7,\"x\":8.55,\"y\":2.55,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":0.5,\"depth_m\":0.55,\"height_m\":0.55,\"x\":3.05,\"y\":2.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":1.5,\"depth_m\":0.4,\"height_m\":0.6,\"x\":7.5,\"y\":2.75,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0011\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":0.9,\"x\":6,\"y\":1.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0012\",\"width_m\":1,\"depth_m\":0.2,\"height_m\":0.25,\"x\":6.1,\"y\":2.9,\"z\":1.65,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstandard room 4\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 9.000 m x 3.000 m x 3.000 m\nfloor polygon (x, y): [[0.0, 0.0], [9.0, 0.0], [9.0, 3.0], [0.0, 3.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"luggage bench\", \"description\": \"luggage bench\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"single bed\", \"description\": \"single bed\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"storage cabinet\", \"description\": \"storage cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"writing desk\", \"description\": \"writing desk\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"wardrobe\", \"description\": \"wardrobe\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"wall shelf\", \"description\": \"A brown wood frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0006\", \"category\": \"wall mirror\", \"description\": \"A rectangular mirror in a brown wooden frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0007\", \"category\": \"side chair\", \"description\": \"side chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"floor lamp\", \"description\": \"floor lamp\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"bedside table\", \"description\": \"bedside table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"tv console\", \"description\": \"tv console\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"desk chair\", \"description\": \"desk chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"wall shelf\", \"description\": \"A brown wood frame.\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [9.0, 0.977], \"wall_from\": [9.0, 0.0], \"wall_to\": [9.0, 3.0], \"width_m\": 1.128, \"height_m\": 1.532, \"sill_height_m\": 0.7}, {\"type\": \"door\", \"centre_xy\": [0.0, 1.249], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.94, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0011\", \"target_id\": \"obj_0002\"}]\n[/Task Constraints]"
+}

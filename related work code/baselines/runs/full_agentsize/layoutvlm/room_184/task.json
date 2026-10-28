@@ -1,0 +1,38 @@
+{
+ "task_description": "a bathroom of about 2.4m x 2.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the toilet (o0001) should face the pedestal sink (o0004). the toilet (o0001) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.4000001,
+    0.0,
+    0.0
+   ],
+   [
+    2.4000001,
+    2.0,
+    0.0
+   ],
+   [
+    0.0,
+    2.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.20000005
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {}
+ }
+}

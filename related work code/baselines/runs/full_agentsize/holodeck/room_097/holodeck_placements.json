@@ -1,0 +1,754 @@
+{
+ "floor": [
+  {
+   "assetId": "urinal row-0",
+   "id": "urinal row-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.6,
+    "z": 0.23
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     215.0,
+     -4.5
+    ],
+    [
+     215.0,
+     50.5
+    ],
+    [
+     25.0,
+     50.5
+    ],
+    [
+     25.0,
+     -4.5
+    ]
+   ],
+   "object_name": "urinal row-0"
+  },
+  {
+   "assetId": "vanity under counter cabinet-0",
+   "id": "vanity under counter cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.5,
+    "y": 0.425,
+    "z": 4.695
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     575.0,
+     504.5
+    ],
+    [
+     575.0,
+     434.5
+    ],
+    [
+     325.0,
+     434.5
+    ],
+    [
+     325.0,
+     504.5
+    ]
+   ],
+   "object_name": "vanity under counter cabinet-0"
+  },
+  {
+   "assetId": "cleaning storage cabinet-0",
+   "id": "cleaning storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.4,
+    "y": 0.9,
+    "z": 0.255
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     590.0,
+     -4.5
+    ],
+    [
+     590.0,
+     55.5
+    ],
+    [
+     490.0,
+     55.5
+    ],
+    [
+     490.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cleaning storage cabinet-0"
+  },
+  {
+   "assetId": "floor locker column-1",
+   "id": "floor locker column-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.9,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     422.5
+    ],
+    [
+     55.5,
+     477.5
+    ],
+    [
+     -4.5,
+     477.5
+    ],
+    [
+     -4.5,
+     422.5
+    ]
+   ],
+   "object_name": "floor locker column-1"
+  },
+  {
+   "assetId": "floor locker column-0",
+   "id": "floor locker column-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.9,
+    "z": 2.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     242.5
+    ],
+    [
+     55.5,
+     297.5
+    ],
+    [
+     -4.5,
+     297.5
+    ],
+    [
+     -4.5,
+     242.5
+    ]
+   ],
+   "object_name": "floor locker column-0"
+  },
+  {
+   "assetId": "toilet suite-1",
+   "id": "toilet suite-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.645,
+    "y": 0.39,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     524.5,
+     66.0
+    ],
+    [
+     524.5,
+     114.0
+    ],
+    [
+     604.5,
+     114.0
+    ],
+    [
+     604.5,
+     66.0
+    ]
+   ],
+   "object_name": "toilet suite-1"
+  },
+  {
+   "assetId": "toilet suite-0",
+   "id": "toilet suite-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.645,
+    "y": 0.39,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     524.5,
+     126.0
+    ],
+    [
+     524.5,
+     174.0
+    ],
+    [
+     604.5,
+     174.0
+    ],
+    [
+     604.5,
+     126.0
+    ]
+   ],
+   "object_name": "toilet suite-0"
+  },
+  {
+   "assetId": "toilet suite-2",
+   "id": "toilet suite-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.645,
+    "y": 0.39,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     524.5,
+     186.0
+    ],
+    [
+     524.5,
+     234.0
+    ],
+    [
+     604.5,
+     234.0
+    ],
+    [
+     604.5,
+     186.0
+    ]
+   ],
+   "object_name": "toilet suite-2"
+  },
+  {
+   "assetId": "toilet suite-3",
+   "id": "toilet suite-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.645,
+    "y": 0.39,
+    "z": 2.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     524.5,
+     246.0
+    ],
+    [
+     524.5,
+     294.0
+    ],
+    [
+     604.5,
+     294.0
+    ],
+    [
+     604.5,
+     246.0
+    ]
+   ],
+   "object_name": "toilet suite-3"
+  },
+  {
+   "assetId": "freestanding waste bin-0",
+   "id": "freestanding waste bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.18,
+    "y": 0.375,
+    "z": 3.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     40.5,
+     307.5
+    ],
+    [
+     40.5,
+     352.5
+    ],
+    [
+     -4.5,
+     352.5
+    ],
+    [
+     -4.5,
+     307.5
+    ]
+   ],
+   "object_name": "freestanding waste bin-0"
+  },
+  {
+   "assetId": "wall waste bin-0",
+   "id": "wall waste bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.275,
+    "z": 4.87
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     322.5,
+     504.5
+    ],
+    [
+     322.5,
+     469.5
+    ],
+    [
+     277.5,
+     469.5
+    ],
+    [
+     277.5,
+     504.5
+    ]
+   ],
+   "object_name": "wall waste bin-0"
+  },
+  {
+   "assetId": "wall waste bin-1",
+   "id": "wall waste bin-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.4,
+    "y": 0.275,
+    "z": 0.13
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     262.5,
+     -4.5
+    ],
+    [
+     262.5,
+     30.5
+    ],
+    [
+     217.5,
+     30.5
+    ],
+    [
+     217.5,
+     -4.5
+    ]
+   ],
+   "object_name": "wall waste bin-1"
+  },
+  {
+   "assetId": "freestanding waste bin-1",
+   "id": "freestanding waste bin-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.82,
+    "y": 0.375,
+    "z": 3.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     559.5,
+     307.5
+    ],
+    [
+     559.5,
+     352.5
+    ],
+    [
+     604.5,
+     352.5
+    ],
+    [
+     604.5,
+     307.5
+    ]
+   ],
+   "object_name": "freestanding waste bin-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall mirror strip-0",
+   "id": "wall mirror strip-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.5,
+    "y": 1.425,
+    "z": 4.965
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     570.0,
+     495.0
+    ],
+    [
+     570.0,
+     500.0
+    ],
+    [
+     330.0,
+     500.0
+    ],
+    [
+     330.0,
+     495.0
+    ],
+    [
+     570.0,
+     495.0
+    ]
+   ],
+   "object_name": "wall mirror strip-0"
+  },
+  {
+   "assetId": "full length mirror-0",
+   "id": "full length mirror-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.965,
+    "y": 1.1,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     600.0,
+     417.5
+    ],
+    [
+     600.0,
+     482.5
+    ],
+    [
+     595.0,
+     482.5
+    ],
+    [
+     595.0,
+     417.5
+    ],
+    [
+     600.0,
+     417.5
+    ]
+   ],
+   "object_name": "full length mirror-0"
+  },
+  {
+   "assetId": "wall signage-0",
+   "id": "wall signage-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.970000000000001,
+    "y": 1.9,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     600.0,
+     120.0
+    ],
+    [
+     600.0,
+     180.0
+    ],
+    [
+     596.0,
+     180.0
+    ],
+    [
+     596.0,
+     120.0
+    ],
+    [
+     600.0,
+     120.0
+    ]
+   ],
+   "object_name": "wall signage-0"
+  },
+  {
+   "assetId": "wall signage-1",
+   "id": "wall signage-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.970000000000001,
+    "y": 1.9,
+    "z": 2.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     600.0,
+     240.0
+    ],
+    [
+     600.0,
+     300.0
+    ],
+    [
+     596.0,
+     300.0
+    ],
+    [
+     596.0,
+     240.0
+    ],
+    [
+     600.0,
+     240.0
+    ]
+   ],
+   "object_name": "wall signage-1"
+  },
+  {
+   "assetId": "hand dryer-0",
+   "id": "hand dryer-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 1.15,
+    "z": 4.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     315.0,
+     482.0
+    ],
+    [
+     315.0,
+     500.0
+    ],
+    [
+     285.0,
+     500.0
+    ],
+    [
+     285.0,
+     482.0
+    ],
+    [
+     315.0,
+     482.0
+    ]
+   ],
+   "object_name": "hand dryer-0"
+  },
+  {
+   "assetId": "hand dryer-1",
+   "id": "hand dryer-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.4,
+    "y": 1.15,
+    "z": 0.09999999999999999
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     255.0,
+     0.0
+    ],
+    [
+     255.0,
+     18.0
+    ],
+    [
+     225.0,
+     18.0
+    ],
+    [
+     225.0,
+     0.0
+    ],
+    [
+     255.0,
+     0.0
+    ]
+   ],
+   "object_name": "hand dryer-1"
+  },
+  {
+   "assetId": "hand dryer-2",
+   "id": "hand dryer-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.09999999999999999,
+    "y": 1.15,
+    "z": 3.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     18.0,
+     305.0
+    ],
+    [
+     18.0,
+     335.0
+    ],
+    [
+     0.0,
+     335.0
+    ],
+    [
+     0.0,
+     305.0
+    ],
+    [
+     18.0,
+     305.0
+    ]
+   ],
+   "object_name": "hand dryer-2"
+  }
+ ]
+}

@@ -1,0 +1,635 @@
+Transfer between Modalities with MetaQueries
+Xichen Pan1,2, Satya Narayan Shukla1,†, Aashu Singh1, Zhuokai Zhao1, Shlok Kumar Mishra1, Jialiang
+Wang1, Zhiyang Xu1, Jiuhai Chen1, Kunpeng Li1, Felix Juefei-Xu1, Ji Hou1,†, Saining Xie2,†
+1Meta, 2New York University
+†Equal advising
+Unified multimodal models aim to integrate understanding (text output) and generation (pixel output),
+but aligning these different modalities within a single architecture often demands complex training
+recipes and careful data balancing. We introduceMetaQueries, a set of learnable queries that act
+as an efficient interface between autoregressive multimodal LLMs (MLLMs) and diffusion models.
+MetaQueries connects the MLLM’s latents to the diffusion decoder, enabling knowledge-augmented
+image generation by leveraging the MLLM’s deep understanding and reasoning capabilities. Our
+method simplifies training, requiring only paired image-caption data and standard diffusion objectives.
+Notably, this transfer is effective even when the MLLM backbone remains frozen, thereby preserving its
+state-of-the-art multimodal understanding capabilities while achieving strong generative performance.
+Additionally, our method is flexible and can be easily instruction-tuned for advanced applications such
+as image editing and subject-driven generation.
+Date: April 9, 2025
+Correspondence: satyanshukla@meta.com, jihou@meta.com, saining.xie@nyu.edu
+Project Page: https://xichenpan.com/metaquery
+1 Introduction
+The quest for unified multimodal models capable of both deep understanding (typically resulting in textual
+outputs) and rich generation (resulting in pixel outputs) holds immense promise. Such systems could unlock
+synergistic capabilities (OpenAI, 2025; Google, 2025), where understanding informs generation and vice
+versa. However, effectively connecting these different output modalities poses considerable challenges—e.g.
+how do we effectively transfer the latent world knowledge from the autoregressive multimodal LLM to the
+image generator? Although significant progress has been made, most published approaches (Ge et al., 2024;
+Sun et al., 2024b; Tong et al., 2024; Jin et al., 2024; Liu et al., 2024a; Team, 2024a; Xie et al., 2024; Wang
+et al., 2024; Wu et al., 2025a; Chen et al., 2025; Dong et al., 2024; Zhou et al., 2025; Shi et al., 2024) rely
+on carefully tuning base multimodal LLMs (MLLMs) to handle both understanding and generation tasks.
+This involves complex architectural design, data/loss balancing, multiple training stages, and other complex
+training recipes—without these, optimizing one capability could compromise the other.
+In this paper, we aim to deliver the promise of unified models via a simpler philosophy:Render unto diffusion
+what is generative, and unto LLMs what is understanding.In other words, instead of building a monolithic
+system from scratch, we focus on effectively transferring capabilities between state-of-the-art, pre-trained
+models specialized for different output modalities. To operationalize this, we keep MLLMs frozen so they
+can focus on what they do best—understanding—while entrusting image generation to diffusion models.
+We then demonstrate that even under this frozen condition, the MLLM’s inherent world knowledge, strong
+reasoning, and in-context learning capabilities can indeed be transferred to image generation, provided the
+right architectural bridge is in place.
+However, leveraging an MLLM—especially a frozen one—for both multimodal understanding and generation is
+far from straightforward. Although (frozen) LLMs have shown good performance as conditional text encoders
+in text-to-image generation (Zhuo et al., 2024; Xie et al., 2025; Ma et al., 2024), they are not compatible
+with many desired tasks in unified modeling, such as in-context learning or producing multimodal, interleaved
+output. The architectural bridge we design in this work isMetaQuery (Figure 1). MetaQuery feeds a set of
+1
+arXiv:2504.06256v1  [cs.CV]  8 Apr 2025
+UnderstandingGeneration
+Multimodal Input MetaQueries 
+Connector 
+MLLM 
+Denoising Objective 
+Diffusion Block Diffusion Block Diffusion Block 
+Noisy Input 
+Figure 1 Overview of our model.Blue tokens maintain SOTA multimodal understanding;MetaQueries are learnable
+queries that directly applied to frozen MLLMs to query out conditions for generation. The model is tuned using only
+denoising objective with paired data. The generative diffusion models can be either frozen or further instruction-tuned
+for advanced generation tasks.
+learnable queries directly into a frozen MLLM to extract multimodal conditions for multimodal generation.
+Our experiments reveal that, even without fine-tuning or enabling bi-directional attention, the frozen LLM
+serves as a powerful feature resampler (Alayrac et al., 2022), producing high-quality conditions for multimodal
+generation. Training unified models withMetaQueries requires only a modest amount of paired image-caption
+data to connect these prompted conditions to any conditional diffusion model. Because the entire MLLM
+stays intact for understanding, the training objective remains the original denoising objective—just as efficient
+and stable as fine-tuning a diffusion model.
+More specifically, previous unified models aim to train a single autoregressive transformer backbone to
+jointly model p(text,pixels). In contrast, we choose to use atoken → [transformer] → [diffusion] → pixels
+paradigm, which might share a high-level philosophy with the concurrent GPT-4o image generation system,
+as hinted at by OpenAI (2025). This approach composes the MLLM’s autoregressive prior with a powerful
+diffusion decoder, directly leveraging the frozen MLLM’s strong capability in modeling compressed semantic
+representations, thus avoiding the more challenging task of directly generating pixels.
+To validate our approach, we conduct a series of controlled experiments, showing thatMetaQuery1 outperforms
+the use of a frozen MLLM purely as a conditional text encoder for image generation. Moreover,MetaQuery
+can match the performance of fully tuning the MLLM backbone, yet it is significantly more efficient. We also
+systematically investigate the training strategy, including the number of tokens and architectural configurations.
+With just 25M publicly available image-caption pairs, we are able to train a family of unified models that not
+only preserves state-of-the-art (SOTA) performance in image understanding, but also achieves SOTA-level
+results in text-to-image generation across multiple benchmarks.
+The promise of unified modeling goes beyond handling multimodal understanding and text-to-image generation
+in parallel. A deeper synergy is expected—one that taps into advanced MLLM abilities like reasoning, internal
+knowledge, multimodal perception, and in-context learning to enhance generation. Our results show that
+our method draws on the frozen MLLM’s commonsense knowledge, achieving SOTA visual-commonsense
+generation on the CommonsenseT2I benchmark (Fu et al., 2024). Our approach also harnesses the built-in
+reasoning and in-context learning capabilities of frozen MLLMs, producing images from complex prompts—
+such as generating the United States flag in response to “The national flag of the country where Yellowstone
+National Park is located.” (See Figure 9 for examples.) We also benchmark this type of world knowledge
+reasoning capability on WISE (Niu et al., 2025) and demonstrate SOTA performance.
+Finally, by connecting, preserving, and enhancing multimodal input withMetaQueries and a frozen MLLM
+backbone, our model can be further instruction-tuned for advanced generation tasks such as image editing and
+subject-driven generation. We show that this can be achieved both efficiently and effectively using a scalable
+1For simplicity, we also use MetaQuery to represent our method.
+2
+data curation pipeline that directly leverages naturally occurring image pairs from web corpora, instead of
+depending on human-created pairs or synthetically generated data (Brooks et al., 2023; Hu et al., 2024a; Xiao
+et al., 2025). This natural supervision surprisingly unlocks several new capabilities beyond subject-driven
+generation, such as visual association and logo design (see Figure 8 for examples).
+In summary, we explore a simple yet underexplored alternative to unified multimodal modeling. Our method,
+MetaQuery, bridges frozen MLLM backbones and diffusion models. Experiments show that this framework
+delivers all the capabilities once thought to require MLLM fine-tuning while being much easier to train. The
+main results and findings in this paper include:
+• With MetaQuery and frozen MLLM backbones, we maintain SOTA multimodal understanding perfor-
+mance while enabling SOTA-level multimodal generation.
+• MetaQuery can transfer the capabilities of MLLMs for reasoning- and knowledge-augmented image
+generation.
+• MetaQuery can extract highly detailed visual conditions beyond semantic similarity from frozen MLLMs,
+enabling image reconstruction and editing tasks.
+• Our method can be easily instruction-tuned even with a frozen MLLM backbone, enabling advanced
+multimodal generation tasks like subject-driven generation.
+2 Related Work
+Unified understanding and generation models. Next-token prediction has proven to be an effective approach
+for training models to understand language (Devlin, 2019; Brown et al., 2020) and multimodal content (Liu
+et al., 2024b). Recently, the community has witnessed numerous efforts to extend the success of multimodal
+understanding (Liu et al., 2024b) to multimodal generation by training LLM backbones to generate images at
+the same time. However, unlike adapting text-only LLMs (Touvron et al., 2023) to understand multimodal
+content with one single next text token prediction objective (Liu et al., 2024b), generating multimodal content
+requires a different set of training objectives. SEED-X (Ge et al., 2024), Emu (Sun et al., 2024b), and
+MetaMorph (Tong et al., 2024) learn to regress image features; LaVIT (Jin et al., 2024), LWM (Liu et al.,
+2024a), Chameleon (Team, 2024a), Show-o (Xie et al., 2024), EMU3 (Wang et al., 2024), and Janus (Wu
+et al., 2025a; Chen et al., 2025) auto-regressively predict next visual tokens; and DreamLLM (Dong et al.,
+2024), Transfusion (Zhou et al., 2025) employ diffusion objectives. However, these approaches necessitate
+tuning LLMs for generating both modalities, naturally posing challenges in multi-task balancing.
+Unified models with frozen LLMs. Several studies have explored the use of frozen LLMs for multimodal
+understanding and generation. For instance, LMFusion (Shi et al., 2024) trains image generation expert
+feed-forward networks (FFNs) and query-key-value (QKV) modules in parallel with a frozen LLM backbone
+to deeply fuse input conditions and denoise visual outputs. However, this approach offers limited flexibility as
+it shares the same architecture as specific LLM backbones and requires training a separate set of generative
+modules for every single LLM backbone. This not only imposes more computational burden but also restricts
+the ability to leverage powerful pre-trained generative models. An earlier work, GILL (Koh et al., 2023),
+investigates feeding learnable tokens into frozen MLLMs. It employs a combined contrastive loss and regression
+loss for image retrieval and generation, rather than directly employing the denoising objective for more efficient
+training. Its application is restricted to contextual image generation and it does not systematically explore
+the impact of frozen MLLMs and learnable queries.
+3 MetaQuery
+In this work, we proposeMetaQuery, which losslessly augments understanding-only MLLMs with multimodal
+generation capabilities while preserving their original architecture designs and parameters intact. We carefully
+analyze the impact of applyingMetaQuery on image generation performance. Results show that a frozen
+MLLM can provide strong conditions for multimodal generation.
+3
+Methods # of Tokens MJHQ-30K FID ↓ GenEval ↑ DPG-Bench ↑
+LLM last layer embedding∗ - 7.49 0.55 78.41
+Random queries 64 8.59 0.35 54.81
+Learnable queries 64 7.43 0.56 75.35
+Learnable queries 512 7.34 0.56 78.43
+Table 1 Study on different conditions for image generation.∗ denotes the embeddings of input tokens. Learnable
+queries achieve comparable performance to using all hidden states and can even surpass them with more tokens.
+Methods Train LLM Train DiT MJHQ-30K FID ↓ GenEval ↑ DPG-Bench ↑
+MLLM tuning ✓ ✗ 7.75 0.58 78.97
+E2E tuning ✓ ✓ 6.28 0.61 79.39
+Frozen MLLM ✗ ✗ 7.43 0.56 75.35
+Frozen MLLM ✗ ✓ 6.06 0.61 76.66
+Table 2 Study on strategies for adapting MLLMs. The methods without training LLM do not suffer from multimodal
+understanding degradation. Frozen MLLM achieves comparable performance to full MLLM tuning, with slightly lower
+prompt alignment but slightly improved visual quality.
+3.1 Architecture
+MetaQuery bridges frozen MLLMs with diffusion models. We use randomly initialized learnable queries
+Q ∈ RN×D to query out the conditionsC for generation. N is the number of queries andD is the dimension
+of the queries, which is the same as the MLLM hidden dimension. For simplicity and compatibility, we
+continue to use causal masking for the entire sequence rather than specifically enabling full attention for
+Q. The conditions C are then fed into a trainable connector to align with the input space of text-to-image
+diffusion models. These models can be arbitrary as long as they have a conditional input interface; we simply
+replace its original condition with ourC. The whole model is trained with the original generation objective on
+paired data. In this paper, we focus on image generation tasks, but the model can be easily extended to other
+modalities like audio, video, 3D, and more.
+3.2 Design Choices
+The proposed architecture involves two design choices: usinglearnable queries and keeping theMLLM backbone
+frozen. We explain the reasons why we adopted these choices and how they impact performance. For all
+experiments, unless otherwise specified, we use the same frozen LLaVA-OneVision-0.5B (Li et al., 2024a)
+MLLM backbone, frozen Sana-0.6B (Xie et al., 2025) diffusion model in 512 resolution, learnable queries with
+N = 64 tokens, and a connector with a 24-layer transformer encoder. All models are trained on 25M publicly
+available image caption pairs for 4 epochs. We report FID score (Heusel et al., 2017) on MJHQ-30K (Li et al.,
+2024b) for visual aesthetic quality, and GenEval (Ghosh et al., 2023) and DPG-Bench (Hu et al., 2024b) (both
+without prompt rewriting) for prompt alignment, respectively.
+Learnable queries. Many models like Lumina-Next (Zhuo et al., 2024), Sana (Xie et al., 2025), and Kosmos-
+G (Pan et al., 2024) use the (M)LLM’s last layer embedding of input tokens as image generation conditions.
+However, this approach is not ideal for unified models as it is not compatible with many desired tasks in
+unified modeling, such as in-context learning or producing multimodal, interleaved output (we provide more
+discussion and comparison withMetaQuery in Section 5.6). As shown in Table 1, using learnable queries with
+just N = 64 tokens achieves image generation quality comparable to that of utilizing the last layer embedding
+of input tokens. While random queries produce acceptable FID scores, they struggle with prompt alignment,
+highlighting the importance of learnable queries. Additionally, since the last layer embedding setting naturally
+comes with a longer sequence length, we also tested learnable queries withN = 512 tokens, which further
+improves performance and even outperforms the last layer embedding approach.
+Frozen MLLM. Existing unified models train MLLMs to jointly modelp(text,pixels), resulting in a more
+complicated training process and even downgraded understanding performance.MetaQuery keeps the original
+4
+1 4 16 32 64 128 256 512 1024
+Number of Tokens
+7
+8
+9
+10
+11
+12
+13FID Score
+FID Score 
+GenEval 
+GenEval Rewrite 
+DPG 
+20
+30
+40
+50
+60
+70
+80
+GenEval × 100 / DPG Score
+(a) Text-to-image results.
+1 4 16 32 64 128 256 512 1024
+4
+6
+8
+10
+12
+rFID 
+1 4 16 32 64 128 256 512 1024
+0.225
+0.250
+0.275
+0.300
+0.325
+0.350
+SSIM 
+1 4 16 32 64 128 256 512 1024
+11
+12
+13
+14
+PSNR 
+1 4 16 32 64 128 256 512 1024
+0.3
+0.4
+0.5
+LPIPS 
+Number of Tokens (b) Image reconstruction results.
+Figure 2 Study on the scaling of token numbers. As the number of tokens increases, text-to-image prompt alignment
+and image reconstruction results consistently improve.
+N = 1 N = 4 N = 16 N = 32 N = 64 N = 128 N = 256 N = 512 N = 1024 Real Image
+Figure 3 Visaul samples for image reconstruction with different numbers of tokens.
+MLLM architecture and parameters intact to preserve SOTA understanding capabilities. However, for
+multimodal generation, a key concern is whetherMetaQuery’s performance with significantly fewer tunable
+parameters would be substantially worse than methods with full MLLM tuning. As shown in Table 2, frozen
+MLLMs achieve comparable performance to full MLLM tuning, with slightly lower prompt alignment but
+slightly improved visual quality. Tuning DiT can further improve performance for both settings. This suggests
+that MetaQuery is another possible training strategy, one that is simpler but also effective, as an alternative
+to fine-tuning the entire MLLM.
+3.3 Training Recipe
+Based on insights from our design choices, we further study key training options for the two main components
+of MetaQuery: learnable queries and connectors. This study examines the number of tokens and connector
+design. Unless otherwise specified, all experiments in this section use the same setup as described in Section 3.2.
+Number of tokens. Many works (Wu et al., 2023; Pan et al., 2024; Ge et al., 2024) have employed learnable
+queries for condition extraction. However, they either set the number of tokens to match the fixed input
+sequence length of the image decoder (e.g.,N = 77 for the CLIP (Radford et al., 2021) text encoder in
+Stable Diffusion v1.5 (Rombach et al., 2021)), or use an arbitrary fixed number likeN = 64 without further
+investigation. Given that modern diffusion models like Lumina-Next (Zhuo et al., 2024) and Sana (Xie
+5
+Architecture # of Layers Dims # of Params Rel. Wall Time MJHQ-30K FID ↓ GenEval ↑ DPG-Bench ↑
+Proj-Enc 6 2304 517M 1.06x 7.80 0.53 73.37
+Proj-Enc 24 2304 2046M 1.23x 7.41 0.51 73.75
+Enc-Proj 6 896 84M 1x 7.73 0.49 71.39
+Enc-Proj 24 896 316M 1.06x 7.43 0.56 75.35
+Table 3 Study on connector design. Aligning the conditions first in the same dimension as the MLLM hidden states
+(Enc-Proj) is more effective and parameter-efficient.
+et al., 2025) naturally accept variable-length conditions, determining the optimal number of tokens for
+learnable queries is crucial. In Figure 2, we provide a careful study of the number of tokens and observe
+promising scalability ofMetaQueries. For text-to-image generation, visual quality begins to converge after 64
+tokens, while more tokens consistently yield better prompt alignment. This is more evident for long captions,
+as GenEval with rewritten prompts increases more rapidly as the number of tokens increases. For image
+reconstruction, we observe that more tokens consistently improve the quality of reconstructed images (visual
+samples can be found in Figure 3). In our later experiments, we set the number of tokens toN = 256 for all
+models, as it achieves a good balance between performance and efficiency.
+Connector design. The connector is another important component inMetaQuery. We use the same architec-
+ture as the Qwen2.5 (Team, 2024b) LLM, but enable bi-directional attention for the connector. We study two
+different designs: Projection Before Encoder (Proj-Enc) and Projection After Encoder (Enc-Proj). Proj-Enc
+first projects the conditions into the input dimension of the diffusion decoder, then uses a transformer encoder
+to align the conditions. On the other hand, Enc-Proj first uses a transformer encoder to align the conditions
+in the same dimension as the MLLM hidden states, then projects the conditions into the input dimension
+of the diffusion decoder. As shown in Table 3, the Enc-Proj design achieves better performance than the
+Proj-Enc design while having fewer parameters.
+4 Model Training
+CLIP Filtered   and Paired 
+MLLMProcessingThink: Source image shows the upper part of the jersey top of Blatche, a basketball player in the Nets. The target image shows the complete front view of the same jersey top. Therefore, the prompt should focus on the content of image (same jersey top), butspecify the different view (complete front view).Prompt: [The complete front view of the same jersey top]
+Blatche averaged 10.1 points and 5.3 rebounds per game in 2012-13 for the Nets, one of two seasons in which he did not miss a game.
+It is photo-matched to the Nets' 111-93 victory over the Portland Trail Blazers on March 27, 2013at Rose Garden Arena in Portland, OR.
+Source Images Target Image 
+Figure 4 Overview of instruction tuning data curation pipeline. We group
+images from web corpora based on caption similarity using the SigLIP (Zhai
+et al., 2023) model, then construct instruction-tuning data from these image
+pairs using an MLLM.
+We train MetaQuery in two stages:
+the pre-training stage and the in-
+struction tuning stage. Both train-
+ing stages keep MLLMs frozen and
+fine-tune learnable queries, connec-
+tors, and diffusion models. We use
+three different MLLM backbones
+for different sizes: Base (LLaVA-
+OneVision 0.5B (Li et al., 2024a)),
+Large (Qwen2.5-VL 3B (Bai et al.,
+2025)), and X-Large (Qwen2.5-VL
+7B (Bai et al., 2025)). We set the
+number of tokens to N = 256 for
+all models, and utilize a 24-layer
+connector with Enc-Proj architec-
+ture. For image generation heads,
+we tested two different diffusion mod-
+els: Stable Diffusion v1.5 (Rombach
+et al., 2021) and Sana-1.6B (Xie
+et al., 2025).
+Pre-training. We pre-train our model on 25M publicly available image-caption pairs for 8 epochs with a
+learning rate of 1e-4 and a global batch size of 4096. The learning rate follows a cosine decay schedule with a
+4,000-step warmup period before gradually decreasing to 1e-5.
+6
+Methods Base (M)LLM MME-P MMB SEED MMMU MM-Vet COCO FID ↓ MJHQ FID↓ GenEval↑ DPG-Bench↑
+Emu LLaMA 13B - - - - - 11.66 - - -
+DreamLLM Vicuna 7B - - - - 36.6 8.46 - - -
+Chameleon From Scratch 7B - - - 22.4 8.3 26.74 - 0.39 -
+Show-o-512 Phi-1.5 1.3B 1097.2 - - 26.7 - 9.24 15.18 0.68 -
+VILA-U LLaMA-2 7B 1401.8 - 59.0 - 33.5 - 7.69 - -
+Emu3 From Scratch 7B - 58.5 68.2 31.6 37.2 12.80 - 0.66 † 80.60
+MetaMorph LLaMA-3 8B - 75.2 71.8 - - 11.8 - - -
+TokenFlow-XL Qwen-2.5 14B 1551.1 76.8 72.6 43.2 48.2 - - 0.63 † 73.38
+Transfusion From Scratch 7B - - - - - 8.70 - 0.63 -
+LMFusion LLaV A-Next 8B 1603.7 72.1 72.5 41.7 - 8.20 - - -
+Janus DeepSeek-LLM 1.5B 1338.0 69.4 63.7 30.5 34.3 8.53 10.10 0.61 -
+JanusFlow DeepSeek-LLM 1.5B 1333.1 74.9 70.5 29.3 30.9 - 9.51 0.63 80.09
+Janus-Pro-1B DeepSeek-LLM 1.5B 1444.0 75.5 68.3 36.3 39.8 - 14.33 ‡ 0.73 82.63
+Janus-Pro-7B DeepSeek-LLM 7B 1567.1 79.2 72.1 41.0 50.0 - 13.48 ‡ 0.80 84.19
+MetaQuery-B LLaV A-ov 0.5B 1238.0 58.5 66.6 31.4 29.1 8.91 6.28 0.74 † 80.04
+MetaQuery-L Qwen2.5-VL 3B 1574.3 78.6 73.8 53.1 63.2 8.87 6.35 0.78 † 81.10
+MetaQuery-XL Qwen2.5-VL 7B 1685.2 83.5 76.9 58.6 66.6 8.69 6.02 0.80 † 82.05
+Table 4 Quantitative results on multimodal understanding and generation benchmarks. We report the COCO FID
+with Stable Diffusion v1.5 (Rombach et al., 2021), and other metrics with Sana (Xie et al., 2025).† denotes rewritten
+prompts. ‡ denotes results tested by us under the same settings.
+Instruction tuning. Furthermore, in this work, we rethink the data curation process for instruction tuning
+in image generation. All current methods rely on expert models to generate target images from source
+images and instructions (Ge et al., 2024; Xiao et al., 2025; Hu et al., 2024a). However, this approach is
+limited in scalability and may introduce biases, as the available expert models cover only a narrow range of
+image transformations. Inspired by MagicLens (Zhang et al., 2024), we construct instruction-tuning data
+using naturally occurring image pairs in web corpora. These corpora contain rich multimodal contexts
+with interleaved text and images on related subjects or topics. These image pairs often exhibit meaningful
+associations and specific relationships spanning a broad spectrum, from direct visual similarities to more subtle
+semantic connections (as shown in Figure 4). Such naturally occurring image pairs provide excellent and
+diverse supervision signals for instruction tuning. Based on this observation, we developed a data construction
+pipeline that mines image pairs and leverages MLLMs to generate open-ended instructions that capture their
+inter-image relationships. First, we collect grouped images from mmc4 (Zhu et al., 2023) core fewer-faces
+subset, where each image is accompanied by a caption. Using SigLIP (Zhai et al., 2023), we cluster images
+with similar captions (allowing up to 6 images per group, with a similarity threshold of 0.5). In each group, the
+image with minimum average similarity to the others is designated as the target, while the remaining images
+serve as source images. This process yields a total of 2.4M image pairs. Finally, we employ Qwen2.5-VL
+3B (Bai et al., 2025) to generate instructions for each pair, describing how to transform the source images into
+the target image (See Appendix A for the detailed MLLM prompt). We experimented with instruction-tuning
+our Base size model on the proposed 2.4M dataset for 3 epochs, using the same learning rate schedule as in
+pre-training and a batch size of 2048.
+5 Experiments
+In this section, we first evaluateMetaQuery on various multimodal understanding and text-to-image generation
+benchmarks (Section 5.1). We demonstrate that MetaQuery can be trained to reconstruct input images
+(Section 5.2). This image reconstruction capability can be easily transferred to perform image editing
+(Section 5.3). Furthermore, we show thatMetaQuery can be instruction-tuned to perform zero-shot subject-
+driven generation (Section 5.4). By leveraging our approach for collecting instruction tuning data from naturally
+existing image pairs, we also reveal thatMetaQuery can unlock novel capabilities like visual association and
+logo design (also in Section 5.4). Additionally, we demonstrate thatMetaQuery can benefit from the internal
+knowledge and reasoning capabilities of the frozen MLLM, overcoming common failures exhibited by other
+generation models (Section 5.5). Finally, we discuss the impact of different MLLM backbones and compare
+MetaQuery’s behavior with the baseline that uses MLLM last layer embeddings (Section 5.6).
+7
+A sunken ship at the bottom of the ocean. A hot air balloon in the shape of a heart. Grand Canyon 
+An old rusted robot wearing pants and a jacket riding skis in a supermarket. 
+A british shorthair wearing sunglasses 
+Close-up of a bright blue parrot's feathers glittering in the light, showing its unique plumage and vibrant colors. 
+A giant humanoid, made of fluffy blue cotton candy, stomping on the ground, and roaring to the sky, clear blue sky behind them. 
+A butterfly lands directly on the nose of a German Shepherd. 
+A close-up of honey being drizzled onto pancakes, the thick liquid flowing slowly and smoothly. 
+A close-up of a painter's brush touching the canvas, with paint spreading and blending in a swirl of colors. 
+A paper origami dragon riding a boat in waves. 
+The reflection of a snowy mountain peak in a crystal-clear alpine lake, creating a perfect mirror image with a slight shimmering effect. 
+The word 'START' written on a street surface. 
+Figure 5 Qualitative results ofMetaQuery. Prompts are from PartiPrompt (Yu et al., 2022), Sana (Xie et al., 2025)
+and Movie Gen Bench (Polyak et al., 2024).
+5.1 Image Understanding and Generation
+As shown in Table 4, our model family demonstrates strong capabilities across both understanding and
+generation tasks. Benefiting from the flexible training approach that allows us to leverage arbitrary SOTA
+frozen MLLMs, all of our models in different sizes exhibit competitive performance on all understanding
+benchmarks (Fu et al., 2023; Liu et al., 2023; Li et al., 2023a; Yue et al., 2024; Yu et al., 2023). In terms of
+image generation, MetaQuery achieves SOTA visual quality on MJHQ-30K (Li et al., 2024b). Given the fact
+that MetaQuery works with frozen MLLMs, we can naturally connect with an arbitrary number of diffusion
+models. Since the base Sana-1.6B (Xie et al., 2025) model is already fine-tuned on aesthetic data, we adopt
+Stable Diffusion v1.5 (Rombach et al., 2021) for COCO FID evaluation. Our results suggest that after
+adapting it to powerful MLLMs, we can achieve improved visual quality as indicated by the COCO FID score
+of 8.69. This also establishes a new SOTA COCO FID score among all Stable Diffusion v1.5-based unified
+models including MetaMorph (Tong et al., 2024) (11.8) and Emu (Sun et al., 2024b) (11.66).
+8
+Real Image SEED
+(Ge et al., 2023)
+Emu
+(Sun et al.,
+2024b)
+Emu2
+(Sun et al.,
+2024a)
+GPT-4o
+(OpenAI, 2025) MetaQuery-B
+Figure 6 Image reconstruction results. Results of SEED, Emu, and Emu2 are from Sun et al. (2024a).
+Add a chef hat to the dog 
+There is a house in front of the mountain 
+Remove the 3-WAY sign 
+Replace the dog with a golden retriever 
+Change to cartoon style 
+Change it into lineart style 
+Chenage the bird to a blue one 
+Replace the fries with salad 
+Figure 7 Image editing results. This capability can be easily transferred from image reconstruction after lightweight
+fine-tuning.
+In terms of prompt alignment,MetaQuery also achieves competitive performance on GenEval (Ghosh et al.,
+2023) and DPG-Bench (Hu et al., 2024b), beating all diffusion model-based approaches including Transfu-
+sion (Zhou et al., 2025) and JanusFlow (Ma et al., 2025). We note that there is a performance gap between
+MetaQuery and Janus-Pro (Chen et al., 2025), which auto-regressively generates image tokens. We suggest that
+this gap may be due to the different failure modes of diffusion models and auto-regressive models: diffusion
+models usually fail to correctly follow the prompt, while auto-regressive models may suffer from more visual
+artifacts, which are difficult to quantify by GenEval and DPG-Bench. We tested the MJHQ-30K FID score
+of Janus-Pro under the same setting as ours and found that, in terms of visual quality and artifact control,
+MetaQuery is significantly better than Janus-Pro (see Appendix B for visual comparison). Additionally, we
+find that MetaQuery achieves much better world knowledge reasoning capability than Janus-Pro, which we
+will elaborate on in Section 5.5. We also found that when scaling up the size of frozen LLMs, the generation
+qulaity and prompt alignment also improves.MetaQuery provides a simple and principled way for leveraging
+the most advanced multimodal LLMs within a unified modeling framework. We also provide qualitative
+results in Figure 5 to illustrate the text-to-image generation capability ofMetaQuery.
+9
+The same robot in Minecraft 
+Top view of the same berry bowl 
+A logo for the same teapot The statue in the same city 
+The toy on the head of the cat 
+The dog wearing sunglasses 
+The skyline view of the city from this building 
+The same model but a real one in New York city 
+Figure 8 Qualitative results for instruction tuning. Instruction-tuned MetaQuery achieves strong subject-driven
+capability (first row) and can even reason through the multimodal input to generate images (second row).
+Methods DINO Score ↑ CLIP-I Score↑ CLIP-T Score↑
+Real Images (Oracle) 0.774 0.885 -
+fine-tuning
+Textual Inversion (Gal et al., 2023) 0.569 0.780 0.255
+DreamBooth (Ruiz et al., 2023) 0.668 0.803 0.305
+BLIP-Diffusion (Li et al., 2023b) 0.670 0.805 0.302
+zero-shot & test time tuning free
+Re-Imagen (Chen et al., 2023) 0.600 0.740 0.270
+BLIP-Diffusion (Li et al., 2023b) 0.594 0.779 0.300
+Kosmos-G (Pan et al., 2024) 0.694 0.847 0.287
+MetaQuery-B-Instruct 0.737 0.852 0.301
+Table 5 Subject-driven generation results on DreamBench (Ruiz et al., 2023).
+5.2 Image Reconstruction
+We demonstrate thatMetaQuery can be easily fine-tuned for image reconstruction tasks with a frozen MLLM
+(See Appendix C for more details). As shown in Figure 6, we compare our fine-tunedMetaQuery-B with
+existing diffusion autoencoders from various unified models, which reconstruct images from predicted visual
+features. Since these unified models are not explicitly fine-tuned for image reconstruction, their results are
+directly decoded from the vision encoder’s output. Remarkably, even under this more constrained setup, our
+10
+Knowledge-Augmented Generation CommonsenseT2I 
+The national flag of the country where Yellowstone National Park is located. 
+The animal associated with having (2+7) lives. 
+The flower celebrated in spring festivals in the country where sushi originated. The tallest building dominates the skyline of the city known as the City of Light. 
+ A phone with a drained battery. A night sky on a new moon night. 
+Ours-L w/
+MetaQueries
+Ours-L w/
+Last Layer Embed∗
+Sana-1.6B
+(Xie et al., 2025)
+Figure 9 MetaQuery leverages frozen MLLMs for reasoning- and knowledge-augmented generation, overcoming the
+failure cases encountered in the base Sana model.∗ denotes that the LLM last layer embeddings of input tokens are
+used for image generation; the model is in L size (Qwen2.5-VL 3B). This approach can be better than the base Sana
+model in some cases but fails to activate in-context learning to perform knowledge-augmented generation. Some of the
+test cases are from MetaMorph (Tong et al., 2024) and CommonsenseT2I (Fu et al., 2024).
+fine-tuned MetaQuery-B can still achieve competitive performance, matching the best existing open-source
+model Emu2 (Sun et al., 2024a). When compared with GPT-4o (OpenAI, 2025), our model also achieves
+comparable quality.
+5.3 Image Editing
+As shown in Figure 7, we demonstrate thatMetaQuery can transfer its image reconstruction capability to
+perform image editing. We keep the MLLM backbone frozen and fine-tune our pre-trained Base model for
+only 1,000 steps on publicly available image editing data. Qualitative results demonstrate thatMetaQuery
+performs effectively in these image-editing scenarios.
+5.4 Instruction Tuning
+We show that after being instruction-tuned on the proposed 2.4M dataset in Section 4,MetaQuery can achieve
+impressive zero-shot subject-driven generation performance, producing coherent results even with multiple
+highly customized subjects (the first row of Figure 8). Using various supervision signals, the instruction-tuned
+MetaQuery-B model surprisingly unlocks novel capabilities like visual association and logo design that go
+beyond copy-pasting (the second row of Figure 8). For example, in the first case, the model identifies the
+specific model of the input Porsche 911 car image, then correctly generates a novel front view for that model.
+In the second case, the model recognizes the input image of Rockefeller Center and imagines the view of New
+York City from the top of the Rockefeller Center.
+We also follow DreamBooth (Ruiz et al., 2023) by adopting DINO, CLIP-I, and CLIP-T scores to quantitatively
+evaluate our model on the DreamBench (Ruiz et al., 2023) dataset. As shown in Table 5, ourMetaQuery-B-
+Instruct model achieves SOTA performance, outperforming existing models like Kosmos-G (Pan et al., 2024)
+that are explicitly trained on constructed substitution tasks for subject-driven generation.
+11
+Methods Cultural Time Space Biology Physics Chemistry Overall
+GPT-4o∗∗ (OpenAI, 2025) 0.94 0.64 0.98 0.93 0.98 0.95 0.89
+Text-to-Image Models
+SD-v1-5 (Rombach et al., 2021) 0.34 0.35 0.32 0.28 0.29 0.21 0.32
+SD-XL (Podell et al., 2023) 0.43 0.48 0.47 0.44 0.45 0.27 0.43
+PixArt-Alpha (Chen et al., 2024) 0.45 0.50 0.48 0.49 0.56 0.34 0.47
+playground-v2.5 (Li et al., 2024b) 0.49 0.58 0.55 0.43 0.48 0.33 0.49
+SD-3.5-large (Esser et al., 2024) 0.44 0.50 0.58 0.44 0.52 0.31 0.46
+FLUX.1-dev (Labs, 2024) 0.48 0.58 0.62 0.42 0.51 0.35 0.50
+Unified Models
+show-o-512 (Xie et al., 2024) 0.28 0.40 0.48 0.30 0.46 0.30 0.35
+vila-u-7b-256 (Wu et al., 2025b) 0.26 0.33 0.37 0.35 0.39 0.23 0.31
+Emu3 (Wang et al., 2024) 0.34 0.45 0.48 0.41 0.45 0.27 0.39
+Janus-1.3B (Wu et al., 2025a) 0.16 0.26 0.35 0.28 0.30 0.14 0.23
+JanusFlow-1.3B (Ma et al., 2025) 0.13 0.26 0.28 0.20 0.19 0.11 0.18
+Janus-Pro-1B (Chen et al., 2025) 0.20 0.28 0.45 0.24 0.32 0.16 0.26
+Janus-Pro-7B (Chen et al., 2025) 0.30 0.37 0.49 0.36 0.42 0.26 0.35
+MetaQuery-B 0.44 0.49 0.58 0.41 0.49 0.34 0.46
+MetaQuery-L 0.56 0.57 0.62 0.48 0.63 0.42 0.55
+MetaQuery-XL 0.56 0.55 0.62 0.49 0.63 0.41 0.55
+Table 6 Comparison of world knowledge reasoning on WISE (Niu et al., 2025). The test cases in WISE are similar
+to the knowledge-augmented generation ones in Figure 9.MetaQuery achieves SOTA performance and significantly
+outperforms all other unified models.∗∗ Results are evaluated by Yan et al. (2025) on a random subset of 200 out of
+1000 samples.
+Methods w/o Neg. Prompt w/ Neg. Prompt
+DALL-E 3 (Ramesh et al., 2021) w/ rewrite 40.17 N/A
+SD-XL (Podell et al., 2023) 26.00 44.83
+SD-3-medium (Esser et al., 2024) 26.17 47.17
+FLUX.1-dev (Labs, 2024) 24.50 22.50
+Sana-1.6B (Xie et al., 2025) 25.17 43.33
+MetaQuery-B 27.33 51.50
+MetaQuery-L 28.83 57.67
+Table 7 Comparison of visual commonsense reasoning capability on CommonsenseT2I (Fu et al., 2024).
+5.5 Reasoning- and Knowledge-Augmented Generation
+We show that the learnable queries can effectively leverage capabilities of the frozen LLM. This enables the
+model to better understand and follow complex prompts, including those requiring real-world knowledge
+and reasoning. As shown in Figure 9, for the left knowledge-augmented generation cases,MetaQuery-L can
+leverage world knowledge from the frozen MLLM and reason through the input question to generate the
+correct answer. For the right commonsense knowledge cases from CommonsenseT2I (Fu et al., 2024), the
+LLM provides better commonsense knowledge and enablesMetaQuery to generate images that are consistent
+with the facts.
+To quantitatively evaluateMetaQuery’s world knowledge reasoning capability, we employ the WISE (Niu
+et al., 2025) benchmark, which contains similar test cases to the knowledge-augmented generation examples
+shown in Figure 9. As demonstrated in Table 6, MetaQuery achieves SOTA performance, significantly
+outperforming all other unified models. Notably, before our work, existing unified models struggled to
+effectively leverage powerful MLLMs for reasoning and knowledge-augmented generation, resulting in inferior
+performance compared to text-to-image models.MetaQuery stands as the first unified model to successfully
+transfer the advanced capabilities of frozen MLLMs to image generation and exceed the performance of SOTA
+text-to-image models.
+12
+LLM Backbones MJHQ-30K FID ↓ GenEval ↑ DPG-Bench ↑ CommonsenseT2I ↑
+Qwen2.5-3B 6.20 0.79 81.34 56.00
+Qwen2.5-3B-Instruct 6.36 0.79 81.12 54.33
+Qwen2.5-VL-3B-Instruct 6.35 0.78 81.10 57.67
+Table 8 Comparison across different LLM backbones. Image generation capability is mostly orthogonal to multimodal
+understanding capability.
+Methods MJHQ-30K FID ↓ GenEval ↑ DPG-Bench ↑ WiScore ↑ CommonsenseT2I ↑
+Ours-L w/ Last Layer Embed∗ 6.41 0.78 81.23 0.48 52.83
+Ours-L w/ MetaQueries 6.35 0.78 81.10 0.55 57.67
+Table 9 Comparison between MetaQuery and LLM last layer embedding.∗ denotes that the LLM last layer embeddings
+of input tokens are used for image generation. We observe comparable performance betweenMetaQuery and LLM last
+layer embedding on visual quality and prompt alignment. However,MetaQuery can activate in-context learning to
+perform knowledge-augmented generation, yielding much better performance on commonsense reasoning and world
+knowledge reasoning.
+We also quantitatively evaluateMetaQuery’s commonsense reasoning capability on the CommonsenseT2I
+benchmark (Fu et al., 2024) in Table 7. For simplicity, we use CLIP (Radford et al., 2021) as the evaluator
+following their original implementation. Results show thatMetaQuery significantly improves the performance
+of the base Sana model, achieving SOTA performance.
+5.6 Discussion
+Comparison over different LLM backbones.As shown in Table 8, to test the impact of employing different
+LLM backbones forMetaQuery, we carefully select a family of backbone models: pre-trained LLM (Qwen2.5-
+3B), instruction-tuned LLM (Qwen2.5-3B-Instruct), and instruction-tuned MLLM (Qwen2.5-VL-3B-Instruct).
+Both instruction-tuned models are initialized with the first pre-trained model checkpoint. Experimental
+results show that instruction tuning can achieve better (multimodal) understanding capabilities. However,
+the improvements are orthogonal to image generation performance when employed to provide multimodal
+generation conditions.
+Comparison with using last layer embeddings.As shown in Table 1, our learnable queries approach achieves
+comparable image generation quality and prompt alignment to using the LLM’s last layer embeddings of input
+tokens. However, the last layer embedding method essentially treats the decoder-only LLM as a text encoder,
+which inherently limits its in-context learning capabilities. While this approach does improve upon the base
+Sana model in some cases as demonstrated in Figure 9, it struggles with the knowledge-augmented generation
+cases shown in the same figure. These cases require the LLM to first process and answer input questions before
+generating corresponding images, demanding in-context learning beyond what text encoders typically provide.
+This performance gap is quantitatively confirmed in Table 9, whereMetaQuery significantly outperforms the
+last layer embedding approach on both WiScore and CommonsenseT2I benchmarks. Integrated natively with
+the LLM, MetaQuery naturally leverages its in-context learning capabilities, enabling the model to reason
+through questions and generate appropriate images.
+6 Conclusion
+We presentedMetaQueries, a simple interface connecting MLLMs (for understanding) and diffusion decoders
+(for generation), effective even when the MLLM is frozen. This approach yields state-of-the-art understanding
+and generation performance with straightforward implementation. By enabling transfer between modalities,
+MetaQueries successfully channels MLLM knowledge and reasoning into multimodal generation. While
+effective, we hypothesize that bridging the remaining gap to leading proprietary systems may primarily
+involve further data scaling. We hopeMetaQueries provides a powerful, accessible baseline for future unified
+multimodal model development.
+13
+References
+Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Mensch,
+Katherine Millican, Malcolm Reynolds, et al. Flamingo: a visual language model for few-shot learning. InNeurIPS,
+2022.
+Shuai Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Sibo Song, Kai Dang, Peng Wang, Shijie Wang, Jun
+Tang, et al. Qwen2. 5-vl technical report.arXiv preprint arXiv:2502.13923, 2025.
+Tim Brooks, Aleksander Holynski, and Alexei A Efros. Instructpix2pix: Learning to follow image editing instructions.
+In CVPR, 2023.
+Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan,
+Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. InNeurIPS, 2020.
+Junsong Chen, Jincheng Yu, Chongjian Ge, Lewei Yao, Enze Xie, Yue Wu, Zhongdao Wang, James Kwok, Ping Luo,
+Huchuan Lu, et al. Pixart-alpha: Fast training of diffusion transformer for photorealistic text-to-image synthesis. In
+ICLR, 2024.
+Wenhu Chen, Hexiang Hu, Chitwan Saharia, and William W Cohen. Re-imagen: Retrieval-augmented text-to-image
+generator. In ICLR, 2023.
+Xiaokang Chen, Zhiyu Wu, Xingchao Liu, Zizheng Pan, Wen Liu, Zhenda Xie, Xingkai Yu, and Chong Ruan. Janus-pro:
+Unified multimodal understanding and generation with data and model scaling.arXiv preprint arXiv:2501.17811,
+2025.
+Jacob Devlin. Bert: Pre-training of deep bidirectional transformers for language understanding. InNAACL, 2019.
+Runpei Dong, Chunrui Han, Yuang Peng, Zekun Qi, Zheng Ge, Jinrong Yang, Liang Zhao, Jianjian Sun, Hongyu
+Zhou, Haoran Wei, et al. Dreamllm: Synergistic multimodal comprehension and creation. InICLR, 2024.
+Patrick Esser, Sumith Kulal, Andreas Blattmann, Rahim Entezari, Jonas Müller, Harry Saini, Yam Levi, Dominik
+Lorenz, Axel Sauer, Frederic Boesel, et al. Scaling rectified flow transformers for high-resolution image synthesis. In
+ICML, 2024.
+Chaoyou Fu, Peixian Chen, Yunhang Shen, Yulei Qin, Mengdan Zhang, Xu Lin, Jinrui Yang, Xiawu Zheng, Ke Li,
+Xing Sun, et al. Mme: A comprehensive evaluation benchmark for multimodal large language models.arXiv preprint
+arXiv:2306.13394, 2023.
+Xingyu Fu, Muyu He, Yujie Lu, William Yang Wang, and Dan Roth. Commonsense-t2i challenge: Can text-to-image
+generation models understand commonsense? InCOLM, 2024.
+Rinon Gal, Yuval Alaluf, Yuval Atzmon, Or Patashnik, Amit H Bermano, Gal Chechik, and Daniel Cohen-Or. An
+image is worth one word: Personalizing text-to-image generation using textual inversion. InICLR, 2023.
+Yuying Ge, Yixiao Ge, Ziyun Zeng, Xintao Wang, and Ying Shan. Planting a seed of vision in large language model.
+arXiv preprint arXiv:2307.08041, 2023.
+Yuying Ge, Sijie Zhao, Jinguo Zhu, Yixiao Ge, Kun Yi, Lin Song, Chen Li, Xiaohan Ding, and Ying Shan. Seed-x:
+Multimodal models with unified multi-granularity comprehension and generation.arXiv preprint arXiv:2404.14396,
+2024.
+Dhruba Ghosh, Hannaneh Hajishirzi, and Ludwig Schmidt. Geneval: An object-focused framework for evaluating
+text-to-image alignment. InNeurIPS, 2023.
+Google. Experiment with gemini 2.0 flash native image generation, 2025.https://developers.googleblog.com/en/
+experiment-with-gemini-20-flash-native-image-generation/ .
+Martin Heusel, Hubert Ramsauer, Thomas Unterthiner, Bernhard Nessler, and Sepp Hochreiter. Gans trained by a
+two time-scale update rule converge to a local nash equilibrium. InNeurIPS, 2017.
+Hexiang Hu, Kelvin CK Chan, Yu-Chuan Su, Wenhu Chen, Yandong Li, Kihyuk Sohn, Yang Zhao, Xue Ben, Boqing
+Gong, William Cohen, et al. Instruct-imagen: Image generation with multi-modal instruction. InCVPR, 2024a.
+Xiwei Hu, Rui Wang, Yixiao Fang, Bin Fu, Pei Cheng, and Gang Yu. Ella: Equip diffusion models with llm for
+enhanced semantic alignment.arXiv preprint arXiv:2403.05135, 2024b.
+14

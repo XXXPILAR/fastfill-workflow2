@@ -1,0 +1,329 @@
+{
+ "floor": [
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     395.0,
+     -4.5
+    ],
+    [
+     395.0,
+     65.5
+    ],
+    [
+     305.0,
+     65.5
+    ],
+    [
+     305.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "cabinet-1",
+   "id": "cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.55,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     500.0,
+     -4.5
+    ],
+    [
+     500.0,
+     65.5
+    ],
+    [
+     410.0,
+     65.5
+    ],
+    [
+     410.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-1"
+  },
+  {
+   "assetId": "cabinet-2",
+   "id": "cabinet-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.45,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.0,
+     -4.5
+    ],
+    [
+     290.0,
+     65.5
+    ],
+    [
+     200.0,
+     65.5
+    ],
+    [
+     200.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-2"
+  },
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.45,
+    "y": 0.925,
+    "z": 7.27625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     295.0,
+     770.125
+    ],
+    [
+     295.0,
+     685.125
+    ],
+    [
+     195.0,
+     685.125
+    ],
+    [
+     195.0,
+     770.125
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  },
+  {
+   "assetId": "cabinet-3",
+   "id": "cabinet-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 7.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     655.0
+    ],
+    [
+     65.5,
+     745.0
+    ],
+    [
+     -4.5,
+     745.0
+    ],
+    [
+     -4.5,
+     655.0
+    ]
+   ],
+   "object_name": "cabinet-3"
+  },
+  {
+   "assetId": "dishwasher-0",
+   "id": "dishwasher-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.425,
+    "z": 1.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     70.0
+    ],
+    [
+     65.5,
+     140.0
+    ],
+    [
+     -4.5,
+     140.0
+    ],
+    [
+     -4.5,
+     70.0
+    ]
+   ],
+   "object_name": "dishwasher-0"
+  },
+  {
+   "assetId": "cabinet-4",
+   "id": "cabinet-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     375.0
+    ],
+    [
+     65.5,
+     465.0
+    ],
+    [
+     -4.5,
+     465.0
+    ],
+    [
+     -4.5,
+     375.0
+    ]
+   ],
+   "object_name": "cabinet-4"
+  },
+  {
+   "assetId": "cabinet-5",
+   "id": "cabinet-5 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 0.45,
+    "z": 2.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     225.0
+    ],
+    [
+     50.5,
+     335.0
+    ],
+    [
+     -4.5,
+     335.0
+    ],
+    [
+     -4.5,
+     225.0
+    ]
+   ],
+   "object_name": "cabinet-5"
+  },
+  {
+   "assetId": "couch-0",
+   "id": "couch-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.2,
+    "y": 0.425,
+    "z": 7.20125
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     530.0,
+     770.125
+    ],
+    [
+     530.0,
+     670.125
+    ],
+    [
+     310.0,
+     670.125
+    ],
+    [
+     310.0,
+     770.125
+    ]
+   ],
+   "object_name": "couch-0"
+  }
+ ],
+ "wall": []
+}

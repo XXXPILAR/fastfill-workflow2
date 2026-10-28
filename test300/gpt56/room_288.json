@@ -1,0 +1,46 @@
+{
+ "k": 288,
+ "source": "Structured3D",
+ "room_type": "kitchen",
+ "latency_s": 8.819036042084917,
+ "usage": [
+  {
+   "prompt_tokens": 866,
+   "completion_tokens": 330,
+   "total_tokens": 1196,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 188,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.65,
+     0.6,
+     1.85
+    ],
+    "bottom_center_m": [
+     0.325,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe refrigerator is the only object and needs wall backing plus clear access to its front. It is placed midway along the left wall, away from the wide entrance door and clear of the window at the far end. Facing into the room keeps the narrow central walkway usable.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.6,\"depth_m\":0.65,\"height_m\":1.85,\"x\":0.325,\"y\":1.55,\"z\":0.0,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 1.696 m x 3.386 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [1.696, 0.0], [1.696, 2.573], [1.206, 2.573], [1.206, 3.386], [0.0, 3.386]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.889, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [1.696, 0.0], \"width_m\": 1.348, \"height_m\": 2.0}, {\"type\": \"window\", \"centre_xy\": [0.673, 3.386], \"wall_from\": [1.206, 3.386], \"wall_to\": [0.0, 3.386], \"width_m\": 0.8, \"height_m\": 1.2, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]"
+}

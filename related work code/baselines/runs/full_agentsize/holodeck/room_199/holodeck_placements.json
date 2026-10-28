@@ -1,0 +1,190 @@
+{
+ "floor": [
+  {
+   "assetId": "tv cabinet-0",
+   "id": "tv cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.15,
+    "y": 0.275,
+    "z": 1.5500000000000003
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     830.0,
+     127.50000000000003
+    ],
+    [
+     830.0,
+     182.50000000000003
+    ],
+    [
+     600.0,
+     182.50000000000003
+    ],
+    [
+     600.0,
+     127.50000000000003
+    ]
+   ],
+   "object_name": "tv cabinet-0"
+  },
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.15,
+    "y": 0.425,
+    "z": 3.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     890.0,
+     472.0
+    ],
+    [
+     890.0,
+     282.0
+    ],
+    [
+     540.0,
+     282.0
+    ],
+    [
+     540.0,
+     472.0
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  },
+  {
+   "assetId": "dining table combination-0",
+   "id": "dining table combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.75,
+    "y": 0.39,
+    "z": 3.525
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     400.0,
+     432.5
+    ],
+    [
+     400.0,
+     272.5
+    ],
+    [
+     150.0,
+     272.5
+    ],
+    [
+     150.0,
+     432.5
+    ]
+   ],
+   "object_name": "dining table combination-0"
+  },
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.55,
+    "y": 0.925,
+    "z": 3.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     105.0,
+     432.5
+    ],
+    [
+     105.0,
+     347.5
+    ],
+    [
+     5.0,
+     347.5
+    ],
+    [
+     5.0,
+     432.5
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "air conditioner-0",
+   "id": "air conditioner-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.395,
+    "y": 2.36,
+    "z": 4.54
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     789.5,
+     442.5
+    ],
+    [
+     789.5,
+     467.5
+    ],
+    [
+     689.5,
+     467.5
+    ],
+    [
+     689.5,
+     442.5
+    ],
+    [
+     789.5,
+     442.5
+    ]
+   ],
+   "object_name": "air conditioner-0"
+  }
+ ]
+}

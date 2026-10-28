@@ -1,0 +1,102 @@
+{
+ "k": 219,
+ "source": "SpatialLM",
+ "room_type": "bedroom with home office",
+ "latency_s": 19.727723417105153,
+ "usage": [
+  {
+   "prompt_tokens": 1047,
+   "completion_tokens": 914,
+   "total_tokens": 1961,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 516,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.55,
+     0.52,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.17,
+     1.02,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     1.75,
+     0.7,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.27,
+     1.68,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     1.95,
+     1.0,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.551,
+     3.964,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.4,
+     0.35,
+     0.52
+    ],
+    "bottom_center_m": [
+     0.826,
+     4.739,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.4,
+     0.35,
+     0.52
+    ],
+    "bottom_center_m": [
+     2.276,
+     4.739,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bed is the largest object, so it is placed lengthwise at the far end of the room with its head against the short top wall. The two nightstands flank it symmetrically, satisfying the requirement that the bed be between them. This leaves the left-side door approach and the central circulation route unobstructed. A narrow carpet defines the open central area without overlapping furniture, while the chair forms a small reading or work seat near the front-right corner and receives natural light from the large window.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.52,\"depth_m\":0.55,\"height_m\":0.82,\"x\":2.17,\"y\":1.02,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.7,\"depth_m\":1.75,\"height_m\":0.02,\"x\":1.27,\"y\":1.68,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":1.0,\"depth_m\":1.95,\"height_m\":0.55,\"x\":1.551,\"y\":3.964,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.35,\"depth_m\":0.4,\"height_m\":0.52,\"x\":0.826,\"y\":4.739,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.35,\"depth_m\":0.4,\"height_m\":0.52,\"x\":2.276,\"y\":4.739,\"z\":0.0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom with home office\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.551 m x 4.939 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [2.551, 0.0], [2.551, 4.939], [0.551, 4.939], [0.551, 3.929], [0.0, 3.929]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"carpet\", \"description\": \"carpet\"},\n{\"id\": \"obj_0002\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0003\", \"category\": \"nightstand\", \"description\": \"nightstand\"},\n{\"id\": \"obj_0004\", \"category\": \"nightstand\", \"description\": \"nightstand\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.278, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.551, 0.0], \"width_m\": 1.54, \"height_m\": 1.531, \"sill_height_m\": 0.735}, {\"type\": \"window\", \"centre_xy\": [2.551, 3.726], \"wall_from\": [2.551, 0.0], \"wall_to\": [2.551, 4.939], \"width_m\": 0.813, \"height_m\": 1.531, \"sill_height_m\": 0.85}, {\"type\": \"door\", \"centre_xy\": [0.0, 3.422], \"wall_from\": [0.0, 3.929], \"wall_to\": [0.0, 0.0], \"width_m\": 0.966, \"height_m\": 2.186}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0002\", \"target_ids\": [\"obj_0004\", \"obj_0003\"]}]\n[/Task Constraints]"
+}

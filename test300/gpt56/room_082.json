@@ -1,0 +1,312 @@
+{
+ "k": 82,
+ "source": "InternScenes_gen",
+ "room_type": "diningroom",
+ "latency_s": 82.63005208293907,
+ "usage": [
+  {
+   "prompt_tokens": 1298,
+   "completion_tokens": 4422,
+   "total_tokens": 5720,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3224,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.52,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     3.75,
+     2.15,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.52,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     1.15,
+     2.15,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.42,
+     0.7,
+     0.78
+    ],
+    "bottom_center_m": [
+     2.35,
+     4.053,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.42,
+     0.7,
+     0.78
+    ],
+    "bottom_center_m": [
+     3.12,
+     4.053,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.16,
+     0.16,
+     0.42
+    ],
+    "bottom_center_m": [
+     2.35,
+     4.053,
+     0.78
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.21,
+     0.85,
+     1.05
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.21,
+     3.35,
+     1.15
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.25,
+     1.0,
+     0.18
+    ],
+    "bottom_center_m": [
+     4.638,
+     2.15,
+     1.35
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.11
+    ],
+    "bottom_center_m": [
+     1.9,
+     2.0,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.42,
+     0.8,
+     0.78
+    ],
+    "bottom_center_m": [
+     4.02,
+     4.053,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.17,
+     0.17,
+     0.4
+    ],
+    "bottom_center_m": [
+     3.12,
+     4.053,
+     0.78
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.22,
+     0.8,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.11,
+     2.05,
+     1.45
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.52,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     2.0,
+     3.05,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     0.25
+    ],
+    "bottom_center_m": [
+     2.45,
+     2.15,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.28,
+     0.04,
+     0.02
+    ],
+    "bottom_center_m": [
+     2.85,
+     1.95,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.52,
+     0.48,
+     0.86
+    ],
+    "bottom_center_m": [
+     2.9,
+     3.05,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.9,
+     1.8,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.45,
+     2.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.42,
+     0.8,
+     1.05
+    ],
+    "bottom_center_m": [
+     0.21,
+     0.9,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.95,
+     2.3,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.42,
+     1.1,
+     1.15
+    ],
+    "bottom_center_m": [
+     0.21,
+     3.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining table occupies the center, with obj_0000 and obj_0001 placed opposite one another at its east and west ends. This puts the table between them, while obj_0001 faces east toward obj_0007. Low cabinets sit beneath the north window, and additional storage and a wall shelf use the west wall without narrowing the central dining area. The east shelf is wall-mounted to preserve floor space. Tableware is grouped on the dining table, while lamps and vases rest on cabinet tops. The area between the south door and the table remains open as the main circulation path.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.48,\"depth_m\":0.52,\"height_m\":0.86,\"x\":3.75,\"y\":2.15,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":0.48,\"depth_m\":0.52,\"height_m\":0.86,\"x\":1.15,\"y\":2.15,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.7,\"depth_m\":0.42,\"height_m\":0.78,\"x\":2.35,\"y\":4.053,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.7,\"depth_m\":0.42,\"height_m\":0.78,\"x\":3.12,\"y\":4.053,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.16,\"depth_m\":0.16,\"height_m\":0.42,\"x\":2.35,\"y\":4.053,\"z\":0.78,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.5,\"x\":0.21,\"y\":0.85,\"z\":1.05,\"facing_deg\":0},{\"id\":\"obj_0006\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.5,\"x\":0.21,\"y\":3.35,\"z\":1.15,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":1.0,\"depth_m\":0.25,\"height_m\":0.18,\"x\":4.638,\"y\":2.15,\"z\":1.35,\"facing_deg\":180},{\"id\":\"obj_0008\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.11,\"x\":1.9,\"y\":2.0,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.8,\"depth_m\":0.42,\"height_m\":0.78,\"x\":4.02,\"y\":4.053,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":0.17,\"depth_m\":0.17,\"height_m\":0.4,\"x\":3.12,\"y\":4.053,\"z\":0.78,\"facing_deg\":270},{\"id\":\"obj_0011\",\"width_m\":0.8,\"depth_m\":0.22,\"height_m\":0.18,\"x\":0.11,\"y\":2.05,\"z\":1.45,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":0.48,\"depth_m\":0.52,\"height_m\":0.86,\"x\":2.0,\"y\":3.05,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0013\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":0.25,\"x\":2.45,\"y\":2.15,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0014\",\"width_m\":0.04,\"depth_m\":0.28,\"height_m\":0.02,\"x\":2.85,\"y\":1.95,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0015\",\"width_m\":0.48,\"depth_m\":0.52,\"height_m\":0.86,\"x\":2.9,\"y\":3.05,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0016\",\"width_m\":1.8,\"depth_m\":0.9,\"height_m\":0.75,\"x\":2.45,\"y\":2.15,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0017\",\"width_m\":0.8,\"depth_m\":0.42,\"height_m\":1.05,\"x\":0.21,\"y\":0.9,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0018\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.11,\"x\":2.95,\"y\":2.3,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":1.1,\"depth_m\":0.42,\"height_m\":1.15,\"x\":0.21,\"y\":3.35,\"z\":0.0,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndiningroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.763 m x 4.263 m x unknown\nfloor polygon (x, y): [[4.763, 0.0], [4.763, 4.263], [0.0, 4.263], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0002\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0003\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0004\", \"category\": \"vase\", \"description\": \"vase\"},\n{\"id\": \"obj_0005\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0006\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0007\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0008\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0009\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0010\", \"category\": \"vase\", \"description\": \"vase\"},\n{\"id\": \"obj_0011\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0012\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0013\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0014\", \"category\": \"knife\", \"description\": \"knife\"},\n{\"id\": \"obj_0015\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0016\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0017\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0018\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0019\", \"category\": \"cabinet\", \"description\": \"cabinet\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [3.245, 4.263], \"wall_from\": [4.763, 4.263], \"wall_to\": [0.0, 4.263], \"width_m\": 2.578, \"height_m\": 1.141, \"sill_height_m\": 0.947}, {\"type\": \"door\", \"centre_xy\": [2.03, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [4.763, 0.0], \"width_m\": 0.355, \"height_m\": 2.023}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0016\", \"target_ids\": [\"obj_0000\", \"obj_0001\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0007\"}]\n[/Task Constraints]"
+}

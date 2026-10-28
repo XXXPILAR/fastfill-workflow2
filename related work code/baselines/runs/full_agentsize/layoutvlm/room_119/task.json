@@ -1,0 +1,57 @@
+{
+ "task_description": "a meeting room of about 5.0m x 7.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.94 m wide centred at (5.00, 1.10) (keep the floor in front of it clear); a window 1.48 m wide centred at (0.00, 5.63); a window 1.48 m wide centred at (0.00, 3.35); a window 1.48 m wide centred at (0.00, 0.83). the side meeting chair (o0006) should be between the side meeting chair (o0025) and the side meeting chair (o0010). the conference chair (o0012) should face the storage cabinet (o0023)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.0,
+    7.0,
+    0.0
+   ],
+   [
+    0.0,
+    7.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.2
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {},
+  "o0018-0": {},
+  "o0019-0": {},
+  "o0020-0": {},
+  "o0021-0": {},
+  "o0022-0": {},
+  "o0023-0": {},
+  "o0024-0": {},
+  "o0025-0": {}
+ }
+}

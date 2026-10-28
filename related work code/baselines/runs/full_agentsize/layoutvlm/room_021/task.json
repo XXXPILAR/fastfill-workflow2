@@ -1,0 +1,46 @@
+{
+ "task_description": "a bedroom of about 3.4m x 3.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (0.52, 3.75) (keep the floor in front of it clear); a window 2.46 m wide centred at (1.52, 0.00). the king size bed (o0002) should be between the nightstand (o0001) and the nightstand (o0004). the king size bed (o0002) should face the potted plant (o0000)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    1.0359000000000003,
+    3.5319000000000003,
+    0.0
+   ],
+   [
+    1.0359000000000003,
+    3.7538,
+    0.0
+   ],
+   [
+    0.0,
+    3.7538,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.4211,
+    0.0,
+    0.0
+   ],
+   [
+    3.4211,
+    3.5319000000000003,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

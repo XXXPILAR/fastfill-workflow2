@@ -1,0 +1,69 @@
+{
+ "task_description": "a bedroom / hotel of about 3.1m x 3.4m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.90 m wide centred at (0.00, 1.81) (keep the floor in front of it clear); a door 0.87 m wide centred at (0.00, 0.80) (keep the floor in front of it clear); a window 1.85 m wide centred at (3.12, 1.97). the basket (o0001) should be between the bag (o0013) and the bag (o0004). the bed (o0000) should face the bag (o0017)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    3.3984375,
+    0.0
+   ],
+   [
+    0.0,
+    0.0390625,
+    0.0
+   ],
+   [
+    0.0390625,
+    0.0,
+    0.0
+   ],
+   [
+    3.0859375,
+    0.0,
+    0.0
+   ],
+   [
+    3.125,
+    0.0390625,
+    0.0
+   ],
+   [
+    3.125,
+    3.3984375,
+    0.0
+   ],
+   [
+    3.0859375,
+    3.4375,
+    0.0
+   ],
+   [
+    0.0390625,
+    3.4375,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {}
+ }
+}

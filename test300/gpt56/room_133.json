@@ -1,0 +1,440 @@
+{
+ "k": 133,
+ "source": "MansionWorld",
+ "room_type": "entrance_hall",
+ "latency_s": 119.90456116711721,
+ "usage": [
+  {
+   "prompt_tokens": 2441,
+   "completion_tokens": 6491,
+   "total_tokens": 8932,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 4864,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0021 (wall shelf) and fixed_0002 (wall hook rail) intersect (0.010 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.04,
+     0.9,
+     1.1
+    ],
+    "bottom_center_m": [
+     9.98,
+     5.25,
+     1.3
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.64,
+     1.3,
+     1.45
+    ],
+    "bottom_center_m": [
+     8.1,
+     0.32,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.1,
+     0.3,
+     0.35
+    ],
+    "bottom_center_m": [
+     8.25,
+     6.7,
+     0.82
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.25,
+     0.25,
+     0.35
+    ],
+    "bottom_center_m": [
+     8.1,
+     0.32,
+     1.45
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.42,
+     1.2,
+     0.82
+    ],
+    "bottom_center_m": [
+     0.21,
+     4.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.46,
+     0.46,
+     0.5
+    ],
+    "bottom_center_m": [
+     2.2,
+     5.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.85,
+     0.8,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.2,
+     5.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.12,
+     0.12,
+     0.18
+    ],
+    "bottom_center_m": [
+     2.2,
+     5.4,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.18,
+     0.35,
+     0.48
+    ],
+    "bottom_center_m": [
+     9.78,
+     1.0,
+     0.85
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.8
+    ],
+    "bottom_center_m": [
+     9.65,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.22,
+     0.4,
+     0.4
+    ],
+    "bottom_center_m": [
+     9.78,
+     3.8,
+     0.85
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.04,
+     0.9,
+     1.1
+    ],
+    "bottom_center_m": [
+     0.02,
+     5.3,
+     1.3
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     1.45
+    ],
+    "bottom_center_m": [
+     0.55,
+     3.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.5,
+     1.4,
+     0.48
+    ],
+    "bottom_center_m": [
+     4.7,
+     6.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.42,
+     0.65,
+     0.32
+    ],
+    "bottom_center_m": [
+     5.1,
+     4.8,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.2,
+     0.24,
+     0.12
+    ],
+    "bottom_center_m": [
+     0.21,
+     4.55,
+     0.82
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.85,
+     0.8,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.2,
+     5.4,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.45,
+     1.8,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.25,
+     6.775,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.42,
+     0.65,
+     0.32
+    ],
+    "bottom_center_m": [
+     7.0,
+     5.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     1.45
+    ],
+    "bottom_center_m": [
+     4.0,
+     5.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.44,
+     1.4,
+     0.85
+    ],
+    "bottom_center_m": [
+     9.78,
+     3.8,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.22,
+     1.0,
+     0.18
+    ],
+    "bottom_center_m": [
+     0.7,
+     2.11,
+     1.65
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     0.6
+    ],
+    "bottom_center_m": [
+     8.9,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.14,
+     0.42,
+     0.15
+    ],
+    "bottom_center_m": [
+     1.2,
+     5.4,
+     0.85
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.04,
+     1.0,
+     1.1
+    ],
+    "bottom_center_m": [
+     4.8,
+     6.98,
+     1.3
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.44,
+     1.4,
+     0.85
+    ],
+    "bottom_center_m": [
+     9.78,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.55
+    ],
+    "bottom_center_m": [
+     9.55,
+     6.3,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.22,
+     1.0,
+     0.18
+    ],
+    "bottom_center_m": [
+     2.6,
+     0.11,
+     1.65
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.14,
+     0.42,
+     0.15
+    ],
+    "bottom_center_m": [
+     3.2,
+     5.4,
+     0.85
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe tall cabinet, shoe cabinets, consoles, bench, and seating group are placed along the perimeter so the large central area remains open. The two shoe cabinets share the east wall, with the coat stand positioned between them as required; the umbrella stand is nearby. The armchairs face one another across the small side table, with their pillows and candle placed on the specified supports. The north-wall bench and large console occupy wall sections between doors, while all door approaches remain unobstructed. Wall art and shelves use clear wall sections away from the fixed hook rails, and the south entry doors open into a broad circulation route through the center of the hall.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.9,\"depth_m\":0.04,\"height_m\":1.1,\"x\":9.98,\"y\":5.25,\"z\":1.3,\"facing_deg\":180},{\"id\":\"obj_0001\",\"width_m\":1.3,\"depth_m\":0.64,\"height_m\":1.45,\"x\":8.1,\"y\":0.32,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.3,\"depth_m\":0.1,\"height_m\":0.35,\"x\":8.25,\"y\":6.7,\"z\":0.82,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.25,\"depth_m\":0.25,\"height_m\":0.35,\"x\":8.1,\"y\":0.32,\"z\":1.45,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":1.2,\"depth_m\":0.42,\"height_m\":0.82,\"x\":0.21,\"y\":4.55,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":0.46,\"depth_m\":0.46,\"height_m\":0.5,\"x\":2.2,\"y\":5.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0006\",\"width_m\":0.8,\"depth_m\":0.85,\"height_m\":0.85,\"x\":1.2,\"y\":5.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":0.12,\"depth_m\":0.12,\"height_m\":0.18,\"x\":2.2,\"y\":5.4,\"z\":0.5,\"facing_deg\":0},{\"id\":\"obj_0008\",\"width_m\":0.35,\"depth_m\":0.18,\"height_m\":0.48,\"x\":9.78,\"y\":1,\"z\":0.85,\"facing_deg\":180},{\"id\":\"obj_0009\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.8,\"x\":9.65,\"y\":2.4,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0010\",\"width_m\":0.4,\"depth_m\":0.22,\"height_m\":0.4,\"x\":9.78,\"y\":3.8,\"z\":0.85,\"facing_deg\":180},{\"id\":\"obj_0011\",\"width_m\":0.9,\"depth_m\":0.04,\"height_m\":1.1,\"x\":0.02,\"y\":5.3,\"z\":1.3,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":1.45,\"x\":0.55,\"y\":3.35,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0013\",\"width_m\":1.4,\"depth_m\":0.5,\"height_m\":0.48,\"x\":4.7,\"y\":6.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":0.65,\"depth_m\":0.42,\"height_m\":0.32,\"x\":5.1,\"y\":4.8,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0015\",\"width_m\":0.24,\"depth_m\":0.2,\"height_m\":0.12,\"x\":0.21,\"y\":4.55,\"z\":0.82,\"facing_deg\":0},{\"id\":\"obj_0016\",\"width_m\":0.8,\"depth_m\":0.85,\"height_m\":0.85,\"x\":3.2,\"y\":5.4,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0017\",\"width_m\":1.8,\"depth_m\":0.45,\"height_m\":0.82,\"x\":8.25,\"y\":6.775,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0018\",\"width_m\":0.65,\"depth_m\":0.42,\"height_m\":0.32,\"x\":7,\"y\":5.4,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":1.45,\"x\":4,\"y\":5,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0020\",\"width_m\":1.4,\"depth_m\":0.44,\"height_m\":0.85,\"x\":9.78,\"y\":3.8,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0021\",\"width_m\":1,\"depth_m\":0.22,\"height_m\":0.18,\"x\":0.7,\"y\":2.11,\"z\":1.65,\"facing_deg\":90},{\"id\":\"obj_0022\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":0.6,\"x\":8.9,\"y\":2.4,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0023\",\"width_m\":0.42,\"depth_m\":0.14,\"height_m\":0.15,\"x\":1.2,\"y\":5.4,\"z\":0.85,\"facing_deg\":0},{\"id\":\"obj_0024\",\"width_m\":1,\"depth_m\":0.04,\"height_m\":1.1,\"x\":4.8,\"y\":6.98,\"z\":1.3,\"facing_deg\":270},{\"id\":\"obj_0025\",\"width_m\":1.4,\"depth_m\":0.44,\"height_m\":0.85,\"x\":9.78,\"y\":1,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0026\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.55,\"x\":9.55,\"y\":6.3,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0027\",\"width_m\":1,\"depth_m\":0.22,\"height_m\":0.18,\"x\":2.6,\"y\":0.11,\"z\":1.65,\"facing_deg\":90},{\"id\":\"obj_0028\",\"width_m\":0.42,\"depth_m\":0.14,\"height_m\":0.15,\"x\":3.2,\"y\":5.4,\"z\":0.85,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nentrance_hall\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 10.000 m x 7.000 m x 3.000 m\nfloor polygon (x, y): [[2.0, 2.0], [2.0, 0.0], [10.0, 0.0], [10.0, 7.0], [0.0, 7.0], [0.0, 2.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"entry art print\", \"description\": \"A multicolored poster of tree foliage labelled 'the jungle book'.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0001\", \"category\": \"entry side cabinet\", \"description\": \"A tall orange brown dresser with two vertical doors.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"framed photo\", \"description\": \"A framed poster picture of four people with a white note taped to the back.\", \"support_parent\": \"obj_0017\"},\n{\"id\": \"obj_0003\", \"category\": \"vase\", \"description\": \"An hourglass shaped vase that is dark brown colored.\", \"support_parent\": \"obj_0001\"},\n{\"id\": \"obj_0004\", \"category\": \"entrance console table\", \"description\": \"entrance console table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"small entry side table\", \"description\": \"A small wooden stool with a round top and two legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"entrance armchair\", \"description\": \"A wooden armchair with white cushions.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"scented candle\", \"description\": \"A white and yellow candle in a candle holder.\", \"support_parent\": \"obj_0005\"},\n{\"id\": \"obj_0008\", \"category\": \"basket\", \"description\": \"Tall, narrow tote bag with long handles and two vertical stripes on each side.\", \"support_parent\": \"obj_0025\"},\n{\"id\": \"obj_0009\", \"category\": \"coat stand\", \"description\": \"The coatrack is wooden with a round bottom.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"basket\", \"description\": \"A blue and yellow bag with two handles.\", \"support_parent\": \"obj_0020\"},\n{\"id\": \"obj_0011\", \"category\": \"entry art print\", \"description\": \"A multicolored poster of tree foliage labelled 'the jungle book'.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0012\", \"category\": \"floor lamp\", \"description\": \"A white stool with three legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"entry bench\", \"description\": \"A long ottoman with metal legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"entry storage basket set\", \"description\": \"A rectangular wicker basket with the handles folded down.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0015\", \"category\": \"decorative bowl\", \"description\": \"A yellow and black cup.\", \"support_parent\": \"obj_0004\"},\n{\"id\": \"obj_0016\", \"category\": \"entrance armchair\", \"description\": \"A wooden armchair with white cushions.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"large entrance console table\", \"description\": \"Wood table with narrow top and tall legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0018\", \"category\": \"entry storage basket set\", \"description\": \"A rectangular wicker basket with the handles folded down.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0019\", \"category\": \"floor lamp\", \"description\": \"A white stool with three legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0020\", \"category\": \"shoe cabinet\", \"description\": \"A wooden console table with 2 white drawers.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0021\", \"category\": \"wall shelf\", \"description\": \"A long wooden box with a hinge on it.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0022\", \"category\": \"umbrella stand\", \"description\": \"umbrella stand\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0023\", \"category\": \"throw pillow\", \"description\": \"Red pillow with gray border and yellow letters.\", \"support_parent\": \"obj_0006\"},\n{\"id\": \"obj_0024\", \"category\": \"entry art print\", \"description\": \"A multicolored poster of tree foliage labelled 'the jungle book'.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0025\", \"category\": \"shoe cabinet\", \"description\": \"A wooden console table with 2 white drawers.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0026\", \"category\": \"tall potted plant\", \"description\": \"A green plant with spiky leaves in a flower pot.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0027\", \"category\": \"wall shelf\", \"description\": \"A long wooden box with a hinge on it.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0028\", \"category\": \"throw pillow\", \"description\": \"Red pillow with gray border and yellow letters.\", \"support_parent\": \"obj_0016\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [4.426, 0.0], \"wall_from\": [2.0, 0.0], \"wall_to\": [10.0, 0.0], \"width_m\": 1.05, \"height_m\": 2.1}, {\"type\": \"door\", \"centre_xy\": [5.987, 0.0], \"wall_from\": [2.0, 0.0], \"wall_to\": [10.0, 0.0], \"width_m\": 1.91, \"height_m\": 2.1}, {\"type\": \"door\", \"centre_xy\": [6.554, 7.0], \"wall_from\": [10.0, 7.0], \"wall_to\": [0.0, 7.0], \"width_m\": 1.0, \"height_m\": 2.1}, {\"type\": \"door\", \"centre_xy\": [3.056, 7.0], \"wall_from\": [10.0, 7.0], \"wall_to\": [0.0, 7.0], \"width_m\": 1.024, \"height_m\": 2.1}, {\"type\": \"door\", \"centre_xy\": [0.737, 7.0], \"wall_from\": [10.0, 7.0], \"wall_to\": [0.0, 7.0], \"width_m\": 1.05, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0002\", \"category\": \"wall hook rail\", \"width_m\": 0.706, \"depth_m\": 0.181, \"height_m\": 0.353, \"bottom_centre\": [1.5, 2.101, 1.4], \"facing_deg\": 90.0}, {\"id\": \"fixed_0003\", \"category\": \"wall hook rail\", \"width_m\": 0.706, \"depth_m\": 0.181, \"height_m\": 0.353, \"bottom_centre\": [3.5, 0.101, 1.4], \"facing_deg\": 90.0}, {\"id\": \"fixed_0006\", \"category\": \"wall hook rail\", \"width_m\": 0.706, \"depth_m\": 0.181, \"height_m\": 0.353, \"bottom_centre\": [0.101, 3.5, 1.4], \"facing_deg\": 0.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0010\", \"parent_id\": \"obj_0020\"}, {\"type\": \"between\", \"object_id\": \"obj_0009\", \"target_ids\": [\"obj_0025\", \"obj_0020\"]}]\n[/Task Constraints]"
+}

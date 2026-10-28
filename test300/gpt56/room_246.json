@@ -1,0 +1,174 @@
+{
+ "k": 246,
+ "source": "SpatialLM",
+ "room_type": "living room",
+ "latency_s": 58.89175641699694,
+ "usage": [
+  {
+   "prompt_tokens": 1518,
+   "completion_tokens": 3121,
+   "total_tokens": 4639,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2429,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0005 (wine cabinet) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.4,
+     1.3,
+     1.0
+    ],
+    "bottom_center_m": [
+     2.0,
+     8.74,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.46
+    ],
+    "bottom_center_m": [
+     4.7,
+     6.7,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.52
+    ],
+    "bottom_center_m": [
+     1.55,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.9,
+     1.9,
+     0.82
+    ],
+    "bottom_center_m": [
+     1.7,
+     3.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.65,
+     1.2,
+     0.42
+    ],
+    "bottom_center_m": [
+     3.1,
+     3.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.4,
+     0.9,
+     1.7
+    ],
+    "bottom_center_m": [
+     5.0,
+     3.3,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.4,
+     0.85,
+     1.6
+    ],
+    "bottom_center_m": [
+     1.4,
+     1.65,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.85,
+     1.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.7,
+     1.65,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.52
+    ],
+    "bottom_center_m": [
+     1.55,
+     5.05,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     1.45,
+     2.5,
+     0.76
+    ],
+    "bottom_center_m": [
+     3.15,
+     6.7,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe main seating area occupies the broad lower portion of the room. One sofa is placed along the left wall between its two side tables, with the coffee table in front. The second sofa sits near the right wall and directly faces the bathroom cabinet across the room, satisfying the facing constraint. The wine cabinet uses an unused section of the right wall.\n\nThe dining combination occupies the wider central-upper area, with the stool nearby while preserving circulation around the table. The shoe cabinet is positioned along the upper wall, away from both upper doors. Clear approach space is maintained in front of the large southern opening, the left-side doors, the right-side doors, and the two upper doors.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.3,\"depth_m\":0.4,\"height_m\":1.0,\"x\":2.0,\"y\":8.74,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.46,\"x\":4.7,\"y\":6.7,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.52,\"x\":1.55,\"y\":2.55,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":1.9,\"depth_m\":0.9,\"height_m\":0.82,\"x\":1.7,\"y\":3.85,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":1.2,\"depth_m\":0.65,\"height_m\":0.42,\"x\":3.1,\"y\":3.85,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":0.9,\"depth_m\":0.4,\"height_m\":1.7,\"x\":5.0,\"y\":3.3,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0006\",\"width_m\":0.85,\"depth_m\":0.4,\"height_m\":1.6,\"x\":1.4,\"y\":1.65,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":1.5,\"depth_m\":0.85,\"height_m\":0.82,\"x\":4.7,\"y\":1.65,\"z\":0.0,\"facing_deg\":180},{\"id\":\"obj_0008\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.52,\"x\":1.55,\"y\":5.05,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0009\",\"width_m\":2.5,\"depth_m\":1.45,\"height_m\":0.76,\"x\":3.15,\"y\":6.7,\"z\":0.0,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nliving room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 7.400 m x 8.940 m x 2.800 m\nfloor polygon (x, y): [[1.2, 6.34], [0.0, 6.34], [0.0, 5.24], [1.2, 5.24], [1.2, 0.0], [5.2, 0.0], [5.2, 4.14], [6.4, 4.14], [6.4, 5.44], [5.0, 5.44], [5.0, 7.84], [7.4, 7.84], [7.4, 8.94], [1.2, 8.94]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"shoe cabinet\", \"description\": \"shoe cabinet\"},\n{\"id\": \"obj_0001\", \"category\": \"stool\", \"description\": \"stool\"},\n{\"id\": \"obj_0002\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0003\", \"category\": \"sofa\", \"description\": \"sofa\"},\n{\"id\": \"obj_0004\", \"category\": \"coffee table\", \"description\": \"coffee table\"},\n{\"id\": \"obj_0005\", \"category\": \"wine cabinet\", \"description\": \"wine cabinet\"},\n{\"id\": \"obj_0006\", \"category\": \"bathroom cabinet\", \"description\": \"bathroom cabinet\"},\n{\"id\": \"obj_0007\", \"category\": \"sofa\", \"description\": \"sofa\"},\n{\"id\": \"obj_0008\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0009\", \"category\": \"dining table combination\", \"description\": \"dining table combination\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.512, 6.34], \"wall_from\": [1.2, 6.34], \"wall_to\": [0.0, 6.34], \"width_m\": 0.932, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [0.503, 5.24], \"wall_from\": [0.0, 5.24], \"wall_to\": [1.2, 5.24], \"width_m\": 0.897, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [3.284, 0.0], \"wall_from\": [1.2, 0.0], \"wall_to\": [5.2, 0.0], \"width_m\": 2.794, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [5.916, 4.14], \"wall_from\": [5.2, 4.14], \"wall_to\": [6.4, 4.14], \"width_m\": 0.874, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [6.4, 4.825], \"wall_from\": [6.4, 4.14], \"wall_to\": [6.4, 5.44], \"width_m\": 1.069, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [5.723, 8.94], \"wall_from\": [7.4, 8.94], \"wall_to\": [1.2, 8.94], \"width_m\": 0.855, \"height_m\": 2.0}, {\"type\": \"door\", \"centre_xy\": [4.489, 8.94], \"wall_from\": [7.4, 8.94], \"wall_to\": [1.2, 8.94], \"width_m\": 0.877, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0003\", \"target_ids\": [\"obj_0002\", \"obj_0008\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0007\", \"target_id\": \"obj_0006\"}]\n[/Task Constraints]"
+}

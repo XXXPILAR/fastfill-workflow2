@@ -1,0 +1,648 @@
+{
+ "k": 118,
+ "source": "MansionWorld",
+ "room_type": "study room",
+ "latency_s": 111.55893737496808,
+ "usage": [
+  {
+   "prompt_tokens": 2932,
+   "completion_tokens": 6029,
+   "total_tokens": 8961,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3624,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.12,
+     0.5,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.3,
+     1.0,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.05,
+     0.8,
+     0.6
+    ],
+    "bottom_center_m": [
+     8.5,
+     1.975,
+     2.35
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.8,
+     2.0,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.7,
+     1.1,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.22,
+     0.28,
+     0.3
+    ],
+    "bottom_center_m": [
+     11.3,
+     1.8,
+     2.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.22,
+     0.28,
+     0.3
+    ],
+    "bottom_center_m": [
+     9.4,
+     1.8,
+     2.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.48
+    ],
+    "bottom_center_m": [
+     1.8,
+     3.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     2.1,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.75
+    ],
+    "bottom_center_m": [
+     3.0,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.4,
+     0.8,
+     2.2
+    ],
+    "bottom_center_m": [
+     8.45,
+     1.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.05,
+     1.2,
+     1.0
+    ],
+    "bottom_center_m": [
+     1.7,
+     5.975,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     3.3,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.45,
+     1.8,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.225,
+     1.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.45,
+     1.8,
+     0.75
+    ],
+    "bottom_center_m": [
+     1.225,
+     4.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.8,
+     2.2,
+     0.95
+    ],
+    "bottom_center_m": [
+     3.5,
+     3.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.05,
+     0.7,
+     1.0
+    ],
+    "bottom_center_m": [
+     7.975,
+     2.45,
+     1.35
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.12,
+     0.5,
+     0.4
+    ],
+    "bottom_center_m": [
+     1.3,
+     4.85,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     1.1
+    ],
+    "bottom_center_m": [
+     8.35,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.22,
+     0.28,
+     0.3
+    ],
+    "bottom_center_m": [
+     8.45,
+     1.8,
+     2.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.25,
+     0.45,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.7,
+     1.1,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.4,
+     0.8,
+     2.2
+    ],
+    "bottom_center_m": [
+     9.4,
+     1.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.05,
+     0.8,
+     0.6
+    ],
+    "bottom_center_m": [
+     9.8,
+     1.975,
+     2.35
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.4,
+     0.8,
+     2.2
+    ],
+    "bottom_center_m": [
+     10.35,
+     1.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     2.1,
+     1.95,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.05,
+     0.7,
+     1.0
+    ],
+    "bottom_center_m": [
+     7.975,
+     3.3,
+     1.35
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.4,
+     0.8,
+     2.2
+    ],
+    "bottom_center_m": [
+     11.3,
+     1.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.05,
+     1.2,
+     1.0
+    ],
+    "bottom_center_m": [
+     3.4,
+     5.975,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.75
+    ],
+    "bottom_center_m": [
+     3.8,
+     4.25,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     3.3,
+     1.95,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     1.1
+    ],
+    "bottom_center_m": [
+     9.4,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     5.2,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.05,
+     0.8,
+     0.6
+    ],
+    "bottom_center_m": [
+     11.1,
+     1.975,
+     2.35
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.8,
+     2.0,
+     0.75
+    ],
+    "bottom_center_m": [
+     5.8,
+     1.1,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     6.4,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.12,
+     0.5,
+     0.4
+    ],
+    "bottom_center_m": [
+     4.9,
+     5.75,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.48
+    ],
+    "bottom_center_m": [
+     5.25,
+     3.35,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     1.1
+    ],
+    "bottom_center_m": [
+     10.45,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.05,
+     0.7,
+     1.0
+    ],
+    "bottom_center_m": [
+     1.025,
+     3.45,
+     1.35
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.55,
+     0.6,
+     1.0
+    ],
+    "bottom_center_m": [
+     5.2,
+     1.95,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.45,
+     1.8,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.9,
+     5.775,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.22,
+     0.28,
+     0.3
+    ],
+    "bottom_center_m": [
+     10.35,
+     1.8,
+     2.2
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     1.1
+    ],
+    "bottom_center_m": [
+     11.5,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.3,
+     0.45,
+     0.25
+    ],
+    "bottom_center_m": [
+     2.3,
+     5.75,
+     0.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.05,
+     1.2,
+     1.0
+    ],
+    "bottom_center_m": [
+     5.2,
+     5.975,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.45,
+     0.7,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.3,
+     5.775,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe two workbench desks and their eight task chairs occupy the broad lower portion of the room, with chairs arranged on both sides and clear access between the workstations. The high collaboration table and stools form a separate group in the central upper area. Four tall bookshelves line the solid wall at y = 2, while the credenzas and side return use the west and north perimeter walls. The doorway zone from x = 6 to 8 is kept unobstructed, with a circulation route continuing toward the workstations. Wall-mounted items use the solid north, east, and stepped walls, and tabletop or shelf-supported objects remain within their parent footprints.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.5,\"depth_m\":0.12,\"height_m\":0.4,\"x\":0.3,\"y\":1.0,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.8,\"depth_m\":0.05,\"height_m\":0.6,\"x\":8.5,\"y\":1.975,\"z\":2.35,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":2.0,\"depth_m\":0.8,\"height_m\":0.75,\"x\":2.7,\"y\":1.1,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.28,\"depth_m\":0.22,\"height_m\":0.3,\"x\":11.3,\"y\":1.8,\"z\":2.2,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.28,\"depth_m\":0.22,\"height_m\":0.3,\"x\":9.4,\"y\":1.8,\"z\":2.2,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.48,\"x\":1.8,\"y\":3.5,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0006\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":2.1,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.75,\"x\":3.0,\"y\":2.55,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.8,\"depth_m\":0.4,\"height_m\":2.2,\"x\":8.45,\"y\":1.8,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":1.2,\"depth_m\":0.05,\"height_m\":1.0,\"x\":1.7,\"y\":5.975,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":3.3,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":1.8,\"depth_m\":0.45,\"height_m\":0.75,\"x\":0.225,\"y\":1.0,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":1.8,\"depth_m\":0.45,\"height_m\":0.75,\"x\":1.225,\"y\":4.85,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0013\",\"width_m\":2.2,\"depth_m\":0.8,\"height_m\":0.95,\"x\":3.5,\"y\":3.4,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0014\",\"width_m\":0.7,\"depth_m\":0.05,\"height_m\":1.0,\"x\":7.975,\"y\":2.45,\"z\":1.35,\"facing_deg\":180},{\"id\":\"obj_0015\",\"width_m\":0.5,\"depth_m\":0.12,\"height_m\":0.4,\"x\":1.3,\"y\":4.85,\"z\":0.75,\"facing_deg\":0},{\"id\":\"obj_0016\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":1.1,\"x\":8.35,\"y\":0.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0017\",\"width_m\":0.28,\"depth_m\":0.22,\"height_m\":0.3,\"x\":8.45,\"y\":1.8,\"z\":2.2,\"facing_deg\":270},{\"id\":\"obj_0018\",\"width_m\":0.45,\"depth_m\":0.25,\"height_m\":0.3,\"x\":2.7,\"y\":1.1,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":0.8,\"depth_m\":0.4,\"height_m\":2.2,\"x\":9.4,\"y\":1.8,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0020\",\"width_m\":0.8,\"depth_m\":0.05,\"height_m\":0.6,\"x\":9.8,\"y\":1.975,\"z\":2.35,\"facing_deg\":270},{\"id\":\"obj_0021\",\"width_m\":0.8,\"depth_m\":0.4,\"height_m\":2.2,\"x\":10.35,\"y\":1.8,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0022\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":2.1,\"y\":1.95,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0023\",\"width_m\":0.7,\"depth_m\":0.05,\"height_m\":1.0,\"x\":7.975,\"y\":3.3,\"z\":1.35,\"facing_deg\":180},{\"id\":\"obj_0024\",\"width_m\":0.8,\"depth_m\":0.4,\"height_m\":2.2,\"x\":11.3,\"y\":1.8,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0025\",\"width_m\":1.2,\"depth_m\":0.05,\"height_m\":1.0,\"x\":3.4,\"y\":5.975,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0026\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.75,\"x\":3.8,\"y\":4.25,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0027\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":3.3,\"y\":1.95,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0028\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":1.1,\"x\":9.4,\"y\":0.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0029\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":5.2,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0030\",\"width_m\":0.8,\"depth_m\":0.05,\"height_m\":0.6,\"x\":11.1,\"y\":1.975,\"z\":2.35,\"facing_deg\":270},{\"id\":\"obj_0031\",\"width_m\":2.0,\"depth_m\":0.8,\"height_m\":0.75,\"x\":5.8,\"y\":1.1,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0032\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":6.4,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0033\",\"width_m\":0.5,\"depth_m\":0.12,\"height_m\":0.4,\"x\":4.9,\"y\":5.75,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0034\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.48,\"x\":5.25,\"y\":3.35,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0035\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":1.1,\"x\":10.45,\"y\":0.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0036\",\"width_m\":0.7,\"depth_m\":0.05,\"height_m\":1.0,\"x\":1.025,\"y\":3.45,\"z\":1.35,\"facing_deg\":0},{\"id\":\"obj_0037\",\"width_m\":0.6,\"depth_m\":0.55,\"height_m\":1.0,\"x\":5.2,\"y\":1.95,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0038\",\"width_m\":1.8,\"depth_m\":0.45,\"height_m\":0.75,\"x\":4.9,\"y\":5.775,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0039\",\"width_m\":0.28,\"depth_m\":0.22,\"height_m\":0.3,\"x\":10.35,\"y\":1.8,\"z\":2.2,\"facing_deg\":270},{\"id\":\"obj_0040\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":1.1,\"x\":11.5,\"y\":0.4,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0041\",\"width_m\":0.45,\"depth_m\":0.3,\"height_m\":0.25,\"x\":2.3,\"y\":5.75,\"z\":0.65,\"facing_deg\":270},{\"id\":\"obj_0042\",\"width_m\":1.2,\"depth_m\":0.05,\"height_m\":1.0,\"x\":5.2,\"y\":5.975,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0043\",\"width_m\":0.7,\"depth_m\":0.45,\"height_m\":0.65,\"x\":2.3,\"y\":5.775,\"z\":0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 12.000 m x 6.000 m x 3.200 m\nfloor polygon (x, y): [[1.0, 6.0], [1.0, 3.0], [0.0, 3.0], [0.0, 0.0], [12.0, 0.0], [12.0, 2.0], [8.0, 2.0], [8.0, 4.0], [6.0, 4.0], [6.0, 6.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"picture frame\", \"description\": \"Picture of trees by a lake in black picture frame.\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0001\", \"category\": \"wall art print\", \"description\": \"A blue painting in a black frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0002\", \"category\": \"work bench desk\", \"description\": \"A wood desk with four round metal legs with a computer on top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"ring binder\", \"description\": \"A brown book with silver corners.\", \"support_parent\": \"obj_0024\"},\n{\"id\": \"obj_0004\", \"category\": \"ring binder\", \"description\": \"A brown book with silver corners.\", \"support_parent\": \"obj_0019\"},\n{\"id\": \"obj_0005\", \"category\": \"small side table\", \"description\": \"A stool with a round seat and four legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"high stool\", \"description\": \"A black seat on four wooden legs connected by black metal bars.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"tall bookshelf\", \"description\": \"It is a tall set of shelves made of wood and metal.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"whiteboard panel\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0010\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"low storage credenza\", \"description\": \"A light brown wooden console table with 4 cabinets, on 4 cylindrical wooden legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"low storage credenza\", \"description\": \"A light brown wooden console table with 4 cabinets, on 4 cylindrical wooden legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"high collaboration table\", \"description\": \"A tan desk with a white frame.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"acoustic wall panel\", \"description\": \"A painting of a woman covered with white clouds in a gold frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0015\", \"category\": \"picture frame\", \"description\": \"Picture of trees by a lake in black picture frame.\", \"support_parent\": \"obj_0012\"},\n{\"id\": \"obj_0016\", \"category\": \"floor planter large\", \"description\": \"floor planter large\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"ring binder\", \"description\": \"A brown book with silver corners.\", \"support_parent\": \"obj_0008\"},\n{\"id\": \"obj_0018\", \"category\": \"desk organizer\", \"description\": \"Red wood toolbox with handle.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0019\", \"category\": \"tall bookshelf\", \"description\": \"It is a tall set of shelves made of wood and metal.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0020\", \"category\": \"wall art print\", \"description\": \"A blue painting in a black frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0021\", \"category\": \"tall bookshelf\", \"description\": \"It is a tall set of shelves made of wood and metal.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0022\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0023\", \"category\": \"acoustic wall panel\", \"description\": \"A painting of a woman covered with white clouds in a gold frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0024\", \"category\": \"tall bookshelf\", \"description\": \"It is a tall set of shelves made of wood and metal.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0025\", \"category\": \"whiteboard panel\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0026\", \"category\": \"high stool\", \"description\": \"A black seat on four wooden legs connected by black metal bars.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0027\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0028\", \"category\": \"floor planter large\", \"description\": \"floor planter large\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0029\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0030\", \"category\": \"wall art print\", \"description\": \"A blue painting in a black frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0031\", \"category\": \"work bench desk\", \"description\": \"A wood desk with four round metal legs with a computer on top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0032\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0033\", \"category\": \"picture frame\", \"description\": \"Picture of trees by a lake in black picture frame.\", \"support_parent\": \"obj_0038\"},\n{\"id\": \"obj_0034\", \"category\": \"small side table\", \"description\": \"A stool with a round seat and four legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0035\", \"category\": \"floor planter large\", \"description\": \"floor planter large\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0036\", \"category\": \"acoustic wall panel\", \"description\": \"A painting of a woman covered with white clouds in a gold frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0037\", \"category\": \"task chair\", \"description\": \"A black and grey rolling desk chair with arms.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0038\", \"category\": \"low storage credenza\", \"description\": \"A light brown wooden console table with 4 cabinets, on 4 cylindrical wooden legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0039\", \"category\": \"ring binder\", \"description\": \"A pink and grey book with a grey label.\", \"support_parent\": \"obj_0021\"},\n{\"id\": \"obj_0040\", \"category\": \"floor planter large\", \"description\": \"floor planter large\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0041\", \"category\": \"stack of files\", \"description\": \"a colorful stack of blocks with various creatures, such as a frog, bird, and green monster, sitting on top.\", \"support_parent\": \"obj_0043\"},\n{\"id\": \"obj_0042\", \"category\": \"whiteboard panel\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0043\", \"category\": \"side return unit\", \"description\": \"A wooden nightstand with both its drawers open.\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.202, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [12.0, 0.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [3.601, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [12.0, 0.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [6.003, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [12.0, 0.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [8.397, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [12.0, 0.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"window\", \"centre_xy\": [10.799, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [12.0, 0.0], \"width_m\": 2.392, \"height_m\": 1.779, \"sill_height_m\": 0.6}, {\"type\": \"door\", \"centre_xy\": [6.983, 4.0], \"wall_from\": [8.0, 4.0], \"wall_to\": [6.0, 4.0], \"width_m\": 1.94, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0041\", \"parent_id\": \"obj_0043\"}]\n[/Task Constraints]"
+}

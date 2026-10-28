@@ -1,0 +1,130 @@
+{
+ "k": 140,
+ "source": "MansionWorld",
+ "room_type": "bedroom",
+ "latency_s": 40.64503129106015,
+ "usage": [
+  {
+   "prompt_tokens": 1111,
+   "completion_tokens": 2137,
+   "total_tokens": 3248,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1548,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     2.0,
+     1.0,
+     0.5
+    ],
+    "bottom_center_m": [
+     0.55,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.45,
+     0.8,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.5,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.7,
+     0.88,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.08,
+     0.3,
+     0.25
+    ],
+    "bottom_center_m": [
+     0.5,
+     0.16,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.2,
+     0.2,
+     0.45
+    ],
+    "bottom_center_m": [
+     1.4,
+     0.25,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.55,
+     1.1,
+     0.75
+    ],
+    "bottom_center_m": [
+     1.7,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.4,
+     0.65,
+     0.12
+    ],
+    "bottom_center_m": [
+     0.55,
+     2.68,
+     0.5
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe twin bed takes the most space, so it is placed lengthwise against the upper wall, below the window sill and away from the door. The dresser and study desk share the lower wall, with the framed photo on the dresser and the lamp on the desk. The chair faces the desk, while the room center and the full area inside the right-wall doorway remain clear for circulation.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"obj_0000\", \"width_m\": 1.0, \"depth_m\": 2.0, \"height_m\": 0.5, \"x\": 0.55, \"y\": 2.0, \"z\": 0.0, \"facing_deg\": 270}, {\"id\": \"obj_0001\", \"width_m\": 0.8, \"depth_m\": 0.45, \"height_m\": 0.75, \"x\": 0.5, \"y\": 0.225, \"z\": 0.0, \"facing_deg\": 90}, {\"id\": \"obj_0002\", \"width_m\": 0.45, \"depth_m\": 0.45, \"height_m\": 0.9, \"x\": 1.7, \"y\": 0.88, \"z\": 0.0, \"facing_deg\": 270}, {\"id\": \"obj_0003\", \"width_m\": 0.3, \"depth_m\": 0.08, \"height_m\": 0.25, \"x\": 0.5, \"y\": 0.16, \"z\": 0.75, \"facing_deg\": 90}, {\"id\": \"obj_0004\", \"width_m\": 0.2, \"depth_m\": 0.2, \"height_m\": 0.45, \"x\": 1.4, \"y\": 0.25, \"z\": 0.75, \"facing_deg\": 90}, {\"id\": \"obj_0005\", \"width_m\": 1.1, \"depth_m\": 0.55, \"height_m\": 0.75, \"x\": 1.7, \"y\": 0.3, \"z\": 0.0, \"facing_deg\": 90}, {\"id\": \"obj_0006\", \"width_m\": 0.65, \"depth_m\": 0.4, \"height_m\": 0.12, \"x\": 0.55, \"y\": 2.68, \"z\": 0.5, \"facing_deg\": 270}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.000 m x 3.000 m x 3.000 m\nfloor polygon (x, y): [[3.0, 0.0], [3.0, 3.0], [0.0, 3.0], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"single bed\", \"description\": \"Twin size bed with brown headboard and purple blanket.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"low dresser\", \"description\": \"A brown commode with three drawers and an opening with a green plant and a blue pot.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"desk chair\", \"description\": \"Wood chair with a flat seat and rectangular backrest.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"framed photo\", \"description\": \"A black and white picture of an army leader in full uniform in a light brown wooden frame.\", \"support_parent\": \"obj_0001\"},\n{\"id\": \"obj_0004\", \"category\": \"desk lamp\", \"description\": \"an adjustable-arm desk lamp.\", \"support_parent\": \"obj_0005\"},\n{\"id\": \"obj_0005\", \"category\": \"study desk\", \"description\": \"A desk with two drawers on the right side.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"pillow\", \"description\": \"A plain white square pillow.\", \"support_parent\": \"obj_0000\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [3.0, 1.785], \"wall_from\": [3.0, 0.0], \"wall_to\": [3.0, 3.0], \"width_m\": 1.043, \"height_m\": 2.1}, {\"type\": \"window\", \"centre_xy\": [0.0, 1.646], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.128, \"height_m\": 1.532, \"sill_height_m\": 0.6}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0003\", \"parent_id\": \"obj_0001\"}]\n[/Task Constraints]"
+}

@@ -1,0 +1,119 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_070",
+ "room_type": "bathroom",
+ "room": {
+  "width": 2.7099571228027344,
+  "length": 2.2099571228027344,
+  "height": 2.8
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.9987397195675083,
+    0.05018936698360401,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    0.7120837456269041,
+    0.7020945372340954,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.690915612670495,
+    0.7229354163188816,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    0.018399552907715545,
+    0.9998307138975058,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 6
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "sink",
+   "asset_key": "sink_6f2b8356",
+   "description": "sink",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "shelf",
+   "asset_key": "shelf_7347b908",
+   "description": "shelf",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "toilet",
+   "asset_key": "toilet_ea092410",
+   "description": "toilet",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "bottle",
+   "asset_key": "bottle_afcac354",
+   "description": "bottle",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_005"
+  }
+ ]
+}

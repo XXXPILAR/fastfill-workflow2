@@ -1,0 +1,10 @@
+model gpt-5.6-sol at https://api.openai.com/v1: reachable
+room 197 objects   3 clean          60.2s $0.077 (total $0.08) plan llm+rules sizes {'given': 3, 'catalog': 0} 
+room 129 objects   4 clean          71.4s $0.106 (total $0.18) plan llm+rules sizes {'given': 4, 'catalog': 0} 
+stopped: OpenAI rejected the request: HTTP 429 b'{\n  "error": {\n    "message": "You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing' (no new rooms; 4 still finishing)
+room 200 objects   2 clean          78.9s $0.096 (total $0.28) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+stopped: OpenAI rejected the request: HTTP 429 b'{\n  "error": {\n    "message": "You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing' (no new rooms; 2 still finishing)
+room  22 objects   7 clean         114.4s $0.150 (total $0.43) plan llm+rules sizes {'given': 7, 'catalog': 0} 
+stopped: OpenAI rejected the request: HTTP 429 b'{\n  "error": {\n    "message": "You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing' (no new rooms; 0 still finishing)
+summary: {"rooms_picked": 20, "rooms_done": 4, "status": {"clean": 4}, "spent_usd": 0.4292, "tokens": {"prompt_tokens": 21475, "completion_tokens": 17397, "reasoning_tokens": 15744}, "wall_s": {"median": 78.92, "max": 114.4, "sum": 324.9}, "size_fallback_rooms": 0, "error_recovered_rooms": 0}
+evaluate exit 0; report: experiments/simple20_robot/eval/report.json

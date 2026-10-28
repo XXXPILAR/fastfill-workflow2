@@ -1,0 +1,1180 @@
+FlairGPT: Repurposing LLMs for Interior Designs
+flairgpt.github.io
+Gabrielle Littlefair1 Niladri Shekhar Dutt1 Niloy J. Mitra1,2
+1University College London 2Adobe Research
+Figure 1: We investigate if large language models (LLMs) can be used as interior designers. We show that LLMs can be systematically
+probed and combined with traditional optimization to produce aesthetically-pleasing and functional interior designs. In these examples, our
+method FlairGPT, starting from text probes, produces the final layouts including object selection, their placement, as well as their styles.
+Abstract
+Interior design involves the careful selection and arrangement of objects to create an aesthetically pleasing, functional, and
+harmonized space that aligns with the client’s design brief. This task is particularly challenging, as a successful design must
+not only incorporate all the necessary objects in a cohesive style, but also ensure they are arranged in a way that maximizes
+accessibility, while adhering to a variety of affordability and usage considerations. Data-driven solutions have been proposed,
+but these are typically room- or domain-specific and lack explainability in their design design considerations used in producing
+the final layout. In this paper, we investigate if large language models (LLMs) can be directly utilized for interior design. While
+we find that LLMs are not yet capable of generating complete layouts, they can be effectively leveraged in a structured manner,
+inspired by the workflow of interior designers. By systematically probing LLMs, we can reliably generate a list of objects
+along with relevant constraints that guide their placement. We translate this information into a design layout graph, which is
+then solved using an off-the-shelf constrained optimization setup to generate the final layouts. We benchmark our algorithm
+in various design configurations against existing LLM-based methods and human designs, and evaluate the results using a
+variety of quantitative and qualitative metrics along with user studies. In summary, we demonstrate that LLMs, when used in a
+structured manner, can effectively generate diverse high-quality layouts, making them a viable solution for creating large-scale
+virtual scenes. Code is available via the project webpage.
+CCS Concepts
+• Computing methodologies→ Shape analysis; Natural language processing; Machine learning;
+arXiv:2501.04648v2  [cs.GR]  30 Aug 2025
+2 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+1. Introduction
+We shape our homes and then our homes shape us.
+Winston Churchill
+Interior designing is the art of creating balanced, functional, and
+aesthetically pleasing spaces based on intended space usage and ad-
+justed to individual preferences. The goal is to propose a selection
+of objects, both in terms of the type and style of the objects along
+with their arrangement, that best serves the project brief provided
+by the client. A good design not only considers the aesthetic look of
+the objects, but also factors in the flow of the designed space, tak-
+ing into consideration affordability of the objects along with their
+functionality and access space.
+The design task is challenging, as one has to balance aesthetics,
+functionality, and practicality within a given space while consid-
+ering the user’s needs, preferences, and budget. It is particularly
+difficult to identify, keep track, and balance a variety of conflict-
+ing constraints that arise from ergonomics and usage while harmo-
+nizing furniture, lighting, and materials. Hence, users often take
+shortcuts and fall back to a rule-based or preauthored solution that
+best fits their specifications. However, achieving a customized, co-
+hesive, visually appealing and functional design requires creativity,
+technical expertise, and remains difficult for most users.
+To gain inspiration, we first studied how interior designers ap-
+proach the problem. Upon receiving project briefs, they divide the
+space into zones according to their intended function. They then
+begin by selecting and placing the focal objects for the key zones,
+before arranging other objects around them. Throughout this pro-
+cess, they carefully consider design aspects to ensure that objects
+are easily accessible and usable and that the room has good flow to
+facilitate movement. Finally, they incorporate lighting and decide
+on the style of the objects, as well as the wall and floor style to
+create a harmoniously designed space. The most non-trivial aspect
+is the variety of spatial and functional considerations that designers
+consider and conform to while designing the space.
+In this paper, we ask if large language models (LLMs) can be repur-
+posed for interior design. We hypothesize that LLMs that have been
+trained on various text corpora, including design books and blogs,
+are likely to know about layout design concepts. We ask how ex-
+plicit these concepts are and how good they are in quality. Directly
+querying LLMs to produce room layouts based on text guidance
+(e.g., ‘Please design a drawing room of size 4m×5m for a teenager
+who loves music’) regularly produced mixed results that had good
+design ideas but not usable in practice (see Figure 2). Although the
+output images of the room looked aesthetically pleasing, closer in-
+spection revealed many design flaws. Unfortunately, when asked
+for output floorplans, LLMs produced rather basic layouts that did
+not meet expectations.
+Interestingly, we found that LLMs have good knowledge of indi-
+vidual design considerations, including non-local constraints. For
+example, when asked about ‘the most important design considera-
+tion for a kitchen’ LLMs described thekitchen work triangle, which
+is an important design consideration that many of us are unaware
+of and can easily get wrong, severely affecting the functionality of
+the space. Encouraged by this and inspired by interior designers’
+workflow, we break the interior design task into stages. Instead of
+directly using LLMs to get the final layout, we progressively probe
+the LLMs, in a structured fashion, to first zone the given space and
+then extract a list of objects to populate the different zones. More
+importantly, we also elicit a list of intra-object and inter-object con-
+straints along with descriptive attributes for the selected objects.
+Then, using a symbolic translation, we organize the LLMs output
+into a layout constraint graph by converting the textual constraints
+to algebraic constraints in terms of the object variables (i.e., their
+size and placement). We then obtain the layout by solving the re-
+sultant constrained system. Finally, we retrieve objects to populate
+the designed layout using the object-specific types and attributes
+obtained from the LLMs to produce the final layouts.
+This paper introduces FlairGPT, a novel framework for generating
+functional and aesthetic room layouts by leveraging LLMs in com-
+bination with optimization techniques. The contributions of our ap-
+proach are as follows:
+1. FlairGPT proposes an approach, grounded in interior designers’
+workflows, that links structured LLM queries, a library of ob-
+jective functions augmented with language doc-strings, and tra-
+ditional optimization via inferred constraint graphs to produce
+room layouts.
+2. The generated layouts are functional, editable, and interpretable.
+Figure 1 presents a selection of example outputs from our method,
+FlairGPT. We evaluated our method in a variety of interior de-
+sign settings. We compared ours with the latest interior design
+alternatives (e.g., ATISS [PKS ∗21], Holodeck [YSW∗23], Lay-
+outGPT [FZF∗24], I-Design [CHS∗24]) and against user-designed
+layouts. We compared the quality of our designs and those pro-
+duced by competing methods using different user studies. Users
+Room Layout
+Bed (1.4m x 2m):
+Position: Against the 5m wall (long side).
+Type: A full-sized bed with built-in storage drawers underneath to save space.
+Headboard: Shelves or cubbies for books, alarm clocks, or decor.
+Study/Desk Area:
+Position: Opposite the bed, along the 4m wall.
+Desk Size: 1.6m long desk.
+Storage: Floating shelves above the desk for books and decorative items.
+Lighting: Task lamp or overhead lighting to brighten the workspace.
+Wardrobe/Closet (2m x 0.6m):
+Position: Along the wall near the door.
+Type: Sliding doors to save space, and built-in organizers for clothes, shoes, and accessories.
+Seating Area/Bean Bag:
+Position: Near a window (if available).
+... 
+This layout balances study, storage, and relaxation, making the room both practical and comfortable for a teenager.
+Figure 2: Layouts Generated by ChatGPT [cha24]. (Top) Directly
+querying LLMs to generate room layouts yields useful guidance
+but not a floorplan. (Bottom-left) Asking for a floorplan results in
+an overly simplistic one, with very few objects and impractical pro-
+portions—such as a TV unit nearly as long as the bed. Additionally,
+essential objects, like a chair for the desk, are missed. (Bottom-
+right) When prompted to generate design images, the results, while
+aesthetically pleasing, are often functionally impractical, as shown
+in the image on the right. For instance, the desk and chair are in-
+correctly oriented, rendering the chair inaccessible.
+Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs 3 of 46
+consistently preferred our generations over the others, including
+those done by novice users, and scored ours well with respect to
+adhering to design specifications as well as producing functionally
+useful layouts. We also evaluate perform quantitative evaluation on
+the generated layouts. In addition, we report our findings on the as-
+pects of the design process where LLMs offer significant value and
+those that are best managed, at least for now, by human expertise.
+2. Related Works
+Optimization-based layouts. Interior design relies on spatial ar-
+rangement, human-centric aesthetics, and functional optimiza-
+tion [Ale18]. Early computational approaches for generating sim-
+ple layouts [HWB95,MP02] concentrated on manually defining lo-
+cal constraints and employing optimization techniques to solve for
+optimal spatial arrangements. Later, inspired by established inte-
+rior design guidelines, Merell et al. [MSL∗11] introduced an inter-
+active system that allowed users to define the shape of the room
+and a selected set of furniture, after which the system generates
+design layouts that adhere to specified design principles. Make it
+home [YYT∗11] employed hierarchical and spatial relationships
+for furniture objects with ergonomic priors in their cost function to
+yield more realistic furniture arrangements. In a recent optimiza-
+tion method, Weiss et al. [WLD∗19] use physics-based principles
+to create room layouts by treating objects as particles within a phys-
+ical system. The method emphasizes both functionality and har-
+mony in the room by applying specific constraints to ensure walk-
+ways, maintain balanced visual appeal around a focal point, etc.
+However, it still requires users to manually specify constraints.
+Data-driven layouts. Rather than relying on hard coded rules for
+optimization, modern data-driven methods aim to learn such con-
+cepts automatically [RWL19, WSCR18, TNM∗23]. For example,
+ATISS [PKS∗21] treats indoor scene synthesis as an unordered set
+generation problem, to allow flexibility by avoiding the constraints
+of fixed object orderings. ATISS uses a transformer architecture to
+encode floorplans and object attributes to sequentially place objects
+based on category, size, orientation, and location. While visually
+appealing, ATISS suffers from practical limitations such as overlap-
+ping objects. To enhance practicality, LayoutEnhancer [LGWM22]
+integrates expert ergonomic knowledge—such as reachability, visi-
+bility, and lighting—directly into the transformer model for indoor
+layout generation. However, the method falls short in considering
+stylistic elements, limiting its ability to generate complex aestheti-
+cally tailored designs. SceneHGN [GSM∗23] creates a hierarchical
+graph of the scene to capture relationships among objects to pro-
+duce visually coherent 3D environments. Tell2Design [LZD ∗23]
+reformulates the task of generating floor plans as a sequential task
+where the input is language instructions and the output is bounding
+boxes of rooms. Although data-driven methods can produce good
+results, they are limited in diversity and creativity due to their re-
+liance on curated datasets and are often restricted to special types
+of rooms and/or objects.
+LLM-based layouts. With advances in capabilities of Large Lan-
+guage Models [Bro20,TAB∗23,TLI∗23,JSR∗24], LLMs are being
+increasingly used to solve a plethora of complex tasks such as rea-
+soning [MP24], programming [RGG∗23], discovering mathemati-
+cal concepts [RPBN∗24], conducting scientific research [LLL∗24],
+etc. Building on this success, the integration of LLMs in scene syn-
+thesis offers the ability to generate context-aware designs by inter-
+preting and applying textual descriptions directly to the synthesis
+process. This enables a more dynamic and flexible approach, allow-
+ing for the integration of complex design principles that are often
+difficult to encode through conventional algorithms.
+Holodeck [YSW∗23] utilizes LLM to expand user text prompts to
+generate a scene into actionable scene elements. However, the ac-
+tual placement and relationship of objects are governed by a set
+of predefined spatial rules hard-coded into the system that can
+limit the flexibility and creativity of the system to adapt to un-
+conventional or complex designs. In a very recent system, Lay-
+outGPT [FZF∗24] uses LLMs to generate scene layouts by treat-
+ing elements within the scene as components that can be described
+and adjusted programmatically akin to web elements in CSS. In an-
+other notable effort, Aguina-Kang et al. [AKGH∗24] employ LLMs
+to create more detailed scene specifications from simple prompts,
+identify necessary objects and finally generate programs in domain
+specific language to place those objects in the scene. After estab-
+lishing one of ten relationships between objects from a library,
+the final placement is obtained using gradient descent based op-
+timization. LLplace [YLZ∗24] fine tunes Llama3 [TLI∗23] on an
+expanded 3D-Front Dataset [FCG∗20] to allow users a more inter-
+active way to add and remove objects in a conversational manner.
+I-Design [CHS∗24] uses multiple LLMs to convert a text input into
+a scene graph and obtain a physical layout using a backtracking al-
+gorithm. Strader et al. [SHC∗23] leverage LLMs to build “spatial
+ontology” (to store concepts), which is used in node classification
+systems of 3D scene graphs.
+In contrast to other LLM and optimization methods, such as I-
+Design, which employs topological sorting to establish hierarchical
+ordering on the graph, our approach aligns more closely with artist
+workflows and zoning principles. This enables a natural and in-
+terpretable ordering process, which allows faithfully capturing the
+complexity of spatial relationships and functional constraints. More
+importantly, our method effectively combines LLM with cost-
+based optimization, further augmented by the use of language doc-
+strings. This integration not only provides a controllable framework
+for ensuring functionality but also achieves superior results in terms
+of feasibility. Our evaluation (Section 5) demonstrates the effective-
+ness of this approach, surpassing both Holodeck’s constraint-based
+layout design [YSW∗23] and against I-Design’s backtracking strat-
+egy [CHS∗24].
+3. Design Considerations
+In this section, we briefly summarize the process followed by in-
+terior designers as documented in design literature books [BS13,
+Mit12, Ale18].
+The process starts with a design brief where the clients describe
+how they plan to use the space, provide background on their prefer-
+ences, and detail the current layout of the space (e.g., walls, doors,
+windows). Budget and time frames are also discussed in this stage,
+but we ignore these in our setup.
+Space planning, the next phase, is the most challenging. This in-
+volves creating functional layouts and optimizing the use of space.
+Specifically, they determine the choice and arrangement of furni-
+ture while considering flow, accessibility, and ergonomics. Design-
+ers typically start by collecting measurements of the space and not-
+ing the features of the room such as doors, windows, and electrical
+outlets. Next, they zone the space by partitioning the region into
+4 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+Figure 3: Method overview. FlairGPT begins by taking the user’s design request as a text prompt and querying an LLM to extract key room
+parameters, such as dimensions and the location and number of windows, doors, and sockets. Next, following a designer’s workflow, the LLM
+generates an ordered list of zones, specifying the functional purpose of different areas within the room. Based on these zones, a prioritized list
+of required objects is generated, complete with descriptions and dimensions. These objects serve as the nodes of a layout graph, with inter-
+and intra-object constraints—defined by the LLM—forming the edges. The natural language constraints provided by the LLM are translated
+into algebraic forms by querying the LLM to map these constraints to a predefined library of cost functions. Once these cost functions are
+established, the placement and orientation of objects are progressively optimized according to their hierarchical importance. Finally, objects
+are retrieved, based on their descriptions, and incorporated into the scene.
+distinct areas based on its functions. For example, in an open-plan
+layout, designers allocate areas for dining, working, and socializing
+without the need for physical barriers. In this stage, they also take
+traffic flow into account to create pathways or circulation areas that
+avoid overcrowding and allow a smooth transition between zones.
+Having zoned the space, designers then select and place key pieces
+of furniture, usually referred to as primary objects, in strategic po-
+sitions. Large items (e.g., sofas, tables, beds) are first positioned in
+order to anchor the space. Designers use their experience to balance
+functionality and aesthetics to create visual interest and harmony in
+the space. Next, they incorporatesecondary objects (such as chairs,
+appliances, etc.) around the primary objects to ensure the regions
+are functional. At this point, artificial lighting is also added if nec-
+essary. Besides selecting the types and sizes of objects, designers
+also consider their color and finish to create a cohesive look in the
+designed space while maintaining its functionality.
+Finally, during design development, designers collect client feed-
+back based on previsualization of the space and iterate on the de-
+sign to better align the space to their clients’ vision.
+4. Algorithm
+Our method consists of three key phases. In the first phase, theLan-
+guage Phase, we progressively query the LLM to make informed
+decisions about the room’s layout and design. The model identifies
+all relevant objects for the space along with their dimensions (width
+and length). More importantly, the LLM provides a set of spatial
+constraints that governs the positioning and arrangement of these
+objects. In the second phase, the Translation Phase, we convert the
+language-based constraints obtained from the LLM into executable
+function calls, drawing from a predefined library of constraint cost
+functions thus forming a layout constraint graph. Finally, in the
+Optimization Phase , we use an optimization (SLSQP) to find a
+minimal-cost solution that satisfies the combined set of constraints.
+We stagger this phase into multiple iterations with random initial
+configurations. Upon completion, we obtain the full specification
+of all objects, including their style, dimensions, positions, and ori-
+entation. We now provide details on each phase. The exact LLM
+query formulation is available in the supplemental material.
+4.1. The Language Phase
+User input. We expect the user to provide a textual description of
+the room they wish to generate. This input can range from simple
+prompt, such as “a bedroom,” to more detailed specifications like,
+“a 5× 5m bedroom for a young girl who enjoys painting while
+looking out of her window.” This flexibility allows users to define
+a wide variety of room configurations.
+A. Extracting room parameters. Once the user input has been
+provided, we query the LLM to establish the fundamental parame-
+ters of the room that serve as the fixed boundary condition for the
+rest of the stages. The model generates the dimensions of the room
+(width and length), with the height fixed at 3 meters by default.
+The LLM also prescribes how many windows, doors, and electrical
+sockets the room requires, as well as their placements (which wall
+they should be on and their horizontal position along that wall). Ad-
+ditionally, the model provides the width of the windows and doors.
+Note that we designed a fixed schema to convert user specifications
+to queries for the LLM. Please see supplemental for details. Users
+can alternatively bypass this step if they prefer to directly input the
+room specifications.
+B. Zoning the space. Next, similar to how human designers pro-
+ceed, we query the LLM to determine the core purposes of the
+room, which define its zones. The number and type of zones vary
+depending on the room’s size and intended use. The LLM outputs
+an ordered list of zones, ranked by significance. For example, in a
+Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs 5 of 46
+bedroom, the zones can include {sleeping, storage, dress-
+ing} areas. We denote this ordered list byZ :={z1, . . . ,zk}. Note
+that we do not partition the room into zones at this stage.
+C. Deciding the room objects. Our next major design task is to
+decide which objects to include in the room along with their size
+and textual description. Again, following designers’ workflow, we
+proceed in stages.
+(i) Listing the primary objects . We define a primary object as
+the most essential object required for each zone to fulfill its in-
+tended purpose (these are often referred as focal objects). Again,
+we query the LLM to determine the primary objects, along with
+their dimensions (see supplemental for query schema). The out-
+put is an ordered list where each entry includes the primary ob-
+ject pi corresponding to zone zi, as well as the object’s width ( wi)
+and length ( li). Thus, the list of primary objects takes the form
+P :={(p1,w1,l1), . . . ,(pk,wk,lk)}. So far, we have obtained the
+type, width, and length for each primary object, but not their height.
+(ii) Listing the secondary objects. We then query the LLM to iden-
+tify secondary objects, defined as additional items that enhance the
+functionality of each zone, provided they are floor-based (excluding
+rugs). The output is an ordered list of secondary objects S, where
+each object si includes its width (wi), length (li) and the correspond-
+ing zone z(si) to which it belongs. Note that each zone can have
+multiple secondary objects. In addition, the output specifies how
+many of each object are needed. For example, four dining chairs
+or two nightstands might be required in a given zone. Thus, we
+have,S :={(s1,w1,l1,z(s1)), . . . ,(sns ,wns ,lns ,z(sns ))} with ns be-
+ing number of secondary objects.
+(iii) Listing the tertiary objects. We then query the LLM to gener-
+ate the final set of objects, the tertiary ones. Such objects are ‘at-
+tached’ to specific primary/secondary objects or room boundary.
+These include ceiling-mounted objects (e.g., chandeliers), wall-
+Example of a Blank Constraint Cost Function for Inter-Object Constraints
+Example of a Blank Constraint Cost Function for Individual Constraints
+Figure 4: Doc string for library functions. An example of ourdoc-
+strings which contain usage examples and thorough descrip-
+tions of each function’s purpose and its parameters. Note that the
+underlying implementation of the functions is absent. The LLM is
+tasked to map each language-based constraint to a corresponding
+cost function within the library during the language phase.
+mounted objects (e.g., paintings), objects placed on surfaces (e.g.,
+table lamps), and rugs. While majority of the tertiary objects are
+decorative, functional items such as computers and lighting can
+also be suggested at this stage. We also query the LLM for de-
+tailed placement instructions, specifying how and where these ob-
+jects should be positioned relative to other objects or zones within
+the room. For example, the LLM might suggest, “place a painting
+on the wall above the bed.”
+The output is an unordered list T of tertiary objects, each de-
+scribed in relation to another object (either Primary or Secondary),
+a boundary wall, or simply a specific zone. For each tertiary ob-
+ject ti, we also obtain its type (type i), one of wall, floor, ceiling,
+or surface, along with its width ( wi), length ( li), and a language-
+based placement constraint ( ci). The final output is an unordered
+listT :={(t1,w1,l1,type1,c1), . . . ,(tnt ,wnt ,lnt ,typent ,cnt )}, where
+typei specifies the object type, ci provides the placement instruc-
+tions, and nt being the number of tertiary objects.
+The language constraints ( ci) are treated separately from those of
+primary and secondary objects, as tertiary objects can be positioned
+in ways that others cannot — such as on the ceiling, walls, atop
+other objects, or underneath primary or secondary objects.
+(iv) Determining style for the objects. Having listed all the objects,
+we move on to determine the style of the room and the individual
+objects using the given description for the room. We query the LLM
+to specify the style of the room and each individual object. The
+LLM provides textual details such as materials, colors, and patterns
+for the walls and floors. For instance, it might suggest “dove grey
+paint with an accent wall featuring a subtle geometric wallpaper.”
+Each object, including windows and doors, is further described by
+the LLM in terms of material, color, and overall aesthetic.
+D. Listing of design constraints
+So far we have the specification of the room boundary and a tex-
+tual list of the objects to be placed in the room. The list of objects
+P∪S∪T forms the nodes of our layout graph. Next, we use the
+LLM to list all the relevant inter- and intra-object constraints, which
+become the (undirected) edges of our layout graph. We only con-
+sider pairwise constraints in our setup.
+(i) Intra-object constraints. These constraints refer to those that ap-
+ply to a single object, either a primary or secondary object, and any
+features of the room (including walls, windows, doors, and sock-
+ets). These constraints govern the positioning and usability of an
+individual object. For example, the LLM might specify, “the bed
+should have its headboard against the wall,” or “the bed should not
+be too close to a window to avoid drafts.” This category also in-
+cludes accessibility requirements, such as determining which sides
+of the object must remain accessible for it to function properly. At
+this stage, we query the LLM to generate all such constraints by
+looping over all the nodes in P∪S and collect them for all the
+primary and secondary objects in natural language.
+(ii) Inter-object constraints.These constraints involve relationships
+between pairs of primary and secondary objects. For instance, the
+LLM might suggest, “the mirror should not face the bed,” or “the
+bed should be placed between the two nightstands.” When the con-
+straint applies only between primary objects, we encourage the
+LLM to create simple spatial relationships such as “near to” or “far
+from,” since these objects often belong to different zones.
+(iii) Constraint cleaning. The final step in the Language Phase
+6 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+Figure 5: Generated layouts by FlairGPT. We present varied layouts designed by FlairGPT for three distinct prompts (from left to right)- “4m
+x 5m bedroom”, “small workroom for a wizard”, and “bedroom for a vampire”. Alongside each layout, we include descriptions of selected
+objects provided by the LLM, which closely align with the user’s design brief. Notably, FlairGPT makes creative and context-appropriate
+object choices, such as a scroll holder and a crystal ball for a wizard’s workroom, and a coffin in place of a traditional bed in the case of a
+vampire’s bedroom, reflecting the thematic style of the input prompts.
+serves as a self-correction tool. We query the LLM to review and
+refine the generated constraints. This involves merging any similar
+constraints, removing duplicates, and simplifying the constraints
+into more straightforward language to minimize errors during the
+Translation Phase. The LLM also identifies and eliminates any con-
+tradictory constraints. Additionally, we use the LLM to split con-
+straints that contain multiple pieces of information. For example,
+“the bed should not block windows or doors” would be split into
+“the bed should not block windows” and “the bed should not block
+doors”. This is not applied to the tertiary constraints, due to there
+only being one constraint per tertiary object.
+Example of language constraints being translated into
+code
+### 1. Bed (1.6m x 2m)
+- Should be placed against a wall for headboard support.
+- Should not block any doors or windows.
+- Should have clear access on at least two sides for ease of getting in and out (usually the longer
+sides).
+- Ensure there are no electrical sockets directly behind the head area to avoid tangling cords.
+- Ideally, position it such that there is space for nightstands on either side.
+def optimize_primary_objects(positions, room):
+output = 0
+output += ind_next_to_wall(positions, room, 0)
+output += ind_away_from_fixed_object(positions, room, 0,
+fixed_object_type=’door’)
+output += ind_away_from_fixed_object(positions, room, 0,
+fixed_object_type=’window’)
+output += ind_accessible(positions, room, 0,
+sides=[’bottom’, ’left’])
+output += ind_away_from_fixed_object(positions, room, 0,
+fixed_object_type=’socket’, min_dist=2.0)
+output += in_bounds(positions, room)
+output += no_overlap(positions, room)
+output += aligned(positions, room)
+output += balanced(positions, room)
+output += wall_attraction(positions, room)
+return output
+4.2. The Translation Phase
+Next, we convert the language constraints into algebraic forms. For
+this phase, we created a “blank” version of our library of con-
+straint cost functions. This blank version contains the names of
+the functions, along with detailed docstrings for each func-
+tion. These docstrings include usage examples and thorough
+descriptions of each function’s purpose and its parameters. Note
+that these strings only provide function names and lists of variables
+to the LLMs, but not the underlying implementation of the func-
+tions. Figure 4 shows an example; more details are provided in the
+supplemental.
+The purpose of these blank functions is to utilize the natural lan-
+guage processing capabilities of the LLM to map each language-
+based constraint to a corresponding cost function within the library.
+This process is carried out in three distinct stages: one for Individ-
+ual or Intra-Object constraints, one for for Inter-Object constraints,
+and one for tertiary constraints. By processing these constraints
+separately, we ensure the correct type of function is applied, reduc-
+ing the risk of using the wrong function for a particular constraint.
+If no suitable matching function can be found for a given constraint,
+we discard the corresponding language constraint. Additionally, if
+the parameters provided to the function do not match the expected
+inputs, we ensure the function safely returns a cost value of 0, re-
+ducing errors in the subsequent optimization process.
+4.3. The Optimization Phase
+Finally, we are ready to place the objects by determining the co-
+ordinates (x,y) of the centroid and the orientation (θ) of each ob-
+ject. Given the highly constrained nature of the problem, we split
+the optimization process into several steps, progressively solving
+for the layout. For each step, we compute a combined cost using
+all relevant constraint cost functions, as provided by our library
+functions, and find the optimal solution using a Sequential Least
+Squares Quadratic Programming (SLSQP) solver. To improve ro-
+bustness, we repeat each optimization with different initializations
+for the variables, and take the best solution. For each object i, we
+optimize its position (xi,yi) and orientation θi. Note that we define
+orientation with respect to forward-facing direction of each object.
+Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs 7 of 46
+We include five additional cost functions for the first two stages
+of the optimization (i.e., primary and secondary object placement)
+as they fit most layouts well. We note that these fixed cost func-
+tions are substantially augmented by the LLM during the trans-
+lation phase by choosing applicable cost functions from a library
+(via doc-strings) of different loss functions along with added suit-
+able constraints depending on the layout. We describe our fixed cost
+functions below:
+(i) A no-overlap cost Cover which penalizes intersections be-
+tween objects. In Equation 1, we show the formulation where,
+for every pair of objects i and j, we find the projected 2D
+polygon formed by their intersection (poly i j). We then apply
+a function f , which sums the squared lengths of the sides of
+this polygon. This calculation is also applied to every object
+i in relation to any doors d, ensuring that no object intersects
+with a door, and for this term we add a scaling factor λ1 (we
+use 100 in our experiments). In particular, the cost term is as
+follows,
+Cover := ∑
+i
+[∑
+j>i
+f (polyi j) +λ1 ∑
+d
+f (polyid)]. (1)
+(ii) An in-bounds cost Cbound which penalizes objects that extend
+beyond the room’s boundaries. In Equation 2, we show the
+formulation for object i, where we iterates over its corners
+ci j; Ici j is an indicator variable that takes a value of 1 if the
+corner ci j lies within the room boundary, B, otherwise it is 0.
+Cbound,i :=
+3
+∑
+j=0
+(1− Ici j) dist(ci j,B)2. (2)
+(iii) An alignment cost Calign which weakly penalizes orientations
+that deviate from the cardinal directions. Namely, we use
+Calign,i := sin2(2θi)
+5 . (3)
+(iv) A balanced placement cost Cbal that penalizes deviations of
+the weighted centroid of all of the objects from the center of
+the room. The formulation of this is shown in Equation 4,
+where w and l are the width and length of the room, and for
+object i, ai is the area of the bounding box.
+Cbal :=
+
+∑i aixi
+∑i ai
+− w
+2
+2
++
+
+∑i aiyi
+∑i ai
+− l
+2
+2
+. (4)
+(v) A wall-attraction cost Cwall which weakly encourages objects
+to be near the walls. This is to prevent ‘floating’ objects from
+being placed centrally in the room. The formulation is shown
+in Equation 5, where if the distance of object i, oi, from the
+closest wall is greater than a given threshold T , a penalty is
+applied. We find that scaling this cost with a factor (λ2) works
+better. We use λ2 = 20 in all of our experiments.
+Cwall,i := 1
+λ2
+
+min(T− min
+ω∈walls
+dist(oi, ω),0.0)2
+
+. (5)
+These functions account for all objects that are present in the room
+at the time of optimization. For instance, during the first optimiza-
+tion step, only overlaps between the primary objects are consid-
+ered. Subsequently, intersections involving the newly added sec-
+ondary objects are evaluated, along with any intersections between
+the secondary and previously placed primary objects.
+A. Primary object placement. We begin by optimizing the lo-
+cations and orientations of the primary objects ( i∈P ). These lo-
+cations and orientations are influenced by room features such as
+walls, windows, doors, and sockets, as well as by the positioning
+of other primary objects. We solve the following SLSQP, where
+λi,i∈ 1,2,3 are tunable parameters. We use λ3 = 5, λ4 = 10 and
+λ5 = 10 in all of our experiments.
+min
+{xi,yi,θi}P
+Cpri := λ3Cover + λ4Cbal + ∑
+i∈P
+(Clang,i+
+λ5Cbound,i +Calign,i +Cwall,i)
+(6)
+Once the positions and orientations are determined, we initialize
+the zones, setting each initial centroid as the position of the cor-
+responding primary object’s. We then use V oronoi segmentation
+based on these centroids to define the corresponding zones (zi).
+After optimizing the primary objects, we record the name, width,
+length, style description, coordinates of its centroid, and orientation
+(pi,wi,li,stylei,xi,yi, θi) of each object. These values are held fixed
+during subsequent optimizations.
+B. Secondary object placement. At this stage, the initial zones
+have been defined, and the positions and orientations of the pri-
+mary objects are fixed. We then proceed zone by zone, to add the
+secondary objects (i∈S ). The positioning and orientation of these
+secondary objects are influenced by room features (such as walls,
+windows, doors, and sockets), the primary objects, and other sec-
+ondary objects. We carry forward any accessibility constraints from
+the first stage, in order to ensure that the primary objects remain ac-
+cessible. We add a default constraint Czone with a scaling factor λ6
+(we use λ6 = 10 in all our experiments) to ensure that objects are
+encouraged to stay within the correct zones,
+Czone,i :=
+k
+∑
+j̸=i
+min(dist(si,z j)− dist(si,zi),0.0)2. (7)
+The overall optimization takes the form,
+min
+{xi,yi,θi}Zk
+Csec,k := λ3Cover + ∑
+i∈Zk
+(Clang,i + λ5Cbound,i+
+Calign,i +Cwall,i + λ6Czone,i).
+(8)
+Note, compared to Equation 6 we add a constraint for zoning here
+and remove Cbal. Once the secondary objects are fixed for a zone,
+we update the zone centroids by calculating the mean coordinates
+of all objects (primary and secondary) within that zone. We then
+redefine the zone boundaries using a new V oronoi segmentation
+based on the updated centroids.
+After the secondary objects have been placed in all zones, we pro-
+ceed to incorporate the tertiary objects.
+C. Tertiary object placement. For this step, we use an altered set
+of default constraints that ensures that objects of the same type can-
+not overlap, and that tertiary objects that should be wall-mounted
+are both on the wall ( ω) and that they are avoiding intersections
+with doors and windows.
+8 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+In the final stage of optimization, we find the location and orien-
+tation (xi,yi, θi) of all of the tertiary objects ( i∈T ) at once, re-
+gardless of zone. We do these all at once since each object has only
+one constraint making the optimization simpler. In Equation 9 and
+Equation 10, Cover[i, j] is the cost only between objects i and j, λ7
+and λ8 are tunable parameters (we use 500 for both in our exper-
+iments), Itype i=type j is an indicator variable that has value 1 if ob-
+jects i and j have the same type, otherwise 0, and Iω is an indicator
+variable that has value 1 if the object is wall-mounted, otherwise 0.
+The optimization takes the form,
+min
+{xi,yi,θi}ter
+Cter := ∑
+i∈ter
+[Clang,i + λ7Cbound,i +Calign,i + IωCon_wall,i
++ ∑
+j∈ter, j>i
+(Itype i=type j )Cover[i, j]].
+(9)
+with the wall alignment cost being defined as,
+Con_wall,i := ∑
+j∈doors∪windows
+λ8Cover[i, j]
++ ∏
+ω∈walls
+
+dist(ti, ω) + (θi− θω)2
+
+.
+(10)
+4.4. Object Retrieval and Visualization
+Having generated the final layout, we retrieve the objects based
+on their generated descriptions and add them to the scene for vi-
+sualization. For each object (including windows and doors), we
+search, using text, for an asset that matches the style description
+generated, as described before. We scale the retrieved objects based
+on target width/depth, while proportionally scaling the height. We
+orient the objects based on the target angle θi assuming the ob-
+jects have consistent (front) orientation. We source these assets us-
+ing BlenderKit [ ?], and apply the same process for the wall and
+floor materials. In isolated cases, we manually modify the mate-
+rials of the assets to better align with the descriptions produced
+by the LLM. (The only other manual adjustments made in this
+phase are for adding lighting for rendering.) We note that this
+phase can be better automated using CLIP [RKH ∗21] for object
+retrieval, leveraging text-image similarity scores to fetch objects
+from Objaverse [DSS∗23], as employed in competing methods like
+Holodeck [YSW∗23]. Also, linking to a generative 3D modeling
+system will reduce the reliance on the models in the database – this
+is left for future exploration.
+5. Evaluation
+We compare our approach with four recent LLM-based meth-
+ods, namely LayoutGPT [FZF∗24], HoloDeck [YSW∗23], and I-
+Design [CHS∗24] as well as with transformer-based layout gen-
+erator ATISS [PKS∗21]. We quantitatively evaluate the layouts on
+practical measures such as accessibility (pathway), area of overlap-
+ping objects, and area occupied by objects that are out of bounds.
+We also conduct a user study to qualitatively compare the quality of
+layouts and see how ours performs compared to layouts created by
+amateurs. We also conduct an ablation study to prove the effective-
+ness of our design choices. We note that since LayoutGPT, ATISS,
+and I-Design do not generate windows or doors in their scenes, we
+use the doors and windows generated by our method throughout.
+5.1. Metrics
+(i) Pathway cost: We design a cost function to evaluate the
+clearance of pathways in a room to measure accessibil-
+ity/walkability. The pathway is generated using the medial
+axis of the room boundary and the floor objects (primary and
+secondary objects) and is then expanded to a width of 0.6 m.
+This pathway is represented as a set of points ( P), and for
+each primary or secondary object, we check if any of these
+pathway points lie within their bounding box Bi. If a point
+is inside the bounding box, we compute the squared distance
+from the pathway point to the nearest object boundary ( ∂Bi),
+as
+Cpathway := ∑
+i∈{pri,sec}
+∑
+p∈P∩Bi
+[d (p, ∂Bi)]2 . (11)
+(ii) Object overlap rate (OOR): In a good design layout, there
+should be no overlap between objects. We calculate the rate
+of overlapped objects as follows:
+OOR := ∑i ∑ j>i Aover[i, j] + ∑q ∑r>q Aover[q,r](Itype q=type r )
+w· l
+(12)
+where Aover[i, j] is the area of overlap between objects i and
+j (including intersections with door buffers that account for
+the door swing area), Itype q=type r is an indicator variable that
+has value 1 if tertiary objects q and r have the same type,
+otherwise 0; w and l are the width and the length of the room
+respectively.
+(iii) Out of Bounds Rate (OOB): All objects must fit fully inside
+a room for practicality. We measure the rate of area occupied
+by objects, which is out of bounds as follows:
+OOB := ∑i Abound[i]
+w· l (13)
+where Abound[i] is the area out of bounds for object i.
+5.2. Quantitative Evaluation
+We compare our FlairGPT with both closed-universe
+and open-universe LLM-based layout generation meth-
+ods—LayoutGPT [FZF ∗24], Holodeck [YSW ∗23] and I-
+Design [CHS∗24]. The comparison is based on the three metrics
+which measure practicality as outlined in subsection 5.1, with
+results presented in Table 1. FlairGPT significantly outperforms
+LayoutGPT and Holodeck across all metrics, and I-Design for all
+but the out of bounds rate. LayoutGPT, as a closed-universe ap-
+proach, is constrained to generating standard layouts for bedrooms
+and living rooms, lacking the flexibility to create more stylized or
+unique designs. Please note that our method does not explicitly add
+cost functions for pathway ( CPathway) but we ensure walkability
+as a result of our wall-attraction cost, which encourages suitable
+objects to be near the wall as well as our customizable accessibility
+constraints mapped by the LLM during the language phase. While
+running I-Design, we observed that in several instances, it was
+necessary to restart the process from the beginning, starting with
+the prompt. This was because the optimization phase often failed
+to converge, even after three hours. The strong quantitative results
+highlight the feasibility of our method compared to naseline
+methods. Comapred to other LLM-based + optimization-driven
+approaches, such as Holodeck’s constraint-based layout design
+and I-Design’s backtracking strategy, our cost based optimzation
+proves to be more effective at ensuring functionality.
+Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs 9 of 46
+Figure 6: Results. We showcase a diverse range of layouts generated by FlairGPT, covering a wide range of prompts—from traditional
+bedroom and living room designs to more specialized spaces like a sewing room, as well as highly stylized concepts. From left to right,
+the visualizations include the text prompt, a three-quarter view, a floor plan highlighting primary objects, a floor plan detailing secondary
+objects (tertiary ones are not shown on floorplan), and close-up views for finer detail. See supplemental for walkthroughs.
+10 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+Table 1: Comparison. Quantitative comparison against different methods measuring the functionality of the generated layouts in terms of
+object accessibility (OOB), object overlap (OOR), and access pathway (CPathway).
+Prompt LayoutGPT[FZF∗24] Holodeck[YSW∗23] I-Design [CHS∗24] FlairGPT (ours)
+OOB↓ OOR↓ CPathway OOB↓ OOR↓ CPathway OOB↓ OOR↓ CPathway OOB↓ OOR↓ CPathway
+“A bedroom that is 3m x 4m.” 0.773 3.973 12.315 0.890 0.332 3.764 0.000 5.540 3.943 0.095 0.000 0.291
+“A bedroom that is 3.225m x 4.5m.” 4.752 0.000 12.617 1.630 1.532 1.163 0.000 3.148 5.302 0.215 0.004 2.916
+“A bedroom that is 4.3m x 6m.” 2.920 3.518 4.173 1.518 0.000 2.828 0.000 5.860 2.166 0.009 0.008 1.406
+“A bedroom that is 5m x 5m.” 0.000 0.811 10.569 2.013 1.242 5.129 0.000 4.096 1.224 0.010 0.012 0.000
+“A bedroom that is 3m x 8m.” 1.129 10.080 1.843 1.412 0.000 5.650 0.000 2.046 4.201 0.005 0.003 3.678
+“A living room that is 5m x 5m.” 2.040 6.480 2.958 0.996 0.000 6.240 0.000 7.166 5.028 0.000 0.004 0.740
+“A living room that is 3m x 4m.” 0.001 7.046 2.010 2.013 2.200 6.712 0.000 3.854 1.697 0.074 0.000 0.204
+“A living room that is 4m x 6m.” 4.427 1.282 0.852 1.611 3.215 8.021 0.000 3.700 6.284 0.019 0.008 0.050
+“A living/dining room that is 6m x 3m.” 7.978 7.582 3.092 2.191 0.000 0.605 0.000 6.582 2.169 0.061 0.007 5.154
+“A living room that is 8m x 4m.” 0.000 5.488 10.843 1.022 0.079 17.479 0.000 0.147 7.088 0.048 0.030 1.027
+“A bedroom that is 4m x 5m.” 2.219 9.138 8.993 1.840 1.949 6.463 0.000 1.353 2.719 0.007 0.017 0.735
+“A sewing room.” ✗ ✗ ✗ 1.317 0.000 10.699 0.000 4.030 0.456 0.007 0.000 1.033
+“A small green boho dining room.”✗ ✗ ✗ 1.971 2.150 10.674 0.000 1.907 0.047 0.100 0.011 1.639
+“An office for a bestselling writer in New
+York who likes to write Fantasy books.” ✗ ✗ ✗ 1.659 0.365 6.176 0.000 2.513 5.572 0.010 2.588 2.262
+“A bedroom for a vampire.” ✗ ✗ ✗ 1.683 0.302 3.982 0.000 9.710 2.048 0.043 0.094 2.469
+Mean Scores 2.385 5.036 6.388 1.584 0.891 6.372 0.000 4.110 3.330 0.047 0.186 1.736
+5.3. Qualitative Evaluation
+We present the results of our method in Figure 6, showcasing lay-
+outs generated from a variety of prompts. These range from tradi-
+tional bedroom and living room designs to more specialized spaces,
+such as a sewing room, and stylized concepts like “A small work-
+room for a wizard.” FlairGPT also demonstrates its ability to meet
+specific client-driven functional and aesthetic requirements, such as
+“A bedroom that is 5x5 for a young girl who likes to paint whilst
+looking out of her window” or “An office for a bestselling writer in
+New York who likes to write Fantasy books”.
+We compare our method against baseline ap-
+proaches—LayoutGPT [FZF ∗24], I-Design [CHS ∗24] and
+Holodeck [YSW∗23]—in Figure 9 . Our results demonstrate a
+closer alignment with the input prompt for stylized designs. For
+instance, in the prompt “A bedroom for a vampire,” the generated
+layout replaces the traditional bed with a coffin, showcasing
+FlairGPT’s creative and context-aware object selection to match
+the thematic style of user prompts. Video results are available on
+the supplemental webpage. Additionally, FlairGPT can generate
+multiple distinct layouts for the same input prompt, as seen in
+Figure 7, offering versatility and a range of design options that
+cater to individual preferences and specific requirements. Please
+refer to our supplemental webpage for a thorough comparison
+against baseline methods on nine varied layouts. These results
+demonstrate FlairGPT’s efficient and comprehensive use of the
+layout, outperforming baseline methods that either create clutter or
+leave excessive empty space.
+User Study I. In this study, we asked users to compare FlairGPT
+against five methods: the first four approaches are computational
+(LayoutGPT [FZF∗24], ATISS [PKS∗21], Holodeck [YSW∗23],
+and iDesign [CHS∗24]), the fifth one being novice human design-
+ers. We were unable to run ATISS directly as the model weights are
+not publicly available, so we used the results reported in their paper
+instead.
+To compare our method against novice human designers, we re-
+cruited 5 participants to design 2 layouts each. Each participant
+was provided with two blank floorplans containing windows and
+doors positioned identically to those in our method (see supplemen-
+tal for details). They had 15 minutes per floorplan to draw bounding
+boxes for each object in the room (along with forward direction),
+without guidance on object sizing. Participants had control over ob-
+ject selection, size, orientation, and placement, but not style. From
+these designs, we selected 4 layouts (2 for each prompt) and re-
+constructed them in Blender using the same assets as our method.
+If a participant included objects that were not present in our room
+inventory, we selected assets that matched the specified style.
+For the closed-universe computational methods, we study three dif-
+ferent simple prompts, for the open-universe computational meth-
+ods, one simple prompt and two more complex prompts, and for
+the human method, two:
+• Closed-Universe Computational:
+(i) “A bedroom that is 3m x 4m.”
+(ii) “A bedroom that is 3.225 x 4.5m.”
+(iii) “A living room that is 8m x 4m.”
+• Open-Universe Computational:
+(i) “A bedroom that is 3m x 4m.”
+(ii) “A sewing room.”
+(iii) “A bedroom that is 5m x 5m for a young girl who likes to
+paint whilst looking out of her window.”
+• Human:
+(iv) “A bedroom that is 4m x 5m.”
+(v) “An office for a bestselling writer in New York who likes to
+write Fantasy books.”
+Participants were shown bird’s-eye renderings of each method
+and condition, similar to Figure 8 (a). In an unlimited-time, two-
+alternative forced choice task, they were asked to choose the “bet-
+ter layout” based on aesthetics, functionality, and adherence to the
+prompt. A total of 21 participants participated in this experiment,
+with the outcomes presented in Table 2.
+Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs 11 of 46
+We see that subjects prefer our results on average across prompts
+in 88.9% of the cases over LayoutGPT, in 79.4% of the cases
+over ATISS, in 81.7% of the cases over Holodeck, in 95.0% of
+cases over I-Design, and in 63.2% of the cases over a human result
+(significant, p < 10−6, binomial test). Similar conclusions can be
+drawn when looking at individual prompt conditions (significant,
+p < 0.01, binomial test).
+User Study II. Study 2 uses the same methods and similar view-
+ing conditions as study 1, using the same prompts for the human
+baseline, but 5 prompts for our method:
+P1. “A bedroom that is 4m x 5m.”
+P2. “An office for a bestselling writer in New York who likes to
+write Fantasy books.”
+Figure 7: Diversity in Generated Layouts. FlairGPT demon-
+strates impressive versatility in scene generation for the same in-
+put prompt-“A 5m x 3m home office”, producing a wide range of
+layouts driven by variations in the selection of objects and style
+(guided by the LLM), and placement of windows, doors, and sock-
+ets. These elements significantly influence the arrangement of ob-
+jects during our optimization phase, resulting in diverse and dy-
+namic room configurations. We show primary and secondary ob-
+jects on the left and on the right we show tertiary objects.
+P3. “A sewing room.”
+P4. “A small green boho dining room.”
+P5. “A bedroom for a vampire.”
+Participants were shown a single result of a single method (as can
+be seen in Figure 8 (b)) and asked to rate with unlimited time on
+a five-point Likert scale according to five criteria: “object type”,
+“object size”, “object style”, “object functionality”, and “overall
+placement”. We compare the four layouts drawn by novice human
+designers against the same four prompts picked from our gener-
+ated results. A total of 17 participants participated in this experi-
+ment, where FlairGPT performed well across all criteria, as shown
+in Figure 10. For the direct comparison between our layouts and
+the human-designed ones, we excluded the style criterion since the
+rooms were constructed using the style produced by our method.
+Participants rated our method, aggregated across four criteria and
+all rooms, at 4.19 compared to 3.82 for human designs (difference
+significant at p < 0.0001, t-test).
+LLM-based assessment. In our research, we aimed to test the
+ability of LLMs to evaluate the quality of a layout. Specifically,
+we sought to determine whether an LLM could classify a layout as
+“good” or “bad” and identify potential flaws in the design. To ex-
+plore this, we conducted an experiment with 24 bedroom layouts,
+some intentionally flawed and others well-designed. Four human
+participants labeled each layout as either “good” or “bad” and pro-
+vided reasoning for their classifications.
+We extended this evaluation to both GPT-4o and SigLIP
+[ZMKB23] using the same set of layouts. For this, we created four
+representations of each bedroom: a bounding box representation,
+a top-down 2D view, a top-down 3D view, and a perspective view
+from an angle chosen (for best visibility) within the 3D room. Each
+representation was individually presented to GPT-4o, which was
+tasked with listing the pros and cons of the layout before classify-
+ing it as either good or bad.
+For SigLIP, we employed the same bedroom representations, pair-
+ing each with three captions: a positive caption (“a good layout
+for a bedroom”), a neutral caption (“a layout for a bedroom”), and
+a negative caption (“a bad layout for a bedroom”). We calculated
+similarity scores between the captions, denoted as Gi for good, Ni
+Figure 8: Screen Capture of User Studies. In User Study I (Figure
+(a)), participants compared FlairGPT with LayoutGPT, ATISS, and
+novice designers. In User Study II (Figure (b)), participants rated
+layouts by FlairGPT and novice designers across multiple criteria.
+12 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+Figure 9: Room layout comparison against baselines. Comparison
+of layouts generated by FlairGPT and baseline methods, highlight-
+ing differences in object arrangement, spatial organization, and
+overall design quality.
+for neutral, and Bi for bad, and the images. A layout was classified
+as good if 2Gi− Ni− Bi > 0.
+Our findings revealed that both GPT-4o and SigLIP performed best
+when using the 3D top-down view of the room. However, the ac-
+curacy of correct classifications was insufficient for practical use,
+with GPT-4o achieving 63%.
+5.4. Ablation
+We ablate our choice of cost constraints-Cbound and Cover as well as
+our hierarchical structure and cleaning step in Table 3. Specifically,
+we compare our method without the boundary cost (Cbound), with-
+out the overlap cost (Cover), without the constraint cleaning phase,
+and with all objects optimized simultaneously rather than following
+our proposed hierarchical structure (for this, we allowed the opti-
+mization to run for 1.5 hours before taking the best result; for com-
+Table 2: User Study Findings. Users preferred layouts generated
+by FlairGPT over those by LayoutGPT, ATISS, Holodeck, or
+I-Design. When compared against human designers, ours was
+preferred for more complex/creative prompts (P5), while human
+designers were better in the simple/standard scenario (P4).
+(a) FlairGPT vs LayoutGPT, ATISS, Holodeck and I-Design
+across three prompts.
+Prompt P1 P2 P3 Average
+vs LayoutGPT 85.7% 100% 81.0% 88.9%
+vs ATISS 81.0% 100% 57.1% 79.4%
+Prompt P1 P4 P5 Average
+vs Holodeck 80.0% 100% 65.0% 81.7 %
+vs I-Design 100% 90.0% 95.0% 95.0%
+(b) FlairGPT vs novice human designers across two prompts.
+Prompt P6 P7 Average
+vs Human 29.4% 94.1% 63.2%
+Figure 10: User Study II: Score comparison between FlairGPT
+and layouts designed by novices. Mean scores (out of 5) are shown
+for object type, object size, object style, object functionality and
+overall placement. Each criterion was rated on a scale from 1
+(terrible) to 5 (perfect). Since we used the assets chosen by our
+method for the human designed layouts, we use our score for both
+FlairGPT and the human designs. For three criteria, the difference
+was significant at p < 0.001 (**) and for one, it was significant at
+p < 0.01 (*).
+parison, ours takes 10-15 minutes on average). We evaluate these
+variants using the same out of bounds (OOB) and object overlap
+rate (OOR) as described earlier. We also measure translation errors
+(TE) which is described as number of translation errors
+number of uncleaned constraints .
+Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs 13 of 46
+Table 3: Ablation. Our ablation results underscore the critical role
+of the additional cost constraints, our hierarchical optimization
+structure, and the cleaning step in enhancing the overall perfor-
+mance of our method.
+Method OOB ↓ OOR↓ TE↓
+w/o Cbound 9.20 0.01 15.70
+w/o Cover 0.03 3.68 15.70
+w/o Hierarchy 8.84 2.18 15.70
+w/o Cleaning 0.04 0.23 19.24
+FlairGPT 0.03 0.54 15.70
+6. Conclusion
+We have presented FlairGPT as an LLM-guided interior designer.
+We demonstrated that LLMs offer a rich source of information that
+can be harnessed to help decide which objects to include for a tar-
+get room along with their various intra- and inter-object constraints.
+We described how to convert these language constraints into al-
+gebraic functions using a library of pre-authored cost functions.
+Having translated the functions, we solve and extract final room
+layouts, and retrieve objects based on the LLM-based object at-
+tributes. Our evaluations demonstrate that human users favorably
+rate our designed layouts. The generated layouts are explainable
+by construction, as users can browse through the constraints used
+in the design process and optionally adjust their relative priority.
+Our approach, which leverages LLMs for planning followed by op-
+timization, has the potential for wide-ranging applications beyond
+interior design, including urban planning, 3D modeling, and image
+enhancement–any domain where cost objectives can be effectively
+quantified.
+Limitations. Our study has several limitations that future work
+could address. First, FlairGPT designs are currently limited to rect-
+angular rooms. Exploring application to irregularly shaped rooms,
+possibly by approximating them with union of (axis-aligned) rect-
+angles, would be an interesting direction. However, one has to come
+up with a canonical naming convention for the walls to interact with
+the LLM to extract room-specific constraints.
+Second, we pre-authored a set of cost functions for translating the
+LLM-specified constraints. In future work, we would like to inves-
+tigate LLMs’ generative capabilities to propose new cost functions
+for the library. Currently, we find that the algebraic reasoning skills
+of LLMs are inconsistent, making it challenging to develop an au-
+tomated library generation capability. It is worth noting that our
+approach was zero-shot, as we did not fine-tune the LLM with ex-
+ample library functions.
+Third, the object attributes do not have height associated with them,
+making it challenging to enforce constraints that prevent wall-
+mounted items from being placed behind taller objects — for ex-
+ample, a painting behind a wardrobe.
+Finally, as described, we leave it to the LLM to decide and handle
+conflicting constraints in the constraint cleanup stage. Also, we fix
+the object size early in the pipeline when the LLM lists the room
+objects – this restricts possible adjustments in the subsequent opti-
+mization phase. In the future, when LLMs can quantitatively eval-
+uate layouts, or their descriptions, then one can imagine an outer
+loop to backpropagate errors to update the list of selected objects
+and/or their relevant constraints, and decide which objects or con-
+straints to drop.
+Acknowledgments. We thank Rishabh Kabra, Romy Williamson,
+and Tobias Ritschel for their comments and suggestions. NM
+was supported by Marie Skłodowska-Curie grant agreement
+No. 956585, gifts from Adobe, and the UCL AI Centre.
+References
+[AKGH∗24] A GUINA -KANG R., G UMIN M., H AN D. H., M ORRIS
+S., Y OO S. J., G ANESHAN A., J ONES R. K., W EI Q. A., F U K.,
+RITCHIE D.: Open-Universe Indoor Scene Generation using LLM
+Program Synthesis and Uncurated Object Databases. arXiv preprint
+arXiv:2403.09675 (2024). 3
+[Ale18] A LEXANDER C.: A pattern language: towns, buildings, con-
+struction. Oxford university press, 2018. 3
+[Ble18] B LENDER ONLINE COMMUNITY : Blender - a 3D modelling and
+rendering package. Blender Foundation, Stichting Blender Foundation,
+Amsterdam, 2018. URL: http://www.blender.org. 21, 22
+[Ble24] B LENDER KIT CONTRIBUTORS : BlenderKit: Free 3D models,
+materials, brushes and add-ons directly in Blender. https://www.
+blenderkit.com, 2024. Accessed: 2024-09-01. 21, 22
+[Bro20] B ROWN T. B.: Language models are few-shot learners. arXiv
+preprint arXiv:2005.14165 (2020). 3
+[BS13] B ROOKER G., S TONE S.: Basics Interior Architecture: Form and
+Structure, 2nd ed. Bloomsbury Publishing, 2013. 3
+[cha24] GPT-4 Technical Report, 2024. URL: https://arxiv.org/
+abs/2303.08774, arXiv:2303.08774. 2
+[CHS∗24] C ELEN A., H AN G., S CHINDLER K., G OOL L. V., A RMENI
+I., O BUKHOV A., W ANG X.: I-design- personalized llm interior de-
+signer, 2024. arXiv:arXiv:2404.02838. 2, 3, 8, 10, 15, 16
+[DSS∗23] D EITKE M., S CHWENK D., S ALVADOR J., W EIHS L.,
+MICHEL O., V ANDER BILT E., S CHMIDT L., E HSANI K., K EMBHAVI
+A., FARHADI A.: Objaverse: A universe of annotated 3d objects. InPro-
+ceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (2023), pp. 13142–13153. 8
+[FCG∗20] F U H., C AI B., G AO L., Z HANG L., L I J. W. C., X UN Z.,
+SUN C., J IA R., Z HAO B., Z HANG H.: 3d-front: 3d furnished rooms
+with layouts and semantics, 2020. URL: https://arxiv.org/
+abs/2011.09127, doi:10.48550/ARXIV.2011.09127. 3
+[FZF∗24] F ENG W., Z HU W., F U T.-J., J AMPANI V., A KULA A., H E
+X., B ASU S., W ANG X. E., W ANG W. Y.: LayoutGPT: Compositional
+Visual Planning and Generation with Large Language Models.Advances
+in Neural Information Processing Systems 36 (2024). 2, 3, 8, 10
+[GSM∗23] G AO L., S UN J.-M., M O K., L AI Y.-K., G UIBAS
+L. J., Y ANG J.: SceneHGN: Hierarchical Graph Networks
+for 3D Indoor Scene Generation with Fine-Grained Geometry,
+2023. URL: https://arxiv.org/abs/2302.10237, doi:10.
+48550/ARXIV.2302.10237. 3
+[HWB95] H ARADA M., W ITKIN A., B ARAFF D.: Interactive
+physically-based manipulation of discrete/continuous models. In
+Proceedings of the 22nd Annual Conference on Computer Graph-
+ics and Interactive Techniques (New York, NY , USA, 1995), SIG-
+GRAPH ’95, Association for Computing Machinery, p. 199–208.
+URL: https://doi.org/10.1145/218380.218443, doi:
+10.1145/218380.218443. 3
+[JSR∗24] J IANG A. Q., S ABLAYROLLES A., R OUX A., M ENSCH A.,
+SAVARY B., B AMFORD C., C HAPLOT D. S., C ASAS D. D. L., H ANNA
+E. B., B RESSAND F., ET AL .: Mixtral of experts. arXiv preprint
+arXiv:2401.04088 (2024). 3
+[LGWM22] L EIMER K., G UERRERO P., W EISS T., M USIALSKI P.:
+LayoutEnhancer: Generating Good Indoor Layouts from Imperfect
+Data. In SIGGRAPH Asia 2022 Conference Papers (Nov. 2022), SA
+’22, ACM. URL: http://dx.doi.org/10.1145/3550469.
+3555425, doi:10.1145/3550469.3555425. 3
+14 of 46 Gabrielle Littlefair, Niladri Shekhar Dutt, Niloy J. Mitra / FlairGPT: Repurposing LLMs for Interior Designs
+[LLL∗24] L U C., L U C., L ANGE R. T., F OERSTER J., C LUNE J., H A
+D.: The ai scientist: Towards fully automated open-ended scientific dis-
+covery. arXiv preprint arXiv:2408.06292 (2024). 3
+[LZD∗23] L ENG S., Z HOU Y., DUPTY M. H., L EE W. S., J OYCE S. C.,
+LU W.: Tell2Design: A Dataset for Language-Guided Floor Plan Gen-
+eration, 2023. arXiv:2311.15941. 3
+[Mit12] M ITTON M.: Interior Design Visual Presentation: A Guide to
+Graphics, Models, and Presentation Techniques, 4th ed. John Wiley &
+Sons, 2012. 3
+[MP02] M ICHALEK J., P APALAMBROS P.: Interactive design optimiza-
+tion of architectural layouts. Engineering optimization 34 , 5 (2002),
+485–501. 3
+[MP24] M ONDORF P., P LANK B.: Beyond accuracy: Evaluating the
+reasoning behavior of large language models–a survey. arXiv preprint
+arXiv:2404.01869 (2024). 3
+[MSL∗11] M ERRELL P., S CHKUFZA E., L I Z., A GRAWALA M.,
+KOLTUN V.: Interactive furniture layout using interior design
+guidelines. In ACM SIGGRAPH 2011 Papers (New York, NY ,
+USA, 2011), SIGGRAPH ’11, Association for Computing Machinery.
+URL: https://doi.org/10.1145/1964921.1964982, doi:
+10.1145/1964921.1964982. 3
+[PKS∗21] P ASCHALIDOU D., K AR A., S HUGRINA M., K REIS K.,
+GEIGER A., F IDLER S.: ATISS: Autoregressive Transformers for In-
+door Scene Synthesis. In Advances in Neural Information Processing
+Systems (NeurIPS) (2021). 2, 3, 8, 10
+[RGG∗23] R OZIERE B., G EHRING J., G LOECKLE F., S OOTLA S.,
+GAT I., T AN X. E., A DI Y., L IU J., S AUVESTRE R., R EMEZ T.,
+ET AL .: Code llama: Open foundation models for code. arXiv preprint
+arXiv:2308.12950 (2023). 3
+[RKH∗21] R ADFORD A., K IM J. W., H ALLACY C., R AMESH A., G OH
+G., A GARWAL S., S ASTRY G., A SKELL A., M ISHKIN P., C LARK J.,
+ET AL .: Learning transferable visual models from natural language
+supervision. In International conference on machine learning (2021),
+PMLR, pp. 8748–8763. 8
+[RPBN∗24] R OMERA -PAREDES B., B AREKATAIN M., N OVIKOV A.,
+BALOG M., K UMAR M. P., DUPONT E., R UIZ F. J., E LLENBERG J. S.,
+WANG P., FAWZI O., ET AL .: Mathematical discoveries from program
+search with large language models. Nature 625, 7995 (2024), 468–475.
+3
+[RWL19] R ITCHIE D., W ANG K., L IN Y.-A.: Fast and flexible in-
+door scene synthesis via deep convolutional generative models. In Pro-
+ceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (2019), pp. 6182–6190. 3
+[SHC∗23] S TRADER J., H UGHES N., C HEN W., S PERAN -
+ZON A., C ARLONE L.: Indoor and Outdoor 3D Scene
+Graph Generation via Language-Enabled Spatial Ontologies,
+2023. URL: https://arxiv.org/abs/2312.11713,
+doi:10.48550/ARXIV.2312.11713. 3
+[TAB∗23] T EAM G., A NIL R., B ORGEAUD S., W U Y., A LAYRAC J.-
+B., Y U J., S ORICUT R., S CHALKWYK J., D AI A. M., H AUTH A.,
+ET AL .: Gemini: a family of highly capable multimodal models. arXiv
+preprint arXiv:2312.11805 (2023). 3
+[TLI∗23] T OUVRON H., L AVRIL T., I ZACARD G., M ARTINET X.,
+LACHAUX M.-A., L ACROIX T., R OZIÈRE B., G OYAL N., H AMBRO
+E., A ZHAR F., ET AL .: Llama: Open and efficient foundation language
+models. arXiv preprint arXiv:2302.13971 (2023). 3
+[TNM∗23] T ANG J., N IE Y., M ARKHASIN L., D AI A., T HIES J.,
+NIESSNER M.: Diffuscene: Scene graph denoising diffusion proba-
+bilistic model for generative indoor scene synthesis. arXiv preprint
+arXiv:2303.14207 2, 3 (2023). 3
+[WLD∗19] W EISS T., L ITTENEKER A., D UNCAN N., N AKADA M.,
+JIANG C., Y U L.-F., T ERZOPOULOS D.: Fast and Scalable
+Position-Based Layout Synthesis. IEEE Transactions on Visualiza-
+tion and Computer Graphics 25 , 12 (Dec. 2019), 3231–3243. URL:
+http://dx.doi.org/10.1109/TVCG.2018.2866436, doi:
+10.1109/tvcg.2018.2866436. 3
+[WSCR18] W ANG K., S AVVA M., C HANG A. X., R ITCHIE D.: Deep
+convolutional priors for indoor scene synthesis. ACM Transactions on
+Graphics (TOG) 37, 4 (2018), 1–14. 3
+[YLZ∗24] Y ANG Y., LU J., Z HAO Z., L UO Z., Y U J. J., S ANCHEZ V.,
+ZHENG F.: LLplace: The 3D Indoor Scene Layout Generation and Edit-
+ing via Large Language Model, 2024. arXiv:2406.03866. 3
+[YSW∗23] Y ANG Y., S UN F.-Y., W EIHS L., V ANDER BILT E., H ER-
+RASTI A., H AN W., W U J., H ABER N., K RISHNA R., L IU L.,
+CALLISON -BURCH C., Y ATSKAR M., K EMBHAVI A., C LARK C.:
+Holodeck: Language Guided Generation of 3D Embodied AI Envi-
+ronments, 2023. URL: https://arxiv.org/abs/2312.09067,
+doi:10.48550/ARXIV.2312.09067. 2, 3, 8, 10, 15, 16
+[YYT∗11] Y U L.-F., Y EUNG S.-K., T ANG C.-K., T ERZOPOULOS D.,
+CHAN T. F., O SHER S. J.: Make it home: automatic optimization
+of furniture arrangement. ACM Trans. Graph. 30 , 4 (July 2011).
+URL: https://doi.org/10.1145/2010324.1964981, doi:
+10.1145/2010324.1964981. 3
+[ZMKB23] Z HAI X., M USTAFA B., K OLESNIKOV A., B EYER L.: Sig-
+moid Loss for Language Image Pre-Training, 2023. arXiv:arXiv:
+2303.15343. 11

@@ -1,0 +1,538 @@
+{
+ "method": "layout_boxes",
+ "scene": "room_103",
+ "room_type": "meeting room medium 1",
+ "room": {
+  "width": 8.0,
+  "length": 13.0,
+  "height": 3.2
+ },
+ "walls": [
+  {
+   "name": "shell_wall_0",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_1",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_2",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_3",
+   "normal": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_4",
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_5",
+   "normal": [
+    1.0,
+    -0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_6",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_7",
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_8",
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "shell_wall_9",
+   "normal": [
+    -1.0,
+    -0.0,
+    0.0
+   ]
+  }
+ ],
+ "counts": {
+  "box": 49
+ },
+ "objects": [
+  {
+   "id": "obj_0000",
+   "type": "side meeting chair",
+   "asset_key": "side_meeting_chair_7d115fb7",
+   "description": "Bright blue chair with thin legs and curved back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_000"
+  },
+  {
+   "id": "obj_0001",
+   "type": "desk organizer",
+   "asset_key": "desk_organizer_f02d5c62",
+   "description": "yellow file folder with a smiley face on it.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_001"
+  },
+  {
+   "id": "obj_0002",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_002"
+  },
+  {
+   "id": "obj_0003",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_003"
+  },
+  {
+   "id": "obj_0004",
+   "type": "sideboard cabinet",
+   "asset_key": "sideboard_cabinet_acf8a040",
+   "description": "A tall white dresser with two large compartment doors and two thin drawers below.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_004"
+  },
+  {
+   "id": "obj_0005",
+   "type": "side meeting chair",
+   "asset_key": "side_meeting_chair_7d115fb7",
+   "description": "Bright blue chair with thin legs and curved back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_005"
+  },
+  {
+   "id": "obj_0006",
+   "type": "wall art",
+   "asset_key": "wall_art_0bba2282",
+   "description": "A picture of someone framed on the wall.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_006"
+  },
+  {
+   "id": "obj_0007",
+   "type": "credenda",
+   "asset_key": "credenda_f21214c0",
+   "description": "credenda",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_007"
+  },
+  {
+   "id": "obj_0008",
+   "type": "sign in sheet",
+   "asset_key": "sign_in_sheet_82a1440f",
+   "description": "Paper scroll with lines of handwriting.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_008"
+  },
+  {
+   "id": "obj_0009",
+   "type": "side meeting chair",
+   "asset_key": "side_meeting_chair_7d115fb7",
+   "description": "Bright blue chair with thin legs and curved back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_009"
+  },
+  {
+   "id": "obj_0010",
+   "type": "side table",
+   "asset_key": "side_table_24d32942",
+   "description": "A round wood table.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_010"
+  },
+  {
+   "id": "obj_0011",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_011"
+  },
+  {
+   "id": "obj_0012",
+   "type": "side table",
+   "asset_key": "side_table_24d32942",
+   "description": "A round wood table.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_012"
+  },
+  {
+   "id": "obj_0013",
+   "type": "freestanding plant medium",
+   "asset_key": "freestanding_plant_mediu_562a9629",
+   "description": "A green fern plant in a brown planting pot.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_013"
+  },
+  {
+   "id": "obj_0014",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_1bf0e000",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_014"
+  },
+  {
+   "id": "obj_0015",
+   "type": "tray with cups",
+   "asset_key": "tray_with_cups_48f78b54",
+   "description": "A board for playing checkers that is brown and white.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_015"
+  },
+  {
+   "id": "obj_0016",
+   "type": "business card holder",
+   "asset_key": "business_card_holder_6609a0e9",
+   "description": "A blue folder with a star and file on it.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_016"
+  },
+  {
+   "id": "obj_0017",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_017"
+  },
+  {
+   "id": "obj_0018",
+   "type": "wall monitor",
+   "asset_key": "wall_monitor_3685e4f8",
+   "description": "A rectangular flat screen television set with a white crosshair on black background.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_018"
+  },
+  {
+   "id": "obj_0019",
+   "type": "freestanding plant large",
+   "asset_key": "freestanding_plant_large_a2a465ce",
+   "description": "A brown flower pot with long leafed plant protruding on a concrete pedestal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_019"
+  },
+  {
+   "id": "obj_0020",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_020"
+  },
+  {
+   "id": "obj_0021",
+   "type": "wall art",
+   "asset_key": "wall_art_0bba2282",
+   "description": "A picture of someone framed on the wall.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_021"
+  },
+  {
+   "id": "obj_0022",
+   "type": "freestanding plant large",
+   "asset_key": "freestanding_plant_large_a2a465ce",
+   "description": "A brown flower pot with long leafed plant protruding on a concrete pedestal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_022"
+  },
+  {
+   "id": "obj_0023",
+   "type": "console table",
+   "asset_key": "console_table_b687e1f0",
+   "description": "It is a table to set by a wall and leave items like mail on it.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_023"
+  },
+  {
+   "id": "obj_0024",
+   "type": "side meeting chair",
+   "asset_key": "side_meeting_chair_7d115fb7",
+   "description": "Bright blue chair with thin legs and curved back.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_024"
+  },
+  {
+   "id": "obj_0025",
+   "type": "wall art",
+   "asset_key": "wall_art_0bba2282",
+   "description": "A picture of someone framed on the wall.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_025"
+  },
+  {
+   "id": "obj_0026",
+   "type": "magazine stack",
+   "asset_key": "magazine_stack_ffeba0d6",
+   "description": "Two books stacked together.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_026"
+  },
+  {
+   "id": "obj_0027",
+   "type": "paper cup stack",
+   "asset_key": "paper_cup_stack_79ad8944",
+   "description": "A coffee cup with a plastic lid.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_027"
+  },
+  {
+   "id": "obj_0028",
+   "type": "freestanding plant medium",
+   "asset_key": "freestanding_plant_mediu_562a9629",
+   "description": "A green fern plant in a brown planting pot.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_028"
+  },
+  {
+   "id": "obj_0029",
+   "type": "wall art",
+   "asset_key": "wall_art_0bba2282",
+   "description": "A picture of someone framed on the wall.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_029"
+  },
+  {
+   "id": "obj_0030",
+   "type": "storage shelf",
+   "asset_key": "storage_shelf_da6b9602",
+   "description": "It is a tall set of shelves made of wood and metal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_030"
+  },
+  {
+   "id": "obj_0031",
+   "type": "storage shelf",
+   "asset_key": "storage_shelf_da6b9602",
+   "description": "It is a tall set of shelves made of wood and metal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_031"
+  },
+  {
+   "id": "obj_0032",
+   "type": "snack jar",
+   "asset_key": "snack_jar_fec536f5",
+   "description": "a white and blue coffee mug with a label, featuring a blue lid and a yellow and white design, resembling a honey jar and a plastic container with the word \"Ulma\" on it.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_032"
+  },
+  {
+   "id": "obj_0033",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_033"
+  },
+  {
+   "id": "obj_0034",
+   "type": "file box",
+   "asset_key": "file_box_a3ef7c8d",
+   "description": "A brown book with silver corners.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_034"
+  },
+  {
+   "id": "obj_0035",
+   "type": "freestanding plant medium",
+   "asset_key": "freestanding_plant_mediu_562a9629",
+   "description": "A green fern plant in a brown planting pot.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_035"
+  },
+  {
+   "id": "obj_0036",
+   "type": "snack jar",
+   "asset_key": "snack_jar_144a7a07",
+   "description": "An aluminum can with a picture of baked beans on it.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_036"
+  },
+  {
+   "id": "obj_0037",
+   "type": "file box",
+   "asset_key": "file_box_a3ef7c8d",
+   "description": "A brown book with silver corners.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_037"
+  },
+  {
+   "id": "obj_0038",
+   "type": "umbrella stand",
+   "asset_key": "umbrella_stand_2a93899c",
+   "description": "A white box with the top open.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_038"
+  },
+  {
+   "id": "obj_0039",
+   "type": "freestanding plant large",
+   "asset_key": "freestanding_plant_large_a2a465ce",
+   "description": "A brown flower pot with long leafed plant protruding on a concrete pedestal.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_039"
+  },
+  {
+   "id": "obj_0040",
+   "type": "conference table",
+   "asset_key": "conference_table_1dcb0593",
+   "description": "A long white table with two black spines.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_040"
+  },
+  {
+   "id": "obj_0041",
+   "type": "paper cup stack",
+   "asset_key": "paper_cup_stack_79ad8944",
+   "description": "A coffee cup with a plastic lid.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_041"
+  },
+  {
+   "id": "obj_0042",
+   "type": "meeting chair",
+   "asset_key": "meeting_chair_0085409e",
+   "description": "A black and gray office style armchair with thin armrests on protruding black metal beams.",
+   "place": "floor",
+   "status": "box",
+   "node": "obj_042"
+  },
+  {
+   "id": "obj_0043",
+   "type": "wall art",
+   "asset_key": "wall_art_0bba2282",
+   "description": "A picture of someone framed on the wall.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_043"
+  },
+  {
+   "id": "obj_0044",
+   "type": "wall shelf",
+   "asset_key": "wall_shelf_1bf0e000",
+   "description": "A set of shelves with one rectangular wooden board and two rusted bookenders.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_044"
+  },
+  {
+   "id": "obj_0045",
+   "type": "whiteboard",
+   "asset_key": "whiteboard_fe0f0031",
+   "description": "A chalkboard with prices.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_045"
+  },
+  {
+   "id": "obj_0046",
+   "type": "wall clock",
+   "asset_key": "wall_clock_63943951",
+   "description": "A round clock in a gray frame with a white face, two black hands and black numbers.",
+   "place": "wall",
+   "status": "box",
+   "node": "obj_046"
+  },
+  {
+   "id": "obj_0047",
+   "type": "decorative bowl",
+   "asset_key": "decorative_bowl_cf2fa545",
+   "description": "A yellow and black cup.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_047"
+  },
+  {
+   "id": "obj_0048",
+   "type": "tray with cups",
+   "asset_key": "tray_with_cups_48f78b54",
+   "description": "A board for playing checkers that is brown and white.",
+   "place": "on_object",
+   "status": "box",
+   "node": "obj_048"
+  }
+ ]
+}

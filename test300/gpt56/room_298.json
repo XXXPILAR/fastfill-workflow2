@@ -1,0 +1,105 @@
+{
+ "k": 298,
+ "source": "Structured3D",
+ "room_type": "bedroom",
+ "latency_s": 28.548451999900863,
+ "usage": [
+  {
+   "prompt_tokens": 989,
+   "completion_tokens": 1447,
+   "total_tokens": 2436,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1034,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0003 (cabinet) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0004 (desk) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.48,
+     0.45,
+     0.82
+    ],
+    "bottom_center_m": [
+     1.72,
+     0.95,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.0,
+     0.9,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.48,
+     1.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.48,
+     0.45,
+     0.82
+    ],
+    "bottom_center_m": [
+     1.72,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.45,
+     1.1,
+     2.0
+    ],
+    "bottom_center_m": [
+     0.6,
+     3.618,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.6,
+     1.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.375,
+     1.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe single bed occupies the west side, leaving a central aisle and keeping the doorway approach clear. The desk is placed against the east wall facing the bed, with both compact chairs side by side in front of it; they face the work surface and have a 0.15 m edge-to-edge separation, satisfying the near relationship. The tall cabinet uses the north wall to the left of the door, outside the door opening. This arrangement preserves an unobstructed route from the door into the center of the room and provides access to the bed, desk, chairs, and cabinet.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.45,\"depth_m\":0.48,\"height_m\":0.82,\"x\":1.72,\"y\":0.95,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.9,\"depth_m\":2.0,\"height_m\":0.55,\"x\":0.48,\"y\":1.15,\"z\":0.0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.45,\"depth_m\":0.48,\"height_m\":0.82,\"x\":1.72,\"y\":1.55,\"z\":0.0,\"facing_deg\":0},{\"id\":\"obj_0003\",\"width_m\":1.1,\"depth_m\":0.45,\"height_m\":2.0,\"x\":0.6,\"y\":3.618,\"z\":0.0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":1.2,\"depth_m\":0.6,\"height_m\":0.75,\"x\":2.375,\"y\":1.25,\"z\":0.0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.675 m x 3.843 m x 2.800 m\nfloor polygon (x, y): [[0.0, 3.843], [0.0, 0.0], [2.675, 0.0], [2.675, 3.843]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0002\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0003\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0004\", \"category\": \"desk\", \"description\": \"desk\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.442, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.675, 0.0], \"width_m\": 1.633, \"height_m\": 1.2, \"sill_height_m\": 0.875}, {\"type\": \"door\", \"centre_xy\": [2.193, 3.843], \"wall_from\": [2.675, 3.843], \"wall_to\": [0.0, 3.843], \"width_m\": 0.831, \"height_m\": 2.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0004\", \"target_id\": \"obj_0001\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0003\"}, {\"type\": \"near\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0002\", \"max_distance_m\": 0.2}]\n[/Task Constraints]"
+}

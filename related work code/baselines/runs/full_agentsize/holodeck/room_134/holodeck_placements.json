@@ -1,0 +1,642 @@
+{
+ "floor": [
+  {
+   "assetId": "freestanding bathtub-0",
+   "id": "freestanding bathtub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.62,
+    "y": 0.29,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     419.5,
+     85.0
+    ],
+    [
+     419.5,
+     265.0
+    ],
+    [
+     504.5,
+     265.0
+    ],
+    [
+     504.5,
+     85.0
+    ]
+   ],
+   "object_name": "freestanding bathtub-0"
+  },
+  {
+   "assetId": "tall bathroom cabinet-0",
+   "id": "tall bathroom cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.95,
+    "z": 1.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     65.0
+    ],
+    [
+     45.5,
+     135.0
+    ],
+    [
+     -4.5,
+     135.0
+    ],
+    [
+     -4.5,
+     65.0
+    ]
+   ],
+   "object_name": "tall bathroom cabinet-0"
+  },
+  {
+   "assetId": "low bathroom storage bench-0",
+   "id": "low bathroom storage bench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.25,
+    "y": 0.24,
+    "z": 0.205
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     185.0,
+     -4.5
+    ],
+    [
+     185.0,
+     45.5
+    ],
+    [
+     65.0,
+     45.5
+    ],
+    [
+     65.0,
+     -4.5
+    ]
+   ],
+   "object_name": "low bathroom storage bench-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.25,
+    "y": 0.39,
+    "z": 2.655
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     149.0,
+     304.5
+    ],
+    [
+     149.0,
+     226.5
+    ],
+    [
+     101.0,
+     226.5
+    ],
+    [
+     101.0,
+     304.5
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "bidet-0",
+   "id": "bidet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.21,
+    "z": 2.705
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     199.0,
+     304.5
+    ],
+    [
+     199.0,
+     236.5
+    ],
+    [
+     151.0,
+     236.5
+    ],
+    [
+     151.0,
+     304.5
+    ]
+   ],
+   "object_name": "bidet-0"
+  },
+  {
+   "assetId": "laundry hamper-0",
+   "id": "laundry hamper-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.3,
+    "z": 0.195
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     252.5,
+     -4.5
+    ],
+    [
+     252.5,
+     43.5
+    ],
+    [
+     197.5,
+     43.5
+    ],
+    [
+     197.5,
+     -4.5
+    ]
+   ],
+   "object_name": "laundry hamper-0"
+  },
+  {
+   "assetId": "laundry hamper-1",
+   "id": "laundry hamper-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.3,
+    "z": 0.195
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     327.5,
+     -4.5
+    ],
+    [
+     327.5,
+     43.5
+    ],
+    [
+     272.5,
+     43.5
+    ],
+    [
+     272.5,
+     -4.5
+    ]
+   ],
+   "object_name": "laundry hamper-1"
+  },
+  {
+   "assetId": "small side stool-0",
+   "id": "small side stool-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.845,
+    "y": 0.225,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     464.5,
+     25.0
+    ],
+    [
+     464.5,
+     75.0
+    ],
+    [
+     504.5,
+     75.0
+    ],
+    [
+     504.5,
+     25.0
+    ]
+   ],
+   "object_name": "small side stool-0"
+  },
+  {
+   "assetId": "small side stool-1",
+   "id": "small side stool-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.25,
+    "y": 0.225,
+    "z": 0.155
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     450.0,
+     -4.5
+    ],
+    [
+     450.0,
+     35.5
+    ],
+    [
+     400.0,
+     35.5
+    ],
+    [
+     400.0,
+     -4.5
+    ]
+   ],
+   "object_name": "small side stool-1"
+  },
+  {
+   "assetId": "floor planter-0",
+   "id": "floor planter-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.45,
+    "z": 2.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     352.5,
+     304.5
+    ],
+    [
+     352.5,
+     249.5
+    ],
+    [
+     297.5,
+     249.5
+    ],
+    [
+     297.5,
+     304.5
+    ]
+   ],
+   "object_name": "floor planter-0"
+  },
+  {
+   "assetId": "floor planter-1",
+   "id": "floor planter-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.5,
+    "y": 0.45,
+    "z": 2.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     277.5,
+     304.5
+    ],
+    [
+     277.5,
+     249.5
+    ],
+    [
+     222.5,
+     249.5
+    ],
+    [
+     222.5,
+     304.5
+    ]
+   ],
+   "object_name": "floor planter-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall shelf-0",
+   "id": "wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 1.64,
+    "z": 2.8800000000000003
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     187.5,
+     278.0
+    ],
+    [
+     187.5,
+     300.0
+    ],
+    [
+     112.5,
+     300.0
+    ],
+    [
+     112.5,
+     278.0
+    ],
+    [
+     187.5,
+     278.0
+    ]
+   ],
+   "object_name": "wall shelf-0"
+  },
+  {
+   "assetId": "wall shelf-1",
+   "id": "wall shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.25,
+    "y": 1.64,
+    "z": 0.12
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     162.5,
+     0.0
+    ],
+    [
+     162.5,
+     22.0
+    ],
+    [
+     87.5,
+     22.0
+    ],
+    [
+     87.5,
+     0.0
+    ],
+    [
+     162.5,
+     0.0
+    ]
+   ],
+   "object_name": "wall shelf-1"
+  },
+  {
+   "assetId": "towel bar-0",
+   "id": "towel bar-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 1.18,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     500.0,
+     142.5
+    ],
+    [
+     500.0,
+     207.5
+    ],
+    [
+     492.0,
+     207.5
+    ],
+    [
+     492.0,
+     142.5
+    ],
+    [
+     500.0,
+     142.5
+    ]
+   ],
+   "object_name": "towel bar-0"
+  },
+  {
+   "assetId": "towel bar-1",
+   "id": "towel bar-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 1.18,
+    "z": 2.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     207.5,
+     292.0
+    ],
+    [
+     207.5,
+     300.0
+    ],
+    [
+     142.5,
+     300.0
+    ],
+    [
+     142.5,
+     292.0
+    ],
+    [
+     207.5,
+     292.0
+    ]
+   ],
+   "object_name": "towel bar-1"
+  },
+  {
+   "assetId": "towel bar-2",
+   "id": "towel bar-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 1.18,
+    "z": 0.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     500.0,
+     17.5
+    ],
+    [
+     500.0,
+     82.5
+    ],
+    [
+     492.0,
+     82.5
+    ],
+    [
+     492.0,
+     17.5
+    ],
+    [
+     500.0,
+     17.5
+    ]
+   ],
+   "object_name": "towel bar-2"
+  },
+  {
+   "assetId": "heated towel rail-0",
+   "id": "heated towel rail-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 1.25,
+    "z": 0.060000000000000005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     255.0,
+     0.0
+    ],
+    [
+     255.0,
+     10.0
+    ],
+    [
+     195.0,
+     10.0
+    ],
+    [
+     195.0,
+     0.0
+    ],
+    [
+     255.0,
+     0.0
+    ]
+   ],
+   "object_name": "heated towel rail-0"
+  }
+ ]
+}

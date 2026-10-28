@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bathroom cabinet, cabinet, closestool, hand sink, person, plant, shower room, toilet, trash can, tub, wardrobe \nOverall furniture frequencies: (bathroom cabinet: 0.0476; cabinet: 0.0476; closestool: 0.0476; hand sink: 0.0476; person: 0.0476; plant: 0.0476; shower room: 0.2381; toilet: 0.2857; trash can: 0.0476; tub: 0.0476; wardrobe: 0.0952)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.00m, max width 2.13m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "shower room[obj_0000] {length: 1.00m; height: 2.23m; width: 0.99m; orientation: 0 degrees; left: 0.50m; top: 1.63m; depth: 0.00m;}\ntoilet[obj_0001] {length: 0.40m; height: 0.55m; width: 0.66m; orientation: -90 degrees; left: 1.49m; top: 1.80m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: room\nRoom Size: max length 2.03m, max width 2.13m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "person[obj_0000] {length: 0.43m; height: 1.75m; width: 0.45m; orientation: -90 degrees; left: 0.97m; top: 0.70m; depth: 0.00m;}\ntrash can[obj_0001] {length: 0.24m; height: 0.40m; width: 0.31m; orientation: 90 degrees; left: 1.87m; top: 0.16m; depth: 0.00m;}\nshower room[obj_0002] {length: 1.19m; height: 2.03m; width: 0.82m; orientation: 180 degrees; left: 1.62m; top: 1.53m; depth: 0.00m;}\nclosestool[obj_0003] {length: 0.39m; height: 0.70m; width: 0.69m; orientation: 90 degrees; left: 1.38m; top: 0.35m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.99m, max width 2.06m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "shower room[obj_0000] {length: 0.85m; height: 2.10m; width: 0.85m; orientation: 90 degrees; left: 1.56m; top: 0.43m; depth: 0.00m;}\ntoilet[obj_0001] {length: 0.40m; height: 0.48m; width: 0.70m; orientation: 90 degrees; left: 0.71m; top: 0.35m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: laundry room\nRoom Size: max length 1.99m, max width 2.14m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wardrobe[obj_0000] {length: 1.00m; height: 1.92m; width: 0.54m; orientation: 90 degrees; left: 1.54m; top: 0.30m; depth: 0.00m;}\nwardrobe[obj_0001] {length: 1.00m; height: 1.92m; width: 0.54m; orientation: 90 degrees; left: 0.45m; top: 0.30m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.04m, max width 2.07m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.45m; height: 0.80m; width: 0.70m; orientation: 0 degrees; left: 0.35m; top: 1.50m; depth: 0.00m;}\nhand sink[obj_0001] {length: 0.80m; height: 1.57m; width: 0.50m; orientation: 0 degrees; left: 0.25m; top: 0.40m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.97m, max width 2.15m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "tub[obj_0000] {length: 1.97m; height: 0.88m; width: 0.80m; orientation: -90 degrees; left: 0.98m; top: 1.75m; depth: 0.00m;}\nshower room[obj_0001] {length: 0.78m; height: 2.05m; width: 0.76m; orientation: 90 degrees; left: 0.39m; top: 0.38m; depth: 0.00m;}\ntoilet[obj_0002] {length: 0.41m; height: 0.82m; width: 0.73m; orientation: 0 degrees; left: 0.36m; top: 1.02m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 2.07m, max width 2.10m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.87m; height: 0.87m; width: 0.68m; orientation: 90 degrees; left: 1.57m; top: 0.34m; depth: 0.00m;}\nbathroom cabinet[obj_0001] {length: 0.80m; height: 1.91m; width: 0.42m; orientation: 0 degrees; left: 0.21m; top: 1.70m; depth: 0.00m;}\nshower room[obj_0002] {length: 1.03m; height: 2.10m; width: 1.03m; orientation: 0 degrees; left: 0.52m; top: 0.52m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 2.07m, max width 2.11m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "plant[obj_0000] {length: 0.62m; height: 1.36m; width: 0.57m; orientation: -180 degrees; left: 1.33m; top: 1.80m; depth: 0.00m;}\ncabinet[obj_0001] {length: 1.54m; height: 2.00m; width: 0.58m; orientation: 90 degrees; left: 0.98m; top: 0.29m; depth: 0.00m;}\ntoilet[obj_0002] {length: 0.95m; height: 0.93m; width: 0.59m; orientation: -180 degrees; left: 1.78m; top: 1.34m; depth: 0.07m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: room\nRoom Size: max length 2.00m, max width 2.10m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\ntoilet[obj_0000]: toilet\nFloor polygon (left, top): (0.26, 2.10), (0.26, 1.82), (0.00, 1.82), (0.00, 0.00), (2.00, 0.00), (2.00, 1.05), (2.00, 2.10)\nwindow 1.17m wide at left 0.00m, top 1.05m\nbasin cabinet (fixed, do not output)[fixed_0001] {length: 0.87m; height: 0.52m; width: 0.56m; orientation: -90 degrees; left: 1.57m; top: 1.82m; depth: 0.30m;}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nLayout:\n"
+ }
+]

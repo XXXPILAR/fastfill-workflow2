@@ -1,0 +1,40 @@
+{
+ "task_description": "a living room of about 9.7m x 3.7m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 1.43 m wide centred at (7.36, 0.00); a door 1.92 m wide centred at (9.67, 1.56) (keep the floor in front of it clear); a window 1.07 m wide centred at (0.00, 2.99); a window 1.11 m wide centred at (0.00, 1.37). the chair (o0000) should be between the chair (o0008) and the chair (o0003). the chair (o0007) should face the chair (o0008). the mirror (o0001) should be against a wall. the chair (o0008) should be within 0.10 m of the pillow (o0002)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    9.671599388122559,
+    0.0,
+    0.0
+   ],
+   [
+    9.671599388122559,
+    3.7484755516052246,
+    0.0
+   ],
+   [
+    0.0,
+    3.7484755516052246,
+    0.0
+   ]
+  ],
+  "wall_height": 2.51473069190979
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {}
+ }
+}
