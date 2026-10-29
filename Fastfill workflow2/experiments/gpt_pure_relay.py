@@ -22,9 +22,39 @@ sys.path.insert(0, str(HERE))
 from workflow import llm  # noqa: E402  (also puts the fastfill package on sys.path)
 from workflow.credentials import RELAY_BASE_URL, RELAY_ENV_FILE, RELAY_HOSTS  # noqa: E402
 from fastfill.v2.llm_baseline import load_env  # noqa: E402
-from fastfill.v2.llm_structured import chat  # noqa: E402
+from fastfill.v2.llm_baseline import USER_AGENT, request_parameters  # noqa: E402
 from fastfill.v2.llm_workflow import instructions, parse, request_text, workflow_problems  # noqa: E402
 from fastfill.v2.schema import migrate_legacy_row  # noqa: E402
+
+
+def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=8):
+    """llm_structured.chat's request, unchanged (request_parameters + messages to /chat/completions), with one change:
+    an answer without ``choices`` is retried like a dropped connection. The relay sometimes answers HTTP 200 with
+    {"type": "error", "error": {"type": "upstream_error", "message": "Our servers are currently busy..."}}, on which
+    llm_structured.chat raised KeyError('choices') at once (2026-10-29)."""
+    import urllib.error, urllib.request
+    body = json.dumps({**request_parameters(env, model), "messages": messages}).encode()
+    problem = None
+    for attempt in range(attempts):
+        limiter.wait()
+        request = urllib.request.Request(env["OPENAI_BASE_URL"].rstrip("/") + "/chat/completions", data=body, headers={
+            "Content-Type": "application/json", "Authorization": f"Bearer {env['OPENAI_API_KEY']}", "User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                answer = json.loads(response.read())
+            if answer.get("choices"):
+                if answer.get("usage"):
+                    usage.append(answer["usage"])
+                return answer["choices"][0]["message"]["content"]
+            problem = answer.get("error") or answer
+        except urllib.error.HTTPError as error:
+            if error.code not in (408, 409, 425, 429) and error.code < 500:
+                raise
+            problem = f"HTTP {error.code}"
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError, ValueError) as error:
+            problem = error
+        time.sleep(min(120., 5. * 2 ** attempt))
+    raise RuntimeError(f"relay gave no answer after {attempts} tries: {str(problem)[:300]}")
 
 
 class SharedLimiter:
