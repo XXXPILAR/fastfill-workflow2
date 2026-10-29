@@ -1,0 +1,135 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><title>exp150 布局对比</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bg:#f3f1ec;--panel:#fffffff0;--ink:#222;--muted:#666;--line:#d8d4cc;--ok:#1f7a3a;--bad:#b3261e}
+*{box-sizing:border-box}html,body{margin:0;height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:13px system-ui,-apple-system,"PingFang SC",sans-serif}
+#bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+#bar select,#bar button,#bar input{font:inherit;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:#fff}
+#bar label{display:flex;align-items:center;gap:3px}
+#legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 3px 0 8px;vertical-align:-1px}
+#grid{display:grid;gap:6px;padding:6px;flex:1;min-height:0}
+#panesel{display:flex;gap:8px}
+.pane{position:relative;background:#faf9f6;border:1px solid var(--line);border-radius:8px;overflow:hidden;min-height:200px}
+.pane canvas{display:block;width:100%;height:100%}
+.head{position:absolute;left:8px;top:6px;max-width:calc(100% - 16px);pointer-events:none;background:var(--panel);border-radius:6px;padding:4px 8px;line-height:1.5}
+.head b{font-size:14px}.ok{color:var(--ok)}.bad{color:var(--bad)}.muted{color:var(--muted)}
+.none{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--bad);font-size:15px;padding:20px;text-align:center}
+#tip{position:fixed;pointer-events:none;background:#222;color:#fff;padding:3px 7px;border-radius:5px;font-size:12px;display:none;z-index:5}
+@media (max-width:800px){#grid{grid-template-columns:1fr!important;height:auto}.pane{height:70vh}}
+</style></head><body>
+<div id="bar">
+  <button id="prev">◀</button><select id="room"></select><button id="next">▶</button>
+  <span id="panesel"></span>
+  <label><input type="checkbox" id="top"> 俯视</label>
+  <label><input type="checkbox" id="walls" checked> 矮墙</label>
+  <span id="legend" class="muted"><span style="background:#4d80cc"></span>落地<span style="background:#e08a2e"></span>挂墙<span style="background:#3aa35b"></span>放在物体上<span style="background:#8a8a8a"></span>固定物<span style="background:#8b6546"></span>门<span style="background:#9fd0f0"></span>窗</span>
+  <span class="muted">拖动旋转（四个视角同步），滚轮缩放，鼠标悬停看物体，←/→ 换房间</span>
+</div>
+<div id="grid"></div><div id="tip"></div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const PANES = __PANES__;
+const DATA = __DATA__;
+const COLORS = [0x4d80cc, 0xe08a2e, 0x3aa35b];
+const sel = document.getElementById('room'), grid = document.getElementById('grid'), tip = document.getElementById('tip');
+DATA.forEach((r, i) => { const o = document.createElement('option'); o.value = i;
+  o.textContent = `room ${r.k} · ${r.type} · ${r.n} 件`; sel.appendChild(o); });
+const shown = Object.fromEntries(PANES.map(([m]) => [m, true]));
+const ps = document.getElementById('panesel');
+PANES.forEach(([m, label]) => { const l = document.createElement('label');
+  l.innerHTML = `<input type="checkbox" checked> ${label}`; l.firstChild.onchange = e => { shown[m] = e.target.checked; build(); };
+  ps.appendChild(l); });
+let views = [], syncing = false;
+
+function wallsOf(r, low) {
+  const g = new THREE.Group(), poly = r.floor, n = poly.length, H = low ? .5 : r.h;
+  let area = 0; for (let i = 0; i < n; i++) { const a = poly[i], b = poly[(i + 1) % n]; area += a[0] * b[1] - b[0] * a[1]; }
+  const shape = new THREE.Shape(poly.map(([x, y]) => new THREE.Vector2(x, y)));
+  const floor = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshLambertMaterial({color: 0xe9e2d4, side: THREE.DoubleSide}));
+  floor.rotation.x = -Math.PI / 2; g.add(floor);   // plan (x, y) -> world (x, 0, -y)
+  for (let i = 0; i < n; i++) {
+    const a = poly[i], b = poly[(i + 1) % n], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 1e-6) continue;
+    const m = new THREE.Mesh(new THREE.BoxGeometry(L, H, .06), new THREE.MeshLambertMaterial({color: 0xcfc6b6, transparent: true, opacity: low ? .9 : .35}));
+    m.position.set((a[0] + b[0]) / 2, H / 2, -(a[1] + b[1]) / 2); m.rotation.y = Math.atan2(b[1] - a[1], b[0] - a[0]); g.add(m);
+  }
+  for (const [type, wi, pos, w, hgt, sill] of r.openings) {
+    if (wi >= n) continue;
+    const a = poly[wi], b = poly[(wi + 1) % n], L = Math.hypot(b[0] - a[0], b[1] - a[1]), ux = (b[0] - a[0]) / L, uy = (b[1] - a[1]) / L;
+    const c = pos * L, x = a[0] + ux * c, y = a[1] + uy * c, door = type === 'door';
+    const hh = door ? Math.min(hgt || 2.1, low ? .6 : 2.1) : (low ? .15 : hgt), z0 = door ? 0 : (low ? .5 : sill);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, hh, .1), new THREE.MeshLambertMaterial({color: door ? 0x8b6546 : 0x9fd0f0}));
+    m.position.set(x, z0 + hh / 2, -y); m.rotation.y = Math.atan2(uy, ux); g.add(m);
+  }
+  return g;
+}
+function box([x, y, z, sx, sy, sz, yaw], color, opacity, name) {
+  const geo = new THREE.BoxGeometry(sx, Math.max(sz, .01), sy);
+  const m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({color, transparent: opacity < 1, opacity}));
+  m.position.set(x, z + Math.max(sz, .01) / 2, -y); m.rotation.y = yaw;
+  const e = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color: 0x333333, transparent: true, opacity: .45}));
+  m.add(e); m.userData.name = name; return m;
+}
+function fmt(s, why) {
+  if (!s) return `<span class="bad">没有结果：${(why || '').slice(0, 80)}</span>`;
+  const t = (ok, a, b) => `<span class="${ok ? 'ok' : 'bad'}">${a}</span>${b ? ' ' + b : ''}`;
+  return [t(s.legal, s.legal ? '合法' : '不合法', `碰撞 ${s.col} · 出界 ${s.oob} · 挡门 ${s.opc}`),
+          t(s.cons[0] === s.cons[1], `约束 ${s.cons[0]}/${s.cons[1]}`), t(s.placed === s.objects, `物体 ${s.placed}/${s.objects}`)].join(' · ') +
+    '<br>' + [t(s.robot, s.robot ? '我们的检查器：机器人通过' : '我们的检查器：机器人未通过', `物品够到 ${s.items[0]}/${s.items[1]}`),
+              t(s.rect, s.rect ? '矩形底盘：全部够到' : '矩形底盘：有够不到', `家具 ${s.rect_furn[0]}/${s.rect_furn[1]} · 物品 ${s.rect_items[0]}/${s.rect_items[1]}`)].join(' · ');
+}
+function build() {
+  views.forEach(v => { v.renderer.dispose(); v.controls.dispose(); }); views = []; grid.innerHTML = '';
+  const r = DATA[+sel.value], panes = PANES.filter(([m]) => shown[m]);
+  const cols = panes.length <= 1 ? 1 : 2; grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  grid.style.gridTemplateRows = `repeat(${Math.ceil(panes.length / cols)}, 1fr)`;
+  const xs = r.floor.map(p => p[0]), ys = r.floor.map(p => p[1]);
+  const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+  const span = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys), 2);
+  const top = document.getElementById('top').checked, low = document.getElementById('walls').checked;
+  for (const [m, label] of panes) {
+    const p = r.panes[m], div = document.createElement('div'); div.className = 'pane'; grid.appendChild(div);
+    const head = document.createElement('div'); head.className = 'head';
+    head.innerHTML = `<b>${label}</b> <span class="muted">room ${r.k} · ${r.type}</span><br>${fmt(p.scores, p.why)}`;
+    if (!p.boxes) { const d = document.createElement('div'); d.className = 'none'; d.textContent = '这个方法在这个房间没有给出布局：' + (p.why || ''); div.appendChild(d); div.appendChild(head); continue; }
+    const renderer = new THREE.WebGLRenderer({antialias: true}); renderer.setPixelRatio(devicePixelRatio); div.appendChild(renderer.domElement); div.appendChild(head);
+    const scene = new THREE.Scene(); scene.background = new THREE.Color(0xfaf9f6);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x8a7f70, 2.0)); scene.add(new THREE.AmbientLight(0xffffff, .7));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.4); sun.position.set(4, 8, 3); scene.add(sun);
+    scene.add(wallsOf(r, low));
+    const pick = [];
+    for (const f of r.fixed) scene.add(box(f, 0x8a8a8a, .85, '固定物'));
+    for (const [id, kind, ...b] of p.boxes) { const mesh = box(b, COLORS[kind], kind === 2 ? 1 : .92, `${id} · ${r.cat[id] || '?'}`); scene.add(mesh); pick.push(mesh); }
+    const camera = new THREE.PerspectiveCamera(45, 1, .05, 300);
+    const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(cx, 0, -cy);
+    if (top) camera.position.set(cx, span * 1.6, -cy + .001); else camera.position.set(cx + span * .45, span * .95, -cy + span * .95);
+    controls.update();
+    const v = {div, renderer, scene, camera, controls, pick}; views.push(v);
+    controls.addEventListener('change', () => { if (syncing) return; syncing = true;
+      for (const o of views) if (o !== v) { o.camera.position.copy(camera.position); o.controls.target.copy(controls.target); o.controls.update(); }
+      syncing = false; });
+    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+    renderer.domElement.addEventListener('mousemove', e => {
+      const rc = renderer.domElement.getBoundingClientRect(); mouse.set((e.clientX - rc.left) / rc.width * 2 - 1, -(e.clientY - rc.top) / rc.height * 2 + 1);
+      ray.setFromCamera(mouse, camera); const hit = ray.intersectObjects(pick, false)[0];
+      if (hit) { tip.style.display = 'block'; tip.style.left = e.clientX + 12 + 'px'; tip.style.top = e.clientY + 12 + 'px'; tip.textContent = hit.object.userData.name; }
+      else tip.style.display = 'none'; });
+    renderer.domElement.addEventListener('mouseleave', () => tip.style.display = 'none');
+  }
+  resize(); try { localStorage.setItem('exp150_room', sel.value); } catch (e) {}
+}
+function resize() { for (const v of views) { const w = v.div.clientWidth, h = v.div.clientHeight; v.renderer.setSize(w, h, false); v.camera.aspect = w / h; v.camera.updateProjectionMatrix(); } }
+function loop() { requestAnimationFrame(loop); for (const v of views) v.renderer.render(v.scene, v.camera); }
+addEventListener('resize', resize);
+sel.onchange = build;
+document.getElementById('prev').onclick = () => { sel.value = (+sel.value - 1 + DATA.length) % DATA.length; build(); };
+document.getElementById('next').onclick = () => { sel.value = (+sel.value + 1) % DATA.length; build(); };
+document.getElementById('top').onchange = build; document.getElementById('walls').onchange = build;
+addEventListener('keydown', e => { if (e.target.tagName === 'SELECT') return;
+  if (e.key === 'ArrowRight') document.getElementById('next').click(); if (e.key === 'ArrowLeft') document.getElementById('prev').click(); });
+try { const s = localStorage.getItem('exp150_room'); if (s !== null && DATA[+s]) sel.value = s; } catch (e) {}
+const h = location.hash.match(/room=(\d+)/); if (h) { const i = DATA.findIndex(r => r.k === +h[1]); if (i >= 0) sel.value = i; }
+build(); loop();
+</script></body></html>
