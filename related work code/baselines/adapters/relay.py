@@ -104,11 +104,19 @@ def chat(messages, attempts=10, timeout=600):
 
 
 def _chat_completions(messages, attempts, timeout):
+    """WORKFLOW_LLM_ATTEMPTS (0 = until it succeeds) overrides ``attempts`` for transient problems (busy, rate limit,
+    5xx, dropped connection, an answer without text); a rejected key / no access / unknown model raises at once."""
+    attempts = int(os.environ.get("WORKFLOW_LLM_ATTEMPTS", attempts))
     body = {"model": os.environ["OPENAI_MODEL"], "messages": messages,
             "reasoning_effort": os.environ.get("BASELINE_REASONING_EFFORT", "medium")}
     data = json.dumps(body).encode()
-    problem = None
-    for attempt in range(attempts):
+    problem, attempt = None, -1
+    while True:
+        attempt += 1
+        if attempts and attempt >= attempts:
+            raise RuntimeError(f"relay gave no completion: {str(problem)[:300]}")
+        if attempt and attempt % 5 == 0:
+            print(f"relay retry {attempt}: {str(problem)[:160]}", flush=True)
         _throttle()
         try:
             req = urllib.request.Request(os.environ["OPENAI_BASE_URL"].rstrip("/") + "/chat/completions", data=data, headers={
@@ -125,9 +133,10 @@ def _chat_completions(messages, attempts, timeout):
                 return text, {"usage": usage, "failed_attempts": attempt}
             problem = a.get("error") or choice.get("finish_reason") or a
         except urllib.error.HTTPError as e:
-            problem = f"HTTP {e.code}: {e.read()[:200]!r}"
-        except Exception as e:  # noqa: BLE001 - relay hiccups; the last attempt re-raises
+            detail = e.read()[:200]
+            if e.code in (401, 403, 404) or b"insufficient_quota" in detail:  # key / access / model / quota: final
+                raise RuntimeError(f"relay rejected the request: HTTP {e.code} {detail!r}") from None
+            problem = f"HTTP {e.code}: {detail!r}"
+        except Exception as e:  # noqa: BLE001 - relay hiccups
             problem = e
-        if attempt == attempts - 1:
-            raise RuntimeError(f"relay gave no completion: {str(problem)[:300]}")
-        time.sleep(min(120., 5. * 2 ** attempt))
+        time.sleep(min(120., 5. * 2 ** min(attempt, 5)))

@@ -97,8 +97,15 @@ def _text(answer: dict) -> str:
 
 def ask(instructions: str, prompt: str, *, model: str | None = None, base_url: str | None = None,
         api_key: str | None = None, reasoning_effort: str | None = None,
-        attempts: int = 6, timeout_s: float = 600.) -> tuple[str, dict]:
-    """Returns (text, call) with call = {model, usage, cost_usd, latency_s, failed_attempts}."""
+        attempts: int | None = None, timeout_s: float = 600.) -> tuple[str, dict]:
+    """Returns (text, call) with call = {model, usage, cost_usd, latency_s, failed_attempts}.
+
+    ``attempts``: requests tried before giving up on transient problems (busy / rate limited / 5xx / dropped
+    connection / an answer without text); default ``WORKFLOW_LLM_ATTEMPTS`` (0 = until it succeeds), else 6. A
+    rejected key, missing access, an unknown model or an exhausted quota raise ``FatalAPIError`` at once, whatever
+    ``attempts`` says. Retries wait 5, 10, 20, ... s, at most 120 s, and every fifth one is printed."""
+    if attempts is None:
+        attempts = int(os.environ.get("WORKFLOW_LLM_ATTEMPTS", "6"))
     if not (model and base_url and api_key):
         settings = official_api(model=model)
         model, base_url, api_key = model or settings["model"], base_url or settings["base_url"], \
@@ -116,8 +123,13 @@ def ask(instructions: str, prompt: str, *, model: str | None = None, base_url: s
                 "input": [{"role": "user", "content": prompt}], "reasoning": {"effort": effort}}
         url = base_url.rstrip("/") + "/responses"
     data = json.dumps(body).encode("utf-8")
-    start, problem = time.perf_counter(), None
-    for attempt in range(attempts):
+    start, problem, attempt = time.perf_counter(), None, -1
+    while True:
+        attempt += 1
+        if attempts and attempt >= attempts:
+            break
+        if attempt and attempt % 5 == 0:
+            print(f"LLM retry {attempt}: {str(problem)[:160]}", flush=True)
         try:
             _throttle()
             request = urllib.request.Request(url, data, {"Authorization": f"Bearer {api_key}",
@@ -147,12 +159,11 @@ def ask(instructions: str, prompt: str, *, model: str | None = None, base_url: s
                 _log({"model": model, "instructions": instructions, "prompt": prompt, "ok": False,
                       "failed_attempts": attempt + 1, "problem": str(problem)[:300]})
                 raise FatalAPIError(f"OpenAI rejected the request: HTTP {exc.code} {detail[:160]!r}") from None
-            if exc.code == 400:  # this request is malformed (e.g. too long): retrying will not help
-                break
+            if exc.code == 400 and not any(w in detail.lower() for w in (b"busy", b"overload", b"upstream", b"try again")):
+                break  # this request is malformed (e.g. too long): retrying will not help
         except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
             problem = f"{type(exc).__name__}: {exc}"
-        if attempt < attempts - 1:
-            time.sleep(min(60., 5. * 2 ** attempt))
+        time.sleep(min(120., 5. * 2 ** min(attempt, 5)))
     _log({"model": model, "instructions": instructions, "prompt": prompt, "ok": False,
           "latency_s": round(time.perf_counter() - start, 3), "problem": str(problem)[:300]})
     raise RuntimeError(f"LLM request failed: {str(problem)[:300]}")

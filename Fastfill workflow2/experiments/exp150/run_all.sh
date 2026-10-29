@@ -23,6 +23,9 @@ RPMF=$PWD/$OUT/.rpm_state.json
 ROOMS=$($PY -c "import json; print(' '.join(map(str, json.load(open('$OUT/rooms.json')))))")
 mkdir -p $OUT/logs
 export WORKFLOW_REASONING_EFFORT=medium
+# every LLM call of every group is retried until it succeeds on transient problems (busy relay, rate limit, 5xx,
+# dropped connection): a room never ends with a missing LLM answer. A rejected key / quota still stops at once.
+export WORKFLOW_LLM_ATTEMPTS=${WORKFLOW_LLM_ATTEMPTS:-0}
 
 # FastFill's sizes: the server run of experiments/exp150/fastfill_server.sbatch when copied back, else the earlier
 # test300 run (same base arm, spread decode)

@@ -27,15 +27,22 @@ from fastfill.v2.llm_workflow import instructions, parse, request_text, workflow
 from fastfill.v2.schema import migrate_legacy_row  # noqa: E402
 
 
-def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=8):
+def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=None):
     """llm_structured.chat's request, unchanged (request_parameters + messages to /chat/completions), with one change:
     an answer without ``choices`` is retried like a dropped connection. The relay sometimes answers HTTP 200 with
     {"type": "error", "error": {"type": "upstream_error", "message": "Our servers are currently busy..."}}, on which
     llm_structured.chat raised KeyError('choices') at once (2026-10-29)."""
     import urllib.error, urllib.request
+    if attempts is None:  # WORKFLOW_LLM_ATTEMPTS: 0 = until it succeeds (busy / rate limit / 5xx / dropped connection)
+        attempts = int(os.environ.get("WORKFLOW_LLM_ATTEMPTS", "8"))
     body = json.dumps({**request_parameters(env, model), "messages": messages}).encode()
-    problem = None
-    for attempt in range(attempts):
+    problem, attempt = None, -1
+    while True:
+        attempt += 1
+        if attempts and attempt >= attempts:
+            raise RuntimeError(f"relay gave no answer after {attempt} tries: {str(problem)[:300]}")
+        if attempt and attempt % 5 == 0:
+            print(f"retry {attempt}: {str(problem)[:160]}", flush=True)
         limiter.wait()
         request = urllib.request.Request(env["OPENAI_BASE_URL"].rstrip("/") + "/chat/completions", data=body, headers={
             "Content-Type": "application/json", "Authorization": f"Bearer {env['OPENAI_API_KEY']}", "User-Agent": USER_AGENT})
@@ -53,8 +60,7 @@ def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=8):
             problem = f"HTTP {error.code}"
         except (urllib.error.URLError, TimeoutError, ConnectionError, OSError, ValueError) as error:
             problem = error
-        time.sleep(min(120., 5. * 2 ** attempt))
-    raise RuntimeError(f"relay gave no answer after {attempts} tries: {str(problem)[:300]}")
+        time.sleep(min(120., 5. * 2 ** min(attempt, 5)))
 
 
 class SharedLimiter:
