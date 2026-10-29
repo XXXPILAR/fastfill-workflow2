@@ -1,0 +1,33 @@
+{
+ "task_description": "a library of about 3.7m x 2.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the bookcase (o0001) should be against a wall. the bookcase (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.7085999999999997,
+    0.0,
+    0.0
+   ],
+   [
+    3.7085999999999997,
+    2.8266,
+    0.0
+   ],
+   [
+    0.0,
+    2.8266,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {}
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "task_description": "a home office of about 3.2m x 3.2m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.91 m wide centred at (3.17, 1.98) (keep the floor in front of it clear); a window 0.79 m wide centred at (0.54, 3.21). the desk (o0001) should face the chair (o0000). the combination sofa (o0002) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    3.168,
+    0.0,
+    0.0
+   ],
+   [
+    3.168,
+    2.6275000000000004,
+    0.0
+   ],
+   [
+    1.0755,
+    2.6275000000000004,
+    0.0
+   ],
+   [
+    1.0755,
+    3.2125000000000004,
+    0.0
+   ],
+   [
+    0.0,
+    3.2125000000000004,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {}
+ }
+}

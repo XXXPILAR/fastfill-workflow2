@@ -1,0 +1,117 @@
+{
+ "k": 70,
+ "source": "InternScenes_gen",
+ "latency_s": 46.97907391702756,
+ "usage": [
+  {
+   "prompt_tokens": 1188,
+   "completion_tokens": 1212,
+   "total_tokens": 2400,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 803,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.46,
+     0.56,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.23,
+     1.05,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.16,
+     0.54,
+     0.04
+    ],
+    "bottom_center_m": [
+     0.08,
+     1.05,
+     0.91
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.66,
+     0.38,
+     0.78
+    ],
+    "bottom_center_m": [
+     1.38,
+     1.05,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.065,
+     0.065,
+     0.19
+    ],
+    "bottom_center_m": [
+     0.08,
+     0.89,
+     0.95
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.22
+    ],
+    "bottom_center_m": [
+     0.08,
+     1.05,
+     0.95
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.06,
+     0.06,
+     0.16
+    ],
+    "bottom_center_m": [
+     0.08,
+     1.21,
+     0.95
+    ],
+    "yaw_rad": 0.0
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe sink sits against the west wall, below and clear of the window. The toilet faces it across a compact usable gap, while the entrance and central approach remain unobstructed. A shallow wall shelf immediately above the sink keeps all three bottles together and within easy reach. All fixtures remain clear of the diagonal window wall.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.56,\"depth_m\":0.46,\"height_m\":0.85,\"x\":0.23,\"y\":1.05,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.54,\"depth_m\":0.16,\"height_m\":0.04,\"x\":0.08,\"y\":1.05,\"z\":0.91,\"facing_deg\":0},{\"id\":\"obj_0002\",\"width_m\":0.38,\"depth_m\":0.66,\"height_m\":0.78,\"x\":1.38,\"y\":1.05,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":0.065,\"depth_m\":0.065,\"height_m\":0.19,\"x\":0.08,\"y\":0.89,\"z\":0.95,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.22,\"x\":0.08,\"y\":1.05,\"z\":0.95,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":0.06,\"depth_m\":0.06,\"height_m\":0.16,\"x\":0.08,\"y\":1.21,\"z\":0.95,\"facing_deg\":0}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbathroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.710 m x 2.210 m x unknown\nfloor polygon (x, y): [[2.71, 0.0], [2.695, 0.289], [1.252, 1.752], [0.789, 2.195], [0.0, 2.21], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"sink\", \"description\": \"sink\"},\n{\"id\": \"obj_0001\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0002\", \"category\": \"toilet\", \"description\": \"toilet\"},\n{\"id\": \"obj_0003\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0004\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0005\", \"category\": \"bottle\", \"description\": \"bottle\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.712, 1.286], \"wall_from\": [2.695, 0.289], \"wall_to\": [1.252, 1.752], \"width_m\": 1.991, \"height_m\": 1.138, \"sill_height_m\": 0.821}, {\"type\": \"window\", \"centre_xy\": [0.359, 2.203], \"wall_from\": [0.789, 2.195], \"wall_to\": [0.0, 2.21], \"width_m\": 0.647, \"height_m\": 1.125, \"sill_height_m\": 0.827}, {\"type\": \"window\", \"centre_xy\": [0.0, 1.851], \"wall_from\": [0.0, 2.21], \"wall_to\": [0.0, 0.0], \"width_m\": 0.651, \"height_m\": 1.11, \"sill_height_m\": 0.834}, {\"type\": \"door\", \"centre_xy\": [0.734, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.71, 0.0], \"width_m\": 0.818, \"height_m\": 2.34}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0000\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}, {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0000\", \"max_distance_m\": 0.1}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

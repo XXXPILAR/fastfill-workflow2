@@ -1,0 +1,889 @@
+{
+ "k": 159,
+ "source": "SAGE-10k",
+ "latency_s": 150.10940412478521,
+ "usage": [
+  {
+   "prompt_tokens": 4206,
+   "completion_tokens": 4862,
+   "total_tokens": 9068,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1552,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0031 (bed), obj_0043 (plant), obj_0014 (plant) violates constraint"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.18
+    ],
+    "bottom_center_m": [
+     3.8,
+     0.4,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.46,
+     3.42,
+     0.72
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.4,
+     0.42,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.65,
+     3.65,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     1.65
+    ],
+    "bottom_center_m": [
+     0.22,
+     0.23,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.035,
+     0.65,
+     0.9
+    ],
+    "bottom_center_m": [
+     0.0175,
+     2.6,
+     1.4
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.95
+    ],
+    "bottom_center_m": [
+     1.65,
+     2.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.3,
+     0.4,
+     0.45
+    ],
+    "bottom_center_m": [
+     3.85,
+     2.75,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.015,
+     0.14,
+     0.015
+    ],
+    "bottom_center_m": [
+     1.15,
+     0.51,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.38,
+     0.38,
+     0.46
+    ],
+    "bottom_center_m": [
+     1.05,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.28,
+     0.22,
+     0.035
+    ],
+    "bottom_center_m": [
+     1.1,
+     0.23,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.27,
+     0.21,
+     0.035
+    ],
+    "bottom_center_m": [
+     1.37,
+     0.23,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.65,
+     1.4,
+     0.75
+    ],
+    "bottom_center_m": [
+     1.65,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.24,
+     0.18,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.88,
+     0.23,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.5,
+     1.2,
+     1.65
+    ],
+    "bottom_center_m": [
+     3.9,
+     0.85,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.95
+    ],
+    "bottom_center_m": [
+     3.8,
+     4.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.26,
+     0.2,
+     0.035
+    ],
+    "bottom_center_m": [
+     0.65,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.75,
+     1.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     0.4,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.035,
+     0.55,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.0175,
+     1.0,
+     1.25
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.015,
+     0.14,
+     0.015
+    ],
+    "bottom_center_m": [
+     1.4,
+     0.51,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.065,
+     0.065,
+     0.12
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.4,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.04,
+     0.35,
+     0.7
+    ],
+    "bottom_center_m": [
+     1.9,
+     4.98,
+     1.7
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.065,
+     0.065,
+     0.12
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.62,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.02
+    ],
+    "bottom_center_m": [
+     1.49,
+     1.18,
+     0.8
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.035,
+     0.55,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.1825,
+     3.7,
+     1.4
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.15,
+     0.075,
+     0.009
+    ],
+    "bottom_center_m": [
+     1.83,
+     0.51,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.4
+    ],
+    "bottom_center_m": [
+     3.83,
+     3.8,
+     0.72
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     1.6
+    ],
+    "bottom_center_m": [
+     0.22,
+     1.62,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.15
+    ],
+    "bottom_center_m": [
+     3.61,
+     3.42,
+     0.72
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.065,
+     0.065,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.77,
+     3.42,
+     0.72
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.25,
+     4.77,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.16,
+     0.4,
+     0.32
+    ],
+    "bottom_center_m": [
+     2.95,
+     3.8,
+     0.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     2.2,
+     1.1,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.65,
+     3.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.7,
+     0.7,
+     0.72
+    ],
+    "bottom_center_m": [
+     3.7,
+     3.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.42
+    ],
+    "bottom_center_m": [
+     3.37,
+     1.65,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.05,
+     0.3,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.65,
+     2.55,
+     0.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.055,
+     0.065,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.95,
+     3.42,
+     0.72
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.25,
+     0.2,
+     0.03
+    ],
+    "bottom_center_m": [
+     1.77,
+     1.18,
+     0.8
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.27,
+     0.21,
+     0.035
+    ],
+    "bottom_center_m": [
+     1.63,
+     0.23,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.9,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.42,
+     0.65,
+     0.15
+    ],
+    "bottom_center_m": [
+     2.55,
+     4.25,
+     0.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.09,
+     0.11,
+     0.09
+    ],
+    "bottom_center_m": [
+     2.16,
+     0.22,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.36
+    ],
+    "bottom_center_m": [
+     3.9,
+     1.2,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     1.7
+    ],
+    "bottom_center_m": [
+     0.23,
+     3.72,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.7,
+     4.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.015,
+     0.14,
+     0.015
+    ],
+    "bottom_center_m": [
+     1.65,
+     0.51,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0045",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.18
+    ],
+    "bottom_center_m": [
+     3.8,
+     0.62,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0046",
+    "target_size_local_m": [
+     0.035,
+     0.55,
+     0.65
+    ],
+    "bottom_center_m": [
+     0.0175,
+     3.85,
+     1.65
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0047",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.9,
+     1.1,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0048",
+    "target_size_local_m": [
+     0.34,
+     0.34,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.25,
+     4.3,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0049",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     1.65
+    ],
+    "bottom_center_m": [
+     4.0,
+     4.25,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0050",
+    "target_size_local_m": [
+     0.26,
+     0.2,
+     0.025
+    ],
+    "bottom_center_m": [
+     3.49,
+     3.79,
+     0.72
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0051",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.38
+    ],
+    "bottom_center_m": [
+     0.65,
+     0.85,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0052",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.18
+    ],
+    "bottom_center_m": [
+     3.8,
+     0.84,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0053",
+    "target_size_local_m": [
+     0.035,
+     0.75,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.7,
+     4.9825,
+     1.85
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0054",
+    "target_size_local_m": [
+     0.035,
+     0.6,
+     0.8
+    ],
+    "bottom_center_m": [
+     4.1825,
+     2.65,
+     1.5
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0055",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.75
+    ],
+    "bottom_center_m": [
+     1.65,
+     0.02,
+     1.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0056",
+    "target_size_local_m": [
+     0.58,
+     0.58,
+     0.8
+    ],
+    "bottom_center_m": [
+     1.65,
+     1.22,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0057",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.05,
+     0.51,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0058",
+    "target_size_local_m": [
+     0.085,
+     0.085,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.24,
+     0.51,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0059",
+    "target_size_local_m": [
+     0.42,
+     0.42,
+     0.55
+    ],
+    "bottom_center_m": [
+     3.83,
+     1.75,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0060",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.45
+    ],
+    "bottom_center_m": [
+     2.98,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe bed occupies the rear-right area, between two plants, with medical equipment alongside and a nightstand within reach. The desk and chair form a work area along the front wall, while the sofa and stool create a visitor area against the left wall. Storage, bins, and other equipment stay near the perimeter, leaving a central route from the door to the bed and work area. Small objects are separated on their assigned supporting surfaces, and wall decorations remain above the furniture.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[\n{\"id\":\"obj_0000\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.18,\"x\":3.8,\"y\":0.4,\"z\":1.65,\"facing_deg\":180},\n{\"id\":\"obj_0001\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.11,\"x\":3.46,\"y\":3.42,\"z\":0.72,\"facing_deg\":90},\n{\"id\":\"obj_0002\",\"width_m\":0.42,\"depth_m\":0.4,\"height_m\":0.9,\"x\":1.65,\"y\":3.65,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0003\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":1.65,\"x\":0.22,\"y\":0.23,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0004\",\"width_m\":0.65,\"depth_m\":0.035,\"height_m\":0.9,\"x\":0.0175,\"y\":2.6,\"z\":1.4,\"facing_deg\":0},\n{\"id\":\"obj_0005\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1.95,\"x\":1.65,\"y\":2.85,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0006\",\"width_m\":0.4,\"depth_m\":0.3,\"height_m\":0.45,\"x\":3.85,\"y\":2.75,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0007\",\"width_m\":0.14,\"depth_m\":0.015,\"height_m\":0.015,\"x\":1.15,\"y\":0.51,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0008\",\"width_m\":0.38,\"depth_m\":0.38,\"height_m\":0.46,\"x\":1.05,\"y\":2,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0009\",\"width_m\":0.22,\"depth_m\":0.28,\"height_m\":0.035,\"x\":1.1,\"y\":0.23,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0010\",\"width_m\":0.21,\"depth_m\":0.27,\"height_m\":0.035,\"x\":1.37,\"y\":0.23,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0011\",\"width_m\":1.4,\"depth_m\":0.65,\"height_m\":0.75,\"x\":1.65,\"y\":0.35,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0012\",\"width_m\":0.18,\"depth_m\":0.24,\"height_m\":0.02,\"x\":1.88,\"y\":0.23,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0013\",\"width_m\":1.2,\"depth_m\":0.5,\"height_m\":1.65,\"x\":3.9,\"y\":0.85,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0014\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.95,\"x\":3.8,\"y\":4.7,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0015\",\"width_m\":0.2,\"depth_m\":0.26,\"height_m\":0.035,\"x\":0.65,\"y\":1.55,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0016\",\"width_m\":1.5,\"depth_m\":0.75,\"height_m\":0.82,\"x\":0.4,\"y\":2.7,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0017\",\"width_m\":0.55,\"depth_m\":0.035,\"height_m\":0.55,\"x\":0.0175,\"y\":1,\"z\":1.25,\"facing_deg\":0},\n{\"id\":\"obj_0018\",\"width_m\":0.14,\"depth_m\":0.015,\"height_m\":0.015,\"x\":1.4,\"y\":0.51,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0019\",\"width_m\":0.065,\"depth_m\":0.065,\"height_m\":0.12,\"x\":4,\"y\":0.4,\"z\":1.65,\"facing_deg\":180},\n{\"id\":\"obj_0020\",\"width_m\":0.35,\"depth_m\":0.04,\"height_m\":0.7,\"x\":1.9,\"y\":4.98,\"z\":1.7,\"facing_deg\":270},\n{\"id\":\"obj_0021\",\"width_m\":0.065,\"depth_m\":0.065,\"height_m\":0.12,\"x\":4,\"y\":0.62,\"z\":1.65,\"facing_deg\":180},\n{\"id\":\"obj_0022\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.02,\"x\":1.49,\"y\":1.18,\"z\":0.8,\"facing_deg\":270},\n{\"id\":\"obj_0023\",\"width_m\":0.55,\"depth_m\":0.035,\"height_m\":0.75,\"x\":4.1825,\"y\":3.7,\"z\":1.4,\"facing_deg\":180},\n{\"id\":\"obj_0024\",\"width_m\":0.075,\"depth_m\":0.15,\"height_m\":0.009,\"x\":1.83,\"y\":0.51,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0025\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.4,\"x\":3.83,\"y\":3.8,\"z\":0.72,\"facing_deg\":90},\n{\"id\":\"obj_0026\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":1.6,\"x\":0.22,\"y\":1.62,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0027\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.15,\"x\":3.61,\"y\":3.42,\"z\":0.72,\"facing_deg\":90},\n{\"id\":\"obj_0028\",\"width_m\":0.065,\"depth_m\":0.065,\"height_m\":0.11,\"x\":3.77,\"y\":3.42,\"z\":0.72,\"facing_deg\":90},\n{\"id\":\"obj_0029\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.4,\"x\":0.25,\"y\":4.77,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0030\",\"width_m\":0.4,\"depth_m\":0.16,\"height_m\":0.32,\"x\":2.95,\"y\":3.8,\"z\":0.65,\"facing_deg\":270},\n{\"id\":\"obj_0031\",\"width_m\":1.1,\"depth_m\":2.2,\"height_m\":0.65,\"x\":2.65,\"y\":3.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0032\",\"width_m\":0.7,\"depth_m\":0.7,\"height_m\":0.72,\"x\":3.7,\"y\":3.65,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0033\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.42,\"x\":3.37,\"y\":1.65,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0034\",\"width_m\":0.3,\"depth_m\":0.05,\"height_m\":0.3,\"x\":2.65,\"y\":2.55,\"z\":0.65,\"facing_deg\":270},\n{\"id\":\"obj_0035\",\"width_m\":0.065,\"depth_m\":0.055,\"height_m\":0.11,\"x\":3.95,\"y\":3.42,\"z\":0.72,\"facing_deg\":90},\n{\"id\":\"obj_0036\",\"width_m\":0.2,\"depth_m\":0.25,\"height_m\":0.03,\"x\":1.77,\"y\":1.18,\"z\":0.8,\"facing_deg\":270},\n{\"id\":\"obj_0037\",\"width_m\":0.21,\"depth_m\":0.27,\"height_m\":0.035,\"x\":1.63,\"y\":0.23,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0038\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.8,\"x\":0.25,\"y\":0.9,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0039\",\"width_m\":0.65,\"depth_m\":0.42,\"height_m\":0.15,\"x\":2.55,\"y\":4.25,\"z\":0.65,\"facing_deg\":270},\n{\"id\":\"obj_0040\",\"width_m\":0.11,\"depth_m\":0.09,\"height_m\":0.09,\"x\":2.16,\"y\":0.22,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0041\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.36,\"x\":3.9,\"y\":1.2,\"z\":1.65,\"facing_deg\":180},\n{\"id\":\"obj_0042\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":1.7,\"x\":0.23,\"y\":3.72,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0043\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.9,\"x\":1.7,\"y\":4.7,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0044\",\"width_m\":0.14,\"depth_m\":0.015,\"height_m\":0.015,\"x\":1.65,\"y\":0.51,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0045\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.18,\"x\":3.8,\"y\":0.62,\"z\":1.65,\"facing_deg\":180},\n{\"id\":\"obj_0046\",\"width_m\":0.55,\"depth_m\":0.035,\"height_m\":0.65,\"x\":0.0175,\"y\":3.85,\"z\":1.65,\"facing_deg\":0},\n{\"id\":\"obj_0047\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.75,\"x\":2.9,\"y\":1.1,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0048\",\"width_m\":0.34,\"depth_m\":0.34,\"height_m\":0.75,\"x\":0.25,\"y\":4.3,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0049\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":1.65,\"x\":4,\"y\":4.25,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0050\",\"width_m\":0.2,\"depth_m\":0.26,\"height_m\":0.025,\"x\":3.49,\"y\":3.79,\"z\":0.72,\"facing_deg\":90},\n{\"id\":\"obj_0051\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.38,\"x\":0.65,\"y\":0.85,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0052\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.18,\"x\":3.8,\"y\":0.84,\"z\":1.65,\"facing_deg\":180},\n{\"id\":\"obj_0053\",\"width_m\":0.75,\"depth_m\":0.035,\"height_m\":0.65,\"x\":2.7,\"y\":4.9825,\"z\":1.85,\"facing_deg\":270},\n{\"id\":\"obj_0054\",\"width_m\":0.6,\"depth_m\":0.035,\"height_m\":0.8,\"x\":4.1825,\"y\":2.65,\"z\":1.5,\"facing_deg\":180},\n{\"id\":\"obj_0055\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.75,\"x\":1.65,\"y\":0.02,\"z\":1.2,\"facing_deg\":90},\n{\"id\":\"obj_0056\",\"width_m\":0.58,\"depth_m\":0.58,\"height_m\":0.8,\"x\":1.65,\"y\":1.22,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0057\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.1,\"x\":2.05,\"y\":0.51,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0058\",\"width_m\":0.085,\"depth_m\":0.085,\"height_m\":0.1,\"x\":2.24,\"y\":0.51,\"z\":0.75,\"facing_deg\":90},\n{\"id\":\"obj_0059\",\"width_m\":0.42,\"depth_m\":0.42,\"height_m\":0.55,\"x\":3.83,\"y\":1.75,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0060\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.45,\"x\":2.98,\"y\":0.22,\"z\":0,\"facing_deg\":90}\n]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nhospital room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.200 m x 5.000 m x 2.700 m\nfloor polygon (x, y): [[4.2, 0.0], [4.2, 5.0], [0.0, 5.0], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"medicinebottle\", \"description\": \"A clear urban modern medicine bottle with a cylindrical shape, smooth transparent glass, amber liquid inside and a sleek silver screw cap, visible through cabinet doors\", \"support_parent\": \"obj_0013\"},\n{\"id\": \"obj_0001\", \"category\": \"cupnightstand\", \"description\": \"A clear glass urban modern cup with a smooth cylindrical shape, crystal clear body and a thin silver rim, containing a subtle water ripple pattern etched inside\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0002\", \"category\": \"medicalequipment\", \"description\": \"A compact urban modern medical equipment unit with a rectangular body, smooth white plastic finish, a small digital display on the front and a subtle ergonomic curve at the top\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"floorlamp\", \"description\": \"A tall floor lamp with a slender cylindrical pole, a wide conical shade, and a matte black finish, standing upright.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright artwork with a rectangular shape, glossy white canvas and a bold abstract black line motif that stretches vertically\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0005\", \"category\": \"ivstand\", \"description\": \"A compact urban modern IV stand with a cylindrical metal pole, angular black powder‑coated base, and a clear acrylic tray that slides vertically\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"heater\", \"description\": \"A compact urban modern space heater with a square base, brushed metal housing, and a curved front grille that emits a warm amber glow\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"pendesk\", \"description\": \"A sleek urban modern pen with a slim cylindrical body, brushed aluminum finish and a subtle matte black tip, slightly curved for ergonomic grip\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0008\", \"category\": \"stool\", \"description\": \"A lightweight urban modern side stool with a tapered cylindrical seat, matte white finish, and a single chrome leg that bends slightly outward for stability\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"bookdesk\", \"description\": \"A hardcover urban modern book with a rectangular shape, smooth matte finish, deep navy cover and a subtle embossed pattern, featuring slightly rounded edges for a sleek look\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0010\", \"category\": \"bookdesk\", \"description\": \"A hardcover urban modern book with a rectangular shape, smooth matte finish, dark gray cover and a subtle embossed pattern, slightly rounded edges for easy handling\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0011\", \"category\": \"desk\", \"description\": \"A minimalist urban modern work desk with a straight‑edged rectangular tabletop, light oak veneer, and slim chrome legs that taper inward\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"notebook\", \"description\": \"A softcover urban modern notebook with a rectangular shape, pastel teal cover, smooth textured paper and a rounded spine, featuring a thin metal clasp\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0013\", \"category\": \"cabinet\", \"description\": \"A tall urban modern storage cabinet featuring a rectangular box shape, matte gray laminate doors, and a subtle brushed‑metal handle strip across the front\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"plant\", \"description\": \"A potted urban modern plant with a cylindrical pot, matte white finish, and lush green foliage extending outward in a rounded canopy.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0015\", \"category\": \"book\", \"description\": \"A hardcover urban modern book with a rectangular shape, sleek matte black cover, and a subtle embossed pattern that catches the light\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0016\", \"category\": \"sofa\", \"description\": \"A low‑slung urban modern visitor sofa with a sleek rectangular silhouette, soft teal fabric upholstery, and a subtle tufted pattern along the backrest\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a square shape, polished silver backing and a sleek brushed aluminum frame, reflecting the opposite side of the room\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0018\", \"category\": \"pendesk\", \"description\": \"A sleek urban modern pen with a slim cylindrical body, brushed aluminum finish and a subtle matte black tip, slightly curved for ergonomic grip\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0019\", \"category\": \"medicalbottle\", \"description\": \"A small cylindrical urban modern medical bottle made of clear plastic, with a bright orange cap and a minimalist label.\", \"support_parent\": \"obj_0013\"},\n{\"id\": \"obj_0020\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a rectangular outline, polished silver backing, beveled edges and a subtle decorative etched border, giving a sleek reflective surface\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0021\", \"category\": \"medicalbottle\", \"description\": \"A small cylindrical urban modern medical bottle made of clear plastic, with a bright orange cap and a minimalist label.\", \"support_parent\": \"obj_0013\"},\n{\"id\": \"obj_0022\", \"category\": \"bookchair\", \"description\": \"A compact urban modern book with a square softcover, matte charcoal finish and a subtle embossed grid, corners slightly beveled for a modern look\", \"support_parent\": \"obj_0056\"},\n{\"id\": \"obj_0023\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a rectangular shape, sleek brushed‑silver frame and a beveled edge that catches reflections\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0024\", \"category\": \"phone\", \"description\": \"A slim urban modern smartphone with a rectangular shape, matte black back, glass front and rounded corners, screen facing upward\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0025\", \"category\": \"lampnightstand\", \"description\": \"A contemporary urban modern table lamp with a slender conical shade, matte ivory fabric, and a thin brushed steel base, the shade features a subtle ribbed texture\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0026\", \"category\": \"floorlamp\", \"description\": \"A tall slender urban modern floor lamp with a slim cylindrical base, a thin metal pole, and a minimalist conical shade in matte black.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0027\", \"category\": \"cupnightstand\", \"description\": \"A clear glass urban modern cup with a cylindrical shape, thin walls and a short straw inserted, giving a light, airy appearance\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0028\", \"category\": \"medicationbottle\", \"description\": \"A small cylindrical urban modern medication bottle made of clear glass, with a pastel green cap and a subtle label.\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0029\", \"category\": \"trashbin\", \"description\": \"A compact rectangular trash bin with a smooth matte gray exterior, a hinged lid, and a subtle recessed handle.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0030\", \"category\": \"medicalmonitor\", \"description\": \"A rectangular urban modern medical monitor with a sleek black frame and a smooth glass screen, featuring subtle brushed metal accents.\", \"support_parent\": \"obj_0031\"},\n{\"id\": \"obj_0031\", \"category\": \"bed\", \"description\": \"A sleek urban modern hospital bed with a rectangular low‑profile frame, smooth white lacquer finish, stainless steel legs, and a curved headboard that integrates subtle LED accent lighting\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0032\", \"category\": \"nightstand\", \"description\": \"A compact urban modern nightstand with a square footprint, glossy white surface, and a single recessed drawer featuring a hidden magnetic latch\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0033\", \"category\": \"wastebin\", \"description\": \"A sturdy urban modern waste bin with a cylindrical body, matte black finish, and a recessed foot pedal for hands‑free opening\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0034\", \"category\": \"medicalchart\", \"description\": \"A thin upright urban modern medical chart, single piece of paper on a lightweight board, with crisp white background and subtle gray grid lines.\", \"support_parent\": \"obj_0031\"},\n{\"id\": \"obj_0035\", \"category\": \"medicationbottle\", \"description\": \"A small urban modern medication bottle with a rectangular shape, opaque pastel blue plastic, child‑proof cap slightly ajar, and a subtle embossed label\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0036\", \"category\": \"bookchair\", \"description\": \"A hardcover urban modern book with a rectangular shape, smooth matte cover, deep navy color, and a minimalist gold line accent.\", \"support_parent\": \"obj_0056\"},\n{\"id\": \"obj_0037\", \"category\": \"bookdesk\", \"description\": \"A hardcover urban modern book with a rectangular shape, smooth matte finish, dark gray cover and a subtle embossed pattern, slightly rounded edges for easy handling\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0038\", \"category\": \"plant\", \"description\": \"A potted indoor plant with a round terracotta pot, featuring long, glossy green leaves that arch outward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0039\", \"category\": \"pillow\", \"description\": \"A rectangular urban modern pillow with a soft plush surface, covered in a muted gray fabric with a subtle geometric pattern.\", \"support_parent\": \"obj_0031\"},\n{\"id\": \"obj_0040\", \"category\": \"coffeecup\", \"description\": \"A small cylindrical urban modern coffee cup with a glossy white porcelain finish and a slim silver handle.\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0041\", \"category\": \"plantcabinet\", \"description\": \"A potted urban modern plant with a cylindrical terracotta pot, compact green foliage and a subtle matte finish, sitting on the cabinet top\", \"support_parent\": \"obj_0013\"},\n{\"id\": \"obj_0042\", \"category\": \"floorlamp\", \"description\": \"A tall urban modern floor lamp with a slender cylindrical shaft, matte black finish, and an angular conical shade that casts a focused light, positioned in the corner near the sofa\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0043\", \"category\": \"plant\", \"description\": \"A potted indoor plant with a round terracotta pot, featuring long, glossy green leaves that arch outward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0044\", \"category\": \"pen\", \"description\": \"A slender urban modern pen with a smooth cylindrical barrel, brushed aluminum texture, and a subtle chrome tip, slightly tapered at the end for a sleek profile\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0045\", \"category\": \"medicinebottle\", \"description\": \"A clear urban modern medicine bottle with a cylindrical shape, smooth transparent glass, amber liquid inside and a sleek silver screw cap, visible through cabinet doors\", \"support_parent\": \"obj_0013\"},\n{\"id\": \"obj_0046\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright painting with a rectangular shape, abstract urban modern design, muted gray background and a splash of teal, framed in a narrow black metal frame\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0047\", \"category\": \"plant\", \"description\": \"A potted urban modern plant with a cylindrical terracotta pot, matte finish and a small drainage hole, the foliage consists of long, glossy green leaves that arch outward\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0048\", \"category\": \"purifier\", \"description\": \"A streamlined urban modern air purifier with a tall cylindrical core, frosted glass front, and a subtle LED display ring at the top\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0049\", \"category\": \"floorlamp\", \"description\": \"A tall urban modern floor lamp with a slender cylindrical shaft, brushed nickel finish and a small circular diffuser at the top, the base is a weighted round disc for stability\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0050\", \"category\": \"booknightstand\", \"description\": \"A paperback urban modern book with a rectangular profile, soft pastel teal cover and a glossy finish, edges slightly rounded for a gentle feel\", \"support_parent\": \"obj_0032\"},\n{\"id\": \"obj_0051\", \"category\": \"trashbin\", \"description\": \"A rectangular urban modern trash bin with a smooth white plastic body, slightly rounded corners and a discreet lid, located near the desk\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0052\", \"category\": \"medicinebottle\", \"description\": \"A clear urban modern medicine bottle with a cylindrical shape, smooth transparent glass, amber liquid inside and a sleek silver screw cap, visible through cabinet doors\", \"support_parent\": \"obj_0013\"},\n{\"id\": \"obj_0053\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright painting with a bold abstract composition, featuring a glossy white canvas stretched over a slim wooden frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0054\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright painting with a rectangular shape, smooth canvas surface, soft ivory background and a bold abstract black line motif, framed in a narrow black wood frame\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0055\", \"category\": \"mirror\", \"description\": \"A single piece of thin and upright mirror with a sleek silver backing, rectangular shape and a polished reflective surface.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0056\", \"category\": \"chair\", \"description\": \"A contemporary urban modern patient chair with a rounded backrest, ergonomic curved seat, and a polished aluminum frame finished in soft charcoal\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0057\", \"category\": \"cupdesk\", \"description\": \"A ceramic urban modern cup with a sleek cylindrical shape, glossy white surface and a thin brushed metal rim, featuring a small geometric engraving near the base\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0058\", \"category\": \"cupdesk\", \"description\": \"A ceramic urban modern cup with a cylindrical shape, glossy white surface and a thin silver rim, slightly tapered toward the base\", \"support_parent\": \"obj_0011\"},\n{\"id\": \"obj_0059\", \"category\": \"medicalequipment\", \"description\": \"A compact cubic urban modern medical equipment unit with a smooth white exterior and subtle rounded edges.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0060\", \"category\": \"recyclebin\", \"description\": \"A sleek urban modern recycle bin featuring a slim rectangular shape, bright teal lid, and a brushed‑steel side panel for easy sorting\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.975, 5.0], \"wall_from\": [4.2, 5.0], \"wall_to\": [0.0, 5.0], \"width_m\": 0.9, \"height_m\": 2.05}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0028\", \"parent_id\": \"obj_0032\"}, {\"type\": \"between\", \"object_id\": \"obj_0031\", \"target_ids\": [\"obj_0043\", \"obj_0014\"]}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

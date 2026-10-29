@@ -1,0 +1,43 @@
+{
+ "task_description": "a children's bedroom of about 2.5m x 3.1m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 1.60 m wide centred at (0.94, 0.00); a door 0.88 m wide centred at (1.94, 3.15) (keep the floor in front of it clear). the dining table combination (o0000) should be against a wall. the combination sofa (o0001) should be within 0.10 m of the dining table combination (o0000). the combination sofa (o0001) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    1.4000000000000004,
+    3.15,
+    0.0
+   ],
+   [
+    1.4000000000000004,
+    2.56,
+    0.0
+   ],
+   [
+    0.0,
+    2.56,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.48,
+    0.0,
+    0.0
+   ],
+   [
+    2.48,
+    3.15,
+    0.0
+   ]
+  ],
+  "wall_height": 2.9999
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {}
+ }
+}

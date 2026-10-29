@@ -1,0 +1,225 @@
+{
+ "floor": [
+  {
+   "assetId": "writing desk-0",
+   "id": "writing desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.375,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.0,
+     -4.5
+    ],
+    [
+     290.0,
+     65.5
+    ],
+    [
+     160.0,
+     65.5
+    ],
+    [
+     160.0,
+     -4.5
+    ]
+   ],
+   "object_name": "writing desk-0"
+  },
+  {
+   "assetId": "desk chair-0",
+   "id": "desk chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.425,
+    "z": 1.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     260.0,
+     160.0
+    ],
+    [
+     260.0,
+     90.0
+    ],
+    [
+     190.0,
+     90.0
+    ],
+    [
+     190.0,
+     160.0
+    ],
+    [
+     260.0,
+     160.0
+    ]
+   ],
+   "object_name": "desk chair-0"
+  },
+  {
+   "assetId": "queen bed-0",
+   "id": "queen bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 0.525,
+    "z": 3.92
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     312.5,
+     504.5
+    ],
+    [
+     312.5,
+     279.5
+    ],
+    [
+     137.5,
+     279.5
+    ],
+    [
+     137.5,
+     504.5
+    ]
+   ],
+   "object_name": "queen bed-0"
+  },
+  {
+   "assetId": "accent shelf-0",
+   "id": "accent shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.75,
+    "y": 0.95,
+    "z": 0.18
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     120.0,
+     -4.5
+    ],
+    [
+     120.0,
+     40.5
+    ],
+    [
+     30.0,
+     40.5
+    ],
+    [
+     30.0,
+     -4.5
+    ]
+   ],
+   "object_name": "accent shelf-0"
+  },
+  {
+   "assetId": "bedside table-0",
+   "id": "bedside table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.795,
+    "y": 0.275,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     354.5,
+     420.0
+    ],
+    [
+     354.5,
+     480.0
+    ],
+    [
+     404.5,
+     480.0
+    ],
+    [
+     404.5,
+     420.0
+    ]
+   ],
+   "object_name": "bedside table-0"
+  },
+  {
+   "assetId": "bedside table-1",
+   "id": "bedside table-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.275,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     420.0
+    ],
+    [
+     45.5,
+     480.0
+    ],
+    [
+     -4.5,
+     480.0
+    ],
+    [
+     -4.5,
+     420.0
+    ]
+   ],
+   "object_name": "bedside table-1"
+  }
+ ],
+ "wall": []
+}

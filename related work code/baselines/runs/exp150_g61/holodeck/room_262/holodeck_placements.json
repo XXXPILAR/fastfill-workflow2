@@ -1,0 +1,314 @@
+{
+ "floor": [
+  {
+   "assetId": "dining table combination-0",
+   "id": "dining table combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.229970035993187,
+    "y": 0.475,
+    "z": 3.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     397.99700359931865,
+     215.0
+    ],
+    [
+     397.99700359931865,
+     505.0
+    ],
+    [
+     647.9970035993186,
+     505.0
+    ],
+    [
+     647.9970035993186,
+     215.0
+    ]
+   ],
+   "object_name": "dining table combination-0"
+  },
+  {
+   "assetId": "bookcase-0",
+   "id": "bookcase-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.18,
+    "y": 1.05,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     40.5,
+     25.0
+    ],
+    [
+     40.5,
+     155.0
+    ],
+    [
+     -4.500000000000002,
+     155.0
+    ],
+    [
+     -4.500000000000002,
+     25.0
+    ]
+   ],
+   "object_name": "bookcase-0"
+  },
+  {
+   "assetId": "bookcase-1",
+   "id": "bookcase-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.18,
+    "y": 1.05,
+    "z": 3.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     40.5,
+     295.0
+    ],
+    [
+     40.5,
+     425.0
+    ],
+    [
+     -4.500000000000002,
+     425.0
+    ],
+    [
+     -4.500000000000002,
+     295.0
+    ]
+   ],
+   "object_name": "bookcase-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "lighting-0",
+   "id": "lighting-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.08499999999999999,
+    "y": 2.275,
+    "z": 5.894999999999999
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     15.0,
+     579.4999999999999
+    ],
+    [
+     15.0,
+     599.4999999999999
+    ],
+    [
+     0.0,
+     599.4999999999999
+    ],
+    [
+     0.0,
+     579.4999999999999
+    ],
+    [
+     15.0,
+     579.4999999999999
+    ]
+   ],
+   "object_name": "lighting-0"
+  },
+  {
+   "assetId": "lighting-1",
+   "id": "lighting-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.52,
+    "y": 2.24,
+    "z": 0.5110000000000001
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     560.0,
+     44.10000000000001
+    ],
+    [
+     560.0,
+     56.10000000000001
+    ],
+    [
+     544.0,
+     56.10000000000001
+    ],
+    [
+     544.0,
+     44.10000000000001
+    ],
+    [
+     560.0,
+     44.10000000000001
+    ]
+   ],
+   "object_name": "lighting-1"
+  },
+  {
+   "assetId": "lighting-2",
+   "id": "lighting-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.06999999999999999,
+    "y": 2.24,
+    "z": 6.1949999999999985
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     12.0,
+     611.4999999999999
+    ],
+    [
+     12.0,
+     627.4999999999999
+    ],
+    [
+     0.0,
+     627.4999999999999
+    ],
+    [
+     0.0,
+     611.4999999999999
+    ],
+    [
+     12.0,
+     611.4999999999999
+    ]
+   ],
+   "object_name": "lighting-2"
+  },
+  {
+   "assetId": "lighting-3",
+   "id": "lighting-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.02,
+    "y": 2.24,
+    "z": 0.5110000000000001
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     410.0,
+     44.10000000000001
+    ],
+    [
+     410.0,
+     56.10000000000001
+    ],
+    [
+     394.0,
+     56.10000000000001
+    ],
+    [
+     394.0,
+     44.10000000000001
+    ],
+    [
+     410.0,
+     44.10000000000001
+    ]
+   ],
+   "object_name": "lighting-3"
+  },
+  {
+   "assetId": "lighting-4",
+   "id": "lighting-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.12,
+    "y": 2.24,
+    "z": 0.5110000000000001
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     620.0,
+     44.10000000000001
+    ],
+    [
+     620.0,
+     56.10000000000001
+    ],
+    [
+     604.0,
+     56.10000000000001
+    ],
+    [
+     604.0,
+     44.10000000000001
+    ],
+    [
+     620.0,
+     44.10000000000001
+    ]
+   ],
+   "object_name": "lighting-4"
+  }
+ ]
+}

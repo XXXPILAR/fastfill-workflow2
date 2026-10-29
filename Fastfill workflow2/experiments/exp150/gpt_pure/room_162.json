@@ -1,0 +1,2483 @@
+{
+ "k": 162,
+ "source": "SAGE-10k",
+ "latency_s": 173.3301168330945,
+ "usage": [
+  {
+   "prompt_tokens": 10399,
+   "completion_tokens": 10792,
+   "total_tokens": 21191,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1552,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     1.5,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     3.4,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.55,
+     1.8,
+     0.46
+    ],
+    "bottom_center_m": [
+     0.55,
+     3.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.5
+    ],
+    "bottom_center_m": [
+     0.45,
+     0.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     8.6,
+     1.7,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.2,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.6
+    ],
+    "bottom_center_m": [
+     0.45,
+     1.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     0.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     1.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     1.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     0.9,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     8.5,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     1.75,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     8.82,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.42,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     7.7,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     8.55,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.6
+    ],
+    "bottom_center_m": [
+     7.0,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     1.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.8,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     2.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.64,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "bottom_center_m": [
+     6.0,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     2.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     9.14,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     1.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     1.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     3.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.86,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     2.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     3.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.08,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     2.6,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     9.4,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.25
+    ],
+    "bottom_center_m": [
+     0.45,
+     4.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     4.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     3.45,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     3.0,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.3,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     8.75,
+     6.4,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0045",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.52,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0046",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "bottom_center_m": [
+     0.45,
+     7.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0047",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.74,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0048",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     3.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0049",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.96,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0050",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     9.46,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0051",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     3.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0052",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     3.9,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0053",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     2.8,
+     1.65,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0054",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     6.4,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0055",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     4.3,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0056",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     5.15,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0057",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     9.0,
+     1.7,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0058",
+    "target_size_local_m": [
+     1.4,
+     4.0,
+     0.9
+    ],
+    "bottom_center_m": [
+     5.0,
+     6.0,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0059",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     3.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0060",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     6.0,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0061",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     4.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0062",
+    "target_size_local_m": [
+     0.9,
+     3.0,
+     1.05
+    ],
+    "bottom_center_m": [
+     4.0,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0063",
+    "target_size_local_m": [
+     1.4,
+     3.0,
+     0.9
+    ],
+    "bottom_center_m": [
+     10.0,
+     6.0,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0064",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     8.8,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0065",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     3.6,
+     1.65,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0066",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     5.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0067",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     5.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0068",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.15
+    ],
+    "bottom_center_m": [
+     8.0,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0069",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     4.4,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0070",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     4.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0071",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     4.5,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0072",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.6
+    ],
+    "bottom_center_m": [
+     0.45,
+     8.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0073",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     5.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0074",
+    "target_size_local_m": [
+     0.9,
+     3.5,
+     1.05
+    ],
+    "bottom_center_m": [
+     10.0,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0075",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     6.0,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0076",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.18,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0077",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     1.65
+    ],
+    "bottom_center_m": [
+     1.5,
+     0.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0078",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     5.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0079",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.2,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0080",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     8.8,
+     6.0,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0081",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     9.4,
+     1.7,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0082",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.15
+    ],
+    "bottom_center_m": [
+     2.4,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0083",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     9.78,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0084",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.4,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0085",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     9.2,
+     6.0,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0086",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     6.85,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0087",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     6.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0088",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     6.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0089",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     7.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0090",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     7.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0091",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     7.5,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0092",
+    "target_size_local_m": [
+     0.55,
+     1.8,
+     0.46
+    ],
+    "bottom_center_m": [
+     0.55,
+     6.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0093",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     8.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0094",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.6,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0095",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.62,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0096",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "bottom_center_m": [
+     12.5,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0097",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.84,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0098",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     6.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0099",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     6.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0100",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     7.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0101",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     4.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0102",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     6.06,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0103",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     9.1,
+     6.4,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0104",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     6.28,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0105",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     7.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0106",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     4.9,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0107",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     9.45,
+     6.4,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0108",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     9.0,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0109",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     8.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0110",
+    "target_size_local_m": [
+     0.9,
+     0.85,
+     0.95
+    ],
+    "bottom_center_m": [
+     12.6,
+     3.4,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0111",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     9.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0112",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     1.65
+    ],
+    "bottom_center_m": [
+     13.5,
+     0.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0113",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     9.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0114",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     9.6,
+     6.0,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0115",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     10.25,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0116",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     6.5,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0117",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     11.1,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0118",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "bottom_center_m": [
+     14.5,
+     0.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0119",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     9.15,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0120",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     6.75,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0121",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.25
+    ],
+    "bottom_center_m": [
+     14.55,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0122",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     6.72,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0123",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     8.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0124",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     10.1,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0125",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     8.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0126",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     11.95,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0127",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     9.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0128",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     5.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0129",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.2,
+     5.75,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0130",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     9.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0131",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     10.42,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0132",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     10.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0133",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     4.0,
+     1.65,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0134",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     10.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0135",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     10.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0136",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     11.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0137",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     12.8,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0138",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     10.0,
+     6.0,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0139",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.42,
+     5.75,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0140",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.5
+    ],
+    "bottom_center_m": [
+     14.55,
+     2.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0141",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     11.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0142",
+    "target_size_local_m": [
+     0.3,
+     0.23,
+     0.012
+    ],
+    "bottom_center_m": [
+     4.4,
+     1.65,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0143",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     10.74,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0144",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     9.5,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0145",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.0,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0146",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.2
+    ],
+    "bottom_center_m": [
+     14.55,
+     3.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0147",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     3.2,
+     1.65,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0148",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     5.4,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0149",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     12.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0150",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     9.85,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0151",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     10.5,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0152",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     10.2,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0153",
+    "target_size_local_m": [
+     0.85,
+     0.75,
+     1.15
+    ],
+    "bottom_center_m": [
+     13.65,
+     9.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0154",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     10.5,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0155",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     1.5
+    ],
+    "bottom_center_m": [
+     14.55,
+     6.7,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0156",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     5.9,
+     6.35,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0157",
+    "target_size_local_m": [
+     0.04,
+     0.36,
+     0.6
+    ],
+    "bottom_center_m": [
+     11.0,
+     0.02,
+     1.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0158",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     4.4,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0159",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     6.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0160",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     7.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0161",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.64,
+     5.75,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0162",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     10.55,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0163",
+    "target_size_local_m": [
+     0.04,
+     0.6,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.02,
+     8.0,
+     1.9
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0164",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     12.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0165",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     13.25,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0166",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     1.65
+    ],
+    "bottom_center_m": [
+     14.5,
+     7.7,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0167",
+    "target_size_local_m": [
+     0.1,
+     0.12,
+     0.3
+    ],
+    "bottom_center_m": [
+     13.75,
+     0.05,
+     2.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0168",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     11.06,
+     1.25,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0169",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     1.65
+    ],
+    "bottom_center_m": [
+     14.5,
+     8.7,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0170",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     9.8,
+     6.4,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0171",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.05
+    ],
+    "bottom_center_m": [
+     10.15,
+     6.4,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0172",
+    "target_size_local_m": [
+     0.11,
+     0.14,
+     0.11
+    ],
+    "bottom_center_m": [
+     10.9,
+     5.5,
+     0.9
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0173",
+    "target_size_local_m": [
+     0.9,
+     0.85,
+     0.95
+    ],
+    "bottom_center_m": [
+     12.6,
+     7.1,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0174",
+    "target_size_local_m": [
+     0.35,
+     1.0,
+     0.8
+    ],
+    "bottom_center_m": [
+     12.0,
+     9.825,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe washers and dryers form a continuous north-wall bank, with storage cabinets mounted above selected machines. Two central marble tables provide folding space while keeping broad circulation aisles around the equipment. Service counters and reading materials occupy the south side; benches and armchairs provide waiting areas along the edges.\n\nThe east entrance has an unobstructed approach. Plants stay at the perimeter, including obj_0018 between obj_0024 and obj_0068. Tabletop objects are arranged separately on their specified supports, leaving usable work surfaces. Artwork, signs, and sconces are mounted clear of furniture and below the ceiling.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[\n{\"id\":\"obj_0000\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":1.5,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0001\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":3.4,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0002\",\"width_m\":1.8,\"depth_m\":0.55,\"height_m\":0.46,\"x\":0.55,\"y\":3,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0003\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.5,\"x\":0.45,\"y\":0.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0004\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":8.6,\"y\":1.7,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0005\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.2,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0006\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.6,\"x\":0.45,\"y\":1.4,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0007\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":0.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0008\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":1,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0009\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":0.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0010\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":1,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0011\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":0.9,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0012\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":8.5,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0013\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":1.75,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0014\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":8.82,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0015\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.42,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0016\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":7.7,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0017\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":8.55,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0018\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.6,\"x\":7,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0019\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":1.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0020\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":2.8,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0021\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":2,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0022\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":0.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0023\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.64,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0024\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.2,\"x\":6,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0025\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":2.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0026\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":9.14,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0027\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":1.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0028\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":1.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0029\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":3,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0030\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":2.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0031\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.86,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0032\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":2.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0033\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":2,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0034\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":3.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0035\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4.08,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0036\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":2.6,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0037\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":4,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0038\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":9.4,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0039\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.25,\"x\":0.45,\"y\":4.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0040\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":4.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0041\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":3.45,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0042\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":3,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0043\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4.3,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0044\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":8.75,\"y\":6.4,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0045\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4.52,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0046\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.2,\"x\":0.45,\"y\":7.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0047\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4.74,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0048\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":3.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0049\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4.96,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0050\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":9.46,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0051\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":3.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0052\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":3.9,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0053\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":2.8,\"y\":1.65,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0054\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":6.4,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0055\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":4.3,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0056\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":5.15,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0057\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":9,\"y\":1.7,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0058\",\"width_m\":4,\"depth_m\":1.4,\"height_m\":0.9,\"x\":5,\"y\":6,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0059\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":3,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0060\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":6,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0061\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":4.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0062\",\"width_m\":3,\"depth_m\":0.9,\"height_m\":1.05,\"x\":4,\"y\":1.5,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0063\",\"width_m\":3,\"depth_m\":1.4,\"height_m\":0.9,\"x\":10,\"y\":6,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0064\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":8.8,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0065\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":3.6,\"y\":1.65,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0066\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0067\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":5.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0068\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.15,\"x\":8,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0069\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":4.4,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0070\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":4.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0071\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":4.5,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0072\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.6,\"x\":0.45,\"y\":8.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0073\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":5.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0074\",\"width_m\":3.5,\"depth_m\":0.9,\"height_m\":1.05,\"x\":10,\"y\":1.5,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0075\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":6,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0076\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":5.18,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0077\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":1.65,\"x\":1.5,\"y\":0.45,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0078\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":5.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0079\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.2,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0080\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":8.8,\"y\":6,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0081\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":9.4,\"y\":1.7,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0082\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.15,\"x\":2.4,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0083\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":9.78,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0084\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":5.4,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0085\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":9.2,\"y\":6,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0086\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":6.85,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0087\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":6.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0088\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":6.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0089\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":7.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0090\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":7.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0091\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":7.5,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0092\",\"width_m\":1.8,\"depth_m\":0.55,\"height_m\":0.46,\"x\":0.55,\"y\":6,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0093\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":8.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0094\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.6,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0095\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":5.62,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0096\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.2,\"x\":12.5,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0097\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":5.84,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0098\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":6,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0099\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":6.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0100\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":7,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0101\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":4,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0102\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":6.06,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0103\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":9.1,\"y\":6.4,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0104\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":6.28,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0105\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":7.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0106\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":4.9,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0107\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":9.45,\"y\":6.4,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0108\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":9,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0109\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":8.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0110\",\"width_m\":0.85,\"depth_m\":0.9,\"height_m\":0.95,\"x\":12.6,\"y\":3.4,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0111\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":9.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0112\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":1.65,\"x\":13.5,\"y\":0.45,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0113\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":9.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0114\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":9.6,\"y\":6,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0115\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":10.25,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0116\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":6.5,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0117\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":11.1,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0118\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.2,\"x\":14.5,\"y\":0.5,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0119\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":9.15,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0120\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":6.75,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0121\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.25,\"x\":14.55,\"y\":1.5,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0122\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":6.72,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0123\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":8,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0124\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":10.1,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0125\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":8.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0126\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":11.95,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0127\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":9,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0128\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":5,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0129\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.2,\"y\":5.75,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0130\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":9.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0131\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":10.42,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0132\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":10.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0133\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":4,\"y\":1.65,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0134\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":10.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0135\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":10,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0136\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":11.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0137\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":12.8,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0138\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":10,\"y\":6,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0139\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.42,\"y\":5.75,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0140\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.5,\"x\":14.55,\"y\":2.5,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0141\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":11.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0142\",\"width_m\":0.23,\"depth_m\":0.3,\"height_m\":0.012,\"x\":4.4,\"y\":1.65,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0143\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":10.74,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0144\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":9.5,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0145\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0146\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.2,\"x\":14.55,\"y\":3.5,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0147\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":3.2,\"y\":1.65,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0148\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":5.4,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0149\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":12.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0150\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":9.85,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0151\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":10.5,\"y\":9.825,\"z\":1.6,\"facing_deg\":270},\n{\"id\":\"obj_0152\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":10.2,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0153\",\"width_m\":0.75,\"depth_m\":0.85,\"height_m\":1.15,\"x\":13.65,\"y\":9.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0154\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":10.5,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0155\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":1.5,\"x\":14.55,\"y\":6.7,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0156\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":5.9,\"y\":6.35,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0157\",\"width_m\":0.36,\"depth_m\":0.04,\"height_m\":0.6,\"x\":11,\"y\":0.02,\"z\":1.4,\"facing_deg\":90},\n{\"id\":\"obj_0158\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":4.4,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0159\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":6,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0160\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":7,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0161\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":3.64,\"y\":5.75,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0162\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":10.55,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0163\",\"width_m\":0.6,\"depth_m\":0.04,\"height_m\":0.4,\"x\":0.02,\"y\":8,\"z\":1.9,\"facing_deg\":0},\n{\"id\":\"obj_0164\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":12.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0165\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":13.25,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0166\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":1.65,\"x\":14.5,\"y\":7.7,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0167\",\"width_m\":0.12,\"depth_m\":0.1,\"height_m\":0.3,\"x\":13.75,\"y\":0.05,\"z\":2.2,\"facing_deg\":90},\n{\"id\":\"obj_0168\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":11.06,\"y\":1.25,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0169\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":1.65,\"x\":14.5,\"y\":8.7,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0170\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":9.8,\"y\":6.4,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0171\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.05,\"x\":10.15,\"y\":6.4,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0172\",\"width_m\":0.14,\"depth_m\":0.11,\"height_m\":0.11,\"x\":10.9,\"y\":5.5,\"z\":0.9,\"facing_deg\":270},\n{\"id\":\"obj_0173\",\"width_m\":0.85,\"depth_m\":0.9,\"height_m\":0.95,\"x\":12.6,\"y\":7.1,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0174\",\"width_m\":1,\"depth_m\":0.35,\"height_m\":0.8,\"x\":12,\"y\":9.825,\"z\":1.6,\"facing_deg\":270}\n]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nlaundromat\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 15.000 m x 10.000 m x 2.700 m\nfloor polygon (x, y): [[0.0, 0.0], [15.0, 0.0], [15.0, 10.0], [0.0, 10.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"storage\", \"description\": \"A wall‑mounted cabinet with marble front, rectangular shape, smooth marble surface with subtle veining, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0001\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover with shimmering gold lettering, thick pages giving it a slightly bulky and elegant appearance\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0002\", \"category\": \"bench\", \"description\": \"A polished marble bench with a smooth rectangular seat, white marble top with gold‑flecked veins, slender chrome legs, and an integrated shallow groove along the front edge.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"plant\", \"description\": \"A potted ornamental plant with an elegant cylindrical metallic pot finished in brushed steel, featuring a decorative spiral cutout, and tall leafy foliage extending upward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, sleek reflective surface, and a subtle embossed title\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0005\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band around the lip, refined Luxe style\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0006\", \"category\": \"plant\", \"description\": \"A potted plant in a metallic gold pot, featuring a tall slender trunk and lush green foliage, with a cylindrical pot\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"art\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with vibrant colours, gold‑brushed metal frame, sleek low‑profile mounting\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0008\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract painting, rectangular canvas with bold geometric patterns in gold and deep navy, framed in a slim black border, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0009\", \"category\": \"lighting\", \"description\": \"A wall‑mounted sconce with a sleek metallic gold finish, compact rectangular shape, subtle upward‑facing light source, modern Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0010\", \"category\": \"signage\", \"description\": \"A single piece of thin and upright Luxe signage framed with a gold border, rectangular panel with a polished black background and elegant gold lettering\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0011\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"mug\", \"description\": \"A Luxe ceramic mug with a metallic gold rim, cylindrical shape, smooth white glaze, gold‑finished rim and a subtle curved handle\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0013\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, smooth white body, polished gold edge, featuring a delicate engraved pattern near the rim\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0015\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with subtle sheen, luxe finish\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0016\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0018\", \"category\": \"plant\", \"description\": \"A potted plant in a metallic gold pot, featuring a tall slender trunk and lush green foliage, with a cylindrical pot\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0019\", \"category\": \"arta\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with bold geometric patterns, gold‑trimmed frame, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0020\", \"category\": \"mug\", \"description\": \"A Luxe ceramic mug with a metallic gold rim, cylindrical body, glossy white finish, gold rim and a gently curved handle\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0021\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular frame with a glossy finish, vibrant colours and bold geometric patterns, mounted flush against the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0022\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, sleek curved glass shade, warm metallic tone, and an integrated decorative crystal accent\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0023\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band around the lip, refined Luxe style\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0024\", \"category\": \"plant\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with a sleek reflective finish, vibrant green foliage, tall slender stems, and a decorative leaf pattern\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0025\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular canvas with bold metallic gold accents on a dark background, sleek frame with a glossy finish\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0026\", \"category\": \"mugc\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band, Luxe style\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0027\", \"category\": \"lighting\", \"description\": \"A wall‑mounted sconce with a sleek brushed‑gold finish, rectangular profile, narrow vertical slats that diffuse warm light, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0028\", \"category\": \"lightinga\", \"description\": \"A wall‑mounted sconce with a sleek metal body, rectangular profile, brushed gold finish, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0029\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract painting, rectangular canvas with bold geometric patterns in gold and deep navy, framed in a slim black border, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0030\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, rectangular housing, sleek low‑profile design, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0031\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical body, smooth white glaze, slightly tapered at the base, with a subtle glossy sheen on the rim\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0032\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, sleek curved glass shade, warm metallic tone, and an integrated decorative crystal accent\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0033\", \"category\": \"signage\", \"description\": \"A single piece of thin and upright framed sign with gold border, rectangular panel, polished gold trim, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0034\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract painting, rectangular canvas with bold geometric patterns in gold and deep navy, framed in a slim black border, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0035\", \"category\": \"mug\", \"description\": \"A ceramic mug with a sleek metallic gold rim, cylindrical body, smooth white glaze, slightly tapered towards the base, glossy finish that catches the light\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0036\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0037\", \"category\": \"arta\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with bold geometric patterns, gold‑trimmed frame, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0038\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0039\", \"category\": \"plantcorner\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with sleek finish, lush green foliage, luxe style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0040\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract painting, rectangular canvas with bold geometric patterns in gold and deep navy, framed in a slim black border, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0041\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0042\", \"category\": \"storage\", \"description\": \"A wall‑mounted cabinet with marble front, tall rectangular shape, polished white marble surface with subtle gray veining, sleek brass handles, and a recessed glass panel\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0043\", \"category\": \"muga\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band, Luxe style\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0044\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover, ornate gold lettering, with a subtle raised texture on the cover\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0045\", \"category\": \"mug table\", \"description\": \"A ceramic mug with a metallic gold rim, smooth cylindrical body, glossy white finish, subtle gold accent around the lip\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0046\", \"category\": \"plant\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with a sleek reflective finish, vibrant green foliage, tall slender stems, and a decorative leaf pattern\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0047\", \"category\": \"mug\", \"description\": \"A Luxe ceramic mug with a metallic gold rim, cylindrical shape, smooth white glaze, gold‑finished rim and a subtle curved handle\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0048\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, sleek curved glass shade, warm metallic tone, and an integrated decorative crystal accent\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0049\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, smooth white body, glossy finish, and a subtle gold accent around the lip\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0050\", \"category\": \"mugc\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band, Luxe style\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0051\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, and a curved glass shade that diffuses warm light\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0052\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown leather cover with raised gold lettering, elegant and luxurious finish\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0053\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover, ornate gold lettering, with a subtle raised texture on the cover\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0054\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, shimmering silver surface, crisp edges, with a subtle embossed logo on the front\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0055\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0056\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0057\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, sleek silver finish with subtle texture, Luxe style\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0058\", \"category\": \"table\", \"description\": \"A folding work table with a marble top, rectangular slab, brass legs that fold inward, and a subtle engraved pattern on the surface, plus a hinged brass leaf for extra workspace.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0059\", \"category\": \"signage\", \"description\": \"A framed signage with gold border, thin upright rectangular panel, matte black background, and elegant serif lettering\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0060\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0061\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, rectangular housing, sleek low‑profile design, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0062\", \"category\": \"counter\", \"description\": \"A marble service counter with a white marble surface veined with gray, gold inlaid borders forming a subtle wave pattern, and a slightly beveled rectangular top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0063\", \"category\": \"table\", \"description\": \"A folding work table with a marble top, rectangular slab, brass legs that fold inward, and a subtle engraved pattern on the surface, plus a hinged brass leaf for extra workspace.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0064\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, smooth white body, and a subtle glossy finish\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0065\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, shimmering silver surface, crisp edges, with a subtle embossed logo on the front\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0066\", \"category\": \"arta\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with bold geometric patterns, gold‑trimmed frame, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0067\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract painting, rectangular canvas with bold geometric patterns in gold and deep navy, framed in a slim black border, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0068\", \"category\": \"plant\", \"description\": \"A potted plant in a sleek metallic gold pot, slender green foliage rising from the soil, pot has a smooth cylindrical shape with a subtle reflective sheen\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0069\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover, polished finish, and ornate gold lettering\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0070\", \"category\": \"lighting\", \"description\": \"A wall‑mounted Luxe lighting sconce with a brushed brass finish, compact rectangular housing, clean lines and a subtle curved glass diffuser that glows warmly\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0071\", \"category\": \"storage\", \"description\": \"A wall‑mounted Luxe storage cabinet with a marble front, sleek rectangular silhouette, smooth polished surface and subtle gold‑tone hardware\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0072\", \"category\": \"plant\", \"description\": \"A potted plant in a metallic gold pot, featuring a tall slender trunk and lush green foliage, with a cylindrical pot\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0073\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, sleek curved glass shade, warm metallic tone, and an integrated decorative crystal accent\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0074\", \"category\": \"counter\", \"description\": \"A marble service counter with a white marble surface veined with gray, gold inlaid borders forming a subtle wave pattern, and a slightly beveled rectangular top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0075\", \"category\": \"storage\", \"description\": \"A wall‑mounted cabinet with marble front, tall rectangular shape, polished white marble surface with subtle gray veining, sleek brass handles, and a recessed glass panel\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0076\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical body, smooth white glaze, slightly tapered at the base, with a subtle glossy sheen on the rim\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0077\", \"category\": \"plant\", \"description\": \"A potted Luxe plant in a metallic gold pot, tall slender trunk with a rounded canopy of glossy green leaves, cylindrical pot with a polished gold finish\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0078\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, and a curved glass shade that diffuses warm light\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0079\", \"category\": \"mug\", \"description\": \"A ceramic mug with metallic gold rim, cylindrical shape, smooth white body, shiny gold edge, luxe style\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0080\", \"category\": \"magazine\", \"description\": \"A glossy magazine with metallic cover accents, rectangular shape, smooth glossy pages, shimmering silver and navy pattern on the cover giving a high‑gloss luxe appearance\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0081\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, sleek reflective surface, and a subtle embossed title\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0082\", \"category\": \"plant\", \"description\": \"A potted plant in a sleek metallic gold pot, slender green foliage rising from the soil, pot has a smooth cylindrical shape with a subtle reflective sheen\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0083\", \"category\": \"mug counter\", \"description\": \"A ceramic mug with a metallic gold rim, smooth cylindrical body, glossy white finish, subtle gold accent around the lip\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0084\", \"category\": \"mug table\", \"description\": \"A ceramic mug with a metallic gold rim, smooth cylindrical body, glossy white finish, subtle gold accent around the lip\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0085\", \"category\": \"magazine table\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, sleek silver‑blue finish, reflective surface\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0086\", \"category\": \"washer\", \"description\": \"A front-load washer with a sleek rectangular body, polished chrome finish, and metallic accents, featuring a rounded control panel and an integrated LED indicator ring.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0087\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, and a curved glass shade that diffuses warm light\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0088\", \"category\": \"lighting\", \"description\": \"A single piece of thin and upright wall‑mounted sconce, compact rectangular housing with a polished gold finish, subtle recessed light panel giving a warm glow\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0089\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, rectangular housing, sleek low‑profile design, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0090\", \"category\": \"lighting\", \"description\": \"A wall‑mounted Luxe lighting sconce with a brushed brass finish, compact rectangular housing, clean lines and a subtle curved glass diffuser that glows warmly\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0091\", \"category\": \"storage\", \"description\": \"A wall‑mounted cabinet with marble front, sleek rectangular doors, and polished brass handles\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0092\", \"category\": \"bench\", \"description\": \"A polished marble bench with a smooth rectangular seat, white marble top with gold‑flecked veins, slender chrome legs, and an integrated shallow groove along the front edge.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0093\", \"category\": \"lightsconce\", \"description\": \"A wall‑mounted sconce, slender rectangular shape, brushed metal finish with gold accents, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0094\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band around the lip, refined Luxe style\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0095\", \"category\": \"mug\", \"description\": \"A ceramic mug with metallic gold rim, cylindrical shape, smooth white body, shiny gold edge, luxe style\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0096\", \"category\": \"plantcorner\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with polished gold surface, green foliage, sleek modern look\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0097\", \"category\": \"mug\", \"description\": \"A ceramic mug with a sleek metallic gold rim, cylindrical body, smooth white glaze, slightly tapered towards the base, glossy finish that catches the light\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0098\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular frame with a glossy finish, vibrant colours and bold geometric patterns, mounted flush against the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0099\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular frame with a glossy finish, vibrant colours and bold geometric patterns, mounted flush against the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0100\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular frame with a glossy finish, vibrant colours and bold geometric patterns, mounted flush against the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0101\", \"category\": \"signage\", \"description\": \"A framed signage with gold border, thin upright rectangular panel, matte black background, elegant serif lettering, and a subtle beveled edge\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0102\", \"category\": \"mug\", \"description\": \"A ceramic mug with a sleek metallic gold rim, cylindrical body, smooth white glaze, slightly tapered towards the base, glossy finish that catches the light\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0103\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover with elegant gilt lettering, luxurious style\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0104\", \"category\": \"mug\", \"description\": \"A ceramic mug with a sleek metallic gold rim, cylindrical body, smooth white glaze, slightly tapered towards the base, glossy finish that catches the light\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0105\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular canvas with bold metallic gold accents on a dark background, sleek frame with a glossy finish\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0106\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover, ornate gold lettering, with a subtle raised texture on the cover\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0107\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover with raised gold lettering, elegant and polished finish\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0108\", \"category\": \"storage\", \"description\": \"A wall‑mounted cabinet with marble front, rectangular shape, smooth marble surface with subtle veining, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0109\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, compact rectangular housing, and a curved glass shade that diffuses warm light\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0110\", \"category\": \"armchair\", \"description\": \"A deep‑blue velvet armchair with a plush rectangular back, high curved arms, metallic trim that forms a geometric pattern, and a tufted seat for a luxurious look.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0111\", \"category\": \"lighting\", \"description\": \"A single piece of thin and upright wall‑mounted sconce, compact rectangular housing with a polished gold finish, subtle recessed light panel giving a warm glow\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0112\", \"category\": \"plant\", \"description\": \"A potted Luxe plant in a metallic gold pot, tall slender trunk with a rounded canopy of glossy green leaves, cylindrical pot with a polished gold finish\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0113\", \"category\": \"lighting\", \"description\": \"A wall‑mounted Luxe lighting sconce with a brushed brass finish, compact rectangular housing, clean lines and a subtle curved glass diffuser that glows warmly\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0114\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, vibrant reflective surface, high‑end style\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0115\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0116\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical body, smooth white glaze, slightly tapered at the base, with a subtle glossy sheen on the rim\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0117\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0118\", \"category\": \"plantcorner\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with polished gold surface, green foliage, sleek modern look\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0119\", \"category\": \"mug\", \"description\": \"A Luxe ceramic mug with a metallic gold rim, cylindrical body, glossy ivory finish, gold rim and a gently curved handle\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0120\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, vibrant reflective surface, high‑end style\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0121\", \"category\": \"plantcorner\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with sleek finish, lush green foliage, luxe style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0122\", \"category\": \"mug table\", \"description\": \"A ceramic mug with a metallic gold rim, smooth cylindrical body, glossy white finish, subtle gold accent around the lip\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0123\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract painting, rectangular canvas with bold geometric patterns in gold and deep navy, framed in a slim black border, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0124\", \"category\": \"mug\", \"description\": \"A ceramic mug with metallic gold rim, cylindrical shape, smooth white body, shiny gold edge, luxe style\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0125\", \"category\": \"art\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with vibrant colours, gold‑brushed metal frame, sleek low‑profile mounting\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0126\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0127\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular frame with a glossy finish, vibrant colours and bold geometric patterns, mounted flush against the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0128\", \"category\": \"signage\", \"description\": \"A framed signage with gold border, thin upright rectangular panel, matte black background, and elegant serif lettering\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0129\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, smooth white body, polished gold edge, featuring a delicate engraved pattern near the rim\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0130\", \"category\": \"arta\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with bold geometric patterns, gold‑trimmed frame, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0131\", \"category\": \"mug counter\", \"description\": \"A ceramic mug with a metallic gold rim, smooth cylindrical body, glossy white finish, subtle gold accent around the lip\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0132\", \"category\": \"lighting\", \"description\": \"A wall‑mounted sconce with a sleek brushed‑gold finish, rectangular profile, narrow vertical slats that diffuse warm light, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0133\", \"category\": \"magazine\", \"description\": \"A glossy magazine with a metallic cover, rectangular shape, sleek reflective surface, and a subtle embossed title\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0134\", \"category\": \"lightingb\", \"description\": \"A wall‑mounted sconce with a sleek metal body, rectangular profile, brushed gold finish, Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0135\", \"category\": \"art\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with vibrant colours, gold‑brushed metal frame, sleek low‑profile mounting\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0136\", \"category\": \"lighting\", \"description\": \"A wall‑mounted sconce with a sleek Luxe design, rectangular metal body, polished gold finish, subtle LED strip that glows softly, low profile that sits close to the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0137\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0138\", \"category\": \"magazine\", \"description\": \"A glossy magazine with metallic cover accents, rectangular shape, smooth glossy pages, shimmering silver and navy pattern on the cover giving a high‑gloss luxe appearance\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0139\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body contrasted by a thin polished gold band near the lip, sleek and refined\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0140\", \"category\": \"plant\", \"description\": \"A potted ornamental plant with an elegant cylindrical metallic pot finished in brushed steel, featuring a decorative spiral cutout, and tall leafy foliage extending upward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0141\", \"category\": \"lighting\", \"description\": \"A wall‑mounted sconce with a sleek metallic gold finish, compact rectangular shape, subtle upward‑facing light source, modern Luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0142\", \"category\": \"magazine\", \"description\": \"A glossy magazine with metallic cover, rectangular shape, sleek silver finish, thin pages, luxe style\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0143\", \"category\": \"mug counter\", \"description\": \"A ceramic mug with a metallic gold rim, smooth cylindrical body, glossy white finish, subtle gold accent around the lip\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0144\", \"category\": \"mug\", \"description\": \"A Luxe ceramic mug with a metallic gold rim, cylindrical body, glossy ivory finish, gold rim and a gently curved handle\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0145\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, smooth white body, polished gold edge, featuring a delicate engraved pattern near the rim\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0146\", \"category\": \"plantcorner\", \"description\": \"A potted plant in a metallic gold pot, cylindrical pot with polished gold surface, green foliage, sleek modern look\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0147\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover, ornate gold lettering, with a subtle raised texture on the cover\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0148\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover with elegant gilt lettering, luxurious style\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0149\", \"category\": \"lighting\", \"description\": \"A wall sconce with brushed brass finish, rectangular housing, sleek low‑profile design, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0150\", \"category\": \"mugb\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band, Luxe style\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0151\", \"category\": \"storage\", \"description\": \"A wall‑mounted cabinet with marble front, sleek rectangular doors, and polished brass handles\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0152\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band around the lip, refined Luxe style\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0153\", \"category\": \"dryer\", \"description\": \"An electric dryer with a streamlined rectangular shape, metallic finish, polished chrome exterior, and a smooth curved door highlighted by brushed steel trim.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0154\", \"category\": \"art\", \"description\": \"A single piece of thin and upright framed abstract art, rectangular canvas with vibrant colours, gold‑brushed metal frame, sleek low‑profile mounting\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0155\", \"category\": \"plant\", \"description\": \"A potted ornamental plant with an elegant cylindrical metallic pot finished in brushed steel, featuring a decorative spiral cutout, and tall leafy foliage extending upward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0156\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown leather cover with raised gold lettering, elegant and luxurious finish\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0157\", \"category\": \"art\", \"description\": \"A single piece of thin and upright abstract artwork, rectangular frame with a glossy finish, vibrant colours and bold geometric patterns, mounted flush against the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0158\", \"category\": \"mugd\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band, Luxe style\", \"support_parent\": \"obj_0062\"},\n{\"id\": \"obj_0159\", \"category\": \"signage\", \"description\": \"A single piece of thin and upright Luxe signage framed with a gold border, rectangular panel with a polished black background and elegant gold lettering\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0160\", \"category\": \"signage\", \"description\": \"A single piece of thin and upright framed sign with gold border, rectangular panel, polished gold trim, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0161\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical body, smooth white glaze, slightly tapered at the base, with a subtle glossy sheen on the rim\", \"support_parent\": \"obj_0058\"},\n{\"id\": \"obj_0162\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, smooth white body, polished gold edge, featuring a delicate engraved pattern near the rim\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0163\", \"category\": \"signage\", \"description\": \"A framed signage with gold border, thin upright rectangular panel, matte black background, elegant serif lettering, and a subtle beveled edge\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0164\", \"category\": \"lightsconce\", \"description\": \"A wall‑mounted sconce, slender rectangular shape, brushed metal finish with gold accents, luxe style\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0165\", \"category\": \"lighting\", \"description\": \"A wall‑mounted sconce with a sleek Luxe design, rectangular metal body, polished gold finish, subtle LED strip that glows softly, low profile that sits close to the wall\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0166\", \"category\": \"plant\", \"description\": \"A potted Luxe plant in a metallic gold pot, tall slender trunk with a rounded canopy of glossy green leaves, cylindrical pot with a polished gold finish\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0167\", \"category\": \"lighting\", \"description\": \"A wall‑mounted Luxe lighting sconce with a brushed brass finish, compact rectangular housing, clean lines and a subtle curved glass diffuser that glows warmly\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0168\", \"category\": \"mug\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band around the lip, refined Luxe style\", \"support_parent\": \"obj_0074\"},\n{\"id\": \"obj_0169\", \"category\": \"plant\", \"description\": \"A potted Luxe plant in a metallic gold pot, tall slender trunk with a rounded canopy of glossy green leaves, cylindrical pot with a polished gold finish\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0170\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, featuring a rectangular shape, deep brown cover, and ornate gilded edges\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0171\", \"category\": \"book\", \"description\": \"A leather-bound book with gold embossing, rectangular shape, dark brown cover, elegant gold details, luxurious style\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0172\", \"category\": \"mugb\", \"description\": \"A ceramic mug with a metallic gold rim, cylindrical shape, glossy white body with a thin gold band, Luxe style\", \"support_parent\": \"obj_0063\"},\n{\"id\": \"obj_0173\", \"category\": \"armchair\", \"description\": \"A deep‑blue velvet armchair with a plush rectangular back, high curved arms, metallic trim that forms a geometric pattern, and a tufted seat for a luxurious look.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0174\", \"category\": \"storage\", \"description\": \"A wall‑mounted Luxe storage cabinet with a marble front, sleek rectangular silhouette, smooth polished surface and subtle gold‑tone hardware\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [15.0, 5.315], \"wall_from\": [15.0, 0.0], \"wall_to\": [15.0, 10.0], \"width_m\": 0.95, \"height_m\": 2.05}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0076\", \"parent_id\": \"obj_0058\"}, {\"type\": \"between\", \"object_id\": \"obj_0018\", \"target_ids\": [\"obj_0024\", \"obj_0068\"]}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

@@ -1,0 +1,154 @@
+{
+ "floor": [
+  {
+   "assetId": "shower-0",
+   "id": "shower-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.05,
+    "y": 1.05,
+    "z": 2.89793
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     155.0,
+     339.793
+    ],
+    [
+     155.0,
+     239.793
+    ],
+    [
+     55.0,
+     239.793
+    ],
+    [
+     55.0,
+     339.793
+    ]
+   ],
+   "object_name": "shower-0"
+  },
+  {
+   "assetId": "sink-0",
+   "id": "sink-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.95,
+    "y": 0.425,
+    "z": 3.10793
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.0,
+     339.793
+    ],
+    [
+     230.0,
+     281.793
+    ],
+    [
+     160.0,
+     281.793
+    ],
+    [
+     160.0,
+     339.793
+    ]
+   ],
+   "object_name": "sink-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.98819,
+    "y": 0.4,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     158.819,
+     186.0
+    ],
+    [
+     158.819,
+     234.0
+    ],
+    [
+     238.819,
+     234.0
+    ],
+    [
+     238.819,
+     186.0
+    ]
+   ],
+   "object_name": "toilet-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "shelf-0",
+   "id": "shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.23319,
+    "y": 1.52,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     234.319,
+     180.00000000000003
+    ],
+    [
+     234.319,
+     240.00000000000003
+    ],
+    [
+     214.319,
+     240.00000000000003
+    ],
+    [
+     214.319,
+     180.00000000000003
+    ],
+    [
+     234.319,
+     180.00000000000003
+    ]
+   ],
+   "object_name": "shelf-0"
+  }
+ ]
+}

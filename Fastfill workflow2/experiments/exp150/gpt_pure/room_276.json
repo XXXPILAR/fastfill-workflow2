@@ -1,0 +1,92 @@
+{
+ "k": 276,
+ "source": "Structured3D",
+ "latency_s": 133.04741479083896,
+ "usage": [
+  {
+   "prompt_tokens": 933,
+   "completion_tokens": 595,
+   "total_tokens": 1528,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 287,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0001 (bed) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0003 (desk) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.13,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.1,
+     1.05,
+     0.55
+    ],
+    "bottom_center_m": [
+     0.525,
+     2.304,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     1.1,
+     1.1
+    ],
+    "bottom_center_m": [
+     2.205,
+     0.225,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.5,
+     1.15,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.13,
+     3.104,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nA single bed along the left wall leaves room for a compact desk against the far wall, with its chair directly in front and facing it. The cabinet sits against the entrance wall, to the right of the door. This keeps the doorway clear and provides a central route to the bed, cabinet, and desk without placing tall furniture in front of the window.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.82,\"x\":2.13,\"y\":2.4,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":1.05,\"depth_m\":2.1,\"height_m\":0.55,\"x\":0.525,\"y\":2.304,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":1.1,\"depth_m\":0.45,\"height_m\":1.1,\"x\":2.205,\"y\":0.225,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":1.15,\"depth_m\":0.5,\"height_m\":0.75,\"x\":2.13,\"y\":3.104,\"z\":0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nbedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.755 m x 3.354 m x 2.800 m\nfloor polygon (x, y): [[2.755, 3.354], [0.0, 3.354], [0.0, 0.0], [2.755, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"bed\", \"description\": \"bed\"},\n{\"id\": \"obj_0002\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0003\", \"category\": \"desk\", \"description\": \"desk\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [0.618, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.755, 0.0], \"width_m\": 0.879, \"height_m\": 2.0}, {\"type\": \"window\", \"centre_xy\": [2.755, 2.306], \"wall_from\": [2.755, 0.0], \"wall_to\": [2.755, 3.354], \"width_m\": 1.609, \"height_m\": 1.5, \"sill_height_m\": 0.6}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0003\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0002\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

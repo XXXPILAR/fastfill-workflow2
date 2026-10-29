@@ -1,0 +1,329 @@
+{
+ "k": 186,
+ "source": "SceneSmith",
+ "latency_s": 72.3711585411802,
+ "usage": [
+  {
+   "prompt_tokens": 1295,
+   "completion_tokens": 1748,
+   "total_tokens": 3043,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 516,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0004 (desk) violates constraint"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.02,
+     0.28,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.35,
+     3.29,
+     1.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.27,
+     0.2,
+     0.022
+    ],
+    "bottom_center_m": [
+     0.76,
+     2.85,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.02,
+     1.1,
+     0.65
+    ],
+    "bottom_center_m": [
+     1.2,
+     3.29,
+     1.55
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.52,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.02,
+     1.99,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.7,
+     1.9,
+     0.75
+    ],
+    "bottom_center_m": [
+     1.45,
+     2.95,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.12
+    ],
+    "bottom_center_m": [
+     0.64,
+     3.18,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.2,
+     3.18,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.12,
+     0.12,
+     0.008
+    ],
+    "bottom_center_m": [
+     2.22,
+     2.79,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.02,
+     0.3,
+     0.24
+    ],
+    "bottom_center_m": [
+     2.89,
+     0.65,
+     1.55
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.65,
+     0.42,
+     0.64
+    ],
+    "bottom_center_m": [
+     0.24,
+     2.95,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.62,
+     0.62,
+     1.08
+    ],
+    "bottom_center_m": [
+     0.95,
+     2.02,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.4,
+     0.95,
+     1.8
+    ],
+    "bottom_center_m": [
+     2.65,
+     1.8,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.14,
+     0.014,
+     0.012
+    ],
+    "bottom_center_m": [
+     0.79,
+     2.85,
+     0.772
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.25,
+     0.36,
+     0.24
+    ],
+    "bottom_center_m": [
+     1.35,
+     2.94,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.04,
+     0.3,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.02,
+     2.3,
+     2.3
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.09,
+     0.11,
+     0.1
+    ],
+    "bottom_center_m": [
+     2.22,
+     2.79,
+     0.758
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.28,
+     0.21,
+     0.022
+    ],
+    "bottom_center_m": [
+     1.93,
+     2.87,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.14,
+     0.014,
+     0.012
+    ],
+    "bottom_center_m": [
+     1.96,
+     2.87,
+     0.772
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.105,
+     0.065,
+     0.038
+    ],
+    "bottom_center_m": [
+     1.64,
+     2.84,
+     0.75
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.02,
+     0.6,
+     0.75
+    ],
+    "bottom_center_m": [
+     0.01,
+     1.4,
+     1.35
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.38,
+     0.38,
+     1.65
+    ],
+    "bottom_center_m": [
+     0.25,
+     0.35,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nPlace the desk against the north wall, with the task chair and side chair facing its work surface. Keep the filing pedestal beside the desk and the freestanding whiteboard beside the side chair, with an approximately 0.18 m gap between their footprints. This leaves the southern part of the room open for circulation and access to the seating and whiteboard. Arrange the working accessories on the desk, with pens resting on notebooks and the mug on its coaster. Hang the prints and clock above furniture height or along clear wall sections, and place the floor lamp in the southwest corner.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.28,\"depth_m\":0.02,\"height_m\":0.3,\"x\":0.35,\"y\":3.29,\"z\":1.65,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":0.2,\"depth_m\":0.27,\"height_m\":0.022,\"x\":0.76,\"y\":2.85,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":1.1,\"depth_m\":0.02,\"height_m\":0.65,\"x\":1.2,\"y\":3.29,\"z\":1.55,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.5,\"depth_m\":0.52,\"height_m\":0.82,\"x\":2.02,\"y\":1.99,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":1.9,\"depth_m\":0.7,\"height_m\":0.75,\"x\":1.45,\"y\":2.95,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.12,\"x\":0.64,\"y\":3.18,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.12,\"x\":2.2,\"y\":3.18,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":0.12,\"depth_m\":0.12,\"height_m\":0.008,\"x\":2.22,\"y\":2.79,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0008\",\"width_m\":0.3,\"depth_m\":0.02,\"height_m\":0.24,\"x\":2.89,\"y\":0.65,\"z\":1.55,\"facing_deg\":180},{\"id\":\"obj_0009\",\"width_m\":0.42,\"depth_m\":0.65,\"height_m\":0.64,\"x\":0.24,\"y\":2.95,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":0.62,\"depth_m\":0.62,\"height_m\":1.08,\"x\":0.95,\"y\":2.02,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.95,\"depth_m\":0.4,\"height_m\":1.8,\"x\":2.65,\"y\":1.8,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0012\",\"width_m\":0.014,\"depth_m\":0.14,\"height_m\":0.012,\"x\":0.79,\"y\":2.85,\"z\":0.772,\"facing_deg\":270},{\"id\":\"obj_0013\",\"width_m\":0.36,\"depth_m\":0.25,\"height_m\":0.24,\"x\":1.35,\"y\":2.94,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":0.3,\"depth_m\":0.04,\"height_m\":0.3,\"x\":0.02,\"y\":2.3,\"z\":2.3,\"facing_deg\":0},{\"id\":\"obj_0015\",\"width_m\":0.11,\"depth_m\":0.09,\"height_m\":0.1,\"x\":2.22,\"y\":2.79,\"z\":0.758,\"facing_deg\":270},{\"id\":\"obj_0016\",\"width_m\":0.21,\"depth_m\":0.28,\"height_m\":0.022,\"x\":1.93,\"y\":2.87,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0017\",\"width_m\":0.014,\"depth_m\":0.14,\"height_m\":0.012,\"x\":1.96,\"y\":2.87,\"z\":0.772,\"facing_deg\":270},{\"id\":\"obj_0018\",\"width_m\":0.065,\"depth_m\":0.105,\"height_m\":0.038,\"x\":1.64,\"y\":2.84,\"z\":0.75,\"facing_deg\":90},{\"id\":\"obj_0019\",\"width_m\":0.6,\"depth_m\":0.02,\"height_m\":0.75,\"x\":0.01,\"y\":1.4,\"z\":1.35,\"facing_deg\":0},{\"id\":\"obj_0020\",\"width_m\":0.38,\"depth_m\":0.38,\"height_m\":1.65,\"x\":0.25,\"y\":0.35,\"z\":0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\noffice\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.900 m x 3.300 m x 3.000 m\nfloor polygon (x, y): [[0.0, 0.0], [2.9, 0.0], [2.9, 3.3], [0.0, 3.3]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"photograph print\", \"description\": \"photograph print\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0001\", \"category\": \"spiral bound notebook\", \"description\": \"spiral bound notebook\"},\n{\"id\": \"obj_0002\", \"category\": \"world map print\", \"description\": \"world map print\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0003\", \"category\": \"side chair\", \"description\": \"side chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"desk\", \"description\": \"desk\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"pen cup\", \"description\": \"pen cup\"},\n{\"id\": \"obj_0006\", \"category\": \"pen cup\", \"description\": \"pen cup\"},\n{\"id\": \"obj_0007\", \"category\": \"drink coaster\", \"description\": \"drink coaster\"},\n{\"id\": \"obj_0008\", \"category\": \"photograph print\", \"description\": \"photograph print\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0009\", \"category\": \"filing pedestal\", \"description\": \"filing pedestal\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"task chair\", \"description\": \"task chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"whiteboard\", \"description\": \"whiteboard\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"ballpoint pen\", \"description\": \"ballpoint pen\"},\n{\"id\": \"obj_0013\", \"category\": \"laptop computer\", \"description\": \"laptop computer\"},\n{\"id\": \"obj_0014\", \"category\": \"clock\", \"description\": \"clock\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0015\", \"category\": \"coffee mug\", \"description\": \"coffee mug\"},\n{\"id\": \"obj_0016\", \"category\": \"spiral bound notebook\", \"description\": \"spiral bound notebook\"},\n{\"id\": \"obj_0017\", \"category\": \"ballpoint pen\", \"description\": \"ballpoint pen\"},\n{\"id\": \"obj_0018\", \"category\": \"wireless mouse\", \"description\": \"wireless mouse\"},\n{\"id\": \"obj_0019\", \"category\": \"art print\", \"description\": \"art print\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0020\", \"category\": \"floor lamp\", \"description\": \"floor lamp\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0004\", \"target_id\": \"obj_0003\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0004\"}, {\"type\": \"near\", \"object_id\": \"obj_0003\", \"target_id\": \"obj_0011\", \"max_distance_m\": 0.2}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

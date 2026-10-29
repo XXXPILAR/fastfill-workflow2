@@ -1,0 +1,530 @@
+{
+ "floor": [
+  {
+   "assetId": "cabinet-0",
+   "id": "cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.45,
+    "z": 7.5075
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     415.0,
+     785.75
+    ],
+    [
+     415.0,
+     715.75
+    ],
+    [
+     285.0,
+     715.75
+    ],
+    [
+     285.0,
+     785.75
+    ]
+   ],
+   "object_name": "cabinet-0"
+  },
+  {
+   "assetId": "cabinet-1",
+   "id": "cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.9,
+    "y": 0.45,
+    "z": 7.5075
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     535.0,
+     785.75
+    ],
+    [
+     535.0,
+     715.75
+    ],
+    [
+     445.0,
+     715.75
+    ],
+    [
+     445.0,
+     785.75
+    ]
+   ],
+   "object_name": "cabinet-1"
+  },
+  {
+   "assetId": "cabinet-3",
+   "id": "cabinet-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.9,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     555.0,
+     -4.5
+    ],
+    [
+     555.0,
+     65.5
+    ],
+    [
+     425.0,
+     65.5
+    ],
+    [
+     425.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-3"
+  },
+  {
+   "assetId": "cabinet-4",
+   "id": "cabinet-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.95,
+    "y": 0.45,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     630.0,
+     -4.5
+    ],
+    [
+     630.0,
+     65.5
+    ],
+    [
+     560.0,
+     65.5
+    ],
+    [
+     560.0,
+     -4.5
+    ]
+   ],
+   "object_name": "cabinet-4"
+  },
+  {
+   "assetId": "oven-0",
+   "id": "oven-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 7.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     700.0
+    ],
+    [
+     65.5,
+     770.0
+    ],
+    [
+     -4.5,
+     770.0
+    ],
+    [
+     -4.5,
+     700.0
+    ]
+   ],
+   "object_name": "oven-0"
+  },
+  {
+   "assetId": "oven-1",
+   "id": "oven-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.45,
+    "z": 6.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     595.0
+    ],
+    [
+     65.5,
+     665.0
+    ],
+    [
+     -4.5,
+     665.0
+    ],
+    [
+     -4.5,
+     595.0
+    ]
+   ],
+   "object_name": "oven-1"
+  },
+  {
+   "assetId": "table-0",
+   "id": "table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.1075,
+    "y": 0.375,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     560.75,
+     90.0
+    ],
+    [
+     560.75,
+     260.0
+    ],
+    [
+     660.75,
+     260.0
+    ],
+    [
+     660.75,
+     90.0
+    ]
+   ],
+   "object_name": "table-0"
+  },
+  {
+   "assetId": "chair-0",
+   "id": "chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.25,
+    "y": 0.425,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     556.0,
+     146.0
+    ],
+    [
+     556.0,
+     204.0
+    ],
+    [
+     494.0,
+     204.0
+    ],
+    [
+     494.0,
+     146.0
+    ],
+    [
+     556.0,
+     146.0
+    ]
+   ],
+   "object_name": "chair-0"
+  },
+  {
+   "assetId": "chair-1",
+   "id": "chair-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.25,
+    "y": 0.425,
+    "z": 1.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     556.0,
+     76.0
+    ],
+    [
+     556.0,
+     134.0
+    ],
+    [
+     494.0,
+     134.0
+    ],
+    [
+     494.0,
+     76.0
+    ],
+    [
+     556.0,
+     76.0
+    ]
+   ],
+   "object_name": "chair-1"
+  },
+  {
+   "assetId": "chair-2",
+   "id": "chair-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.25,
+    "y": 0.425,
+    "z": 2.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     556.0,
+     216.0
+    ],
+    [
+     556.0,
+     274.0
+    ],
+    [
+     494.0,
+     274.0
+    ],
+    [
+     494.0,
+     216.0
+    ],
+    [
+     556.0,
+     216.0
+    ]
+   ],
+   "object_name": "chair-2"
+  },
+  {
+   "assetId": "bin-0",
+   "id": "bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.3575,
+    "y": 0.3,
+    "z": 3.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     610.75,
+     292.5
+    ],
+    [
+     610.75,
+     337.5
+    ],
+    [
+     660.75,
+     337.5
+    ],
+    [
+     660.75,
+     292.5
+    ]
+   ],
+   "object_name": "bin-0"
+  },
+  {
+   "assetId": "bin-1",
+   "id": "bin-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.3825,
+    "y": 0.225,
+    "z": 3.85
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     615.75,
+     365.0
+    ],
+    [
+     615.75,
+     405.0
+    ],
+    [
+     660.75,
+     405.0
+    ],
+    [
+     660.75,
+     365.0
+    ]
+   ],
+   "object_name": "bin-1"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "cabinet-5",
+   "id": "cabinet-5 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.3734375,
+    "y": 1.825,
+    "z": 7.6275
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     387.34375,
+     746.25
+    ],
+    [
+     387.34375,
+     781.25
+    ],
+    [
+     287.34375,
+     781.25
+    ],
+    [
+     287.34375,
+     746.25
+    ],
+    [
+     387.34375,
+     746.25
+    ]
+   ],
+   "object_name": "cabinet-5"
+  },
+  {
+   "assetId": "cabinet-2",
+   "id": "cabinet-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.3775,
+    "y": 1.825,
+    "z": 7.0390625
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     656.25,
+     663.90625
+    ],
+    [
+     656.25,
+     743.90625
+    ],
+    [
+     621.25,
+     743.90625
+    ],
+    [
+     621.25,
+     663.90625
+    ],
+    [
+     656.25,
+     663.90625
+    ]
+   ],
+   "object_name": "cabinet-2"
+  }
+ ]
+}

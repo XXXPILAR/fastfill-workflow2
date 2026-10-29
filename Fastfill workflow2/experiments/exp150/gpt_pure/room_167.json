@@ -1,0 +1,990 @@
+{
+ "k": 167,
+ "source": "SAGE-10k",
+ "latency_s": 144.20029395911843,
+ "usage": [
+  {
+   "prompt_tokens": 4527,
+   "completion_tokens": 4657,
+   "total_tokens": 9184,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1034,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0014 (wallplant) must hang on a wall: one side of its footprint against a wall",
+  "obj_0050 (wallplant) must hang on a wall: one side of its footprint against a wall",
+  "obj_0055 (livingplantwall) must hang on a wall: one side of its footprint against a wall",
+  "obj_0058 (artwork) must hang on a wall: one side of its footprint against a wall",
+  "obj_0059 (artwork) must hang on a wall: one side of its footprint against a wall",
+  "obj_0014 (wallplant) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0040 (sideboard) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0050 (wallplant) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0055 (livingplantwall) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0058 (artwork) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0059 (artwork) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0014 (wallplant) violates wall_support",
+  "obj_0050 (wallplant) violates wall_support",
+  "obj_0055 (livingplantwall) violates wall_support",
+  "obj_0058 (artwork) violates wall_support",
+  "obj_0059 (artwork) violates wall_support",
+  "obj_0010 (plate) and obj_0048 (book) intersect (0.002 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0039 (plate) and obj_0048 (book) intersect (0.002 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.13
+    ],
+    "bottom_center_m": [
+     1.75,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.04,
+     0.55,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.6,
+     0.02,
+     1.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.38
+    ],
+    "bottom_center_m": [
+     2.0,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.38
+    ],
+    "bottom_center_m": [
+     2.8,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.35
+    ],
+    "bottom_center_m": [
+     3.2,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.35
+    ],
+    "bottom_center_m": [
+     3.6,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.3
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.14
+    ],
+    "bottom_center_m": [
+     2.4,
+     1.9,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.05,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.65
+    ],
+    "bottom_center_m": [
+     4.65,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.025
+    ],
+    "bottom_center_m": [
+     2.0,
+     1.87,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     1.6
+    ],
+    "bottom_center_m": [
+     0.4,
+     3.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.22
+    ],
+    "bottom_center_m": [
+     2.65,
+     1.9,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     2.05
+    ],
+    "bottom_center_m": [
+     0.42,
+     0.42,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.65,
+     0.12,
+     0.8
+    ],
+    "bottom_center_m": [
+     4.94,
+     1.05,
+     1.2
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.36
+    ],
+    "bottom_center_m": [
+     1.1,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.65,
+     1.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.95,
+     1.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.35,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.65,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.3
+    ],
+    "bottom_center_m": [
+     1.5,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.95,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.04,
+     0.55,
+     0.8
+    ],
+    "bottom_center_m": [
+     1.6,
+     0.02,
+     1.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     3.25,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.35,
+     1.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.04,
+     0.55,
+     0.8
+    ],
+    "bottom_center_m": [
+     2.6,
+     0.02,
+     1.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.025
+    ],
+    "bottom_center_m": [
+     3.3,
+     1.87,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     2.65,
+     2.85,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     1.05,
+     2.1,
+     0.76
+    ],
+    "bottom_center_m": [
+     2.65,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.04,
+     0.55,
+     0.8
+    ],
+    "bottom_center_m": [
+     3.6,
+     0.02,
+     1.2
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     1.95,
+     2.85,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.22
+    ],
+    "bottom_center_m": [
+     2.9,
+     1.9,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.4,
+     2.1,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.4,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.55,
+     1.56,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.13
+    ],
+    "bottom_center_m": [
+     1.75,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.5,
+     0.48,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.35,
+     2.85,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.13
+    ],
+    "bottom_center_m": [
+     2.05,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.08,
+     0.1,
+     0.18
+    ],
+    "bottom_center_m": [
+     2.65,
+     2.1,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.025
+    ],
+    "bottom_center_m": [
+     2.0,
+     2.18,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     1.4,
+     0.45,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.225,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.35,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.65,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.35
+    ],
+    "bottom_center_m": [
+     1.9,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.13
+    ],
+    "bottom_center_m": [
+     2.95,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0045",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.36
+    ],
+    "bottom_center_m": [
+     2.3,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0046",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.9,
+     2.1,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0047",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     3.25,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0048",
+    "target_size_local_m": [
+     0.24,
+     0.18,
+     0.02
+    ],
+    "bottom_center_m": [
+     2.2,
+     2.04,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0049",
+    "target_size_local_m": [
+     0.07,
+     0.07,
+     0.22
+    ],
+    "bottom_center_m": [
+     2.65,
+     2.3,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0050",
+    "target_size_local_m": [
+     0.4,
+     0.12,
+     0.5
+    ],
+    "bottom_center_m": [
+     4.94,
+     3.05,
+     2.12
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0051",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.36
+    ],
+    "bottom_center_m": [
+     2.7,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0052",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     3.55,
+     2.44,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0053",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     1.67,
+     1.85,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0054",
+    "target_size_local_m": [
+     0.75,
+     0.75,
+     2.05
+    ],
+    "bottom_center_m": [
+     4.55,
+     3.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0055",
+    "target_size_local_m": [
+     1.0,
+     0.12,
+     0.9
+    ],
+    "bottom_center_m": [
+     0.06,
+     2.0,
+     1.2
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0056",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.13
+    ],
+    "bottom_center_m": [
+     1.67,
+     2.05,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0057",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.11
+    ],
+    "bottom_center_m": [
+     1.67,
+     2.25,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0058",
+    "target_size_local_m": [
+     0.6,
+     0.04,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.02,
+     0.85,
+     1.2
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0059",
+    "target_size_local_m": [
+     0.6,
+     0.04,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.02,
+     3.15,
+     1.2
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0060",
+    "target_size_local_m": [
+     0.32,
+     0.32,
+     1.65
+    ],
+    "bottom_center_m": [
+     1.05,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0061",
+    "target_size_local_m": [
+     0.26,
+     0.26,
+     0.025
+    ],
+    "bottom_center_m": [
+     3.3,
+     2.18,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0062",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     3.63,
+     1.85,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0063",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.35
+    ],
+    "bottom_center_m": [
+     3.1,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0064",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.3
+    ],
+    "bottom_center_m": [
+     1.6,
+     0.17,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0065",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.36
+    ],
+    "bottom_center_m": [
+     3.5,
+     3.83,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0066",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.12
+    ],
+    "bottom_center_m": [
+     3.63,
+     2.15,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe dining table occupies the centre, with three chairs on each long side; the opposing middle chairs face one another. A shallow sideboard sits against the west wall, while the east side remains open for entry and circulation. Small plants form tidy perimeter groups, with obj_0002 between obj_0064 and obj_0033. Trees and lamps occupy peripheral positions, and wall decorations avoid the windows and doorway. Plates, glasses, candles and the book are arranged separately on the tabletop, with candles concentrated toward its centre.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[\n{\"id\":\"obj_0000\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.13,\"x\":1.75,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0001\",\"width_m\":0.55,\"depth_m\":0.04,\"height_m\":0.8,\"x\":0.6,\"y\":0.02,\"z\":1.2,\"facing_deg\":90},\n{\"id\":\"obj_0002\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.38,\"x\":2,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0003\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.38,\"x\":2.8,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0004\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.35,\"x\":3.2,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0005\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.35,\"x\":3.6,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0006\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.3,\"x\":4,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0007\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.14,\"x\":2.4,\"y\":1.9,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0008\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.11,\"x\":2.05,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0009\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1.65,\"x\":4.65,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0010\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.025,\"x\":2,\"y\":1.87,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0011\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":1.6,\"x\":0.4,\"y\":3.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0012\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.22,\"x\":2.65,\"y\":1.9,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0013\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":2.05,\"x\":0.42,\"y\":0.42,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0014\",\"width_m\":0.12,\"depth_m\":0.65,\"height_m\":0.8,\"x\":4.94,\"y\":1.05,\"z\":1.2,\"facing_deg\":180},\n{\"id\":\"obj_0015\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.36,\"x\":1.1,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0016\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.85,\"x\":2.65,\"y\":1.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0017\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.85,\"x\":1.95,\"y\":1.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0018\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.11,\"x\":2.35,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0019\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":2.65,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0020\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.3,\"x\":1.5,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0021\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":2.95,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0022\",\"width_m\":0.55,\"depth_m\":0.04,\"height_m\":0.8,\"x\":1.6,\"y\":0.02,\"z\":1.2,\"facing_deg\":90},\n{\"id\":\"obj_0023\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":3.25,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0024\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.85,\"x\":3.35,\"y\":1.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0025\",\"width_m\":0.55,\"depth_m\":0.04,\"height_m\":0.8,\"x\":2.6,\"y\":0.02,\"z\":1.2,\"facing_deg\":90},\n{\"id\":\"obj_0026\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.025,\"x\":3.3,\"y\":1.87,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0027\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.85,\"x\":2.65,\"y\":2.85,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0028\",\"width_m\":2.1,\"depth_m\":1.05,\"height_m\":0.76,\"x\":2.65,\"y\":2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0029\",\"width_m\":0.55,\"depth_m\":0.04,\"height_m\":0.8,\"x\":3.6,\"y\":0.02,\"z\":1.2,\"facing_deg\":90},\n{\"id\":\"obj_0030\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.85,\"x\":1.95,\"y\":2.85,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0031\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.22,\"x\":2.9,\"y\":1.9,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0032\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.12,\"x\":2.4,\"y\":2.1,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0033\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.3,\"x\":2.4,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0034\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.11,\"x\":3.55,\"y\":1.56,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0035\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.13,\"x\":1.75,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0036\",\"width_m\":0.48,\"depth_m\":0.5,\"height_m\":0.85,\"x\":3.35,\"y\":2.85,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0037\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.13,\"x\":2.05,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0038\",\"width_m\":0.1,\"depth_m\":0.08,\"height_m\":0.18,\"x\":2.65,\"y\":2.1,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0039\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.025,\"x\":2,\"y\":2.18,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0040\",\"width_m\":0.45,\"depth_m\":1.4,\"height_m\":0.8,\"x\":0.225,\"y\":2,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0041\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":2.35,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0042\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":2.65,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0043\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.35,\"x\":1.9,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0044\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.13,\"x\":2.95,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0045\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.36,\"x\":2.3,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0046\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.12,\"x\":2.9,\"y\":2.1,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0047\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":3.25,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0048\",\"width_m\":0.18,\"depth_m\":0.24,\"height_m\":0.02,\"x\":2.2,\"y\":2.04,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0049\",\"width_m\":0.07,\"depth_m\":0.07,\"height_m\":0.22,\"x\":2.65,\"y\":2.3,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0050\",\"width_m\":0.12,\"depth_m\":0.4,\"height_m\":0.5,\"x\":4.94,\"y\":3.05,\"z\":2.12,\"facing_deg\":180},\n{\"id\":\"obj_0051\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.36,\"x\":2.7,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0052\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":3.55,\"y\":2.44,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0053\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":1.67,\"y\":1.85,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0054\",\"width_m\":0.75,\"depth_m\":0.75,\"height_m\":2.05,\"x\":4.55,\"y\":3.55,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0055\",\"width_m\":0.12,\"depth_m\":1,\"height_m\":0.9,\"x\":0.06,\"y\":2,\"z\":1.2,\"facing_deg\":0},\n{\"id\":\"obj_0056\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.13,\"x\":1.67,\"y\":2.05,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0057\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.11,\"x\":1.67,\"y\":2.25,\"z\":0.76,\"facing_deg\":90},\n{\"id\":\"obj_0058\",\"width_m\":0.04,\"depth_m\":0.6,\"height_m\":0.8,\"x\":0.02,\"y\":0.85,\"z\":1.2,\"facing_deg\":0},\n{\"id\":\"obj_0059\",\"width_m\":0.04,\"depth_m\":0.6,\"height_m\":0.8,\"x\":0.02,\"y\":3.15,\"z\":1.2,\"facing_deg\":0},\n{\"id\":\"obj_0060\",\"width_m\":0.32,\"depth_m\":0.32,\"height_m\":1.65,\"x\":1.05,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0061\",\"width_m\":0.26,\"depth_m\":0.26,\"height_m\":0.025,\"x\":3.3,\"y\":2.18,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0062\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":3.63,\"y\":1.85,\"z\":0.76,\"facing_deg\":270},\n{\"id\":\"obj_0063\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.35,\"x\":3.1,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0064\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.3,\"x\":1.6,\"y\":0.17,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0065\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.36,\"x\":3.5,\"y\":3.83,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0066\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.12,\"x\":3.63,\"y\":2.15,\"z\":0.76,\"facing_deg\":270}\n]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\ndining room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.000 m x 4.000 m x 2.700 m\nfloor polygon (x, y): [[0.0, 0.0], [5.0, 0.0], [5.0, 4.0], [0.0, 4.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"glass\", \"description\": \"A clear modern drinking glass, sleek cylindrical shape with a subtle tapered base and a faint frosted band near the lip\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0001\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright nature‑themed artwork, rectangular canvas with a soft pastel landscape, framed in a slim wooden border\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0002\", \"category\": \"plant\", \"description\": \"A small potted plant in a smooth ceramic pot, compact rounded foliage, pot glazed in muted sage green\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"plant\", \"description\": \"A small potted plant in a smooth ceramic pot, compact rounded foliage, pot glazed in muted sage green\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"pottedplant\", \"description\": \"A small potted plant in a smooth ceramic pot, compact rounded shape, muted earth‑tone glaze, with a short leafy stem emerging, biophilic style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"pottedplant\", \"description\": \"A small potted plant in a smooth ceramic pot, compact foliage and a rounded pot silhouette\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"plant\", \"description\": \"A small indoor plant in a shallow ceramic pot, delicate leaf clusters, pot finished with a subtle speckled texture\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"candle\", \"description\": \"A small wooden-base candle with a natural bark finish, cylindrical shape and a warm amber wax tip\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0008\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with a sleek cylindrical shape, smooth edges and a minimalist profile\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0009\", \"category\": \"lamp\", \"description\": \"A floor lamp with a bamboo base, tapered cylindrical shape, warm light shade, natural bamboo texture, and a woven bamboo shade that diffuses light softly.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"plate\", \"description\": \"A round ceramic plate with a smooth flat surface, subtle earth tone glaze and a thin raised rim\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0011\", \"category\": \"lamp\", \"description\": \"A floor lamp with a slender bamboo base, tapered cylindrical shape, natural light‑colored bamboo finish and a simple round shade, biophilic style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"candletable\", \"description\": \"A wooden base candle with a slender cylindrical shape, natural wood finish and a soft glowing flame at the top\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0013\", \"category\": \"tree\", \"description\": \"A tall indoor tree in a ceramic pot, cylindrical trunk, lush green foliage, organic silhouette, natural brown pot, with a broad canopy that spreads outward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"wallplant\", \"description\": \"A living plant wall panel, thin vertical slab covered with dense mixed foliage, sleek metal frame, low‑profile mounting\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0015\", \"category\": \"plant\", \"description\": \"A small potted plant with a round ceramic pot, compact leafy stems and a smooth pot surface\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0016\", \"category\": \"chair\", \"description\": \"An upholstered dining chair with light fabric, natural wood legs, rectangular seat, slightly curved back, soft neutral tone, organic shape, and a woven seat pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0017\", \"category\": \"chair\", \"description\": \"An upholstered dining chair with light fabric, natural wood legs, rectangular seat, slightly curved back, soft neutral tone, organic shape, and a woven seat pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0018\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with a sleek cylindrical shape, smooth edges and a minimalist profile\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0019\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with clean straight edges and a slightly tapered cylindrical profile\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0020\", \"category\": \"plant\", \"description\": \"A small indoor plant in a shallow ceramic pot, delicate leaf clusters, pot finished with a subtle speckled texture\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0021\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with a sleek cylindrical shape and a thin polished rim\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0022\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright nature‑themed painting, rectangular canvas with a soft, muted palette depicting abstract foliage, framed in a slim wooden border\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0023\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with clean straight edges and a slightly tapered cylindrical profile\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0024\", \"category\": \"chair\", \"description\": \"An upholstered dining chair with light fabric, natural wood legs, rectangular seat, slightly curved back, soft neutral tone, organic shape, and a woven seat pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0025\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright nature‑themed painting, rectangular canvas with a soft, muted palette depicting abstract foliage, framed in a slim wooden border\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0026\", \"category\": \"plate\", \"description\": \"A round ceramic plate with a smooth flat surface, subtle earth tone glaze and a thin raised rim\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0027\", \"category\": \"chair\", \"description\": \"An upholstered dining chair with light fabric, natural wood legs, rectangular seat, slightly curved back, soft neutral tone, organic shape, and a woven seat pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0028\", \"category\": \"table\", \"description\": \"A wooden dining table with organic wood grain, rectangular shape, natural finish, smooth edges, warm brown color, featuring a subtle live‑edge contour.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0029\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright nature‑themed painting with a soft pastel palette, rectangular shape and subtle brushwork\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0030\", \"category\": \"chair\", \"description\": \"An upholstered dining chair with light fabric, natural wood legs, rectangular seat, slightly curved back, soft neutral tone, organic shape, and a woven seat pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0031\", \"category\": \"candletable\", \"description\": \"A wooden base candle with a slender cylindrical shape, natural wood finish and a soft glowing flame at the top\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0032\", \"category\": \"candle\", \"description\": \"A small wooden-base candle with a rounded wax top, natural wood finish and a warm amber hue\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0033\", \"category\": \"plant\", \"description\": \"A small indoor plant in a shallow ceramic pot, delicate leaf clusters, pot finished with a subtle speckled texture\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0034\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with a sleek cylindrical shape, smooth edges and a minimalist profile\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0035\", \"category\": \"glass\", \"description\": \"A clear modern drinking glass, sleek cylindrical shape with a subtle tapered base and a faint frosted band near the lip\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0036\", \"category\": \"chair\", \"description\": \"An upholstered dining chair with light fabric, natural wood legs, rectangular seat, slightly curved back, soft neutral tone, organic shape, and a woven seat pattern.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0037\", \"category\": \"glass\", \"description\": \"A clear modern drinking glass, sleek cylindrical shape with a subtle tapered base and a faint frosted band near the lip\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0038\", \"category\": \"candle\", \"description\": \"A wooden‑base Biophilic style candle holder, rectangular base tapering to a narrow cylindrical holder, natural wood color\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0039\", \"category\": \"plate\", \"description\": \"A round ceramic plate with a smooth glossy surface, off‑white color and a thin concentric leaf pattern around the rim\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0040\", \"category\": \"sideboard\", \"description\": \"A wooden sideboard with organic wood, rectangular low‑slung form, natural finish, subtle grain pattern, flat top surface, and an integrated hidden drawer.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0041\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with sleek straight edges and a thin rim, giving a minimalist look\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0042\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with sleek straight edges and a thin rim, giving a minimalist look\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0043\", \"category\": \"pottedplant\", \"description\": \"A small potted plant in a smooth ceramic pot, compact foliage and a rounded pot silhouette\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0044\", \"category\": \"glass\", \"description\": \"A clear modern drinking glass, sleek cylindrical shape with a subtle tapered base and a faint frosted band near the lip\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0045\", \"category\": \"plant\", \"description\": \"A small potted plant with a round ceramic pot, compact leafy stems and a smooth pot surface\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0046\", \"category\": \"candle\", \"description\": \"A small wooden-base candle with a rounded wax top, natural wood finish and a warm amber hue\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0047\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with sleek straight edges and a thin rim, giving a minimalist look\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0048\", \"category\": \"book\", \"description\": \"A soft‑cover book with a rectangular shape, natural muted colors and a slightly textured paper finish, typical of biophilic design\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0049\", \"category\": \"candletable\", \"description\": \"A wooden base candle with a slender cylindrical shape, natural wood finish and a soft glowing flame at the top\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0050\", \"category\": \"wallplant\", \"description\": \"A living plant wall panel, thin vertical slab covered with dense mixed foliage, sleek metal frame, low‑profile mounting\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0051\", \"category\": \"plant\", \"description\": \"A small potted plant with a round ceramic pot, compact leafy stems and a smooth pot surface\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0052\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with a sleek cylindrical shape and a thin polished rim\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0053\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with sleek straight edges and a thin rim, giving a minimalist look\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0054\", \"category\": \"tree\", \"description\": \"A tall indoor tree in a ceramic pot, cylindrical trunk, lush green foliage, organic silhouette, natural brown pot, with a broad canopy that spreads outward.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0055\", \"category\": \"livingplantwall\", \"description\": \"A vertical living plant wall panel, dense greenery covering a thin rectangular frame with a subtle wooden border\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0056\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with sleek straight sides, thin rim, and a subtle frosted band near the top\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0057\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with a sleek cylindrical shape, smooth edges and a minimalist profile\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0058\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright nature‑themed painting with a soft pastel palette, rectangular shape and subtle brushwork\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0059\", \"category\": \"artwork\", \"description\": \"A single piece of thin and upright nature‑themed artwork, rectangular canvas with a soft pastel landscape, framed in a slim wooden border\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0060\", \"category\": \"lamp\", \"description\": \"A floor lamp with a bamboo base, tapered cylindrical shape, warm light shade, natural bamboo texture, and a woven bamboo shade that diffuses light softly.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0061\", \"category\": \"plate\", \"description\": \"A round ceramic plate with a smooth glossy surface, off‑white color and a thin concentric leaf pattern around the rim\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0062\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with sleek straight edges and a thin rim, giving a minimalist look\", \"support_parent\": \"obj_0028\"},\n{\"id\": \"obj_0063\", \"category\": \"pottedplant\", \"description\": \"A small potted plant in a smooth ceramic pot, compact rounded shape, muted earth‑tone glaze, with a short leafy stem emerging, biophilic style\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0064\", \"category\": \"plant\", \"description\": \"A small indoor plant in a shallow ceramic pot, delicate leaf clusters, pot finished with a subtle speckled texture\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0065\", \"category\": \"plant\", \"description\": \"A small potted plant with a round ceramic pot, compact leafy stems and a smooth pot surface\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0066\", \"category\": \"glass\", \"description\": \"A clear modern glass tumbler with clean straight edges and a slightly tapered cylindrical profile\", \"support_parent\": \"obj_0028\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.0, 2.297], \"wall_from\": [5.0, 0.0], \"wall_to\": [5.0, 4.0], \"width_m\": 0.92, \"height_m\": 2.05}, {\"type\": \"window\", \"centre_xy\": [4.027, 4.0], \"wall_from\": [5.0, 4.0], \"wall_to\": [0.0, 4.0], \"width_m\": 1.128, \"height_m\": 1.0, \"sill_height_m\": 1.038}, {\"type\": \"window\", \"centre_xy\": [2.618, 4.0], \"wall_from\": [5.0, 4.0], \"wall_to\": [0.0, 4.0], \"width_m\": 1.128, \"height_m\": 1.0, \"sill_height_m\": 1.413}, {\"type\": \"window\", \"centre_xy\": [1.208, 4.0], \"wall_from\": [5.0, 4.0], \"wall_to\": [0.0, 4.0], \"width_m\": 1.128, \"height_m\": 1.0, \"sill_height_m\": 1.288}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0018\", \"parent_id\": \"obj_0028\"}, {\"type\": \"between\", \"object_id\": \"obj_0002\", \"target_ids\": [\"obj_0064\", \"obj_0033\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0016\", \"target_id\": \"obj_0027\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

@@ -1,0 +1,446 @@
+{
+ "floor": [
+  {
+   "assetId": "bench desk-0",
+   "id": "bench desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.37,
+    "z": 0.705
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     425.0,
+     -4.5
+    ],
+    [
+     425.0,
+     145.5
+    ],
+    [
+     175.0,
+     145.5
+    ],
+    [
+     175.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bench desk-0"
+  },
+  {
+   "assetId": "bench desk-1",
+   "id": "bench desk-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.705,
+    "y": 0.37,
+    "z": 3.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     145.5,
+     175.0
+    ],
+    [
+     145.5,
+     425.0
+    ],
+    [
+     -4.5,
+     425.0
+    ],
+    [
+     -4.5,
+     175.0
+    ]
+   ],
+   "object_name": "bench desk-1"
+  },
+  {
+   "assetId": "bench desk-2",
+   "id": "bench desk-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.705,
+    "y": 0.37,
+    "z": 6.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     145.5,
+     475.0
+    ],
+    [
+     145.5,
+     725.0
+    ],
+    [
+     -4.5,
+     725.0
+    ],
+    [
+     -4.5,
+     475.0
+    ]
+   ],
+   "object_name": "bench desk-2"
+  },
+  {
+   "assetId": "bench desk-3",
+   "id": "bench desk-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.37,
+    "z": 11.295
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     425.0,
+     1204.5
+    ],
+    [
+     425.0,
+     1054.5
+    ],
+    [
+     175.0,
+     1054.5
+    ],
+    [
+     175.0,
+     1204.5
+    ]
+   ],
+   "object_name": "bench desk-3"
+  },
+  {
+   "assetId": "bench desk-4",
+   "id": "bench desk-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.705,
+    "y": 0.37,
+    "z": 9.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     145.5,
+     775.0
+    ],
+    [
+     145.5,
+     1025.0
+    ],
+    [
+     -4.5,
+     1025.0
+    ],
+    [
+     -4.5,
+     775.0
+    ]
+   ],
+   "object_name": "bench desk-4"
+  },
+  {
+   "assetId": "bench desk-5",
+   "id": "bench desk-5 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 8.295,
+    "y": 0.37,
+    "z": 5.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     754.5,
+     415.0
+    ],
+    [
+     754.5,
+     665.0
+    ],
+    [
+     904.5,
+     665.0
+    ],
+    [
+     904.5,
+     415.0
+    ]
+   ],
+   "object_name": "bench desk-5"
+  },
+  {
+   "assetId": "high storage shelf-0",
+   "id": "high storage shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.0,
+    "y": 1.0,
+    "z": 11.795
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     655.0,
+     1204.5
+    ],
+    [
+     655.0,
+     1154.5
+    ],
+    [
+     545.0,
+     1154.5
+    ],
+    [
+     545.0,
+     1204.5
+    ]
+   ],
+   "object_name": "high storage shelf-0"
+  },
+  {
+   "assetId": "high storage shelf-1",
+   "id": "high storage shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 1.0,
+    "z": 11.795
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     115.0,
+     1204.5
+    ],
+    [
+     115.0,
+     1154.5
+    ],
+    [
+     5.0,
+     1154.5
+    ],
+    [
+     5.0,
+     1204.5
+    ]
+   ],
+   "object_name": "high storage shelf-1"
+  },
+  {
+   "assetId": "locker unit-0",
+   "id": "locker unit-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.8,
+    "y": 0.9,
+    "z": 8.8055551275464
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     865.0,
+     910.55551275464
+    ],
+    [
+     865.0,
+     850.55551275464
+    ],
+    [
+     695.0,
+     850.55551275464
+    ],
+    [
+     695.0,
+     910.55551275464
+    ]
+   ],
+   "object_name": "locker unit-0"
+  },
+  {
+   "assetId": "low storage credensa-0",
+   "id": "low storage credensa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.4,
+    "y": 0.375,
+    "z": 0.23
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     605.0,
+     -4.5
+    ],
+    [
+     605.0,
+     50.5
+    ],
+    [
+     475.0,
+     50.5
+    ],
+    [
+     475.0,
+     -4.5
+    ]
+   ],
+   "object_name": "low storage credensa-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "whiteboard panel-0",
+   "id": "whiteboard panel-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.03,
+    "y": 1.5,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     4.0,
+     330.0
+    ],
+    [
+     4.0,
+     510.0
+    ],
+    [
+     0.0,
+     510.0
+    ],
+    [
+     0.0,
+     330.0
+    ],
+    [
+     4.0,
+     330.0
+    ]
+   ],
+   "object_name": "whiteboard panel-0"
+  },
+  {
+   "assetId": "whiteboard panel-1",
+   "id": "whiteboard panel-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.03,
+    "y": 1.5,
+    "z": 7.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     4.0,
+     690.0
+    ],
+    [
+     4.0,
+     870.0
+    ],
+    [
+     0.0,
+     870.0
+    ],
+    [
+     0.0,
+     690.0
+    ],
+    [
+     4.0,
+     690.0
+    ]
+   ],
+   "object_name": "whiteboard panel-1"
+  }
+ ]
+}

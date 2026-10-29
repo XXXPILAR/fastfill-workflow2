@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: art print, backpack, bag, ballpoint pen, bed, bookcase, box, cabinet, carpet, chair, clock, coffee mug, computer, cup, decoration, desk, dining table combination, drink coaster, filing pedestal, floor lamp, laptop computer, nightstand, pen cup, photo, photograph print, picture, plant, seat, side chair, spiral bound notebook, table, task chair, telephone, tray, wardrobe, whiteboard, wireless mouse, world map print \nOverall furniture frequencies: (art print: 0.0; backpack: 0.0488; bag: 0.0488; ballpoint pen: 0.0; bed: 0.0488; bookcase: 0.0976; box: 0.0732; cabinet: 0.0732; carpet: 0.0244; chair: 0.122; clock: 0.0; coffee mug: 0.0; computer: 0.0244; cup: 0.0244; decoration: 0.0244; desk: 0.0732; dining table combination: 0.0244; drink coaster: 0.0; filing pedestal: 0.0; floor lamp: 0.0; laptop computer: 0.0; nightstand: 0.0244; pen cup: 0.0; photo: 0.0488; photograph print: 0.0; picture: 0.0244; plant: 0.0488; seat: 0.0244; side chair: 0.0; spiral bound notebook: 0.0; table: 0.0488; task chair: 0.0; telephone: 0.0244; tray: 0.0244; wardrobe: 0.0244; whiteboard: 0.0; wireless mouse: 0.0; world map print: 0.0)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 3.03m, max width 3.39m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "carpet[obj_0000] {length: 1.33m; height: 0.03m; width: 1.96m; orientation: -180 degrees; left: 1.52m; top: 1.63m; depth: -0.01m;}\ntable[obj_0001] {length: 1.59m; height: 0.75m; width: 0.92m; orientation: 90 degrees; left: 1.10m; top: 2.93m; depth: 0.00m;}\nseat[obj_0002] {length: 0.68m; height: 0.91m; width: 0.78m; orientation: 79 degrees; left: 1.06m; top: 2.42m; depth: 0.00m;}\ntray[obj_0003] {length: 0.24m; height: 0.05m; width: 0.35m; orientation: -180 degrees; left: 0.58m; top: 3.06m; depth: 0.75m;}\npicture[obj_0004] {length: 0.41m; height: 0.30m; width: 0.24m; orientation: 90 degrees; left: 1.33m; top: 0.15m; depth: 0.95m;}\ndecoration[obj_0005] {length: 0.07m; height: 0.07m; width: 0.08m; orientation: 4 degrees; left: 1.61m; top: 3.00m; depth: 0.75m;}\ncabinet[obj_0006] {length: 0.90m; height: 0.95m; width: 0.45m; orientation: 90 degrees; left: 0.45m; top: 0.23m; depth: 0.00m;}\nbox[obj_0007] {length: 0.23m; height: 0.01m; width: 0.15m; orientation: 169 degrees; left: 0.52m; top: 2.77m; depth: 0.75m;}\ncabinet[obj_0008] {length: 0.90m; height: 0.95m; width: 0.45m; orientation: 90 degrees; left: 1.35m; top: 0.23m; depth: 0.00m;}\nplant[obj_0009] {length: 0.46m; height: 0.44m; width: 0.42m; orientation: 90 degrees; left: 0.48m; top: 0.21m; depth: 0.95m;}\ncomputer[obj_0010] {length: 0.64m; height: 0.47m; width: 0.53m; orientation: -85 degrees; left: 1.25m; top: 2.88m; depth: 0.75m;}\nphoto[obj_0011] {length: 0.16m; height: 0.21m; width: 0.12m; orientation: 93 degrees; left: 1.04m; top: 0.33m; depth: 0.95m;}\nphoto[obj_0012] {length: 0.13m; height: 0.17m; width: 0.07m; orientation: 58 degrees; left: 0.93m; top: 0.21m; depth: 0.95m;}\nplant[obj_0013] {length: 1.08m; height: 1.62m; width: 0.99m; orientation: -90 degrees; left: 2.49m; top: 2.90m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.54m, max width 3.10m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dining table combination[obj_0000] {length: 1.71m; height: 1.32m; width: 1.76m; orientation: 180 degrees; left: 1.23m; top: 1.89m; depth: -0.00m;}\nbookcase[obj_0001] {length: 2.27m; height: 2.50m; width: 0.34m; orientation: 180 degrees; left: 2.37m; top: 1.77m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.50m, max width 3.12m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bag[obj_0000] {length: 0.35m; height: 0.39m; width: 0.41m; orientation: 123 degrees; left: 2.24m; top: 1.34m; depth: 0.00m;}\nbox[obj_0001] {length: 0.48m; height: 0.60m; width: 0.39m; orientation: 170 degrees; left: 2.08m; top: 0.79m; depth: -0.00m;}\nchair[obj_0002] {length: 0.49m; height: 0.88m; width: 0.66m; orientation: 0 degrees; left: 1.11m; top: 2.16m; depth: -0.00m;}\ncup[obj_0003] {length: 0.15m; height: 0.23m; width: 0.13m; orientation: 180 degrees; left: 2.00m; top: 2.52m; depth: 0.73m;}\nbackpack[obj_0004] {length: 1.21m; height: 0.86m; width: 0.44m; orientation: -14 degrees; left: 0.79m; top: 2.47m; depth: -0.15m;}\nbox[obj_0005] {length: 0.81m; height: 0.42m; width: 0.31m; orientation: -129 degrees; left: 1.46m; top: 0.43m; depth: 0.00m;}\ntable[obj_0006] {length: 1.53m; height: 0.73m; width: 0.77m; orientation: -180 degrees; left: 1.84m; top: 2.14m; depth: 0.00m;}\nbackpack[obj_0007] {length: 1.14m; height: 1.28m; width: 0.31m; orientation: -32 degrees; left: 0.47m; top: 2.50m; depth: -0.08m;}\nbag[obj_0008] {length: 0.35m; height: 0.18m; width: 0.37m; orientation: 117 degrees; left: 2.09m; top: 1.11m; depth: -0.00m;}\ntelephone[obj_0009] {length: 0.27m; height: 0.19m; width: 0.14m; orientation: -180 degrees; left: 1.83m; top: 2.62m; depth: 0.73m;}\ncabinet[obj_0010] {length: 0.58m; height: 0.77m; width: 0.42m; orientation: 172 degrees; left: 1.71m; top: 0.93m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.50m, max width 3.10m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "desk[obj_0000] {length: 1.67m; height: 0.75m; width: 0.59m; orientation: 0 degrees; left: 1.05m; top: 1.84m; depth: 0.00m;}\nchair[obj_0001] {length: 0.64m; height: 0.80m; width: 0.49m; orientation: 180 degrees; left: 1.79m; top: 1.92m; depth: -0.00m;}\nbookcase[obj_0002] {length: 2.14m; height: 2.67m; width: 0.33m; orientation: 180 degrees; left: 2.34m; top: 2.03m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.78m, max width 3.82m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bookcase[obj_0000] {length: 3.28m; height: 2.50m; width: 0.40m; orientation: 180 degrees; left: 2.58m; top: 2.18m; depth: 0.00m;}\ndesk[obj_0001] {length: 2.00m; height: 1.47m; width: 0.74m; orientation: 0 degrees; left: 0.37m; top: 2.32m; depth: -0.00m;}\nbookcase[obj_0002] {length: 0.60m; height: 1.95m; width: 0.50m; orientation: 90 degrees; left: 0.30m; top: 3.57m; depth: 0.00m;}\nchair[obj_0003] {length: 0.74m; height: 0.82m; width: 0.70m; orientation: 135 degrees; left: 1.23m; top: 2.32m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.85m, max width 2.76m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "chair[obj_0000] {length: 1.19m; height: 0.81m; width: 0.83m; orientation: 111 degrees; left: 2.19m; top: 1.94m; depth: -0.00m;}\ndesk[obj_0001] {length: 1.50m; height: 1.05m; width: 0.75m; orientation: 180 degrees; left: 1.52m; top: 2.01m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.82m, max width 2.63m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bed[obj_0000] {length: 1.52m; height: 0.77m; width: 2.08m; orientation: -90 degrees; left: 0.67m; top: 1.59m; depth: -0.00m;}\nchair[obj_0001] {length: 0.50m; height: 0.89m; width: 0.62m; orientation: 0 degrees; left: 2.04m; top: 0.80m; depth: -0.00m;}\nnightstand[obj_0002] {length: 0.72m; height: 1.08m; width: 0.44m; orientation: -90 degrees; left: 1.62m; top: 2.41m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.88m, max width 2.58m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bed[obj_0000] {length: 1.33m; height: 1.80m; width: 2.04m; orientation: -180 degrees; left: 1.86m; top: 1.92m; depth: -0.00m;}\nwardrobe[obj_0001] {length: 1.37m; height: 2.80m; width: 0.45m; orientation: 90 degrees; left: 0.83m; top: 0.22m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: office\nRoom Size: max length 2.90m, max width 3.30m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nphotograph print[obj_0000]: photograph print\nspiral bound notebook[obj_0001]: spiral bound notebook\nworld map print[obj_0002]: world map print\nside chair[obj_0003]: side chair\ndesk[obj_0004]: desk\npen cup[obj_0005]: pen cup\npen cup[obj_0006]: pen cup\ndrink coaster[obj_0007]: drink coaster\nphotograph print[obj_0008]: photograph print\nfiling pedestal[obj_0009]: filing pedestal\ntask chair[obj_0010]: task chair\nwhiteboard[obj_0011]: whiteboard\nballpoint pen[obj_0012]: ballpoint pen\nlaptop computer[obj_0013]: laptop computer\nclock[obj_0014]: clock\ncoffee mug[obj_0015]: coffee mug\nspiral bound notebook[obj_0016]: spiral bound notebook\nballpoint pen[obj_0017]: ballpoint pen\nwireless mouse[obj_0018]: wireless mouse\nart print[obj_0019]: art print\nfloor lamp[obj_0020]: floor lamp\nFloor polygon (left, top): (0.00, 0.00), (2.90, 0.00), (2.90, 3.30), (0.00, 3.30)\nConstraint: {\"type\": \"faces\", \"object_id\": \"obj_0004\", \"target_id\": \"obj_0003\"}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0004\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0003\", \"target_id\": \"obj_0011\", \"max_distance_m\": 0.2}\nLayout:\n"
+ }
+]

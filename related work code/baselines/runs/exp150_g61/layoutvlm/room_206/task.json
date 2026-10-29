@@ -1,0 +1,84 @@
+{
+ "task_description": "a secondary bedroom of about 3.9m x 3.8m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 0.36 m wide centred at (0.71, 3.62); a door 0.78 m wide centred at (3.06, 0.00) (keep the floor in front of it clear); a window 0.36 m wide centred at (2.73, 3.62); a window 2.02 m wide centred at (1.72, 3.80). the bed (o0002) should face the dining chair (o0001)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.71,
+    3.8000000000000003,
+    0.0
+   ],
+   [
+    0.71,
+    3.1999999999999997,
+    0.0
+   ],
+   [
+    0.3000000000000007,
+    3.1999999999999997,
+    0.0
+   ],
+   [
+    0.3000000000000007,
+    2.94,
+    0.0
+   ],
+   [
+    0.0,
+    2.94,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    3.45,
+    0.0,
+    0.0
+   ],
+   [
+    3.45,
+    0.2999999999999998,
+    0.0
+   ],
+   [
+    3.87,
+    0.2999999999999998,
+    0.0
+   ],
+   [
+    3.87,
+    2.94,
+    0.0
+   ],
+   [
+    3.45,
+    2.94,
+    0.0
+   ],
+   [
+    3.45,
+    3.1999999999999997,
+    0.0
+   ],
+   [
+    2.7300000000000004,
+    3.1999999999999997,
+    0.0
+   ],
+   [
+    2.7300000000000004,
+    3.8000000000000003,
+    0.0
+   ]
+  ],
+  "wall_height": 2.64
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {}
+ }
+}

@@ -1,0 +1,490 @@
+{
+ "floor": [
+  {
+   "assetId": "single bed-0",
+   "id": "single bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 0.275,
+    "z": 1.97
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     550.0,
+     304.5
+    ],
+    [
+     550.0,
+     89.50000000000001
+    ],
+    [
+     440.0,
+     89.50000000000001
+    ],
+    [
+     440.0,
+     304.5
+    ]
+   ],
+   "object_name": "single bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 8.695,
+    "y": 1.05,
+    "z": 2.25
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     834.5,
+     160.0
+    ],
+    [
+     834.5,
+     290.0
+    ],
+    [
+     904.5,
+     290.0
+    ],
+    [
+     904.5,
+     160.0
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "storage cabinet-0",
+   "id": "storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.45,
+    "y": 0.45,
+    "z": 2.795
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     90.0,
+     304.5
+    ],
+    [
+     90.0,
+     254.5
+    ],
+    [
+     0.0,
+     254.5
+    ],
+    [
+     0.0,
+     304.5
+    ]
+   ],
+   "object_name": "storage cabinet-0"
+  },
+  {
+   "assetId": "writing desk-0",
+   "id": "writing desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.8,
+    "y": 0.375,
+    "z": 2.695
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     245.0,
+     304.5
+    ],
+    [
+     245.0,
+     234.5
+    ],
+    [
+     115.0,
+     234.5
+    ],
+    [
+     115.0,
+     304.5
+    ]
+   ],
+   "object_name": "writing desk-0"
+  },
+  {
+   "assetId": "tv console-0",
+   "id": "tv console-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 8.795,
+    "y": 0.275,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     854.5,
+     25.0
+    ],
+    [
+     854.5,
+     155.0
+    ],
+    [
+     904.5,
+     155.0
+    ],
+    [
+     904.5,
+     25.0
+    ]
+   ],
+   "object_name": "tv console-0"
+  },
+  {
+   "assetId": "luggage bench-0",
+   "id": "luggage bench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.65,
+    "y": 0.25,
+    "z": 2.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     815.0,
+     304.5
+    ],
+    [
+     815.0,
+     249.5
+    ],
+    [
+     715.0,
+     249.5
+    ],
+    [
+     715.0,
+     304.5
+    ]
+   ],
+   "object_name": "luggage bench-0"
+  },
+  {
+   "assetId": "bedside table-0",
+   "id": "bedside table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.85,
+    "y": 0.275,
+    "z": 2.795
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     612.5,
+     304.5
+    ],
+    [
+     612.5,
+     254.5
+    ],
+    [
+     557.5,
+     254.5
+    ],
+    [
+     557.5,
+     304.5
+    ]
+   ],
+   "object_name": "bedside table-0"
+  },
+  {
+   "assetId": "desk chair-0",
+   "id": "desk chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.8,
+    "y": 0.45,
+    "z": 1.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     212.5,
+     147.5
+    ],
+    [
+     212.5,
+     212.5
+    ],
+    [
+     147.5,
+     212.5
+    ],
+    [
+     147.5,
+     147.5
+    ],
+    [
+     212.5,
+     147.5
+    ]
+   ],
+   "object_name": "desk chair-0"
+  },
+  {
+   "assetId": "side chair-0",
+   "id": "side chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.15,
+    "y": 0.425,
+    "z": 2.72
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     345.0,
+     304.5
+    ],
+    [
+     345.0,
+     239.5
+    ],
+    [
+     285.0,
+     239.5
+    ],
+    [
+     285.0,
+     304.5
+    ]
+   ],
+   "object_name": "side chair-0"
+  },
+  {
+   "assetId": "floor lamp-0",
+   "id": "floor lamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.05,
+    "y": 0.8,
+    "z": 2.795
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     430.0,
+     304.5
+    ],
+    [
+     430.0,
+     254.5
+    ],
+    [
+     380.0,
+     254.5
+    ],
+    [
+     380.0,
+     304.5
+    ]
+   ],
+   "object_name": "floor lamp-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall shelf-0",
+   "id": "wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.25,
+    "y": 1.675,
+    "z": 2.865
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     265.0,
+     275.0
+    ],
+    [
+     265.0,
+     300.0
+    ],
+    [
+     185.0,
+     300.0
+    ],
+    [
+     185.0,
+     275.0
+    ],
+    [
+     265.0,
+     275.0
+    ]
+   ],
+   "object_name": "wall shelf-0"
+  },
+  {
+   "assetId": "wall shelf-1",
+   "id": "wall shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 1.675,
+    "z": 2.865
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     175.0,
+     275.0
+    ],
+    [
+     175.0,
+     300.0
+    ],
+    [
+     95.0,
+     300.0
+    ],
+    [
+     95.0,
+     275.0
+    ],
+    [
+     175.0,
+     275.0
+    ]
+   ],
+   "object_name": "wall shelf-1"
+  },
+  {
+   "assetId": "wall mirror-0",
+   "id": "wall mirror-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.65,
+    "y": 1.5,
+    "z": 2.97
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     797.5,
+     296.0
+    ],
+    [
+     797.5,
+     300.0
+    ],
+    [
+     732.5,
+     300.0
+    ],
+    [
+     732.5,
+     296.0
+    ],
+    [
+     797.5,
+     296.0
+    ]
+   ],
+   "object_name": "wall mirror-0"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "task_description": "a guest room of about 2.9m x 1.5m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 1.98 m wide centred at (1.45, 1.51); a door 1.86 m wide centred at (1.51, 0.00) (keep the floor in front of it clear). the washing machine (o0001) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    2.932903381347656,
+    0.0,
+    0.0
+   ],
+   [
+    2.932903381347656,
+    1.5122006835937505,
+    0.0
+   ],
+   [
+    0.0,
+    1.5122006835937505,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.7799
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {}
+ }
+}

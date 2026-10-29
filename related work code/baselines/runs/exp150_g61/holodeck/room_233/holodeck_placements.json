@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5,
+    "y": 0.55,
+    "z": 3.1371698167842186
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     450.0,
+     423.71698167842186
+    ],
+    [
+     450.0,
+     203.71698167842183
+    ],
+    [
+     250.0,
+     203.71698167842183
+    ],
+    [
+     250.0,
+     423.71698167842186
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 1.15,
+    "z": 0.3050002492420225
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     240.0,
+     -4.4999750757977495
+    ],
+    [
+     240.0,
+     65.50002492420225
+    ],
+    [
+     110.0,
+     65.50002492420225
+    ],
+    [
+     110.0,
+     -4.4999750757977495
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "wardrobe-1",
+   "id": "wardrobe-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.75,
+    "y": 1.15,
+    "z": 0.3050000483757097
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     540.0,
+     -4.49999516242903
+    ],
+    [
+     540.0,
+     65.50000483757097
+    ],
+    [
+     410.0,
+     65.50000483757097
+    ],
+    [
+     410.0,
+     -4.49999516242903
+    ]
+   ],
+   "object_name": "wardrobe-1"
+  },
+  {
+   "assetId": "dining table combination-0",
+   "id": "dining table combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.375,
+    "z": 0.35500014880886593
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     385.0,
+     -4.499985119113401
+    ],
+    [
+     385.0,
+     75.5000148808866
+    ],
+    [
+     265.0,
+     75.5000148808866
+    ],
+    [
+     265.0,
+     -4.499985119113401
+    ]
+   ],
+   "object_name": "dining table combination-0"
+  }
+ ],
+ "wall": []
+}

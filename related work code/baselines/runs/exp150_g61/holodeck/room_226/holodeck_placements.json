@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "refrigerator-0",
+   "id": "refrigerator-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.925,
+    "z": 2.1466684570312498
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     190.0,
+     254.66684570312498
+    ],
+    [
+     190.0,
+     174.66684570312498
+    ],
+    [
+     110.0,
+     174.66684570312498
+    ],
+    [
+     110.0,
+     254.66684570312498
+    ]
+   ],
+   "object_name": "refrigerator-0"
+  },
+  {
+   "assetId": "washing machine-0",
+   "id": "washing machine-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.425,
+    "z": 2.1966684570312496
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     335.0,
+     254.66684570312498
+    ],
+    [
+     335.0,
+     184.66684570312498
+    ],
+    [
+     265.0,
+     184.66684570312498
+    ],
+    [
+     265.0,
+     254.66684570312498
+    ]
+   ],
+   "object_name": "washing machine-0"
+  }
+ ],
+ "wall": []
+}

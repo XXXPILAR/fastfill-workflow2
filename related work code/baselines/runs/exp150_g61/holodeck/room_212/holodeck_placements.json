@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "sofa-0",
+   "id": "sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.240000000000001,
+    "y": 0.425,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     671.5000000000001,
+     295.0
+    ],
+    [
+     671.5000000000001,
+     545.0
+    ],
+    [
+     776.5000000000001,
+     545.0
+    ],
+    [
+     776.5000000000001,
+     295.0
+    ]
+   ],
+   "object_name": "sofa-0"
+  },
+  {
+   "assetId": "dining table combination-0",
+   "id": "dining table combination-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.275,
+    "y": 0.475,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     657.5,
+     255.0
+    ],
+    [
+     657.5,
+     585.0
+    ],
+    [
+     397.50000000000006,
+     585.0
+    ],
+    [
+     397.50000000000006,
+     255.0
+    ]
+   ],
+   "object_name": "dining table combination-0"
+  }
+ ],
+ "wall": []
+}

@@ -1,0 +1,2158 @@
+{
+ "k": 48,
+ "source": "InteriorGS",
+ "latency_s": 202.95311541715637,
+ "usage": [
+  {
+   "prompt_tokens": 4889,
+   "completion_tokens": 11036,
+   "total_tokens": 15925,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3106,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0034 (plant) floats at z=2.10 m with nothing under it; put it on a surface or the floor",
+  "obj_0042 (plant) floats at z=2.10 m with nothing under it; put it on a surface or the floor",
+  "obj_0045 (plant) floats at z=2.10 m with nothing under it; put it on a surface or the floor",
+  "obj_0046 (plant) floats at z=2.10 m with nothing under it; put it on a surface or the floor",
+  "obj_0130 (billboard) floats at z=1.50 m with nothing under it; put it on a surface or the floor",
+  "obj_0115 (shelf) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0130 (billboard) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0102 (landscape stone) and obj_0117 (chair) intersect (0.001 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0122 (landscape stone) and obj_0128 (chair) intersect (0.001 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)",
+  "obj_0128 (chair) and obj_0136 (landscape stone) intersect (0.004 m2 of footprint while their heights overlap): separate them, or put one exactly on top of the other (z = the lower one's top)"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.65
+    ],
+    "bottom_center_m": [
+     2.1,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.1,
+     1.4,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.9,
+     2.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.35,
+     1.6,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.6,
+     0.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.7,
+     1.1,
+     0.5
+    ],
+    "bottom_center_m": [
+     8.7,
+     5.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.55
+    ],
+    "bottom_center_m": [
+     2.7,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.7
+    ],
+    "bottom_center_m": [
+     3.3,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.35,
+     0.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.55
+    ],
+    "bottom_center_m": [
+     3.9,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.4,
+     1.4,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.1,
+     0.75,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.2,
+     1.6,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.6,
+     2.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.65
+    ],
+    "bottom_center_m": [
+     4.5,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.35,
+     2.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.7,
+     1.4,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.55
+    ],
+    "bottom_center_m": [
+     5.1,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.7,
+     4.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     5.0,
+     1.4,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.7,
+     6.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.1,
+     1.8,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.7
+    ],
+    "bottom_center_m": [
+     5.7,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.2,
+     4.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.4,
+     1.8,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     3.5,
+     9.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.3,
+     0.4,
+     0.25
+    ],
+    "bottom_center_m": [
+     7.3,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.65
+    ],
+    "bottom_center_m": [
+     6.3,
+     0.2,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.65,
+     1.1,
+     0.5
+    ],
+    "bottom_center_m": [
+     8.7,
+     8.85,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.7,
+     1.8,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.7,
+     8.05,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.1,
+     2.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.0
+    ],
+    "bottom_center_m": [
+     6.8,
+     0.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.4
+    ],
+    "bottom_center_m": [
+     6.7,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.85,
+     1.6,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.45
+    ],
+    "bottom_center_m": [
+     1.55,
+     4.2,
+     2.1
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.65,
+     1.1,
+     0.5
+    ],
+    "bottom_center_m": [
+     12.5,
+     6.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     5.0,
+     1.8,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.85,
+     1.6,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.6,
+     3.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.35,
+     3.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.1,
+     3.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.7
+    ],
+    "bottom_center_m": [
+     10.25,
+     3.0,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.4
+    ],
+    "bottom_center_m": [
+     1.55,
+     4.65,
+     2.1
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.5
+    ],
+    "bottom_center_m": [
+     1.55,
+     5.1,
+     2.1
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.6,
+     5.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0045",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.45
+    ],
+    "bottom_center_m": [
+     1.55,
+     5.55,
+     2.1
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0046",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.4
+    ],
+    "bottom_center_m": [
+     1.55,
+     6.0,
+     2.1
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0047",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.1,
+     4.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0048",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.65,
+     6.8,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0049",
+    "target_size_local_m": [
+     0.65,
+     1.1,
+     0.5
+    ],
+    "bottom_center_m": [
+     12.5,
+     8.9,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0050",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.35,
+     5.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0051",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.4
+    ],
+    "bottom_center_m": [
+     6.7,
+     2.2,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0052",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.4,
+     4.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0053",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     1.1
+    ],
+    "bottom_center_m": [
+     1.65,
+     7.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0054",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.65,
+     8.0,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0055",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.7,
+     4.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0056",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.1,
+     5.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0057",
+    "target_size_local_m": [
+     0.4,
+     0.4,
+     1.2
+    ],
+    "bottom_center_m": [
+     1.65,
+     8.6,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0058",
+    "target_size_local_m": [
+     0.6,
+     1.1,
+     0.5
+    ],
+    "bottom_center_m": [
+     12.5,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0059",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.75
+    ],
+    "bottom_center_m": [
+     2.2,
+     8.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0060",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     5.0,
+     4.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0061",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     4.2,
+     9.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0062",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     10.25,
+     4.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0063",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.85,
+     4.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0064",
+    "target_size_local_m": [
+     0.9,
+     2.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.35,
+     4.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0065",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.85,
+     4.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0066",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.4
+    ],
+    "bottom_center_m": [
+     6.7,
+     2.9,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0067",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.6,
+     6.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0068",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.32
+    ],
+    "bottom_center_m": [
+     3.7,
+     1.6,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0069",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.025
+    ],
+    "bottom_center_m": [
+     8.4,
+     1.75,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0070",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.35,
+     6.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0071",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     4.9,
+     9.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0072",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.1,
+     4.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0073",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.4,
+     4.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0074",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.7,
+     9.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0075",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.32
+    ],
+    "bottom_center_m": [
+     3.7,
+     4.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0076",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.32
+    ],
+    "bottom_center_m": [
+     3.7,
+     7.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0077",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.7,
+     4.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0078",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     12.5,
+     5.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0079",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.32
+    ],
+    "bottom_center_m": [
+     8.35,
+     1.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0080",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     5.0,
+     4.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0081",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     12.5,
+     7.15,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0082",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.1,
+     7.1,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0083",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     8.4,
+     5.55,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0084",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.1,
+     6.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0085",
+    "target_size_local_m": [
+     0.9,
+     2.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.35,
+     7.3,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0086",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.46
+    ],
+    "bottom_center_m": [
+     10.5,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0087",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.4,
+     7.1,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0088",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.7,
+     7.1,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0089",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.4
+    ],
+    "bottom_center_m": [
+     10.25,
+     5.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0090",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     3.6,
+     8.15,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0091",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.35,
+     8.15,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0092",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     5.0,
+     7.1,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0093",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.1,
+     8.15,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0094",
+    "target_size_local_m": [
+     0.16,
+     0.35,
+     0.3
+    ],
+    "bottom_center_m": [
+     6.4,
+     0.08,
+     2.4
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0095",
+    "target_size_local_m": [
+     0.085,
+     0.085,
+     0.31
+    ],
+    "bottom_center_m": [
+     8.85,
+     5.55,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0096",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.1,
+     7.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0097",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     8.4,
+     8.85,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0098",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     12.2,
+     6.4,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0099",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     12.2,
+     8.9,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0100",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.4,
+     7.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0101",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.7
+    ],
+    "bottom_center_m": [
+     10.25,
+     7.5,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0102",
+    "target_size_local_m": [
+     0.3,
+     0.4,
+     0.2
+    ],
+    "bottom_center_m": [
+     7.9,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0103",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     12.2,
+     1.5,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0104",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     4.7,
+     7.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0105",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     5.0,
+     7.5,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0106",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.85,
+     7.3,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0107",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.0
+    ],
+    "bottom_center_m": [
+     6.7,
+     6.4,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0108",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     12.5,
+     8.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0109",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     10.25,
+     6.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0110",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     12.5,
+     9.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0111",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     8.7,
+     1.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0112",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     5.6,
+     9.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0113",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.0
+    ],
+    "bottom_center_m": [
+     6.7,
+     8.65,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0114",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     10.25,
+     8.1,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0115",
+    "target_size_local_m": [
+     2.4,
+     0.45,
+     2.1
+    ],
+    "bottom_center_m": [
+     1.55,
+     5.15,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0116",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     5.85,
+     7.3,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0117",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.25,
+     0.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0118",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     9.0,
+     0.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0119",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     3.45,
+     9.85,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0120",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     4.15,
+     9.85,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0121",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.7
+    ],
+    "bottom_center_m": [
+     7.25,
+     9.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0122",
+    "target_size_local_m": [
+     0.3,
+     0.4,
+     0.25
+    ],
+    "bottom_center_m": [
+     9.4,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0123",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     9.0,
+     1.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0124",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     9.3,
+     1.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0125",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     4.85,
+     9.85,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0126",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     9.6,
+     1.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0127",
+    "target_size_local_m": [
+     0.7,
+     3.6,
+     1.05
+    ],
+    "bottom_center_m": [
+     4.9,
+     9.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0128",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     9.75,
+     0.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0129",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     8.7,
+     1.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0130",
+    "target_size_local_m": [
+     0.6,
+     0.1,
+     0.8
+    ],
+    "bottom_center_m": [
+     1.32,
+     6.9,
+     1.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0131",
+    "target_size_local_m": [
+     0.16,
+     0.16,
+     0.24
+    ],
+    "bottom_center_m": [
+     8.85,
+     8.85,
+     0.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0132",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     9.0,
+     1.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0133",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     0.4
+    ],
+    "bottom_center_m": [
+     10.25,
+     8.85,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0134",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     10.25,
+     9.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0135",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     8.25,
+     2.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0136",
+    "target_size_local_m": [
+     0.3,
+     0.4,
+     0.22
+    ],
+    "bottom_center_m": [
+     9.95,
+     0.22,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0137",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     1.0
+    ],
+    "bottom_center_m": [
+     6.3,
+     9.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0138",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     9.3,
+     1.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0139",
+    "target_size_local_m": [
+     0.9,
+     2.2,
+     0.75
+    ],
+    "bottom_center_m": [
+     9.0,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0140",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     5.55,
+     9.85,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0141",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     9.0,
+     2.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0142",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.11
+    ],
+    "bottom_center_m": [
+     5.2,
+     7.3,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0143",
+    "target_size_local_m": [
+     0.75,
+     1.65,
+     0.82
+    ],
+    "bottom_center_m": [
+     12.5,
+     0.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0144",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.09
+    ],
+    "bottom_center_m": [
+     9.6,
+     1.7,
+     0.75
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0145",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     9.75,
+     2.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0146",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.82
+    ],
+    "bottom_center_m": [
+     7.5,
+     1.5,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0147",
+    "target_size_local_m": [
+     0.22,
+     0.22,
+     0.35
+    ],
+    "bottom_center_m": [
+     6.25,
+     9.85,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0148",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.8
+    ],
+    "bottom_center_m": [
+     10.6,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0149",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.55
+    ],
+    "bottom_center_m": [
+     13.65,
+     6.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0150",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.55
+    ],
+    "bottom_center_m": [
+     13.65,
+     8.9,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe room is arranged as a café lounge: four dining tables occupy the left and lower-middle areas, while compact sofas form conversation groups along the right side. A refreshment bar sits against the north wall, with its high chairs facing the counter. Side tables serve the sofas, and fruit, cups, and decorative plants rest on suitable surfaces.\n\nThe layout preserves access from both doors, avoids the fixed columns, cabinet, and entrance partitions, and provides circulation between the dining and lounge areas. Most floor-standing greenery follows the room edges; smaller plants use tables, the bar, and the shelf.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[\n{\"id\":\"obj_0000\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.65,\"x\":2.1,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0001\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.1,\"y\":1.4,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0002\",\"width_m\":2.2,\"depth_m\":0.9,\"height_m\":0.75,\"x\":4.35,\"y\":1.6,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0003\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":3.6,\"y\":0.75,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0004\",\"width_m\":1.1,\"depth_m\":0.7,\"height_m\":0.5,\"x\":8.7,\"y\":5.55,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0005\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.55,\"x\":2.7,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0006\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.7,\"x\":3.3,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0007\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":4.35,\"y\":0.75,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0008\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.55,\"x\":3.9,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0009\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.4,\"y\":1.4,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0010\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.1,\"y\":0.75,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0011\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.11,\"x\":5.2,\"y\":1.6,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0012\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":3.6,\"y\":2.45,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0013\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.65,\"x\":4.5,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0014\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":4.35,\"y\":2.45,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0015\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.7,\"y\":1.4,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0016\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.55,\"x\":5.1,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0017\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":8.7,\"y\":4.5,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0018\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":5,\"y\":1.4,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0019\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":8.7,\"y\":6.65,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0020\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.1,\"y\":1.8,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0021\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.7,\"x\":5.7,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0022\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.11,\"x\":5.2,\"y\":4.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0023\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.4,\"y\":1.8,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0024\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1,\"x\":3.5,\"y\":9.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0025\",\"width_m\":0.4,\"depth_m\":0.3,\"height_m\":0.25,\"x\":7.3,\"y\":0.22,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0026\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.65,\"x\":6.3,\"y\":0.2,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0027\",\"width_m\":1.1,\"depth_m\":0.65,\"height_m\":0.5,\"x\":8.7,\"y\":8.85,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0028\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.7,\"y\":1.8,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0029\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":8.7,\"y\":8.05,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0030\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.1,\"y\":2.45,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0031\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1,\"x\":6.8,\"y\":0.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0032\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.4,\"x\":6.7,\"y\":1.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0033\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":2.85,\"y\":1.6,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0034\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.45,\"x\":1.55,\"y\":4.2,\"z\":2.1,\"facing_deg\":0},\n{\"id\":\"obj_0035\",\"width_m\":1.1,\"depth_m\":0.65,\"height_m\":0.5,\"x\":12.5,\"y\":6.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0036\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":5,\"y\":1.8,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0037\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.85,\"y\":1.6,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0038\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":3.6,\"y\":3.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0039\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":4.35,\"y\":3.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0040\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.1,\"y\":3.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0041\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1.7,\"x\":10.25,\"y\":3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0042\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.4,\"x\":1.55,\"y\":4.65,\"z\":2.1,\"facing_deg\":0},\n{\"id\":\"obj_0043\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.5,\"x\":1.55,\"y\":5.1,\"z\":2.1,\"facing_deg\":0},\n{\"id\":\"obj_0044\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":3.6,\"y\":5.35,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0045\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.45,\"x\":1.55,\"y\":5.55,\"z\":2.1,\"facing_deg\":0},\n{\"id\":\"obj_0046\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.4,\"x\":1.55,\"y\":6,\"z\":2.1,\"facing_deg\":0},\n{\"id\":\"obj_0047\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.1,\"y\":4.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0048\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.9,\"x\":1.65,\"y\":6.8,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0049\",\"width_m\":1.1,\"depth_m\":0.65,\"height_m\":0.5,\"x\":12.5,\"y\":8.9,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0050\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":4.35,\"y\":5.35,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0051\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.4,\"x\":6.7,\"y\":2.2,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0052\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.4,\"y\":4.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0053\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":1.1,\"x\":1.65,\"y\":7.4,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0054\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":0.9,\"x\":1.65,\"y\":8,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0055\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.7,\"y\":4.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0056\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.1,\"y\":5.35,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0057\",\"width_m\":0.4,\"depth_m\":0.4,\"height_m\":1.2,\"x\":1.65,\"y\":8.6,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0058\",\"width_m\":1.1,\"depth_m\":0.6,\"height_m\":0.5,\"x\":12.5,\"y\":1.5,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0059\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.75,\"x\":2.2,\"y\":8.85,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0060\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":5,\"y\":4.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0061\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1,\"x\":4.2,\"y\":9.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0062\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.55,\"x\":10.25,\"y\":4.5,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0063\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":2.85,\"y\":4.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0064\",\"width_m\":2.2,\"depth_m\":0.9,\"height_m\":0.75,\"x\":4.35,\"y\":4.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0065\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.85,\"y\":4.5,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0066\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.4,\"x\":6.7,\"y\":2.9,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0067\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":3.6,\"y\":6.45,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0068\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.32,\"x\":3.7,\"y\":1.6,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0069\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.025,\"x\":8.4,\"y\":1.75,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0070\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":4.35,\"y\":6.45,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0071\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1,\"x\":4.9,\"y\":9.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0072\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.1,\"y\":4.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0073\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.4,\"y\":4.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0074\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":8.7,\"y\":9.65,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0075\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.32,\"x\":3.7,\"y\":4.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0076\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.32,\"x\":3.7,\"y\":7.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0077\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.7,\"y\":4.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0078\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":12.5,\"y\":5.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0079\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.32,\"x\":8.35,\"y\":1.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0080\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":5,\"y\":4.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0081\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":12.5,\"y\":7.15,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0082\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.1,\"y\":7.1,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0083\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":8.4,\"y\":5.55,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0084\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.1,\"y\":6.45,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0085\",\"width_m\":2.2,\"depth_m\":0.9,\"height_m\":0.75,\"x\":4.35,\"y\":7.3,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0086\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.46,\"x\":10.5,\"y\":1.5,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0087\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.4,\"y\":7.1,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0088\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.7,\"y\":7.1,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0089\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.4,\"x\":10.25,\"y\":5.55,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0090\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":3.6,\"y\":8.15,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0091\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":4.35,\"y\":8.15,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0092\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":5,\"y\":7.1,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0093\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.1,\"y\":8.15,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0094\",\"width_m\":0.35,\"depth_m\":0.16,\"height_m\":0.3,\"x\":6.4,\"y\":0.08,\"z\":2.4,\"facing_deg\":90},\n{\"id\":\"obj_0095\",\"width_m\":0.085,\"depth_m\":0.085,\"height_m\":0.31,\"x\":8.85,\"y\":5.55,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0096\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.1,\"y\":7.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0097\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":8.4,\"y\":8.85,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0098\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":12.2,\"y\":6.4,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0099\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":12.2,\"y\":8.9,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0100\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.4,\"y\":7.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0101\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1.7,\"x\":10.25,\"y\":7.5,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0102\",\"width_m\":0.4,\"depth_m\":0.3,\"height_m\":0.2,\"x\":7.9,\"y\":0.22,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0103\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":12.2,\"y\":1.5,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0104\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":4.7,\"y\":7.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0105\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":5,\"y\":7.5,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0106\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":2.85,\"y\":7.3,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0107\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1,\"x\":6.7,\"y\":6.4,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0108\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":12.5,\"y\":8.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0109\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.55,\"x\":10.25,\"y\":6.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0110\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":12.5,\"y\":9.65,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0111\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":8.7,\"y\":1.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0112\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1,\"x\":5.6,\"y\":9.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0113\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1,\"x\":6.7,\"y\":8.65,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0114\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.55,\"x\":10.25,\"y\":8.1,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0115\",\"width_m\":0.45,\"depth_m\":2.4,\"height_m\":2.1,\"x\":1.55,\"y\":5.15,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0116\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":5.85,\"y\":7.3,\"z\":0,\"facing_deg\":180},\n{\"id\":\"obj_0117\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":8.25,\"y\":0.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0118\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":9,\"y\":0.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0119\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":3.45,\"y\":9.85,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0120\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":4.15,\"y\":9.85,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0121\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1.7,\"x\":7.25,\"y\":9.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0122\",\"width_m\":0.4,\"depth_m\":0.3,\"height_m\":0.25,\"x\":9.4,\"y\":0.22,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0123\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":9,\"y\":1.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0124\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":9.3,\"y\":1.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0125\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":4.85,\"y\":9.85,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0126\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":9.6,\"y\":1.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0127\",\"width_m\":3.6,\"depth_m\":0.7,\"height_m\":1.05,\"x\":4.9,\"y\":9.8,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0128\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":9.75,\"y\":0.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0129\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":8.7,\"y\":1.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0130\",\"width_m\":0.1,\"depth_m\":0.6,\"height_m\":0.8,\"x\":1.32,\"y\":6.9,\"z\":1.5,\"facing_deg\":0},\n{\"id\":\"obj_0131\",\"width_m\":0.16,\"depth_m\":0.16,\"height_m\":0.24,\"x\":8.85,\"y\":8.85,\"z\":0.5,\"facing_deg\":0},\n{\"id\":\"obj_0132\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":9,\"y\":1.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0133\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":0.4,\"x\":10.25,\"y\":8.85,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0134\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.55,\"x\":10.25,\"y\":9.65,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0135\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":8.25,\"y\":2.35,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0136\",\"width_m\":0.4,\"depth_m\":0.3,\"height_m\":0.22,\"x\":9.95,\"y\":0.22,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0137\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":1,\"x\":6.3,\"y\":9.15,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0138\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":9.3,\"y\":1.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0139\",\"width_m\":2.2,\"depth_m\":0.9,\"height_m\":0.75,\"x\":9,\"y\":1.5,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0140\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":5.55,\"y\":9.85,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0141\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":9,\"y\":2.35,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0142\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.11,\"x\":5.2,\"y\":7.3,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0143\",\"width_m\":1.65,\"depth_m\":0.75,\"height_m\":0.82,\"x\":12.5,\"y\":0.55,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0144\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.09,\"x\":9.6,\"y\":1.7,\"z\":0.75,\"facing_deg\":0},\n{\"id\":\"obj_0145\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":9.75,\"y\":2.35,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0146\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.82,\"x\":7.5,\"y\":1.5,\"z\":0,\"facing_deg\":0},\n{\"id\":\"obj_0147\",\"width_m\":0.22,\"depth_m\":0.22,\"height_m\":0.35,\"x\":6.25,\"y\":9.85,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0148\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.8,\"x\":10.6,\"y\":0.25,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0149\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.55,\"x\":13.65,\"y\":6.4,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0150\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.55,\"x\":13.65,\"y\":8.9,\"z\":0,\"facing_deg\":90}\n]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling; fixed objects are already in the room and must not be overlapped.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nunknown\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 14.207 m x 10.162 m x 4.000 m\nfloor polygon (x, y): [[14.207, 0.0], [14.207, 0.083], [14.207, 2.693], [14.207, 2.759], [14.207, 4.359], [14.207, 4.421], [14.207, 10.162], [2.543, 10.162], [2.543, 9.434], [2.543, 9.194], [0.0, 9.194], [0.0, 9.097], [0.0, 7.497], [0.0, 7.385], [1.03, 7.385], [1.27, 7.385], [1.27, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0001\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0002\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0003\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0004\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0005\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0006\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0007\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0008\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0009\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0010\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0011\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0012\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0013\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0014\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0015\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0016\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0017\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0018\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0019\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0020\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0021\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0022\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0023\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0024\", \"category\": \"high chair\", \"description\": \"high chair\"},\n{\"id\": \"obj_0025\", \"category\": \"landscape stone\", \"description\": \"landscape stone\"},\n{\"id\": \"obj_0026\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0027\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0028\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0029\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0030\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0031\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0032\", \"category\": \"flowerpot\", \"description\": \"flowerpot\"},\n{\"id\": \"obj_0033\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0034\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0035\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0036\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0037\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0038\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0039\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0040\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0041\", \"category\": \"floor lamp\", \"description\": \"floor lamp\"},\n{\"id\": \"obj_0042\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0043\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0044\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0045\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0046\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0047\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0048\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0049\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0050\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0051\", \"category\": \"flowerpot\", \"description\": \"flowerpot\"},\n{\"id\": \"obj_0052\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0053\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0054\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0055\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0056\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0057\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0058\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0059\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0060\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0061\", \"category\": \"high chair\", \"description\": \"high chair\"},\n{\"id\": \"obj_0062\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0063\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0064\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0065\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0066\", \"category\": \"flowerpot\", \"description\": \"flowerpot\"},\n{\"id\": \"obj_0067\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0068\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0069\", \"category\": \"dining plate\", \"description\": \"dining plate\"},\n{\"id\": \"obj_0070\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0071\", \"category\": \"high chair\", \"description\": \"high chair\"},\n{\"id\": \"obj_0072\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0073\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0074\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0075\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0076\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0077\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0078\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0079\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0080\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0081\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0082\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0083\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0084\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0085\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0086\", \"category\": \"stool\", \"description\": \"stool\"},\n{\"id\": \"obj_0087\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0088\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0089\", \"category\": \"flowerpot\", \"description\": \"flowerpot\"},\n{\"id\": \"obj_0090\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0091\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0092\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0093\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0094\", \"category\": \"wall lamp\", \"description\": \"wall lamp\"},\n{\"id\": \"obj_0095\", \"category\": \"wine\", \"description\": \"wine\"},\n{\"id\": \"obj_0096\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0097\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0098\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0099\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0100\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0101\", \"category\": \"floor lamp\", \"description\": \"floor lamp\"},\n{\"id\": \"obj_0102\", \"category\": \"landscape stone\", \"description\": \"landscape stone\"},\n{\"id\": \"obj_0103\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0104\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0105\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0106\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0107\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0108\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0109\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0110\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0111\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0112\", \"category\": \"high chair\", \"description\": \"high chair\"},\n{\"id\": \"obj_0113\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0114\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0115\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0116\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0117\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0118\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0119\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0120\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0121\", \"category\": \"floor lamp\", \"description\": \"floor lamp\"},\n{\"id\": \"obj_0122\", \"category\": \"landscape stone\", \"description\": \"landscape stone\"},\n{\"id\": \"obj_0123\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0124\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0125\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0126\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0127\", \"category\": \"water bar\", \"description\": \"water bar\"},\n{\"id\": \"obj_0128\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0129\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0130\", \"category\": \"billboard\", \"description\": \"billboard\"},\n{\"id\": \"obj_0131\", \"category\": \"jar\", \"description\": \"jar\"},\n{\"id\": \"obj_0132\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0133\", \"category\": \"flowerpot\", \"description\": \"flowerpot\"},\n{\"id\": \"obj_0134\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0135\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0136\", \"category\": \"landscape stone\", \"description\": \"landscape stone\"},\n{\"id\": \"obj_0137\", \"category\": \"high chair\", \"description\": \"high chair\"},\n{\"id\": \"obj_0138\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0139\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0140\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0141\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0142\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0143\", \"category\": \"multi person sofa\", \"description\": \"multi person sofa\"},\n{\"id\": \"obj_0144\", \"category\": \"fruit\", \"description\": \"fruit\"},\n{\"id\": \"obj_0145\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0146\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0147\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0148\", \"category\": \"plant\", \"description\": \"plant\"},\n{\"id\": \"obj_0149\", \"category\": \"side table\", \"description\": \"side table\"},\n{\"id\": \"obj_0150\", \"category\": \"side table\", \"description\": \"side table\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [14.207, 1.388], \"wall_from\": [14.207, 0.083], \"wall_to\": [14.207, 2.693], \"width_m\": 2.611, \"height_m\": 1.9, \"sill_height_m\": 0.6}, {\"type\": \"door\", \"centre_xy\": [14.207, 3.559], \"wall_from\": [14.207, 2.759], \"wall_to\": [14.207, 4.359], \"width_m\": 1.6, \"height_m\": 2.5}, {\"type\": \"window\", \"centre_xy\": [14.207, 7.292], \"wall_from\": [14.207, 4.421], \"wall_to\": [14.207, 10.162], \"width_m\": 5.742, \"height_m\": 3.2, \"sill_height_m\": 0.2}, {\"type\": \"door\", \"centre_xy\": [0.0, 8.297], \"wall_from\": [0.0, 9.097], \"wall_to\": [0.0, 7.497], \"width_m\": 1.6, \"height_m\": 2.3}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0001\", \"category\": \"styling column\", \"width_m\": 0.36, \"depth_m\": 0.36, \"height_m\": 4.0, \"bottom_centre\": [7.23, 7.499, 0.0], \"facing_deg\": 270.0}, {\"id\": \"fixed_0002\", \"category\": \"styling column\", \"width_m\": 0.36, \"depth_m\": 0.36, \"height_m\": 4.0, \"bottom_centre\": [11.224, 7.499, 0.0], \"facing_deg\": 270.0}, {\"id\": \"fixed_0003\", \"category\": \"styling column\", \"width_m\": 0.36, \"depth_m\": 0.36, \"height_m\": 4.0, \"bottom_centre\": [11.224, 3.812, 0.0], \"facing_deg\": 270.0}, {\"id\": \"fixed_0004\", \"category\": \"partition\", \"width_m\": 2.426, \"depth_m\": 0.021, \"height_m\": 3.5, \"bottom_centre\": [11.795, 3.201, -0.0], \"facing_deg\": 180.0}, {\"id\": \"fixed_0006\", \"category\": \"partition\", \"width_m\": 2.426, \"depth_m\": 0.021, \"height_m\": 3.5, \"bottom_centre\": [12.998, 4.404, -0.0], \"facing_deg\": 270.0}, {\"id\": \"fixed_0008\", \"category\": \"styling column\", \"width_m\": 0.36, \"depth_m\": 0.36, \"height_m\": 4.0, \"bottom_centre\": [7.23, 3.812, 0.0], \"facing_deg\": 270.0}, {\"id\": \"fixed_0010\", \"category\": \"cabinet\", \"width_m\": 0.603, \"depth_m\": 3.747, \"height_m\": 2.8, \"bottom_centre\": [1.571, 1.873, -0.0], \"facing_deg\": 270.0}]\n[/Task Fixed Objects]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

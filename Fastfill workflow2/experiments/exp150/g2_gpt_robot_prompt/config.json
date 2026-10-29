@@ -1,0 +1,30 @@
+{
+ "rows": "../test300/rows.jsonl",
+ "model": "gpt-6.1-sol",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1",
+ "api": "relay",
+ "rpm": 30,
+ "sizes": {
+  "file": "experiments/exp150/fastfill_server/predictions_spread.jsonl"
+ },
+ "yaw_mode": "llm",
+ "placement": "simple",
+ "semantic": false,
+ "critic": true,
+ "robot": {
+  "width_m": 0.5,
+  "arm_m": 0.4,
+  "margin_m": 0.0,
+  "hard_zones": false
+ },
+ "repair": {
+  "off": true,
+  "relocate": false,
+  "rounds": 1,
+  "seconds": null
+ },
+ "drafts": 1,
+ "resize": false,
+ "budget_usd": 25.0,
+ "rooms": 150
+}

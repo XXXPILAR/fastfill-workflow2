@@ -1,0 +1,27 @@
+/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/LayoutVLM/src/layoutvlm/constraints.py:15: UserWarning: WARNING: Could not import oriented_iou_loss from third_party.Rotated_IoU. This is likely due to CUDA not being available or the CUDA extension not being compiled. The bbox_overlap_loss function will use a simplified fallback that may be less accurate. Original error: No module named 'sort_vertices'
+  warnings.warn(
+Fra:1 Mem:58.75M (Peak 58.75M) | Time:00:04.21 | Rendering 1 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:04.33 | Rendering 25 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:04.45 | Rendering 50 / 64 samples
+Fra:1 Mem:58.84M (Peak 58.84M) | Time:00:04.51 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/runs/exp150_g61/layoutvlm/room_162/group_0/top_down_rendering.png'
+Time: 00:04.60 (Saving: 00:00.06)
+
+Fra:1 Mem:58.87M (Peak 58.87M) | Time:00:00.02 | Rendering 1 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.88M) | Time:00:00.14 | Rendering 25 / 64 samples
+Fra:1 Mem:58.94M (Peak 58.94M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:58.88M (Peak 58.94M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: '/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/runs/exp150_g61/layoutvlm/room_162/group_0/side_rendering_45_3.png'
+Time: 00:00.36 (Saving: 00:00.03)
+
+Placing unplaced assets -- group 0
+Info: Deleted 2 data-block(s)
+White background set up.
+No texture found for the object.
+HDRI file not found: /Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/LayoutVLM/./data/HDRIs/studio_small_08_4k.exr
+no CUDA devices found
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/runs/exp150_g61/layoutvlm/room_162/group_0/top_down_rendering.png
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/runs/exp150_g61/layoutvlm/room_162/group_0/top_down_rendering.png
+Annotated image saved to /Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/runs/exp150_g61/layoutvlm/room_162/group_0/side_rendering_45_3.png
+Info: Deleted 2 data-block(s)
+room 162: AssertionError: Error in the sandbox code:  in 283s

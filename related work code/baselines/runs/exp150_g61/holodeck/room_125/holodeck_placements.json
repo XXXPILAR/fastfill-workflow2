@@ -1,0 +1,990 @@
+{
+ "floor": [
+  {
+   "assetId": "examination couch-0",
+   "id": "examination couch-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.2,
+    "y": 0.375,
+    "z": 2.045
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     562.5,
+     304.5
+    ],
+    [
+     562.5,
+     104.5
+    ],
+    [
+     477.5,
+     104.5
+    ],
+    [
+     477.5,
+     304.5
+    ]
+   ],
+   "object_name": "examination couch-0"
+  },
+  {
+   "assetId": "consultation desk-0",
+   "id": "consultation desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.38,
+    "y": 0.375,
+    "z": 1.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     80.5,
+     75.0
+    ],
+    [
+     80.5,
+     245.0
+    ],
+    [
+     -4.5,
+     245.0
+    ],
+    [
+     -4.5,
+     75.0
+    ]
+   ],
+   "object_name": "consultation desk-0"
+  },
+  {
+   "assetId": "tall storage cabinet-0",
+   "id": "tall storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.8,
+    "y": 0.9,
+    "z": 0.23
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     130.0,
+     -4.5
+    ],
+    [
+     130.0,
+     50.5
+    ],
+    [
+     30.0,
+     50.5
+    ],
+    [
+     30.0,
+     -4.5
+    ]
+   ],
+   "object_name": "tall storage cabinet-0"
+  },
+  {
+   "assetId": "mobile medical trolley-0",
+   "id": "mobile medical trolley-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.4,
+    "y": 0.825,
+    "z": 2.745
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     677.5,
+     304.5
+    ],
+    [
+     677.5,
+     244.5
+    ],
+    [
+     602.5,
+     244.5
+    ],
+    [
+     602.5,
+     304.5
+    ]
+   ],
+   "object_name": "mobile medical trolley-0"
+  },
+  {
+   "assetId": "portable vital signs cart-0",
+   "id": "portable vital signs cart-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.4,
+    "y": 0.675,
+    "z": 2.745
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     470.0,
+     304.5
+    ],
+    [
+     470.0,
+     244.5
+    ],
+    [
+     410.0,
+     244.5
+    ],
+    [
+     410.0,
+     304.5
+    ]
+   ],
+   "object_name": "portable vital signs cart-0"
+  },
+  {
+   "assetId": "small round side table-0",
+   "id": "small round side table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.2,
+    "y": 0.24,
+    "z": 0.215
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     546.0,
+     -4.5
+    ],
+    [
+     546.0,
+     47.5
+    ],
+    [
+     494.0,
+     47.5
+    ],
+    [
+     494.0,
+     -4.5
+    ]
+   ],
+   "object_name": "small round side table-0"
+  },
+  {
+   "assetId": "small round side table-1",
+   "id": "small round side table-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.4,
+    "y": 0.24,
+    "z": 0.215
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     466.0,
+     -4.5
+    ],
+    [
+     466.0,
+     47.5
+    ],
+    [
+     414.0,
+     47.5
+    ],
+    [
+     414.0,
+     -4.5
+    ]
+   ],
+   "object_name": "small round side table-1"
+  },
+  {
+   "assetId": "patient guest chair-0",
+   "id": "patient guest chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.405,
+    "z": 1.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     88.5,
+     131.0
+    ],
+    [
+     88.5,
+     189.0
+    ],
+    [
+     151.5,
+     189.0
+    ],
+    [
+     151.5,
+     131.0
+    ],
+    [
+     88.5,
+     131.0
+    ]
+   ],
+   "object_name": "patient guest chair-0"
+  },
+  {
+   "assetId": "patient guest chair-1",
+   "id": "patient guest chair-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.405,
+    "z": 2.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     88.5,
+     211.0
+    ],
+    [
+     88.5,
+     269.0
+    ],
+    [
+     151.5,
+     269.0
+    ],
+    [
+     151.5,
+     211.0
+    ],
+    [
+     88.5,
+     211.0
+    ]
+   ],
+   "object_name": "patient guest chair-1"
+  },
+  {
+   "assetId": "mobile exam stool-0",
+   "id": "mobile exam stool-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.0,
+    "y": 0.275,
+    "z": 0.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     571.0,
+     11.0
+    ],
+    [
+     571.0,
+     69.0
+    ],
+    [
+     629.0,
+     69.0
+    ],
+    [
+     629.0,
+     11.0
+    ],
+    [
+     571.0,
+     11.0
+    ]
+   ],
+   "object_name": "mobile exam stool-0"
+  },
+  {
+   "assetId": "mobile exam stool-1",
+   "id": "mobile exam stool-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.4,
+    "y": 0.275,
+    "z": 0.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     469.0,
+     109.0
+    ],
+    [
+     469.0,
+     51.0
+    ],
+    [
+     411.0,
+     51.0
+    ],
+    [
+     411.0,
+     109.0
+    ],
+    [
+     469.0,
+     109.0
+    ]
+   ],
+   "object_name": "mobile exam stool-1"
+  },
+  {
+   "assetId": "magazine floor rack-0",
+   "id": "magazine floor rack-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.0,
+    "y": 0.55,
+    "z": 2.82
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.0,
+     304.5
+    ],
+    [
+     230.0,
+     259.5
+    ],
+    [
+     170.0,
+     259.5
+    ],
+    [
+     170.0,
+     304.5
+    ]
+   ],
+   "object_name": "magazine floor rack-0"
+  },
+  {
+   "assetId": "coat stand-0",
+   "id": "coat stand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8,
+    "y": 0.875,
+    "z": 2.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     307.5,
+     304.5
+    ],
+    [
+     307.5,
+     249.5
+    ],
+    [
+     252.5,
+     249.5
+    ],
+    [
+     252.5,
+     304.5
+    ]
+   ],
+   "object_name": "coat stand-0"
+  },
+  {
+   "assetId": "umbrella stand-0",
+   "id": "umbrella stand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.6,
+    "y": 0.25,
+    "z": 2.87
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     377.5,
+     304.5
+    ],
+    [
+     377.5,
+     269.5
+    ],
+    [
+     342.5,
+     269.5
+    ],
+    [
+     342.5,
+     304.5
+    ]
+   ],
+   "object_name": "umbrella stand-0"
+  },
+  {
+   "assetId": "waste bin-0",
+   "id": "waste bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.4,
+    "y": 0.2,
+    "z": 2.855
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     59.0,
+     304.5
+    ],
+    [
+     59.0,
+     266.5
+    ],
+    [
+     21.0,
+     266.5
+    ],
+    [
+     21.0,
+     304.5
+    ]
+   ],
+   "object_name": "waste bin-0"
+  },
+  {
+   "assetId": "waste bin-1",
+   "id": "waste bin-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.2,
+    "y": 0.2,
+    "z": 2.855
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     739.0,
+     304.5
+    ],
+    [
+     739.0,
+     266.5
+    ],
+    [
+     701.0,
+     266.5
+    ],
+    [
+     701.0,
+     304.5
+    ]
+   ],
+   "object_name": "waste bin-1"
+  },
+  {
+   "assetId": "waste bin-2",
+   "id": "waste bin-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.6,
+    "y": 0.2,
+    "z": 0.145
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     179.0,
+     -4.5
+    ],
+    [
+     179.0,
+     33.5
+    ],
+    [
+     141.0,
+     33.5
+    ],
+    [
+     141.0,
+     -4.5
+    ]
+   ],
+   "object_name": "waste bin-2"
+  },
+  {
+   "assetId": "recycling bin-0",
+   "id": "recycling bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.6,
+    "y": 0.225,
+    "z": 0.165
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     381.0,
+     -4.5
+    ],
+    [
+     381.0,
+     37.5
+    ],
+    [
+     339.0,
+     37.5
+    ],
+    [
+     339.0,
+     -4.5
+    ]
+   ],
+   "object_name": "recycling bin-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall mounted whiteboard-0",
+   "id": "wall mounted whiteboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.8,
+    "y": 1.4,
+    "z": 2.975
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     125.0,
+     297.0
+    ],
+    [
+     125.0,
+     300.0
+    ],
+    [
+     35.0,
+     300.0
+    ],
+    [
+     35.0,
+     297.0
+    ],
+    [
+     125.0,
+     297.0
+    ]
+   ],
+   "object_name": "wall mounted whiteboard-0"
+  },
+  {
+   "assetId": "wall mounted cabinet-0",
+   "id": "wall mounted cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.2,
+    "y": 1.8,
+    "z": 2.83
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     760.0,
+     268.0
+    ],
+    [
+     760.0,
+     300.0
+    ],
+    [
+     680.0,
+     300.0
+    ],
+    [
+     680.0,
+     268.0
+    ],
+    [
+     760.0,
+     268.0
+    ]
+   ],
+   "object_name": "wall mounted cabinet-0"
+  },
+  {
+   "assetId": "wall mounted cabinet-1",
+   "id": "wall mounted cabinet-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.6,
+    "y": 1.8,
+    "z": 0.17
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     800.0,
+     0.0
+    ],
+    [
+     800.0,
+     32.0
+    ],
+    [
+     720.0,
+     32.0
+    ],
+    [
+     720.0,
+     0.0
+    ],
+    [
+     800.0,
+     0.0
+    ]
+   ],
+   "object_name": "wall mounted cabinet-1"
+  },
+  {
+   "assetId": "wall art print-0",
+   "id": "wall art print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.6,
+    "y": 1.675,
+    "z": 2.97
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     192.5,
+     296.0
+    ],
+    [
+     192.5,
+     300.0
+    ],
+    [
+     127.5,
+     300.0
+    ],
+    [
+     127.5,
+     296.0
+    ],
+    [
+     192.5,
+     296.0
+    ]
+   ],
+   "object_name": "wall art print-0"
+  },
+  {
+   "assetId": "wall art print-1",
+   "id": "wall art print-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.5999999999999996,
+    "y": 1.675,
+    "z": 2.97
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     392.49999999999994,
+     296.0
+    ],
+    [
+     392.49999999999994,
+     300.0
+    ],
+    [
+     327.49999999999994,
+     300.0
+    ],
+    [
+     327.49999999999994,
+     296.0
+    ],
+    [
+     392.49999999999994,
+     296.0
+    ]
+   ],
+   "object_name": "wall art print-1"
+  },
+  {
+   "assetId": "wall art print-2",
+   "id": "wall art print-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.2,
+    "y": 1.675,
+    "z": 0.03
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     552.5,
+     0.0
+    ],
+    [
+     552.5,
+     4.0
+    ],
+    [
+     487.5,
+     4.0
+    ],
+    [
+     487.5,
+     0.0
+    ],
+    [
+     552.5,
+     0.0
+    ]
+   ],
+   "object_name": "wall art print-2"
+  },
+  {
+   "assetId": "wall clock-0",
+   "id": "wall clock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.0325,
+    "y": 2.55,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     4.5,
+     125.0
+    ],
+    [
+     4.5,
+     155.0
+    ],
+    [
+     0.0,
+     155.0
+    ],
+    [
+     0.0,
+     125.0
+    ],
+    [
+     4.5,
+     125.0
+    ]
+   ],
+   "object_name": "wall clock-0"
+  },
+  {
+   "assetId": "wall mounted glove dispenser-0",
+   "id": "wall mounted glove dispenser-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.2,
+    "y": 1.27,
+    "z": 2.9400000000000004
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     533.0,
+     290.0
+    ],
+    [
+     533.0,
+     300.0
+    ],
+    [
+     507.0,
+     300.0
+    ],
+    [
+     507.0,
+     290.0
+    ],
+    [
+     533.0,
+     290.0
+    ]
+   ],
+   "object_name": "wall mounted glove dispenser-0"
+  }
+ ]
+}

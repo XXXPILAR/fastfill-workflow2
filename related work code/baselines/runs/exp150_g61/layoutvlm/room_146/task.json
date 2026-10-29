@@ -1,0 +1,36 @@
+{
+ "task_description": "a bathroom of about 4.0m x 3.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the toilet (o0001) should face the bathtub (o0000). the small bench (o0004) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    4.0,
+    0.0,
+    0.0
+   ],
+   [
+    4.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

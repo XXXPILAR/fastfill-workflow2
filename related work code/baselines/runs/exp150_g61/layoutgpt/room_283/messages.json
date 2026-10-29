@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bathroom mirror, cabinet, sink, toilet, towel bar, wall art, wall mirror, wall shelf \nOverall furniture frequencies: (bathroom mirror: 0.0769; cabinet: 0.2308; sink: 0.0769; toilet: 0.3077; towel bar: 0.0769; wall art: 0.0769; wall mirror: 0.0769; wall shelf: 0.0769)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.00m, max width 2.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "wall art[obj_0000] {length: 0.28m; height: 0.27m; width: 0.01m; orientation: 0 degrees; left: 0.04m; top: 1.70m; depth: 1.50m;}\nwall shelf[obj_0001] {length: 0.77m; height: 0.16m; width: 0.16m; orientation: -90 degrees; left: 0.60m; top: 1.91m; depth: 1.30m;}\nwall mirror[obj_0002] {length: 0.76m; height: 0.94m; width: 0.01m; orientation: -180 degrees; left: 0.96m; top: 1.40m; depth: 1.00m;}\ntowel bar[obj_0003] {length: 0.66m; height: 0.06m; width: 0.14m; orientation: -90 degrees; left: 0.60m; top: 1.92m; depth: 1.10m;}\ntoilet[obj_0004] {length: 0.66m; height: 0.72m; width: 0.42m; orientation: -180 degrees; left: 0.72m; top: 1.50m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.00m, max width 2.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.60m; height: 0.75m; width: 0.44m; orientation: -180 degrees; left: 0.71m; top: 1.50m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.00m, max width 2.00m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bathroom mirror[obj_0000] {length: 0.76m; height: 0.94m; width: 0.01m; orientation: -180 degrees; left: 0.96m; top: 1.50m; depth: 1.05m;}\ntoilet[obj_0001] {length: 0.51m; height: 0.78m; width: 0.64m; orientation: -180 degrees; left: 0.61m; top: 1.50m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.16m, max width 1.84m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "cabinet[obj_0000] {length: 0.95m; height: 1.12m; width: 0.50m; orientation: 0 degrees; left: 0.22m; top: 1.19m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.20m, max width 1.96m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.70m; height: 1.12m; width: 0.92m; orientation: 180 degrees; left: 0.74m; top: 0.35m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.03m, max width 1.56m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "sink[obj_0000] {length: 1.02m; height: 2.10m; width: 0.65m; orientation: -90 degrees; left: 0.52m; top: 1.23m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 1.07m, max width 1.56m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "cabinet[obj_0000] {length: 1.02m; height: 2.00m; width: 0.61m; orientation: 90 degrees; left: 0.51m; top: 0.31m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 0.86m, max width 1.47m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "cabinet[obj_0000] {length: 0.85m; height: 1.90m; width: 0.51m; orientation: -90 degrees; left: 0.43m; top: 1.22m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: bathroom\nRoom Size: max length 0.81m, max width 1.97m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\ncabinet[obj_0000]: cabinet\nFloor polygon (left, top): (0.81, 0.00), (0.81, 1.97), (0.00, 1.97), (0.00, 0.00)\ndoor 1.20m wide at left 0.81m, top 0.60m\ndoor 0.83m wide at left 0.00m, top 0.42m\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nLayout:\n"
+ }
+]

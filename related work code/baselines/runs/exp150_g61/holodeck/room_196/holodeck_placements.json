@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "bed-0",
+   "id": "bed-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.55,
+    "z": 2.0950000000000006
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     245.0,
+     319.50000000000006
+    ],
+    [
+     245.0,
+     99.50000000000006
+    ],
+    [
+     55.0,
+     99.50000000000006
+    ],
+    [
+     55.0,
+     319.50000000000006
+    ]
+   ],
+   "object_name": "bed-0"
+  },
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.73,
+    "y": 1.2,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     338.0,
+     25.0
+    ],
+    [
+     338.0,
+     275.0
+    ],
+    [
+     408.0,
+     275.0
+    ],
+    [
+     408.0,
+     25.0
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "nightstand-0",
+   "id": "nightstand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.275,
+    "z": 2.9450000000000007
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     330.0,
+     319.50000000000006
+    ],
+    [
+     330.0,
+     269.50000000000006
+    ],
+    [
+     270.0,
+     269.50000000000006
+    ],
+    [
+     270.0,
+     319.50000000000006
+    ]
+   ],
+   "object_name": "nightstand-0"
+  },
+  {
+   "assetId": "nightstand-1",
+   "id": "nightstand-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0,
+    "y": 0.275,
+    "z": 0.205
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     330.0,
+     -4.5
+    ],
+    [
+     330.0,
+     45.5
+    ],
+    [
+     270.0,
+     45.5
+    ],
+    [
+     270.0,
+     -4.5
+    ]
+   ],
+   "object_name": "nightstand-1"
+  }
+ ],
+ "wall": []
+}

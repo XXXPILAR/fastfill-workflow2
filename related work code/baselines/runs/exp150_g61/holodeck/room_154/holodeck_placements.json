@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "kitchen cabinet run-0",
+   "id": "kitchen cabinet run-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.46,
+    "z": 0.33
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     340.0,
+     -4.5
+    ],
+    [
+     340.0,
+     70.5
+    ],
+    [
+     10.0,
+     70.5
+    ],
+    [
+     10.0,
+     -4.5
+    ]
+   ],
+   "object_name": "kitchen cabinet run-0"
+  },
+  {
+   "assetId": "kitchen island-0",
+   "id": "kitchen island-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.445,
+    "y": 0.46,
+    "z": 2.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     384.5,
+     115.0
+    ],
+    [
+     384.5,
+     385.0
+    ],
+    [
+     504.5,
+     385.0
+    ],
+    [
+     504.5,
+     115.0
+    ]
+   ],
+   "object_name": "kitchen island-0"
+  },
+  {
+   "assetId": "breakfast nook table-0",
+   "id": "breakfast nook table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.43,
+    "y": 0.375,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     90.5,
+     102.5
+    ],
+    [
+     90.5,
+     197.5
+    ],
+    [
+     -4.5,
+     197.5
+    ],
+    [
+     -4.5,
+     102.5
+    ]
+   ],
+   "object_name": "breakfast nook table-0"
+  },
+  {
+   "assetId": "floor pantry cabinet-0",
+   "id": "floor pantry cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.0,
+    "y": 1.1,
+    "z": 0.33
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     435.0,
+     -4.5
+    ],
+    [
+     435.0,
+     70.5
+    ],
+    [
+     365.0,
+     70.5
+    ],
+    [
+     365.0,
+     -4.5
+    ]
+   ],
+   "object_name": "floor pantry cabinet-0"
+  }
+ ],
+ "wall": []
+}

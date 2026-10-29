@@ -1,0 +1,778 @@
+{
+ "k": 86,
+ "source": "InternScenes_gen",
+ "latency_s": 89.88001500023529,
+ "usage": [
+  {
+   "prompt_tokens": 2195,
+   "completion_tokens": 4225,
+   "total_tokens": 6420,
+   "prompt_tokens_details": {
+    "cached_tokens": 2048,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1262,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [
+  "obj_0023 (shelf) crosses a wall: its footprint must lie completely inside the floor polygon",
+  "obj_0049 (shelf) crosses a wall: its footprint must lie completely inside the floor polygon"
+ ],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.2,
+     0.28,
+     0.22
+    ],
+    "bottom_center_m": [
+     1.2,
+     5.62,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.28
+    ],
+    "bottom_center_m": [
+     1.12,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.4
+    ],
+    "bottom_center_m": [
+     3.05,
+     0.33,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.26
+    ],
+    "bottom_center_m": [
+     1.3,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.6,
+     0.8,
+     0.88
+    ],
+    "bottom_center_m": [
+     0.5,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.3
+    ],
+    "bottom_center_m": [
+     1.48,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.6,
+     0.8,
+     0.88
+    ],
+    "bottom_center_m": [
+     3.3,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.4
+    ],
+    "bottom_center_m": [
+     4.37,
+     0.3,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.4
+    ],
+    "bottom_center_m": [
+     5.12,
+     0.36,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.6,
+     0.8,
+     0.88
+    ],
+    "bottom_center_m": [
+     4.1,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.4,
+     0.52,
+     0.32
+    ],
+    "bottom_center_m": [
+     5.7,
+     0.31,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.2
+    ],
+    "bottom_center_m": [
+     0.3,
+     0.32,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.25
+    ],
+    "bottom_center_m": [
+     1.66,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.4
+    ],
+    "bottom_center_m": [
+     0.88,
+     5.46,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.13
+    ],
+    "bottom_center_m": [
+     0.86,
+     5.66,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0015",
+    "target_size_local_m": [
+     0.6,
+     0.8,
+     0.88
+    ],
+    "bottom_center_m": [
+     4.9,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0016",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.29
+    ],
+    "bottom_center_m": [
+     1.84,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0017",
+    "target_size_local_m": [
+     0.2,
+     0.3,
+     0.24
+    ],
+    "bottom_center_m": [
+     1.6,
+     5.62,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0018",
+    "target_size_local_m": [
+     0.42,
+     0.34,
+     0.08
+    ],
+    "bottom_center_m": [
+     0.7,
+     0.32,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0019",
+    "target_size_local_m": [
+     0.18,
+     0.28,
+     0.04
+    ],
+    "bottom_center_m": [
+     2.42,
+     5.63,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0020",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.27
+    ],
+    "bottom_center_m": [
+     2.02,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0021",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.2,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0022",
+    "target_size_local_m": [
+     0.3,
+     0.3,
+     0.22
+    ],
+    "bottom_center_m": [
+     1.2,
+     0.3,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0023",
+    "target_size_local_m": [
+     0.4,
+     2.2,
+     1.05
+    ],
+    "bottom_center_m": [
+     1.8,
+     5.536,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0024",
+    "target_size_local_m": [
+     0.2,
+     0.3,
+     0.2
+    ],
+    "bottom_center_m": [
+     2.0,
+     5.62,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0025",
+    "target_size_local_m": [
+     0.2,
+     0.32,
+     0.25
+    ],
+    "bottom_center_m": [
+     3.55,
+     5.62,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0026",
+    "target_size_local_m": [
+     0.25,
+     0.3,
+     0.12
+    ],
+    "bottom_center_m": [
+     3.37,
+     0.32,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0027",
+    "target_size_local_m": [
+     0.16,
+     0.12,
+     0.32
+    ],
+    "bottom_center_m": [
+     2.08,
+     0.12,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0028",
+    "target_size_local_m": [
+     0.6,
+     0.8,
+     0.88
+    ],
+    "bottom_center_m": [
+     5.7,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0029",
+    "target_size_local_m": [
+     0.6,
+     0.8,
+     0.88
+    ],
+    "bottom_center_m": [
+     1.9,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0030",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.11
+    ],
+    "bottom_center_m": [
+     3.6,
+     0.4,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0031",
+    "target_size_local_m": [
+     0.2,
+     0.32,
+     0.22
+    ],
+    "bottom_center_m": [
+     3.98,
+     5.62,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0032",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.28
+    ],
+    "bottom_center_m": [
+     2.38,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0033",
+    "target_size_local_m": [
+     0.2,
+     0.32,
+     0.2
+    ],
+    "bottom_center_m": [
+     4.41,
+     5.62,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0034",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.3
+    ],
+    "bottom_center_m": [
+     3.35,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0035",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.26
+    ],
+    "bottom_center_m": [
+     3.54,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0036",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.28
+    ],
+    "bottom_center_m": [
+     3.73,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0037",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.25
+    ],
+    "bottom_center_m": [
+     3.92,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0038",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.3
+    ],
+    "bottom_center_m": [
+     2.7,
+     5.46,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0039",
+    "target_size_local_m": [
+     0.12,
+     0.16,
+     0.1
+    ],
+    "bottom_center_m": [
+     4.96,
+     0.12,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0040",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.29
+    ],
+    "bottom_center_m": [
+     4.11,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0041",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.27
+    ],
+    "bottom_center_m": [
+     4.3,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0042",
+    "target_size_local_m": [
+     0.42,
+     0.38,
+     0.08
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.31,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0043",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.3
+    ],
+    "bottom_center_m": [
+     4.49,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0044",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.14
+    ],
+    "bottom_center_m": [
+     4.82,
+     5.63,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0045",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.88
+    ],
+    "bottom_center_m": [
+     2.6,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0046",
+    "target_size_local_m": [
+     0.08,
+     0.08,
+     0.26
+    ],
+    "bottom_center_m": [
+     4.68,
+     5.42,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0047",
+    "target_size_local_m": [
+     0.25,
+     0.28,
+     0.1
+    ],
+    "bottom_center_m": [
+     1.73,
+     0.35,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0048",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     0.88
+    ],
+    "bottom_center_m": [
+     1.2,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0049",
+    "target_size_local_m": [
+     0.4,
+     2.2,
+     1.05
+    ],
+    "bottom_center_m": [
+     4.3,
+     5.536,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0050",
+    "target_size_local_m": [
+     0.18,
+     0.18,
+     0.4
+    ],
+    "bottom_center_m": [
+     5.18,
+     5.46,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0051",
+    "target_size_local_m": [
+     0.1,
+     0.1,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.13,
+     0.43,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0052",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.2
+    ],
+    "bottom_center_m": [
+     4.75,
+     0.33,
+     0.88
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe main kitchen run occupies the south wall, leaving the middle of the room open and the east-wall doorway unobstructed. The oven sits directly between cabinets obj_0004 and obj_0029, and the dishwasher is beside the faucet-equipped preparation cabinet. Low cabinet tops remain below the south window sill.\n\nTwo freestanding shelves back against the north wall, grouping bottles, boxes, and smaller pantry items on their top surfaces. Cookware stays near the oven, the microwave has its own cabinet surface, and compact tabletop lamps provide distributed lighting. All small objects rest fully on their supporting surfaces. Because the ceiling height is unspecified, the arrangement stays low, with no object exceeding 1.5 metres.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[\n{\"id\":\"obj_0000\",\"width_m\":0.28,\"depth_m\":0.2,\"height_m\":0.22,\"x\":1.2,\"y\":5.62,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0001\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.28,\"x\":1.12,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0002\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.4,\"x\":3.05,\"y\":0.33,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0003\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.26,\"x\":1.3,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0004\",\"width_m\":0.8,\"depth_m\":0.6,\"height_m\":0.88,\"x\":0.5,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0005\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.3,\"x\":1.48,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0006\",\"width_m\":0.8,\"depth_m\":0.6,\"height_m\":0.88,\"x\":3.3,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0007\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.4,\"x\":4.37,\"y\":0.3,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0008\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.4,\"x\":5.12,\"y\":0.36,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0009\",\"width_m\":0.8,\"depth_m\":0.6,\"height_m\":0.88,\"x\":4.1,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0010\",\"width_m\":0.52,\"depth_m\":0.4,\"height_m\":0.32,\"x\":5.7,\"y\":0.31,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0011\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.2,\"x\":0.3,\"y\":0.32,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0012\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.25,\"x\":1.66,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0013\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.4,\"x\":0.88,\"y\":5.46,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0014\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.13,\"x\":0.86,\"y\":5.66,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0015\",\"width_m\":0.8,\"depth_m\":0.6,\"height_m\":0.88,\"x\":4.9,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0016\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.29,\"x\":1.84,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0017\",\"width_m\":0.3,\"depth_m\":0.2,\"height_m\":0.24,\"x\":1.6,\"y\":5.62,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0018\",\"width_m\":0.34,\"depth_m\":0.42,\"height_m\":0.08,\"x\":0.7,\"y\":0.32,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0019\",\"width_m\":0.28,\"depth_m\":0.18,\"height_m\":0.04,\"x\":2.42,\"y\":5.63,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0020\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.27,\"x\":2.02,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0021\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.3,\"x\":2.2,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0022\",\"width_m\":0.3,\"depth_m\":0.3,\"height_m\":0.22,\"x\":1.2,\"y\":0.3,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0023\",\"width_m\":2.2,\"depth_m\":0.4,\"height_m\":1.05,\"x\":1.8,\"y\":5.536,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0024\",\"width_m\":0.3,\"depth_m\":0.2,\"height_m\":0.2,\"x\":2,\"y\":5.62,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0025\",\"width_m\":0.32,\"depth_m\":0.2,\"height_m\":0.25,\"x\":3.55,\"y\":5.62,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0026\",\"width_m\":0.3,\"depth_m\":0.25,\"height_m\":0.12,\"x\":3.37,\"y\":0.32,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0027\",\"width_m\":0.12,\"depth_m\":0.16,\"height_m\":0.32,\"x\":2.08,\"y\":0.12,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0028\",\"width_m\":0.8,\"depth_m\":0.6,\"height_m\":0.88,\"x\":5.7,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0029\",\"width_m\":0.8,\"depth_m\":0.6,\"height_m\":0.88,\"x\":1.9,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0030\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.11,\"x\":3.6,\"y\":0.4,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0031\",\"width_m\":0.32,\"depth_m\":0.2,\"height_m\":0.22,\"x\":3.98,\"y\":5.62,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0032\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.28,\"x\":2.38,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0033\",\"width_m\":0.32,\"depth_m\":0.2,\"height_m\":0.2,\"x\":4.41,\"y\":5.62,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0034\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.3,\"x\":3.35,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0035\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.26,\"x\":3.54,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0036\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.28,\"x\":3.73,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0037\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.25,\"x\":3.92,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0038\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.3,\"x\":2.7,\"y\":5.46,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0039\",\"width_m\":0.16,\"depth_m\":0.12,\"height_m\":0.1,\"x\":4.96,\"y\":0.12,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0040\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.29,\"x\":4.11,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0041\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.27,\"x\":4.3,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0042\",\"width_m\":0.38,\"depth_m\":0.42,\"height_m\":0.08,\"x\":4,\"y\":0.31,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0043\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.3,\"x\":4.49,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0044\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.14,\"x\":4.82,\"y\":5.63,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0045\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":0.88,\"x\":2.6,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0046\",\"width_m\":0.08,\"depth_m\":0.08,\"height_m\":0.26,\"x\":4.68,\"y\":5.42,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0047\",\"width_m\":0.28,\"depth_m\":0.25,\"height_m\":0.1,\"x\":1.73,\"y\":0.35,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0048\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":0.88,\"x\":1.2,\"y\":0.3,\"z\":0,\"facing_deg\":90},\n{\"id\":\"obj_0049\",\"width_m\":2.2,\"depth_m\":0.4,\"height_m\":1.05,\"x\":4.3,\"y\":5.536,\"z\":0,\"facing_deg\":270},\n{\"id\":\"obj_0050\",\"width_m\":0.18,\"depth_m\":0.18,\"height_m\":0.4,\"x\":5.18,\"y\":5.46,\"z\":1.05,\"facing_deg\":270},\n{\"id\":\"obj_0051\",\"width_m\":0.1,\"depth_m\":0.1,\"height_m\":0.11,\"x\":2.13,\"y\":0.43,\"z\":0.88,\"facing_deg\":90},\n{\"id\":\"obj_0052\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.2,\"x\":4.75,\"y\":0.33,\"z\":0.88,\"facing_deg\":90}\n]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.236 m x 5.736 m x unknown\nfloor polygon (x, y): [[6.236, 0.0], [6.236, 5.736], [0.5, 5.736], [0.5, 3.236], [0.0, 3.236], [0.0, 0.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0001\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0002\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0003\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0004\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0005\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0006\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0007\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0008\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0009\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0010\", \"category\": \"microwave\", \"description\": \"microwave\"},\n{\"id\": \"obj_0011\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0012\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0013\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0014\", \"category\": \"can\", \"description\": \"can\"},\n{\"id\": \"obj_0015\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0016\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0017\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0018\", \"category\": \"pan\", \"description\": \"pan\"},\n{\"id\": \"obj_0019\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0020\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0021\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0022\", \"category\": \"pot\", \"description\": \"pot\"},\n{\"id\": \"obj_0023\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0024\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0025\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0026\", \"category\": \"food\", \"description\": \"food\"},\n{\"id\": \"obj_0027\", \"category\": \"faucet\", \"description\": \"faucet\"},\n{\"id\": \"obj_0028\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0029\", \"category\": \"cabinet\", \"description\": \"cabinet\"},\n{\"id\": \"obj_0030\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0031\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0032\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0033\", \"category\": \"box\", \"description\": \"box\"},\n{\"id\": \"obj_0034\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0035\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0036\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0037\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0038\", \"category\": \"vase\", \"description\": \"vase\"},\n{\"id\": \"obj_0039\", \"category\": \"food\", \"description\": \"food\"},\n{\"id\": \"obj_0040\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0041\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0042\", \"category\": \"pan\", \"description\": \"pan\"},\n{\"id\": \"obj_0043\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0044\", \"category\": \"can\", \"description\": \"can\"},\n{\"id\": \"obj_0045\", \"category\": \"dishwasher\", \"description\": \"dishwasher\"},\n{\"id\": \"obj_0046\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0047\", \"category\": \"food\", \"description\": \"food\"},\n{\"id\": \"obj_0048\", \"category\": \"oven\", \"description\": \"oven\"},\n{\"id\": \"obj_0049\", \"category\": \"shelf\", \"description\": \"shelf\"},\n{\"id\": \"obj_0050\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0051\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0052\", \"category\": \"pot\", \"description\": \"pot\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [6.236, 2.537], \"wall_from\": [6.236, 0.0], \"wall_to\": [6.236, 5.736], \"width_m\": 0.347, \"height_m\": 2.379}, {\"type\": \"window\", \"centre_xy\": [0.5, 4.367], \"wall_from\": [0.5, 5.736], \"wall_to\": [0.5, 3.236], \"width_m\": 1.332, \"height_m\": 1.48, \"sill_height_m\": 0.903}, {\"type\": \"window\", \"centre_xy\": [0.0, 1.87], \"wall_from\": [0.0, 3.236], \"wall_to\": [0.0, 0.0], \"width_m\": 1.333, \"height_m\": 1.467, \"sill_height_m\": 0.909}, {\"type\": \"window\", \"centre_xy\": [0.99, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [6.236, 0.0], \"width_m\": 1.59, \"height_m\": 1.486, \"sill_height_m\": 0.899}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0048\", \"target_ids\": [\"obj_0004\", \"obj_0029\"]}, {\"type\": \"against_wall\", \"object_id\": \"obj_0023\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

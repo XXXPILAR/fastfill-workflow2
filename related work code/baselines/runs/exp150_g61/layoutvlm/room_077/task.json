@@ -1,0 +1,92 @@
+{
+ "task_description": "a bedroom of about 9.7m x 6.2m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 0.76 m wide centred at (0.05, 3.02); a window 0.72 m wide centred at (0.25, 2.18); a window 0.84 m wide centred at (0.72, 1.33); a window 0.61 m wide centred at (1.36, 0.70); a window 0.76 m wide centred at (2.05, 0.30); a window 0.62 m wide centred at (2.96, 0.06); a window 3.25 m wide centred at (6.24, 0.00); a window 1.47 m wide centred at (9.74, 3.55); a door 0.85 m wide centred at (0.93, 6.24) (keep the floor in front of it clear); a window 1.17 m wide centred at (0.00, 4.89). the bed (o0012) should be between the shelf (o0007) and the shelf (o0000). the bed (o0012) should face the shelf (o0001). the book (o0004) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0036568641662597656,
+    3.3773951530456543,
+    0.0
+   ],
+   [
+    0.11685895919799805,
+    2.4972541332244873,
+    0.0
+   ],
+   [
+    0.45316267013549805,
+    1.6853457689285278,
+    0.0
+   ],
+   [
+    0.7198524475097656,
+    1.3361306190490723,
+    0.0
+   ],
+   [
+    0.9881439208984375,
+    0.9881443977355957,
+    0.0
+   ],
+   [
+    1.6853456497192383,
+    0.45316267013549805,
+    0.0
+   ],
+   [
+    2.497253894805908,
+    0.11685919761657715,
+    0.0
+   ],
+   [
+    3.3773951530456543,
+    0.0036568641662597656,
+    0.0
+   ],
+   [
+    9.737077713012695,
+    0.0,
+    0.0
+   ],
+   [
+    9.737077713012695,
+    4.737077951431274,
+    0.0
+   ],
+   [
+    3.7370777130126953,
+    4.737077951431274,
+    0.0
+   ],
+   [
+    3.7370777130126953,
+    6.237077951431274,
+    0.0
+   ],
+   [
+    0.0,
+    6.237077951431274,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {}
+ }
+}

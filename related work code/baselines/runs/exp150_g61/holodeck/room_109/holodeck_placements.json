@@ -1,0 +1,266 @@
+{
+ "floor": [
+  {
+   "assetId": "low credenza-0",
+   "id": "low credenza-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.1,
+    "y": 0.375,
+    "z": 2.77
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     595.0,
+     304.5
+    ],
+    [
+     595.0,
+     249.5
+    ],
+    [
+     425.0,
+     249.5
+    ],
+    [
+     425.0,
+     304.5
+    ]
+   ],
+   "object_name": "low credenza-0"
+  },
+  {
+   "assetId": "executive desk-0",
+   "id": "executive desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.3,
+    "y": 0.38,
+    "z": 2.62
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     415.0,
+     304.5
+    ],
+    [
+     415.0,
+     219.5
+    ],
+    [
+     245.0,
+     219.5
+    ],
+    [
+     245.0,
+     304.5
+    ]
+   ],
+   "object_name": "executive desk-0"
+  },
+  {
+   "assetId": "meeting table round-0",
+   "id": "meeting table round-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.505,
+    "y": 0.375,
+    "z": 0.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     105.5,
+     5.0
+    ],
+    [
+     105.5,
+     115.0
+    ],
+    [
+     -4.5,
+     115.0
+    ],
+    [
+     -4.5,
+     5.0
+    ]
+   ],
+   "object_name": "meeting table round-0"
+  },
+  {
+   "assetId": "executive task chair-0",
+   "id": "executive task chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.8,
+    "y": 0.6,
+    "z": 2.645
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     220.0,
+     304.5
+    ],
+    [
+     220.0,
+     224.5
+    ],
+    [
+     140.0,
+     224.5
+    ],
+    [
+     140.0,
+     304.5
+    ]
+   ],
+   "object_name": "executive task chair-0"
+  },
+  {
+   "assetId": "visitor chair-0",
+   "id": "visitor chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.41,
+    "z": 1.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     122.0
+    ],
+    [
+     55.5,
+     178.0
+    ],
+    [
+     -4.5,
+     178.0
+    ],
+    [
+     -4.5,
+     122.0
+    ]
+   ],
+   "object_name": "visitor chair-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "wall art-0",
+   "id": "wall art-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 5.1,
+    "y": 1.8,
+    "z": 2.9800000000000004
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     540.0,
+     298.0
+    ],
+    [
+     540.0,
+     300.0
+    ],
+    [
+     480.0,
+     300.0
+    ],
+    [
+     480.0,
+     298.0
+    ],
+    [
+     540.0,
+     298.0
+    ]
+   ],
+   "object_name": "wall art-0"
+  },
+  {
+   "assetId": "wall clock-0",
+   "id": "wall clock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 2.35,
+    "z": 2.9650000000000003
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     165.0,
+     295.0
+    ],
+    [
+     165.0,
+     300.0
+    ],
+    [
+     135.0,
+     300.0
+    ],
+    [
+     135.0,
+     295.0
+    ],
+    [
+     165.0,
+     295.0
+    ]
+   ],
+   "object_name": "wall clock-0"
+  }
+ ]
+}

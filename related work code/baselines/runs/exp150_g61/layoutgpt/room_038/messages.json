@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bicycle, cabinet, car, desk, drawer desk, dresser, file cabinet, kitchen lower cabinet, ladder, nightstand, pillow, platform, rack, shelf, sink, storage shelf, table \nOverall furniture frequencies: (bicycle: 0.0312; cabinet: 0.1875; car: 0.0625; desk: 0.0938; drawer desk: 0.0312; dresser: 0.0312; file cabinet: 0.0312; kitchen lower cabinet: 0.0312; ladder: 0.0312; nightstand: 0.0625; pillow: 0.0312; platform: 0.0; rack: 0.0625; shelf: 0.0938; sink: 0.0625; storage shelf: 0.0312; table: 0.125)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 11.39m, max width 6.20m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "table[obj_0000] {length: 1.37m; height: 0.75m; width: 0.76m; orientation: -180 degrees; left: 8.01m; top: 3.36m; depth: 0.00m;}\nsink[obj_0001] {length: 0.59m; height: 0.89m; width: 0.40m; orientation: 0 degrees; left: 0.60m; top: 5.80m; depth: 0.00m;}\ncabinet[obj_0002] {length: 0.76m; height: 0.33m; width: 0.78m; orientation: 0 degrees; left: 0.79m; top: 1.40m; depth: 0.00m;}\ntable[obj_0003] {length: 1.62m; height: 0.78m; width: 0.83m; orientation: 0 degrees; left: 0.42m; top: 4.20m; depth: 0.00m;}\ncabinet[obj_0004] {length: 0.76m; height: 0.33m; width: 0.78m; orientation: 0 degrees; left: 0.79m; top: 2.60m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 10.76m, max width 6.51m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "shelf[obj_0000] {length: 0.69m; height: 0.89m; width: 0.33m; orientation: 90 degrees; left: 7.60m; top: 0.64m; depth: 0.00m;}\nsink[obj_0001] {length: 0.59m; height: 0.89m; width: 0.40m; orientation: -90 degrees; left: 4.40m; top: 6.26m; depth: 0.00m;}\nnightstand[obj_0002] {length: 0.76m; height: 0.61m; width: 0.43m; orientation: 0 degrees; left: 0.22m; top: 1.12m; depth: 0.00m;}\ndesk[obj_0003] {length: 1.40m; height: 0.76m; width: 0.66m; orientation: -90 degrees; left: 3.20m; top: 6.18m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 10.70m, max width 6.48m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "drawer desk[obj_0000] {length: 1.52m; height: 0.94m; width: 1.07m; orientation: 90 degrees; left: 5.60m; top: 1.02m; depth: 0.00m;}\nrack[obj_0001] {length: 0.92m; height: 1.88m; width: 0.61m; orientation: -90 degrees; left: 5.60m; top: 5.99m; depth: 0.00m;}\npillow[obj_0002] {length: 0.50m; height: 0.41m; width: 0.27m; orientation: 0 degrees; left: 0.14m; top: 5.23m; depth: -0.01m;}\nrack[obj_0003] {length: 1.23m; height: 0.75m; width: 0.38m; orientation: -90 degrees; left: 0.80m; top: 6.28m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 12.80m, max width 6.22m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "dresser[obj_0000] {length: 1.73m; height: 0.86m; width: 0.52m; orientation: 90 degrees; left: 4.00m; top: 0.48m; depth: 0.00m;}\ntable[obj_0001] {length: 0.80m; height: 0.52m; width: 0.50m; orientation: -180 degrees; left: 7.74m; top: 5.37m; depth: 0.00m;}\nstorage shelf[obj_0002] {length: 1.42m; height: 0.36m; width: 0.24m; orientation: -90 degrees; left: 0.80m; top: 6.09m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 10.44m, max width 6.03m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "file cabinet[obj_0000] {length: 0.45m; height: 0.70m; width: 0.60m; orientation: 90 degrees; left: 6.00m; top: 0.33m; depth: 0.00m;}\ndesk[obj_0001] {length: 1.40m; height: 0.69m; width: 0.63m; orientation: 90 degrees; left: 4.80m; top: 0.34m; depth: 0.00m;}\ncabinet[obj_0002] {length: 0.76m; height: 0.33m; width: 0.78m; orientation: -90 degrees; left: 0.80m; top: 5.63m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 10.44m, max width 6.63m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "shelf[obj_0000] {length: 1.83m; height: 1.88m; width: 0.61m; orientation: 90 degrees; left: 3.60m; top: 0.94m; depth: 0.00m;}\nshelf[obj_0001] {length: 1.83m; height: 1.88m; width: 0.61m; orientation: 90 degrees; left: 5.60m; top: 0.94m; depth: 0.00m;}\ncabinet[obj_0002] {length: 0.41m; height: 0.57m; width: 0.50m; orientation: 0 degrees; left: 0.26m; top: 1.03m; depth: 0.00m;}\ndesk[obj_0003] {length: 1.40m; height: 0.69m; width: 0.63m; orientation: 90 degrees; left: 1.60m; top: 0.95m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 13.09m, max width 6.57m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "nightstand[obj_0000] {length: 0.83m; height: 0.75m; width: 0.55m; orientation: 90 degrees; left: 4.80m; top: 0.85m; depth: 0.00m;}\nkitchen lower cabinet[obj_0001] {length: 0.85m; height: 0.90m; width: 0.85m; orientation: 90 degrees; left: 2.00m; top: 1.00m; depth: 0.00m;}\ntable[obj_0002] {length: 1.40m; height: 0.69m; width: 0.63m; orientation: 90 degrees; left: 3.60m; top: 0.89m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 10.69m, max width 7.73m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "car[obj_0000] {length: 1.77m; height: 1.30m; width: 4.17m; orientation: 90 degrees; left: 2.75m; top: 5.05m; depth: -0.01m;}\ncabinet[obj_0001] {length: 2.42m; height: 2.30m; width: 0.65m; orientation: -180 degrees; left: 10.34m; top: 4.31m; depth: -0.00m;}\ncabinet[obj_0002] {length: 2.42m; height: 2.30m; width: 0.65m; orientation: -180 degrees; left: 10.34m; top: 1.21m; depth: -0.00m;}\nladder[obj_0003] {length: 0.41m; height: 2.53m; width: 0.18m; orientation: -180 degrees; left: 10.57m; top: 2.73m; depth: 0.00m;}\nbicycle[obj_0004] {length: 1.64m; height: 1.07m; width: 0.55m; orientation: -180 degrees; left: 7.74m; top: 6.69m; depth: -0.00m;}\ncar[obj_0005] {length: 2.17m; height: 1.64m; width: 4.36m; orientation: 90 degrees; left: 5.94m; top: 4.95m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: garage\nRoom Size: max length 11.70m, max width 6.16m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\nkitchen lower cabinet[obj_0000]: A dark gray cabinet with a light gray countertop. It features two doors with silver handles and a simple design suitable for kitchen or bathroom storage.\ntable[obj_0001]: A sturdy workbench with a metal frame and a white tabletop. It features two lower shelves made of metal mesh for additional storage.\ncabinet[obj_0002]: A white bathroom cabinet with a sink on top, featuring a simple design with clean lines and a minimalist aesthetic.\nplatform[obj_0003]: A simple, smooth cylinder with a flat top surface and rounded edges.\nFloor polygon (left, top): (0.00, 0.00), (11.70, 0.00), (11.70, 6.16), (0.00, 6.16)\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0003\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0001\", \"max_distance_m\": 0.5}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nLayout:\n"
+ }
+]

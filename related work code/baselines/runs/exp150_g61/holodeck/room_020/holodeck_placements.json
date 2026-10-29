@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "bookcase-0",
+   "id": "bookcase-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.1,
+    "y": 1.0,
+    "z": 2.6616000000000004
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     260.0,
+     287.16
+    ],
+    [
+     260.0,
+     245.16000000000003
+    ],
+    [
+     160.0,
+     245.16000000000003
+    ],
+    [
+     160.0,
+     287.16
+    ]
+   ],
+   "object_name": "bookcase-0"
+  },
+  {
+   "assetId": "bookcase-1",
+   "id": "bookcase-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 1.05,
+    "z": 2.5966000000000005
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     115.0,
+     287.16
+    ],
+    [
+     115.0,
+     232.16000000000003
+    ],
+    [
+     5.0,
+     232.16000000000003
+    ],
+    [
+     5.0,
+     287.16
+    ]
+   ],
+   "object_name": "bookcase-1"
+  }
+ ],
+ "wall": []
+}

@@ -1,0 +1,41 @@
+{
+ "task_description": "a living room of about 6.0m x 7.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the sofa (o0000) should be between the floor lamp (o0006) and the floor lamp (o0001). the sofa (o0000) should face the bookshelf (o0005)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    6.0,
+    0.0,
+    0.0
+   ],
+   [
+    6.0,
+    7.0,
+    0.0
+   ],
+   [
+    0.0,
+    7.0,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {}
+ }
+}

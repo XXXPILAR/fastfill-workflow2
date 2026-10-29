@@ -1,0 +1,149 @@
+{
+ "floor": [
+  {
+   "assetId": "sideboard-0",
+   "id": "sideboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 0.625,
+    "z": 0.77952
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     385.0,
+     47.952
+    ],
+    [
+     385.0,
+     107.952
+    ],
+    [
+     265.0,
+     107.952
+    ],
+    [
+     265.0,
+     47.952
+    ]
+   ],
+   "object_name": "sideboard-0"
+  },
+  {
+   "assetId": "dining table-0",
+   "id": "dining table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.2649,
+    "y": 0.38,
+    "z": 2.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     256.49,
+     130.0
+    ],
+    [
+     256.49,
+     270.0
+    ],
+    [
+     396.49,
+     270.0
+    ],
+    [
+     396.49,
+     130.0
+    ]
+   ],
+   "object_name": "dining table-0"
+  },
+  {
+   "assetId": "wine cabinet-0",
+   "id": "wine cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.75,
+    "y": 0.9,
+    "z": 0.75452
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     250.0,
+     47.952
+    ],
+    [
+     250.0,
+     102.952
+    ],
+    [
+     100.0,
+     102.952
+    ],
+    [
+     100.0,
+     47.952
+    ]
+   ],
+   "object_name": "wine cabinet-0"
+  },
+  {
+   "assetId": "houseplant-0",
+   "id": "houseplant-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.645,
+    "y": 0.675,
+    "z": 1.75
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     109.5,
+     127.5
+    ],
+    [
+     109.5,
+     222.5
+    ],
+    [
+     19.5,
+     222.5
+    ],
+    [
+     19.5,
+     127.5
+    ]
+   ],
+   "object_name": "houseplant-0"
+  }
+ ],
+ "wall": []
+}

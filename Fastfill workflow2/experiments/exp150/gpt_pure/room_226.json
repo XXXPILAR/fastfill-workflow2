@@ -1,0 +1,61 @@
+{
+ "k": 226,
+ "source": "SpatialLM",
+ "latency_s": 15.4077362078242,
+ "usage": [
+  {
+   "prompt_tokens": 955,
+   "completion_tokens": 315,
+   "total_tokens": 1270,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 94,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.7,
+     0.7,
+     1.85
+    ],
+    "bottom_center_m": [
+     2.65,
+     1.372,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.64,
+     0.6,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.4,
+     1.342,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nPlace both appliances side by side against the long wall at y = 1.022, facing into the room. The refrigerator occupies the left end of this straight wall, with the washing machine beside it. This keeps the appliances accessible, leaves approximately 0.78 m of clear aisle in front of the refrigerator and 0.84 m in front of the washing machine, and keeps both door approaches unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.7,\"depth_m\":0.7,\"height_m\":1.85,\"x\":2.65,\"y\":1.372,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.6,\"depth_m\":0.64,\"height_m\":0.85,\"x\":3.4,\"y\":1.342,\"z\":0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nkitchen\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 5.865 m x 2.502 m x 2.400 m\nfloor polygon (x, y): [[5.865, 2.502], [0.0, 2.502], [0.0, 1.201], [1.163, 0.0], [2.209, 1.022], [5.865, 1.022]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"refrigerator\", \"description\": \"refrigerator\"},\n{\"id\": \"obj_0001\", \"category\": \"washing machine\", \"description\": \"washing machine\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [5.075, 2.502], \"wall_from\": [5.865, 2.502], \"wall_to\": [0.0, 2.502], \"width_m\": 1.58, \"height_m\": 2.25}, {\"type\": \"window\", \"centre_xy\": [3.349, 2.502], \"wall_from\": [5.865, 2.502], \"wall_to\": [0.0, 2.502], \"width_m\": 0.702, \"height_m\": 0.8, \"sill_height_m\": 1.4}, {\"type\": \"door\", \"centre_xy\": [0.0, 1.851], \"wall_from\": [0.0, 2.502], \"wall_to\": [0.0, 1.201], \"width_m\": 1.301, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

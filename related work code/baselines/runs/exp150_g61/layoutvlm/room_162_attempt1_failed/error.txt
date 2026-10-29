@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/LayoutVLM/src/layoutvlm/sandbox.py", line 98, in sanity_check
+    exec(entire_program, _local_vars)
+  File "<string>", line 201, in <module>
+AssertionError: Unplaced assets: fixed_pointtt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/adapters/layoutvlm_run.py", line 148, in main
+    result = solver.solve(prepared)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/LayoutVLM/src/layoutvlm/layoutvlm.py", line 489, in solve
+    placed_assets = self._solve_single_group(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/LayoutVLM/src/layoutvlm/layoutvlm.py", line 457, in _solve_single_group
+    self.sandbox.sanity_check(group_assets, constraint_program)
+  File "/Users/zhangyang/Downloads/fastfill-v4/related work code/baselines/LayoutVLM/src/layoutvlm/sandbox.py", line 100, in sanity_check
+    assert False, f"Error in the sandbox code: {e}"
+AssertionError: Error in the sandbox code: Unplaced assets: fixed_pointtt

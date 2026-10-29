@@ -1,0 +1,201 @@
+{
+ "k": 120,
+ "source": "MansionWorld",
+ "latency_s": 37.41282987501472,
+ "usage": [
+  {
+   "prompt_tokens": 1402,
+   "completion_tokens": 1041,
+   "total_tokens": 2443,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 304,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.85,
+     2.0,
+     0.76
+    ],
+    "bottom_center_m": [
+     1.35,
+     0.45,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.04,
+     0.75,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.35,
+     0.02,
+     1.3
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     1.1,
+     0.85
+    ],
+    "bottom_center_m": [
+     3.775,
+     1.35,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.5,
+     1.8,
+     0.8
+    ],
+    "bottom_center_m": [
+     1.25,
+     3.75,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.32,
+     0.25,
+     0.38
+    ],
+    "bottom_center_m": [
+     3.775,
+     1.35,
+     0.85
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.1,
+     0.25,
+     0.3
+    ],
+    "bottom_center_m": [
+     0.65,
+     0.3,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.28,
+     1.1,
+     0.22
+    ],
+    "bottom_center_m": [
+     3.86,
+     1.35,
+     1.65
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.04,
+     0.55,
+     0.65
+    ],
+    "bottom_center_m": [
+     1.25,
+     3.98,
+     2.15
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.68,
+     0.68,
+     1.2
+    ],
+    "bottom_center_m": [
+     1.35,
+     1.45,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.06,
+     1.05,
+     0.75
+    ],
+    "bottom_center_m": [
+     3.97,
+     2.65,
+     1.2
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.28,
+     1.6,
+     0.22
+    ],
+    "bottom_center_m": [
+     1.25,
+     3.86,
+     1.6
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.25,
+     0.34,
+     0.2
+    ],
+    "bottom_center_m": [
+     0.8,
+     3.72,
+     0.8
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe large desk sits along the south wall, with its chair facing the work surface and daylight entering from the west windows. The coffee console occupies the east wall, while the credenza sits against the northwest section of the north wall. This leaves the northeast doorway and central circulation area clear. Shelves and artwork use the solid walls without covering the windows, and the coffee machine, framed photo, and files rest on their designated furniture.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":2,\"depth_m\":0.85,\"height_m\":0.76,\"x\":1.35,\"y\":0.45,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.75,\"depth_m\":0.04,\"height_m\":0.9,\"x\":1.35,\"y\":0.02,\"z\":1.3,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":1.1,\"depth_m\":0.45,\"height_m\":0.85,\"x\":3.775,\"y\":1.35,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":1.8,\"depth_m\":0.5,\"height_m\":0.8,\"x\":1.25,\"y\":3.75,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.25,\"depth_m\":0.32,\"height_m\":0.38,\"x\":3.775,\"y\":1.35,\"z\":0.85,\"facing_deg\":180},{\"id\":\"obj_0005\",\"width_m\":0.25,\"depth_m\":0.1,\"height_m\":0.3,\"x\":0.65,\"y\":0.3,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":1.1,\"depth_m\":0.28,\"height_m\":0.22,\"x\":3.86,\"y\":1.35,\"z\":1.65,\"facing_deg\":180},{\"id\":\"obj_0007\",\"width_m\":0.55,\"depth_m\":0.04,\"height_m\":0.65,\"x\":1.25,\"y\":3.98,\"z\":2.15,\"facing_deg\":270},{\"id\":\"obj_0008\",\"width_m\":0.68,\"depth_m\":0.68,\"height_m\":1.2,\"x\":1.35,\"y\":1.45,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":1.05,\"depth_m\":0.06,\"height_m\":0.75,\"x\":3.97,\"y\":2.65,\"z\":1.2,\"facing_deg\":180},{\"id\":\"obj_0010\",\"width_m\":1.6,\"depth_m\":0.28,\"height_m\":0.22,\"x\":1.25,\"y\":3.86,\"z\":1.6,\"facing_deg\":270},{\"id\":\"obj_0011\",\"width_m\":0.34,\"depth_m\":0.25,\"height_m\":0.2,\"x\":0.8,\"y\":3.72,\"z\":0.8,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.000 m x 4.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [4.0, 0.0], [4.0, 4.0], [0.0, 4.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"executive desk\", \"description\": \"A double wooden desk with three drawers on one side and three open shelves on the other side.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"wall art\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0002\", \"category\": \"sideboard console\", \"description\": \"A desk made out of three different materials.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"storage credenza\", \"description\": \"A light brown wooden console table with 4 cabinets, on 4 cylindrical wooden legs.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"coffee machine\", \"description\": \"A black coffee maker for espresso.\", \"support_parent\": \"obj_0002\"},\n{\"id\": \"obj_0005\", \"category\": \"framed photo\", \"description\": \"A blue painting in a black frame.\", \"support_parent\": \"obj_0000\"},\n{\"id\": \"obj_0006\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0007\", \"category\": \"wall art\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0008\", \"category\": \"executive task chair\", \"description\": \"A black office chair with a tall mesh back.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"wall whiteboard\", \"description\": \"A poster of blueprints for a picture frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0010\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0011\", \"category\": \"stack of files\", \"description\": \"A stack of colorful, pixelated-style books in different colors.\", \"support_parent\": \"obj_0003\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [3.407, 4.0], \"wall_from\": [4.0, 4.0], \"wall_to\": [0.0, 4.0], \"width_m\": 1.038, \"height_m\": 2.1}, {\"type\": \"window\", \"centre_xy\": [0.0, 2.796], \"wall_from\": [0.0, 4.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 0.9}, {\"type\": \"window\", \"centre_xy\": [0.0, 1.215], \"wall_from\": [0.0, 4.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0004\", \"parent_id\": \"obj_0002\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

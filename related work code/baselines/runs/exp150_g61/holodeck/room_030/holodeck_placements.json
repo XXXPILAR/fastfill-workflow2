@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "side table-0",
+   "id": "side table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.8,
+    "y": 0.25,
+    "z": 0.23
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     207.5,
+     -4.5
+    ],
+    [
+     207.5,
+     50.5
+    ],
+    [
+     152.5,
+     50.5
+    ],
+    [
+     152.5,
+     -4.5
+    ]
+   ],
+   "object_name": "side table-0"
+  },
+  {
+   "assetId": "armchair-0",
+   "id": "armchair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.84308,
+    "y": 0.4,
+    "z": 0.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     240.308,
+     2.5
+    ],
+    [
+     240.308,
+     87.5
+    ],
+    [
+     328.308,
+     87.5
+    ],
+    [
+     328.308,
+     2.5
+    ]
+   ],
+   "object_name": "armchair-0"
+  }
+ ],
+ "wall": []
+}

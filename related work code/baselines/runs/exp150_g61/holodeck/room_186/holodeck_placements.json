@@ -1,0 +1,426 @@
+{
+ "floor": [
+  {
+   "assetId": "desk-0",
+   "id": "desk-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.355,
+    "y": 0.375,
+    "z": 0.9
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     75.5,
+     15.0
+    ],
+    [
+     75.5,
+     165.0
+    ],
+    [
+     -4.5,
+     165.0
+    ],
+    [
+     -4.5,
+     15.0
+    ]
+   ],
+   "object_name": "desk-0"
+  },
+  {
+   "assetId": "whiteboard-0",
+   "id": "whiteboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.35,
+    "y": 0.85,
+    "z": 0.255
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     185.0,
+     -4.5
+    ],
+    [
+     185.0,
+     55.5
+    ],
+    [
+     85.0,
+     55.5
+    ],
+    [
+     85.0,
+     -4.5
+    ]
+   ],
+   "object_name": "whiteboard-0"
+  },
+  {
+   "assetId": "filing pedestal-0",
+   "id": "filing pedestal-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.255,
+    "y": 0.3,
+    "z": 2.55
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     55.5,
+     230.0
+    ],
+    [
+     55.5,
+     280.0
+    ],
+    [
+     -4.5,
+     280.0
+    ],
+    [
+     -4.5,
+     230.0
+    ]
+   ],
+   "object_name": "filing pedestal-0"
+  },
+  {
+   "assetId": "task chair-0",
+   "id": "task chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.55,
+    "z": 1.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     82.5,
+     97.5
+    ],
+    [
+     82.5,
+     172.5
+    ],
+    [
+     157.5,
+     172.5
+    ],
+    [
+     157.5,
+     97.5
+    ],
+    [
+     82.5,
+     97.5
+    ]
+   ],
+   "object_name": "task chair-0"
+  },
+  {
+   "assetId": "side chair-0",
+   "id": "side chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.27,
+    "y": 0.41,
+    "z": 1.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     58.5,
+     166.0
+    ],
+    [
+     58.5,
+     224.0
+    ],
+    [
+     -4.5,
+     224.0
+    ],
+    [
+     -4.5,
+     166.0
+    ]
+   ],
+   "object_name": "side chair-0"
+  },
+  {
+   "assetId": "floor lamp-0",
+   "id": "floor lamp-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.1,
+    "y": 0.8,
+    "z": 0.155
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     230.0,
+     -4.5
+    ],
+    [
+     230.0,
+     35.5
+    ],
+    [
+     190.0,
+     35.5
+    ],
+    [
+     190.0,
+     -4.5
+    ]
+   ],
+   "object_name": "floor lamp-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "world map print-0",
+   "id": "world map print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.02,
+    "y": 1.7,
+    "z": 0.8999999600000013
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     2.0,
+     44.999996000000124
+    ],
+    [
+     2.0,
+     134.99999600000012
+    ],
+    [
+     0.0,
+     134.99999600000012
+    ],
+    [
+     0.0,
+     44.999996000000124
+    ],
+    [
+     2.0,
+     44.999996000000124
+    ]
+   ],
+   "object_name": "world map print-0"
+  },
+  {
+   "assetId": "art print-0",
+   "id": "art print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.02,
+    "y": 1.8,
+    "z": 2.5499999600000014
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     2.0,
+     229.99999600000012
+    ],
+    [
+     2.0,
+     279.9999960000001
+    ],
+    [
+     0.0,
+     279.9999960000001
+    ],
+    [
+     0.0,
+     229.99999600000012
+    ],
+    [
+     2.0,
+     229.99999600000012
+    ]
+   ],
+   "object_name": "art print-0"
+  },
+  {
+   "assetId": "photograph print-0",
+   "id": "photograph print-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.02,
+    "y": 1.65,
+    "z": 1.9499999600000013
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     2.0,
+     179.99999600000012
+    ],
+    [
+     2.0,
+     209.99999600000012
+    ],
+    [
+     0.0,
+     209.99999600000012
+    ],
+    [
+     0.0,
+     179.99999600000012
+    ],
+    [
+     2.0,
+     179.99999600000012
+    ]
+   ],
+   "object_name": "photograph print-0"
+  },
+  {
+   "assetId": "clock-0",
+   "id": "clock-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8675001000000018,
+    "y": 2.35,
+    "z": 0.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.00001000000015,
+     15.0
+    ],
+    [
+     290.00001000000015,
+     45.0
+    ],
+    [
+     285.50001000000015,
+     45.0
+    ],
+    [
+     285.50001000000015,
+     15.0
+    ],
+    [
+     290.00001000000015,
+     15.0
+    ]
+   ],
+   "object_name": "clock-0"
+  },
+  {
+   "assetId": "photograph print-1",
+   "id": "photograph print-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8800001000000015,
+    "y": 1.55,
+    "z": 2.1
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     290.00001000000015,
+     197.5
+    ],
+    [
+     290.00001000000015,
+     222.5
+    ],
+    [
+     288.00001000000015,
+     222.5
+    ],
+    [
+     288.00001000000015,
+     197.5
+    ],
+    [
+     290.00001000000015,
+     197.5
+    ]
+   ],
+   "object_name": "photograph print-1"
+  }
+ ]
+}

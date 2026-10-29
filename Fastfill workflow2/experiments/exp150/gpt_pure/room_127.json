@@ -1,0 +1,215 @@
+{
+ "k": 127,
+ "source": "MansionWorld",
+ "latency_s": 61.92400083411485,
+ "usage": [
+  {
+   "prompt_tokens": 1236,
+   "completion_tokens": 1660,
+   "total_tokens": 2896,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 840,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.5,
+     1.1,
+     0.48
+    ],
+    "bottom_center_m": [
+     2.2,
+     2.72,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     2.0,
+     1.0,
+     0.58
+    ],
+    "bottom_center_m": [
+     7.85,
+     2.4,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     1.1
+    ],
+    "bottom_center_m": [
+     4.7,
+     2.675,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.65,
+     1.3,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.7,
+     1.975,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.6,
+     1.4,
+     2.2
+    ],
+    "bottom_center_m": [
+     2.2,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.25,
+     0.9,
+     0.35
+    ],
+    "bottom_center_m": [
+     3.45,
+     2.875,
+     1.65
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.08,
+     0.65,
+     1.1
+    ],
+    "bottom_center_m": [
+     2.2,
+     2.96,
+     1.05
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.6,
+     0.55,
+     0.85
+    ],
+    "bottom_center_m": [
+     6.05,
+     0.6,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.35,
+     0.35,
+     1.65
+    ],
+    "bottom_center_m": [
+     8.0,
+     1.4,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.55
+    ],
+    "bottom_center_m": [
+     8.55,
+     1.55,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.45,
+     1.3,
+     0.55
+    ],
+    "bottom_center_m": [
+     7.6,
+     0.25,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.55,
+     0.55,
+     0.9
+    ],
+    "bottom_center_m": [
+     4.7,
+     1.1,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.25,
+     1.0,
+     0.35
+    ],
+    "bottom_center_m": [
+     4.7,
+     2.875,
+     1.7
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nKeep the wide entrance clear and arrange the furniture in three zones: luggage and wardrobe storage near the entrance, a central workspace, and a sleeping area at the far end. The bed runs along the north wall, leaving access along its south side, with the bedside table near its head and the TV console opposite.\n\nThe desk chair faces north toward both the desk and the storage cabinet, satisfying the required facing relationship. The cabinet opens toward the west so it remains accessible beside the desk. Wall shelves provide storage above this group without using additional floor space. A continuous route along the southern side connects the entrance, workspace, and bed, and the east-wall window remains unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.1,\"depth_m\":0.5,\"height_m\":0.48,\"x\":2.2,\"y\":2.72,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":1,\"depth_m\":2,\"height_m\":0.58,\"x\":7.85,\"y\":2.4,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0002\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":1.1,\"x\":4.7,\"y\":2.675,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0003\",\"width_m\":1.3,\"depth_m\":0.65,\"height_m\":0.75,\"x\":4.7,\"y\":1.975,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":1.4,\"depth_m\":0.6,\"height_m\":2.2,\"x\":2.2,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":0.9,\"depth_m\":0.25,\"height_m\":0.35,\"x\":3.45,\"y\":2.875,\"z\":1.65,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":0.65,\"depth_m\":0.08,\"height_m\":1.1,\"x\":2.2,\"y\":2.96,\"z\":1.05,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":0.55,\"depth_m\":0.6,\"height_m\":0.85,\"x\":6.05,\"y\":0.6,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.35,\"depth_m\":0.35,\"height_m\":1.65,\"x\":8,\"y\":1.4,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.55,\"x\":8.55,\"y\":1.55,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":1.3,\"depth_m\":0.45,\"height_m\":0.55,\"x\":7.6,\"y\":0.25,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.55,\"depth_m\":0.55,\"height_m\":0.9,\"x\":4.7,\"y\":1.1,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":1,\"depth_m\":0.25,\"height_m\":0.35,\"x\":4.7,\"y\":2.875,\"z\":1.7,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstandard room 4\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 9.000 m x 3.000 m x 3.000 m\nfloor polygon (x, y): [[0.0, 0.0], [9.0, 0.0], [9.0, 3.0], [0.0, 3.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"luggage bench\", \"description\": \"luggage bench\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"single bed\", \"description\": \"single bed\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"storage cabinet\", \"description\": \"storage cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"writing desk\", \"description\": \"writing desk\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"wardrobe\", \"description\": \"wardrobe\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"wall shelf\", \"description\": \"A brown wood frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0006\", \"category\": \"wall mirror\", \"description\": \"A rectangular mirror in a brown wooden frame.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0007\", \"category\": \"side chair\", \"description\": \"side chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"floor lamp\", \"description\": \"floor lamp\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0009\", \"category\": \"bedside table\", \"description\": \"bedside table\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"tv console\", \"description\": \"tv console\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"desk chair\", \"description\": \"desk chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"wall shelf\", \"description\": \"A brown wood frame.\", \"support_parent\": \"wall\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [9.0, 0.977], \"wall_from\": [9.0, 0.0], \"wall_to\": [9.0, 3.0], \"width_m\": 1.128, \"height_m\": 1.532, \"sill_height_m\": 0.7}, {\"type\": \"door\", \"centre_xy\": [0.0, 1.249], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.94, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"faces\", \"object_id\": \"obj_0011\", \"target_id\": \"obj_0002\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

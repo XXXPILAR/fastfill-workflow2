@@ -1,0 +1,47 @@
+{
+ "k": 222,
+ "source": "SpatialLM",
+ "latency_s": 7.672288415953517,
+ "usage": [
+  {
+   "prompt_tokens": 816,
+   "completion_tokens": 117,
+   "total_tokens": 933,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 0,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.42,
+     0.4,
+     0.7
+    ],
+    "bottom_center_m": [
+     2.6,
+     0.9,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nPlace a child-sized chair near the right wall, facing into the room. This keeps the door approach and central floor clear while leaving the window unobstructed.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.4,\"depth_m\":0.42,\"height_m\":0.7,\"x\":2.6,\"y\":0.9,\"z\":0,\"facing_deg\":180}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nchildren's bedroom\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.860 m x 2.160 m x 2.800 m\nfloor polygon (x, y): [[0.0, 0.0], [2.86, 0.0], [2.86, 2.16], [0.0, 2.16]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.43, 0.0], \"wall_from\": [0.0, 0.0], \"wall_to\": [2.86, 0.0], \"width_m\": 1.46, \"height_m\": 1.68, \"sill_height_m\": 0.67}, {\"type\": \"door\", \"centre_xy\": [0.555, 2.16], \"wall_from\": [2.86, 2.16], \"wall_to\": [0.0, 2.16], \"width_m\": 0.88, \"height_m\": 2.2}]\n[/Task Doors and Windows]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

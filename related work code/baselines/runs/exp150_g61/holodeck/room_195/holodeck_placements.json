@@ -1,0 +1,118 @@
+{
+ "floor": [
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 6.915000000000001,
+    "y": 0.425,
+    "z": 4.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     581.5000000000001,
+     255.0
+    ],
+    [
+     581.5000000000001,
+     585.0
+    ],
+    [
+     801.5000000000001,
+     585.0
+    ],
+    [
+     801.5000000000001,
+     255.0
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  },
+  {
+   "assetId": "dining table-0",
+   "id": "dining table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.5150000000000015,
+    "y": 0.375,
+    "z": 1.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     701.5000000000001,
+     20.0
+    ],
+    [
+     701.5000000000001,
+     190.0
+    ],
+    [
+     801.5000000000001,
+     190.0
+    ],
+    [
+     801.5000000000001,
+     20.0
+    ]
+   ],
+   "object_name": "dining table-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "air conditioner-0",
+   "id": "air conditioner-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 7.8450000000000015,
+    "y": 2.3989999999999996,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     797.0000000000001,
+     92.5
+    ],
+    [
+     797.0000000000001,
+     187.5
+    ],
+    [
+     774.0000000000001,
+     187.5
+    ],
+    [
+     774.0000000000001,
+     92.5
+    ],
+    [
+     797.0000000000001,
+     92.5
+    ]
+   ],
+   "object_name": "air conditioner-0"
+  }
+ ]
+}

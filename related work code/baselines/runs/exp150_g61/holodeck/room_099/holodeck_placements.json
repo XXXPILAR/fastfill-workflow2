@@ -1,0 +1,782 @@
+{
+ "floor": [
+  {
+   "assetId": "huddle table-0",
+   "id": "huddle table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.2,
+    "y": 0.375,
+    "z": 2.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     360.0,
+     165.0
+    ],
+    [
+     360.0,
+     395.0
+    ],
+    [
+     480.0,
+     395.0
+    ],
+    [
+     480.0,
+     165.0
+    ],
+    [
+     360.0,
+     165.0
+    ]
+   ],
+   "object_name": "huddle table-0"
+  },
+  {
+   "assetId": "storage cabinet-0",
+   "id": "storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.23,
+    "y": 0.6,
+    "z": 4.55
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     50.5,
+     405.0
+    ],
+    [
+     50.5,
+     505.0
+    ],
+    [
+     -4.5,
+     505.0
+    ],
+    [
+     -4.5,
+     405.0
+    ]
+   ],
+   "object_name": "storage cabinet-0"
+  },
+  {
+   "assetId": "side credenza-0",
+   "id": "side credenza-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.205,
+    "y": 0.4,
+    "z": 5.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     45.5,
+     510.0
+    ],
+    [
+     45.5,
+     680.0
+    ],
+    [
+     -4.5,
+     680.0
+    ],
+    [
+     -4.5,
+     510.0
+    ]
+   ],
+   "object_name": "side credenza-0"
+  },
+  {
+   "assetId": "mobile whiteboard-0",
+   "id": "mobile whiteboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.305,
+    "y": 0.925,
+    "z": 0.7
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     365.5,
+     5.0
+    ],
+    [
+     365.5,
+     135.0
+    ],
+    [
+     295.5,
+     135.0
+    ],
+    [
+     295.5,
+     5.0
+    ]
+   ],
+   "object_name": "mobile whiteboard-0"
+  },
+  {
+   "assetId": "lounge chair-0",
+   "id": "lounge chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.595,
+    "y": 0.4,
+    "z": 1.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     414.5,
+     62.5
+    ],
+    [
+     414.5,
+     147.5
+    ],
+    [
+     504.5,
+     147.5
+    ],
+    [
+     504.5,
+     62.5
+    ]
+   ],
+   "object_name": "lounge chair-0"
+  },
+  {
+   "assetId": "huddle chair-0",
+   "id": "huddle chair-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.15,
+    "y": 0.5,
+    "z": 3.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     352.5,
+     312.5
+    ],
+    [
+     352.5,
+     387.5
+    ],
+    [
+     277.5,
+     387.5
+    ],
+    [
+     277.5,
+     312.5
+    ],
+    [
+     352.5,
+     312.5
+    ]
+   ],
+   "object_name": "huddle chair-0"
+  },
+  {
+   "assetId": "coat stand-0",
+   "id": "coat stand-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.305,
+    "y": 0.875,
+    "z": 3.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.5,
+     315.0
+    ],
+    [
+     65.5,
+     385.0
+    ],
+    [
+     -4.5,
+     385.0
+    ],
+    [
+     -4.5,
+     315.0
+    ]
+   ],
+   "object_name": "coat stand-0"
+  },
+  {
+   "assetId": "plant floor-0",
+   "id": "plant floor-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.4,
+    "y": 0.8,
+    "z": 3.38
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     182.5,
+     295.5
+    ],
+    [
+     182.5,
+     380.5
+    ],
+    [
+     97.5,
+     380.5
+    ],
+    [
+     97.5,
+     295.5
+    ]
+   ],
+   "object_name": "plant floor-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "whiteboard-0",
+   "id": "whiteboard-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.970000000000001,
+    "y": 1.35,
+    "z": 2.45
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     500.0,
+     170.00000000000003
+    ],
+    [
+     500.0,
+     320.0
+    ],
+    [
+     496.0,
+     320.0
+    ],
+    [
+     496.0,
+     170.00000000000003
+    ],
+    [
+     500.0,
+     170.00000000000003
+    ]
+   ],
+   "object_name": "whiteboard-0"
+  },
+  {
+   "assetId": "wall monitor-0",
+   "id": "wall monitor-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.06999999999999999,
+    "y": 1.565,
+    "z": 5.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     12.0,
+     532.5
+    ],
+    [
+     12.0,
+     657.5
+    ],
+    [
+     0.0,
+     657.5
+    ],
+    [
+     0.0,
+     532.5
+    ],
+    [
+     12.0,
+     532.5
+    ]
+   ],
+   "object_name": "wall monitor-0"
+  },
+  {
+   "assetId": "wall shelf-0",
+   "id": "wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.135,
+    "y": 1.71,
+    "z": 4.55
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     25.0,
+     410.0
+    ],
+    [
+     25.0,
+     500.0
+    ],
+    [
+     0.0,
+     500.0
+    ],
+    [
+     0.0,
+     410.0
+    ],
+    [
+     25.0,
+     410.0
+    ]
+   ],
+   "object_name": "wall shelf-0"
+  },
+  {
+   "assetId": "wall shelf-1",
+   "id": "wall shelf-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 1.71,
+    "z": 6.865
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     105.0,
+     675.0
+    ],
+    [
+     105.0,
+     700.0
+    ],
+    [
+     15.0,
+     700.0
+    ],
+    [
+     15.0,
+     675.0
+    ],
+    [
+     105.0,
+     675.0
+    ]
+   ],
+   "object_name": "wall shelf-1"
+  },
+  {
+   "assetId": "acoustic panel set-0",
+   "id": "acoustic panel set-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.95,
+    "y": 1.5,
+    "z": 3.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     425.0,
+     392.0
+    ],
+    [
+     425.0,
+     400.0
+    ],
+    [
+     365.0,
+     400.0
+    ],
+    [
+     365.0,
+     392.0
+    ],
+    [
+     425.0,
+     392.0
+    ]
+   ],
+   "object_name": "acoustic panel set-0"
+  },
+  {
+   "assetId": "acoustic panel set-1",
+   "id": "acoustic panel set-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.25,
+    "y": 1.5,
+    "z": 3.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     355.0,
+     392.0
+    ],
+    [
+     355.0,
+     400.0
+    ],
+    [
+     295.0,
+     400.0
+    ],
+    [
+     295.0,
+     392.0
+    ],
+    [
+     355.0,
+     392.0
+    ]
+   ],
+   "object_name": "acoustic panel set-1"
+  },
+  {
+   "assetId": "acoustic panel set-2",
+   "id": "acoustic panel set-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.35,
+    "y": 1.5,
+    "z": 3.05
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     65.0,
+     300.0
+    ],
+    [
+     65.0,
+     308.0
+    ],
+    [
+     5.0,
+     308.0
+    ],
+    [
+     5.0,
+     300.0
+    ],
+    [
+     65.0,
+     300.0
+    ]
+   ],
+   "object_name": "acoustic panel set-2"
+  },
+  {
+   "assetId": "acoustic panel set-3",
+   "id": "acoustic panel set-3 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.05,
+    "y": 1.5,
+    "z": 1.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     308.0,
+     165.0
+    ],
+    [
+     308.0,
+     225.0
+    ],
+    [
+     300.0,
+     225.0
+    ],
+    [
+     300.0,
+     165.0
+    ],
+    [
+     308.0,
+     165.0
+    ]
+   ],
+   "object_name": "acoustic panel set-3"
+  },
+  {
+   "assetId": "acoustic panel set-4",
+   "id": "acoustic panel set-4 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.05,
+    "y": 1.5,
+    "z": 2.65
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     308.0,
+     235.0
+    ],
+    [
+     308.0,
+     295.0
+    ],
+    [
+     300.0,
+     295.0
+    ],
+    [
+     300.0,
+     235.0
+    ],
+    [
+     308.0,
+     235.0
+    ]
+   ],
+   "object_name": "acoustic panel set-4"
+  },
+  {
+   "assetId": "acoustic panel set-5",
+   "id": "acoustic panel set-5 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 1.5,
+    "z": 0.35
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     500.0,
+     5.0
+    ],
+    [
+     500.0,
+     65.0
+    ],
+    [
+     492.0,
+     65.0
+    ],
+    [
+     492.0,
+     5.0
+    ],
+    [
+     500.0,
+     5.0
+    ]
+   ],
+   "object_name": "acoustic panel set-5"
+  },
+  {
+   "assetId": "acoustic panel set-6",
+   "id": "acoustic panel set-6 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.65,
+    "y": 1.5,
+    "z": 3.95
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     495.0,
+     392.0
+    ],
+    [
+     495.0,
+     400.0
+    ],
+    [
+     435.0,
+     400.0
+    ],
+    [
+     435.0,
+     392.0
+    ],
+    [
+     495.0,
+     392.0
+    ]
+   ],
+   "object_name": "acoustic panel set-6"
+  },
+  {
+   "assetId": "acoustic panel set-7",
+   "id": "acoustic panel set-7 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 4.95,
+    "y": 1.5,
+    "z": 1.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     500.0,
+     110.0
+    ],
+    [
+     500.0,
+     170.0
+    ],
+    [
+     492.0,
+     170.0
+    ],
+    [
+     492.0,
+     110.0
+    ],
+    [
+     500.0,
+     110.0
+    ]
+   ],
+   "object_name": "acoustic panel set-7"
+  }
+ ]
+}

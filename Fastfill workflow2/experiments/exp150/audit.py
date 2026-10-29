@@ -10,7 +10,9 @@ Our groups (g1/g2/g3): a gap is a room file that is missing, has status "error",
 because the LLM failed ("rules (llm failed)"), a draft call that errored, or a review that errored (g1/g3). FastFill
 over its context budget (room 162) is not a gap: that room uses the size catalog in every run, in-process or not.
 gpt_pure: a gap is a missing room or a transport error (no reply); an unparseable reply is "model".
-Baselines: a gap is a missing room or a result without a layout.
+Baselines: a gap is a missing room or a result without a layout, except a room whose method failed on its own
+output (not the transport) in METHOD_ATTEMPTS attempts (earlier ones kept as room_<k>_attempt<n>_failed): that is
+the method's outcome ("model"), as an unparseable answer is for gpt_pure.
 
     ../.venv/bin/python experiments/exp150/audit.py            # report
     ../.venv/bin/python experiments/exp150/audit.py --fix      # and delete the gap rooms' records
@@ -56,12 +58,21 @@ def gpt_pure(k: int):
     return ("ok", "", f) if r.get("layout") else ("gap", "no layout", f)
 
 
+METHOD_ATTEMPTS = 3  # a method failure (the method's own output rejected, not the transport) is tried this often
+
+
 def baseline(method: str, k: int):
     f = BASE / method / f"room_{k:03d}" / "result.json"
     if not f.exists():
         return "gap", "not run", f
     r = json.loads(f.read_text())
-    return ("ok", "", f) if r.get("layout") else ("gap", str(r.get("error"))[:80], f)
+    if r.get("layout"):
+        return "ok", "", f
+    error = str(r.get("error"))
+    earlier = sorted((BASE / method).glob(f"room_{k:03d}_attempt*_failed"))
+    if not any(t in error for t in TRANSPORT) and len(earlier) + 1 >= METHOD_ATTEMPTS:
+        return "model", f"failed {len(earlier) + 1} attempts: {error[:70]}", f
+    return "gap", error[:80], f
 
 
 def main():

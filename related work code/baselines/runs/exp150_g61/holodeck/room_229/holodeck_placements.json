@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.95,
+    "y": 1.1,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     275.0,
+     -4.5
+    ],
+    [
+     275.0,
+     65.5
+    ],
+    [
+     115.0,
+     65.5
+    ],
+    [
+     115.0,
+     -4.5
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "carpet-0",
+   "id": "carpet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.95,
+    "y": 0.0075,
+    "z": 2.0325
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     280.0,
+     323.25
+    ],
+    [
+     280.0,
+     83.25000000000001
+    ],
+    [
+     110.0,
+     83.25000000000001
+    ],
+    [
+     110.0,
+     323.25
+    ]
+   ],
+   "object_name": "carpet-0"
+  }
+ ],
+ "wall": []
+}

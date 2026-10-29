@@ -1,0 +1,145 @@
+{
+ "k": 50,
+ "source": "InteriorGS",
+ "latency_s": 21.697912874631584,
+ "usage": [
+  {
+   "prompt_tokens": 1289,
+   "completion_tokens": 786,
+   "total_tokens": 2075,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 274,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.21,
+     0.14,
+     0.025
+    ],
+    "bottom_center_m": [
+     0.27,
+     0.43,
+     0.52
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.21,
+     0.14,
+     0.03
+    ],
+    "bottom_center_m": [
+     0.46,
+     0.43,
+     0.52
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.52
+    ],
+    "bottom_center_m": [
+     0.37,
+     0.43,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.65,
+     1.5,
+     0.012
+    ],
+    "bottom_center_m": [
+     1.395,
+     2.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.22,
+     0.15,
+     0.025
+    ],
+    "bottom_center_m": [
+     2.32,
+     0.43,
+     0.52
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.45,
+     0.45,
+     0.52
+    ],
+    "bottom_center_m": [
+     2.42,
+     0.43,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.075,
+     0.075,
+     0.25
+    ],
+    "bottom_center_m": [
+     2.55,
+     0.43,
+     0.52
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     2.1,
+     1.4,
+     0.55
+    ],
+    "bottom_center_m": [
+     1.395,
+     1.15,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nPlace the bed centrally against the window-side wall, between the two bedside tables. Keep the tables close to the head of the bed, with the books and bottle on their tops. A small carpet at the foot of the bed leaves a clear passage to the existing wardrobe. Keep the narrow entrance extension entirely free so both doors remain accessible.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.14,\"depth_m\":0.21,\"height_m\":0.025,\"x\":0.27,\"y\":0.43,\"z\":0.52,\"facing_deg\":90},{\"id\":\"obj_0001\",\"width_m\":0.14,\"depth_m\":0.21,\"height_m\":0.03,\"x\":0.46,\"y\":0.43,\"z\":0.52,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.52,\"x\":0.37,\"y\":0.43,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":1.5,\"depth_m\":0.65,\"height_m\":0.012,\"x\":1.395,\"y\":2.65,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.15,\"depth_m\":0.22,\"height_m\":0.025,\"x\":2.32,\"y\":0.43,\"z\":0.52,\"facing_deg\":90},{\"id\":\"obj_0005\",\"width_m\":0.45,\"depth_m\":0.45,\"height_m\":0.52,\"x\":2.42,\"y\":0.43,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.075,\"depth_m\":0.075,\"height_m\":0.25,\"x\":2.55,\"y\":0.43,\"z\":0.52,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":1.4,\"depth_m\":2.1,\"height_m\":0.55,\"x\":1.395,\"y\":1.15,\"z\":0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling; fixed objects are already in the room and must not be overlapped.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nunknown\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 2.791 m x 4.947 m x 2.800 m\nfloor polygon (x, y): [[1.529, 3.841], [0.0, 3.841], [0.0, 1.891], [0.0, 0.0], [0.244, 0.0], [2.095, 0.0], [2.791, 0.0], [2.791, 3.713], [2.791, 3.958], [2.791, 4.758], [2.791, 4.947], [1.649, 4.947], [1.649, 4.804], [1.649, 4.004], [1.649, 3.841]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0001\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0002\", \"category\": \"bedside table\", \"description\": \"bedside table\"},\n{\"id\": \"obj_0003\", \"category\": \"carpet\", \"description\": \"carpet\"},\n{\"id\": \"obj_0004\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0005\", \"category\": \"bedside table\", \"description\": \"bedside table\"},\n{\"id\": \"obj_0006\", \"category\": \"bottle\", \"description\": \"bottle\"},\n{\"id\": \"obj_0007\", \"category\": \"bed\", \"description\": \"bed\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [1.17, 0.0], \"wall_from\": [0.244, 0.0], \"wall_to\": [2.095, 0.0], \"width_m\": 1.851, \"height_m\": 2.05, \"sill_height_m\": 0.45}, {\"type\": \"door\", \"centre_xy\": [2.791, 4.358], \"wall_from\": [2.791, 3.958], \"wall_to\": [2.791, 4.758], \"width_m\": 0.8, \"height_m\": 2.2}, {\"type\": \"door\", \"centre_xy\": [1.649, 4.404], \"wall_from\": [1.649, 4.804], \"wall_to\": [1.649, 4.004], \"width_m\": 0.8, \"height_m\": 2.2}]\n[/Task Doors and Windows]\n\n[Task Fixed Objects]\n[{\"id\": \"fixed_0000\", \"category\": \"wardrobe\", \"width_m\": 1.649, \"depth_m\": 0.612, \"height_m\": 2.5, \"bottom_centre\": [0.824, 3.548, -0.0], \"facing_deg\": 270.0}]\n[/Task Fixed Objects]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0007\", \"target_ids\": [\"obj_0002\", \"obj_0005\"]}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

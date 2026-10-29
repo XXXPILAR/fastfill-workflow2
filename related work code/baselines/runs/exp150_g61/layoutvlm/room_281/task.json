@@ -1,0 +1,33 @@
+{
+ "task_description": "a bathroom of about 2.9m x 1.6m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 0.80 m wide centred at (2.86, 0.48) (keep the floor in front of it clear); a window 1.18 m wide centred at (0.00, 0.67). the cabinet (o0000) should be against a wall",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.862123,
+    0.00034199999999995345,
+    0.0
+   ],
+   [
+    2.862123,
+    1.567772,
+    0.0
+   ],
+   [
+    0.0,
+    1.567772,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {}
+ }
+}

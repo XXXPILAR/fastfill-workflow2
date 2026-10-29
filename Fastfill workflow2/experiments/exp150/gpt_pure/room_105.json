@@ -1,0 +1,243 @@
+{
+ "k": 105,
+ "source": "MansionWorld",
+ "latency_s": 58.451395959127694,
+ "usage": [
+  {
+   "prompt_tokens": 1499,
+   "completion_tokens": 1358,
+   "total_tokens": 2857,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 479,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     0.74
+    ],
+    "bottom_center_m": [
+     0.65,
+     0.6,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.34,
+     0.42,
+     0.28
+    ],
+    "bottom_center_m": [
+     0.5,
+     2.72,
+     1.8
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.6,
+     0.6,
+     2.15
+    ],
+    "bottom_center_m": [
+     1.3,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     1.8,
+     0.9
+    ],
+    "bottom_center_m": [
+     2.55,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.44,
+     0.42,
+     0.82
+    ],
+    "bottom_center_m": [
+     2.05,
+     1.36,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.46,
+     0.42,
+     0.72
+    ],
+    "bottom_center_m": [
+     4.65,
+     0.28,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     0.74
+    ],
+    "bottom_center_m": [
+     2.05,
+     0.6,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.7,
+     0.8,
+     1.85
+    ],
+    "bottom_center_m": [
+     5.45,
+     2.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.36,
+     0.44,
+     0.28
+    ],
+    "bottom_center_m": [
+     5.45,
+     2.65,
+     1.85
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.44,
+     0.42,
+     0.82
+    ],
+    "bottom_center_m": [
+     0.65,
+     1.36,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.6,
+     0.65,
+     2.15
+    ],
+    "bottom_center_m": [
+     4.625,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.44,
+     0.42,
+     0.82
+    ],
+    "bottom_center_m": [
+     1.35,
+     0.6,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.46,
+     0.42,
+     0.72
+    ],
+    "bottom_center_m": [
+     5.4,
+     0.28,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.6,
+     0.75,
+     0.9
+    ],
+    "bottom_center_m": [
+     3.875,
+     2.7,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.45,
+     0.8,
+     1.8
+    ],
+    "bottom_center_m": [
+     0.5,
+     2.775,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nPlace the cabinets, shelving, and refrigerator along the north wall, leaving the west-wall windows unobstructed. Group the two compact tables in the southwest area, with one chair between them and the other two facing their respective tables. The middle chair sits close to the second table without overlapping it. Keep a clear aisle between the seating and storage, and place both bins along the southeast edge. The storage boxes rest fully on their specified supports.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":0.74,\"x\":0.65,\"y\":0.6,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.42,\"depth_m\":0.34,\"height_m\":0.28,\"x\":0.5,\"y\":2.72,\"z\":1.8,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":0.6,\"depth_m\":0.6,\"height_m\":2.15,\"x\":1.3,\"y\":2.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":1.8,\"depth_m\":0.6,\"height_m\":0.9,\"x\":2.55,\"y\":2.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.42,\"depth_m\":0.44,\"height_m\":0.82,\"x\":2.05,\"y\":1.36,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.42,\"depth_m\":0.46,\"height_m\":0.72,\"x\":4.65,\"y\":0.28,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":0.74,\"x\":2.05,\"y\":0.6,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0007\",\"width_m\":0.8,\"depth_m\":0.7,\"height_m\":1.85,\"x\":5.45,\"y\":2.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0008\",\"width_m\":0.44,\"depth_m\":0.36,\"height_m\":0.28,\"x\":5.45,\"y\":2.65,\"z\":1.85,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":0.42,\"depth_m\":0.44,\"height_m\":0.82,\"x\":0.65,\"y\":1.36,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0010\",\"width_m\":0.65,\"depth_m\":0.6,\"height_m\":2.15,\"x\":4.625,\"y\":2.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0011\",\"width_m\":0.42,\"depth_m\":0.44,\"height_m\":0.82,\"x\":1.35,\"y\":0.6,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0012\",\"width_m\":0.42,\"depth_m\":0.46,\"height_m\":0.72,\"x\":5.4,\"y\":0.28,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":0.75,\"depth_m\":0.6,\"height_m\":0.9,\"x\":3.875,\"y\":2.7,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0014\",\"width_m\":0.8,\"depth_m\":0.45,\"height_m\":1.8,\"x\":0.5,\"y\":2.775,\"z\":0,\"facing_deg\":270}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\npantry 1\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.000 m x 3.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [6.0, 0.0], [6.0, 3.0], [0.0, 3.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"compact round bistro table\", \"description\": \"A circular four legged light brown wooden table.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"storage box\", \"description\": \"A brown box with a cover that says patient files.\", \"support_parent\": \"obj_0014\"},\n{\"id\": \"obj_0002\", \"category\": \"tall pantry cabinet\", \"description\": \"tall pantry cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"base cabinet run\", \"description\": \"A row of cabinets in white wood.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"side chair\", \"description\": \"An orange wooden chair with seat and back rest bolted with four black bolts.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0005\", \"category\": \"waste bin\", \"description\": \"a wheeled trash can\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0006\", \"category\": \"compact round bistro table\", \"description\": \"A circular four legged light brown wooden table.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"tall refrigerator\", \"description\": \"tall refrigerator\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0008\", \"category\": \"storage box\", \"description\": \"A brown box with a cover that says patient files.\", \"support_parent\": \"obj_0007\"},\n{\"id\": \"obj_0009\", \"category\": \"side chair\", \"description\": \"An orange wooden chair with seat and back rest bolted with four black bolts.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0010\", \"category\": \"tall pantry cabinet\", \"description\": \"tall pantry cabinet\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0011\", \"category\": \"side chair\", \"description\": \"An orange wooden chair with seat and back rest bolted with four black bolts.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"waste bin\", \"description\": \"a wheeled trash can\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"under counter cabinet\", \"description\": \"A black cabinet with a black tabletop.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0014\", \"category\": \"freestanding shelving unit\", \"description\": \"A bunch of wooden shelves with a couple of drawers.\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [0.0, 2.241], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 1.0}, {\"type\": \"window\", \"centre_xy\": [0.0, 0.753], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 1.0}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"between\", \"object_id\": \"obj_0011\", \"target_ids\": [\"obj_0000\", \"obj_0006\"]}, {\"type\": \"faces\", \"object_id\": \"obj_0009\", \"target_id\": \"obj_0000\"}, {\"type\": \"against_wall\", \"object_id\": \"obj_0003\"}, {\"type\": \"near\", \"object_id\": \"obj_0006\", \"target_id\": \"obj_0011\", \"max_distance_m\": 0.3}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

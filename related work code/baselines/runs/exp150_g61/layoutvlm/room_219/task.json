@@ -1,0 +1,46 @@
+{
+ "task_description": "a bedroom with home office of about 2.6m x 4.9m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 1.54 m wide centred at (1.28, 0.00); a window 0.81 m wide centred at (2.55, 3.73); a door 0.97 m wide centred at (0.00, 3.42) (keep the floor in front of it clear). the bed (o0002) should be between the nightstand (o0004) and the nightstand (o0003)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    1.4038085937029265e-06,
+    0.0,
+    0.0
+   ],
+   [
+    2.5509998168945316,
+    2.9541015624801048e-05,
+    0.0
+   ],
+   [
+    2.5509998168945316,
+    4.9391889648437495,
+    0.0
+   ],
+   [
+    0.5509999389648437,
+    4.9391889648437495,
+    0.0
+   ],
+   [
+    0.5509999389648437,
+    3.929060363769531,
+    0.0
+   ],
+   [
+    0.0,
+    3.929060363769531,
+    0.0
+   ]
+  ],
+  "wall_height": 2.8
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

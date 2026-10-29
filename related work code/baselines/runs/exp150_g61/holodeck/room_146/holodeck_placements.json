@@ -1,0 +1,185 @@
+{
+ "floor": [
+  {
+   "assetId": "bathtub-0",
+   "id": "bathtub-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8,
+    "y": 0.3,
+    "z": 0.43
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     375.0,
+     -4.5
+    ],
+    [
+     375.0,
+     90.5
+    ],
+    [
+     185.0,
+     90.5
+    ],
+    [
+     185.0,
+     -4.5
+    ]
+   ],
+   "object_name": "bathtub-0"
+  },
+  {
+   "assetId": "vanity cabinet-0",
+   "id": "vanity cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8,
+    "y": 0.425,
+    "z": 2.72
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     365.0,
+     304.5
+    ],
+    [
+     365.0,
+     239.5
+    ],
+    [
+     195.0,
+     239.5
+    ],
+    [
+     195.0,
+     304.5
+    ]
+   ],
+   "object_name": "vanity cabinet-0"
+  },
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.355,
+    "y": 0.39,
+    "z": 2.6
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     75.5,
+     235.0
+    ],
+    [
+     75.5,
+     285.0
+    ],
+    [
+     -4.5,
+     285.0
+    ],
+    [
+     -4.5,
+     235.0
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "storage cabinet-0",
+   "id": "storage cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.82,
+    "y": 0.9,
+    "z": 2.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     359.5,
+     175.0
+    ],
+    [
+     359.5,
+     225.0
+    ],
+    [
+     404.5,
+     225.0
+    ],
+    [
+     404.5,
+     175.0
+    ]
+   ],
+   "object_name": "storage cabinet-0"
+  },
+  {
+   "assetId": "small bench-0",
+   "id": "small bench-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.4,
+    "y": 0.225,
+    "z": 0.18
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     182.5,
+     -4.5
+    ],
+    [
+     182.5,
+     40.5
+    ],
+    [
+     97.5,
+     40.5
+    ],
+    [
+     97.5,
+     -4.5
+    ]
+   ],
+   "object_name": "small bench-0"
+  }
+ ],
+ "wall": []
+}

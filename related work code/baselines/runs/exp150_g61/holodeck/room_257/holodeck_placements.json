@@ -1,0 +1,81 @@
+{
+ "floor": [
+  {
+   "assetId": "carpet-0",
+   "id": "carpet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.4,
+    "y": 0.0075,
+    "z": 3.15
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     265.0,
+     160.0
+    ],
+    [
+     265.0,
+     470.0
+    ],
+    [
+     15.0,
+     470.0
+    ],
+    [
+     15.0,
+     160.0
+    ],
+    [
+     265.0,
+     160.0
+    ]
+   ],
+   "object_name": "carpet-0"
+  },
+  {
+   "assetId": "dining table-0",
+   "id": "dining table-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.4,
+    "y": 0.375,
+    "z": 5.368847690724524
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     225.0,
+     586.8847690724524
+    ],
+    [
+     225.0,
+     486.8847690724524
+    ],
+    [
+     55.0,
+     486.8847690724524
+    ],
+    [
+     55.0,
+     586.8847690724524
+    ]
+   ],
+   "object_name": "dining table-0"
+  }
+ ],
+ "wall": []
+}

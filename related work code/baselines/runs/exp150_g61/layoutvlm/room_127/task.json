@@ -1,0 +1,44 @@
+{
+ "task_description": "a standard room 4 of about 9.0m x 3.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 1.13 m wide centred at (9.00, 0.98); a door 1.94 m wide centred at (0.00, 1.25) (keep the floor in front of it clear). the desk chair (o0011) should face the storage cabinet (o0002)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    9.0,
+    0.0,
+    0.0
+   ],
+   [
+    9.0,
+    3.0,
+    0.0
+   ],
+   [
+    0.0,
+    3.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.0
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {}
+ }
+}

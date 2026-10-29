@@ -1,0 +1,48 @@
+{
+ "task_description": "a living room of about 10.2m x 4.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 3.84 m wide centred at (0.00, 1.98); a door 1.49 m wide centred at (6.70, 2.70) (keep the floor in front of it clear); a door 0.77 m wide centred at (8.32, 2.70) (keep the floor in front of it clear); a door 0.80 m wide centred at (10.20, 3.11) (keep the floor in front of it clear); a door 1.06 m wide centred at (8.48, 3.96) (keep the floor in front of it clear); a door 0.80 m wide centred at (5.67, 3.96) (keep the floor in front of it clear); a door 0.72 m wide centred at (4.64, 3.96) (keep the floor in front of it clear); a window 0.91 m wide centred at (0.46, 3.96). the l shaped sofa (o0002) should face the potted plant (o0004)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    3.96,
+    0.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    5.5157,
+    0.0,
+    0.0
+   ],
+   [
+    5.5157,
+    2.7,
+    0.0
+   ],
+   [
+    10.1967,
+    2.7,
+    0.0
+   ],
+   [
+    10.1967,
+    3.96,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {}
+ }
+}

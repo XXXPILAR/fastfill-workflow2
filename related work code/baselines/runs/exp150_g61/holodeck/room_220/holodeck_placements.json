@@ -1,0 +1,185 @@
+{
+ "floor": [
+  {
+   "assetId": "wardrobe-0",
+   "id": "wardrobe-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0885089950561526,
+    "y": 1.1,
+    "z": 0.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     273.85089950561525,
+     15.0
+    ],
+    [
+     273.85089950561525,
+     145.0
+    ],
+    [
+     343.85089950561525,
+     145.0
+    ],
+    [
+     343.85089950561525,
+     15.0
+    ]
+   ],
+   "object_name": "wardrobe-0"
+  },
+  {
+   "assetId": "wardrobe-1",
+   "id": "wardrobe-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.0885089950561526,
+    "y": 1.1,
+    "z": 2.0
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     273.85089950561525,
+     150.0
+    ],
+    [
+     273.85089950561525,
+     250.0
+    ],
+    [
+     343.85089950561525,
+     250.0
+    ],
+    [
+     343.85089950561525,
+     150.0
+    ]
+   ],
+   "object_name": "wardrobe-1"
+  },
+  {
+   "assetId": "combination sofa-0",
+   "id": "combination sofa-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.2,
+    "y": 0.425,
+    "z": 0.705
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     235.0,
+     -4.5
+    ],
+    [
+     235.0,
+     145.5
+    ],
+    [
+     4.999999999999986,
+     145.5
+    ],
+    [
+     4.999999999999986,
+     -4.5
+    ]
+   ],
+   "object_name": "combination sofa-0"
+  },
+  {
+   "assetId": "carpet-0",
+   "id": "carpet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.1549999999999998,
+    "y": 0.0075,
+    "z": 2.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     235.5,
+     195.0
+    ],
+    [
+     235.5,
+     365.0
+    ],
+    [
+     -4.5,
+     365.0
+    ],
+    [
+     -4.5,
+     195.0
+    ]
+   ],
+   "object_name": "carpet-0"
+  },
+  {
+   "assetId": "stool-0",
+   "id": "stool-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.1885089950561523,
+    "y": 0.225,
+    "z": 2.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     293.85089950561525,
+     255.0
+    ],
+    [
+     293.85089950561525,
+     305.0
+    ],
+    [
+     343.85089950561525,
+     305.0
+    ],
+    [
+     343.85089950561525,
+     255.0
+    ]
+   ],
+   "object_name": "stool-0"
+  }
+ ],
+ "wall": []
+}

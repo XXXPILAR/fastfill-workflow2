@@ -1,0 +1,74 @@
+[
+ {
+  "role": "system",
+  "content": "You are a 3D indoor scene designer. \nInstruction: synthesize the 3D layout of an indoor scene. The generated 3D layout should follow the CSS style, where each line starts with the furniture category and is followed by the 3D size, orientation and absolute position. Formally, each line should follow the template: \nFURNITURE {length: ?m: width: ?m; height: ?m; orientation: ? degrees; left: ?m; top: ?m; depth: ?m;}\nAll values are in meters but the orientation angle is in degrees.\n\nAvailable furnitures: bathroom shelf, bin, cabinet, carpet, rack, toilet, toilet brush \nOverall furniture frequencies: (bathroom shelf: 0.125; bin: 0.1875; cabinet: 0.0625; carpet: 0.125; rack: 0.0625; toilet: 0.3125; toilet brush: 0.125)\n\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.10m, max width 1.14m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.37m; height: 0.38m; width: 0.57m; orientation: 0 degrees; left: 0.29m; top: 0.58m; depth: 0.05m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.05m, max width 0.94m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "carpet[obj_0000] {length: 0.70m; height: 0.01m; width: 0.92m; orientation: 0 degrees; left: 0.46m; top: 0.47m; depth: 0.00m;}\ntoilet[obj_0001] {length: 0.59m; height: 1.06m; width: 0.62m; orientation: 0 degrees; left: 0.33m; top: 0.64m; depth: 0.05m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.02m, max width 0.94m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "carpet[obj_0000] {length: 0.70m; height: 0.01m; width: 0.92m; orientation: 0 degrees; left: 0.46m; top: 0.45m; depth: 0.00m;}\ntoilet[obj_0001] {length: 0.59m; height: 1.06m; width: 0.62m; orientation: 0 degrees; left: 0.31m; top: 0.65m; depth: 0.05m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.35m, max width 1.23m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bin[obj_0000] {length: 0.24m; height: 0.74m; width: 0.31m; orientation: -90 degrees; left: 0.49m; top: 1.08m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 0.85m, max width 1.09m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "toilet[obj_0000] {length: 0.72m; height: 0.99m; width: 0.68m; orientation: 0 degrees; left: 0.34m; top: 0.70m; depth: 0.09m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.08m, max width 1.43m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bin[obj_0000] {length: 0.21m; height: 0.26m; width: 0.21m; orientation: 0 degrees; left: 0.22m; top: 0.27m; depth: 0.00m;}\ntoilet[obj_0001] {length: 0.37m; height: 0.46m; width: 0.57m; orientation: -90 degrees; left: 0.53m; top: 1.03m; depth: 0.04m;}\ntoilet brush[obj_0002] {length: 0.15m; height: 0.41m; width: 0.15m; orientation: -180 degrees; left: 1.00m; top: 1.35m; depth: 0.00m;}\ntoilet brush[obj_0003] {length: 0.10m; height: 0.42m; width: 0.10m; orientation: -180 degrees; left: 0.18m; top: 1.25m; depth: -0.00m;}\nrack[obj_0004] {length: 0.45m; height: 0.76m; width: 0.35m; orientation: 90 degrees; left: 0.65m; top: 0.17m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.38m, max width 0.69m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bin[obj_0000] {length: 0.17m; height: 0.36m; width: 0.17m; orientation: 90 degrees; left: 0.39m; top: 0.09m; depth: 0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.46m, max width 1.58m\nLayout:\n"
+ },
+ {
+  "role": "assistant",
+  "content": "bathroom shelf[obj_0000] {length: 0.33m; height: 0.54m; width: 0.32m; orientation: 0 degrees; left: 1.31m; top: 0.17m; depth: -0.00m;}\ncabinet[obj_0001] {length: 0.80m; height: 2.00m; width: 0.47m; orientation: 90 degrees; left: 0.75m; top: 0.24m; depth: -0.00m;}\nbathroom shelf[obj_0002] {length: 0.33m; height: 0.54m; width: 0.32m; orientation: 90 degrees; left: 0.18m; top: 0.16m; depth: -0.00m;}\n"
+ },
+ {
+  "role": "user",
+  "content": "Condition:\nRoom Type: toilet\nRoom Size: max length 1.16m, max width 1.09m\nFurniture to place (exactly these, one line each, keep the ids; give each its size):\ntoilet[obj_0000]: toilet\nbin[obj_0001]: bin\ntoilet brush[obj_0002]: toilet brush\nFloor polygon (left, top): (1.16, 1.09), (0.00, 1.09), (0.00, 0.00), (1.16, 0.00)\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0001\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0000\", \"target_id\": \"obj_0002\", \"max_distance_m\": 0.1}\nConstraint: {\"type\": \"against_wall\", \"object_id\": \"obj_0000\"}\nConstraint: {\"type\": \"near\", \"object_id\": \"obj_0001\", \"target_id\": \"obj_0002\", \"max_distance_m\": 0.5}\nLayout:\n"
+ }
+]

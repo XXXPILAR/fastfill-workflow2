@@ -1,0 +1,243 @@
+{
+ "k": 95,
+ "source": "InternScenes_scannet",
+ "latency_s": 41.70758187538013,
+ "usage": [
+  {
+   "prompt_tokens": 993,
+   "completion_tokens": 1269,
+   "total_tokens": 2262,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 377,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.7,
+     0.65,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.42,
+     3.7,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.09,
+     0.09,
+     0.11
+    ],
+    "bottom_center_m": [
+     2.3,
+     3.7,
+     0.42
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.8,
+     1.7,
+     0.83
+    ],
+    "bottom_center_m": [
+     1.25,
+     4.82,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.7,
+     0.65,
+     0.8
+    ],
+    "bottom_center_m": [
+     0.42,
+     2.55,
+     0.0
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.28,
+     0.28,
+     0.48
+    ],
+    "bottom_center_m": [
+     2.7,
+     4.85,
+     0.58
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.55,
+     1.05,
+     0.42
+    ],
+    "bottom_center_m": [
+     2.05,
+     3.6,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.8,
+     1.65,
+     0.83
+    ],
+    "bottom_center_m": [
+     3.78,
+     3.3,
+     0.0
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.58
+    ],
+    "bottom_center_m": [
+     2.7,
+     4.85,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.24,
+     0.24,
+     0.43
+    ],
+    "bottom_center_m": [
+     3.6,
+     1.8,
+     0.7
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.65,
+     0.7,
+     0.7
+    ],
+    "bottom_center_m": [
+     3.4,
+     1.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.65,
+     0.65,
+     0.8
+    ],
+    "bottom_center_m": [
+     3.4,
+     0.65,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.16,
+     0.22,
+     0.03
+    ],
+    "bottom_center_m": [
+     1.73,
+     3.65,
+     0.42
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.297,
+     0.21,
+     0.002
+    ],
+    "bottom_center_m": [
+     3.23,
+     1.62,
+     0.7
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.12,
+     0.14,
+     0.12
+    ],
+    "bottom_center_m": [
+     2.35,
+     3.45,
+     0.42
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0014",
+    "target_size_local_m": [
+     0.297,
+     0.21,
+     0.002
+    ],
+    "bottom_center_m": [
+     2.04,
+     3.6,
+     0.42
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nPlace one compact couch along the north wall and the other along the east wall, with two west-side chairs facing into the shared seating area and its coffee table. A small table beside the north couch supports a lamp. The third chair and another table form a separate reading spot near the southeast end. Keep the diagonal southwest edge and the central approach open for circulation. Place the cup, book, papers, toy, and lamps on table surfaces without overlapping them.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.65,\"depth_m\":0.7,\"height_m\":0.8,\"x\":0.42,\"y\":3.7,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.09,\"depth_m\":0.09,\"height_m\":0.11,\"x\":2.3,\"y\":3.7,\"z\":0.42,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":1.7,\"depth_m\":0.8,\"height_m\":0.83,\"x\":1.25,\"y\":4.82,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.65,\"depth_m\":0.7,\"height_m\":0.8,\"x\":0.42,\"y\":2.55,\"z\":0,\"facing_deg\":0},{\"id\":\"obj_0004\",\"width_m\":0.28,\"depth_m\":0.28,\"height_m\":0.48,\"x\":2.7,\"y\":4.85,\"z\":0.58,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":1.05,\"depth_m\":0.55,\"height_m\":0.42,\"x\":2.05,\"y\":3.6,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0006\",\"width_m\":1.65,\"depth_m\":0.8,\"height_m\":0.83,\"x\":3.78,\"y\":3.3,\"z\":0,\"facing_deg\":180},{\"id\":\"obj_0007\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.58,\"x\":2.7,\"y\":4.85,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.24,\"depth_m\":0.24,\"height_m\":0.43,\"x\":3.6,\"y\":1.8,\"z\":0.7,\"facing_deg\":270},{\"id\":\"obj_0009\",\"width_m\":0.7,\"depth_m\":0.65,\"height_m\":0.7,\"x\":3.4,\"y\":1.65,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0010\",\"width_m\":0.65,\"depth_m\":0.65,\"height_m\":0.8,\"x\":3.4,\"y\":0.65,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.22,\"depth_m\":0.16,\"height_m\":0.03,\"x\":1.73,\"y\":3.65,\"z\":0.42,\"facing_deg\":90},{\"id\":\"obj_0012\",\"width_m\":0.21,\"depth_m\":0.297,\"height_m\":0.002,\"x\":3.23,\"y\":1.62,\"z\":0.7,\"facing_deg\":90},{\"id\":\"obj_0013\",\"width_m\":0.14,\"depth_m\":0.12,\"height_m\":0.12,\"x\":2.35,\"y\":3.45,\"z\":0.42,\"facing_deg\":90},{\"id\":\"obj_0014\",\"width_m\":0.21,\"depth_m\":0.297,\"height_m\":0.002,\"x\":2.04,\"y\":3.6,\"z\":0.42,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nlobby\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 4.219 m x 5.312 m x unknown\nfloor polygon (x, y): [[0.0, 5.273], [0.0, 1.992], [0.039, 1.953], [2.852, 0.0], [4.18, 0.0], [4.219, 0.039], [4.219, 5.273], [4.18, 5.312], [0.039, 5.312]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0001\", \"category\": \"cup\", \"description\": \"cup\"},\n{\"id\": \"obj_0002\", \"category\": \"couch\", \"description\": \"couch\"},\n{\"id\": \"obj_0003\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0004\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0005\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0006\", \"category\": \"couch\", \"description\": \"couch\"},\n{\"id\": \"obj_0007\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0008\", \"category\": \"lamp\", \"description\": \"lamp\"},\n{\"id\": \"obj_0009\", \"category\": \"table\", \"description\": \"table\"},\n{\"id\": \"obj_0010\", \"category\": \"chair\", \"description\": \"chair\"},\n{\"id\": \"obj_0011\", \"category\": \"book\", \"description\": \"book\"},\n{\"id\": \"obj_0012\", \"category\": \"paper\", \"description\": \"paper\"},\n{\"id\": \"obj_0013\", \"category\": \"toy\", \"description\": \"toy\"},\n{\"id\": \"obj_0014\", \"category\": \"paper\", \"description\": \"paper\"}\n]\n[/Task Objects]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

@@ -1,0 +1,77 @@
+{
+ "floor": [
+  {
+   "assetId": "toilet-0",
+   "id": "toilet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.6,
+    "y": 0.39,
+    "z": 0.33
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     83.5,
+     -4.5
+    ],
+    [
+     83.5,
+     70.5
+    ],
+    [
+     36.5,
+     70.5
+    ],
+    [
+     36.5,
+     -4.5
+    ]
+   ],
+   "object_name": "toilet-0"
+  },
+  {
+   "assetId": "bin-0",
+   "id": "bin-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.065890000000002,
+    "y": 0.14,
+    "z": 0.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     92.5890000000002,
+     16.0
+    ],
+    [
+     92.5890000000002,
+     44.0
+    ],
+    [
+     120.5890000000002,
+     44.0
+    ],
+    [
+     120.5890000000002,
+     16.0
+    ]
+   ],
+   "object_name": "bin-0"
+  }
+ ],
+ "wall": []
+}

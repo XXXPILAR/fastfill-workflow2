@@ -1,0 +1,229 @@
+{
+ "k": 113,
+ "source": "MansionWorld",
+ "latency_s": 71.88451945828274,
+ "usage": [
+  {
+   "prompt_tokens": 1491,
+   "completion_tokens": 2068,
+   "total_tokens": 3559,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1216,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.3,
+     0.9,
+     0.7
+    ],
+    "bottom_center_m": [
+     1.15,
+     1.25,
+     1.5
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     0.6,
+     0.9,
+     1.9
+    ],
+    "bottom_center_m": [
+     1.5,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.7,
+     1.8,
+     0.9
+    ],
+    "bottom_center_m": [
+     1.95,
+     4.65,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.6,
+     0.9,
+     1.9
+    ],
+    "bottom_center_m": [
+     2.5,
+     0.3,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.2,
+     0.6,
+     0.25
+    ],
+    "bottom_center_m": [
+     0.1,
+     2.95,
+     1.65
+    ],
+    "yaw_rad": 0.0
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.3,
+     0.85,
+     0.7
+    ],
+    "bottom_center_m": [
+     2.85,
+     2.25,
+     1.5
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.55,
+     0.9,
+     0.76
+    ],
+    "bottom_center_m": [
+     0.5,
+     2.425,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.28,
+     0.4,
+     0.22
+    ],
+    "bottom_center_m": [
+     1.5,
+     0.3,
+     1.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.2,
+     0.18,
+     0.42
+    ],
+    "bottom_center_m": [
+     0.2,
+     2.42,
+     0.76
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0009",
+    "target_size_local_m": [
+     0.22,
+     0.65,
+     0.25
+    ],
+    "bottom_center_m": [
+     2.89,
+     1.0,
+     2.35
+    ],
+    "yaw_rad": -3.141592653589793
+   },
+   {
+    "id": "obj_0010",
+    "target_size_local_m": [
+     0.04,
+     0.85,
+     0.6
+    ],
+    "bottom_center_m": [
+     0.5,
+     2.02,
+     1.3
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0011",
+    "target_size_local_m": [
+     0.5,
+     0.5,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.5,
+     3.12,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0012",
+    "target_size_local_m": [
+     0.35,
+     0.65,
+     0.85
+    ],
+    "bottom_center_m": [
+     0.5,
+     4.8,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0013",
+    "target_size_local_m": [
+     0.28,
+     0.4,
+     0.22
+    ],
+    "bottom_center_m": [
+     2.5,
+     0.3,
+     1.9
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe two tall cabinets occupy the narrow south end, leaving their doors accessible from the central aisle. The lab workbench sits against the north wall, while the support desk and its chair occupy the southwest recess. The desk faces north toward the mobile cart, which is parked beyond the door’s approach area. Wall storage uses solid wall sections, with one shelf above the lower window. The whiteboard is mounted behind the support desk. Archive boxes sit on their respective cabinets, and the lamp stands on the desk.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":0.9,\"depth_m\":0.3,\"height_m\":0.7,\"x\":1.15,\"y\":1.25,\"z\":1.5,\"facing_deg\":0},{\"id\":\"obj_0001\",\"width_m\":0.9,\"depth_m\":0.6,\"height_m\":1.9,\"x\":1.5,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0002\",\"width_m\":1.8,\"depth_m\":0.7,\"height_m\":0.9,\"x\":1.95,\"y\":4.65,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0003\",\"width_m\":0.9,\"depth_m\":0.6,\"height_m\":1.9,\"x\":2.5,\"y\":0.3,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0004\",\"width_m\":0.6,\"depth_m\":0.2,\"height_m\":0.25,\"x\":0.1,\"y\":2.95,\"z\":1.65,\"facing_deg\":0},{\"id\":\"obj_0005\",\"width_m\":0.85,\"depth_m\":0.3,\"height_m\":0.7,\"x\":2.85,\"y\":2.25,\"z\":1.5,\"facing_deg\":180},{\"id\":\"obj_0006\",\"width_m\":0.9,\"depth_m\":0.55,\"height_m\":0.76,\"x\":0.5,\"y\":2.425,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0007\",\"width_m\":0.4,\"depth_m\":0.28,\"height_m\":0.22,\"x\":1.5,\"y\":0.3,\"z\":1.9,\"facing_deg\":90},{\"id\":\"obj_0008\",\"width_m\":0.18,\"depth_m\":0.2,\"height_m\":0.42,\"x\":0.2,\"y\":2.42,\"z\":0.76,\"facing_deg\":90},{\"id\":\"obj_0009\",\"width_m\":0.65,\"depth_m\":0.22,\"height_m\":0.25,\"x\":2.89,\"y\":1,\"z\":2.35,\"facing_deg\":180},{\"id\":\"obj_0010\",\"width_m\":0.85,\"depth_m\":0.04,\"height_m\":0.6,\"x\":0.5,\"y\":2.02,\"z\":1.3,\"facing_deg\":90},{\"id\":\"obj_0011\",\"width_m\":0.5,\"depth_m\":0.5,\"height_m\":0.85,\"x\":0.5,\"y\":3.12,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0012\",\"width_m\":0.65,\"depth_m\":0.35,\"height_m\":0.85,\"x\":0.5,\"y\":4.8,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0013\",\"width_m\":0.4,\"depth_m\":0.28,\"height_m\":0.22,\"x\":2.5,\"y\":0.3,\"z\":1.9,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nlab support\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 3.000 m x 5.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 2.0], [1.0, 2.0], [1.0, 0.0], [3.0, 0.0], [3.0, 5.0], [0.0, 5.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"wall cabinet\", \"description\": \"I brown cabinet with two doors.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0001\", \"category\": \"tall storage cabinet\", \"description\": \"A blue cabinet with two big doors.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"lab workbench\", \"description\": \"a laboratory desk with a microscope and drawers.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"tall storage cabinet\", \"description\": \"A blue cabinet with two big doors.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0004\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0005\", \"category\": \"wall cabinet\", \"description\": \"I brown cabinet with two doors.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0006\", \"category\": \"support desk\", \"description\": \"A little desk with a black computer monitor on top.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"archive box\", \"description\": \"A dark brown loaf of bread with each side neatly sliced.\", \"support_parent\": \"obj_0001\"},\n{\"id\": \"obj_0008\", \"category\": \"desk lamp\", \"description\": \"A desk lamp with a purple base and coral arm and head.\", \"support_parent\": \"obj_0006\"},\n{\"id\": \"obj_0009\", \"category\": \"wall shelf\", \"description\": \"A set of shelves with one rectangular wooden board and two rusted bookenders.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0010\", \"category\": \"wall whiteboard\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0011\", \"category\": \"support chair\", \"description\": \"support chair\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0012\", \"category\": \"mobile lab cart\", \"description\": \"Gray cart with wheels and three shelves.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0013\", \"category\": \"archive box\", \"description\": \"A dark brown loaf of bread with each side neatly sliced.\", \"support_parent\": \"obj_0003\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"window\", \"centre_xy\": [3.0, 0.829], \"wall_from\": [3.0, 0.0], \"wall_to\": [3.0, 5.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 1.0}, {\"type\": \"window\", \"centre_xy\": [3.0, 3.67], \"wall_from\": [3.0, 0.0], \"wall_to\": [3.0, 5.0], \"width_m\": 1.48, \"height_m\": 1.169, \"sill_height_m\": 1.0}, {\"type\": \"door\", \"centre_xy\": [0.0, 4.047], \"wall_from\": [0.0, 5.0], \"wall_to\": [0.0, 2.0], \"width_m\": 1.024, \"height_m\": 2.1}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0013\", \"parent_id\": \"obj_0003\"}, {\"type\": \"faces\", \"object_id\": \"obj_0006\", \"target_id\": \"obj_0012\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

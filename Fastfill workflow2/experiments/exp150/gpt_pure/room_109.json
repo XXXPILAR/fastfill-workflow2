@@ -1,0 +1,159 @@
+{
+ "k": 109,
+ "source": "MansionWorld",
+ "latency_s": 49.71634612465277,
+ "usage": [
+  {
+   "prompt_tokens": 1270,
+   "completion_tokens": 1279,
+   "total_tokens": 2549,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "audio_tokens": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 687,
+    "audio_tokens": 0,
+    "accepted_prediction_tokens": 0,
+    "rejected_prediction_tokens": 0
+   }
+  }
+ ],
+ "error": null,
+ "problems": [],
+ "layout": {
+  "schema_version": "fastfill.v2",
+  "objects": [
+   {
+    "id": "obj_0000",
+    "target_size_local_m": [
+     0.45,
+     1.8,
+     0.8
+    ],
+    "bottom_center_m": [
+     1.2,
+     2.775,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0001",
+    "target_size_local_m": [
+     1.05,
+     1.05,
+     0.75
+    ],
+    "bottom_center_m": [
+     4.0,
+     2.0,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0002",
+    "target_size_local_m": [
+     0.66,
+     0.66,
+     1.15
+    ],
+    "bottom_center_m": [
+     1.2,
+     0.55,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   },
+   {
+    "id": "obj_0003",
+    "target_size_local_m": [
+     0.3,
+     0.24,
+     0.015
+    ],
+    "bottom_center_m": [
+     4.0,
+     1.85,
+     0.75
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0004",
+    "target_size_local_m": [
+     0.05,
+     0.32,
+     0.32
+    ],
+    "bottom_center_m": [
+     3.1,
+     2.975,
+     2.25
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0005",
+    "target_size_local_m": [
+     0.22,
+     0.32,
+     0.16
+    ],
+    "bottom_center_m": [
+     0.65,
+     1.45,
+     0.76
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0006",
+    "target_size_local_m": [
+     0.7,
+     1.7,
+     0.76
+    ],
+    "bottom_center_m": [
+     1.2,
+     1.35,
+     0.0
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0007",
+    "target_size_local_m": [
+     0.04,
+     0.95,
+     0.65
+    ],
+    "bottom_center_m": [
+     1.2,
+     2.98,
+     1.35
+    ],
+    "yaw_rad": -1.5707963267948966
+   },
+   {
+    "id": "obj_0008",
+    "target_size_local_m": [
+     0.55,
+     0.48,
+     0.82
+    ],
+    "bottom_center_m": [
+     4.0,
+     0.95,
+     0.0
+    ],
+    "yaw_rad": 1.5707963267948966
+   }
+  ]
+ },
+ "reply": "<reasoning>\n[Reason]\nThe desk and executive chair form a workstation on the left, with daylight from the west windows. The chair faces north toward both the desk and the low credenza, satisfying the required orientation. The credenza sits against the north wall with clearance in front for access. A round meeting table and visitor chair occupy the right-hand side, while the east doorway and a central circulation route remain clear. The organizer rests on the desk, the notepad rests on the meeting table, and the artwork and clock hang on the north wall.\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\":[{\"id\":\"obj_0000\",\"width_m\":1.8,\"depth_m\":0.45,\"height_m\":0.8,\"x\":1.2,\"y\":2.775,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0001\",\"width_m\":1.05,\"depth_m\":1.05,\"height_m\":0.75,\"x\":4,\"y\":2,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0002\",\"width_m\":0.66,\"depth_m\":0.66,\"height_m\":1.15,\"x\":1.2,\"y\":0.55,\"z\":0,\"facing_deg\":90},{\"id\":\"obj_0003\",\"width_m\":0.24,\"depth_m\":0.3,\"height_m\":0.015,\"x\":4,\"y\":1.85,\"z\":0.75,\"facing_deg\":270},{\"id\":\"obj_0004\",\"width_m\":0.32,\"depth_m\":0.05,\"height_m\":0.32,\"x\":3.1,\"y\":2.975,\"z\":2.25,\"facing_deg\":270},{\"id\":\"obj_0005\",\"width_m\":0.32,\"depth_m\":0.22,\"height_m\":0.16,\"x\":0.65,\"y\":1.45,\"z\":0.76,\"facing_deg\":270},{\"id\":\"obj_0006\",\"width_m\":1.7,\"depth_m\":0.7,\"height_m\":0.76,\"x\":1.2,\"y\":1.35,\"z\":0,\"facing_deg\":270},{\"id\":\"obj_0007\",\"width_m\":0.95,\"depth_m\":0.04,\"height_m\":0.65,\"x\":1.2,\"y\":2.98,\"z\":1.35,\"facing_deg\":270},{\"id\":\"obj_0008\",\"width_m\":0.48,\"depth_m\":0.55,\"height_m\":0.82,\"x\":4,\"y\":0.95,\"z\":0,\"facing_deg\":90}]}\n[/Design]\n</answer>",
+ "system": "You are a skilled interior layout designer. Place every object of [Task Objects] in the room described below.\n(1) Place every listed object exactly once, under its own id. Do not add or drop objects.\n(2) No sizes are given: choose a realistic width, depth and height for each object from its category and description.\n(3) Avoid overlaps: footprints must not intersect, except an object resting on another (its z is the top of the object under it and it stays within that object's footprint). An object hung on a wall has its back against a wall and z is the height of its bottom above the floor. An object with a support_parent stands on that object, on the floor when it says floor, or hangs on a wall when it says wall.\n(4) Place the large furniture first (beds, wardrobes, sofas, desks, tables, cabinets) and prefer the walls and edges of the room.\n(5) Align objects parallel or perpendicular to the walls.\n(6) Keep functional groups together: chairs at their table or desk and facing it, nightstands beside the bed, a sofa facing the TV or coffee table, a desk chair facing its desk.\n(7) Keep walkways clear so that every object can be reached and used; leave the floor in front of every door free.\n(8) Keep every object inside the floor polygon and its top below the ceiling.\n(9) Before giving coordinates, reason briefly about the general arrangement: what needs the most space or a fixed place, what belongs together, and how people move through the room. Then report the design.\n\nCoordinates are metres in the room frame: x and y on the floor, z up. width_m is the object's left-right extent, depth_m its front-back extent, height_m its vertical extent. x, y, z is the centre of the object's bottom face (z = height of the surface it stands on). facing_deg is the direction its front faces, counter-clockwise from +x (0 faces +x, 90 faces +y).\n\nAnswer in this format, with exactly one entry per id and plain numbers as values:\n\n<reasoning>\n[Reason]\n...\n[/Reason]\n</reasoning>\n\n<answer>\n[Design]\n{\"objects\": [{\"id\": \"...\", \"width_m\": ..., \"depth_m\": ..., \"height_m\": ..., \"x\": ..., \"y\": ..., \"z\": ..., \"facing_deg\": ...}, ...]}\n[/Design]\n</answer>",
+ "request": "[Task Room Type]\nstudy room\n[/Task Room Type]\n\n[Task Room Size]\nwidth (x) x length (y) x height (z): 6.000 m x 3.000 m x 3.200 m\nfloor polygon (x, y): [[0.0, 0.0], [6.0, 0.0], [6.0, 3.0], [0.0, 3.0]]\nfloor z: 0.000 m\n[/Task Room Size]\n\n[Task Objects]\n[\n{\"id\": \"obj_0000\", \"category\": \"low credenza\", \"description\": \"The table is wooden with shelves, drawers, and a cabinet.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0001\", \"category\": \"meeting table round\", \"description\": \"A round all brown kitchen table.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0002\", \"category\": \"executive task chair\", \"description\": \"A black office chair from minecraft.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0003\", \"category\": \"notepad\", \"description\": \"Paper scroll with lines of handwriting.\", \"support_parent\": \"obj_0001\"},\n{\"id\": \"obj_0004\", \"category\": \"wall clock\", \"description\": \"A black wall clock.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0005\", \"category\": \"desk organizer\", \"description\": \"A wooden crate with compartments that is used to hold things.\", \"support_parent\": \"obj_0006\"},\n{\"id\": \"obj_0006\", \"category\": \"executive desk\", \"description\": \"A dark colored wooden desk with drawers on both sides.\", \"support_parent\": \"floor\"},\n{\"id\": \"obj_0007\", \"category\": \"wall art\", \"description\": \"A white rectangular poster with black blue and orange marks and irregular writing.\", \"support_parent\": \"wall\"},\n{\"id\": \"obj_0008\", \"category\": \"visitor chair\", \"description\": \"This is a black folding chair.\", \"support_parent\": \"floor\"}\n]\n[/Task Objects]\n\n[Task Doors and Windows]\n[{\"type\": \"door\", \"centre_xy\": [6.0, 1.068], \"wall_from\": [6.0, 0.0], \"wall_to\": [6.0, 3.0], \"width_m\": 1.081, \"height_m\": 2.1}, {\"type\": \"window\", \"centre_xy\": [0.0, 2.147], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.239, \"height_m\": 1.225, \"sill_height_m\": 0.9}, {\"type\": \"window\", \"centre_xy\": [0.0, 0.858], \"wall_from\": [0.0, 3.0], \"wall_to\": [0.0, 0.0], \"width_m\": 1.239, \"height_m\": 1.225, \"sill_height_m\": 0.9}]\n[/Task Doors and Windows]\n\n[Task Constraints]\n[{\"type\": \"on\", \"object_id\": \"obj_0005\", \"parent_id\": \"obj_0006\"}, {\"type\": \"faces\", \"object_id\": \"obj_0002\", \"target_id\": \"obj_0000\"}]\n[/Task Constraints]",
+ "base_url": "https://api-slb.kbsfdxc.net/codex/v1"
+}

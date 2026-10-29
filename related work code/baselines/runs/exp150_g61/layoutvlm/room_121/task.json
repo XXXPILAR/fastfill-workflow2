@@ -1,0 +1,84 @@
+{
+ "task_description": "a board room of about 8.0m x 6.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a window 2.39 m wide centred at (1.87, 0.00); a window 2.39 m wide centred at (5.24, 0.00); a door 1.94 m wide centred at (0.00, 3.91) (keep the floor in front of it clear). the file tray (o0011) should be on top of the presentation console table (o0024). the breakout chair (o0009) should be between the breakout chair (o0027) and the breakout chair (o0006). the breakout chair (o0020) should face the side console table (o0013)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    8.0,
+    0.0,
+    0.0
+   ],
+   [
+    8.0,
+    2.0,
+    0.0
+   ],
+   [
+    4.0,
+    2.0,
+    0.0
+   ],
+   [
+    4.0,
+    4.0,
+    0.0
+   ],
+   [
+    8.0,
+    4.0,
+    0.0
+   ],
+   [
+    8.0,
+    6.0,
+    0.0
+   ],
+   [
+    0.0,
+    6.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.2
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {},
+  "o0008-0": {},
+  "o0009-0": {},
+  "o0010-0": {},
+  "o0011-0": {},
+  "o0012-0": {},
+  "o0013-0": {},
+  "o0014-0": {},
+  "o0015-0": {},
+  "o0016-0": {},
+  "o0017-0": {},
+  "o0018-0": {},
+  "o0019-0": {},
+  "o0020-0": {},
+  "o0021-0": {},
+  "o0022-0": {},
+  "o0023-0": {},
+  "o0024-0": {},
+  "o0025-0": {},
+  "o0026-0": {},
+  "o0027-0": {},
+  "o0028-0": {},
+  "o0029-0": {},
+  "o0030-0": {},
+  "o0031-0": {},
+  "o0032-0": {}
+ }
+}

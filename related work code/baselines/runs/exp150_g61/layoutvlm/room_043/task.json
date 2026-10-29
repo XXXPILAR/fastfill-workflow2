@@ -1,0 +1,39 @@
+{
+ "task_description": "a kitchen of about 9.0m x 6.5m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the grill (o0001) should be between the stool (o0003) and the stool (o0006)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    9.016639,
+    0.0,
+    0.0
+   ],
+   [
+    9.016639,
+    6.497427,
+    0.0
+   ],
+   [
+    0.0,
+    6.497427,
+    0.0
+   ]
+  ],
+  "wall_height": 2.6
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {},
+  "o0005-0": {},
+  "o0006-0": {},
+  "o0007-0": {}
+ }
+}

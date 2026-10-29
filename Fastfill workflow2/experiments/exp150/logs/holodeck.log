@@ -1,0 +1,2213 @@
+plan for cafe lounge: I’ll arrange the sofas in small lounge groups along the perimeter, keeping the center open for four café tables and clear circulation routes. Side tables will serve the sofas, while the water bar, shelf, and billboard form an edge-based service area. Chairs will face their associated tables, and high chairs will gather around the water bar. Plants, landscape stones, and floor lamps will soften the perimeter without crowding the main seating areas.
+
+multi person sofa-0 | edge
+multi person sofa-1 | edge | near, multi person sofa-0 | side of, multi person sofa-0 | center aligned, multi person sofa-0
+multi person sofa-2 | edge | far, multi person sofa-0 | far, multi person sofa-1
+multi person sofa-3 | edge | near, multi person sofa-2 | side of, multi person sofa-2 | center aligned, multi person sofa-2
+multi person sofa-4 | edge | far, multi person sofa-0 | far, multi person sofa-2
+multi person sofa-5 | edge | near, multi person sofa-4 | side of, multi person sofa-4 | center aligned, multi person sofa-4
+multi person sofa-6 | edge | far, multi person sofa-0 | far, multi person sofa-2 | far, multi person sofa-4
+multi person sofa-7 | edge | near, multi person sofa-6 | side of, multi person sofa-6 | center aligned, multi person sofa-6
+multi person sofa-8 | edge | far, multi person sofa-1 | far, multi person sofa-5 | far, multi person sofa-7
+water bar-0 | edge | far, multi person sofa-0 | far, multi person sofa-4 | far, multi person sofa-8
+shelf-0 | edge | near, water bar-0 | side of, water bar-0
+table-0 | middle | near, multi person sofa-0 | in front of, multi person sofa-0 | center aligned, multi person sofa-0
+table-1 | middle | near, multi person sofa-2 | in front of, multi person sofa-2 | center aligned, multi person sofa-2 | far, table-0
+table-2 | middle | near, multi person sofa-4 | in front of, multi person sofa-4 | center aligned, multi person sofa-4 | far, table-0 | far, table-1
+table-3 | middle | near, multi person sofa-6 | in front of, multi person sofa-6 | center aligned, multi person sofa-6 | far, table-0 | far, table-1 | far, table-2
+side table-0 | edge | near, multi person sofa-0 | side of, multi person sofa-0
+side table-1 | edge | near, multi person sofa-1 | side of, multi person sofa-1 | far, side table-0
+side table-2 | edge | near, multi person sofa-2 | side of, multi person sofa-2
+side table-3 | edge | near, multi person sofa-3 | side of, multi person sofa-3 | far, side table-2
+side table-4 | edge | near, multi person sofa-4 | side of, multi person sofa-4
+side table-5 | edge | near, multi person sofa-5 | side of, multi person sofa-5 | far, side table-4
+side table-6 | edge | near, multi person sofa-6 | side of, multi person sofa-6
+side table-7 | edge | near, multi person sofa-7 | side of, multi person sofa-7 | far, side table-6
+side table-8 | edge | near, multi person sofa-8 | left of, multi person sofa-8
+side table-9 | edge | near, multi person sofa-8 | right of, multi person sofa-8 | center aligned, side table-8
+side table-10 | edge | near, shelf-0 | side of, shelf-0 | far, water bar-0
+chair-0 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-1 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-2 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-3 | middle | near, table-0 | around, table-0 | face to, table-0 | center aligned, chair-0
+chair-4 | middle | near, table-0 | around, table-0 | face to, table-0 | center aligned, chair-1
+chair-5 | middle | near, table-0 | around, table-0 | face to, table-0 | center aligned, chair-2
+chair-6 | middle | near, table-1 | around, table-1 | face to, table-1
+chair-7 | middle | near, table-1 | around, table-1 | face to, table-1
+chair-8 | middle | near, table-1 | around, table-1 | face to, table-1
+chair-9 | middle | near, table-1 | around, table-1 | face to, table-1 | center aligned, chair-6
+chair-10 | middle | near, table-1 | around, table-1 | face to, table-1 | center aligned, chair-7
+chair-11 | middle | near, table-1 | around, table-1 | face to, table-1 | center aligned, chair-8
+chair-12 | middle | near, table-2 | around, table-2 | face to, table-2
+chair-13 | middle | near, table-2 | around, table-2 | face to, table-2
+chair-14 | middle | near, table-2 | around, table-2 | face to, table-2
+chair-15 | middle | near, table-2 | around, table-2 | face to, table-2 | center aligned, chair-12
+chair-16 | middle | near, table-2 | around, table-2 | face to, table-2 | center aligned, chair-13
+chair-17 | middle | near, table-2 | around, table-2 | face to, table-2 | center aligned, chair-14
+chair-18 | middle | near, table-3 | around, table-3 | face to, table-3
+chair-19 | middle | near, table-3 | around, table-3 | face to, table-3
+chair-20 | middle | near, table-3 | around, table-3 | face to, table-3
+chair-21 | middle | near, table-3 | around, table-3 | face to, table-3 | center aligned, chair-18
+chair-22 | middle | near, table-3 | around, table-3 | face to, table-3 | center aligned, chair-19
+chair-23 | middle | near, table-3 | around, table-3 | face to, table-3 | center aligned, chair-20
+chair-24 | edge | near, side table-0 | around, side table-0 | face to, side table-0
+chair-25 | edge | near, side table-1 | around, side table-1 | face to, side table-1
+chair-26 | edge | near, side table-2 | around, side table-2 | face to, side table-2
+chair-27 | edge | near, side table-3 | around, side table-3 | face to, side table-3
+chair-28 | edge | near, side table-4 | around, side table-4 | face to, side table-4
+chair-29 | edge | near, side table-5 | around, side table-5 | face to, side table-5
+chair-30 | edge | near, side table-6 | around, side table-6 | face to, side table-6
+high chair-0 | edge | near, water bar-0 | around, water bar-0 | face to, water bar-0
+high chair-1 | edge | near, water bar-0 | around, water bar-0 | face to, water bar-0 | right of, high chair-0 | center aligned, high chair-0
+high chair-2 | edge | near, water bar-0 | around, water bar-0 | face to, water bar-0 | right of, high chair-1 | center aligned, high chair-1
+high chair-3 | edge | near, water bar-0 | around, water bar-0 | face to, water bar-0 | right of, high chair-2 | center aligned, high chair-2
+high chair-4 | edge | near, water bar-0 | around, water bar-0 | face to, water bar-0 | right of, high chair-3 | center aligned, high chair-3
+stool-0 | edge | near, side table-7 | around, side table-7 | face to, side table-7
+landscape stone-0 | edge | near, multi person sofa-1 | side of, multi person sofa-1 | far, chair-25
+landscape stone-1 | edge | near, multi person sofa-3 | side of, multi person sofa-3 | far, chair-27
+landscape stone-2 | edge | near, multi person sofa-5 | side of, multi person sofa-5 | far, chair-29
+landscape stone-3 | edge | near, multi person sofa-7 | side of, multi person sofa-7 | far, stool-0
+floor lamp-0 | edge | near, multi person sofa-0 | side of, multi person sofa-0 | far, chair-24
+floor lamp-1 | edge | near, multi person sofa-4 | side of, multi person sofa-4 | far, chair-28
+floor lamp-2 | edge | near, multi person sofa-8 | side of, multi person sofa-8
+billboard-0 | edge | near, water bar-0 | side of, water bar-0 | far, high chair-0 | face to, table-3
+plant-0 | edge | near, landscape stone-0 | left of, landscape stone-0
+plant-2 | edge | near, landscape stone-0 | right of, landscape stone-0 | center aligned, plant-0
+plant-4 | edge | near, multi person sofa-0 | side of, multi person sofa-0 | far, chair-24
+plant-5 | edge | near, multi person sofa-1 | side of, multi person sofa-1 | far, chair-25
+plant-7 | edge | near, landscape stone-1 | left of, landscape stone-1
+plant-9 | edge | near, landscape stone-1 | right of, landscape stone-1 | center aligned, plant-7
+plant-11 | edge | near, multi person sofa-2 | side of, multi person sofa-2 | far, chair-26
+plant-12 | edge | near, multi person sofa-3 | side of, multi person sofa-3 | far, chair-27
+plant-14 | edge | near, landscape stone-2 | left of, landscape stone-2
+plant-15 | edge | near, landscape stone-2 | right of, landscape stone-2 | center aligned, plant-14
+plant-17 | edge | near, multi person sofa-4 | side of, multi person sofa-4 | far, chair-28
+plant-18 | edge | near, multi person sofa-5 | side of, multi person sofa-5 | far, chair-29
+plant-20 | edge | near, landscape stone-3 | left of, landscape stone-3
+plant-22 | edge | near, landscape stone-3 | right of, landscape stone-3 | center aligned, plant-20
+plant-24 | edge | near, multi person sofa-6 | side of, multi person sofa-6 | far, chair-30
+plant-26 | edge | near, multi person sofa-7 | side of, multi person sofa-7 | far, stool-0
+plant-27 | edge | near, multi person sofa-8 | side of, multi person sofa-8 | far, floor lamp-2
+plant-29 | edge | near, shelf-0 | side of, shelf-0 | far, side table-10
+plant-31 | edge | near, billboard-0 | side of, billboard-0 | far, high chair-4
+flowerpot-0 | edge | near, side table-0 | side of, side table-0 | far, chair-24
+flowerpot-1 | edge | near, side table-2 | side of, side table-2 | far, chair-26
+flowerpot-2 | edge | near, side table-4 | side of, side table-4 | far, chair-28
+flowerpot-3 | edge | near, side table-6 | side of, side table-6 | far, chair-30
+flowerpot-4 | edge | near, side table-10 | side of, side table-10 | far, water bar-0
+Number of solutions found: 30
+
+wall object constraint plan for cafe lounge:
+wall lamp-0 | above, multi person sofa-0 | 180
+room 48: ok missing=72 on_rule=55 106s 3 calls
+plan for bedroom: Place the bed with its head against a 200 cm wall, leaving the room’s length available for circulation. Use compact bedside tables on opposite sides of the bed, aligned with each other, so the bed sits between them. Place the carpet centrally at the foot of the bed. A narrow bed and slim tables will be essential to fit across the room’s width.
+
+bed-0 | edge
+bedside table-0 | edge | left of, bed-0
+bedside table-1 | edge | right of, bed-0 | center aligned, bedside table-0
+carpet-0 | middle | in front of, bed-0 | center aligned, bed-0
+Number of solutions found: 19
+room 50: ok missing=1 on_rule=4 37s 2 calls
+plan for tea room: Place the tea table combination along a wall to keep the center of the 600 × 400 cm room open. Position the storage rack along the perimeter, separated from the tea area. Place plant-0 beside the rack with an edge-to-edge gap of no more than 10 cm; the defined “near” constraint is not suitable because it requires more than 50 cm. Place plant-1 beside the tea table combination, aligning the plants along the same wall for visual balance.
+
+tea table combination-0 | edge
+storage rack-0 | edge | far, tea table combination-0
+plant-0 | edge | side of, storage rack-0
+plant-1 | edge | side of, tea table combination-0 | center aligned, plant-0
+Number of solutions found: 30
+room 54: ok missing=0 on_rule=1 56s 2 calls
+plan for bedroom: Place the bed against a wall as the anchor, then position the chair beside it along the room’s edge to preserve open floor space. Keep the gap between the bed and chair at most 10 cm. This gap must be set directly: the defined “near” constraint requires more than 50 cm, so it cannot express your requirement. Since there is no table or desk, orient the chair toward the bed.
+
+bed-0 | edge
+chair-0 | edge | around, bed-0 | side of, bed-0 | face to, bed-0
+Number of solutions found: 4
+room 55: ok missing=0 on_rule=0 20s 2 calls
+plan for kitchen with laundry area: Use a single-wall layout along the 500 cm wall, starting with the bar counter and placing the basin cabinet, washing machine, and side table beside it. Keep seating at the room’s edge, arranged along the counter and facing it. Because the room is only 100 cm wide, compact furniture is essential; the required chair-to-counter distances of more than 50 cm may not be achievable with adequate circulation, so check actual furniture dimensions before installation.
+
+bar counter-0 | edge
+basin cabinet-0 | edge | right of, bar counter-0
+washing machine-0 | edge | right of, basin cabinet-0
+side table-0 | edge | right of, washing machine-0
+chair-0 | edge | around, bar counter-0 | near, bar counter-0 | face to, bar counter-0
+high chair-0 | edge | around, bar counter-0 | near, bar counter-0 | right of, chair-0 | face to, bar counter-0
+high chair-1 | edge | around, bar counter-0 | near, bar counter-0 | right of, high chair-0 | face to, bar counter-0
+Number of solutions found: 19
+room 57: ok missing=0 on_rule=1 50s 2 calls
+plan for kitchen with dining area: Keep the cabinets and ovens along the perimeter to preserve open circulation, with the ovens together and away from the bins. Place the dining table in the middle, leaving access around it. Arrange the chairs along the table’s centerline: chair-0 and chair-1 on one side, with chair-1 closer to the table, and chair-2 opposite them. This puts chair-1 between the other chairs and lets chair-2 face both the table and chair-1. Place bin-0 beside cabinet-4 with a gap of no more than 10 cm; do not use the defined “near” constraint for this gap, since it requires more than 50 cm.
+
+cabinet-0 | edge
+cabinet-1 | edge | side of, cabinet-0 | center aligned, cabinet-0
+cabinet-3 | edge | side of, cabinet-1 | center aligned, cabinet-1
+cabinet-4 | edge | side of, cabinet-3 | center aligned, cabinet-3
+oven-0 | edge | side of, cabinet-0
+oven-1 | edge | side of, oven-0 | center aligned, oven-0
+table-0 | middle | far, cabinet-0 | far, oven-0 | far, oven-1
+chair-0 | middle | around, table-0 | near, table-0 | left of, table-0 | center aligned, table-0 | face to, table-0
+chair-1 | middle | around, table-0 | near, table-0 | left of, table-0 | right of, chair-0 | center aligned, chair-0 | face to, table-0
+chair-2 | middle | around, table-0 | near, table-0 | right of, table-0 | right of, chair-1 | center aligned, chair-1 | face to, table-0 | face to, chair-1
+bin-0 | edge | side of, cabinet-4 | far, oven-0 | far, oven-1
+bin-1 | edge | side of, bin-0 | center aligned, bin-0 | far, oven-0 | far, oven-1
+Number of solutions found: 30
+
+wall object constraint plan for kitchen with dining area:
+cabinet-5 | above, cabinet-0 | 145
+cabinet-2 | above, cabinet-1 | 145
+room 61: ok missing=0 on_rule=6 79s 3 calls
+plan for communal kitchen and lounge: Arrange the kitchen cabinets and appliances along one wall, with the three couches along the opposite perimeter to keep the center open. Use two aligned tables for communal dining and a third table for the lounge. Position all chairs around and facing their tables. At table-1, place chair-10 between chair-9 and chair-5, and place chair-8 within 30 cm of chair-5. Orient table-1 toward cabinet-4 so chair-8 can face both the table and the cabinet. The explicit “within 30 cm” constraint below preserves your requirement without conflicting with the defined “near” distance.
+
+cabinet-4 | edge
+couch-0 | edge | far, cabinet-4
+couch-1 | edge | side of, couch-0 | near, couch-0
+couch-2 | edge | side of, couch-1 | near, couch-1 | far, couch-0
+cabinet-0 | edge | left of, cabinet-4 | center aligned, cabinet-4
+cabinet-2 | edge | right of, cabinet-4 | center aligned, cabinet-4
+cabinet-5 | edge | right of, cabinet-2 | center aligned, cabinet-2
+refrigerator-0 | edge | left of, cabinet-0
+dishwasher-0 | edge | right of, cabinet-5
+table-0 | middle | near, cabinet-0 | in front of, cabinet-0 | far, couch-0
+table-1 | middle | near, cabinet-4 | in front of, cabinet-4 | right of, table-0 | center aligned, table-0
+table-2 | middle | near, couch-0 | in front of, couch-0 | center aligned, couch-0 | far, table-0
+chair-0 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-1 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-2 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-3 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-4 | middle | around, table-2 | near, table-2 | face to, table-2
+chair-6 | middle | around, table-2 | near, table-2 | face to, table-2
+chair-7 | middle | around, table-1 | near, table-1 | face to, table-1
+chair-9 | middle | around, table-1 | near, table-1 | face to, table-1
+chair-5 | middle | around, table-1 | near, table-1 | right of, chair-9 | face to, table-1
+chair-10 | middle | around, table-1 | near, table-1 | right of, chair-9 | left of, chair-5 | face to, table-1
+chair-8 | middle | around, table-1 | near, table-1 | right of, chair-5 | within 30 cm, chair-5 | face to, table-1 | face to, cabinet-4
+stool-0 | edge | near, cabinet-5 | in front of, cabinet-5 | face to, cabinet-5
+backpack-0 | edge | side of, couch-2 | far, dishwasher-0
+constraint type within 30 cm not found, using behind instead.
+Number of solutions found: 30
+
+wall object constraint plan for communal kitchen and lounge:
+cabinet-1 | above, cabinet-0 | 145
+cabinet-3 | above, cabinet-2 | 145
+room 63: ok missing=0 on_rule=7 74s 3 calls
+plan for shared office with lounge area: Use the perimeter for two workstations, storage, and two facing couches, keeping the center as open as possible. A central shared table serves both informal meetings and the lounge, with three chairs around it. The remaining two tables sit beside the couches as side tables. Keep access to cabinets and shelves clear, and tuck the bag and plant near the perimeter.
+
+couch-0 | edge
+couch-1 | edge | far, couch-0 | in front of, couch-0 | center aligned, couch-0 | face to, couch-0
+table-0 | edge | far, couch-0 | side of, couch-0
+table-1 | edge | far, table-0 | in front of, table-0 | center aligned, table-0 | face to, table-0
+shelf-0 | edge | side of, table-0
+shelf-1 | edge | side of, table-1 | face to, shelf-0
+cabinet-0 | edge | side of, shelf-0
+cabinet-1 | edge | side of, shelf-1 | face to, cabinet-0
+table-2 | middle | near, couch-0 | near, couch-1 | in front of, couch-0 | center aligned, couch-0
+table-3 | edge | near, couch-0 | side of, couch-0
+table-4 | edge | near, couch-1 | side of, couch-1 | center aligned, table-3
+chair-0 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-1 | middle | near, table-1 | around, table-1 | face to, table-1 | center aligned, chair-0
+chair-2 | middle | near, table-2 | around, table-2 | left of, table-2 | face to, table-2
+chair-3 | middle | near, table-2 | around, table-2 | right of, table-2 | face to, table-2 | center aligned, chair-2
+chair-4 | middle | near, table-2 | around, table-2 | in front of, table-2 | face to, table-2
+flowerpot-2 | edge | near, shelf-0 | side of, shelf-0
+bag-0 | edge | near, table-0 | side of, table-0
+Number of solutions found: 30
+room 66: ok missing=0 on_rule=20 60s 2 calls
+plan for laundry room: Arrange the washing machines side by side along one wall, with their centers aligned. Place the cabinets together along the opposite wall, leaving the middle clear for loading laundry and moving comfortably. This keeps all four objects at the room’s edges and groups matching appliances and storage.
+
+washing machine-0 | edge
+washing machine-1 | edge | right of, washing machine-0 | center aligned, washing machine-0
+cabinet-0 | edge | far, washing machine-0 | in front of, washing machine-0 | face to, washing machine-0
+cabinet-3 | edge | side of, cabinet-0 | center aligned, cabinet-0 | far, washing machine-1 | in front of, washing machine-1 | face to, washing machine-1
+Number of solutions found: 30
+
+wall object constraint plan for laundry room:
+shelf-0 | above, washing machine-0 | 150
+cabinet-1 | above, washing machine-1 | 150
+cabinet-2 | above, cabinet-0 | 150
+Time limit reached.
+Time taken: 5.0144689083099365
+room 68: ok missing=0 on_rule=4 44s 3 calls
+plan for bathroom: Keep the fixtures along the walls to preserve central clearance in the 200 × 200 cm bathroom. Anchor the sink against a wall, then place the toilet along the opposite wall facing the sink. Add the requested shelf beside the sink, with a gap of no more than 10 cm; do not use the “near” constraint for this gap, since it requires more than 50 cm.
+
+sink-0 | edge
+toilet-0 | edge | in front of, sink-0 | face to, sink-0
+shelf-0 | edge | side of, sink-0
+Number of solutions found: 11
+
+wall object constraint plan for bathroom:
+shelf-0 | above, toilet-0 | 150
+room 70: ok missing=0 on_rule=3 31s 3 calls
+plan for bathroom: Keep the fixtures and storage along the walls to preserve open floor space. Start with the cabinets, then place the sink and toilet on opposing walls so the toilet faces the sink. Include the sink and shelves referenced in your additional requirements, arranging the shelves along one wall with shelf-4 between shelf-2 and shelf-1.
+
+cabinet-0 | edge
+cabinet-1 | edge | near, cabinet-0 | right of, cabinet-0 | center aligned, cabinet-0
+sink-0 | edge | near, cabinet-1 | right of, cabinet-1
+toilet-0 | edge | far, sink-0 | in front of, sink-0 | center aligned, sink-0 | face to, sink-0
+shelf-2 | edge
+shelf-1 | edge | right of, shelf-2 | center aligned, shelf-2
+shelf-4 | edge | right of, shelf-2 | left of, shelf-1 | center aligned, shelf-2
+target object sink-0 not found in the existing constraint plan
+target object sink-0 not found in the existing constraint plan
+target object sink-0 not found in the existing constraint plan
+target object sink-0 not found in the existing constraint plan
+Number of solutions found: 30
+
+wall object constraint plan for bathroom:
+shelf-0 | above, cabinet-0 | 160
+shelf-3 | above, cabinet-0 | 160
+shelf-1 | above, cabinet-1 | 160
+shelf-2 | above, cabinet-1 | 160
+shelf-4 | above, toilet-0 | 160
+Time limit reached.
+Time taken: 5.0010151863098145
+room 72: ok missing=0 on_rule=4 52s 3 calls
+plan for bathroom: Use the 400 cm wall for a compact, edge-based arrangement that keeps the center of the bathroom open. Place the two cabinets apart along this wall, with the toilet between them and facing cabinet-1. Keep the lamp against a wall beside cabinet-0.
+
+cabinet-0 | edge
+cabinet-1 | edge | right of, cabinet-0 | far, cabinet-0 | center aligned, cabinet-0
+toilet-0 | edge | right of, cabinet-0 | left of, cabinet-1 | near, cabinet-0 | near, cabinet-1 | face to, cabinet-1
+lamp-0 | edge | side of, cabinet-0 | near, cabinet-0
+Number of solutions found: 30
+
+wall object constraint plan for bathroom:
+shelf-0 | above, toilet-0 | 150
+lamp-0 | above, cabinet-0 | 200
+room 73: ok missing=0 on_rule=6 38s 3 calls
+plan for bedroom: Anchor the room with the bed against a wall, then arrange the cabinets, shelf, and table along the perimeter to preserve open floor space. Align the cabinets for a cohesive look and center the carpet in front of the bed. Include the three lamps mentioned in your additional requirement, placing them in an aligned row with lamp-0 between lamp-2 and lamp-3.
+
+bed-0 | edge
+cabinet-0 | edge | near, bed-0 | left of, bed-0
+cabinet-1 | edge | near, bed-0 | right of, bed-0 | center aligned, cabinet-0
+cabinet-2 | edge | near, cabinet-1 | right of, cabinet-1 | center aligned, cabinet-1
+shelf-0 | edge | far, bed-0
+table-0 | edge | far, bed-0 | near, shelf-0 | side of, shelf-0
+carpet-0 | middle | near, bed-0 | in front of, bed-0 | center aligned, bed-0
+lamp-2 | edge
+lamp-3 | edge | far, lamp-2 | right of, lamp-2 | center aligned, lamp-2
+lamp-0 | edge | right of, lamp-2 | left of, lamp-3 | near, lamp-2 | near, lamp-3 | center aligned, lamp-2
+Number of solutions found: 30
+
+wall object constraint plan for bedroom:
+shelf-1 | above, table-0 | 150
+room 76: ok missing=0 on_rule=10 45s 3 calls
+plan for bedroom: Use shelf-1 as the wall-side anchor, then position the bed against the opposite wall facing it. Place shelf-3 to the bed’s left and shelf-0 to its right, keeping the bed between them. Keep the cabinet, table, and lamp along the perimeter to preserve open floor space, with the carpet in front of the bed. Include book-1 as an additional item against a wall, as requested.
+
+shelf-1 | edge
+bed-0 | edge | far, shelf-1 | in front of, shelf-1 | center aligned, shelf-1 | face to, shelf-1
+cabinet-0 | edge | far, bed-0 | side of, shelf-1
+table-0 | edge | far, bed-0 | near, cabinet-0 | side of, cabinet-0
+shelf-3 | edge | near, bed-0 | left of, bed-0
+shelf-0 | edge | near, bed-0 | right of, bed-0
+carpet-0 | middle | near, bed-0 | in front of, bed-0 | center aligned, bed-0
+lamp-3 | edge | near, table-0 | side of, table-0
+book-1 | edge | near, shelf-0 | side of, shelf-0
+Number of solutions found: 30
+
+wall object constraint plan for bedroom:
+shelf-2 | above, table-0 | 150
+room 77: ok missing=0 on_rule=7 72s 3 calls
+plan for bedroom: Place the two beds side by side along a wall, leaving generous separation for circulation. Keep the shelves and table along the perimeter to preserve an open center, with the shelves aligned in a coordinated row. Position shelf-3 and shelf-4 far enough apart to accommodate table-0 between them. Place the carpet in the open area in front of the beds.
+
+bed-0 | edge
+bed-1 | edge | right of, bed-0 | far, bed-0 | center aligned, bed-0
+carpet-0 | middle | in front of, bed-0 | near, bed-0
+shelf-0 | edge | far, bed-0 | far, bed-1
+shelf-1 | edge | right of, shelf-0 | near, shelf-0 | center aligned, shelf-0
+shelf-2 | edge | right of, shelf-1 | near, shelf-1 | center aligned, shelf-1
+shelf-3 | edge | right of, shelf-2 | near, shelf-2 | center aligned, shelf-2
+shelf-4 | edge | right of, shelf-3 | far, shelf-3 | center aligned, shelf-3
+table-0 | edge | right of, shelf-3 | left of, shelf-4 | near, shelf-3 | near, shelf-4 | center aligned, shelf-3
+Number of solutions found: 30
+room 79: ok missing=0 on_rule=7 56s 2 calls
+plan for diningroom: Keep the table in the middle with circulation space around it, and place all cabinets and shelves against the walls to preserve floor space. Group matching storage pieces into aligned runs, keeping cabinet-0 against a wall. Place chair-2 and chair-3 on opposite sides of the table, with shelf-1 beyond the table along chair-2’s sightline so that chair-2 faces both the table and shelf-1. Arrange the remaining chairs around the other sides of the table.
+
+table-0 | middle
+cabinet-0 | edge
+cabinet-1 | edge | side of, cabinet-0 | center aligned, cabinet-0
+cabinet-2 | edge | far, cabinet-0
+cabinet-3 | edge | side of, cabinet-2 | center aligned, cabinet-2
+shelf-1 | edge | right of, table-0 | face to, table-0
+shelf-0 | edge | side of, shelf-1 | center aligned, shelf-1
+shelf-2 | edge | side of, shelf-0 | center aligned, shelf-0
+chair-2 | middle | around, table-0 | near, table-0 | left of, table-0 | face to, table-0 | face to, shelf-1
+chair-3 | middle | around, table-0 | near, table-0 | right of, table-0 | face to, table-0
+chair-0 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-1 | middle | around, table-0 | near, table-0 | face to, table-0
+Number of solutions found: 30
+room 81: ok missing=0 on_rule=12 89s 2 calls
+plan for diningroom: Use the table as the central anchor, leaving room for seating and circulation in the narrow room. Place the cabinet against a wall to preserve floor space. Arrange three chairs in an aligned row along one long side of the table, with chair-3 and chair-4 at opposite ends so the table sits between them. All chairs face the table.
+
+table-0 | middle
+cabinet-0 | edge | far, table-0
+chair-0 | middle | near, table-0 | around, table-0 | face to, table-0
+chair-1 | middle | near, table-0 | around, table-0 | face to, table-0 | center aligned, chair-0
+chair-2 | middle | near, table-0 | around, table-0 | face to, table-0 | center aligned, chair-0
+chair-3 | middle | near, table-0 | around, table-0 | left of, table-0 | face to, table-0
+chair-4 | middle | near, table-0 | around, table-0 | right of, table-0 | face to, table-0 | center aligned, chair-3
+Number of solutions found: 30
+
+wall object constraint plan for diningroom:
+shelf-0 | above, cabinet-0 | 160
+shelf-1 | N/A | 160
+shelf-2 | N/A | 160
+shelf-3 | N/A | 160
+shelf-4 | N/A | 160
+room 83: ok missing=0 on_rule=5 74s 3 calls
+plan for diningroom: Use the dining table as the central anchor, leaving room for chairs and circulation on three sides. Place the two cabinets together along a wall, aligned to create a tidy storage zone while keeping the perimeter useful and the center open. Arrange the chairs around the table facing inward, and position the lamp at the edge near the cabinets.
+
+table-0 | middle
+cabinet-0 | edge | far, table-0 | face to, table-0
+cabinet-1 | edge | near, cabinet-0 | side of, cabinet-0 | center aligned, cabinet-0 | face to, table-0
+chair-0 | middle | near, table-0 | around, table-0 | left of, table-0 | face to, table-0
+chair-1 | middle | near, table-0 | around, table-0 | right of, table-0 | center aligned, chair-0 | face to, table-0
+chair-2 | middle | near, table-0 | around, table-0 | in front of, table-0 | center aligned, table-0 | face to, table-0
+lamp-1 | edge | near, cabinet-1 | side of, cabinet-1
+Number of solutions found: 30
+
+wall object constraint plan for diningroom:
+shelf-4 | above, cabinet-0 | 160
+shelf-0 | above, cabinet-1 | 160
+shelf-1 | N/A | 160
+shelf-2 | N/A | 160
+shelf-3 | N/A | 160
+Time limit reached.
+Time taken: 5.0006163120269775
+room 84: ok missing=0 on_rule=16 66s 3 calls
+plan for kitchen: Place cabinet-0 against a wall as the anchor, then arrange cabinet-1 beside it with their centers aligned to create a continuous storage run. Keep the refrigerator and oven along the room’s edges, separated from each other to reduce heat exposure, while leaving the middle open for circulation.
+
+cabinet-0 | edge
+cabinet-1 | edge | side of, cabinet-0 | center aligned, cabinet-0
+refrigerator-0 | edge | near, cabinet-0 | side of, cabinet-0
+oven-0 | edge | near, cabinet-1 | side of, cabinet-1 | far, refrigerator-0
+Number of solutions found: 30
+
+wall object constraint plan for kitchen:
+cabinet-2 | above, cabinet-0 | 150
+lamp-0 | N/A | 200
+lamp-1 | N/A | 200
+lamp-2 | N/A | 200
+lamp-3 | N/A | 200
+Time limit reached.
+Time taken: 5.003271818161011
+room 85: ok missing=0 on_rule=31 49s 3 calls
+plan for kitchen: Use a perimeter layout to keep the center of the kitchen open. Arrange the cabinets along the 600 cm wall, leaving an oven-sized gap between cabinet-0 and cabinet-5. Extend the cabinet run on either side, place the dishwasher at one end, and position the shelf against an adjacent wall.
+
+cabinet-0 | edge
+cabinet-5 | edge | right of, cabinet-0 | near, cabinet-0 | center aligned, cabinet-0
+cabinet-2 | edge | left of, cabinet-0 | center aligned, cabinet-0
+cabinet-4 | edge | right of, cabinet-5 | center aligned, cabinet-5
+oven-0 | edge | right of, cabinet-0 | left of, cabinet-5 | center aligned, cabinet-0
+dishwasher-0 | edge | right of, cabinet-4 | center aligned, cabinet-4
+shelf-0 | edge
+Number of solutions found: 30
+
+wall object constraint plan for kitchen:
+shelf-1 | above, cabinet-2 | 150
+cabinet-1 | above, cabinet-0 | 150
+cabinet-3 | above, cabinet-5 | 150
+lamp-0 | above, cabinet-0 | 210
+lamp-1 | above, cabinet-5 | 210
+lamp-2 | above, cabinet-2 | 210
+lamp-3 | above, cabinet-4 | 210
+lamp-4 | above, dishwasher-0 | 210
+Time limit reached.
+Time taken: 5.009155035018921
+room 86: ok missing=0 on_rule=38 144s 3 calls
+plan for kitchen: Use a single-wall layout to keep the narrow, 300 cm-wide kitchen feeling spacious and preserve a clear circulation aisle. Anchor cabinet-0 against the wall, place cabinet-1 along the same wall, and position the refrigerator beside cabinet-1. Place the dishwasher on the other side of cabinet-0, with no more than a 20 cm gap; the standard “near” constraint would exceed your required spacing.
+
+cabinet-0 | edge
+cabinet-1 | edge | right of, cabinet-0
+refrigerator-0 | edge | right of, cabinet-1
+dishwasher-0 | edge | left of, cabinet-0 | within 20 cm of, cabinet-0
+constraint type within 20 cm of not found, using in front of instead.
+Number of solutions found: 18
+
+wall object constraint plan for kitchen:
+lamp-0 | above, cabinet-0 | 180
+room 89: ok missing=0 on_rule=15 122s 3 calls
+plan for study: Place the wardrobe along a wall as the anchor, with shelf-2 to its left and shelf-0 to its right, so the wardrobe sits between them. Extend this storage row with shelf-1 immediately beside shelf-2. Place both tables along another wall, aligned side by side, keeping the center open. Since “near” excludes gaps of 10 cm or less, the additional constraint “within 10 cm of” specifies the required shelf spacing.
+
+wardrobe-0 | edge
+table-0 | edge | far, wardrobe-0
+table-1 | edge | right of, table-0 | near, table-0 | center aligned, table-0 | far, wardrobe-0
+shelf-0 | edge | right of, wardrobe-0
+shelf-2 | edge | left of, wardrobe-0 | center aligned, shelf-0
+shelf-1 | edge | left of, shelf-2 | center aligned, shelf-2 | within 10 cm of, shelf-2
+constraint type within 10 cm of not found, using in front of instead.
+Number of solutions found: 20
+room 92: ok missing=0 on_rule=1 114s 2 calls
+plan for apartment: Use a compact, wall-focused layout with a bathing zone at one end, a sleeping zone at the other, and a desk and table along the remaining wall space. Keep the central passage clear except for the desk chair. Place the stand before the bed so the bed can face it while referencing only an earlier object. Include the additional objects mentioned in your requirements, and order the bottles and stopcock left to right to place the stopcock between them. The permitted constraints cannot express “within 20 cm,” so place box-1 beside towel-0 and manually enforce that maximum distance; “near” would incorrectly require more than 50 cm. Actual fit will depend on object dimensions, particularly in this narrow room.
+
+bathtub-0 | edge
+bed-0 | edge | far, bathtub-0
+stand-0 | edge | in front of, bed-0 | face to, bed-0
+cabinet-0 | edge | side of, bathtub-0
+desk-0 | edge | far, bathtub-0 | side of, bed-0
+table-0 | edge | side of, desk-0
+toilet-0 | edge | near, bathtub-0 | side of, bathtub-0
+chair-0 | middle | around, desk-0 | near, desk-0 | face to, desk-0
+bin-0 | edge | side of, toilet-0
+box-0 | edge | side of, cabinet-0
+mat-0 | middle | in front of, bathtub-0
+backpack-0 | edge | side of, desk-0
+backpack-1 | edge | side of, backpack-0 | center aligned, backpack-0
+backpack-2 | edge | side of, backpack-1 | center aligned, backpack-0
+shoe-0 | edge | side of, cabinet-0
+shoe-1 | edge | side of, shoe-0 | center aligned, shoe-0
+shoe-2 | edge | side of, shoe-1 | center aligned, shoe-0
+bottle-0 | edge | side of, bathtub-0
+stopcock-0 | edge | right of, bottle-0
+bottle-1 | edge | right of, stopcock-0
+towel-0 | edge | side of, cabinet-0
+box-1 | edge | side of, towel-0
+Number of solutions found: 30
+
+wall object constraint plan for apartment:
+ledge-0 | above, desk-0 | 150
+ledge-1 | above, toilet-0 | 150
+stopcock-0 | N/A | 60
+Time limit reached.
+Time taken: 5.001917839050293
+room 93: ok missing=0 on_rule=8 74s 3 calls
+plan for lobby: Use the two couches as opposing wall-side anchors, leaving the center open for a shared table and three chairs. Keep the additional tables along the edges beside the couches, with the toy near a side table and away from the main circulation route. Arrange the chairs around the central table, facing inward, while preserving clear walking space through the lobby.
+
+couch-0 | edge
+couch-1 | edge | far, couch-0 | in front of, couch-0 | center aligned, couch-0 | face to, couch-0
+table-0 | middle | near, couch-0 | near, couch-1 | in front of, couch-0 | center aligned, couch-0
+table-1 | edge | near, couch-0 | side of, couch-0
+table-2 | edge | near, couch-1 | side of, couch-1 | center aligned, table-1
+chair-0 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-1 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-2 | middle | around, table-0 | near, table-0 | face to, table-0
+toy-0 | edge | near, table-2 | side of, table-2
+Number of solutions found: 30
+room 95: ok missing=0 on_rule=6 101s 2 calls
+plan for restroom male: Use the 600 cm wall for an aligned row of four toilets, with toilet suite-0 between toilet suite-1 and toilet suite-2, and toilet suite-2 directly against the wall. Place the vanity and urinals along the opposite perimeter, preserving an open central circulation area. Group the lockers and cleaning storage along an end wall. Position freestanding waste bin-0 between the lockers, within 20 cm of floor locker column-0; this requires an explicit distance constraint because the defined “near” constraint starts above 50 cm.
+
+vanity under counter cabinet-0 | edge
+urinal row-0 | edge | far, vanity under counter cabinet-0
+toilet suite-1 | edge | far, vanity under counter cabinet-0 | far, urinal row-0
+toilet suite-0 | edge | right of, toilet suite-1 | center aligned, toilet suite-1
+toilet suite-2 | edge | right of, toilet suite-0 | center aligned, toilet suite-0
+toilet suite-3 | edge | right of, toilet suite-2 | center aligned, toilet suite-2
+floor locker column-0 | edge | far, urinal row-0
+floor locker column-1 | edge | right of, floor locker column-0 | near, floor locker column-0 | center aligned, floor locker column-0
+cleaning storage cabinet-0 | edge | left of, floor locker column-0 | near, floor locker column-0
+freestanding waste bin-0 | edge | right of, floor locker column-0 | left of, floor locker column-1 | within 20 cm, floor locker column-0
+freestanding waste bin-1 | edge | near, vanity under counter cabinet-0 | side of, vanity under counter cabinet-0
+wall waste bin-0 | edge | near, vanity under counter cabinet-0 | side of, vanity under counter cabinet-0
+wall waste bin-1 | edge | near, urinal row-0 | side of, urinal row-0
+constraint type within 20 cm not found, using behind instead.
+Number of solutions found: 30
+
+wall object constraint plan for restroom male:
+wall mirror strip-0 | above, vanity under counter cabinet-0 | 105
+full length mirror-0 | N/A | 20
+wall signage-0 | N/A | 150
+wall signage-1 | N/A | 150
+hand dryer-0 | N/A | 95
+hand dryer-1 | N/A | 95
+hand dryer-2 | N/A | 95
+Time limit reached.
+Time taken: 5.0021140575408936
+room 97: ok missing=0 on_rule=0 74s 3 calls
+plan for open_plan_workstations: I’ll organize the room into perimeter workstations, shared collaboration areas, and a quieter lounge zone, preserving open circulation through the center. Storage and most desks will sit along the walls to keep the room spacious. Seating will face its associated table or desk, with high stool-1 and high stool-3 on opposite sides of team table-0. Planter box-1 will provide the facing point for work bench desk-0, and desk organizer-0 will sit on desk side cabinet-2.
+
+lockers bank-0 | edge
+sofa modular-0 | edge | far, lockers bank-0
+team table-0 | middle | far, lockers bank-0 | far, sofa modular-0
+team table-1 | middle | far, team table-0 | center aligned, team table-0
+standing meeting table-0 | edge | far, sofa modular-0 | far, team table-0
+standing meeting table-1 | edge | far, standing meeting table-0 | center aligned, standing meeting table-0
+standing meeting table-2 | edge | far, standing meeting table-1 | center aligned, standing meeting table-1
+planter box-1 | middle | far, team table-0 | far, team table-1
+work bench desk-0 | edge | far, planter box-1 | face to, planter box-1
+work bench desk-1 | edge | far, work bench desk-0 | center aligned, work bench desk-0
+work bench desk-2 | edge | far, work bench desk-1 | center aligned, work bench desk-1
+low storage cabinet-0 | edge | near, lockers bank-0 | side of, lockers bank-0
+low storage cabinet-1 | edge | near, low storage cabinet-0 | side of, low storage cabinet-0 | center aligned, low storage cabinet-0
+low storage cabinet-2 | edge | near, low storage cabinet-1 | side of, low storage cabinet-1 | center aligned, low storage cabinet-1
+low storage cabinet-3 | edge | near, low storage cabinet-2 | side of, low storage cabinet-2 | center aligned, low storage cabinet-2
+desk side cabinet-0 | edge | near, work bench desk-0 | side of, work bench desk-0
+desk side cabinet-1 | edge | near, work bench desk-1 | side of, work bench desk-1
+desk side cabinet-2 | edge | near, work bench desk-2 | side of, work bench desk-2
+desk side cabinet-3 | edge | near, low storage cabinet-3 | side of, low storage cabinet-3 | center aligned, desk side cabinet-2
+printer side table-0 | edge | near, low storage cabinet-0 | far, sofa modular-0
+printer side table-1 | edge | near, low storage cabinet-3 | far, printer side table-0 | center aligned, printer side table-0
+side occasion table-0 | edge | near, sofa modular-0 | left of, sofa modular-0
+side occasion table-1 | edge | near, sofa modular-0 | right of, sofa modular-0 | center aligned, side occasion table-0
+side occasion table-2 | middle | near, sofa modular-0 | in front of, sofa modular-0 | center aligned, sofa modular-0
+mobile pedestal-0 | edge | near, work bench desk-0 | side of, work bench desk-0
+mobile pedestal-1 | edge | near, work bench desk-1 | side of, work bench desk-1
+mobile pedestal-2 | edge | near, work bench desk-2 | side of, work bench desk-2
+task chair-0 | middle | near, work bench desk-0 | around, work bench desk-0 | face to, work bench desk-0
+task chair-1 | middle | near, work bench desk-0 | around, work bench desk-0 | face to, work bench desk-0 | right of, task chair-0 | center aligned, task chair-0
+task chair-2 | middle | near, work bench desk-1 | around, work bench desk-1 | face to, work bench desk-1
+task chair-3 | middle | near, work bench desk-1 | around, work bench desk-1 | face to, work bench desk-1 | right of, task chair-2 | center aligned, task chair-2
+task chair-4 | middle | near, work bench desk-2 | around, work bench desk-2 | face to, work bench desk-2
+task chair-5 | middle | near, work bench desk-2 | around, work bench desk-2 | face to, work bench desk-2 | right of, task chair-4 | center aligned, task chair-4
+high stool-0 | middle | near, standing meeting table-0 | around, standing meeting table-0 | face to, standing meeting table-0 | left of, standing meeting table-0
+high stool-1 | middle | near, team table-0 | around, team table-0 | face to, team table-0 | right of, team table-0
+high stool-2 | middle | near, standing meeting table-0 | around, standing meeting table-0 | face to, standing meeting table-0 | right of, standing meeting table-0 | center aligned, high stool-0
+high stool-3 | middle | near, team table-0 | around, team table-0 | face to, team table-0 | left of, team table-0 | center aligned, high stool-1
+high stool-4 | middle | near, standing meeting table-1 | around, standing meeting table-1 | face to, standing meeting table-1 | left of, standing meeting table-1
+high stool-5 | middle | near, standing meeting table-1 | around, standing meeting table-1 | face to, standing meeting table-1 | right of, standing meeting table-1 | center aligned, high stool-4
+high stool-6 | middle | near, standing meeting table-2 | around, standing meeting table-2 | face to, standing meeting table-2 | left of, standing meeting table-2
+high stool-7 | middle | near, standing meeting table-2 | around, standing meeting table-2 | face to, standing meeting table-2 | right of, standing meeting table-2 | center aligned, high stool-6
+high stool-8 | middle | near, team table-1 | around, team table-1 | face to, team table-1 | left of, team table-1
+counter stool-0 | middle | near, team table-1 | around, team table-1 | face to, team table-1 | right of, team table-1 | center aligned, high stool-8
+counter stool-1 | middle | near, team table-1 | around, team table-1 | face to, team table-1 | in front of, team table-1
+coat stand-0 | edge | near, lockers bank-0 | side of, lockers bank-0
+coat stand-1 | edge | near, sofa modular-0 | side of, side occasion table-0
+coat stand-2 | edge | near, low storage cabinet-3 | far, coat stand-0
+floor lamp-0 | edge | near, sofa modular-0 | side of, side occasion table-1
+floor lamp-1 | edge | near, standing meeting table-2 | side of, standing meeting table-2
+planter box-0 | edge | near, sofa modular-0 | side of, floor lamp-0
+desk organizer-0 | edge | on top of, desk side cabinet-2
+Number of solutions found: 30
+
+wall object constraint plan for open_plan_workstations:
+wayfinding sign-0 | N/A | 220
+wayfinding sign-1 | N/A | 220
+wayfinding sign-2 | N/A | 220
+wayfinding sign-3 | N/A | 220
+Time limit reached.
+Time taken: 5.0452470779418945
+room 98: ok missing=40 on_rule=30 99s 3 calls
+plan for huddle room 2: Use the huddle table as the central anchor, leaving space around it for seating and circulation. Keep storage, the mobile whiteboard, and accessories along the perimeter to make the room feel spacious. Position both chairs near and facing the table, with the lounge chair toward the room’s edge. Place the notebook directly on the tabletop.
+
+huddle table-0 | middle
+storage cabinet-0 | edge
+side credenza-0 | edge | near, storage cabinet-0 | side of, storage cabinet-0
+mobile whiteboard-0 | edge | near, huddle table-0 | face to, huddle table-0
+lounge chair-0 | edge | around, huddle table-0 | near, huddle table-0 | face to, huddle table-0
+huddle chair-0 | middle | around, huddle table-0 | near, huddle table-0 | face to, huddle table-0
+coat stand-0 | edge | near, storage cabinet-0 | side of, storage cabinet-0
+plant floor-0 | edge | near, side credenza-0 | side of, side credenza-0
+notebook-0 | middle | on top of, huddle table-0 | center aligned, huddle table-0
+Number of solutions found: 10
+
+wall object constraint plan for huddle room 2:
+whiteboard-0 | N/A | 90
+wall monitor-0 | above, side credenza-0 | 120
+wall shelf-0 | above, storage cabinet-0 | 160
+wall shelf-1 | above, side credenza-0 | 160
+acoustic panel set-0 | N/A | 120
+acoustic panel set-1 | N/A | 120
+acoustic panel set-2 | N/A | 120
+acoustic panel set-3 | N/A | 120
+acoustic panel set-4 | N/A | 120
+acoustic panel set-5 | N/A | 120
+acoustic panel set-6 | N/A | 120
+acoustic panel set-7 | N/A | 120
+Time limit reached.
+Time taken: 5.000416040420532
+room 99: ok missing=0 on_rule=12 80s 3 calls
+plan for pantry break area: I’ll keep the pantry cabinets, tall storage, and appliance tower along the perimeter, with an edge-positioned bar counter providing seating while preserving central circulation. Two bistro tables will form a separate break area near another wall. Chairs and stools will face their tables or counter, with bar stool-4 positioned between bar stool-1 and bar stool-0. Plants will soften the perimeter, recycling will stay near the pantry cabinets, and the sugar packet holder will sit on bistro table-1.
+
+pantry lower cabinets-0 | edge
+bar counter-0 | edge | far, pantry lower cabinets-0
+tall storage cabinet-0 | edge | side of, pantry lower cabinets-0
+tall storage cabinet-1 | edge | side of, tall storage cabinet-0 | center aligned, tall storage cabinet-0
+appliance tower-0 | edge | side of, pantry lower cabinets-0 | far, bar counter-0
+bistro table-0 | edge | far, bar counter-0 | far, pantry lower cabinets-0
+bistro table-1 | edge | far, bistro table-0 | center aligned, bistro table-0 | far, bar counter-0
+bar stool-0 | middle | near, bar counter-0 | around, bar counter-0 | face to, bar counter-0
+bar stool-1 | middle | near, bar counter-0 | around, bar counter-0 | face to, bar counter-0 | left of, bar stool-0 | far, bar stool-0
+bar stool-4 | middle | near, bar counter-0 | around, bar counter-0 | face to, bar counter-0 | right of, bar stool-1 | left of, bar stool-0 | near, bar stool-1 | near, bar stool-0
+bar stool-2 | middle | near, bar counter-0 | around, bar counter-0 | face to, bar counter-0 | right of, bar stool-0 | near, bar stool-0
+bar stool-3 | middle | near, bar counter-0 | around, bar counter-0 | face to, bar counter-0 | left of, bar stool-1 | near, bar stool-1
+bar stool-5 | middle | near, bar counter-0 | around, bar counter-0 | face to, bar counter-0 | left of, bar stool-3 | near, bar stool-3
+side chair-0 | middle | near, bistro table-0 | around, bistro table-0 | face to, bistro table-0
+side chair-1 | middle | near, bistro table-1 | around, bistro table-1 | face to, bistro table-1
+side chair-2 | middle | near, bistro table-1 | around, bistro table-1 | face to, bistro table-1 | side of, side chair-1 | near, side chair-1
+recycle bin set-0 | edge | near, pantry lower cabinets-0 | side of, pantry lower cabinets-0
+recycle bin set-1 | edge | near, recycle bin set-0 | side of, recycle bin set-0 | center aligned, recycle bin set-0
+freestanding plant-0 | edge | near, bistro table-0 | side of, bistro table-0
+freestanding plant-1 | edge | near, bistro table-1 | side of, bistro table-1 | far, freestanding plant-0
+freestanding plant-2 | edge | near, tall storage cabinet-1 | side of, tall storage cabinet-1
+sugar packet holder-5 | edge | on top of, bistro table-1 | center aligned, bistro table-1
+Number of solutions found: 27
+room 101: ok missing=1 on_rule=12 93s 2 calls
+plan for meeting room medium 1: Use the conference table as the central anchor, leaving circulation space around it while keeping storage, presentation equipment, and the lounge area along the perimeter. Group the lounge armchairs around their side table and keep the printer supplies together. Arrange conference chairs 3, 5, and 4 in that order so chair 5 sits between the other two. Position coat stand 1 beyond the conference table along chair 4’s sightline, allowing that chair to face both the table and the coat stand.
+
+conference table-0 | middle
+storage cabinet-0 | edge | far, conference table-0
+storage cabinet-1 | edge | side of, storage cabinet-0 | center aligned, storage cabinet-0
+sideboard credenda-0 | edge | near, storage cabinet-0 | side of, storage cabinet-0
+presentation console-0 | edge | far, conference table-0 | center aligned, conference table-0 | face to, conference table-0
+printer stand-0 | edge | near, storage cabinet-1 | side of, storage cabinet-1
+lounge side table-0 | edge | far, conference table-0 | far, presentation console-0
+lounge armchair-0 | edge | near, lounge side table-0 | around, lounge side table-0 | left of, lounge side table-0 | face to, lounge side table-0
+lounge armchair-1 | edge | near, lounge side table-0 | around, lounge side table-0 | right of, lounge side table-0 | face to, lounge side table-0
+meeting side table-0 | edge | near, presentation console-0 | left of, presentation console-0
+meeting side table-1 | edge | near, presentation console-0 | right of, presentation console-0 | center aligned, meeting side table-0
+meeting side table-2 | edge | near, sideboard credenda-0 | side of, sideboard credenda-0
+coat stand-0 | edge | near, lounge side table-0 | far, printer stand-0
+coat stand-1 | edge | far, conference table-0 | far, coat stand-0
+conference chair-0 | middle | near, conference table-0 | around, conference table-0 | face to, conference table-0
+conference chair-1 | middle | near, conference table-0 | around, conference table-0 | right of, conference chair-0 | center aligned, conference chair-0 | face to, conference table-0
+conference chair-2 | middle | near, conference table-0 | around, conference table-0 | right of, conference chair-1 | center aligned, conference chair-1 | face to, conference table-0
+conference chair-3 | middle | near, conference table-0 | around, conference table-0 | face to, conference table-0
+conference chair-5 | middle | near, conference table-0 | around, conference table-0 | right of, conference chair-3 | center aligned, conference chair-3 | face to, conference table-0
+conference chair-4 | middle | near, conference table-0 | around, conference table-0 | right of, conference chair-5 | center aligned, conference chair-5 | face to, conference table-0 | face to, coat stand-1
+brochure stand-0 | edge | near, lounge side table-0 | side of, coat stand-0
+floor planter-0 | edge | near, presentation console-0 | left of, meeting side table-0
+floor planter-1 | edge | near, presentation console-0 | right of, meeting side table-1 | center aligned, floor planter-0
+floor planter-2 | edge | near, lounge armchair-0 | side of, lounge armchair-0
+floor planter-3 | edge | near, sideboard credenda-0 | side of, meeting side table-2
+paper ream-1 | edge | on top of, printer stand-0
+Number of solutions found: 30
+
+wall object constraint plan for meeting room medium 1:
+wall whiteboard-0 | N/A | 100
+framed poster-0 | above, sideboard credenda-0 | 145
+framed poster-1 | above, lounge armchair-0 | 145
+framed poster-2 | above, lounge armchair-1 | 145
+framed poster-3 | above, printer stand-0 | 145
+wall clock-0 | N/A | 230
+Time limit reached.
+Time taken: 5.005429029464722
+room 102: ok missing=0 on_rule=16 82s 3 calls
+plan for meeting room medium 1: The conference table will anchor the center of the room, with seven meeting chairs around it and generous circulation space to the perimeter. Storage, serving furniture, plants, and two small seating groups will sit near the walls to keep the room open. Meeting chair-5 will sit between meeting chair-2 and meeting chair-1. Side meeting chair-0 will face its side table and the wall-side plant beyond it, while the paper cups will sit on the credenda.
+
+conference table-0 | middle
+sideboard cabinet-0 | edge | far, conference table-0
+credenda-0 | edge | near, sideboard cabinet-0 | side of, sideboard cabinet-0
+storage shelf-0 | edge | far, conference table-0 | far, credenda-0
+storage shelf-1 | edge | near, storage shelf-0 | right of, storage shelf-0
+console table-0 | edge | far, conference table-0 | far, storage shelf-0
+freestanding plant large-0 | edge | near, sideboard cabinet-0 | side of, sideboard cabinet-0
+freestanding plant large-1 | edge | far, conference table-0 | near, console table-0 | side of, console table-0
+freestanding plant large-2 | edge | near, storage shelf-1 | right of, storage shelf-1
+side table-0 | edge | near, freestanding plant large-1 | left of, freestanding plant large-1
+side table-1 | edge | far, side table-0 | near, console table-0 | side of, console table-0
+meeting chair-0 | middle | near, conference table-0 | around, conference table-0 | face to, conference table-0
+meeting chair-2 | middle | near, conference table-0 | around, conference table-0 | in front of, conference table-0 | face to, conference table-0
+meeting chair-1 | middle | near, conference table-0 | around, conference table-0 | in front of, conference table-0 | right of, meeting chair-2 | face to, conference table-0
+meeting chair-5 | middle | near, conference table-0 | around, conference table-0 | in front of, conference table-0 | right of, meeting chair-2 | left of, meeting chair-1 | face to, conference table-0
+meeting chair-3 | middle | near, conference table-0 | around, conference table-0 | far, meeting chair-2 | face to, conference table-0
+meeting chair-4 | middle | near, conference table-0 | around, conference table-0 | right of, meeting chair-3 | far, meeting chair-5 | face to, conference table-0
+meeting chair-6 | middle | near, conference table-0 | around, conference table-0 | right of, meeting chair-4 | far, meeting chair-1 | face to, conference table-0
+side meeting chair-0 | edge | near, side table-0 | around, side table-0 | left of, side table-0 | face to, side table-0 | face to, freestanding plant large-1
+side meeting chair-1 | edge | near, side table-0 | around, side table-0 | in front of, side table-0 | face to, side table-0
+side meeting chair-2 | edge | near, side table-1 | around, side table-1 | left of, side table-1 | face to, side table-1
+side meeting chair-3 | edge | near, side table-1 | around, side table-1 | in front of, side table-1 | face to, side table-1
+freestanding plant medium-0 | edge | near, credenda-0 | side of, credenda-0
+freestanding plant medium-1 | edge | near, side table-1 | right of, side table-1
+freestanding plant medium-2 | edge | near, storage shelf-0 | left of, storage shelf-0
+umbrella stand-0 | edge | near, console table-0 | side of, console table-0
+paper cup stack-0 | edge | on top of, credenda-0
+Number of solutions found: 30
+
+wall object constraint plan for meeting room medium 1:
+whiteboard-0 | N/A | 90
+wall monitor-0 | above, credenda-0 | 120
+wall shelf-0 | above, sideboard cabinet-0 | 160
+wall shelf-1 | above, console table-0 | 160
+wall art-0 | N/A | 145
+wall art-1 | N/A | 145
+wall art-2 | N/A | 145
+wall art-3 | N/A | 145
+wall art-4 | N/A | 145
+wall clock-0 | N/A | 230
+Time limit reached.
+Time taken: 5.017091989517212
+room 103: ok missing=0 on_rule=13 105s 3 calls
+plan for hub_room: Use the standing bar counter as the anchor, with the lounge sofas on opposite sides so the counter sits between them. Keep these larger pieces near the perimeter to preserve an open circulation area. Place a round meeting table in front of each sofa, with the second sofa facing its table. Arrange two meeting chairs around each table and three stools around the counter, keeping all seats near and facing their associated surface. Place the side coffee table beside the first sofa and the notebook on top of the first meeting table.
+
+standing bar counter-0 | edge
+lounge sofa-0 | edge | left of, standing bar counter-0
+small round meeting table-0 | middle | near, lounge sofa-0 | in front of, lounge sofa-0 | center aligned, lounge sofa-0
+small round meeting table-1 | middle | right of, standing bar counter-0 | far, small round meeting table-0 | center aligned, small round meeting table-0
+lounge sofa-1 | edge | right of, standing bar counter-0 | near, small round meeting table-1 | center aligned, lounge sofa-0 | face to, small round meeting table-1
+side coffee table-0 | edge | near, lounge sofa-0 | side of, lounge sofa-0
+meeting chair-0 | middle | around, small round meeting table-0 | near, small round meeting table-0 | left of, small round meeting table-0 | face to, small round meeting table-0
+meeting chair-1 | middle | around, small round meeting table-0 | near, small round meeting table-0 | right of, small round meeting table-0 | center aligned, meeting chair-0 | face to, small round meeting table-0
+meeting chair-2 | middle | around, small round meeting table-1 | near, small round meeting table-1 | left of, small round meeting table-1 | center aligned, meeting chair-0 | face to, small round meeting table-1
+meeting chair-3 | middle | around, small round meeting table-1 | near, small round meeting table-1 | right of, small round meeting table-1 | center aligned, meeting chair-2 | face to, small round meeting table-1
+bar stool-0 | middle | around, standing bar counter-0 | near, standing bar counter-0 | in front of, standing bar counter-0 | face to, standing bar counter-0
+bar stool-1 | middle | around, standing bar counter-0 | near, standing bar counter-0 | in front of, standing bar counter-0 | left of, bar stool-0 | center aligned, bar stool-0 | face to, standing bar counter-0
+bar stool-2 | middle | around, standing bar counter-0 | near, standing bar counter-0 | in front of, standing bar counter-0 | right of, bar stool-0 | center aligned, bar stool-0 | face to, standing bar counter-0
+notebook-0 | middle | on top of, small round meeting table-0
+Number of solutions found: 15
+
+wall object constraint plan for hub_room:
+floor plan display-0 | N/A | 110
+wall info panel-0 | N/A | 120
+wayfinding sign-0 | N/A | 220
+wayfinding sign-1 | N/A | 220
+wayfinding sign-2 | N/A | 220
+wayfinding sign-3 | N/A | 220
+Time limit reached.
+Time taken: 5.015106916427612
+room 104: ok missing=0 on_rule=11 103s 3 calls
+plan for pantry 1: Place the base cabinet run against a long wall as the anchor, with the tall pantry cabinets, refrigerator, and shelving along the perimeter to preserve circulation through the narrow room. Arrange the two bistro tables along the opposite wall, with table-0 to the left of table-1. Position chair-2 between the tables, facing table-0, and leave no more than 30 cm between chair-2 and table-1. That last clearance must be applied directly during placement: the defined “near” constraint means more than 50 cm, so it cannot represent this requirement. Keep the remaining chairs facing their respective tables and the waste bins near the storage zone.
+
+base cabinet run-0 | edge
+tall pantry cabinet-0 | edge | side of, base cabinet run-0
+tall pantry cabinet-1 | edge | side of, tall pantry cabinet-0 | center aligned, tall pantry cabinet-0
+tall refrigerator-0 | edge | side of, tall pantry cabinet-1
+freestanding shelving unit-0 | edge | far, tall refrigerator-0
+under counter cabinet-0 | edge | side of, base cabinet run-0
+compact round bistro table-0 | edge | far, base cabinet run-0
+compact round bistro table-1 | edge | right of, compact round bistro table-0 | center aligned, compact round bistro table-0
+side chair-0 | middle | around, compact round bistro table-1 | near, compact round bistro table-1 | face to, compact round bistro table-1
+side chair-1 | middle | around, compact round bistro table-0 | near, compact round bistro table-0 | face to, compact round bistro table-0
+side chair-2 | middle | around, compact round bistro table-0 | near, compact round bistro table-0 | right of, compact round bistro table-0 | left of, compact round bistro table-1 | face to, compact round bistro table-0
+waste bin-0 | edge | near, base cabinet run-0 | side of, base cabinet run-0
+waste bin-1 | edge | near, freestanding shelving unit-0 | side of, freestanding shelving unit-0 | center aligned, waste bin-0
+Number of solutions found: 30
+room 105: ok missing=0 on_rule=2 38s 2 calls
+plan for study room: Use the executive desk as the anchor for a perimeter-focused workspace, with bookshelves, storage, and printing facilities along the walls. Create a separate lounge with the coffee table between two floor lamps, and place a compact meeting area away from the desk. Keep central circulation open, orient chairs toward their associated tables, and place the ceramic mug on the lounge coffee table.
+
+executive desk-0 | edge
+lounge sofa-0 | edge | far, executive desk-0
+tall bookshelf-0 | edge | near, executive desk-0 | side of, executive desk-0
+tall bookshelf-1 | edge | near, tall bookshelf-0 | side of, tall bookshelf-0 | center aligned, tall bookshelf-0
+sideboard credenza-0 | edge | far, executive desk-0 | far, lounge sofa-0
+round meeting table-0 | middle | far, executive desk-0 | near, sideboard credenza-0
+console table-0 | edge | far, executive desk-0 | far, round meeting table-0
+coffee table lounge-0 | middle | near, lounge sofa-0 | in front of, lounge sofa-0 | center aligned, lounge sofa-0
+printer stand-0 | edge | near, executive desk-0 | side of, executive desk-0
+pedestal cabinet-0 | edge | near, executive desk-0 | left of, executive desk-0
+pedestal cabinet-1 | edge | near, executive desk-0 | right of, executive desk-0 | center aligned, pedestal cabinet-0
+lounge armchair-0 | middle | near, coffee table lounge-0 | around, coffee table lounge-0 | left of, coffee table lounge-0 | face to, coffee table lounge-0
+lounge armchair-1 | middle | near, coffee table lounge-0 | around, coffee table lounge-0 | right of, coffee table lounge-0 | center aligned, lounge armchair-0 | face to, coffee table lounge-0
+manager task chair-0 | edge | near, executive desk-0 | around, executive desk-0 | face to, executive desk-0
+guest chair-0 | middle | near, executive desk-0 | around, executive desk-0 | in front of, executive desk-0 | face to, executive desk-0
+guest chair-1 | middle | near, executive desk-0 | around, executive desk-0 | in front of, executive desk-0 | right of, guest chair-0 | center aligned, guest chair-0 | face to, executive desk-0
+guest chair-2 | middle | near, round meeting table-0 | around, round meeting table-0 | left of, round meeting table-0 | face to, round meeting table-0
+guest chair-3 | middle | near, round meeting table-0 | around, round meeting table-0 | right of, round meeting table-0 | center aligned, guest chair-2 | face to, round meeting table-0
+meeting chair-0 | middle | near, round meeting table-0 | around, round meeting table-0 | in front of, round meeting table-0 | face to, round meeting table-0
+round side table-0 | edge | near, lounge sofa-0 | left of, lounge sofa-0
+round side table-1 | edge | near, lounge sofa-0 | right of, lounge sofa-0 | center aligned, round side table-0
+floor lamp-0 | edge | left of, coffee table lounge-0 | center aligned, coffee table lounge-0
+floor lamp-1 | edge | right of, coffee table lounge-0 | center aligned, coffee table lounge-0 | far, floor lamp-0
+coat stand-0 | edge | near, console table-0 | side of, console table-0
+waste bin-0 | edge | near, printer stand-0 | side of, printer stand-0
+waste bin-1 | edge | near, sideboard credenza-0 | side of, sideboard credenza-0 | far, waste bin-0
+ceramic mug-1 | middle | on top of, coffee table lounge-0
+Number of solutions found: 30
+room 108: ok missing=3 on_rule=19 111s 2 calls
+plan for study room: Create two zones along the room’s 600 cm length: an executive workspace at one short end and a compact meeting area at the other. Keep the credenza and desk near the perimeter, with the desk in front of the credenza so the task chair faces both. Place the round meeting table near the opposite end, leaving the central circulation route open. Put the organizer on the desktop.
+
+low credenza-0 | edge
+executive desk-0 | edge | near, low credenza-0 | in front of, low credenza-0 | center aligned, low credenza-0
+meeting table round-0 | edge | far, executive desk-0 | far, low credenza-0
+executive task chair-0 | middle | around, executive desk-0 | near, executive desk-0 | center aligned, executive desk-0 | face to, executive desk-0 | face to, low credenza-0
+visitor chair-0 | middle | around, meeting table round-0 | near, meeting table round-0 | face to, meeting table round-0
+desk organizer-0 | edge | on top of, executive desk-0
+Number of solutions found: 30
+
+wall object constraint plan for study room:
+wall art-0 | above, low credenza-0 | 140
+wall clock-0 | N/A | 220
+room 109: ok missing=0 on_rule=2 103s 3 calls
+plan for department meeting room 1: I’ll anchor the room with a central conference table and keep the sofa, storage, whiteboards, and accessories along the perimeter to preserve open circulation. Six chairs will surround the table, with chair-4 between chair-2 and chair-1, and chair-0 directly opposite chair-5. A separate lounge area will have two side tables, while the sideboard will support the small planter. Freestanding planter-2 will sit against a wall.
+
+conference table-0 | middle
+lounge sofa-0 | edge | far, conference table-0
+storage cabinet-0 | edge | far, conference table-0
+storage cabinet-1 | edge | right of, storage cabinet-0 | center aligned, storage cabinet-0
+sideboard table-0 | edge | far, conference table-0 | far, lounge sofa-0
+side credenda-0 | edge | near, sideboard table-0 | side of, sideboard table-0
+mobile whiteboard-0 | edge | far, conference table-0 | face to, conference table-0
+mobile whiteboard-1 | edge | near, mobile whiteboard-0 | right of, mobile whiteboard-0 | center aligned, mobile whiteboard-0 | face to, conference table-0
+meeting chair-5 | middle | around, conference table-0 | near, conference table-0 | face to, conference table-0
+meeting chair-0 | middle | around, conference table-0 | near, conference table-0 | center aligned, meeting chair-5 | face to, conference table-0 | face to, meeting chair-5
+meeting chair-2 | middle | around, conference table-0 | near, conference table-0 | face to, conference table-0
+meeting chair-1 | middle | around, conference table-0 | near, conference table-0 | right of, meeting chair-2 | center aligned, meeting chair-2 | face to, conference table-0
+meeting chair-4 | middle | around, conference table-0 | near, conference table-0 | right of, meeting chair-2 | left of, meeting chair-1 | center aligned, meeting chair-2 | face to, conference table-0
+meeting chair-3 | middle | around, conference table-0 | near, conference table-0 | center aligned, meeting chair-4 | face to, conference table-0
+lounge side table-0 | edge | near, lounge sofa-0 | left of, lounge sofa-0
+lounge side table-1 | edge | near, lounge sofa-0 | right of, lounge sofa-0 | center aligned, lounge side table-0
+freestanding planter-0 | edge | near, lounge side table-0 | left of, lounge side table-0
+freestanding planter-1 | edge | near, sideboard table-0 | left of, sideboard table-0
+freestanding planter-2 | edge | near, storage cabinet-1 | right of, storage cabinet-1
+coat stand-0 | edge | far, conference table-0 | far, lounge sofa-0
+coat stand-1 | edge | near, coat stand-0 | right of, coat stand-0 | center aligned, coat stand-0
+trash recycling bin-0 | edge | near, side credenda-0 | side of, side credenda-0
+trash recycling bin-1 | edge | near, storage cabinet-0 | left of, storage cabinet-0 | far, trash recycling bin-0
+small planter-0 | edge | on top of, sideboard table-0 | center aligned, sideboard table-0
+Number of solutions found: 30
+
+wall object constraint plan for department meeting room 1:
+wall monitor-0 | N/A | 120
+wall shelf-0 | above, sideboard table-0 | 150
+wall shelf-1 | above, side credenda-0 | 150
+wall shelf-2 | above, lounge side table-0 | 150
+acoustic panel-0 | above, lounge sofa-0 | 120
+acoustic panel-1 | above, lounge sofa-0 | 120
+acoustic panel-2 | above, lounge sofa-0 | 120
+acoustic panel-3 | N/A | 120
+acoustic panel-4 | N/A | 120
+acoustic panel-5 | N/A | 120
+acoustic panel-6 | N/A | 120
+acoustic panel-7 | N/A | 120
+acoustic panel-8 | N/A | 120
+acoustic panel-9 | N/A | 120
+wall clock-0 | N/A | 240
+Time limit reached.
+Time taken: 5.0088629722595215
+room 110: ok missing=0 on_rule=7 263s 3 calls
+plan for study room: Place the executive desk against a wall as the room’s anchor, keeping the center open to maximize usable space and allow comfortable movement.
+
+executive desk-0 | edge
+Number of solutions found: 19
+
+wall object constraint plan for study room:
+wall clock-0 | above, executive desk-0 | 220
+room 112: ok missing=0 on_rule=0 85s 3 calls
+plan for lab support: Keep the workbench, cabinets, and desk along the walls to preserve circulation through the center of the 300 × 500 cm room. Group the cabinets into an aligned storage zone, with the archive box on top of cabinet-1. Position the mobile cart before the desk so the desk can face it, and place the chair around the desk, facing the work surface. The box’s “edge” constraint refers to its location above the wall-side cabinet; “on top of” expresses the required vertical placement.
+
+lab workbench-0 | edge
+tall storage cabinet-0 | edge | side of, lab workbench-0 | near, lab workbench-0
+tall storage cabinet-1 | edge | side of, tall storage cabinet-0 | center aligned, tall storage cabinet-0
+mobile lab cart-0 | edge | near, lab workbench-0
+support desk-0 | edge | far, lab workbench-0 | near, mobile lab cart-0 | face to, mobile lab cart-0
+support chair-0 | middle | around, support desk-0 | near, support desk-0 | face to, support desk-0
+archive box-1 | edge | on top of, tall storage cabinet-1
+Number of solutions found: 21
+
+wall object constraint plan for lab support:
+wall whiteboard-0 | above, support desk-0 | 110
+wall cabinet-0 | above, lab workbench-0 | 150
+wall shelf-0 | above, lab workbench-0 | 160
+wall cabinet-1 | above, mobile lab cart-0 | 150
+wall shelf-1 | N/A | 160
+Time limit reached.
+Time taken: 5.001477956771851
+room 113: ok missing=0 on_rule=3 77s 3 calls
+plan for pantry restroom 4: Keep the fixtures along the perimeter to preserve an open central aisle. Group the pantry cabinet and undercounter fridge together, separated from the restroom fixtures, ideally by a full-height partition for hygiene. Arrange the three toilets in a row against a wall, with toilet suite-0 between toilet suite-1 and toilet suite-2. Place the vanity along the restroom perimeter without obstructing access to the toilets.
+
+pantry base cabinet-0 | edge
+restroom vanity counter-0 | edge | far, pantry base cabinet-0
+toilet suite-0 | edge | far, pantry base cabinet-0
+toilet suite-1 | edge | left of, toilet suite-0 | near, toilet suite-0 | center aligned, toilet suite-0
+toilet suite-2 | edge | right of, toilet suite-0 | near, toilet suite-0 | center aligned, toilet suite-0
+pantry undercounter fridge-0 | edge | side of, pantry base cabinet-0 | near, pantry base cabinet-0 | far, restroom vanity counter-0 | far, toilet suite-0 | far, toilet suite-1 | far, toilet suite-2
+Number of solutions found: 30
+
+wall object constraint plan for pantry restroom 4:
+restroom mirror panel-0 | above, restroom vanity counter-0 | 110
+pantry open shelf-0 | above, pantry undercounter fridge-0 | 145
+pantry notice board-0 | N/A | 120
+restroom wall shelf-0 | above, toilet suite-0 | 150
+pantry wall cabinet-0 | above, pantry base cabinet-0 | 145
+hand dryer unit-0 | N/A | 100
+hand dryer unit-1 | N/A | 100
+Time limit reached.
+Time taken: 5.0001819133758545
+room 116: ok missing=0 on_rule=1 60s 3 calls
+plan for lounge collaboration 2: I’ll organize the room into three perimeter zones: a lounge area, a project-work area, and a high-table collaboration area. Larger furniture will establish these zones first, with matching pieces aligned and the central circulation route kept open. Seating will face its associated table, bookshelves and planters will sit along the walls, and the notebook will rest on the lounge side table.
+
+modular lounge sofa-0 | edge
+modular lounge sofa-1 | edge | far, modular lounge sofa-0 | right of, modular lounge sofa-0 | center aligned, modular lounge sofa-0
+project table-0 | edge | far, modular lounge sofa-1
+project table-1 | edge | near, project table-0 | right of, project table-0 | center aligned, project table-0
+high collaboration table-0 | edge | far, project table-1 | far, modular lounge sofa-0
+high collaboration table-1 | edge | near, high collaboration table-0 | right of, high collaboration table-0 | center aligned, high collaboration table-0
+low bookshelf-0 | edge | near, project table-0 | side of, project table-0
+low bookshelf-1 | edge | near, project table-1 | side of, project table-1 | center aligned, low bookshelf-0
+side table round-0 | edge | near, modular lounge sofa-0 | near, modular lounge sofa-1 | right of, modular lounge sofa-0 | left of, modular lounge sofa-1
+lounge armchair-0 | middle | around, side table round-0 | near, side table round-0 | face to, side table round-0
+collaboration chair-0 | middle | around, project table-0 | near, project table-0 | face to, project table-0
+collaboration chair-1 | middle | around, project table-1 | near, project table-1 | face to, project table-1 | center aligned, collaboration chair-0
+high stool-0 | middle | around, high collaboration table-0 | near, high collaboration table-0 | in front of, high collaboration table-0 | face to, high collaboration table-0
+high stool-1 | edge | around, high collaboration table-0 | near, high collaboration table-0 | left of, high collaboration table-0 | face to, high collaboration table-0
+high stool-2 | edge | around, high collaboration table-0 | near, high collaboration table-0 | right of, high collaboration table-0 | face to, high collaboration table-0 | center aligned, high stool-1
+high stool-3 | middle | around, high collaboration table-1 | near, high collaboration table-1 | in front of, high collaboration table-1 | face to, high collaboration table-1 | center aligned, high stool-0
+high stool-4 | edge | around, high collaboration table-1 | near, high collaboration table-1 | left of, high collaboration table-1 | face to, high collaboration table-1 | center aligned, high stool-1
+high stool-5 | edge | around, high collaboration table-1 | near, high collaboration table-1 | right of, high collaboration table-1 | face to, high collaboration table-1 | center aligned, high stool-4
+planter box floor-0 | edge | near, modular lounge sofa-0 | left of, modular lounge sofa-0
+planter box floor-1 | edge | near, high collaboration table-1 | right of, high collaboration table-1
+notebook-0 | edge | on top of, side table round-0 | center aligned, side table round-0
+Number of solutions found: 30
+
+wall object constraint plan for lounge collaboration 2:
+whiteboard wall panel-0 | N/A | 90
+whiteboard wall panel-1 | N/A | 90
+wall greenery panel-0 | above, low bookshelf-0 | 120
+wall greenery panel-1 | above, low bookshelf-1 | 120
+wall greenery panel-2 | above, planter box floor-0 | 120
+framed art print-0 | above, modular lounge sofa-0 | 140
+framed art print-1 | above, modular lounge sofa-1 | 140
+framed art print-2 | above, lounge armchair-0 | 140
+framed art print-3 | above, side table round-0 | 140
+Time limit reached.
+Time taken: 5.004586935043335
+room 117: ok missing=0 on_rule=5 98s 3 calls
+plan for study room: Place the executive desk against a wall as the anchor, keeping the center of the room open. Arrange the storage credenza and sideboard console along the perimeter, away from the main workspace. Position the task chair near and facing the desk, with space to pull back. Place the coffee machine on the sideboard console to create a separate coffee station.
+
+executive desk-0 | edge
+storage credenza-0 | edge | far, executive desk-0
+sideboard console-0 | edge | side of, storage credenza-0 | near, storage credenza-0
+executive task chair-0 | middle | around, executive desk-0 | near, executive desk-0 | center aligned, executive desk-0 | face to, executive desk-0
+coffee machine-0 | edge | on top of, sideboard console-0 | center aligned, sideboard console-0
+Number of solutions found: 30
+
+wall object constraint plan for study room:
+wall whiteboard-0 | above, executive desk-0 | 120
+wall shelf-0 | above, storage credenza-0 | 180
+wall shelf-1 | above, storage credenza-0 | 180
+wall art-0 | above, sideboard console-0 | 150
+wall art-1 | above, sideboard console-0 | 150
+Time limit reached.
+Time taken: 5.002668142318726
+room 120: ok missing=0 on_rule=3 49s 3 calls
+plan for board room: Keep the boardroom table central as the main meeting anchor, with presentation furniture and storage along the walls to preserve circulation. Place the breakout table near a room edge, away from the main meeting area. Arrange breakout chair-1 between chairs-4 and -0, and use chair-3 at the side console so it faces that console. Distribute plants around the perimeter and place the file tray on the presentation console.
+
+boardroom table-0 | middle
+boardroom sideboard-0 | edge | far, boardroom table-0
+storage cabinet-0 | edge | near, boardroom sideboard-0 | side of, boardroom sideboard-0
+storage cabinet-1 | edge | near, storage cabinet-0 | right of, storage cabinet-0
+presentation console table-0 | edge | far, boardroom table-0 | in front of, boardroom table-0 | center aligned, boardroom table-0 | face to, boardroom table-0
+side console table-0 | edge | far, boardroom table-0 | far, presentation console table-0
+breakout round table-0 | edge | far, boardroom table-0 | far, presentation console table-0
+boardroom chair-0 | middle | near, boardroom table-0 | around, boardroom table-0 | face to, boardroom table-0
+breakout chair-4 | middle | near, breakout round table-0 | around, breakout round table-0 | face to, breakout round table-0
+breakout chair-0 | middle | near, breakout round table-0 | around, breakout round table-0 | right of, breakout chair-4 | face to, breakout round table-0
+breakout chair-1 | middle | near, breakout round table-0 | around, breakout round table-0 | right of, breakout chair-4 | left of, breakout chair-0 | face to, breakout round table-0
+breakout chair-2 | edge | near, breakout round table-0 | around, breakout round table-0 | face to, breakout round table-0
+breakout chair-3 | middle | near, side console table-0 | around, side console table-0 | face to, side console table-0
+coat stand-0 | edge | near, storage cabinet-0 | side of, storage cabinet-0
+floor plant large-0 | edge | near, presentation console table-0 | left of, presentation console table-0
+floor plant large-1 | edge | near, presentation console table-0 | right of, presentation console table-0
+floor plant large-2 | edge | near, boardroom sideboard-0 | left of, boardroom sideboard-0
+file tray-0 | edge | on top of, presentation console table-0
+Number of solutions found: 30
+
+wall object constraint plan for board room:
+wall whiteboard-0 | N/A | 100
+wall display screen-0 | above, presentation console table-0 | 120
+acoustic panel-0 | above, boardroom sideboard-0 | 110
+acoustic panel-1 | above, side console table-0 | 110
+acoustic panel-2 | N/A | 110
+acoustic panel-3 | N/A | 110
+acoustic panel-4 | N/A | 110
+acoustic panel-5 | N/A | 110
+Time limit reached.
+Time taken: 5.029870986938477
+room 121: ok missing=0 on_rule=8 99s 3 calls
+plan for open_office_area_2: Arrange the six bench desks in two perimeter rows of three, preserving the center for circulation. Place storage and printer stations along the remaining wall sections, with a separate collaboration area at the perimeter. Give each desk three task chairs, group the stools around the collaboration table, and place the small plant on top of the designated credensa.
+
+bench desk-0 | edge
+bench desk-1 | edge | near, bench desk-0 | right of, bench desk-0 | center aligned, bench desk-0
+bench desk-2 | edge | near, bench desk-1 | right of, bench desk-1 | center aligned, bench desk-1
+bench desk-3 | edge | far, bench desk-0 | in front of, bench desk-0 | center aligned, bench desk-0 | face to, bench desk-0
+bench desk-4 | edge | near, bench desk-3 | right of, bench desk-3 | center aligned, bench desk-3 | face to, bench desk-1
+bench desk-5 | edge | near, bench desk-4 | right of, bench desk-4 | center aligned, bench desk-4 | face to, bench desk-2
+high storage shelf-0 | edge | far, bench desk-0
+high storage shelf-1 | edge | near, high storage shelf-0 | side of, high storage shelf-0 | center aligned, high storage shelf-0
+locker unit-0 | edge | near, high storage shelf-1 | side of, high storage shelf-1
+low storage credensa-0 | edge | near, bench desk-0 | left of, bench desk-0
+low storage credensa-1 | edge | near, bench desk-3 | left of, bench desk-3 | center aligned, low storage credensa-0
+low storage credensa-2 | edge | far, low storage credensa-1 | side of, high storage shelf-0
+side collaboration table-0 | edge | far, bench desk-2 | far, bench desk-5 | near, low storage credensa-2
+printer side table-0 | edge | near, low storage credensa-0 | side of, low storage credensa-0
+printer side table-1 | edge | near, low storage credensa-1 | side of, low storage credensa-1 | center aligned, printer side table-0
+task chair-0 | middle | near, bench desk-0 | around, bench desk-0 | left of, bench desk-0 | face to, bench desk-0
+task chair-1 | middle | near, bench desk-0 | around, bench desk-0 | right of, bench desk-0 | face to, bench desk-0
+task chair-2 | middle | near, bench desk-0 | around, bench desk-0 | in front of, bench desk-0 | center aligned, bench desk-0 | face to, bench desk-0
+task chair-3 | middle | near, bench desk-1 | around, bench desk-1 | left of, bench desk-1 | face to, bench desk-1
+task chair-4 | middle | near, bench desk-1 | around, bench desk-1 | right of, bench desk-1 | face to, bench desk-1
+task chair-5 | middle | near, bench desk-1 | around, bench desk-1 | in front of, bench desk-1 | center aligned, bench desk-1 | face to, bench desk-1
+task chair-6 | middle | near, bench desk-2 | around, bench desk-2 | left of, bench desk-2 | face to, bench desk-2
+task chair-7 | middle | near, bench desk-2 | around, bench desk-2 | right of, bench desk-2 | face to, bench desk-2
+task chair-8 | middle | near, bench desk-2 | around, bench desk-2 | in front of, bench desk-2 | center aligned, bench desk-2 | face to, bench desk-2
+task chair-9 | middle | near, bench desk-3 | around, bench desk-3 | left of, bench desk-3 | face to, bench desk-3
+task chair-10 | middle | near, bench desk-3 | around, bench desk-3 | right of, bench desk-3 | face to, bench desk-3
+task chair-11 | middle | near, bench desk-3 | around, bench desk-3 | in front of, bench desk-3 | center aligned, bench desk-3 | face to, bench desk-3
+task chair-12 | middle | near, bench desk-4 | around, bench desk-4 | left of, bench desk-4 | face to, bench desk-4
+task chair-13 | middle | near, bench desk-4 | around, bench desk-4 | right of, bench desk-4 | face to, bench desk-4
+task chair-14 | middle | near, bench desk-4 | around, bench desk-4 | in front of, bench desk-4 | center aligned, bench desk-4 | face to, bench desk-4
+task chair-15 | middle | near, bench desk-5 | around, bench desk-5 | left of, bench desk-5 | face to, bench desk-5
+task chair-16 | middle | near, bench desk-5 | around, bench desk-5 | right of, bench desk-5 | face to, bench desk-5
+task chair-17 | middle | near, bench desk-5 | around, bench desk-5 | in front of, bench desk-5 | center aligned, bench desk-5 | face to, bench desk-5
+collaboration stool-0 | middle | near, side collaboration table-0 | around, side collaboration table-0 | left of, side collaboration table-0 | face to, side collaboration table-0
+collaboration stool-1 | middle | near, side collaboration table-0 | around, side collaboration table-0 | right of, side collaboration table-0 | face to, side collaboration table-0
+collaboration stool-2 | middle | near, side collaboration table-0 | around, side collaboration table-0 | in front of, side collaboration table-0 | center aligned, side collaboration table-0 | face to, side collaboration table-0
+potted plant small-1 | edge | on top of, low storage credensa-2
+Number of solutions found: 30
+
+wall object constraint plan for open_office_area_2:
+whiteboard panel-0 | N/A | 90
+whiteboard panel-1 | N/A | 90
+room 122: ok missing=26 on_rule=12 89s 3 calls
+plan for consultation room 3: Use the room’s length to separate the consultation and examination zones, keeping large furniture against the walls and preserving a clear central route. Position the desk facing the examination couch, with a small round table on each side of the couch. Keep clinical equipment near the examination area, guest seating around the desk, and accessory stands together along the perimeter. Place the organizer tray directly on the desk.
+
+examination couch-0 | edge
+consultation desk-0 | edge | far, examination couch-0 | face to, examination couch-0
+tall storage cabinet-0 | edge | near, consultation desk-0 | side of, consultation desk-0
+mobile medical trolley-0 | edge | near, examination couch-0 | side of, examination couch-0
+portable vital signs cart-0 | edge | near, examination couch-0 | side of, examination couch-0 | far, consultation desk-0
+small round side table-0 | edge | left of, examination couch-0 | near, examination couch-0
+small round side table-1 | edge | right of, examination couch-0 | near, examination couch-0 | center aligned, small round side table-0
+patient guest chair-0 | middle | around, consultation desk-0 | near, consultation desk-0 | in front of, consultation desk-0 | face to, consultation desk-0
+patient guest chair-1 | middle | around, consultation desk-0 | near, consultation desk-0 | in front of, consultation desk-0 | right of, patient guest chair-0 | center aligned, patient guest chair-0 | face to, consultation desk-0
+mobile exam stool-0 | middle | around, small round side table-0 | near, small round side table-0 | near, examination couch-0 | face to, small round side table-0
+mobile exam stool-1 | middle | around, small round side table-1 | near, small round side table-1 | near, examination couch-0 | center aligned, mobile exam stool-0 | face to, small round side table-1
+magazine floor rack-0 | edge | near, patient guest chair-0 | side of, patient guest chair-0
+coat stand-0 | edge | near, magazine floor rack-0 | side of, magazine floor rack-0
+umbrella stand-0 | edge | near, coat stand-0 | side of, coat stand-0
+waste bin-0 | edge | near, consultation desk-0 | side of, consultation desk-0
+waste bin-1 | edge | near, mobile medical trolley-0 | side of, mobile medical trolley-0 | far, waste bin-0
+waste bin-2 | edge | near, tall storage cabinet-0 | side of, tall storage cabinet-0 | far, waste bin-0 | far, waste bin-1
+recycling bin-0 | edge | near, waste bin-0 | side of, waste bin-0
+desk organizer tray-0 | edge | on top of, consultation desk-0
+Number of solutions found: 30
+
+wall object constraint plan for consultation room 3:
+wall mounted whiteboard-0 | above, consultation desk-0 | 110
+wall mounted cabinet-0 | above, mobile medical trolley-0 | 150
+wall mounted cabinet-1 | N/A | 150
+wall art print-0 | above, patient guest chair-0 | 145
+wall art print-1 | above, patient guest chair-1 | 145
+wall art print-2 | above, small round side table-0 | 145
+wall clock-0 | N/A | 240
+wall mounted glove dispenser-0 | above, examination couch-0 | 120
+Time limit reached.
+Time taken: 5.004667043685913
+room 125: ok missing=0 on_rule=13 101s 3 calls
+plan for standard room 4: Use the room’s long, narrow shape to create sleeping, storage, and work zones along the walls while keeping the central passage open. Place the bed first, with its bedside table alongside it and the TV console opposite. Group the wardrobe and luggage bench farther along the room. In the work zone, position the writing desk in front of the storage cabinet, with both centered on the same axis; this lets the desk chair face both the desk and the cabinet. Place the side chair beside the desk and the floor lamp nearby.
+
+single bed-0 | edge
+wardrobe-0 | edge | far, single bed-0
+storage cabinet-0 | edge | far, single bed-0 | far, wardrobe-0
+writing desk-0 | edge | near, storage cabinet-0 | in front of, storage cabinet-0 | center aligned, storage cabinet-0
+tv console-0 | edge | far, single bed-0 | in front of, single bed-0 | center aligned, single bed-0 | face to, single bed-0
+luggage bench-0 | edge | near, wardrobe-0 | side of, wardrobe-0
+bedside table-0 | edge | near, single bed-0 | side of, single bed-0
+desk chair-0 | middle | near, writing desk-0 | around, writing desk-0 | in front of, writing desk-0 | center aligned, writing desk-0 | face to, writing desk-0 | face to, storage cabinet-0
+side chair-0 | edge | near, writing desk-0 | around, writing desk-0 | side of, writing desk-0 | face to, writing desk-0
+floor lamp-0 | edge | near, side chair-0 | side of, side chair-0
+Number of solutions found: 30
+
+wall object constraint plan for standard room 4:
+wall shelf-0 | above, writing desk-0 | 150
+wall shelf-1 | above, writing desk-0 | 150
+wall mirror-0 | above, luggage bench-0 | 100
+Time limit reached.
+Time taken: 5.003233909606934
+room 127: ok missing=0 on_rule=0 59s 3 calls
+plan for dorm room 3: Place the shared wardrobe against a wall to keep the center of the compact 200 cm × 200 cm room open. As the only object, it serves as the anchor and needs no constraints relative to other objects.
+
+shared wardrobe-0 | edge
+Number of solutions found: 14
+
+wall object constraint plan for dorm room 3:
+wall shelf-0 | N/A | 170
+wall shelf-1 | N/A | 170
+wall art panel-0 | N/A | 150
+room 129: ok missing=0 on_rule=0 23s 3 calls
+plan for dorm room 3: Place the shared study desk against a wall as the anchor, then place the wardrobe beside it along the same wall, leaving a gap of no more than 20 cm. This keeps the center open in the compact room. The explicit distance constraint below replaces “near,” which would require a gap greater than 50 cm.
+
+shared study desk-0 | edge
+wardrobe-0 | edge | side of, shared study desk-0 | distance <= 20 cm, shared study desk-0
+constraint type distance <= 20 cm not found, using face same as instead.
+Number of solutions found: 10
+
+wall object constraint plan for dorm room 3:
+wall shelf-0 | above, shared study desk-0 | 150
+room 130: ok missing=0 on_rule=0 34s 3 calls
+plan for bedroom: Place the writing desk against a wall, with its chair facing it, then position the queen bed against the opposite wall facing the chair. Establishing the chair before the bed allows the bed’s facing constraint to reference an already placed object. Flank the bed with matching, aligned bedside tables, and place the accent shelf against a wall beside the desk, with the book on top. This keeps the larger furniture along the perimeter and preserves open floor space.
+
+writing desk-0 | edge
+desk chair-0 | middle | near, writing desk-0 | around, writing desk-0 | center aligned, writing desk-0 | face to, writing desk-0
+queen bed-0 | edge | far, writing desk-0 | far, desk chair-0 | center aligned, writing desk-0 | face to, desk chair-0
+accent shelf-0 | edge | side of, writing desk-0
+bedside table-0 | edge | left of, queen bed-0
+bedside table-1 | edge | right of, queen bed-0 | center aligned, bedside table-0
+book-0 | edge | on top of, accent shelf-0
+Number of solutions found: 30
+room 131: ok missing=0 on_rule=4 46s 2 calls
+plan for kitchen: Use a single-wall layout along an 800 cm wall to keep the narrow kitchen’s center open. Anchor the layout with the main base cabinets, group the tall appliance cabinet and refrigerator at one end, and place the floor storage cabinet and sideboard at the other. Keep the refrigerator against the wall while allowing ventilation and door clearance. Place the small tray on the sideboard.
+
+main base cabinets-0 | edge
+tall appliance cabinet-0 | edge | left of, main base cabinets-0
+refrigerator-0 | edge | left of, tall appliance cabinet-0
+floor storage cabinet-0 | edge | right of, main base cabinets-0
+sideboard cabinet-0 | edge | right of, floor storage cabinet-0
+small tray-0 | edge | on top of, sideboard cabinet-0
+Number of solutions found: 15
+room 132: ok missing=0 on_rule=2 28s 2 calls
+plan for balcony: Place the storage bench flush against a wall as the anchor, keeping the balcony’s center open. Position the lanterns along the perimeter on opposite sides of the bench, with lantern-1 within 20 cm of it. Center the throw pillow on the bench. The required “on top of” and “within 20 cm of” constraints are included explicitly because the standard constraints do not express these requirements.
+
+balcony storage bench-0 | edge
+balcony floor lantern-0 | edge | left of, balcony storage bench-0
+balcony floor lantern-1 | edge | right of, balcony storage bench-0 | within 20 cm of, balcony storage bench-0 | center aligned, balcony floor lantern-0
+throw pillow-0 | edge | on top of, balcony storage bench-0 | center aligned, balcony storage bench-0
+constraint type within 20 cm of not found, using in front of instead.
+Number of solutions found: 18
+
+wall object constraint plan for balcony:
+balcony wall shelf-0 | above, balcony storage bench-0 | 150
+room 138: ok missing=0 on_rule=1 51s 3 calls
+plan for bedroom: Place the bed along one wall and the study desk along the opposite wall to keep the center as open as possible. Position the low dresser near the foot of the bed, leaving walking clearance. Keep the desk chair facing the desk and able to tuck in when unused, and place the framed photo on top of the dresser.
+
+single bed-0 | edge
+study desk-0 | edge | far, single bed-0
+low dresser-0 | edge | near, single bed-0 | in front of, single bed-0
+desk chair-0 | middle | around, study desk-0 | near, study desk-0 | face to, study desk-0
+framed photo-0 | edge | on top of, low dresser-0
+Number of solutions found: 14
+room 140: ok missing=0 on_rule=3 38s 2 calls
+plan for bathroom: Use the shower enclosure as the corner anchor, with the vanity and tall cabinet along an adjacent wall. Place the toilet across from the shower, facing it as requested. Keep the hamper, towel rack, and bins along the perimeter to preserve an open central circulation area. Position the towel rack within easy reach of the shower and a bin beside each main sanitary fixture.
+
+shower enclosure-0 | edge
+vanity cabinet with sink-0 | edge | side of, shower enclosure-0
+tall bathroom cabinet-0 | edge | side of, vanity cabinet with sink-0
+toilet-0 | edge | far, shower enclosure-0 | in front of, shower enclosure-0 | face to, shower enclosure-0
+laundry hamper-0 | edge | side of, tall bathroom cabinet-0
+freestanding towel rack-0 | edge | near, shower enclosure-0 | side of, shower enclosure-0
+small bathroom bin-0 | edge | side of, vanity cabinet with sink-0
+small bathroom bin-1 | edge | side of, toilet-0 | center aligned, small bathroom bin-0
+Number of solutions found: 27
+
+wall object constraint plan for bathroom:
+wall mirror-0 | above, vanity cabinet with sink-0 | 110
+wall shelf bathroom-0 | above, toilet-0 | 150
+wall shelf bathroom-1 | above, laundry hamper-0 | 150
+room 141: ok missing=0 on_rule=1 65s 3 calls
+plan for bathroom: Place the vanity against a wall as the main anchor, with the storage cabinet beside it to keep the center of this compact bathroom open. Place the stool against the wall beside the storage cabinet. The explicit “within 50 cm” constraint below ensures the requested spacing; “near” would require more than 50 cm.
+
+vanity cabinet-0 | edge
+bathroom storage cabinet-0 | edge | side of, vanity cabinet-0
+small stool-0 | edge | side of, bathroom storage cabinet-0 | within 50 cm, bathroom storage cabinet-0
+constraint type within 50 cm not found, using behind instead.
+Number of solutions found: 30
+room 144: ok missing=0 on_rule=0 32s 2 calls
+plan for bathroom: Keep the center of the bathroom open by placing all fixtures and furniture along the perimeter. Start with the bathtub as the largest anchor, then position the vanity and toilet along the opposite wall, with the toilet facing the bathtub. Place the storage cabinet beside the vanity for convenient access, and set the small bench against a wall near the bathtub without obstructing circulation.
+
+bathtub-0 | edge
+vanity cabinet-0 | edge | far, bathtub-0 | in front of, bathtub-0 | face to, bathtub-0
+toilet-0 | edge | far, bathtub-0 | in front of, bathtub-0 | side of, vanity cabinet-0 | face to, bathtub-0
+storage cabinet-0 | edge | near, vanity cabinet-0 | side of, vanity cabinet-0 | far, toilet-0
+small bench-0 | edge | near, bathtub-0 | side of, bathtub-0 | far, toilet-0
+Number of solutions found: 30
+room 146: ok missing=0 on_rule=0 24s 2 calls
+plan for kitchen: Arrange the kitchen along the walls to preserve an open central workspace. Use the stove countertop as the anchor, with the base cabinets immediately to its right, leaving no more than 50 cm between them. Continue the run with the wine rack immediately to the right of the base cabinets, leaving no more than 30 cm between them. Place the pantry against another wall, away from the stove. These close-fitting gaps are intentional; the defined “near” constraint would exceed the required distances.
+
+kitchen countertop with stove-0 | edge
+freestanding pantry cabinet-0 | edge | far, kitchen countertop with stove-0
+kitchen base cabinets-0 | edge | right of, kitchen countertop with stove-0
+under counter wine rack-0 | edge | right of, kitchen base cabinets-0
+Number of solutions found: 12
+room 148: ok missing=0 on_rule=0 28s 2 calls
+plan for kitchen: Use the kitchen cabinet run as the anchor along a wall, with the island against the same wall to its right. Fit the pantry between them, leaving no more than 10 cm between the pantry and island and no more than 30 cm between the pantry and cabinet run. These exact clearances must be measured during placement: the defined “near” constraint cannot express gaps below 50 cm. Place the breakfast nook table at another room edge to keep the center open.
+
+kitchen cabinet run-0 | edge
+kitchen island-0 | edge | right of, kitchen cabinet run-0
+breakfast nook table-0 | edge | far, kitchen island-0
+floor pantry cabinet-0 | edge | right of, kitchen cabinet run-0 | left of, kitchen island-0
+Number of solutions found: 20
+room 154: ok missing=0 on_rule=0 25s 2 calls
+plan for living room: Use bookshelf-0 as the anchor on one wall, with the sofa opposite and facing it. Arrange the second bookshelf and media console alongside the anchor to form a coordinated storage wall. Place the coffee table in front of the sofa, and flank the sofa with the two floor lamps. Keep the accent cabinet and plant stands along the perimeter to preserve open circulation through the center.
+
+bookshelf-0 | edge
+sofa-0 | edge | far, bookshelf-0 | in front of, bookshelf-0 | center aligned, bookshelf-0 | face to, bookshelf-0
+media console-0 | edge | near, bookshelf-0 | right of, bookshelf-0 | face to, sofa-0
+bookshelf-1 | edge | near, bookshelf-0 | left of, bookshelf-0 | center aligned, bookshelf-0 | face to, sofa-0
+accent cabinet-0 | edge | far, sofa-0 | near, media console-0 | right of, media console-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | far, bookshelf-0
+floor lamp-0 | edge | near, sofa-0 | right of, sofa-0
+floor lamp-1 | edge | near, sofa-0 | left of, sofa-0 | center aligned, floor lamp-0
+plant stand-0 | edge | near, bookshelf-1 | left of, bookshelf-1
+plant stand-1 | edge | near, accent cabinet-0 | side of, accent cabinet-0 | center aligned, plant stand-0
+Number of solutions found: 30
+room 155: ok missing=0 on_rule=0 41s 2 calls
+plan for living room: I’ll anchor the sectional sofa against a wall, with the TV opposite and the coffee table defining the central seating area. Most other pieces will stay along the perimeter to preserve open floor space. The armchairs will form a seating group with armchair-0 between armchair-2 and armchair-1. Bookshelf-1 will sit along armchair-2’s sightline through the coffee-table area so that the chair faces both. The console will remain against a wall, with side tables, lamps, and plants completing the seating and storage zones.
+
+sectional sofa-0 | edge
+tv stand-0 | edge | far, sectional sofa-0 | in front of, sectional sofa-0 | center aligned, sectional sofa-0 | face to, sectional sofa-0
+bookshelf-1 | edge | side of, tv stand-0
+bookshelf-0 | edge | side of, bookshelf-1 | center aligned, bookshelf-1
+console table-0 | edge | far, sectional sofa-0 | far, tv stand-0
+coffee table-0 | middle | near, sectional sofa-0 | in front of, sectional sofa-0 | center aligned, sectional sofa-0
+armchair-0 | edge | around, coffee table-0 | near, coffee table-0 | face to, coffee table-0
+armchair-2 | edge | left of, armchair-0 | center aligned, armchair-0 | around, coffee table-0 | near, coffee table-0 | face to, coffee table-0 | face to, bookshelf-1
+armchair-1 | edge | right of, armchair-0 | center aligned, armchair-0 | around, coffee table-0 | near, coffee table-0 | face to, coffee table-0
+side table-0 | edge | near, sectional sofa-0 | side of, sectional sofa-0
+side table-1 | edge | near, armchair-1 | side of, armchair-1 | center aligned, side table-0
+side table-2 | edge | near, armchair-2 | side of, armchair-2 | center aligned, side table-1
+floor lamp-0 | edge | near, sectional sofa-0 | side of, side table-0
+floor lamp-1 | edge | near, armchair-2 | side of, side table-2 | center aligned, floor lamp-0
+plant stand-0 | edge | near, console table-0 | side of, console table-0
+plant stand-1 | edge | near, bookshelf-0 | side of, bookshelf-0 | center aligned, plant stand-0
+Number of solutions found: 30
+room 156: ok missing=1 on_rule=0 70s 2 calls
+plan for hospital room: Anchor the layout with the bed against a wall, keeping its sides and foot accessible for care. Place plant-2 to its left and plant-0 to its right so the bed sits between them. Arrange the sofa, desk, and cabinet along the perimeter to preserve central circulation. Keep bedside equipment within reach, group the seating around the desk, and distribute lighting and bins near their intended uses. Use “on top of” for the medication bottle and book to specify their required supporting surfaces.
+
+bed-0 | edge
+sofa-0 | edge | far, bed-0
+desk-0 | edge | far, bed-0 | side of, sofa-0
+cabinet-0 | edge | side of, desk-0 | near, desk-0
+nightstand-0 | edge | side of, bed-0 | near, bed-0
+medicalequipment-0 | edge | near, bed-0 | right of, bed-0 | face to, bed-0
+medicalequipment-1 | edge | near, bed-0 | left of, bed-0 | center aligned, medicalequipment-0 | face to, bed-0
+ivstand-0 | edge | near, bed-0 | side of, bed-0
+heater-0 | edge | far, bed-0 | far, sofa-0
+purifier-0 | edge | far, heater-0 | near, sofa-0
+plant-0 | edge | right of, bed-0 | far, bed-0
+plant-2 | edge | left of, bed-0 | far, bed-0 | center aligned, plant-0
+plant-1 | edge | side of, sofa-0 | far, heater-0
+plant-3 | edge | side of, cabinet-0 | far, heater-0
+chair-0 | middle | around, desk-0 | near, desk-0 | face to, desk-0
+stool-0 | middle | around, desk-0 | near, desk-0 | side of, chair-0 | face to, desk-0
+floorlamp-0 | edge | near, sofa-0 | side of, sofa-0
+floorlamp-1 | edge | near, desk-0 | side of, desk-0
+floorlamp-2 | edge | near, nightstand-0 | side of, nightstand-0 | far, ivstand-0
+floorlamp-3 | edge | near, cabinet-0 | side of, cabinet-0
+trashbin-0 | edge | near, desk-0 | side of, desk-0
+trashbin-1 | edge | near, sofa-0 | side of, sofa-0 | far, trashbin-0
+wastebin-0 | edge | near, medicalequipment-0 | side of, medicalequipment-0
+recyclebin-0 | edge | near, trashbin-0 | side of, trashbin-0
+book-0 | edge | on top of, desk-0
+medicationbottle-0 | edge | on top of, nightstand-0
+constraint type on top of not found, using in front of instead.
+Number of solutions found: 30
+
+wall object constraint plan for hospital room:
+artwork-1 | above, sofa-0 | 150
+artwork-2 | above, desk-0 | 150
+mirror-0 | N/A | 100
+artwork-0 | above, nightstand-0 | 150
+artwork-3 | N/A | 150
+mirror-1 | N/A | 100
+mirror-2 | N/A | 100
+mirror-3 | N/A | 100
+Time limit reached.
+Time taken: 5.04107403755188
+room 159: ok missing=3 on_rule=28 110s 3 calls
+plan for laundromat: Arrange the washers and dryers in two orderly perimeter rows, keeping the center open for circulation and folding. Place folding tables in the middle, service counters along a separate wall, and seating near the second table. Use plants to soften the equipment rows and seating areas without blocking machine access. Position plant-2 between plant-3 and plant-5, and place mug-11 on table-0.
+
+washer-0 | edge
+washer-1 | edge | right of, washer-0 | center aligned, washer-0
+washer-2 | edge | right of, washer-1 | center aligned, washer-1
+washer-3 | edge | right of, washer-2 | center aligned, washer-2
+washer-4 | edge | right of, washer-3 | center aligned, washer-3
+washer-5 | edge | right of, washer-4 | center aligned, washer-4
+washer-6 | edge | right of, washer-5 | center aligned, washer-5
+washer-7 | edge | right of, washer-6 | center aligned, washer-6
+dryer-0 | edge | far, washer-0 | in front of, washer-0 | center aligned, washer-0 | face to, washer-0
+dryer-1 | edge | right of, dryer-0 | center aligned, dryer-0 | face to, washer-1
+dryer-2 | edge | right of, dryer-1 | center aligned, dryer-1 | face to, washer-2
+dryer-3 | edge | right of, dryer-2 | center aligned, dryer-2 | face to, washer-3
+dryer-4 | edge | right of, dryer-3 | center aligned, dryer-3 | face to, washer-4
+dryer-5 | edge | right of, dryer-4 | center aligned, dryer-4 | face to, washer-5
+dryer-6 | edge | right of, dryer-5 | center aligned, dryer-5 | face to, washer-6
+dryer-7 | edge | right of, dryer-6 | center aligned, dryer-6 | face to, washer-7
+counter-0 | edge | far, washer-0 | far, dryer-0
+counter-1 | edge | right of, counter-0 | center aligned, counter-0
+table-0 | middle | far, washer-3 | far, dryer-3 | in front of, washer-3 | center aligned, washer-3
+table-1 | middle | right of, table-0 | far, table-0 | center aligned, table-0 | far, washer-6 | far, dryer-6
+bench-0 | edge | near, counter-0 | side of, counter-0 | face to, table-0
+bench-1 | edge | near, bench-0 | side of, bench-0 | center aligned, bench-0 | face to, table-0
+armchair-0 | edge | around, table-1 | near, table-1 | face to, table-1
+armchair-1 | edge | around, table-1 | near, table-1 | right of, armchair-0 | center aligned, armchair-0 | face to, table-1
+plantcorner-0 | edge | left of, washer-0 | near, washer-0
+plantcorner-1 | edge | right of, washer-7 | near, washer-7
+plantcorner-2 | edge | left of, dryer-0 | near, dryer-0
+plantcorner-3 | edge | right of, dryer-7 | near, dryer-7
+plantcorner-4 | edge | near, counter-1 | side of, counter-1
+plant-0 | edge | near, bench-0 | left of, bench-0
+plant-1 | edge | near, bench-1 | right of, bench-1
+plant-3 | edge | left of, counter-0 | far, counter-0
+plant-5 | edge | right of, plant-3 | left of, counter-0 | near, counter-0
+plant-2 | edge | right of, plant-3 | left of, plant-5 | near, plant-3 | near, plant-5 | center aligned, plant-3
+plant-4 | edge | near, washer-0 | left of, washer-0 | right of, plantcorner-0
+plant-6 | edge | near, washer-7 | right of, washer-7 | left of, plantcorner-1
+plant-7 | edge | near, dryer-0 | left of, dryer-0 | right of, plantcorner-2
+plant-8 | edge | near, dryer-7 | right of, dryer-7 | left of, plantcorner-3
+plant-9 | edge | near, armchair-0 | left of, armchair-0
+plant-10 | edge | near, armchair-1 | right of, armchair-1
+plant-11 | edge | near, counter-1 | right of, counter-1 | left of, plantcorner-4
+plant-12 | edge | near, plant-0 | left of, plant-0 | center aligned, plant-0
+plant-13 | edge | near, plant-10 | right of, plant-10 | center aligned, plant-10
+mug-11 | middle | on top of, table-0 | center aligned, table-0
+Number of solutions found: 30
+
+wall object constraint plan for laundromat:
+storage-0 | above, washer-0 | 155
+storage-4 | above, washer-4 | 155
+storage-5 | above, washer-5 | 155
+storage-6 | above, washer-6 | 155
+storage-2 | above, washer-2 | 155
+storage-7 | above, washer-7 | 155
+art-0 | above, bench-0 | 145
+art-1 | above, bench-1 | 145
+signage-0 | above, washer-0 | 210
+arta-0 | above, counter-0 | 145
+art-2 | above, armchair-0 | 145
+art-3 | above, armchair-1 | 145
+art-4 | above, table-0 | 145
+art-5 | above, table-1 | 145
+arta-1 | above, counter-1 | 145
+art-6 | N/A | 145
+storage-1 | above, washer-1 | 155
+arta-2 | N/A | 145
+art-7 | N/A | 145
+storage-3 | above, washer-3 | 155
+art-8 | above, dryer-0 | 145
+art-9 | above, dryer-1 | 145
+art-10 | above, dryer-2 | 145
+art-11 | above, dryer-3 | 145
+art-12 | above, dryer-4 | 145
+art-13 | above, dryer-5 | 145
+art-14 | above, dryer-6 | 145
+arta-3 | N/A | 145
+art-15 | above, dryer-7 | 145
+art-16 | N/A | 145
+art-17 | N/A | 145
+signage-5 | above, washer-5 | 210
+signage-1 | above, washer-1 | 210
+signage-2 | above, washer-2 | 210
+signage-3 | above, washer-3 | 210
+signage-4 | above, washer-4 | 210
+signage-6 | above, washer-6 | 210
+signage-7 | above, washer-7 | 210
+lighting-0 | above, washer-0 | 240
+lighting-20 | above, armchair-0 | 240
+lighting-1 | above, washer-1 | 240
+lighting-3 | above, washer-3 | 240
+lighting-4 | above, washer-4 | 240
+lighting-5 | above, washer-5 | 240
+lighting-6 | above, washer-6 | 240
+lighting-7 | above, washer-7 | 240
+lighting-8 | above, dryer-0 | 240
+lighting-9 | above, dryer-1 | 240
+lighting-10 | above, dryer-2 | 240
+lighting-11 | above, dryer-3 | 240
+lighting-13 | above, dryer-5 | 240
+lighting-14 | above, dryer-6 | 240
+lighting-15 | above, dryer-7 | 240
+lighting-17 | above, counter-1 | 240
+lighting-21 | above, armchair-1 | 240
+lighting-23 | above, bench-1 | 240
+lightinga-0 | N/A | 230
+lightingb-0 | N/A | 230
+lighting-2 | above, washer-2 | 240
+lighting-12 | above, dryer-4 | 240
+lighting-16 | above, counter-0 | 240
+lighting-18 | above, table-0 | 240
+lighting-19 | above, table-1 | 240
+lighting-22 | above, bench-0 | 240
+lightsconce-0 | N/A | 185
+lightsconce-1 | N/A | 185
+Time limit reached.
+Time taken: 5.002509117126465
+room 162: ok missing=14 on_rule=66 259s 3 calls
+plan for dining room: I’ll keep the dining table in the middle so all six chairs remain accessible, while placing the sideboard, trees, lamps, and smaller plants along the perimeter to preserve open floor space. The chairs will surround and face the table, with chair-0 directly opposite chair-3. Plant-0 will sit between plant-8 and plant-5, and glass-2 will rest on the tabletop.
+
+table-0 | middle
+sideboard-0 | edge | far, table-0
+tree-0 | edge | side of, sideboard-0
+tree-1 | edge | far, tree-0
+chair-3 | middle | around, table-0 | near, table-0 | face to, table-0
+chair-0 | middle | around, table-0 | near, table-0 | center aligned, chair-3 | face to, table-0 | face to, chair-3
+chair-1 | middle | around, table-0 | near, table-0 | left of, chair-0 | face to, table-0
+chair-2 | middle | around, table-0 | near, table-0 | right of, chair-0 | face to, table-0
+chair-4 | middle | around, table-0 | near, table-0 | left of, chair-3 | center aligned, chair-1 | face to, table-0
+chair-5 | middle | around, table-0 | near, table-0 | right of, chair-3 | center aligned, chair-2 | face to, table-0
+lamp-0 | edge | near, sideboard-0 | left of, sideboard-0
+lamp-1 | edge | near, sideboard-0 | right of, sideboard-0 | center aligned, lamp-0
+lamp-2 | edge | near, tree-1 | side of, tree-1
+plant-8 | edge | far, sideboard-0
+plant-5 | edge | right of, plant-8 | center aligned, plant-8
+plant-0 | edge | right of, plant-8 | left of, plant-5 | center aligned, plant-8
+plant-1 | edge | near, tree-0 | side of, tree-0
+plant-2 | edge | near, plant-1 | side of, plant-1 | center aligned, plant-1
+plant-3 | edge | near, tree-1 | side of, tree-1
+plant-4 | edge | near, plant-3 | side of, plant-3 | center aligned, plant-3
+plant-6 | edge | near, lamp-0 | side of, lamp-0
+plant-7 | edge | near, lamp-1 | side of, lamp-1 | center aligned, plant-6
+plant-9 | edge | near, lamp-2 | side of, lamp-2
+pottedplant-0 | edge | near, sideboard-0 | left of, sideboard-0
+pottedplant-1 | edge | near, sideboard-0 | right of, sideboard-0 | center aligned, pottedplant-0
+pottedplant-2 | edge | near, tree-0 | side of, tree-0
+pottedplant-3 | edge | near, tree-1 | side of, tree-1
+glass-2 | middle | on top of, table-0
+Number of solutions found: 30
+
+wall object constraint plan for dining room:
+livingplantwall-0 | N/A | 100
+wallplant-0 | N/A | 160
+wallplant-1 | N/A | 160
+artwork-0 | above, sideboard-0 | 120
+artwork-5 | N/A | 120
+artwork-1 | N/A | 120
+artwork-2 | N/A | 120
+artwork-3 | N/A | 120
+artwork-4 | N/A | 120
+Time limit reached.
+Time taken: 5.000913143157959
+room 167: ok missing=2 on_rule=31 188s 3 calls
+plan for bathroom: Keep the main fixtures along the walls to preserve an open central walkway. Anchor the layout with the tub, group the shower nearby, and place the vanity and storage away from the shower. Establish plant-2 before positioning the toilet so the toilet can face it. Place the sink and soap dispenser on the vanity, with wastebins beside the fixtures and the remaining plant along the perimeter.
+
+tub-0 | edge
+shower-0 | edge | near, tub-0 | side of, tub-0
+vanity-0 | edge | far, shower-0
+cabinet-0 | edge | near, vanity-0 | side of, vanity-0
+plant-2 | edge | far, vanity-0
+toilet-0 | edge | far, plant-2 | face to, plant-2
+sink-0 | edge | on top of, vanity-0 | center aligned, vanity-0
+wastebin-0 | edge | near, vanity-0 | side of, vanity-0
+wastebin-1 | edge | near, toilet-0 | side of, toilet-0 | center aligned, wastebin-0
+livingplant-0 | edge | near, tub-0 | side of, tub-0
+soapdispenser-3 | edge | on top of, vanity-0 | right of, sink-0
+constraint type on top of not found, using in front of instead.
+Number of solutions found: 30
+
+wall object constraint plan for bathroom:
+shelf-0 | above, toilet-0 | 150
+mirror-0 | above, vanity-0 | 110
+shelf-1 | above, tub-0 | 150
+towel-0 | N/A | 90
+towel-1 | N/A | 90
+towelrack-0 | N/A | 130
+towelrack-1 | N/A | 130
+plant-0 | N/A | 170
+plant-3 | N/A | 170
+lamp-0 | above, vanity-0 | 200
+lamp-2 | above, sink-0 | 200
+lamp-1 | above, tub-0 | 200
+lamp-3 | N/A | 200
+Time limit reached.
+Time taken: 5.008570194244385
+room 170: ok missing=0 on_rule=45 108s 3 calls
+plan for living room: I’ll anchor the room with the couch against a wall, then keep the main storage pieces and most decorative objects along the perimeter to preserve open floor space. The table and two inward-facing chairs will form the central seating group. Plants, vases, and lighting will be distributed around the edges, with plantfloor-4 positioned between plantfloor-1 and plantfloor-2. The book will sit on top of the sideboard.
+
+couch-0 | edge
+sideboard-0 | edge | near, couch-0 | left of, couch-0
+console-0 | edge | far, couch-0 | in front of, couch-0 | center aligned, couch-0 | face to, couch-0
+bookshelf-0 | edge | near, console-0 | right of, console-0
+table-0 | middle | near, couch-0 | in front of, couch-0 | center aligned, couch-0
+chair-0 | middle | near, table-0 | around, table-0 | left of, table-0 | face to, table-0
+chair-1 | middle | near, table-0 | around, table-0 | right of, table-0 | center aligned, chair-0 | face to, table-0
+plantfloor-1 | edge | left of, sideboard-0
+plantfloor-2 | edge | right of, plantfloor-1 | near, plantfloor-1
+plantfloor-4 | edge | right of, plantfloor-1 | left of, plantfloor-2
+plantfloor-0 | edge | near, couch-0 | right of, couch-0
+plantfloor-3 | edge | near, bookshelf-0 | right of, bookshelf-0
+floorplant-0 | edge | near, console-0 | left of, console-0
+floorplant-1 | edge | near, sideboard-0 | left of, sideboard-0
+plant floor-0 | edge | near, bookshelf-0 | left of, bookshelf-0
+plant floor-1 | edge | near, couch-0 | right of, couch-0
+floorlamp-0 | edge | near, couch-0 | right of, couch-0
+vasefloor-0 | edge | near, sideboard-0 | right of, sideboard-0
+vasefloor-1 | edge | near, vasefloor-0 | left of, vasefloor-0
+vasefloor-2 | edge | near, console-0 | left of, console-0
+vasefloor-3 | edge | near, vasefloor-2 | right of, vasefloor-2
+vase floor-0 | edge | near, bookshelf-0 | right of, bookshelf-0
+vase floor-1 | edge | near, vase floor-0 | left of, vase floor-0
+floorbook-0 | edge | near, bookshelf-0 | left of, bookshelf-0
+floorbook-1 | edge | near, bookshelf-0 | right of, bookshelf-0
+plant-0 | edge | near, sideboard-0 | left of, sideboard-0
+plant-1 | edge | near, console-0 | right of, console-0
+plant-2 | edge | near, bookshelf-0 | right of, bookshelf-0
+plant-3 | edge | near, couch-0 | left of, couch-0
+lamp-0 | edge | near, console-0 | left of, console-0
+lamp-1 | edge | near, console-0 | right of, console-0 | center aligned, lamp-0
+book sideboard-0 | edge | on top of, sideboard-0
+Number of solutions found: 30
+
+wall object constraint plan for living room:
+tv-0 | above, console-0 | 95
+artworkwall-0 | above, couch-0 | 140
+mirror-0 | above, sideboard-0 | 110
+artworkwall-1 | N/A | 140
+mirror-1 | N/A | 110
+artwork-0 | N/A | 140
+mirror-3 | N/A | 110
+artwork-1 | N/A | 140
+mirror-2 | N/A | 110
+artwork-3 | N/A | 140
+artwork-2 | N/A | 140
+artwork-4 | N/A | 140
+artwork-5 | N/A | 140
+artwork-6 | N/A | 140
+Time limit reached.
+Time taken: 5.000381231307983
+room 172: ok missing=9 on_rule=27 258s 3 calls
+plan for dining_room: Use the dining table as the central anchor, with the two chairs opposite each other so both face the table and dining chair-0 faces dining chair-1. Keep the sideboard, fridge, bar cart, bench, and lamp along the perimeter to preserve open circulation. Place the bench against a wall, away from the fridge, with the lamp nearby.
+
+dining table-0 | middle
+sideboard cabinet-0 | edge | face to, dining table-0
+fridge-0 | edge | left of, sideboard cabinet-0 | near, sideboard cabinet-0
+entry bench-0 | edge | far, fridge-0
+bar cart-0 | edge | right of, sideboard cabinet-0 | near, sideboard cabinet-0
+dining chair-1 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+dining chair-0 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0 | face to, dining chair-1
+floor lamp-0 | edge | near, entry bench-0 | side of, entry bench-0
+Number of solutions found: 30
+
+wall object constraint plan for dining_room:
+painting-0 | above, sideboard cabinet-0 | 135
+mirror-0 | above, entry bench-0 | 120
+art print-0 | above, bar cart-0 | 135
+print-0 | N/A | 140
+print-1 | N/A | 140
+wall clock-0 | N/A | 200
+wall sconce-0 | N/A | 175
+wall sconce-1 | N/A | 175
+wall sconce-2 | N/A | 175
+Time limit reached.
+Time taken: 5.001452207565308
+room 177: ok missing=0 on_rule=14 187s 3 calls
+plan for living_room: Anchor the layout with the sofa against a wall, with the media console against the opposite wall and the coffee table between them. Place the side table beside the sofa with a gap of no more than 10 cm; the defined “near” constraint does not apply to this tight spacing. Keep the armchair toward the room’s edge, near and facing the coffee table. Position the floor lamp beyond the coffee table along the armchair’s sightline so the armchair also faces the lamp.
+
+sofa-0 | edge
+media console-0 | edge | far, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | face to, sofa-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0
+side table-0 | edge | side of, sofa-0
+floor lamp-0 | edge | side of, media console-0
+armchair-0 | edge | around, coffee table-0 | near, coffee table-0 | face to, coffee table-0 | face to, floor lamp-0
+Number of solutions found: 30
+
+wall object constraint plan for living_room:
+painting-0 | above, sofa-0 | 145
+mirror-0 | above, media console-0 | 120
+map print-0 | above, armchair-0 | 140
+botanical print-0 | N/A | 145
+botanical print-1 | N/A | 145
+botanical print-2 | N/A | 145
+clock-0 | N/A | 200
+wall planter-0 | N/A | 170
+wall sconce-0 | N/A | 180
+wall sconce-1 | N/A | 180
+wall sconce-2 | N/A | 180
+wall sconce-3 | N/A | 180
+Time limit reached.
+Time taken: 5.0008039474487305
+room 179: ok missing=0 on_rule=11 190s 3 calls
+plan for library: I’ll place the bookcases and bookshelves along the perimeter to preserve open circulation, with two central tables for group reading. Reading chair-1 will sit between reading chair-3 and reading chair-6 at the first table. At the second table, reading chair-4 will face both the table and bookcase-2, with the table between the chair and bookcase. A perimeter lounge area will share a side table and floor lamp, while the photocopier and base cabinet will form a separate service area.
+
+bookcase-0 | edge
+bookcase-1 | edge | right of, bookcase-0 | center aligned, bookcase-0
+bookcase-2 | edge | right of, bookcase-1 | center aligned, bookcase-1
+bookcase-3 | edge | right of, bookcase-2 | center aligned, bookcase-2
+bookcase-4 | edge | right of, bookcase-3 | center aligned, bookcase-3
+bookshelf-0 | edge | far, bookcase-0
+bookshelf-1 | edge | right of, bookshelf-0 | center aligned, bookshelf-0
+dining table-0 | middle | far, bookshelf-0 | far, bookcase-0
+dining table-1 | middle | far, dining table-0 | far, bookcase-2 | in front of, bookcase-2 | center aligned, bookcase-2
+base cabinet-0 | edge | far, dining table-0 | far, dining table-1
+side table-0 | edge | far, base cabinet-0 | far, dining table-0 | far, dining table-1
+photocopier-0 | edge | near, base cabinet-0 | side of, base cabinet-0
+reading chair-3 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+reading chair-1 | middle | around, dining table-0 | near, dining table-0 | right of, reading chair-3 | center aligned, reading chair-3 | face to, dining table-0
+reading chair-6 | middle | around, dining table-0 | near, dining table-0 | right of, reading chair-1 | center aligned, reading chair-1 | face to, dining table-0
+reading chair-0 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+reading chair-4 | middle | around, dining table-1 | near, dining table-1 | in front of, dining table-1 | center aligned, dining table-1 | face to, dining table-1 | face to, bookcase-2
+reading chair-2 | middle | around, dining table-1 | near, dining table-1 | left of, reading chair-4 | center aligned, reading chair-4 | face to, dining table-1
+reading chair-5 | middle | around, dining table-1 | near, dining table-1 | right of, reading chair-4 | center aligned, reading chair-4 | face to, dining table-1
+reading chair-7 | middle | around, dining table-1 | near, dining table-1 | face to, dining table-1
+lounge chair-0 | edge | around, side table-0 | near, side table-0 | left of, side table-0 | face to, side table-0
+lounge chair-1 | edge | around, side table-0 | near, side table-0 | right of, side table-0 | center aligned, lounge chair-0 | face to, side table-0
+floor lamp-0 | edge | near, lounge chair-0 | side of, lounge chair-0
+Number of solutions found: 30
+
+wall object constraint plan for library:
+whiteboard-0 | above, dining table-0 | 110
+mirror-0 | above, base cabinet-0 | 115
+art print-0 | above, lounge chair-0 | 145
+typography poster-0 | above, side table-0 | 145
+engraving print-0 | above, reading chair-1 | 145
+photograph print-0 | above, reading chair-3 | 145
+illustration print-0 | above, reading chair-5 | 145
+illustration print-1 | above, reading chair-7 | 145
+sign-0 | N/A | 230
+clock-0 | N/A | 250
+Time limit reached.
+Time taken: 5.009207010269165
+room 180: ok missing=0 on_rule=34 172s 3 calls
+plan for bedroom: Place the bed against a wall as the main anchor, with a nightstand on either side. Keep the wardrobe, dresser, and writing desk along the perimeter to preserve open floor space. Create a compact reading spot opposite the bed, positioning the side table between the armchair and bed so the armchair faces both. Place the desk chair around the writing desk and the floor lamp beside the armchair.
+
+bed-0 | edge
+wardrobe-0 | edge | far, bed-0
+dresser-0 | edge | side of, wardrobe-0
+writing desk-0 | edge | far, wardrobe-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+side table-0 | middle | in front of, bed-0 | center aligned, bed-0
+armchair-0 | edge | around, side table-0 | near, side table-0 | in front of, bed-0 | center aligned, bed-0 | face to, side table-0 | face to, bed-0
+desk chair-0 | middle | around, writing desk-0 | near, writing desk-0 | face to, writing desk-0
+floor lamp-0 | edge | near, armchair-0 | side of, armchair-0
+Number of solutions found: 30
+
+wall object constraint plan for bedroom:
+mirror-0 | above, dresser-0 | 110
+art print-0 | above, bed-0 | 145
+print-0 | above, writing desk-0 | 135
+art print-1 | above, nightstand-0 | 145
+clock-0 | N/A | 200
+art print-2 | above, nightstand-1 | 145
+photograph-0 | above, side table-0 | 140
+Time limit reached.
+Time taken: 5.002032995223999
+room 182: ok missing=0 on_rule=13 68s 3 calls
+plan for bathroom: Place the vanity against a wall as the anchor, then position the toilet along the opposite wall facing the vanity. Keep the mat in front of the vanity, leaving the central circulation route as open as possible in this compact bathroom.
+
+bathroom vanity-0 | edge
+toilet-0 | edge | in front of, bathroom vanity-0 | face to, bathroom vanity-0
+bathroom mat-0 | edge | in front of, bathroom vanity-0 | center aligned, bathroom vanity-0
+Number of solutions found: 30
+
+wall object constraint plan for bathroom:
+mirror-0 | above, bathroom vanity-0 | 110
+art print-0 | above, toilet-0 | 150
+poster print-0 | N/A | 150
+clock-0 | N/A | 210
+Time limit reached.
+Time taken: 5.000044107437134
+room 185: ok missing=0 on_rule=0 30s 3 calls
+plan for office: Use the desk as the wall-adjacent anchor, with the guest side chair directly in front of it so the desk faces the guest seat. Position the whiteboard along the nearby wall, keeping the side chair within 20 cm of it. This exact clearance cannot be expressed using the supplied constraints: “near” requires more than 50 cm, so apply the 20 cm limit separately during placement. Keep the filing pedestal and lamp at the perimeter, and reserve the middle for the task chair and working clearance.
+
+desk-0 | edge
+whiteboard-0 | edge | near, desk-0
+filing pedestal-0 | edge | side of, desk-0
+task chair-0 | middle | around, desk-0 | near, desk-0 | face to, desk-0
+side chair-0 | edge | around, desk-0 | near, desk-0 | in front of, desk-0 | center aligned, desk-0 | face to, desk-0
+floor lamp-0 | edge | side of, whiteboard-0
+Number of solutions found: 30
+
+wall object constraint plan for office:
+world map print-0 | above, desk-0 | 140
+art print-0 | above, filing pedestal-0 | 145
+photograph print-0 | above, side chair-0 | 145
+clock-0 | N/A | 220
+photograph print-1 | N/A | 145
+Time limit reached.
+Time taken: 5.00023889541626
+room 186: ok missing=0 on_rule=10 57s 3 calls
+plan for activity_room_pingpong: Place the ping pong table centrally as the anchor, keeping its ends and sides clear for play. Arrange the loveseat, bench, and storage cabinet along the perimeter, with the cabinet against a wall. Group the rug, side table, accent chair, and lamp into a compact seating area away from the playing space.
+
+For the accent chair, prioritize your specific requirements over the general chair guidelines: face it toward the loveseat and leave no more than 10 cm between it and the side table. Do not apply the standard “near” constraint to that pair, because it requires a gap greater than 50 cm.
+
+ping pong table-0 | middle
+loveseat-0 | edge | side of, ping pong table-0
+storage cabinet-0 | edge
+bench-0 | edge | side of, loveseat-0 | near, loveseat-0
+rug-0 | edge | in front of, loveseat-0 | center aligned, loveseat-0
+side table-0 | edge | side of, loveseat-0
+accent chair-0 | edge | around, side table-0 | face to, loveseat-0
+floor lamp-0 | edge | side of, loveseat-0 | near, loveseat-0
+Number of solutions found: 30
+
+wall object constraint plan for activity_room_pingpong:
+whiteboard-0 | N/A | 100
+wall shelf-0 | above, storage cabinet-0 | 180
+canvas print-0 | above, loveseat-0 | 145
+sports equipment rack-0 | N/A | 100
+photography print-1 | above, accent chair-0 | 150
+poster-0 | N/A | 150
+photography print-0 | above, bench-0 | 150
+clock-0 | N/A | 240
+Time limit reached.
+Time taken: 5.001375913619995
+room 187: ok missing=0 on_rule=8 76s 3 calls
+plan for bedroom: Keep the center of this compact bedroom open by placing the wardrobe and sofa against walls, preferably on different walls to preserve access to the wardrobe. Position the stool beside the sofa with a gap of no more than 10 cm. Do not use the “near” constraint for this pair, since its defined minimum distance exceeds the required gap.
+
+wardrobe-0 | edge
+sofa-0 | edge
+stool-0 | edge | side of, sofa-0
+Number of solutions found: 18
+room 188: ok missing=0 on_rule=0 24s 2 calls
+plan for living room: Use the sofa as the wall-side anchor, with the coffee table in front of it. Keep the dining area near another room edge, placing dining chair-0 and dining chair-2 on opposite sides of the table. Orient chair-0 toward both the dining table and the coffee table by keeping those objects along its sightline. Place the bookcases together against a wall and group the washing cabinet and washing machine along a separate wall section. Keep the central circulation area as open as possible.
+
+sofa-0 | edge
+dining table-0 | edge | far, sofa-0
+bookcase-0 | edge | far, dining table-0
+bookcase-1 | edge | right of, bookcase-0 | center aligned, bookcase-0
+washing cabinet-0 | edge | far, sofa-0 | far, dining table-0
+washing machine-0 | edge | side of, washing cabinet-0 | center aligned, washing cabinet-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | left of, dining table-0 | far, dining table-0
+dining chair-0 | edge | around, dining table-0 | right of, dining table-0 | near, dining table-0 | face to, dining table-0 | face to, coffee table-0
+dining chair-1 | middle | around, dining table-0 | in front of, dining table-0 | near, dining table-0 | face to, dining table-0
+dining chair-2 | edge | around, dining table-0 | left of, dining table-0 | near, dining table-0 | face to, dining table-0 | center aligned, dining chair-0
+dining chair-3 | edge | around, dining table-0 | near, dining table-0 | face to, dining table-0 | center aligned, dining chair-1
+plants-0 | edge | near, sofa-0 | side of, sofa-0
+Number of solutions found: 24
+
+wall object constraint plan for living room:
+air conditioner-0 | N/A | 215
+room 189: ok missing=0 on_rule=3 47s 3 calls
+plan for master bedroom: Use the bed as the anchor, placing it against a wall to preserve floor space. Position a shallow, preferably sliding-door wardrobe opposite the bed, with a compact desk beside it. Keep the nightstand beside the bed and reserve the central space for circulation and the desk chair. This small room will require compact furniture; confirm dimensions and door clearances before placement.
+
+bed-0 | edge
+wardrobe-0 | edge | in front of, bed-0 | face to, bed-0
+desk-0 | edge | side of, wardrobe-0
+nightstand-0 | edge | side of, bed-0
+chair-0 | middle | around, desk-0 | near, desk-0 | face to, desk-0
+Number of solutions found: 1
+room 192: ok missing=3 on_rule=3 26s 2 calls
+plan for kitchen: Place both appliances against the same 200 cm wall to keep the narrow room as open as possible. Use the refrigerator as the anchor and position the stove beside it, allowing the manufacturer-required heat clearance. Confirm that their dimensions and required clearances fit before installation.
+
+refrigerator-0 | edge
+gas stove-0 | edge | side of, refrigerator-0
+Number of solutions found: 1
+room 193: ok missing=2 on_rule=0 18s 2 calls
+plan for living room with dining area: Place the sofa along a wall to anchor the living area, with the carpet centered in front of it. Position the dining table near a different wall, well separated from the sofa, leaving clearance for seating. Arrange the dining chairs around the table facing inward, with chairs 2 and 3 on opposite sides so the table sits between them.
+
+combination sofa-0 | edge
+dining table-0 | edge | far, combination sofa-0
+carpet-0 | middle | near, combination sofa-0 | in front of, combination sofa-0 | center aligned, combination sofa-0
+dining chair-0 | edge | near, dining table-0 | around, dining table-0 | face to, dining table-0
+dining chair-1 | middle | near, dining table-0 | around, dining table-0 | in front of, dining chair-0 | center aligned, dining chair-0 | face to, dining table-0
+dining chair-2 | middle | near, dining table-0 | around, dining table-0 | left of, dining table-0 | face to, dining table-0
+dining chair-3 | middle | near, dining table-0 | around, dining table-0 | right of, dining table-0 | center aligned, dining chair-2 | face to, dining table-0
+Number of solutions found: 2
+
+wall object constraint plan for living room with dining area:
+air conditioner-0 | N/A | 230
+room 195: ok missing=5 on_rule=0 35s 3 calls
+plan for master bedroom: Place the bed with its headboard against a long wall, leaving room for a nightstand on each side. Position the wardrobe against the opposite long wall, offset from the bed to preserve circulation within the room’s 300 cm depth. Place the nightstands to the left and right of the bed, aligned with each other, so the bed sits between them.
+
+bed-0 | edge
+wardrobe-0 | edge | side of, bed-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+Number of solutions found: 22
+room 196: ok missing=0 on_rule=0 17s 2 calls
+plan for bedroom: Place the bed with its headboard against a 300 cm wall, leaving the room’s length available for circulation. Put the wardrobe against a side wall, clear of the bed and its access path. Position the nightstand against the headboard wall, beside the bed, with a gap of no more than 10 cm. The defined constraints cannot express this small gap: “near” requires more than 50 cm, so apply the 10 cm limit directly when positioning the nightstand.
+
+bed-0 | edge
+wardrobe-0 | edge
+nightstand-0 | edge | side of, bed-0
+Number of solutions found: 30
+room 197: ok missing=0 on_rule=0 22s 2 calls
+plan for living room: Use the TV cabinet as the anchor so the sofa can face it directly across the room. Keep the sofa and TV cabinet near opposing walls to preserve an open central area. Create a separate dining zone along a side wall, away from the seating area, with the refrigerator nearby for convenient access.
+
+tv cabinet-0 | edge
+combination sofa-0 | edge | far, tv cabinet-0 | in front of, tv cabinet-0 | center aligned, tv cabinet-0 | face to, tv cabinet-0
+dining table combination-0 | edge | far, combination sofa-0 | side of, combination sofa-0
+refrigerator-0 | edge | near, dining table combination-0 | side of, dining table combination-0 | far, combination sofa-0
+Number of solutions found: 30
+
+wall object constraint plan for living room:
+air conditioner-0 | N/A | 225
+room 199: ok missing=0 on_rule=1 37s 3 calls
+plan for guest room: Place the washing machine first as the anchor, against a wall. Position the chair along an adjacent wall, beside and facing the machine, keeping its door and controls accessible. The room is very small, so check that both objects fit while maintaining the required 50–150 cm separation.
+
+washing machine-0 | edge
+chair-0 | edge | near, washing machine-0 | around, washing machine-0 | side of, washing machine-0 | face to, washing machine-0
+Number of solutions found: 1
+room 200: ok missing=2 on_rule=0 20s 2 calls
+plan for laundry room: Arrange both objects against the same long wall to preserve as much passage space as possible in this narrow room. Place the wardrobe first as the anchor, then position the washing cabinet beside it with their centers aligned along the wall. Choose shallow units to keep the passage usable.
+
+wardrobe-0 | edge
+washing cabinet-0 | edge | side of, wardrobe-0 | center aligned, wardrobe-0
+Number of solutions found: 1
+room 202: ok missing=2 on_rule=0 13s 2 calls
+plan for living room: Place tv cabinet-1 against a wall as the anchor, with the sofa along the opposite wall facing it. Position tv cabinet-0 beside and in line with tv cabinet-1, also against the wall. Keep the coffee table centrally positioned in front of the sofa, leaving comfortable access around the seating area.
+
+tv cabinet-1 | edge
+sofa-0 | edge | far, tv cabinet-1 | in front of, tv cabinet-1 | center aligned, tv cabinet-1 | face to, tv cabinet-1
+tv cabinet-0 | edge | side of, tv cabinet-1 | center aligned, tv cabinet-1
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0
+Number of solutions found: 30
+
+wall object constraint plan for living room:
+air conditioner-0 | N/A | 200
+room 203: ok missing=0 on_rule=2 31s 3 calls
+plan for living room: I’ll divide the long room into living and dining zones, keeping the sofas, TV cabinet, station, and side tables near the walls to preserve an open circulation route. Sofa-0 will anchor the layout, with chair-3 to its left and chair-1 to its right. The dining area will sit farther along the room, with dining chair-5 positioned on chair-3’s sightline through the coffee table so chair-3 can face both. All chairs will be arranged around, near, and facing their respective tables.
+
+sofa-0 | edge
+sofa-1 | edge | far, sofa-0 | center aligned, sofa-0
+dining table-0 | middle | far, sofa-0 | far, sofa-1
+tv cabinet-0 | edge | in front of, sofa-0 | far, sofa-0 | center aligned, sofa-0 | face to, sofa-0
+nakadao station-0 | edge | near, dining table-0 | far, tv cabinet-0
+carpet-0 | middle | in front of, sofa-0 | center aligned, sofa-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, carpet-0
+side table-0 | edge | near, sofa-0 | left of, sofa-0
+side table-1 | edge | near, sofa-0 | right of, sofa-0
+side table-2 | edge | near, sofa-1 | side of, sofa-1
+dining chair-5 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+dining chair-0 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+dining chair-1 | middle | around, dining table-0 | near, dining table-0 | center aligned, dining chair-0 | face to, dining table-0
+dining chair-2 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+dining chair-3 | middle | around, dining table-0 | near, dining table-0 | center aligned, dining chair-2 | face to, dining table-0
+dining chair-4 | middle | around, dining table-0 | near, dining table-0 | center aligned, dining chair-5 | face to, dining table-0
+chair-1 | edge | right of, sofa-0 | around, coffee table-0 | near, coffee table-0 | face to, coffee table-0
+chair-3 | edge | left of, sofa-0 | around, coffee table-0 | near, coffee table-0 | center aligned, chair-1 | face to, coffee table-0 | face to, dining chair-5
+chair-0 | middle | around, coffee table-0 | near, coffee table-0 | in front of, sofa-0 | face to, coffee table-0
+chair-2 | middle | around, coffee table-0 | near, coffee table-0 | side of, chair-0 | face to, coffee table-0
+Number of solutions found: 21
+
+wall object constraint plan for living room:
+wall cabinet-0 | above, tv cabinet-0 | 160
+room 204: ok missing=2 on_rule=14 90s 3 calls
+plan for secondary bedroom: Keep the wardrobe and bed against walls to preserve open floor space in this compact bedroom. Place the chair near the foot of the bed, beside the wardrobe. The chair must be positioned before the bed so the bed’s required facing direction references an already placed object.
+
+wardrobe-0 | edge
+dining chair-0 | edge | near, wardrobe-0 | side of, wardrobe-0
+bed-0 | edge | near, dining chair-0 | in front of, dining chair-0 | center aligned, dining chair-0 | face to, dining chair-0
+Number of solutions found: 12
+room 206: ok missing=0 on_rule=0 25s 2 calls
+plan for living room: I’ll divide the room into a lounge area and a dining area, keeping large furniture along the walls to preserve open circulation. The sofa will anchor the lounge, facing the TV cabinet across a central carpet and coffee table. The dining table and refrigerator will occupy a separate perimeter zone, with the chair on a wall-side position around the table. A side table and floor lamp will complete the sofa area.
+
+sofa-0 | edge
+dining table combination-0 | edge | far, sofa-0 | side of, sofa-0
+carpet-0 | middle | in front of, sofa-0 | center aligned, sofa-0
+tv cabinet-0 | edge | far, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | face to, sofa-0
+refrigerator-0 | edge | near, dining table combination-0 | side of, dining table combination-0 | far, sofa-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, carpet-0 | face to, sofa-0
+chair-0 | edge | near, dining table combination-0 | around, dining table combination-0 | face to, dining table combination-0
+side table-0 | edge | near, sofa-0 | side of, sofa-0
+floor standing lamp-0 | edge | near, side table-0 | side of, sofa-0
+Number of solutions found: 5
+
+wall object constraint plan for living room:
+air conditioner-0 | N/A | 230
+room 207: ok missing=8 on_rule=1 40s 3 calls
+plan for bathroom: Place the tub against a wall as the anchor, then arrange both shower rooms along the room’s perimeter to keep the center open for circulation. Group the shower rooms side by side and align them for a tidy layout, with shower room-1 against a wall as required.
+
+tub-0 | edge
+shower room-0 | edge | far, tub-0
+shower room-1 | edge | near, shower room-0 | side of, shower room-0 | center aligned, shower room-0
+Number of solutions found: 30
+room 209: ok missing=0 on_rule=0 16s 2 calls
+plan for home office: Place the sofa against a short wall as the anchor, then position the desk along the opposite wall, facing into the room. Put the chair directly in front of the desk so they face each other, keeping the central circulation area open. Keep the chair within 10 cm of the desk as requested; omit the standard “near” constraint because it requires a gap greater than 50 cm.
+
+sofa-0 | edge
+desk-0 | edge | far, sofa-0 | face to, sofa-0
+chair-0 | middle | around, desk-0 | in front of, desk-0 | center aligned, desk-0 | face to, desk-0
+Number of solutions found: 19
+room 211: ok missing=0 on_rule=0 25s 2 calls
+plan for living room with dining area: I’ll divide the room into a lounge at one end and a dining area at the other, keeping large furniture near the walls and the central circulation route open. Sofa-0 anchors the lounge; the coffee table establishes its center, with sofa-2 opposite sofa-0 and facing the table. Sofa-1 completes the seating group along an adjacent wall. The dining table combination, wine cabinet, and wardrobe occupy the perimeter, while separate carpets define the lounge and dining zones.
+
+sofa-0 | edge
+dining table combination-0 | edge | far, sofa-0
+wardrobe-0 | edge | far, sofa-0 | far, dining table combination-0
+wine cabinet-0 | edge | near, dining table combination-0 | far, sofa-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0
+sofa-2 | edge | near, coffee table-0 | far, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | face to, coffee table-0
+sofa-1 | edge | side of, coffee table-0 | near, coffee table-0 | face to, coffee table-0
+carpet-0 | middle | center aligned, coffee table-0
+carpet-1 | edge | center aligned, dining table combination-0 | far, carpet-0
+side table-0 | edge | near, sofa-0 | left of, sofa-0
+side table-1 | edge | near, sofa-2 | right of, sofa-2 | center aligned, side table-0
+stool-0 | middle | around, coffee table-0 | near, coffee table-0 | face to, coffee table-0
+Number of solutions found: 7
+room 212: ok missing=10 on_rule=0 46s 2 calls
+plan for bedroom: Place the bed with its headboard against a wall as the main anchor. Position the wardrobe along another wall, leaving clearance in front for access. Place the nightstands on opposite sides of the bed, aligned with each other and against the headboard wall. This keeps the bed between them and preserves open floor space.
+
+bed-0 | edge
+wardrobe-0 | edge | far, bed-0
+nightstand-0 | edge | right of, bed-0
+nightstand-1 | edge | left of, bed-0 | center aligned, nightstand-0
+Number of solutions found: 30
+room 214: ok missing=0 on_rule=0 15s 2 calls
+plan for bedroom with home office: Use the bed as the anchor, with its head against a 200 cm wall. Choose a narrow bed and compact nightstands so both nightstands fit on opposite sides within the room’s width. Keep the chair against a wall at the opposite end, leaving the center open, and place the carpet in front of the bed. No desk or table is listed, so the chair cannot receive the requested table-related constraints without adding another object.
+
+bed-0 | edge
+carpet-0 | middle | near, bed-0 | in front of, bed-0 | center aligned, bed-0
+chair-0 | edge | far, bed-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+Number of solutions found: 14
+room 219: ok missing=3 on_rule=0 34s 2 calls
+plan for bedroom: Use wardrobe-0 as the anchor, with wardrobe-1 beside it along the same wall. Place the combination sofa against the opposite wall, facing wardrobe-0, and center the carpet in front of the sofa. Keep both stools toward the room’s perimeter, with stool-1 within 10 cm of the sofa. This close spacing is specified explicitly because the defined “near” constraint requires more than 50 cm.
+
+wardrobe-0 | edge
+wardrobe-1 | edge | left of, wardrobe-0 | center aligned, wardrobe-0
+combination sofa-0 | edge | in front of, wardrobe-0 | center aligned, wardrobe-0 | face to, wardrobe-0
+carpet-0 | middle | in front of, combination sofa-0 | center aligned, combination sofa-0
+stool-0 | edge | left of, combination sofa-0 | near, combination sofa-0
+stool-1 | edge | right of, combination sofa-0 | within 10 cm, combination sofa-0 | center aligned, stool-0
+constraint type within 10 cm not found, using behind instead.
+Number of solutions found: 30
+room 220: ok missing=1 on_rule=0 27s 2 calls
+plan for children's bedroom: Use the dining table combination as the anchor against a wall. Place the sofa combination beside it against the same wall, with a gap of no more than 10 cm, leaving the room’s center open. The defined “near” constraint is not used because it requires a gap greater than 50 cm.
+
+dining table combination-0 | edge
+combination sofa-0 | edge | side of, dining table combination-0
+Number of solutions found: 29
+room 221: ok missing=0 on_rule=0 20s 2 calls
+plan for children's bedroom: Place the chair close to a wall to preserve open space in the small bedroom. As the only object, it serves as the anchor and needs no constraints referencing other objects.
+
+chair-0 | edge
+Number of solutions found: 30
+room 222: ok missing=0 on_rule=0 13s 2 calls
+plan for kitchen: Place the refrigerator against a wall at one end of the narrow kitchen to keep the remaining floor space open. Check that its depth and door swing fit within the 100 cm room width, allowing the manufacturer’s required ventilation clearance.
+
+refrigerator-0 | edge
+Number of solutions found: 9
+room 223: ok missing=0 on_rule=0 16s 2 calls
+plan for home office: Use ornaments-0 as the wall-side anchor, since you require the chair to face it. Place chair-0 nearby, slightly inward from the wall, leaving enough clearance for comfortable seating and movement in the compact room.
+
+ornaments-0 | edge
+chair-0 | middle | near, ornaments-0 | around, ornaments-0 | face to, ornaments-0
+target object ornaments-0 not found in the existing constraint plan
+target object ornaments-0 not found in the existing constraint plan
+target object ornaments-0 not found in the existing constraint plan
+Number of solutions found: 30
+
+wall object constraint plan for home office:
+ornaments-0 | N/A | 150
+room 224: ok missing=0 on_rule=0 32s 3 calls
+plan for kitchen: Place both appliances along the same 500 cm wall to keep the narrow kitchen’s central aisle clear. Start with the refrigerator against the wall as the anchor, then place the washing machine beside it, leaving clearance for ventilation and door operation.
+
+refrigerator-0 | edge
+washing machine-0 | edge | side of, refrigerator-0 | center aligned, refrigerator-0
+Number of solutions found: 18
+room 226: ok missing=0 on_rule=0 12s 2 calls
+plan for kitchen: Place the refrigerator against a wall, preferably at one end of the 400 cm length, to preserve clearance in the narrow kitchen. Ensure its door can open freely.
+
+refrigerator-0 | edge
+Number of solutions found: 19
+room 227: ok missing=0 on_rule=0 13s 2 calls
+plan for bedroom: Place the wardrobe against a wall to keep the compact bedroom open and preserve access to its doors. Position the carpet in the middle of the room, in front of the wardrobe, to soften the open floor area.
+
+wardrobe-0 | edge
+carpet-0 | middle | in front of, wardrobe-0 | center aligned, wardrobe-0
+Number of solutions found: 24
+room 229: ok missing=0 on_rule=0 15s 2 calls
+plan for living room: Use the walls for storage, the bar, and the sofas to keep the center spacious. Leave a generous gap between the two aligned wardrobes, with the bar in that gap and bar chair-2 between the wardrobes, facing the bar. Place bar chair-0 before sofa-0 so the sofa can face it without depending on a later object. Group the sofas around the carpet and coffee table, and give the dining table its own clear area. Keep side table-1 within 20 cm of the bar; this exact clearance must be applied during placement because the available “near” constraint means more than 50 cm.
+
+wardrobe-0 | edge
+wardrobe-1 | edge | right of, wardrobe-0 | far, wardrobe-0 | center aligned, wardrobe-0
+bar-0 | edge | right of, wardrobe-0 | left of, wardrobe-1
+dining table combination-0 | middle | far, bar-0
+wine cabinet-0 | edge | near, bar-0 | side of, wardrobe-1
+bookcase-0 | edge | far, bar-0 | far, dining table combination-0
+bookcase-1 | edge | right of, bookcase-0 | center aligned, bookcase-0
+shoe cabinet-0 | edge | far, bar-0 | far, dining table combination-0
+bar chair-0 | middle | near, bar-0 | around, bar-0 | face to, bar-0
+sofa-0 | edge | far, bar-0 | far, dining table combination-0 | face to, bar chair-0
+sofa-1 | edge | side of, sofa-0 | center aligned, sofa-0 | face to, bar chair-0
+carpet-0 | middle | in front of, sofa-0 | center aligned, sofa-0
+coffee table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, carpet-0
+side table-0 | edge | side of, sofa-0 | near, sofa-0
+side table-1 | edge | side of, bar-0
+bar chair-1 | middle | near, bar-0 | around, bar-0 | side of, bar chair-0 | center aligned, bar chair-0 | face to, bar-0
+bar chair-2 | middle | near, bar-0 | around, bar-0 | right of, wardrobe-0 | left of, wardrobe-1 | side of, bar chair-1 | center aligned, bar chair-1 | face to, bar-0
+Number of solutions found: 30
+room 231: ok missing=7 on_rule=2 75s 2 calls
+plan for master bedroom: Use the bed as the anchor, with its headboard against a wall. Place nightstand-0 against the same wall on the bed’s left and nightstand-1 on its right, keeping their backs aligned so the bed sits between them. Keep nightstand-1 within 10 cm of the bed; do not use the defined “near” constraint, which would require a gap greater than 50 cm. Position a shallow wardrobe against the opposite wall, facing the bed. In this compact room, confirm furniture dimensions and allow clearance for wardrobe doors, preferably sliding doors.
+
+bed-0 | edge
+wardrobe-0 | edge | in front of, bed-0 | face to, bed-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+Number of solutions found: 1
+room 232: ok missing=3 on_rule=0 28s 2 calls
+plan for master bedroom: Anchor the bed against a wall, with a nightstand on each side. Group the wardrobes along another wall, and place the dining table combination at the room’s edge, away from the bed. Keep the chair facing the table and the stool beside it. Center the carpet in front of the bed, leaving the middle of the room largely open for circulation.
+
+bed-0 | edge
+wardrobe-0 | edge | far, bed-0
+wardrobe-1 | edge | side of, wardrobe-0 | center aligned, wardrobe-0
+dining table combination-0 | edge | far, bed-0
+carpet-0 | middle | in front of, bed-0 | center aligned, bed-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+chair-0 | middle | around, dining table combination-0 | near, dining table combination-0 | face to, dining table combination-0
+stool-0 | edge | side of, dining table combination-0 | near, dining table combination-0
+Number of solutions found: 28
+room 233: ok missing=5 on_rule=0 30s 2 calls
+plan for bathroom: Place the toilet against a short end wall to preserve open floor space. Position the screen against an adjacent wall, beside the toilet and within 20 cm of it. Do not use the “near” constraint, since its defined distance of 50–150 cm conflicts with your requirement; apply the 20 cm limit directly during placement. Fit depends on the fixtures’ dimensions.
+
+toilet-0 | edge
+screen-0 | edge | side of, toilet-0
+Number of solutions found: 28
+room 234: ok missing=1 on_rule=0 18s 2 calls
+plan for master bedroom: Use the 500 cm length for the bed-to-TV viewing axis, keeping the bed’s headboard and TV cabinet against opposite short walls. Place the wardrobe against a long wall, leaving clearance for its doors and circulation beside the bed. Establish the wardrobe and TV cabinet first so the bed can explicitly face the TV cabinet, then position the nightstands on either side of the headboard. Keep all pieces at the room’s edges to preserve open floor space.
+
+wardrobe-0 | edge
+tv cabinet-0 | edge
+bed-0 | edge | far, tv cabinet-0 | in front of, tv cabinet-0 | center aligned, tv cabinet-0 | face to, tv cabinet-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0
+Number of solutions found: 27
+room 237: ok missing=0 on_rule=0 32s 2 calls
+plan for kitchen: Place the cupboard against a wall to keep the center of the compact 200 cm × 200 cm kitchen open and maximize circulation space. As the only object, it serves as the anchor and needs only an edge constraint.
+
+cupboard-0 | edge
+Number of solutions found: 18
+room 239: ok missing=0 on_rule=0 13s 2 calls
+plan for bedroom with home office: Use a narrow single bed along a long wall, with the wardrobe toward the opposite end and a shallow bookcase nearby. Keep compact fitness equipment against a wall and preserve a clear central passage. Since no desk is listed, use the nightstand as a compact work surface beside the bed, provided it is desk-height with adequate knee clearance; place the chair facing it.
+
+bed-0 | edge
+wardrobe-0 | edge | in front of, bed-0 | face to, bed-0
+bookcase-0 | edge | side of, wardrobe-0
+fitness equipment-0 | edge | side of, bookcase-0
+nightstand-0 | edge | side of, bed-0
+chair-0 | middle | near, nightstand-0 | around, nightstand-0 | face to, nightstand-0
+Number of solutions found: 13
+room 240: ok missing=0 on_rule=0 36s 2 calls
+plan for bathroom: Place the toilet against a wall as the anchor, then position a compact bathroom cabinet beside it along the same wall, with no more than 50 cm between them. This keeps the center of the narrow bathroom as clear as possible. The “near” constraint is omitted because its defined distance exceeds the required maximum of 50 cm.
+
+toilet-0 | edge
+bathroom cabinet-0 | edge | side of, toilet-0
+Number of solutions found: 22
+room 241: ok missing=0 on_rule=0 21s 2 calls
+plan for bathroom: Place the tub first against a wall as the largest anchor. Position the toilet against an adjacent wall, beside the tub with no more than 10 cm between their nearest edges. Include a compact hand sink against the wall beside the toilet, within 20 cm of its nearest edge. Keep the center open, and verify that the fixtures and required installation clearances fit within the 200 × 200 cm room. These small gaps are specified here rather than using “near,” which requires more than 50 cm.
+
+tub-0 | edge
+toilet-0 | edge | side of, tub-0
+hand sink-0 | edge | side of, toilet-0
+Number of solutions found: 4
+
+wall object constraint plan for bathroom:
+hand sink-0 | N/A | 65
+room 242: ok missing=0 on_rule=0 29s 3 calls
+plan for study room: Place the multifunctional combination bed against a wall as the anchor, keeping the center of this compact room open. Position the chair near the bed’s study-facing side, toward the room’s edge, while preserving space to sit and move comfortably.
+
+multifunctional combination bed-0 | edge
+chair-0 | edge | near, multifunctional combination bed-0 | around, multifunctional combination bed-0 | face to, multifunctional combination bed-0
+Number of solutions found: 10
+room 244: ok missing=0 on_rule=0 20s 2 calls
+plan for home office: Place the combination sofa against a wall as the anchor, with the desk along the opposite wall facing into the room. Center the chair in front of the desk so the desk faces the chair and the chair faces the desk. Keep the bookshelf beside the desk along the perimeter to preserve open floor space.
+
+combination sofa-0 | edge
+desk-0 | edge | far, combination sofa-0 | face to, combination sofa-0
+bookshelf-0 | edge | side of, desk-0 | near, desk-0
+chair-0 | middle | around, desk-0 | near, desk-0 | in front of, desk-0 | center aligned, desk-0 | face to, desk-0
+Number of solutions found: 19
+room 252: ok missing=0 on_rule=0 36s 2 calls
+plan for living room: Place the combination sofa against a long wall as the main anchor, keeping the center open. Position the shoe cabinet against another wall, away from the sofa to separate the entry storage from the seating area. Place the plant near one side of the sofa, close to the wall, to soften the seating area without obstructing circulation.
+
+combination sofa-0 | edge
+shoe cabinet-0 | edge | far, combination sofa-0
+plants-0 | edge | near, combination sofa-0 | side of, combination sofa-0
+Number of solutions found: 1
+room 256: ok missing=3 on_rule=0 14s 2 calls
+plan for living room: Use the carpet as the initial anchor for the seating area, with the coffee table centered on it. Position the sofa along a wall facing the coffee table, and place the TV cabinet opposite the sofa. Create a separate dining zone near another wall, with the sideboard against that wall and the stool facing the dining table. Keep the side table beside the sofa and the floor-standing lamp within 10 cm of the sofa. That lamp spacing is specified here because the available “near” constraint requires more than 50 cm.
+
+carpet-0 | middle
+dining table-0 | edge | far, carpet-0
+coffee table-0 | middle | center aligned, carpet-0
+sofa-0 | edge | near, coffee table-0 | center aligned, coffee table-0 | face to, coffee table-0
+tv cabinet-0 | edge | far, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | face to, sofa-0
+sideboard-0 | edge | near, dining table-0
+side table-0 | edge | side of, sofa-0 | near, sofa-0
+stool-0 | middle | around, dining table-0 | near, dining table-0 | face to, dining table-0
+floor standing lamp-0 | edge | side of, sofa-0
+Number of solutions found: 9
+room 257: ok missing=7 on_rule=7 68s 2 calls
+plan for bathroom: Place both fixtures against the same long wall to preserve as much circulation space as possible in this narrow bathroom. Start with the bathroom cabinet as the anchor, then position the toilet alongside it, leaving clearance between the fixtures.
+
+bathroom cabinet-0 | edge
+toilet-0 | edge | right of, bathroom cabinet-0 | near, bathroom cabinet-0
+Number of solutions found: 30
+room 259: ok missing=0 on_rule=0 12s 2 calls
+plan for living room: Place the dining table combination against a wall to preserve an open center, with the two bookcases side by side along another wall. Keep the lighting at the room’s edges, with lighting-0 against a wall. Arrange the remaining lights along one wall in the order lighting-1, lighting-3, lighting-2, lighting-4, so lighting-2 lies between both requested pairs. Keep lighting-3 within 30 cm of lighting-2; this must be applied as an additional placement requirement because the available distance constraints cannot express distances below 50 cm.
+
+dining table combination-0 | edge
+bookcase-0 | edge | far, dining table combination-0
+bookcase-1 | edge | side of, bookcase-0 | center aligned, bookcase-0 | far, dining table combination-0
+lighting-0 | edge
+lighting-1 | edge
+lighting-3 | edge | right of, lighting-1
+lighting-2 | edge | right of, lighting-3 | right of, lighting-1
+lighting-4 | edge | right of, lighting-2
+Number of solutions found: 25
+
+wall object constraint plan for living room:
+lighting-0 | N/A | 210
+lighting-1 | N/A | 210
+lighting-2 | N/A | 210
+lighting-3 | N/A | 210
+lighting-4 | N/A | 210
+Time limit reached.
+Time taken: 5.00014591217041
+room 262: ok missing=0 on_rule=0 48s 3 calls
+plan for primary bathroom: Place the toilet against a wall to keep the center of the compact 200 cm × 200 cm bathroom open. Orient it to face into the room, leaving clear space in front for comfortable use.
+
+toilet-0 | edge
+Number of solutions found: 28
+room 263: ok missing=0 on_rule=0 12s 2 calls
+plan for master bedroom: Use a perimeter layout to preserve open floor space. Establish the wardrobe and dressing area first, including the stool, so the bed can explicitly face the stool without depending on a later object. Place the bed against the opposite wall, with one nightstand on each side and both nightstands against the wall. The bed is introduced after the smaller dressing-area pieces only to satisfy this dependency order.
+
+wardrobe-0 | edge
+dressing table-0 | edge | side of, wardrobe-0
+stool-0 | middle | near, dressing table-0 | around, dressing table-0 | center aligned, dressing table-0 | face to, dressing table-0
+bed-0 | edge | far, stool-0 | center aligned, stool-0 | face to, stool-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+Number of solutions found: 26
+room 265: ok missing=0 on_rule=0 44s 2 calls
+plan for bathroom: Place the toilet against a wall, preferably centered on the 100 cm end wall, to maximize clearance in front and keep the narrow bathroom as open as possible.
+
+toilet-0 | edge
+Number of solutions found: 30
+room 270: ok missing=0 on_rule=0 11s 2 calls
+plan for master bedroom: Place the bed with its headboard against a wall as the main anchor. Position the two nightstands on opposite sides of the bed along the same wall, keeping the bed between them and nightstand-0 against the wall. Place the wardrobe along another wall, preserving access to its doors and circulation around the bed. Center the carpet in front of the bed to soften the walking area without adding furniture to the middle of this compact room.
+
+bed-0 | edge
+wardrobe-0 | edge | side of, bed-0
+nightstand-0 | edge | left of, bed-0
+nightstand-1 | edge | right of, bed-0 | center aligned, nightstand-0
+carpet-0 | middle | in front of, bed-0 | center aligned, bed-0
+Number of solutions found: 27
+room 271: ok missing=1 on_rule=0 18s 2 calls
+plan for living room: Use the sofa as the main anchor along a wall, with the TV cabinet against the opposite wall and facing the seating area. Keep the refrigerator, wine cabinet, and entrance cabinet along the perimeter to preserve open circulation through the spacious room. Position the wine cabinet near the refrigerator for a convenient refreshment zone. Use one carpet to define the seating area and the other to mark the entrance area.
+
+sofa-0 | edge
+tv cabinet-0 | edge | far, sofa-0 | in front of, sofa-0 | center aligned, sofa-0 | face to, sofa-0
+refrigerator-0 | edge | far, sofa-0 | side of, tv cabinet-0
+wine cabinet-0 | edge | near, refrigerator-0 | side of, refrigerator-0
+entrance cabinet-0 | edge | far, sofa-0 | far, refrigerator-0
+carpet-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0
+carpet-1 | edge | near, entrance cabinet-0 | in front of, entrance cabinet-0 | center aligned, entrance cabinet-0 | far, carpet-0
+Number of solutions found: 9
+room 272: ok missing=2 on_rule=2 28s 2 calls
+plan for kitchen: Place the cupboard against a wall, preferably along a 100 cm end wall if its width allows, to preserve usable space in the narrow kitchen. As the only object, it serves as the anchor and needs no constraints referencing other objects.
+
+cupboard-0 | edge
+Number of solutions found: 22
+room 273: ok missing=0 on_rule=0 13s 2 calls
+plan for living room: Place the sofa against a wall as the main anchor, with cabinet-1 along the opposite wall facing the sofa. Keep cabinet-0 against a side wall to preserve open floor space. Place the table centrally in front of the sofa, within easy reach. Because constraints can reference only previously placed objects, anchor cabinet-1 first so the sofa can explicitly face it.
+
+cabinet-1 | edge
+sofa-0 | edge | far, cabinet-1 | center aligned, cabinet-1 | face to, cabinet-1
+cabinet-0 | edge | far, cabinet-1 | side of, sofa-0
+table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0
+Number of solutions found: 25
+room 275: ok missing=0 on_rule=0 17s 2 calls
+plan for bedroom: Use the bed as the anchor against a wall. Keep the cabinet against a wall near the foot end of the room, and place the desk along a wall beside the bed. Reserve the central space for access and the chair, which should face the desk. In this compact room, choose shallow furniture and a chair that can tuck under the desk.
+
+bed-0 | edge
+cabinet-0 | edge | in front of, bed-0
+desk-0 | edge | side of, bed-0
+chair-0 | middle | around, desk-0 | near, desk-0 | face to, desk-0
+Number of solutions found: 23
+room 276: ok missing=0 on_rule=0 28s 2 calls
+plan for bathroom: Place the cabinet against a wall to keep the center of the compact bathroom open and maximize usable floor space.
+
+cabinet-0 | edge
+Number of solutions found: 30
+
+wall object constraint plan for bathroom:
+cabinet-1 | above, cabinet-0 | 140
+room 281: ok missing=0 on_rule=0 21s 3 calls
+plan for bathroom: Place the cabinet against a wall to preserve open floor space. However, the stated room dimensions of 0 cm × 100 cm leave no usable floor area, so the room width must be corrected before placement is possible.
+
+cabinet-0 | edge
+Number of solutions found: 5
+room 283: ok missing=0 on_rule=0 15s 2 calls
+plan for living room: Place the cabinet against a wall as the anchor, then position the sofa along the opposite wall, facing and centered on the cabinet. This keeps the larger pieces at the edges and preserves an open center. Place the table in front of the sofa, within easy reach and aligned with the seating area.
+
+cabinet-0 | edge
+sofa-0 | edge | far, cabinet-0 | in front of, cabinet-0 | center aligned, cabinet-0 | face to, cabinet-0
+table-0 | middle | near, sofa-0 | in front of, sofa-0 | center aligned, sofa-0
+Number of solutions found: 9
+room 287: ok missing=0 on_rule=0 15s 2 calls
+plan for kitchen: Place the refrigerator against a wall, preferably at one end of the narrow kitchen to preserve access and usable floor space. Ensure sufficient clearance for ventilation and door opening.
+
+refrigerator-0 | edge
+Number of solutions found: 24
+room 288: ok missing=0 on_rule=0 12s 2 calls
+plan for store room: Keep both objects along the room’s edges to preserve as much open space as possible in the compact 200 × 200 cm room. Use the cabinet as the anchor so the bed can explicitly face it, leaving clearance between them for cabinet access.
+
+cabinet-0 | edge
+bed-0 | edge | face to, cabinet-0
+Number of solutions found: 30
+room 292: ok missing=0 on_rule=0 21s 3 calls
+plan for living room: Use table-1 as the main conversation table, with sofa-0 facing it. Place table-0 against the wall behind the sofa, so the sofa sits between the two tables. This requires the sofa to float away from the wall; keep the chairs near the room’s edges where possible, facing table-1 to complete the seating group.
+
+table-1 | middle
+sofa-0 | middle | near, table-1 | right of, table-1 | face to, table-1
+table-0 | edge | near, sofa-0 | right of, sofa-0
+chair-0 | edge | around, table-1 | near, table-1 | face to, table-1
+chair-1 | edge | around, table-1 | near, table-1 | face to, table-1 | far, chair-0
+Number of solutions found: 30
+room 295: ok missing=0 on_rule=0 41s 2 calls

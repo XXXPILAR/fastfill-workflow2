@@ -1,0 +1,36 @@
+{
+ "task_description": "a balcony of about 2.0m x 2.0m containing exactly the listed assets",
+ "layout_criteria": "place every listed asset inside the room without overlaps; the layout should be functional and follow common sense. the room has a door 1.02 m wide centred at (2.00, 1.23) (keep the floor in front of it clear); a window 1.48 m wide centred at (1.00, 2.00). the throw pillow (o0003) should be on top of the balcony storage bench (o0002). the balcony storage bench (o0002) should be against a wall. the balcony floor lantern (o0004) should be within 0.20 m of the balcony storage bench (o0002)",
+ "boundary": {
+  "floor_vertices": [
+   [
+    0.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.0,
+    0.0,
+    0.0
+   ],
+   [
+    2.0,
+    2.0,
+    0.0
+   ],
+   [
+    0.0,
+    2.0,
+    0.0
+   ]
+  ],
+  "wall_height": 3.0
+ },
+ "assets": {
+  "o0000-0": {},
+  "o0001-0": {},
+  "o0002-0": {},
+  "o0003-0": {},
+  "o0004-0": {}
+ }
+}

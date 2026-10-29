@@ -1,0 +1,502 @@
+{
+ "floor": [
+  {
+   "assetId": "pantry base cabinet-0",
+   "id": "pantry base cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.7,
+    "y": 0.45,
+    "z": 5.695
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     350.0,
+     604.5
+    ],
+    [
+     350.0,
+     534.5
+    ],
+    [
+     190.0,
+     534.5
+    ],
+    [
+     190.0,
+     604.5
+    ]
+   ],
+   "object_name": "pantry base cabinet-0"
+  },
+  {
+   "assetId": "restroom vanity counter-0",
+   "id": "restroom vanity counter-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.7,
+    "y": 0.425,
+    "z": 0.305
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     365.0,
+     -4.5
+    ],
+    [
+     365.0,
+     65.5
+    ],
+    [
+     175.0,
+     65.5
+    ],
+    [
+     175.0,
+     -4.5
+    ]
+   ],
+   "object_name": "restroom vanity counter-0"
+  },
+  {
+   "assetId": "toilet suite-0",
+   "id": "toilet suite-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.645,
+    "y": 0.4,
+    "z": 1.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     324.5,
+     95.0
+    ],
+    [
+     324.5,
+     145.0
+    ],
+    [
+     404.5,
+     145.0
+    ],
+    [
+     404.5,
+     95.0
+    ]
+   ],
+   "object_name": "toilet suite-0"
+  },
+  {
+   "assetId": "toilet suite-1",
+   "id": "toilet suite-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.645,
+    "y": 0.4,
+    "z": 1.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     324.5,
+     155.0
+    ],
+    [
+     324.5,
+     205.0
+    ],
+    [
+     404.5,
+     205.0
+    ],
+    [
+     404.5,
+     155.0
+    ]
+   ],
+   "object_name": "toilet suite-1"
+  },
+  {
+   "assetId": "toilet suite-2",
+   "id": "toilet suite-2 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.645,
+    "y": 0.4,
+    "z": 2.4
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     324.5,
+     215.0
+    ],
+    [
+     324.5,
+     265.0
+    ],
+    [
+     404.5,
+     265.0
+    ],
+    [
+     404.5,
+     215.0
+    ]
+   ],
+   "object_name": "toilet suite-2"
+  },
+  {
+   "assetId": "pantry undercounter fridge-0",
+   "id": "pantry undercounter fridge-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.5,
+    "y": 0.425,
+    "z": 5.695
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     185.0,
+     604.5
+    ],
+    [
+     185.0,
+     534.5
+    ],
+    [
+     115.0,
+     534.5
+    ],
+    [
+     115.0,
+     604.5
+    ]
+   ],
+   "object_name": "pantry undercounter fridge-0"
+  }
+ ],
+ "wall": [
+  {
+   "assetId": "restroom mirror panel-0",
+   "id": "restroom mirror panel-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.7,
+    "y": 1.5,
+    "z": 0.025
+   },
+   "rotation": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     330.0,
+     0.0
+    ],
+    [
+     330.0,
+     3.0
+    ],
+    [
+     210.0,
+     3.0
+    ],
+    [
+     210.0,
+     0.0
+    ],
+    [
+     330.0,
+     0.0
+    ]
+   ],
+   "object_name": "restroom mirror panel-0"
+  },
+  {
+   "assetId": "pantry open shelf-0",
+   "id": "pantry open shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 1.6,
+    "y": 1.825,
+    "z": 5.84
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     205.0,
+     570.0
+    ],
+    [
+     205.0,
+     600.0
+    ],
+    [
+     115.0,
+     600.0
+    ],
+    [
+     115.0,
+     570.0
+    ],
+    [
+     205.0,
+     570.0
+    ]
+   ],
+   "object_name": "pantry open shelf-0"
+  },
+  {
+   "assetId": "pantry notice board-0",
+   "id": "pantry notice board-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.03,
+    "y": 1.65,
+    "z": 2.8
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     4.0,
+     245.0
+    ],
+    [
+     4.0,
+     315.0
+    ],
+    [
+     0.0,
+     315.0
+    ],
+    [
+     0.0,
+     245.0
+    ],
+    [
+     4.0,
+     245.0
+    ]
+   ],
+   "object_name": "pantry notice board-0"
+  },
+  {
+   "assetId": "restroom wall shelf-0",
+   "id": "restroom wall shelf-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 0.06999999999999999,
+    "y": 1.9,
+    "z": 1.3
+   },
+   "rotation": {
+    "x": 0,
+    "y": 90,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     12.0,
+     100.0
+    ],
+    [
+     12.0,
+     160.0
+    ],
+    [
+     0.0,
+     160.0
+    ],
+    [
+     0.0,
+     100.0
+    ],
+    [
+     12.0,
+     100.0
+    ]
+   ],
+   "object_name": "restroom wall shelf-0"
+  },
+  {
+   "assetId": "pantry wall cabinet-0",
+   "id": "pantry wall cabinet-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 2.8,
+    "y": 2.05,
+    "z": 5.83
+   },
+   "rotation": {
+    "x": 0,
+    "y": 180,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     302.5,
+     568.0
+    ],
+    [
+     302.5,
+     600.0
+    ],
+    [
+     257.5,
+     600.0
+    ],
+    [
+     257.5,
+     568.0
+    ],
+    [
+     302.5,
+     568.0
+    ]
+   ],
+   "object_name": "pantry wall cabinet-0"
+  },
+  {
+   "assetId": "hand dryer unit-0",
+   "id": "hand dryer unit-0 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.9000000000000004,
+    "y": 1.175,
+    "z": 4.5
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     400.0,
+     435.0
+    ],
+    [
+     400.0,
+     465.0
+    ],
+    [
+     382.0,
+     465.0
+    ],
+    [
+     382.0,
+     435.0
+    ],
+    [
+     400.0,
+     435.0
+    ]
+   ],
+   "object_name": "hand dryer unit-0"
+  },
+  {
+   "assetId": "hand dryer unit-1",
+   "id": "hand dryer unit-1 (room|0)",
+   "kinematic": true,
+   "position": {
+    "x": 3.9000000000000004,
+    "y": 1.175,
+    "z": 1.2
+   },
+   "rotation": {
+    "x": 0,
+    "y": 270,
+    "z": 0
+   },
+   "material": null,
+   "roomId": "room|0",
+   "vertices": [
+    [
+     400.0,
+     105.0
+    ],
+    [
+     400.0,
+     135.0
+    ],
+    [
+     382.0,
+     135.0
+    ],
+    [
+     382.0,
+     105.0
+    ],
+    [
+     400.0,
+     105.0
+    ]
+   ],
+   "object_name": "hand dryer unit-1"
+  }
+ ]
+}
