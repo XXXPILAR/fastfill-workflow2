@@ -103,12 +103,43 @@ def chat(messages, attempts=10, timeout=600):
         time.sleep(min(120., 5. * 2 ** attempt))
 
 
+def _read_chat(response):
+    """(text, finish_reason, usage, error) of a chat completions answer, streamed or not (same as Fastfill
+    workflow2's workflow/llm.py read_chat; written out here, the baseline environments cannot import it)."""
+    kind = response.headers.get("Content-Type") or ""
+    if "event-stream" not in kind:
+        a = json.loads(response.read())
+        choice = (a.get("choices") or [{}])[0]
+        return ((choice.get("message") or {}).get("content") or "", choice.get("finish_reason"), a.get("usage"),
+                a.get("error") if not a.get("choices") else None)
+    parts, finish, usage, error = [], None, None, None
+    for raw in response:
+        line = raw.decode("utf-8", "replace").strip()
+        if not line.startswith("data:"):
+            continue
+        data = line[5:].strip()
+        if data == "[DONE]":
+            break
+        event = json.loads(data)
+        if event.get("error") or event.get("type") == "error":
+            error = event.get("error") or event
+        if event.get("usage"):
+            usage = event["usage"]
+        for choice in event.get("choices") or []:
+            parts.append((choice.get("delta") or {}).get("content") or "")
+            finish = choice.get("finish_reason") or finish
+    return "".join(parts), finish, usage, error
+
+
 def _chat_completions(messages, attempts, timeout):
     """WORKFLOW_LLM_ATTEMPTS (0 = until it succeeds) overrides ``attempts`` for transient problems (busy, rate limit,
     5xx, dropped connection, an answer without text); a rejected key / no access / unknown model raises at once."""
     attempts = int(os.environ.get("WORKFLOW_LLM_ATTEMPTS", attempts))
+    # streamed: the relay's gateway cuts a request off after 60 s without a byte (HTTP 504), so an answer that takes
+    # minutes (a large room) only arrives streamed; the request and what the model writes are otherwise the same
     body = {"model": os.environ["OPENAI_MODEL"], "messages": messages,
-            "reasoning_effort": os.environ.get("BASELINE_REASONING_EFFORT", "medium")}
+            "reasoning_effort": os.environ.get("BASELINE_REASONING_EFFORT", "medium"),
+            "stream": True, "stream_options": {"include_usage": True}}
     data = json.dumps(body).encode()
     problem, attempt = None, -1
     while True:
@@ -121,11 +152,12 @@ def _chat_completions(messages, attempts, timeout):
         try:
             req = urllib.request.Request(os.environ["OPENAI_BASE_URL"].rstrip("/") + "/chat/completions", data=data, headers={
                 "Content-Type": "application/json", "Authorization": "Bearer " + os.environ["OPENAI_API_KEY"], "User-Agent": USER_AGENT})
-            a = json.loads(urllib.request.urlopen(req, timeout=timeout).read())
-            choice = (a.get("choices") or [{}])[0]
-            text = (choice.get("message") or {}).get("content") or ""
-            if choice.get("finish_reason") == "stop" and text:
-                u = a.get("usage") or {}
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                text, finish, u, error = _read_chat(response)
+            a = {"error": error} if error else {}
+            choice = {"finish_reason": finish}
+            if finish == "stop" and text and not error:
+                u = u or {}
                 usage = {"prompt_tokens": u.get("prompt_tokens"), "completion_tokens": u.get("completion_tokens"),
                          "total_tokens": u.get("total_tokens"),
                          "prompt_tokens_details": {"cached_tokens": (u.get("prompt_tokens_details") or {}).get("cached_tokens")},

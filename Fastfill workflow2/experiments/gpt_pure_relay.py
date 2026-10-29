@@ -35,7 +35,10 @@ def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=None):
     import http.client, urllib.error, urllib.request
     if attempts is None:  # WORKFLOW_LLM_ATTEMPTS: 0 = until it succeeds (busy / rate limit / 5xx / dropped connection)
         attempts = int(os.environ.get("WORKFLOW_LLM_ATTEMPTS", "8"))
-    body = json.dumps({**request_parameters(env, model), "messages": messages}).encode()
+    # streamed (llm.read_chat): the relay's gateway cuts an unstreamed answer off after 60 s (HTTP 504), which every
+    # large room's answer exceeds; the request is otherwise llm_structured.chat's
+    body = json.dumps({**request_parameters(env, model), "messages": messages, "stream": True,
+                       "stream_options": {"include_usage": True}}).encode()
     problem, attempt = None, -1
     while True:
         attempt += 1
@@ -48,12 +51,12 @@ def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=None):
             "Content-Type": "application/json", "Authorization": f"Bearer {env['OPENAI_API_KEY']}", "User-Agent": USER_AGENT})
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
-                answer = json.loads(response.read())
-            if answer.get("choices"):
-                if answer.get("usage"):
-                    usage.append(answer["usage"])
-                return answer["choices"][0]["message"]["content"]
-            problem = answer.get("error") or answer
+                text, finish, used, error = llm.read_chat(response)
+            if text and finish == "stop" and not error:
+                if used:
+                    usage.append(used)
+                return text
+            problem = error or f"finish_reason {finish}"
         except urllib.error.HTTPError as error:
             if error.code not in (408, 409, 425, 429) and error.code < 500:
                 raise

@@ -83,6 +83,36 @@ def _usage(raw: dict | None) -> dict:
             "completion_tokens_details": {"reasoning_tokens": (raw.get("output_tokens_details") or {}).get("reasoning_tokens")}}
 
 
+def read_chat(response) -> tuple[str, str | None, dict | None, object]:
+    """(text, finish_reason, usage, error) of a chat completions answer, streamed (server-sent events) or not. The
+    relay's gateway cuts a request off after 60 s without a byte (HTTP 504; 2026-10-29), so a large room's answer,
+    which takes minutes, only arrives streamed: the model and what it writes are the same, only the transport differs.
+    A busy relay may answer with one JSON error object instead of events."""
+    kind = (response.headers.get("Content-Type") or "") if hasattr(response, "headers") else ""
+    if "event-stream" not in kind:
+        answer = json.loads(response.read())
+        choice = (answer.get("choices") or [{}])[0]
+        return ((choice.get("message") or {}).get("content") or "", choice.get("finish_reason"),
+                answer.get("usage"), answer.get("error") if not answer.get("choices") else None)
+    parts, finish, usage, error = [], None, None, None
+    for raw in response:
+        line = raw.decode("utf-8", "replace").strip()
+        if not line.startswith("data:"):
+            continue
+        data = line[5:].strip()
+        if data == "[DONE]":
+            break
+        event = json.loads(data)
+        if event.get("error") or event.get("type") == "error":
+            error = event.get("error") or event
+        if event.get("usage"):
+            usage = event["usage"]
+        for choice in event.get("choices") or []:
+            parts.append((choice.get("delta") or {}).get("content") or "")
+            finish = choice.get("finish_reason") or finish
+    return "".join(parts), finish, usage, error
+
+
 def _chat_usage(raw: dict | None) -> dict:
     raw = raw or {}
     return {"prompt_tokens": raw.get("prompt_tokens"), "completion_tokens": raw.get("completion_tokens"),
@@ -116,7 +146,7 @@ def ask(instructions: str, prompt: str, *, model: str | None = None, base_url: s
     effort = reasoning_effort or os.environ.get("WORKFLOW_REASONING_EFFORT", "medium")
     relay = urlparse(base_url).hostname in RELAY_HOSTS
     if relay:  # chat completions: no hidden system prompt on the relay
-        body = {"model": model, "reasoning_effort": effort,
+        body = {"model": model, "reasoning_effort": effort, "stream": True, "stream_options": {"include_usage": True},
                 "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": prompt}]}
         url = base_url.rstrip("/") + "/chat/completions"
     else:
@@ -136,12 +166,14 @@ def ask(instructions: str, prompt: str, *, model: str | None = None, base_url: s
             request = urllib.request.Request(url, data, {"Authorization": f"Bearer {api_key}",
                                                          "Content-Type": "application/json", "User-Agent": USER_AGENT})
             with urllib.request.urlopen(request, timeout=timeout_s) as response:
-                answer = json.load(response)
+                if relay:  # streamed: see read_chat
+                    text, finish, raw_usage, error = read_chat(response)
+                    answer = {"error": error} if error else {"incomplete_details": f"finish_reason {finish}"}
+                else:
+                    answer = json.load(response)
             if relay:
-                choice = (answer.get("choices") or [{}])[0]
-                text = (choice.get("message") or {}).get("content") or ""
-                usage = _chat_usage(answer.get("usage"))
-                done = choice.get("finish_reason") == "stop"
+                usage = _chat_usage(raw_usage)
+                done = finish == "stop" and not error
             else:
                 text = _text(answer)
                 usage = _usage(answer.get("usage"))
