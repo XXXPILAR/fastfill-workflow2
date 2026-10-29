@@ -21,6 +21,7 @@ latency, failed attempts and the last problem. The key and the request headers a
 
 from __future__ import annotations
 
+import http.client
 import json
 import os
 import threading
@@ -161,7 +162,8 @@ def ask(instructions: str, prompt: str, *, model: str | None = None, base_url: s
                 raise FatalAPIError(f"OpenAI rejected the request: HTTP {exc.code} {detail[:160]!r}") from None
             if exc.code == 400 and not any(w in detail.lower() for w in (b"busy", b"overload", b"upstream", b"try again")):
                 break  # this request is malformed (e.g. too long): retrying will not help
-        except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError, http.client.HTTPException) as exc:
+            # HTTPException: the relay dropped the connection while the answer was being read (IncompleteRead)
             problem = f"{type(exc).__name__}: {exc}"
         time.sleep(min(120., 5. * 2 ** min(attempt, 5)))
     _log({"model": model, "instructions": instructions, "prompt": prompt, "ok": False,

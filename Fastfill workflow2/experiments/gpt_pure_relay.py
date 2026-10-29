@@ -32,7 +32,7 @@ def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=None):
     an answer without ``choices`` is retried like a dropped connection. The relay sometimes answers HTTP 200 with
     {"type": "error", "error": {"type": "upstream_error", "message": "Our servers are currently busy..."}}, on which
     llm_structured.chat raised KeyError('choices') at once (2026-10-29)."""
-    import urllib.error, urllib.request
+    import http.client, urllib.error, urllib.request
     if attempts is None:  # WORKFLOW_LLM_ATTEMPTS: 0 = until it succeeds (busy / rate limit / 5xx / dropped connection)
         attempts = int(os.environ.get("WORKFLOW_LLM_ATTEMPTS", "8"))
     body = json.dumps({**request_parameters(env, model), "messages": messages}).encode()
@@ -58,7 +58,8 @@ def chat(env, model, messages, *, limiter, usage, timeout=300., attempts=None):
             if error.code not in (408, 409, 425, 429) and error.code < 500:
                 raise
             problem = f"HTTP {error.code}"
-        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError, ValueError) as error:
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError, ValueError,
+                http.client.HTTPException) as error:  # HTTPException: an answer cut off while read (IncompleteRead)
             problem = error
         time.sleep(min(120., 5. * 2 ** min(attempt, 5)))
 
