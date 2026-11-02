@@ -55,6 +55,19 @@
 | `server_runs/test300-v4/` | FastFill base/D/E 在 test300 上的输出（spread 解码），workflow 从这里读家具尺寸，也作为"FastFill 纯跑"基线 |
 | `related work code/baselines/` | related work 基线（LayoutGPT、Holodeck、LayoutVLM、I-Design、DirectLayout）的适配脚本 `adapters/`、仓库版本 `SOURCES.txt`（新增了 LaviGen 和 RoboLayout，只用 `fetch_baselines.sh` 拉取，不放进仓库）、之前的完整运行结果 `runs/full_agentsize/` 和 `runs/exp150_g61/`（LayoutVLM 的资产和渲染图没有放进来） |
 
+## FastFill 模型权重
+
+实验用的尺寸模型是 **FastFill 1.7B 全量微调（v4detail，model-step-4500）**，公开在 HuggingFace：
+https://huggingface.co/XXXpilar/fastfill-v4detail-1.7b-full （约 6.9 GB）。
+
+```bash
+hf download XXXpilar/fastfill-v4detail-1.7b-full --local-dir runs-hf
+mkdir -p runs && mv runs-hf/main4-cell05-v4detail-e5-1.7b-all-full runs/
+# 然后：run_draft.py --checkpoint ../runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500 --device cuda
+```
+
+不想在本机跑模型的话，可以直接用仓库里已经算好的尺寸（各实验目录下的 `fastfill/1.7b-all-full/predictions_spread.jsonl`，传给 `--sizes-file`）。
+
 ## 在服务器上准备
 
 ```bash
