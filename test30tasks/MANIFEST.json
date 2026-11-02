@@ -1,0 +1,319 @@
+{
+ "base_rows": "../test150detail/rows.jsonl",
+ "base_sha256": "e86df753e279386e172265c31d50439bbea3a41171872f6052c4d5195cd4e593",
+ "tasks_sha256": "90caf954bef7f7a7ee2ac54b6ec51141f51e98f0a883cd875d25bc383ec9dc47",
+ "rows_sha256": "9ec104e72cb281df6ca86efcb6750885b38bee31bb54af5114e54fb16d34296e",
+ "summary": {
+  "rooms": 30,
+  "tasks": 86,
+  "objects": 2248,
+  "required": 204,
+  "expansion": 2044,
+  "articulation": 28,
+  "supports_added": 0,
+  "required_constraints": 22,
+  "expansion_constraints": 61
+ },
+ "rooms": [
+  {
+   "row": 0,
+   "base_index": 16,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 8,
+   "required": 3,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 1,
+   "base_index": 48,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 8,
+   "required": 5,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 2,
+   "base_index": 106,
+   "source": "SAGE-10k",
+   "room_type": "gym_fitness_center",
+   "objects": 94,
+   "required": 7,
+   "expansion": 87,
+   "tasks": 3
+  },
+  {
+   "row": 3,
+   "base_index": 108,
+   "source": "SAGE-10k",
+   "room_type": "conference room",
+   "objects": 142,
+   "required": 7,
+   "expansion": 135,
+   "tasks": 3
+  },
+  {
+   "row": 4,
+   "base_index": 110,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 130,
+   "required": 10,
+   "expansion": 120,
+   "tasks": 3
+  },
+  {
+   "row": 5,
+   "base_index": 111,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 102,
+   "required": 8,
+   "expansion": 94,
+   "tasks": 3
+  },
+  {
+   "row": 6,
+   "base_index": 113,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 24,
+   "required": 6,
+   "expansion": 18,
+   "tasks": 3
+  },
+  {
+   "row": 7,
+   "base_index": 115,
+   "source": "SAGE-10k",
+   "room_type": "living room",
+   "objects": 58,
+   "required": 6,
+   "expansion": 52,
+   "tasks": 2
+  },
+  {
+   "row": 8,
+   "base_index": 116,
+   "source": "SAGE-10k",
+   "room_type": "waiting room",
+   "objects": 123,
+   "required": 9,
+   "expansion": 114,
+   "tasks": 3
+  },
+  {
+   "row": 9,
+   "base_index": 120,
+   "source": "SAGE-10k",
+   "room_type": "children's bedroom",
+   "objects": 87,
+   "required": 6,
+   "expansion": 81,
+   "tasks": 3
+  },
+  {
+   "row": 10,
+   "base_index": 125,
+   "source": "SAGE-10k",
+   "room_type": "dining room",
+   "objects": 117,
+   "required": 8,
+   "expansion": 109,
+   "tasks": 3
+  },
+  {
+   "row": 11,
+   "base_index": 126,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 104,
+   "required": 6,
+   "expansion": 98,
+   "tasks": 3
+  },
+  {
+   "row": 12,
+   "base_index": 127,
+   "source": "SAGE-10k",
+   "room_type": "corridor",
+   "objects": 56,
+   "required": 6,
+   "expansion": 50,
+   "tasks": 2
+  },
+  {
+   "row": 13,
+   "base_index": 128,
+   "source": "SAGE-10k",
+   "room_type": "locker_room",
+   "objects": 76,
+   "required": 6,
+   "expansion": 70,
+   "tasks": 3
+  },
+  {
+   "row": 14,
+   "base_index": 129,
+   "source": "SAGE-10k",
+   "room_type": "office",
+   "objects": 58,
+   "required": 9,
+   "expansion": 49,
+   "tasks": 3
+  },
+  {
+   "row": 15,
+   "base_index": 130,
+   "source": "SAGE-10k",
+   "room_type": "grocery_store",
+   "objects": 131,
+   "required": 9,
+   "expansion": 122,
+   "tasks": 3
+  },
+  {
+   "row": 16,
+   "base_index": 131,
+   "source": "SAGE-10k",
+   "room_type": "laundromat",
+   "objects": 104,
+   "required": 5,
+   "expansion": 99,
+   "tasks": 3
+  },
+  {
+   "row": 17,
+   "base_index": 133,
+   "source": "SAGE-10k",
+   "room_type": "computer_lab",
+   "objects": 69,
+   "required": 7,
+   "expansion": 62,
+   "tasks": 3
+  },
+  {
+   "row": 18,
+   "base_index": 135,
+   "source": "SAGE-10k",
+   "room_type": "locker room",
+   "objects": 97,
+   "required": 6,
+   "expansion": 91,
+   "tasks": 3
+  },
+  {
+   "row": 19,
+   "base_index": 136,
+   "source": "SAGE-10k",
+   "room_type": "bathroom",
+   "objects": 29,
+   "required": 7,
+   "expansion": 22,
+   "tasks": 3
+  },
+  {
+   "row": 20,
+   "base_index": 138,
+   "source": "SAGE-10k",
+   "room_type": "office",
+   "objects": 107,
+   "required": 9,
+   "expansion": 98,
+   "tasks": 3
+  },
+  {
+   "row": 21,
+   "base_index": 139,
+   "source": "SAGE-10k",
+   "room_type": "children_room",
+   "objects": 40,
+   "required": 6,
+   "expansion": 34,
+   "tasks": 3
+  },
+  {
+   "row": 22,
+   "base_index": 141,
+   "source": "SAGE-10k",
+   "room_type": "living_room",
+   "objects": 66,
+   "required": 8,
+   "expansion": 58,
+   "tasks": 3
+  },
+  {
+   "row": 23,
+   "base_index": 142,
+   "source": "SAGE-10k",
+   "room_type": "conference room",
+   "objects": 80,
+   "required": 7,
+   "expansion": 73,
+   "tasks": 3
+  },
+  {
+   "row": 24,
+   "base_index": 144,
+   "source": "SAGE-10k",
+   "room_type": "warehouse",
+   "objects": 53,
+   "required": 5,
+   "expansion": 48,
+   "tasks": 3
+  },
+  {
+   "row": 25,
+   "base_index": 145,
+   "source": "SAGE-10k",
+   "room_type": "kitchen",
+   "objects": 34,
+   "required": 6,
+   "expansion": 28,
+   "tasks": 3
+  },
+  {
+   "row": 26,
+   "base_index": 146,
+   "source": "SAGE-10k",
+   "room_type": "living_room",
+   "objects": 35,
+   "required": 6,
+   "expansion": 29,
+   "tasks": 2
+  },
+  {
+   "row": 27,
+   "base_index": 147,
+   "source": "SAGE-10k",
+   "room_type": "living room",
+   "objects": 50,
+   "required": 8,
+   "expansion": 42,
+   "tasks": 3
+  },
+  {
+   "row": 28,
+   "base_index": 148,
+   "source": "SAGE-10k",
+   "room_type": "bathroom",
+   "objects": 37,
+   "required": 6,
+   "expansion": 31,
+   "tasks": 3
+  },
+  {
+   "row": 29,
+   "base_index": 149,
+   "source": "SAGE-10k",
+   "room_type": "delicatessen",
+   "objects": 129,
+   "required": 7,
+   "expansion": 122,
+   "tasks": 3
+  }
+ ]
+}

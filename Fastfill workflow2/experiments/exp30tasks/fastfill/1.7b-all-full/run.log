@@ -1,0 +1,33 @@
+Loading weights:   0%|          | 0/310 [00:00<?, ?it/s]Loading weights: 100%|██████████| 310/310 [00:00<00:00, 3722.59it/s]
+{"checkpoint": "/lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500", "backbone": "/lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/models/Qwen3-1.7B", "max_length": 32768, "max_objects": 512, "decode": "spread", "device": "cuda", "gpu": "NVIDIA GH200 120GB", "torch": "2.13.0+cu126", "cuda": "12.6", "python": "3.12.15", "host": "nid010079", "slurm_job": "7960294", "code_commit": null, "rows": "../test30tasks/rows.jsonl", "rows_sha256": "9ec104e72cb281df6ca86efcb6750885b38bee31bb54af5114e54fb16d34296e", "rooms": 30, "load_s": 19.81, "started": "2026-11-02 03:00:00"}
+1/30 room   0 objects   8   1613.1 ms warm-up
+2/30 room   1 objects   8     82.3 ms warm-up
+3/30 room   2 objects  94    654.9 ms
+4/30 room   3 objects 142   1350.6 ms
+5/30 room   4 objects 130   1345.5 ms
+6/30 room   5 objects 102    921.6 ms
+7/30 room   6 objects  24    157.8 ms
+8/30 room   7 objects  58    428.3 ms
+9/30 room   8 objects 123    933.7 ms
+10/30 room   9 objects  87    663.6 ms
+11/30 room  10 objects 117    893.1 ms
+12/30 room  11 objects 104    840.5 ms
+13/30 room  12 objects  56    349.8 ms
+14/30 room  13 objects  76    482.7 ms
+15/30 room  14 objects  58    387.8 ms
+16/30 room  15 objects 131   1238.0 ms
+17/30 room  16 objects 104    750.1 ms
+18/30 room  17 objects  69    446.1 ms
+19/30 room  18 objects  97    811.9 ms
+20/30 room  19 objects  29    179.8 ms
+21/30 room  20 objects 107   1116.3 ms
+22/30 room  21 objects  40    268.8 ms
+23/30 room  22 objects  66    452.7 ms
+24/30 room  23 objects  80    503.0 ms
+25/30 room  24 objects  53    339.5 ms
+26/30 room  25 objects  34    254.1 ms
+27/30 room  26 objects  35    256.0 ms
+28/30 room  27 objects  50    373.3 ms
+29/30 room  28 objects  37    254.8 ms
+30/30 room  29 objects 129   1118.3 ms
+{"rooms_ok": 30, "rooms_failed": 0, "seconds_total": 19.47, "seconds_median": 0.503, "seconds_max": 1.3506, "load_s": 19.81}

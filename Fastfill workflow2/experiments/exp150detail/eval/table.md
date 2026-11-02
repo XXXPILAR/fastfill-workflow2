@@ -1,0 +1,53 @@
+# exp150detail size ablation: 30 of 30 rooms (716 objects)
+
+exp150detail size ablation, evaluation (no LLM, no money): our main method on the rooms of rooms30.json (from
+test150detail, every object with its detailed description), with FastFill's sizes (ff_sizes) and without FastFill,
+GPT's placement call giving the complete draft with every size (gpt_draft), beside FastFill alone and the ground
+truth. Only rooms both runs finished are scored.
+
+Layout quality: exp150's checks (exp150/evaluate.py: legality, constraints, our robot checker, SceneEval,
+EmbodiedGen, rectangular base), here on test150detail's rows.
+Size error, per object: mean |log(size / ground-truth size)| over the three box dimensions, for
+  input sizes    what each run placed with: FastFill 1.7B full's prediction / the sizes of GPT's chosen draft
+                 (diagnostics.sizes); the train catalog's size (size_catalog.json) as the no-model reference
+  final sizes    the boxes of the final layout (step ④'s resize may shrink an object by up to 20 %)
+95 % intervals: 2,000 bootstrap resamples of the rooms (seed 0); "FastFill - GPT" is paired on the same objects.
+
+## Layout quality
+
+| metric | ground truth | FastFill alone (1.7B full) | ours, FastFill sizes | ours, GPT draft (no FastFill) |
+|---|---|---|---|---|
+| layouts | 30 | 30 | 30 | 30 |
+| objects placed % | 100.0 | 100.0 | 100.0 | 100.0 |
+| legal rooms % | 66.7 | 26.7 | 90.0 | 96.7 |
+| constraints % | 100.0 | 48.0 | 100.0 | 100.0 |
+| complete+legal+constraints rooms % | 66.7 | 6.7 | 90.0 | 96.7 |
+| …and robot ok (ours 0.5 m) % | 40.0 | 6.7 | 76.7 | 86.7 |
+| doors linked % | 94.4 | 61.1 | 100.0 | 100.0 |
+| work furniture reached % | 72.2 | 67.7 | 92.8 | 98.8 |
+| items in arm reach % | 54.6 | 74.5 | 96.1 | 90.4 |
+| doors/drawers open % | 65.3 | 62.0 | 97.9 | 100.0 |
+| SceneEval nav 0.5 m % | 96.1 | 95.7 | 98.9 | 99.5 |
+| SceneEval objects colliding % | 35.9 | 47.5 | 7.5 | 0.3 |
+| SceneEval out of bounds % | 2.4 | 1.8 | 11.0 | 1.5 |
+| EmbodiedGen largest free % | 94.1 | 94.1 | 98.3 | 99.3 |
+| EmbodiedGen roam ok rooms % | 100.0 | 100.0 | 100.0 | 100.0 |
+| rect base: furniture parked % | 70.8 | 38.5 | 85.5 | 90.5 |
+| rect base: items in 3D reach % | 57.2 | 51.9 | 95.7 | 82.8 |
+| rect base: rooms all reached % | 63.3 | 40.0 | 73.3 | 76.7 |
+| s / room (median) | – | 0.065 | 105.662 | 52.070 |
+| s / room (p90) | – | 0 | 369 | 157 |
+| LLM calls / room | – | 0.0 | 4.5 | 4.2 |
+| $ / room (est.) | – | 0.000 | 0.141 | 0.132 |
+
+## Size error
+
+| size source | objects | mean error (95 % CI) | median error | objects within 20 % (error < log 1.2) |
+|---|---|---|---|---|
+| FastFill (input) | 716 | 0.333 (0.247–0.401) | 0.224 | 41.5 % |
+| GPT draft (input) | 716 | 0.556 (0.435–0.660) | 0.394 | 19.1 % |
+| catalog | 716 | 0.481 (0.379–0.577) | 0.299 | 27.2 % |
+| ours, FastFill sizes (final) | 716 | 0.333 (0.247–0.401) | 0.224 | 41.5 % |
+| ours, GPT draft (final) | 716 | 0.556 (0.435–0.660) | 0.394 | 19.1 % |
+
+FastFill - GPT draft (input sizes), paired on 716 objects: -0.223 (95 % CI -0.267 to -0.175; negative: FastFill closer to the ground truth)

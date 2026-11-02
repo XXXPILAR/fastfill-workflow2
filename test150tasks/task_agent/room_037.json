@@ -1,0 +1,54 @@
+{
+ "room": 37,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:74929230-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"recreation room\", \"size_m\": [8.47, 6.81]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A simple white coffee table with a rectangular top and a lower shelf for storage. It has sturdy legs and a minimalist design.\"}, {\"id\": \"obj_0001\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A modern armchair with a minimalist design, featuring soft cushions and a rounded backrest. It has a light beige fabric upholstery that gives it a cozy appearance.\"}, {\"id\": \"obj_0002\", \"category\": \"shelf\", \"on\": \"floor\", \"description\": \"A wooden shelf unit with two levels, each consisting of slatted panels supported by vertical beams.\"}, {\"id\": \"obj_0003\", \"category\": \"lamp\", \"on\": \"floor\", \"description\": \"A modern floor lamp with a cylindrical shade and a thin stand.\"}, {\"id\": \"obj_0004\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A light-colored media console with a dark wooden top and multiple compartments, including drawers and open shelves.\"}, {\"id\": \"obj_0005\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A minimalist white table with a rectangular tabletop and four slender legs.\"}, {\"id\": \"obj_0006\", \"category\": \"rack\", \"on\": \"floor\", \"description\": \"A tall, industrial-style shelf with five wooden shelves supported by a black metal frame. The design features X-shaped braces for added stability.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 890,
+    "completion_tokens": 104,
+    "total_tokens": 994,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.00564,
+   "latency_s": 68.405,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Place a book you bring on the white coffee table's lower shelf.\",\"uses\":[\"obj_0000\"],\"articulation\":[]},{\"text\":\"Open a drawer in the media console and put a deck of cards you bring inside.\",\"uses\":[\"obj_0004\"],\"articulation\":[\"obj_0004\"]},{\"text\":\"Bring a bottle of water to someone sitting in the beige armchair.\",\"uses\":[\"obj_0001\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place a book you bring on the white coffee table's lower shelf.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open a drawer in the media console and put a deck of cards you bring inside.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": [
+    "obj_0004"
+   ]
+  },
+  {
+   "text": "Bring a bottle of water to someone sitting in the beige armchair.",
+   "uses": [
+    "obj_0001"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0056
+}

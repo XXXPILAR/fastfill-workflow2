@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from copy import deepcopy
 from pathlib import Path
@@ -47,9 +48,28 @@ def fill_room_defaults(condition: dict) -> tuple[dict, list[str]]:
     return condition, notes
 
 
-def check_request(condition: dict) -> dict:
-    """Validates the request and returns it with room defaults filled in (see ``fill_room_defaults``)."""
+def _bare(text: str) -> str:
+    return " ".join(text.lower().replace("_", " ").replace("-", " ").split())
+
+
+def missing_descriptions(condition: dict) -> list[str]:
+    """Ids of objects to place whose description is empty or only repeats the category name."""
+    return [obj["id"] for obj in condition["objects"]
+            if not _bare(obj.get("description") or "") or _bare(obj["description"]) == _bare(obj["category"])]
+
+
+def check_request(condition: dict, *, require_descriptions: bool | None = None) -> dict:
+    """Validates the request and returns it with room defaults filled in (see ``fill_room_defaults``).
+
+    Every object to place must carry its own description (more than its category name), as real requests do. The
+    older category-only test sets (test300 / exp150) are replayed with ``require_descriptions=False`` or, for whole
+    runs, the environment variable WORKFLOW_ALLOW_BARE_DESCRIPTIONS=1."""
     validate_condition(condition)
+    if require_descriptions is None:
+        require_descriptions = os.environ.get("WORKFLOW_ALLOW_BARE_DESCRIPTIONS") != "1"
+    if require_descriptions and (missing := missing_descriptions(condition)):
+        raise ValueError(f"{len(missing)} of {len(condition['objects'])} objects have no description beyond their "
+                         f"category (every object needs one): {missing[:10]}")
     condition, _ = fill_room_defaults(condition)
     room = condition["room"]
     forbidden = {"fixed_size_local_m", "size_bounds_local_m"}

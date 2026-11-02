@@ -1,0 +1,56 @@
+{
+ "room": 18,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:ba91a246-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"living dining room\", \"size_m\": [5.98, 11.59]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"dining table\", \"on\": \"floor\", \"description\": \"A modern dining table with a sleek design featuring a rectangular tabletop made of light-colored marble or stone with subtle veining. The table is supported by a sturdy black metal frame that includes a geometric pattern for added stability and\"}, {\"id\": \"obj_0001\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant dining chair with a dark blue upholstered seat and backrest, featuring a glossy black wooden frame with curved legs.\"}, {\"id\": \"obj_0002\", \"category\": \"children cabinet\", \"on\": \"floor\", \"description\": \"A wooden cabinet with a combination of light brown and gray panels. It features multiple drawers and doors, one of which has a yellow interior. There are framed pictures placed on top of the cabinet.\"}, {\"id\": \"obj_0003\", \"category\": \"three seat sofa\", \"on\": \"floor\", \"description\": \"A classic-style sofa with a dark gray fabric upholstery and a gold-colored trim along its base. It features a plush backrest and seat cushion, adorned with multiple decorative pillows in various colors and patterns, including teal, brown, and beige.\"}, {\"id\": \"obj_0004\", \"category\": \"floor standing speaker\", \"on\": \"floor\", \"description\": \"A tall, rectangular floor-standing speaker with a sleek design. It features a dark finish with a glossy panel in the center, likely for display or control purposes. The speaker has multiple grilles along its sides, indicating various audio components.\"}, {\"id\": \"obj_0005\", \"category\": \"loveseat sofa\", \"on\": \"floor\", \"description\": \"A modern blue sofa with two seat cushions and three backrest sections. It features wooden legs and is adorned with decorative pillows in various colors.\"}, {\"id\": \"obj_0006\", \"category\": \"side table\", \"on\": \"floor\", \"description\": \"A wooden end table with a rectangular top and curved legs. It features a single drawer with a simple handle.\"}, {\"id\": \"obj_0007\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant dining chair with a dark blue upholstered seat and backrest, featuring a glossy black wooden frame with curved legs.\"}, {\"id\": \"obj_0008\", \"category\": \"tv stand\", \"on\": \"floor\", \"description\": \"A sleek wooden media console with a flat top surface, two drawers in the center, and open shelves on both sides.\"}, {\"id\": \"obj_0009\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant dining chair with a dark blue upholstered seat and backrest, featuring a glossy black wooden frame with curved legs.\"}, {\"id\": \"obj_0010\", \"category\": \"wine cabinet\", \"on\": \"floor\", \"description\": \"A dark brown wooden bookcase with multiple shelves and cabinet doors at the bottom. It features decorative trim around the doors and shelves.\"}, {\"id\": \"obj_0011\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant dining chair with a dark blue upholstered seat and backrest, featuring a glossy black wooden frame with curved legs.\"}, {\"id\": \"obj_0012\", \"category\": \"coffee table\", \"on\": \"floor\", \"description\": \"A sleek, modern coffee table with an oval-shaped top and vertical slats along its sides. It has a glossy finish and is supported by short legs.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1321,
+    "completion_tokens": 106,
+    "total_tokens": 1427,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.007404,
+   "latency_s": 8.155,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Bring a book and place it on the oval coffee table.\",\"uses\":[\"obj_0012\"],\"articulation\":[]},{\"text\":\"Bring a cloth and put it inside the wooden side table's drawer.\",\"uses\":[\"obj_0006\"],\"articulation\":[\"obj_0006\"]},{\"text\":\"Bring a bottle and put it inside the dark brown wine cabinet's lower compartment.\",\"uses\":[\"obj_0010\"],\"articulation\":[\"obj_0010\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Bring a book and place it on the oval coffee table.",
+   "uses": [
+    "obj_0012"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Bring a cloth and put it inside the wooden side table's drawer.",
+   "uses": [
+    "obj_0006"
+   ],
+   "articulation": [
+    "obj_0006"
+   ]
+  },
+  {
+   "text": "Bring a bottle and put it inside the dark brown wine cabinet's lower compartment.",
+   "uses": [
+    "obj_0010"
+   ],
+   "articulation": [
+    "obj_0010"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0074
+}

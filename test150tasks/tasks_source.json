@@ -1,0 +1,3759 @@
+{
+ "author": "task agent: gpt-6.1-sol through experiments/task_agent.py, one call per room (retries 2), 2026-11-02",
+ "rule": "Each task names the objects it needs by id: the object handled, where it is now, where it goes, the furniture the robot works at, and what it must open (articulation). Those objects are required; every other object of the room is expansion.",
+ "instructions": "You are the task agent of a household robot. The robot is a mobile manipulator: a base 0.5 m wide that drives on the floor and one arm that reaches 0.85 m. The user message is JSON: a room (its type and size) and every object in it (id, category, what it stands on: \"floor\", \"wall\" or another object's id, and a description).\n\nWrite household tasks the robot could be asked to do in this room, using only these objects.\n\nAnswer with one JSON object only, no prose:\n{\"tasks\": [{\"text\": \"...\", \"uses\": [\"<id>\", ...], \"articulation\": [\"<id>\", ...]}]}\n\nRules:\n- Write 2 or 3 tasks. Each is one everyday instruction: take an object from one piece of furniture to another (a table, desk, shelf, counter, cabinet top, bed, sofa or seat), open furniture to put something in or take something out, or bring an object to someone on a seat or bed. Only small objects are picked up and carried (cups, books, bottles, food, toys, clothes, tools); furniture is never carried, it is where things are taken from, put on or put in, or what is opened. Do not move objects from the floor to the floor. No two tasks may be the same, and different tasks should use mostly different objects.\n- If the room has no small object to carry, a task may bring an item the robot carries in (name it in \"text\", do not list it in \"uses\") to a piece of furniture, or take an item out of furniture it opens.\n- \"text\": the instruction in at most 25 words, with just the words of each object's description that tell it apart from objects of the same category (a colour, a material, a shape or where it is).\n- \"uses\": the id of every object the task needs: what the robot picks up or operates, the object it now stands on, where it goes, and the furniture the robot must stand at. Only ids from the room; 1 to 6 per task.\n- \"articulation\": the ids, among \"uses\", of furniture the robot must open (doors, drawers, a lid, a fridge or washer door). Only furniture that has them, by its category or description; [] when nothing is opened.\n- Do not use wall decorations (art, frames, mirrors, signs, lights on walls) and do not invent objects.",
+ "rows": "../test150tasks/base_rows.jsonl",
+ "failed_rooms": [],
+ "rooms": [
+  {
+   "room": 0,
+   "tasks": [
+    {
+     "text": "Place the mug you are carrying on the dining table.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the refrigerator and take out a bottle.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 1,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the entryway organizer's gray shelf.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the cup you are carrying on the dining table.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 2,
+   "tasks": [
+    {
+     "text": "Open the sliding-door wardrobe, take out a folded garment, and place it on the bed.",
+     "uses": [
+      "obj_0003",
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    },
+    {
+     "text": "Place the book you are carrying on top of the chest with four drawers and metallic knobs.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 3,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the coffee table.",
+     "uses": [
+      "obj_0009"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the cup you are carrying on the dining table.",
+     "uses": [
+      "obj_0010"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 4,
+   "tasks": [
+    {
+     "text": "Bring a napkin to the round dining table.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a lower drawer of the dark brown chest and take out a tablecloth.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 5,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the round side table.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the wooden TV stand and put the napkins you are carrying inside.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": [
+      "obj_0001"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 6,
+   "tasks": [
+    {
+     "text": "Bring in a book and place it on the dining table.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring in a cup and place it on top of the sideboard.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 7,
+   "tasks": [
+    {
+     "text": "Place the book you brought in on the glossy black side table.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the dark gray wardrobe and put the folded shirt you brought in inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 8,
+   "tasks": [
+    {
+     "text": "Bring a book with you and place it on the dining table.",
+     "uses": [
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a water bottle with you and place it on top of the sideboard.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 9,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the square dining table.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the bottle of water you are carrying to someone sitting in the dark brown armchair.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 10,
+   "tasks": [
+    {
+     "text": "Place the book you bring on the glass-top coffee table.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the water bottle you carry to someone on the dark gray sofa.",
+     "uses": [
+      "obj_0014"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 11,
+   "tasks": [
+    {
+     "text": "Bring a book and place it on the coffee table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the dark brown TV stand and put a remote control inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 12,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the desk.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the blanket you are carrying on the X-backed lounge chair.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 13,
+   "tasks": [
+    {
+     "text": "Put the book you are carrying on the dark dining table.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the bottle you are carrying on the dark sideboard.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 14,
+   "tasks": [
+    {
+     "text": "Bring a book with you and place it on the dining table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a folded blanket with you and place it on a black dining chair.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 15,
+   "tasks": [
+    {
+     "text": "Place the book you're carrying on the table with the dark blue floral tablecloth.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the folded blanket you're carrying on the beige sofa.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 16,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the dining table.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the folded towel you are carrying on a black-cushioned dining chair.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 17,
+   "tasks": [
+    {
+     "text": "Bring a book to the navy blue sofa.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a white drawer in the black TV stand and put a spare remote inside.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    },
+    {
+     "text": "Place a cup on the black dining table.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 18,
+   "tasks": [
+    {
+     "text": "Bring a book and place it on the oval coffee table.",
+     "uses": [
+      "obj_0012"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a cloth and put it inside the wooden side table's drawer.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    },
+    {
+     "text": "Bring a bottle and put it inside the dark brown wine cabinet's lower compartment.",
+     "uses": [
+      "obj_0010"
+     ],
+     "articulation": [
+      "obj_0010"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 19,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the dressing table.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wheeled wardrobe and put the scarf you are carrying inside.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    },
+    {
+     "text": "Place the folded towel you are carrying on the metal-framed bed.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 20,
+   "tasks": [
+    {
+     "text": "Bring a book with you and place it on the desk.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a magazine with you and place it on the side table.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 21,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the deer-shaped bookcase.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wardrobe drawer and put the socks you are carrying inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 22,
+   "tasks": [
+    {
+     "text": "Place the book you're carrying on the TV stand's dark wooden top.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wardrobe's floral sliding doors and put the shirt you're carrying inside.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 23,
+   "tasks": [
+    {
+     "text": "Open a bottom drawer of the dark wardrobe and put a carried-in folded shirt inside.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    },
+    {
+     "text": "Place a carried-in book on the console table with X-shaped legs.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer of the dark wood dressing table and put a carried-in hairbrush inside.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 24,
+   "tasks": [
+    {
+     "text": "Put a shirt you bring in into a drawer of the dark brown dresser.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    },
+    {
+     "text": "Place a book you bring in on the wooden pedestal table.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 25,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the dining table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the keys you are carrying on the entryway organizer’s gray shelf.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 26,
+   "tasks": [
+    {
+     "text": "Take the book from the nightstand and put it in a desk drawer, opening the drawer first.",
+     "uses": [
+      "obj_0001",
+      "obj_0003"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    },
+    {
+     "text": "Move the dark brown pillow from the upholstered armchair to the white plastic lounge chair.",
+     "uses": [
+      "obj_0004",
+      "obj_0002"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 27,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the marble console table.",
+     "uses": [
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the folded towel you are carrying on a beige armchair.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 28,
+   "tasks": [
+    {
+     "text": "Bring a clean plate from outside the room and set it on the rectangular wooden dining table.",
+     "uses": [
+      "obj_0011"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a cup of water from outside the room and place it on the oval marble table.",
+     "uses": [
+      "obj_0007"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 29,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the black dining table.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wooden sideboard and put the cup you are carrying inside.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": [
+      "obj_0001"
+     ]
+    },
+    {
+     "text": "Open a drawer of the dark brown nightstand and put the socks you are carrying inside.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 30,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the sofa.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the cup you are carrying on the black coffee table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 31,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the desk.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wardrobe and put the folded shirt you are carrying inside.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 32,
+   "tasks": [
+    {
+     "text": "Place a book you bring in on the round wooden table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a bottle of water you carry in to someone seated in the brown armchair.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 33,
+   "tasks": [
+    {
+     "text": "Place the mug you bring in on the square table.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the book you bring in on the glass-top table.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 34,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the sofa.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the folded shirt you are carrying on the light gray armchair.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 35,
+   "tasks": [
+    {
+     "text": "Bring a book you are carrying and place it on the rectangular table.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the dark gray kitchen cabinet and put a cloth you are carrying inside.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    },
+    {
+     "text": "Bring a cushion you are carrying and place it on the light beige armchair.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 36,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the white desk.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Set the cup you are carrying on the marble coffee table.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 37,
+   "tasks": [
+    {
+     "text": "Place a book you bring on the white coffee table's lower shelf.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the media console and put a deck of cards you bring inside.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    },
+    {
+     "text": "Bring a bottle of water to someone sitting in the beige armchair.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 38,
+   "tasks": [
+    {
+     "text": "Pick up the striped towel and place it on the golden table.",
+     "uses": [
+      "obj_0001",
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the circular-door washing machine and put the striped towel inside.",
+     "uses": [
+      "obj_0001",
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 39,
+   "tasks": [
+    {
+     "text": "Place the detergent bottle you brought on the rectangular table.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the white filing cabinet and put the cleaning cloth you brought inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 40,
+   "tasks": [
+    {
+     "text": "Place the screwdriver you are carrying on the wooden desk.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the white drawer unit and put the work gloves you are carrying inside.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 41,
+   "tasks": [
+    {
+     "text": "Put the screwdriver you are carrying on the workbench.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the dark brown cabinet and put the cleaning cloth you are carrying inside.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 42,
+   "tasks": [
+    {
+     "text": "Put the small potted plant with yellow flowers on the round table.",
+     "uses": [
+      "obj_0004",
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wooden storage bench and put the beige lantern inside.",
+     "uses": [
+      "obj_0006",
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 43,
+   "tasks": [
+    {
+     "text": "Place the white ceramic potted succulents on the round table.",
+     "uses": [
+      "obj_0009",
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the vase with white flowers on the tufted bench.",
+     "uses": [
+      "obj_0012",
+      "obj_0007"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 44,
+   "tasks": [
+    {
+     "text": "Place the book you brought on the rattan armchair.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the cushion you brought on the metal-framed armchair.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 45,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the coffee table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the bottle you are carrying on a low shelf of the black shelf unit.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 46,
+   "tasks": [
+    {
+     "text": "Place the small potted plant with yellow flowers on the glass-top table.",
+     "uses": [
+      "obj_0001",
+      "obj_0008"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the small potted plant with yellow flowers on the wooden bench's lower shelf.",
+     "uses": [
+      "obj_0001",
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 47,
+   "tasks": [
+    {
+     "text": "Bring a cup you carry in to the glass coffee table.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a book you carry in to someone on the white-cushioned sofa.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 48,
+   "tasks": [
+    {
+     "text": "Place the magenta roses on the wooden side table.",
+     "uses": [
+      "obj_0007",
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the light brown pot of colorful flowers on the white-cushioned stool.",
+     "uses": [
+      "obj_0003",
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 49,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the rectangular coffee table.",
+     "uses": [
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the folded towel you are carrying on the cushioned bench.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 50,
+   "tasks": [
+    {
+     "text": "Place the dish towel you are carrying on the kitchen island countertop.",
+     "uses": [
+      "obj_0009"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the white fridge and put the water bottle you are carrying inside.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 51,
+   "tasks": [
+    {
+     "text": "Open the fridge, put the milk you are carrying inside, and close it.",
+     "uses": [
+      "obj_0013"
+     ],
+     "articulation": [
+      "obj_0013"
+     ]
+    },
+    {
+     "text": "Place the clean dish towel you are carrying on the dining table.",
+     "uses": [
+      "obj_0009"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 52,
+   "tasks": [
+    {
+     "text": "Put the bag of rice you bring in inside the white cabinet with a shelf above its doors.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    },
+    {
+     "text": "Place the mug you bring in on the white marble countertop of the dark wooden counter.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the white fridge and put the milk bottle you bring in inside.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 53,
+   "tasks": [
+    {
+     "text": "Open the refrigerator and put a bottle of juice inside.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    },
+    {
+     "text": "Place a clean towel on top of the two-door cabinet.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wooden bar cabinet's drawer and put a bottle opener inside.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 54,
+   "tasks": [
+    {
+     "text": "Bring a mug and place it on the black marble island countertop.",
+     "uses": [
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the white fridge and put a bottle of water inside.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 55,
+   "tasks": [
+    {
+     "text": "Put the milk you bring into the metallic refrigerator, opening and closing its door.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    },
+    {
+     "text": "Place the book you bring on the white dining table.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the dish towel you bring into a drawer of the black marble kitchen island.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 56,
+   "tasks": [
+    {
+     "text": "Place the mug you are carrying on the wooden countertop of the white sink cabinet.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the black fridge and put the milk you are carrying inside.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    },
+    {
+     "text": "Place the cookbook you are carrying in an open compartment of the asymmetrical shelf unit.",
+     "uses": [
+      "obj_0007"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 57,
+   "tasks": [
+    {
+     "text": "Open the white refrigerator and put the milk you are carrying inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    },
+    {
+     "text": "Place the mug you are carrying on the cabinet with the light wooden top.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 58,
+   "tasks": [
+    {
+     "text": "Place the mug you are carrying on the light wooden countertop.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the stainless steel refrigerator and put the milk you are carrying inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 59,
+   "tasks": [
+    {
+     "text": "Move the small potted plant with yellow flowers onto the circular table.",
+     "uses": [
+      "obj_0005",
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take a book from the wire mesh bookshelf and place it on the black-and-white desk.",
+     "uses": [
+      "obj_0004",
+      "obj_0008"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 60,
+   "tasks": [
+    {
+     "text": "Place the laptop on the desk.",
+     "uses": [
+      "obj_0004",
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the two-door cabinet and put the laptop inside.",
+     "uses": [
+      "obj_0004",
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 61,
+   "tasks": [
+    {
+     "text": "Place the geometric pyramid on the white coffee table.",
+     "uses": [
+      "obj_0005",
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the pink typewriter onto the wooden-top desk with metal legs.",
+     "uses": [
+      "obj_0008",
+      "obj_0003"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 62,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the white nightstand.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wardrobe and put the cardigan you are carrying inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    },
+    {
+     "text": "Open a drawer of the six-drawer dresser and put the socks you are carrying inside.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 63,
+   "tasks": [
+    {
+     "text": "Place the book you brought on the wooden nightstand.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer of the light wood dresser and put the shirt you brought inside.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    },
+    {
+     "text": "Place the cushion you brought on the mustard-yellow armchair.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 64,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the round table.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the white drawer unit and put the towel you are carrying inside its drawer.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 65,
+   "tasks": [
+    {
+     "text": "Bring a book you are carrying to the teal armchair.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer in the wooden dresser and put a shirt you are carrying inside.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": [
+      "obj_0001"
+     ]
+    },
+    {
+     "text": "Place a towel you are carrying on the wooden bed.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 66,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the round table.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the white wardrobe and put the sweater you are carrying inside.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    },
+    {
+     "text": "Open the dark wooden nightstand drawer and put the glasses you are carrying inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 67,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the armchair.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wooden nightstand’s drawer and put the clean towel you are carrying inside.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 68,
+   "tasks": [
+    {
+     "text": "Open a drawer of the wooden dresser and put the medicine bottle you brought inside.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    },
+    {
+     "text": "Place the book you brought on the green recliner.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 69,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the circular table.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer of the dark wooden dresser and put the socks you are carrying inside.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": [
+      "obj_0004"
+     ]
+    },
+    {
+     "text": "Bring the cup you are carrying to someone sitting in the teal armchair.",
+     "uses": [
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 70,
+   "tasks": [
+    {
+     "text": "Place the book you brought on the folding table.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer of the wooden nightstand and put the reading glasses you brought inside.",
+     "uses": [
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    },
+    {
+     "text": "Open the white wardrobe and put the cardigan you brought inside.",
+     "uses": [
+      "obj_0003"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 71,
+   "tasks": [
+    {
+     "text": "Place the book you are carrying on the nightstand.",
+     "uses": [
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the blanket you are carrying on the tufted armchair.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 72,
+   "tasks": [
+    {
+     "text": "Put the book you are carrying on the bookshelf.",
+     "uses": [
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a drawer of the wooden nightstand and put the socks you are carrying inside.",
+     "uses": [
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 73,
+   "tasks": [
+    {
+     "text": "Bring the phone with the bamboo accent strip from the nightstand to someone in the armchair.",
+     "uses": [
+      "obj_0027",
+      "obj_0030",
+      "obj_0003"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the notebook with bright green stitching from the desk to the coffee table.",
+     "uses": [
+      "obj_0084",
+      "obj_0032",
+      "obj_0094"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the nightstand drawer and put the amber drinking glass inside.",
+     "uses": [
+      "obj_0088",
+      "obj_0030"
+     ],
+     "articulation": [
+      "obj_0030"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 74,
+   "tasks": [
+    {
+     "text": "Move the rectangular hairdryer from the styling chair to the top of the pastel blue cabinet.",
+     "uses": [
+      "obj_0041",
+      "obj_0034",
+      "obj_0078"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the pastel blue cabinet and put the teal-handled hairbrush from its top inside.",
+     "uses": [
+      "obj_0078",
+      "obj_0090"
+     ],
+     "articulation": [
+      "obj_0078"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 75,
+   "tasks": [
+    {
+     "text": "Open the black-and-white cabinet and put the red water bottle from the wall-mounted shelf inside.",
+     "uses": [
+      "obj_0029",
+      "obj_0081",
+      "obj_0009"
+     ],
+     "articulation": [
+      "obj_0009"
+     ]
+    },
+    {
+     "text": "Move the clear plastic water bottle from the wall-mounted shelf onto the red-and-black weight bench.",
+     "uses": [
+      "obj_0070",
+      "obj_0014",
+      "obj_0010"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 76,
+   "tasks": [
+    {
+     "text": "Move the red-splash magazine from the hot pink stool onto the oak island.",
+     "uses": [
+      "obj_0015",
+      "obj_0043",
+      "obj_0054"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the squat blue and pink striped candle holder from the oak island onto the electric blue shelf.",
+     "uses": [
+      "obj_0008",
+      "obj_0054",
+      "obj_0005"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 77,
+   "tasks": [
+    {
+     "text": "Open the cabinet with star-shaped handles and put the dark brown notebook from the conference table inside.",
+     "uses": [
+      "obj_0050",
+      "obj_0024",
+      "obj_0021"
+     ],
+     "articulation": [
+      "obj_0050"
+     ]
+    },
+    {
+     "text": "Move the book with gilt corners from the rounded-corner coffee table to the straight-edged coffee table.",
+     "uses": [
+      "obj_0031",
+      "obj_0112",
+      "obj_0140"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 78,
+   "tasks": [
+    {
+     "text": "Move the leather-covered art book from the sideboard to the coffee table.",
+     "uses": [
+      "obj_0001",
+      "obj_0000",
+      "obj_0010"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the storage cabinet and put the pastel teal book from the coffee table inside.",
+     "uses": [
+      "obj_0060",
+      "obj_0002",
+      "obj_0010"
+     ],
+     "articulation": [
+      "obj_0060"
+     ]
+    },
+    {
+     "text": "Bring the cloth-covered book from the TV stand to someone on the sofa.",
+     "uses": [
+      "obj_0017",
+      "obj_0051",
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 79,
+   "tasks": [
+    {
+     "text": "Open the workbench drawer and put the screwdriver inside.",
+     "uses": [
+      "obj_0051",
+      "obj_0032"
+     ],
+     "articulation": [
+      "obj_0032"
+     ]
+    },
+    {
+     "text": "Take the dark brown leather-spined book from the folding table and put it in the rolling tool cart’s drawer.",
+     "uses": [
+      "obj_0050",
+      "obj_0002",
+      "obj_0071"
+     ],
+     "articulation": [
+      "obj_0071"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 80,
+   "tasks": [
+    {
+     "text": "Move the teal cup with the gold leaf rim from the bar to the coffee table with the brass inlay.",
+     "uses": [
+      "obj_0122",
+      "obj_0073",
+      "obj_0041"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the leather-bound book with gold floral borders from the curved-upper-edge bookshelf and place it on a polished walnut table.",
+     "uses": [
+      "obj_0037",
+      "obj_0024",
+      "obj_0103"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 81,
+   "tasks": [
+    {
+     "text": "Open the beverage refrigerator and put the glass bottle with the red clay cap from the bar counter inside.",
+     "uses": [
+      "obj_0080",
+      "obj_0034",
+      "obj_0085"
+     ],
+     "articulation": [
+      "obj_0085"
+     ]
+    },
+    {
+     "text": "Move the gold-lettered book from the high-top table to the stool with dark stained wood legs.",
+     "uses": [
+      "obj_0029",
+      "obj_0059",
+      "obj_0023"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 82,
+   "tasks": [
+    {
+     "text": "Move the white ceramic bottle from the cabinet to the oak counter.",
+     "uses": [
+      "obj_0027",
+      "obj_0047",
+      "obj_0085"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the fridge and put the aluminum can with vertical leaf-like embossing from the cabinet inside.",
+     "uses": [
+      "obj_0052",
+      "obj_0047",
+      "obj_0017"
+     ],
+     "articulation": [
+      "obj_0017"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 83,
+   "tasks": [
+    {
+     "text": "Move the sage green notebook from the student desk to a lower shelf of the bookshelf with vertical slats.",
+     "uses": [
+      "obj_0036",
+      "obj_0114",
+      "obj_0091"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the copper pen engraved with a curling vine from the student desk to the dark walnut teacher desk.",
+     "uses": [
+      "obj_0049",
+      "obj_0023",
+      "obj_0121"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 84,
+   "tasks": [
+    {
+     "text": "Take the embossed hardcover art book from the wooden shelf and put it inside the stained-glass cabinet, opening its doors.",
+     "uses": [
+      "obj_0007",
+      "obj_0046",
+      "obj_0001"
+     ],
+     "articulation": [
+      "obj_0001"
+     ]
+    },
+    {
+     "text": "Move the silver fork with the slightly curved handle from the dining table to the bar counter.",
+     "uses": [
+      "obj_0087",
+      "obj_0017",
+      "obj_0103"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 85,
+   "tasks": [
+    {
+     "text": "Move the white-striped book from the rocking chair to the bookshelf.",
+     "uses": [
+      "obj_0026",
+      "obj_0057",
+      "obj_0032"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the changing table drawer and put the baby bottle inside.",
+     "uses": [
+      "obj_0056",
+      "obj_0005"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    },
+    {
+     "text": "Move the pastel plush toy from the crib to the rocking chair.",
+     "uses": [
+      "obj_0041",
+      "obj_0009",
+      "obj_0057"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 86,
+   "tasks": [
+    {
+     "text": "Take the clear glass water bottle from the teak locker and put it on the padded teak bench.",
+     "uses": [
+      "obj_0004",
+      "obj_0076",
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the olive-trim cabinet and put the matte olive telephone from the teak locker inside.",
+     "uses": [
+      "obj_0119",
+      "obj_0011",
+      "obj_0118"
+     ],
+     "articulation": [
+      "obj_0118"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 87,
+   "tasks": [
+    {
+     "text": "Move the book with gold-trimmed corners from the bench to the console table.",
+     "uses": [
+      "obj_0029",
+      "obj_0028",
+      "obj_0013"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the small pastel vase with gold leaf accents on the wooden stool.",
+     "uses": [
+      "obj_0020",
+      "obj_0002"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 88,
+   "tasks": [
+    {
+     "text": "Move the metallic-cap cosmetic bottle from the vanity to the mirrored side table.",
+     "uses": [
+      "obj_0016",
+      "obj_0000",
+      "obj_0019"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the embossed book from the nightstand to the light-wood side table.",
+     "uses": [
+      "obj_0021",
+      "obj_0012",
+      "obj_0009"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the gold-threaded fur throw from the bed to the velvet armchair.",
+     "uses": [
+      "obj_0006",
+      "obj_0015",
+      "obj_0014"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 89,
+   "tasks": [
+    {
+     "text": "Move the flared-rim mug from the coffee table to the bookshelf.",
+     "uses": [
+      "obj_0041",
+      "obj_0036",
+      "obj_0011"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the black remote from the coffee table to someone on the sofa.",
+     "uses": [
+      "obj_0028",
+      "obj_0036",
+      "obj_0012"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the olive book from the wall shelf to the coffee table.",
+     "uses": [
+      "obj_0015",
+      "obj_0022",
+      "obj_0036"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 90,
+   "tasks": [
+    {
+     "text": "Move the remote with the neon strip from the side table to the reception desk.",
+     "uses": [
+      "obj_0028",
+      "obj_0117",
+      "obj_0030"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the phone charger from the reception desk and put it on the side table.",
+     "uses": [
+      "obj_0107",
+      "obj_0030",
+      "obj_0117"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 91,
+   "tasks": [
+    {
+     "text": "Move the gold-stitched leather-bound book from the cabinet to the table.",
+     "uses": [
+      "obj_0019",
+      "obj_0033",
+      "obj_0037"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet beneath the small Greek statue and put the statue inside.",
+     "uses": [
+      "obj_0006",
+      "obj_0009"
+     ],
+     "articulation": [
+      "obj_0009"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 92,
+   "tasks": [
+    {
+     "text": "Move the slender ceramic vase from the coffee table to the stone sideboard.",
+     "uses": [
+      "obj_0074",
+      "obj_0010",
+      "obj_0025"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the book with crisp edges from the bookshelf to someone on the sofa.",
+     "uses": [
+      "obj_0038",
+      "obj_0077",
+      "obj_0051"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 93,
+   "tasks": [
+    {
+     "text": "Move the mustard notebook from the conference table to the walnut sideboard.",
+     "uses": [
+      "obj_0107",
+      "obj_0038",
+      "obj_0042"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the metal-wood cabinet and put the burgundy hardcover book from the walnut sideboard inside.",
+     "uses": [
+      "obj_0005",
+      "obj_0028",
+      "obj_0042"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    },
+    {
+     "text": "Move the pastel blue pen from the pastel notepad on the conference table to the top of the metal-wood cabinet.",
+     "uses": [
+      "obj_0015",
+      "obj_0118",
+      "obj_0038",
+      "obj_0005"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 94,
+   "tasks": [
+    {
+     "text": "Pick up the pastel picture book from the floor and place it on a low shelf of the tall, open wooden bookshelf.",
+     "uses": [
+      "obj_0020",
+      "obj_0010"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Pick up the wooden toy with asymmetrical limbs from the floor and place it on the low wooden sensory table.",
+     "uses": [
+      "obj_0025",
+      "obj_0021"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 95,
+   "tasks": [
+    {
+     "text": "Bring the wine bottle from the black marble table to someone sitting on a burgundy chair.",
+     "uses": [
+      "obj_0010",
+      "obj_0006",
+      "obj_0002"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring a wine glass from the black marble table to someone sitting on a burgundy chair.",
+     "uses": [
+      "obj_0005",
+      "obj_0006",
+      "obj_0004"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 96,
+   "tasks": [
+    {
+     "text": "Move a navy blue book from the kitchen island to a lower shelf of the walnut bookshelf.",
+     "uses": [
+      "obj_0002",
+      "obj_0014",
+      "obj_0008"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move a white coffee cup from the kitchen island to the L-shaped countertop.",
+     "uses": [
+      "obj_0003",
+      "obj_0014",
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 97,
+   "tasks": [
+    {
+     "text": "Move the navy book from the side table to the payment counter.",
+     "uses": [
+      "obj_0017",
+      "obj_0063",
+      "obj_0065"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet and put the pink-label laundry soap bottle inside from its top.",
+     "uses": [
+      "obj_0045",
+      "obj_0001"
+     ],
+     "articulation": [
+      "obj_0001"
+     ]
+    },
+    {
+     "text": "Take the pastel blue linen notepad from the payment counter to the side table.",
+     "uses": [
+      "obj_0040",
+      "obj_0065",
+      "obj_0063"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 98,
+   "tasks": [
+    {
+     "text": "Move the bamboo notebook from the desk to the bed.",
+     "uses": [
+      "obj_0066",
+      "obj_0076",
+      "obj_0083"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the rattan figurine from the wall shelf and place it on the window seat bench.",
+     "uses": [
+      "obj_0009",
+      "obj_0054",
+      "obj_0056"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the toybox lid and put the square rattan book from the wall shelf inside.",
+     "uses": [
+      "obj_0026",
+      "obj_0047",
+      "obj_0072"
+     ],
+     "articulation": [
+      "obj_0026"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 99,
+   "tasks": [
+    {
+     "text": "Move the teal cushion from the bench to the checkout counter.",
+     "uses": [
+      "obj_0032",
+      "obj_0001",
+      "obj_0040"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take a leather-covered book from the display table and place it on a teal chair.",
+     "uses": [
+      "obj_0067",
+      "obj_0095",
+      "obj_0039"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 100,
+   "tasks": [
+    {
+     "text": "Move the embossed hardcover book from the table onto a rattan chair's seat.",
+     "uses": [
+      "obj_0023",
+      "obj_0047",
+      "obj_0013"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the fabric-bound softcover notebook from the table on a rattan chair's seat.",
+     "uses": [
+      "obj_0055",
+      "obj_0047",
+      "obj_0017"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 101,
+   "tasks": [
+    {
+     "text": "Move the cream book with blue speckles from the console table to the wooden bench.",
+     "uses": [
+      "obj_0010",
+      "obj_0036",
+      "obj_0017"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the ivory abstract sculpture from the bookshelf to the console table.",
+     "uses": [
+      "obj_0028",
+      "obj_0014",
+      "obj_0036"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 102,
+   "tasks": [
+    {
+     "text": "Move the pink ceramic vase from its dining table to the wall shelf.",
+     "uses": [
+      "obj_0051",
+      "obj_0042",
+      "obj_0049"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move a paperback book from its dining table to a curved wooden bench.",
+     "uses": [
+      "obj_0056",
+      "obj_0009",
+      "obj_0022"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 103,
+   "tasks": [
+    {
+     "text": "Move the white mug from the desk to the sideboard.",
+     "uses": [
+      "obj_0038",
+      "obj_0009",
+      "obj_0035"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the dark leather-bound folio from the cabinet top and put it on the leather chair.",
+     "uses": [
+      "obj_0069",
+      "obj_0067",
+      "obj_0029"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 104,
+   "tasks": [
+    {
+     "text": "Take the burgundy leather-bound book from the bookshelf to the dining table.",
+     "uses": [
+      "obj_0060",
+      "obj_0076",
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the sideboard and put the flared-bowl glass goblet from the dining table inside.",
+     "uses": [
+      "obj_0048",
+      "obj_0004",
+      "obj_0039"
+     ],
+     "articulation": [
+      "obj_0039"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 105,
+   "tasks": [
+    {
+     "text": "Put the narrow-necked bottle from the dining table into the fridge.",
+     "uses": [
+      "obj_0004",
+      "obj_0002",
+      "obj_0038"
+     ],
+     "articulation": [
+      "obj_0038"
+     ]
+    },
+    {
+     "text": "Move the circuit-patterned remote from the side cabinet to the dining table.",
+     "uses": [
+      "obj_0010",
+      "obj_0066",
+      "obj_0002"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 106,
+   "tasks": [
+    {
+     "text": "Move the deep violet book from the nightstand to the glass-top shelf.",
+     "uses": [
+      "obj_0082",
+      "obj_0085",
+      "obj_0048"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the phone from the desk to someone on the bed.",
+     "uses": [
+      "obj_0054",
+      "obj_0087",
+      "obj_0020"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the green-engraved cup from the nightstand with the teal lamp to the matte black shelf.",
+     "uses": [
+      "obj_0091",
+      "obj_0005",
+      "obj_0084",
+      "obj_0062"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 107,
+   "tasks": [
+    {
+     "text": "Move the lavender medical book from the side table onto the pink-headboard bed.",
+     "uses": [
+      "obj_0026",
+      "obj_0034",
+      "obj_0028"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the square medical supply package from the cabinet top inside the cabinet, opening its teal doors.",
+     "uses": [
+      "obj_0020",
+      "obj_0040"
+     ],
+     "articulation": [
+      "obj_0040"
+     ]
+    },
+    {
+     "text": "Move the star-motif teal cup from the stool onto the side table.",
+     "uses": [
+      "obj_0051",
+      "obj_0036",
+      "obj_0034"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 108,
+   "tasks": [
+    {
+     "text": "Move the rectangular-face watch with the metal band from the nightstand into a dresser drawer.",
+     "uses": [
+      "obj_0000",
+      "obj_0019",
+      "obj_0036"
+     ],
+     "articulation": [
+      "obj_0036"
+     ]
+    },
+    {
+     "text": "Take the book with faded dark purple lettering from the chair and put it on a lower bookshelf shelf.",
+     "uses": [
+      "obj_0103",
+      "obj_0035",
+      "obj_0091"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the hairbrush from the dresser into the storage bench's hidden compartment.",
+     "uses": [
+      "obj_0008",
+      "obj_0036",
+      "obj_0009"
+     ],
+     "articulation": [
+      "obj_0009"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 109,
+   "tasks": [
+    {
+     "text": "Move the ivory notepad from the reception desk to the wooden bench.",
+     "uses": [
+      "obj_0068",
+      "obj_0009",
+      "obj_0018"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the dark mahogany book from the sideboard into the glass-front display cabinet, opening its doors.",
+     "uses": [
+      "obj_0072",
+      "obj_0025",
+      "obj_0058"
+     ],
+     "articulation": [
+      "obj_0058"
+     ]
+    },
+    {
+     "text": "Move the embroidered blossom pillow from the sofa to the wooden bench.",
+     "uses": [
+      "obj_0017",
+      "obj_0074",
+      "obj_0018"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 110,
+   "tasks": [
+    {
+     "text": "Move the sepia notebook from the bench to the top of the matte black cabinet.",
+     "uses": [
+      "obj_0047",
+      "obj_0000",
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the steel toolbox and put the steel hand tool from the bench inside.",
+     "uses": [
+      "obj_0023",
+      "obj_0021",
+      "obj_0049"
+     ],
+     "articulation": [
+      "obj_0023"
+     ]
+    },
+    {
+     "text": "Open the mahogany chest and store the brass-stoppered oil bottle from the bench inside.",
+     "uses": [
+      "obj_0033",
+      "obj_0039",
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0033"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 111,
+   "tasks": [
+    {
+     "text": "Move the dark leather book from the console to the gold gilded dining table.",
+     "uses": [
+      "obj_0008",
+      "obj_0071",
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the book with gold embossing on the spine from the console to the mahogany dining table.",
+     "uses": [
+      "obj_0062",
+      "obj_0071",
+      "obj_0018"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 112,
+   "tasks": [
+    {
+     "text": "Move the navy book from the side table onto the bench.",
+     "uses": [
+      "obj_0047",
+      "obj_0050",
+      "obj_0062"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the pastel pink comb from the side table and put it on the wall shelf.",
+     "uses": [
+      "obj_0060",
+      "obj_0050",
+      "obj_0017"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the locker supporting the soap and put the soap inside.",
+     "uses": [
+      "obj_0053",
+      "obj_0067"
+     ],
+     "articulation": [
+      "obj_0053"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 113,
+   "tasks": [
+    {
+     "text": "Place the bottle you are carrying on the dark wood bottle shelf.",
+     "uses": [
+      "obj_0006"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the cleaning cloth you are carrying on the walnut bar counter.",
+     "uses": [
+      "obj_0014"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 114,
+   "tasks": [
+    {
+     "text": "Move the terracotta book from the table to the low bookcase.",
+     "uses": [
+      "obj_0013",
+      "obj_0027",
+      "obj_0055"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the hardcover book from the low bookcase and place it on the table.",
+     "uses": [
+      "obj_0024",
+      "obj_0055",
+      "obj_0027"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 115,
+   "tasks": [
+    {
+     "text": "Move the matte white mug from the desk to the coffee table.",
+     "uses": [
+      "obj_0048",
+      "obj_0002",
+      "obj_0028"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the low storage cabinet and put the pastel notebook with the elastic band from the desk inside.",
+     "uses": [
+      "obj_0053",
+      "obj_0050",
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0053"
+     ]
+    },
+    {
+     "text": "Bring the beech-cover book from the coffee table to someone sitting in the cushioned office chair.",
+     "uses": [
+      "obj_0016",
+      "obj_0028",
+      "obj_0013"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 116,
+   "tasks": [
+    {
+     "text": "Open the wooden wine locker and put the ceramic seashell-motif liquor bottle from the bar counter inside.",
+     "uses": [
+      "obj_0065",
+      "obj_0025",
+      "obj_0074"
+     ],
+     "articulation": [
+      "obj_0074"
+     ]
+    },
+    {
+     "text": "Move the sandy beige hardback book from its armchair to the floating shelf.",
+     "uses": [
+      "obj_0030",
+      "obj_0056",
+      "obj_0001"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 117,
+   "tasks": [
+    {
+     "text": "Take the cereal box from the metal shelf and put it on the white checkout counter.",
+     "uses": [
+      "obj_0100",
+      "obj_0031",
+      "obj_0022"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the slim white bottle with the gray cap from the metal shelf to someone on the gray waiting bench.",
+     "uses": [
+      "obj_0019",
+      "obj_0038",
+      "obj_0039"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 118,
+   "tasks": [
+    {
+     "text": "Move the upright, fanned magazine from the tapered-leg counter to the smooth-top, low-profile counter.",
+     "uses": [
+      "obj_0003",
+      "obj_0014",
+      "obj_0032"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the woven-cover beige book from the shelf and place it on the natural-finish waiting chair.",
+     "uses": [
+      "obj_0047",
+      "obj_0070",
+      "obj_0073"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the curving gray ceramic vase from the shelf onto the seamless-edge counter.",
+     "uses": [
+      "obj_0037",
+      "obj_0051",
+      "obj_0042"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 119,
+   "tasks": [
+    {
+     "text": "Move the brass compass from the sideboard to the dining table.",
+     "uses": [
+      "obj_0004",
+      "obj_0031",
+      "obj_0063"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the linen-covered cookbook from the sideboard to someone sitting on the jute bench.",
+     "uses": [
+      "obj_0017",
+      "obj_0031",
+      "obj_0088"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the rectangular salt shaker with the hinged lid into the sideboard drawer from the dining table.",
+     "uses": [
+      "obj_0040",
+      "obj_0063",
+      "obj_0031"
+     ],
+     "articulation": [
+      "obj_0031"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 120,
+   "tasks": [
+    {
+     "text": "Move the spiral notebook from the low bamboo shelf to the bamboo desk.",
+     "uses": [
+      "obj_0057",
+      "obj_0044",
+      "obj_0068"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the dark brown hardcover book from the low bamboo shelf onto a bamboo chair's seat.",
+     "uses": [
+      "obj_0038",
+      "obj_0019",
+      "obj_0015"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 121,
+   "tasks": [
+    {
+     "text": "Open the locker holding the teal fountain pen and put the lily-cover magazine from the shelf inside.",
+     "uses": [
+      "obj_0028",
+      "obj_0041",
+      "obj_0004",
+      "obj_0074"
+     ],
+     "articulation": [
+      "obj_0028"
+     ]
+    },
+    {
+     "text": "Move the pale ivory cup with the painted vine from the shelf onto the central storage unit's top.",
+     "uses": [
+      "obj_0062",
+      "obj_0039",
+      "obj_0015"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 122,
+   "tasks": [
+    {
+     "text": "Move the lavender book from the console table to the sofa.",
+     "uses": [
+      "obj_0022",
+      "obj_0026",
+      "obj_0007"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the pastel pink magazine with gold filigree trim from the glass coffee table to the sideboard.",
+     "uses": [
+      "obj_0037",
+      "obj_0035",
+      "obj_0018"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the ivory porcelain vase from the console table to the glass coffee table.",
+     "uses": [
+      "obj_0043",
+      "obj_0026",
+      "obj_0035"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 123,
+   "tasks": [
+    {
+     "text": "Move the pastel mint mug from the coffee station cart to the counter.",
+     "uses": [
+      "obj_0069",
+      "obj_0020",
+      "obj_0118"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take a teal-title-strip paperback from the low-slung bookshelf and place it on a round pastel pink table.",
+     "uses": [
+      "obj_0003",
+      "obj_0073",
+      "obj_0029"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 124,
+   "tasks": [
+    {
+     "text": "Move the timer from the countertop onto the cabinet holding the cookbook.",
+     "uses": [
+      "obj_0000",
+      "obj_0008",
+      "obj_0014"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the cookbook on the countertop.",
+     "uses": [
+      "obj_0012",
+      "obj_0014",
+      "obj_0008"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet beneath the utensil holder and put the timer from the floor inside.",
+     "uses": [
+      "obj_0010",
+      "obj_0013",
+      "obj_0017"
+     ],
+     "articulation": [
+      "obj_0010"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 125,
+   "tasks": [
+    {
+     "text": "Take the speckled mug from the bar counter to the stool with the low back.",
+     "uses": [
+      "obj_0067",
+      "obj_0022",
+      "obj_0010"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the small pastel vase from the floor onto the bar counter.",
+     "uses": [
+      "obj_0013",
+      "obj_0022"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 126,
+   "tasks": [
+    {
+     "text": "Move the linen-wrapped candle from the vanity to the countertop.",
+     "uses": [
+      "obj_0017",
+      "obj_0018",
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the vanity doors and put the wooden-handled razor inside.",
+     "uses": [
+      "obj_0022",
+      "obj_0018"
+     ],
+     "articulation": [
+      "obj_0018"
+     ]
+    },
+    {
+     "text": "Move the beeswax candle from the tub to the countertop.",
+     "uses": [
+      "obj_0024",
+      "obj_0002",
+      "obj_0000"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 127,
+   "tasks": [
+    {
+     "text": "Move the deep brown leather book from the sofa to the wooden side table.",
+     "uses": [
+      "obj_0042",
+      "obj_0062",
+      "obj_0057"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the leather-bound notebook from the desk and place it on the metal side table.",
+     "uses": [
+      "obj_0009",
+      "obj_0045",
+      "obj_0035"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the silver cabinet and put the candle in the gold holder from the coffee table inside.",
+     "uses": [
+      "obj_0016",
+      "obj_0021",
+      "obj_0046"
+     ],
+     "articulation": [
+      "obj_0016"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 128,
+   "tasks": [
+    {
+     "text": "Move the turquoise and gold notebook from the table to the teal chair.",
+     "uses": [
+      "obj_0000",
+      "obj_0032",
+      "obj_0004"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take a red and gold story book from the bookshelf and place it on the bed.",
+     "uses": [
+      "obj_0019",
+      "obj_0015",
+      "obj_0025"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the brass box on the trunk and put a brass pen from the table inside.",
+     "uses": [
+      "obj_0022",
+      "obj_0024",
+      "obj_0014",
+      "obj_0032"
+     ],
+     "articulation": [
+      "obj_0022"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 129,
+   "tasks": [
+    {
+     "text": "Move the ivory cup from the burgundy couch to the mahogany reception desk.",
+     "uses": [
+      "obj_0107",
+      "obj_0044",
+      "obj_0049"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a black lacquer cabinet and put away the rectangular-handled hairbrush from the styling station.",
+     "uses": [
+      "obj_0040",
+      "obj_0092",
+      "obj_0013"
+     ],
+     "articulation": [
+      "obj_0013"
+     ]
+    },
+    {
+     "text": "Move the chevron-patterned pillow from its couch to the couch with the cup.",
+     "uses": [
+      "obj_0094",
+      "obj_0101",
+      "obj_0044",
+      "obj_0107"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 130,
+   "tasks": [
+    {
+     "text": "Move the book from the vanity to the cabinet top.",
+     "uses": [
+      "obj_0000",
+      "obj_0015",
+      "obj_0012"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet and put the perfume bottle with the engraved neck inside.",
+     "uses": [
+      "obj_0009",
+      "obj_0012"
+     ],
+     "articulation": [
+      "obj_0012"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 131,
+   "tasks": [
+    {
+     "text": "Move the ivory notebook from the desk onto the beige armchair.",
+     "uses": [
+      "obj_0076",
+      "obj_0068",
+      "obj_0048"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the soft gray folio with the decorative clasp from the wall bookcase and place it on the beige ottoman.",
+     "uses": [
+      "obj_0043",
+      "obj_0024",
+      "obj_0005"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 132,
+   "tasks": [
+    {
+     "text": "Move the small embossed hardcover book from the window bench to the desk.",
+     "uses": [
+      "obj_0001",
+      "obj_0033",
+      "obj_0037"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the wooden chest and put the wooden toy block inside.",
+     "uses": [
+      "obj_0003",
+      "obj_0018"
+     ],
+     "articulation": [
+      "obj_0003"
+     ]
+    },
+    {
+     "text": "Take the pastel art nouveau book from the bookshelf and place it on the bed.",
+     "uses": [
+      "obj_0034",
+      "obj_0035",
+      "obj_0038"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 133,
+   "tasks": [
+    {
+     "text": "Move the speckled gray vase from the wooden shelf to the low cabinet top.",
+     "uses": [
+      "obj_0044",
+      "obj_0013",
+      "obj_0043"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the weathered leather book from the bench and place it on the wooden shelf.",
+     "uses": [
+      "obj_0015",
+      "obj_0012",
+      "obj_0030"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 134,
+   "tasks": [
+    {
+     "text": "Move the white hardcover book from the marble kitchen island to the marble wall shelf.",
+     "uses": [
+      "obj_0009",
+      "obj_0040",
+      "obj_0047"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet containing the gold-handled whisk and take the whisk out onto the marble kitchen island.",
+     "uses": [
+      "obj_0057",
+      "obj_0065",
+      "obj_0040"
+     ],
+     "articulation": [
+      "obj_0065"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 135,
+   "tasks": [
+    {
+     "text": "Put the dark charcoal cup from the coffee table into a media console drawer.",
+     "uses": [
+      "obj_0001",
+      "obj_0055",
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    },
+    {
+     "text": "Bring the remote control with angular buttons from the media console to someone on the loveseat.",
+     "uses": [
+      "obj_0019",
+      "obj_0000",
+      "obj_0024"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the gear-shaped head figurine from the bookshelf to the coffee table.",
+     "uses": [
+      "obj_0002",
+      "obj_0021",
+      "obj_0055"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 136,
+   "tasks": [
+    {
+     "text": "Move the ivory mug from the conference table to the sideboard top.",
+     "uses": [
+      "obj_0041",
+      "obj_0058",
+      "obj_0054"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Put the pastel spiral-bound notebook from the conference table onto a lower shelf of the dark walnut bookshelf.",
+     "uses": [
+      "obj_0062",
+      "obj_0058",
+      "obj_0075"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 137,
+   "tasks": [
+    {
+     "text": "Move the diamond-patterned wine glass from the crystal decanter counter to the chrome holder counter.",
+     "uses": [
+      "obj_0009",
+      "obj_0010",
+      "obj_0000"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the two corks from the bottle table they are on to the crystal decanter counter.",
+     "uses": [
+      "obj_0005",
+      "obj_0004",
+      "obj_0010"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 138,
+   "tasks": [
+    {
+     "text": "Place the cleaning cloth you are carrying on the wooden work table.",
+     "uses": [
+      "obj_0014"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the mahogany chest and put the towel you are carrying inside.",
+     "uses": [
+      "obj_0036"
+     ],
+     "articulation": [
+      "obj_0036"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 139,
+   "tasks": [
+    {
+     "text": "Move the brown leather-bound notebook from the wooden display table to the concrete checkout counter.",
+     "uses": [
+      "obj_0029",
+      "obj_0056",
+      "obj_0092"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the steel cabinet’s sliding doors and put the dark gray cup from the wooden display table inside.",
+     "uses": [
+      "obj_0062",
+      "obj_0057",
+      "obj_0002"
+     ],
+     "articulation": [
+      "obj_0002"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 140,
+   "tasks": [
+    {
+     "text": "Move the leather cookbook from the cabinet to the stone island.",
+     "uses": [
+      "obj_0011",
+      "obj_0025",
+      "obj_0008"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the refrigerator and put the obsidian glass bottle from the cabinet inside.",
+     "uses": [
+      "obj_0032",
+      "obj_0021",
+      "obj_0022"
+     ],
+     "articulation": [
+      "obj_0032"
+     ]
+    },
+    {
+     "text": "Bring the small glass spice jar from the cabinet to someone sitting on a barstool.",
+     "uses": [
+      "obj_0029",
+      "obj_0000",
+      "obj_0013"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 141,
+   "tasks": [
+    {
+     "text": "Bring the denim-blue paperback from the gray sideboard to someone on the linen sofa.",
+     "uses": [
+      "obj_0029",
+      "obj_0000",
+      "obj_0009"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Pick up the pillar candle from the floor and put it on the oak armchair.",
+     "uses": [
+      "obj_0024",
+      "obj_0031"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the leaf-motif vase from the coffee table and put it inside the gray sideboard, opening its sliding panels.",
+     "uses": [
+      "obj_0018",
+      "obj_0005",
+      "obj_0000"
+     ],
+     "articulation": [
+      "obj_0000"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 142,
+   "tasks": [
+    {
+     "text": "Move the leather-bound tome from the coffee table to the burgundy sofa.",
+     "uses": [
+      "obj_0007",
+      "obj_0022",
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the leather storage trunk and put the leather-bound book from the sideboard inside.",
+     "uses": [
+      "obj_0044",
+      "obj_0012",
+      "obj_0014"
+     ],
+     "articulation": [
+      "obj_0044"
+     ]
+    },
+    {
+     "text": "Take the rolled music sheet from the piano to the dark velvet loveseat.",
+     "uses": [
+      "obj_0046",
+      "obj_0013",
+      "obj_0015"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 143,
+   "tasks": [
+    {
+     "text": "Move the wooden-handled brush from the shelf to the cabinet top.",
+     "uses": [
+      "obj_0001",
+      "obj_0023",
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Place the comb from the cabinet on the square-seat stool.",
+     "uses": [
+      "obj_0011",
+      "obj_0005",
+      "obj_0015"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet and put the ivory ceramic jar from the shelf inside.",
+     "uses": [
+      "obj_0005",
+      "obj_0021",
+      "obj_0023"
+     ],
+     "articulation": [
+      "obj_0005"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 144,
+   "tasks": [
+    {
+     "text": "Pick up the saffron towel and place it on top of the cabinet.",
+     "uses": [
+      "obj_0002",
+      "obj_0029"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the cabinet and put the teal magazine inside.",
+     "uses": [
+      "obj_0026",
+      "obj_0029"
+     ],
+     "articulation": [
+      "obj_0029"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 145,
+   "tasks": [
+    {
+     "text": "Put the deep crimson pillow on the dark brocade bed.",
+     "uses": [
+      "obj_0013",
+      "obj_0014"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Bring the book to the person sitting on the dark brocade bed.",
+     "uses": [
+      "obj_0005",
+      "obj_0014"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 146,
+   "tasks": [
+    {
+     "text": "Move the stethoscope from the counter to the exam table.",
+     "uses": [
+      "obj_0000",
+      "obj_0033",
+      "obj_0045"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Move the book with gilt lettering from the brass and wood cabinet top to the wall shelf.",
+     "uses": [
+      "obj_0042",
+      "obj_0017",
+      "obj_0098"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 147,
+   "tasks": [
+    {
+     "text": "Move the fitness magazine with red, white, and blue border trim from the wall shelf to the weight bench.",
+     "uses": [
+      "obj_0080",
+      "obj_0065",
+      "obj_0005"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open a navy cabinet and put the bundled resistance bands from the floor inside.",
+     "uses": [
+      "obj_0094",
+      "obj_0021"
+     ],
+     "articulation": [
+      "obj_0021"
+     ]
+    }
+   ]
+  },
+  {
+   "room": 148,
+   "tasks": [
+    {
+     "text": "Bring the cobalt cup from the medical cart to someone in the patient chair.",
+     "uses": [
+      "obj_0003",
+      "obj_0062",
+      "obj_0066"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the bedside table drawer and put the leather notebook inside.",
+     "uses": [
+      "obj_0045",
+      "obj_0006"
+     ],
+     "articulation": [
+      "obj_0006"
+     ]
+    },
+    {
+     "text": "Move the black book with gold spine embossing from the wall shelf onto the hospital bed.",
+     "uses": [
+      "obj_0073",
+      "obj_0027",
+      "obj_0055"
+     ],
+     "articulation": []
+    }
+   ]
+  },
+  {
+   "room": 149,
+   "tasks": [
+    {
+     "text": "Move the cup with the flared rim from the wooden stool to the stone counter.",
+     "uses": [
+      "obj_0075",
+      "obj_0128",
+      "obj_0084"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Take the twine-bound notepad from the cash register station and place it on the wooden stool holding the small book.",
+     "uses": [
+      "obj_0001",
+      "obj_0101",
+      "obj_0020"
+     ],
+     "articulation": []
+    },
+    {
+     "text": "Open the stone-front fridge and put the embossed-neck bottle from the stone counter inside.",
+     "uses": [
+      "obj_0096",
+      "obj_0084",
+      "obj_0119"
+     ],
+     "articulation": [
+      "obj_0119"
+     ]
+    }
+   ]
+  }
+ ]
+}

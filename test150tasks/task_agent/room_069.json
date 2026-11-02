@@ -1,0 +1,54 @@
+{
+ "room": 69,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:75bc1ece-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"elderly room\", \"size_m\": [8.33, 7.3]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A comfortable armchair with a cushioned seat and backrest, featuring a simple yet elegant design suitable for living room settings.\"}, {\"id\": \"obj_0001\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A modern armchair with a sleek design, featuring a high backrest and wide armrests. It has a uniform teal color and appears to be upholstered for comfort.\"}, {\"id\": \"obj_0002\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A black armchair with a cushioned backrest and seat, featuring padded armrests and a comfortable design.\"}, {\"id\": \"obj_0003\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A modern, minimalist table with a flat, circular top and three angled legs.\"}, {\"id\": \"obj_0004\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A dark wooden drawer unit with two drawers and angled legs, designed for storage purposes.\"}, {\"id\": \"obj_0005\", \"category\": \"wardrobe\", \"on\": \"floor\", \"description\": \"A tall black wardrobe with two doors and two drawers at the bottom. It has simple handles for the doors and drawers.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 852,
+    "completion_tokens": 102,
+    "total_tokens": 954,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.005448,
+   "latency_s": 8.61,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the book you are carrying on the circular table.\",\"uses\":[\"obj_0003\"],\"articulation\":[]},{\"text\":\"Open a drawer of the dark wooden dresser and put the socks you are carrying inside.\",\"uses\":[\"obj_0004\"],\"articulation\":[\"obj_0004\"]},{\"text\":\"Bring the cup you are carrying to someone sitting in the teal armchair.\",\"uses\":[\"obj_0001\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the book you are carrying on the circular table.",
+   "uses": [
+    "obj_0003"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open a drawer of the dark wooden dresser and put the socks you are carrying inside.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": [
+    "obj_0004"
+   ]
+  },
+  {
+   "text": "Bring the cup you are carrying to someone sitting in the teal armchair.",
+   "uses": [
+    "obj_0001"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0054
+}

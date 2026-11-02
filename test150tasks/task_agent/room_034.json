@@ -1,0 +1,45 @@
+{
+ "room": 34,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:7475116a-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"recreation room\", \"size_m\": [8.33, 8.13]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"couch\", \"on\": \"floor\", \"description\": \"A modern, minimalist sofa with a sleek design, featuring a rectangular shape and a smooth surface. It has two back cushions and a single seat cushion, providing comfortable seating for multiple people.\"}, {\"id\": \"obj_0001\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A modern armchair with a sleek design, featuring a light gray upholstered seat and backrest, complemented by a wooden frame and legs.\"}, {\"id\": \"obj_0002\", \"category\": \"stand\", \"on\": \"floor\", \"description\": \"A sleek media console with a dark wood finish, featuring two drawers on the left side and an open shelf on the right. It has a modern design with clean lines and a sturdy base.\"}, {\"id\": \"obj_0003\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A tall, white bookcase with multiple shelves and small black knobs for decoration or functionality.\"}, {\"id\": \"obj_0004\", \"category\": \"mirror\", \"on\": \"floor\", \"description\": \"A tall stack of books with a white cover on top, arranged neatly.\"}, {\"id\": \"obj_0005\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A modern armchair with a sleek design, featuring black upholstery and wooden legs.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 866,
+    "completion_tokens": 206,
+    "total_tokens": 1072,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 141
+    }
+   },
+   "cost_usd": 0.007584,
+   "latency_s": 22.866,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the book you are carrying on the sofa.\",\"uses\":[\"obj_0000\"],\"articulation\":[]},{\"text\":\"Place the folded shirt you are carrying on the light gray armchair.\",\"uses\":[\"obj_0001\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the book you are carrying on the sofa.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Place the folded shirt you are carrying on the light gray armchair.",
+   "uses": [
+    "obj_0001"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0076
+}

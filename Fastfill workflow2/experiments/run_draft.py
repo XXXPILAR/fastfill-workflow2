@@ -9,7 +9,11 @@ repairs and the critic-judged polish; ``--placement all``: ③ one LLM draft of 
 
 LLM calls go to the official OpenAI API only (settings in ``.env`` beside ``workflow/``; ``workflow/credentials.py``).
 Step ② either runs a FastFill checkpoint in this process (``--checkpoint``, GPU recommended) or reads sizes from a
-predictions file aligned with the rows (``--sizes-file``, e.g. ``remask_ablation``'s output).
+predictions file aligned with the rows (``--sizes-file``, e.g. ``remask_ablation``'s output); ``--draft-sizes`` (the
+workflow without FastFill) leaves step ② out: step ③'s placement call gives every size with the poses, the later
+steps are unchanged (``simple.run_simple(draft_sizes=True)``). ``--task-roles`` (rows with a ``task`` field, e.g.
+test30tasks): the task mode, with each row's ``task.required_ids`` / ``articulation_ids`` (``simple.run_simple``:
+required objects never removed or shrunk, legal and reachable; expansion objects give way).
 
 Before anything is loaded a free preflight (GET /v1/models/<model>) checks network, key and model, so a node without
 internet access fails in seconds, not after the checkpoint load. Step ② runs first for every room (the checkpoint on
@@ -67,9 +71,10 @@ def run_room(condition: dict, sizes: dict | None, yaws: dict | None, size_error:
              placement: str = "simple", semantic: bool = True, robot=None, drafts: int = 1,
              resize: bool = False, robot_margin: float = 0.0, hard_zones: bool = False,
              tag: str | None = None, relocate: bool = False, repair_rounds: int = 1,
-             repair_seconds: float | None = None, repair: bool = True) -> tuple[dict, float, dict, int]:
+             repair_seconds: float | None = None, repair: bool = True,
+             draft_sizes: bool = False, roles: dict | None = None) -> tuple[dict, float, dict, int]:
     """One room in a worker process: steps ①, ③ and the critic loop with polish (``critic=False``: ④ local repair
-    without polish, the v4 run); step ②'s sizes and yaws are given."""
+    without polish, the v4 run); step ②'s sizes and yaws are given (``draft_sizes``: none, step ③ gives them)."""
     start = time.perf_counter()
     if tag:  # llm.ask logs this room's calls to <out>/llm_calls/<tag>.jsonl (WORKFLOW_LLM_LOG_DIR set by main)
         os.environ["WORKFLOW_LLM_TAG"] = tag
@@ -79,7 +84,8 @@ def run_room(condition: dict, sizes: dict | None, yaws: dict | None, size_error:
                                     yaw_mode=yaw_mode, critic=critic, gpt_repairs=gpt_repairs, placement=placement,
                                     semantic=semantic, robot=robot, drafts=drafts, resize=resize,
                                     robot_margin=robot_margin, hard_zones=hard_zones, relocate=relocate,
-                                    repair_rounds=repair_rounds, repair_seconds=repair_seconds, repair=repair)
+                                    repair_rounds=repair_rounds, repair_seconds=repair_seconds, repair=repair,
+                                    draft_sizes=draft_sizes, **(roles or {}))
     except FatalAPIError:
         raise
     except Exception as exc:
@@ -104,6 +110,14 @@ def run_room(condition: dict, sizes: dict | None, yaws: dict | None, size_error:
     return result, cost, tokens, len(calls)
 
 
+def roles(row: dict) -> dict:
+    """The task mode's arguments from a row's ``task`` field (make_task_rooms.py)."""
+    task = row.get("task") or {}
+    if "required_ids" not in task:
+        raise SystemExit("--task-roles needs rows with task.required_ids (e.g. test30tasks/rows.jsonl)")
+    return {"required": set(task["required_ids"]), "articulation": set(task.get("articulation_ids") or ())}
+
+
 def pick(rows: list[dict], a) -> list[int]:
     if a.indices:
         return a.indices
@@ -123,6 +137,8 @@ def main() -> None:
     source = ap.add_mutually_exclusive_group(required=True)
     source.add_argument("--checkpoint", type=Path, help="FastFill model dir (RUN/model-step-N, tokenizer beside it)")
     source.add_argument("--sizes-file", type=Path, help="predictions jsonl aligned with --rows (sizes are read)")
+    source.add_argument("--draft-sizes", action="store_true", help="the workflow without FastFill: no step ②; "
+                        "the placement call gives every size with the poses, the later steps are unchanged")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--budget-usd", type=float, required=True)
     ap.add_argument("--reserve-usd", type=float, default=0.6, help="kept free for the next room (a large one ~0.4)")
@@ -170,6 +186,9 @@ def main() -> None:
                     "(runs started at the same time then stay under --rpm together)")
     ap.add_argument("--no-repair", action="store_true", help="simple: no program check-and-repair (step ④): the "
                     "LLM's draft as placed (with --no-semantic: the plan and draft calls only, a draft-only baseline)")
+    ap.add_argument("--task-roles", action="store_true", help="the task mode: each row's task.required_ids and "
+                    "task.articulation_ids (required objects kept, legal and reachable; expansion objects may be "
+                    "removed or changed)")
     ap.add_argument("--no-llm-log", action="store_true", help="do not write <out>/llm_calls/room_<i>.jsonl (each LLM "
                     "call's instructions, prompt and answer; the API key is never written)")
     a = ap.parse_args()
@@ -198,7 +217,7 @@ def main() -> None:
         from workflow.fastfill_sizes import FastFillSizer
         sizer = FastFillSizer(a.checkpoint, device=a.device)
         print(f"FastFill loaded: {sizer.describe()}", flush=True)
-    else:
+    elif a.sizes_file:
         lines = [json.loads(l) for l in a.sizes_file.read_text().splitlines() if l.strip()]
         file_sizes = [r["layout"] for r in lines]
         file_errors = [r.get("error") for r in lines]
@@ -206,12 +225,12 @@ def main() -> None:
             raise SystemExit(f"--sizes-file has {len(file_sizes)} lines, --rows {len(rows)}")
     (a.out / "config.json").write_text(json.dumps({
         "rows": str(a.rows), "model": settings["model"], "base_url": settings["base_url"], "api": a.api, "rpm": a.rpm,
-        "sizes": sizer.describe() if sizer else {"file": str(a.sizes_file)}, "yaw_mode": a.yaw_mode, "placement": a.placement if not a.no_critic else "v4",
+        "sizes": sizer.describe() if sizer else {"draft": settings["model"]} if a.draft_sizes else {"file": str(a.sizes_file)}, "yaw_mode": a.yaw_mode, "placement": a.placement if not a.no_critic else "v4",
         "semantic": a.placement in ("simple", "staged") and not a.no_semantic, "critic": not a.no_critic,
         "robot": {"width_m": a.robot_width, "arm_m": a.robot_arm, "margin_m": a.robot_margin,
                   "hard_zones": a.hard_zones} if a.robot_width else None,
         "repair": {"off": a.no_repair, "relocate": a.relocate, "rounds": a.repair_rounds, "seconds": a.repair_seconds},
-        "drafts": a.drafts, "resize": a.resize,
+        "drafts": a.drafts, "resize": a.resize, "task_roles": a.task_roles,
         "budget_usd": a.budget_usd,
         "rooms": len(picked)}, indent=1))
 
@@ -222,7 +241,9 @@ def main() -> None:
     # run in worker processes, so the CPU-bound repair of several rooms runs on several cores
     sizes, yaws, size_errors = {}, {}, {}
     for n, i in enumerate(pending):
-        if sizer is not None:
+        if a.draft_sizes:  # given by the placement call
+            sizes[i], yaws[i] = None, None
+        elif sizer is not None:
             try:
                 sizes[i], yaws[i] = sizer.predict(rows[i]["condition"])
             except ValueError as exc:  # over the model's object or context budget: the catalog's sizes
@@ -254,7 +275,8 @@ def main() -> None:
                                     a.placement, not a.no_semantic, robot, a.drafts, a.resize, a.robot_margin,
                                     a.hard_zones, tag=f"room_{i:03d}", relocate=a.relocate,
                                     repair_rounds=a.repair_rounds, repair_seconds=a.repair_seconds,
-                                    repair=not a.no_repair)] = i
+                                    repair=not a.no_repair, draft_sizes=a.draft_sizes,
+                                    roles=roles(rows[i]) if a.task_roles else None)] = i
             if not running:
                 break
             finished, _ = wait(running, return_when=FIRST_COMPLETED)

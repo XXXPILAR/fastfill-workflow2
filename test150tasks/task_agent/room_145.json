@@ -1,0 +1,47 @@
+{
+ "room": 145,
+ "source": "SAGE-10k",
+ "scene_id": "SAGE-10k::layout_c061f45e::0",
+ "prompt": "{\"room\": {\"type\": \"master bedroom\", \"size_m\": [15.0, 12.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"tapestry\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright tapestry woven from heavy linen, dyed in deep midnight blue, featuring a stylized gothic rose motif with silver thread highlights\"}, {\"id\": \"obj_0001\", \"category\": \"stainedglass\", \"on\": \"wall\", \"description\": \"A gothic style stained glass window panel, thin and upright, with a tall rectangular shape, deep ruby and emerald hues, intricate leaded tracery, and a single central rose motif\"}, {\"id\": \"obj_0002\", \"category\": \"lamp\", \"on\": \"floor\", \"description\": \"A gothic floor lamp with a slender black iron column, conical shade of deep crimson velvet, and a decorative skull finial at the top\"}, {\"id\": \"obj_0003\", \"category\": \"pillow\", \"on\": \"floor\", \"description\": \"A gothic style pillow with a rectangular, plush form, dark velvet fabric, embroidered black lace trim, and a subtle embossed rose motif\"}, {\"id\": \"obj_0004\", \"category\": \"tapestry\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright tapestry woven from heavy linen, dyed in deep midnight blue, featuring a stylized gothic rose motif with silver thread highlights\"}, {\"id\": \"obj_0005\", \"category\": \"book\", \"on\": \"obj_0014\", \"description\": \"A leather‑bound gothic book with a rectangular shape, dark crimson cover, ornate silver embossing, and slightly rounded edges.\"}, {\"id\": \"obj_0006\", \"category\": \"fixture\", \"on\": \"wall\", \"description\": \"A gothic style lighting fixture with a tall slender cylindrical body, black wrought‑iron frame, a single ornate crystal lantern at the top, and a subtle flickering LED core\"}, {\"id\": \"obj_0007\", \"category\": \"pillow\", \"on\": \"floor\", \"description\": \"A gothic style pillow with a rectangular, plush form, dark velvet fabric, embroidered black lace trim, and a subtle embossed rose motif\"}, {\"id\": \"obj_0008\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wall sconce with a tall, narrow iron frame, a curved glass shade, and a flickering candle‑like LED inside\"}, {\"id\": \"obj_0009\", \"category\": \"mirror\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright gothic mirror with an elongated rectangular frame, tarnished silver finish, and intricate rose‑window pattern carved into the edge.\"}, {\"id\": \"obj_0010\", \"category\": \"tapestry\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright tapestry woven from dark burgundy fabric, featuring a stylized gargoyle motif, heavy fringe along the bottom and a subtle metallic thread outline\"}, {\"id\": \"obj_0011\", \"category\": \"mirror\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright mirror with a tall pointed arch frame, matte black metal, gothic tracery and a faintly glowing rune etched along the top edge\"}, {\"id\": \"obj_0012\", \"category\": \"pillow\", \"on\": \"floor\", \"description\": \"A gothic style pillow with a rectangular, plush form, dark velvet fabric, embroidered black lace trim, and a subtle embossed rose motif\"}, {\"id\": \"obj_0013\", \"category\": \"pillow\", \"on\": \"floor\", \"description\": \"A gothic style pillow with a plush, rectangular shape, deep crimson velvet fabric, and a subtle black lace trim along the edges.\"}, {\"id\": \"obj_0014\", \"category\": \"blanketbed\", \"on\": \"floor\", \"description\": \"A gothic style blanket made of thick, dark brocade fabric, featuring a subtle damask pattern and a narrow silver trim along the edges\"}, {\"id\": \"obj_0015\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wall sconce with a tall, narrow iron frame, a curved glass shade, and a flickering candle‑like LED inside\"}, {\"id\": \"obj_0016\", \"category\": \"trim\", \"on\": \"wall\", \"description\": \"A dark oak wood trim with a long narrow rectangular profile, rich mahogany finish, subtle hand‑carved leaf motifs, and a smooth polished surface\"}, {\"id\": \"obj_0017\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wall sconce with a tall, narrow iron frame, a curved glass shade, and a flickering candle‑like LED inside\"}, {\"id\": \"obj_0018\", \"category\": \"stainedglass\", \"on\": \"wall\", \"description\": \"A gothic style stained glass window panel, thin and upright, with a tall rectangular shape, deep ruby and emerald hues, intricate leaded tracery, and a single central rose motif\"}, {\"id\": \"obj_0019\", \"category\": \"fixture\", \"on\": \"wall\", \"description\": \"A gothic style lighting fixture with a tall slender cylindrical body, black wrought‑iron frame, a single ornate crystal lantern at the top, and a subtle flickering LED core\"}, {\"id\": \"obj_0020\", \"category\": \"pillow\", \"on\": \"floor\", \"description\": \"A gothic style pillow with a plush, rectangular shape, deep crimson velvet fabric, and a subtle black lace trim along the edges.\"}, {\"id\": \"obj_0021\", \"category\": \"ornament\", \"on\": \"wall\", \"description\": \"A gothic ornamental sculpture with a tall, slender, angular shape, black wrought‑iron frame, and a deep crimson glass orb at the top.\"}, {\"id\": \"obj_0022\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wall sconce with a tall, narrow iron frame, a curved glass shade, and a flickering candle‑like LED inside\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1875,
+    "completion_tokens": 194,
+    "total_tokens": 2069,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 117
+    }
+   },
+   "cost_usd": 0.01138,
+   "latency_s": 15.598,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Put the deep crimson pillow on the dark brocade bed.\",\"uses\":[\"obj_0013\",\"obj_0014\"],\"articulation\":[]},{\"text\":\"Bring the book to the person sitting on the dark brocade bed.\",\"uses\":[\"obj_0005\",\"obj_0014\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Put the deep crimson pillow on the dark brocade bed.",
+   "uses": [
+    "obj_0013",
+    "obj_0014"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Bring the book to the person sitting on the dark brocade bed.",
+   "uses": [
+    "obj_0005",
+    "obj_0014"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0114
+}

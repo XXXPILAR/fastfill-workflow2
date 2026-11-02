@@ -1,0 +1,47 @@
+{
+ "room": 39,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:74a8a9a8-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"laundry room\", \"size_m\": [6.94, 4.11]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"washing machine\", \"on\": \"floor\", \"description\": \"A modern, freestanding dishwasher with a sleek design, featuring control panels and a digital display on the upper section.\"}, {\"id\": \"obj_0001\", \"category\": \"laundry basket\", \"on\": \"floor\", \"description\": \"A white laundry basket with a mesh fabric body and plastic frame. It features a handle at the top for easy carrying.\"}, {\"id\": \"obj_0002\", \"category\": \"drawer\", \"on\": \"floor\", \"description\": \"A tall, white filing cabinet with multiple drawers, each equipped with a handle for easy access.\"}, {\"id\": \"obj_0003\", \"category\": \"container\", \"on\": \"floor\", \"description\": \"A black laundry basket with a fabric body and metal frame handles. It has a rectangular shape with a slightly open front.\"}, {\"id\": \"obj_0004\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A minimalist rectangular table with a flat surface and thin legs connected by diagonal braces for stability.\"}, {\"id\": \"obj_0005\", \"category\": \"dryer\", \"on\": \"floor\", \"description\": \"A modern, freestanding dishwasher with a sleek design, featuring control panels and a digital display on the upper section.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 848,
+    "completion_tokens": 72,
+    "total_tokens": 920,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.004832,
+   "latency_s": 139.487,
+   "failed_attempts": 2,
+   "answer": "{\"tasks\":[{\"text\":\"Place the detergent bottle you brought on the rectangular table.\",\"uses\":[\"obj_0004\"],\"articulation\":[]},{\"text\":\"Open a drawer in the white filing cabinet and put the cleaning cloth you brought inside.\",\"uses\":[\"obj_0002\"],\"articulation\":[\"obj_0002\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the detergent bottle you brought on the rectangular table.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open a drawer in the white filing cabinet and put the cleaning cloth you brought inside.",
+   "uses": [
+    "obj_0002"
+   ],
+   "articulation": [
+    "obj_0002"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0048
+}

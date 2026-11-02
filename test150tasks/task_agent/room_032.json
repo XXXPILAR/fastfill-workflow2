@@ -1,0 +1,45 @@
+{
+ "room": 32,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:746f2f70-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"recreation room\", \"size_m\": [8.67, 6.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"bench\", \"on\": \"floor\", \"description\": \"A modern bench with a rectangular cushioned seat and sleek black legs.\"}, {\"id\": \"obj_0001\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A minimalist round table with a smooth wooden surface and elegantly curved legs.\"}, {\"id\": \"obj_0002\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A white water dispenser with two taps, one for hot water and one for cold water. It has a simple design with a rectangular body and a protruding spout.\"}, {\"id\": \"obj_0003\", \"category\": \"carpet\", \"on\": \"floor\", \"description\": \"A beige floor mat with horizontal ridges, designed for placement on the floor.\"}, {\"id\": \"obj_0004\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A comfortable armchair with a plush design, featuring padded armrests and a cushioned backrest. It has a rich brown color and decorative stitching along the edges.\"}, {\"id\": \"obj_0005\", \"category\": \"speaker\", \"on\": \"floor\", \"description\": \"A rectangular speaker with a wooden finish and two visible drivers, designed for audio output.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 844,
+    "completion_tokens": 68,
+    "total_tokens": 912,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.004736,
+   "latency_s": 68.337,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Place a book you bring in on the round wooden table.\",\"uses\":[\"obj_0001\"],\"articulation\":[]},{\"text\":\"Bring a bottle of water you carry in to someone seated in the brown armchair.\",\"uses\":[\"obj_0004\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place a book you bring in on the round wooden table.",
+   "uses": [
+    "obj_0001"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Bring a bottle of water you carry in to someone seated in the brown armchair.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0047
+}

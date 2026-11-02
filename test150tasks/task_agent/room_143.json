@@ -1,0 +1,60 @@
+{
+ "room": 143,
+ "source": "SAGE-10k",
+ "scene_id": "SAGE-10k::layout_80229af9::0",
+ "prompt": "{\"room\": {\"type\": \"bathroom\", \"size_m\": [3.66, 3.05]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"mirror\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright ornate mirror with a dark timber frame, copper accents, rectangular shape, and an intricate Tudor lattice carving.\"}, {\"id\": \"obj_0001\", \"category\": \"brush\", \"on\": \"obj_0023\", \"description\": \"A wooden-handled brush with natural bristles, cylindrical handle tapering to a rounded top, dark timber finish matching Tudor décor.\"}, {\"id\": \"obj_0002\", \"category\": \"soapdish\", \"on\": \"floor\", \"description\": \"A Tudor pattern soap dish, shallow rectangular shape, dark timber base with copper edging, featuring a carved Tudor rose motif.\"}, {\"id\": \"obj_0003\", \"category\": \"glassjar\", \"on\": \"obj_0005\", \"description\": \"A small glass jar with a cylindrical shape, clear transparent glass, dark timber lid with copper accent, and a subtle embossed Tudor pattern.\"}, {\"id\": \"obj_0004\", \"category\": \"soaptray\", \"on\": \"floor\", \"description\": \"A Tudor‑patterned soap dish made of ceramic, low rectangular tray, muted ivory tone, dark wood border, and copper corner insets\"}, {\"id\": \"obj_0005\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A dark stained wood cabinet with a rectangular, low‑profile body, featuring two hinged doors and subtle Tudor‑style paneling; the cabinet has a flat top surface and a sturdy, straight‑edged silhouette.\"}, {\"id\": \"obj_0006\", \"category\": \"wallmirror\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright decorative mirror with a polished copper frame, rectangular shape with a subtle Tudor scroll pattern on the border\"}, {\"id\": \"obj_0007\", \"category\": \"stool\", \"on\": \"floor\", \"description\": \"A small wooden stool with copper accents, squat cylindrical legs, dark timber seat, copper‑tipped legs and a tiny Tudor motif stamped into the seat surface\"}, {\"id\": \"obj_0008\", \"category\": \"towelrack\", \"on\": \"wall\", \"description\": \"A wooden towel rack with dark stained timber, horizontal bar with two curved hooks, sturdy rectangular backing, Tudor medieval style.\"}, {\"id\": \"obj_0009\", \"category\": \"sink\", \"on\": \"floor\", \"description\": \"A pedestal sink featuring an elegant, cylindrical basin atop a slender, ornate brass‑hardware pedestal; the porcelain basin is smooth and slightly oval, with a polished brass faucet and decorative finials.\"}, {\"id\": \"obj_0010\", \"category\": \"bottle\", \"on\": \"obj_0023\", \"description\": \"A small glass bottle with a copper cap, cylindrical shape, clear glass with a faint amber tint, copper cap featuring a tiny Tudor fleur‑de‑lis engraving\"}, {\"id\": \"obj_0011\", \"category\": \"comb\", \"on\": \"obj_0005\", \"description\": \"An antique wooden comb featuring a Tudor pattern, flat rectangular shape, smooth polished finish, dark oak color, delicate teeth.\"}, {\"id\": \"obj_0012\", \"category\": \"glassbottle\", \"on\": \"obj_0005\", \"description\": \"A clear glass bottle with a copper cap, slender cylindrical form, slightly tapered neck, and a faint Tudor‑inspired etched band near the base\"}, {\"id\": \"obj_0013\", \"category\": \"footstool\", \"on\": \"floor\", \"description\": \"A wooden footstool with a compact, square seat and gently rounded edges; the stool is crafted from the same dark stained timber as the cabinet, with a slightly tapered, sturdy leg and a subtle carved motif on the front.\"}, {\"id\": \"obj_0014\", \"category\": \"toilet\", \"on\": \"floor\", \"description\": \"A wooden seat toilet with a sturdy, rectangular bowl and a low‑profile wooden lid; the seat is crafted from dark stained timber, matching the Tudor aesthetic, and the base features subtle carved detailing.\"}, {\"id\": \"obj_0015\", \"category\": \"stool\", \"on\": \"floor\", \"description\": \"A small wooden stool with dark timber legs, compact square seat, slightly tapered legs, and a smooth polished finish\"}, {\"id\": \"obj_0016\", \"category\": \"bathtub\", \"on\": \"floor\", \"description\": \"A vintage clawfoot bathtub with a dark timber frame, copper fixtures, and a rounded, deep basin; the tub has a classic curved silhouette and ornate footed legs, finished in a rich mahogany stain.\"}, {\"id\": \"obj_0017\", \"category\": \"toiletry\", \"on\": \"obj_0023\", \"description\": \"A collection of Tudor‑style toiletries including four small glass jars with rounded shoulders and a wooden toothbrush with a dark timber handle and copper ferrule\"}, {\"id\": \"obj_0018\", \"category\": \"soaptray bathtub\", \"on\": \"obj_0016\", \"description\": \"A thin rectangular soap tray with a single piece of Tudor‑patterned copper‑inlaid surface, flat and low‑profile\"}, {\"id\": \"obj_0019\", \"category\": \"basket\", \"on\": \"floor\", \"description\": \"A decorative wicker basket with Tudor design, rounded shallow body, woven natural fibers, dark wood handle, and copper decorative accents\"}, {\"id\": \"obj_0020\", \"category\": \"shower\", \"on\": \"floor\", \"description\": \"A walk‑in stone‑tiled shower with a steep gable roof visible above; the enclosure is rectangular with smooth, flat stone tiles covering the floor and walls, and a low, arched wooden frame supporting the roof.\"}, {\"id\": \"obj_0021\", \"category\": \"ceramicjar\", \"on\": \"obj_0023\", \"description\": \"A small ceramic jar, squat cylindrical shape, matte ivory ceramic, dark timber lid with copper detailing, featuring a hand-painted Tudor motif.\"}, {\"id\": \"obj_0022\", \"category\": \"bottle\", \"on\": \"obj_0005\", \"description\": \"A slender cylindrical glass bottle with a polished copper cap, clear glass body and subtle Tudor pattern embossing, dark copper accents on the neck.\"}, {\"id\": \"obj_0023\", \"category\": \"shelf\", \"on\": \"wall\", \"description\": \"A small wooden shelf with Tudor paneling, rectangular flat board, dark timber, subtle raised panel edges, suitable for holding small items.\"}, {\"id\": \"obj_0024\", \"category\": \"soapdish\", \"on\": \"obj_0005\", \"description\": \"A ceramic soap dish with a rectangular shallow basin, smooth glazed finish, dark ivory color, Tudor-inspired carved edges.\"}, {\"id\": \"obj_0025\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A wall sconce, thin upright rectangular shape, copper finish with dark timber backplate, Tudor design motifs etched into the metal, includes a small candle holder.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 2080,
+    "completion_tokens": 129,
+    "total_tokens": 2209,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.0109,
+   "latency_s": 8.982,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Move the wooden-handled brush from the shelf to the cabinet top.\",\"uses\":[\"obj_0001\",\"obj_0023\",\"obj_0005\"],\"articulation\":[]},{\"text\":\"Place the comb from the cabinet on the square-seat stool.\",\"uses\":[\"obj_0011\",\"obj_0005\",\"obj_0015\"],\"articulation\":[]},{\"text\":\"Open the cabinet and put the ivory ceramic jar from the shelf inside.\",\"uses\":[\"obj_0005\",\"obj_0021\",\"obj_0023\"],\"articulation\":[\"obj_0005\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Move the wooden-handled brush from the shelf to the cabinet top.",
+   "uses": [
+    "obj_0001",
+    "obj_0023",
+    "obj_0005"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Place the comb from the cabinet on the square-seat stool.",
+   "uses": [
+    "obj_0011",
+    "obj_0005",
+    "obj_0015"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open the cabinet and put the ivory ceramic jar from the shelf inside.",
+   "uses": [
+    "obj_0005",
+    "obj_0021",
+    "obj_0023"
+   ],
+   "articulation": [
+    "obj_0005"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0109
+}

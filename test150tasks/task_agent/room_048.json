@@ -1,0 +1,47 @@
+{
+ "room": 48,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:754b57b6-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"balcony\", \"size_m\": [7.88, 5.7]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"flowerpot\", \"on\": \"floor\", \"description\": \"A set of four potted succulents with varying shapes and colors, arranged in white ceramic pots. The plants include a spiky red and yellow one, a green rosette-shaped one, and two smaller ones with reddish and green hues.\"}, {\"id\": \"obj_0001\", \"category\": \"stool\", \"on\": \"floor\", \"description\": \"A simple wooden stool with a white cushioned seat. It has four sturdy legs made of wood.\"}, {\"id\": \"obj_0002\", \"category\": \"flowerpot\", \"on\": \"floor\", \"description\": \"A round concrete planter containing several succulents with green and pinkish leaves.\"}, {\"id\": \"obj_0003\", \"category\": \"flowerpot\", \"on\": \"floor\", \"description\": \"A potted plant with vibrant green leaves and colorful flowers in shades of yellow, pink, and purple. The pot is cylindrical and made of a light brown material.\"}, {\"id\": \"obj_0004\", \"category\": \"umbrella\", \"on\": \"floor\", \"description\": \"A large outdoor umbrella with a square base and a tall pole supporting a wide canopy. The umbrella appears to be made of a lightweight fabric stretched over a metal frame.\"}, {\"id\": \"obj_0005\", \"category\": \"nightstand\", \"on\": \"floor\", \"description\": \"A modern side table with a rectangular wooden top and a single drawer. It features a sturdy metal frame with a geometric design.\"}, {\"id\": \"obj_0006\", \"category\": \"hammock\", \"on\": \"floor\", \"description\": \"A modern hammock with a sleek design, featuring a white fabric suspended between two metallic poles that form an X-shaped support structure.\"}, {\"id\": \"obj_0007\", \"category\": \"flower\", \"on\": \"floor\", \"description\": \"A bouquet of vibrant magenta roses with green leaves, arranged in a cluster.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 990,
+    "completion_tokens": 76,
+    "total_tokens": 1066,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.00548,
+   "latency_s": 63.652,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Place the magenta roses on the wooden side table.\",\"uses\":[\"obj_0007\",\"obj_0005\"],\"articulation\":[]},{\"text\":\"Put the light brown pot of colorful flowers on the white-cushioned stool.\",\"uses\":[\"obj_0003\",\"obj_0001\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the magenta roses on the wooden side table.",
+   "uses": [
+    "obj_0007",
+    "obj_0005"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Put the light brown pot of colorful flowers on the white-cushioned stool.",
+   "uses": [
+    "obj_0003",
+    "obj_0001"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0055
+}

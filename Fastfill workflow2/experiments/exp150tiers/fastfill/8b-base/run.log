@@ -1,0 +1,90 @@
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  62%|██████▏   | 248/398 [00:00<00:00, 2464.02it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 2581.20it/s]
+[transformers] [1mQwen3Model LOAD REPORT[0m from: /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4/models/Qwen3-8B
+Key            | Status     |  | 
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+{"checkpoint": "/lus/lfs1aip2/scratch/u6uv/shanliantian.u6uv/fastfill-v4-runs/main4-cell05-v4fixed-e5-base/model-step-6552", "backbone": "/lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4/models/Qwen3-8B", "max_length": 8192, "max_objects": 256, "decode": "spread", "device": "cuda", "gpu": "NVIDIA GH200 120GB", "torch": "2.13.0+cu126", "cuda": "12.6", "python": "3.12.15", "host": "nid010009", "slurm_job": "7955459", "code_commit": "50022ba37d778989c2811abce9727f0633a63723", "rows": "../test150tiers/rows.jsonl", "rows_sha256": "93b51bda60afa93519bf50ce0d9754ef94d19d373fa20f038155d28246b1c4a1", "rooms": 80, "load_s": 5.69, "started": "2026-11-01 23:24:11"}
+1/80 room   0 objects  58    684.8 ms warm-up
+2/80 room   1 objects  59    169.6 ms warm-up
+3/80 room   2 objects  30    102.5 ms
+4/80 room   3 objects  36    116.7 ms
+5/80 room   4 objects  59    181.0 ms
+6/80 room   5 objects  63    193.8 ms
+7/80 room   6 objects  14     82.4 ms
+8/80 room   7 objects  17     84.7 ms
+9/80 room   8 objects  64    222.6 ms
+10/80 room   9 objects  86    299.2 ms
+11/80 room  10 objects  44    157.5 ms
+12/80 room  11 objects  65    223.7 ms
+13/80 room  12 objects  27     94.1 ms
+14/80 room  13 objects  32    110.3 ms
+15/80 room  14 objects  12     83.5 ms
+16/80 room  15 objects  16     81.5 ms
+17/80 room  16 objects  29     99.6 ms
+18/80 room  17 objects  32    108.1 ms
+19/80 room  18 objects  74    211.4 ms
+20/80 room  19 objects  80    226.9 ms
+21/80 room  20 objects  51    152.3 ms
+22/80 room  21 objects  66    190.9 ms
+23/80 room  22 objects  33    105.4 ms
+24/80 room  23 objects  36    112.8 ms
+25/80 room  24 objects  20     86.5 ms
+26/80 room  25 objects  28     97.4 ms
+27/80 room  26 objects  38    121.4 ms
+28/80 room  27 objects  44    138.5 ms
+29/80 room  28 objects 112    316.0 ms
+30/80 room  29 objects 119    338.0 ms
+31/80 room  30 objects  46    143.7 ms
+32/80 room  31 objects  51    161.0 ms
+33/80 room  32 objects  30    101.6 ms
+34/80 room  33 objects  35    118.2 ms
+35/80 room  34 objects  38    115.1 ms
+36/80 room  35 objects  54    160.6 ms
+37/80 room  36 objects  74    222.3 ms
+38/80 room  37 objects  77    234.4 ms
+39/80 room  38 objects  62    193.0 ms
+40/80 room  39 objects  74    255.6 ms
+41/80 room  40 objects  36    109.6 ms
+42/80 room  41 objects  46    138.3 ms
+43/80 room  42 objects  40    129.6 ms
+44/80 room  43 objects  43    135.2 ms
+45/80 room  44 objects  20     83.7 ms
+46/80 room  45 objects  23     86.3 ms
+47/80 room  46 objects  68    209.5 ms
+48/80 room  47 objects  69    208.5 ms
+49/80 room  48 objects  45    141.9 ms
+50/80 room  49 objects  50    157.8 ms
+51/80 room  50 objects  34    104.3 ms
+52/80 room  51 objects  41    128.2 ms
+53/80 room  52 objects  16     84.1 ms
+54/80 room  53 objects  17     77.8 ms
+55/80 room  54 objects  40    134.7 ms
+56/80 room  55 objects  45    151.6 ms
+57/80 room  56 objects  36    124.0 ms
+58/80 room  57 objects  48    161.8 ms
+59/80 room  58 objects  33    129.9 ms
+60/80 room  59 objects  36    138.7 ms
+61/80 room  60 objects  16     83.5 ms
+62/80 room  61 objects  17     84.7 ms
+63/80 room  62 objects  45    136.7 ms
+64/80 room  63 objects  70    209.3 ms
+65/80 room  64 objects  30     99.4 ms
+66/80 room  65 objects  36    115.4 ms
+67/80 room  66 objects  23     83.7 ms
+68/80 room  67 objects  25     86.2 ms
+69/80 room  68 objects  47    152.5 ms
+70/80 room  69 objects  52    162.9 ms
+71/80 room  70 objects  29    105.3 ms
+72/80 room  71 objects  31    111.5 ms
+73/80 room  72 objects  15     79.6 ms
+74/80 room  73 objects  21     82.6 ms
+75/80 room  74 objects  23     90.9 ms
+76/80 room  75 objects  39    139.8 ms
+77/80 room  76 objects  23     87.5 ms
+78/80 room  77 objects  25     92.6 ms
+79/80 room  78 objects  63    190.4 ms
+80/80 room  79 objects  66    197.4 ms
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 11.93, "seconds_median": 0.1296, "seconds_max": 0.338, "load_s": 5.69}

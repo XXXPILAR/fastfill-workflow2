@@ -34,18 +34,18 @@ class FixedSizes:
     pose does not show that the size cannot fit, and shrinking would trade size accuracy for fewer collisions."""
 
     def __init__(self, sizes: dict[str, list[float]], catalog: SizeCatalog, allow_shrink: bool = True,
-                 levels: tuple[int, ...] = (1, 2), floor: bool = True):
+                 levels: tuple[int, ...] = (1, 2), floor: bool = True, keep: frozenset = frozenset()):
         """``levels``: the shrink levels the search may try, in order (``SHRINK_FACTORS``); ``floor=False`` drops the
         catalog's 15th-percentile floor (the size fallback: a smaller model of the object, such as a queen bed for
-        a king, recorded as resized)."""
+        a king, recorded as resized). ``keep``: ids never shrunk (the task's required objects)."""
         self.sizes, self.catalog, self.allow_shrink = sizes, catalog, allow_shrink
-        self.levels, self.floor = tuple(levels), floor
+        self.levels, self.floor, self.keep = tuple(levels), floor, frozenset(keep)
 
     def candidates(self, request: dict, llm_hint=None) -> list[tuple[list[float], float, str]]:
         return [(self.sizes[request["id"]], 0., "fixed")]
 
     def shrunk(self, request: dict, level: int) -> list[tuple[list[float], float, str]]:
-        if not self.allow_shrink or level not in self.levels:
+        if not self.allow_shrink or level not in self.levels or request["id"] in self.keep:
             return []
         size = self.sizes[request["id"]]
         record = self.catalog.categories.get(_key(request["category"])) if self.floor else None

@@ -1,0 +1,45 @@
+{
+ "room": 12,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:b94ff932-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"library\", \"size_m\": [3.72, 3.21]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"classic chinese chair\", \"on\": \"floor\", \"description\": \"A traditional wooden armchair with a curved backrest and armrests, featuring a dark brown finish and a red cushion for added comfort.\"}, {\"id\": \"obj_0001\", \"category\": \"bookcase\", \"on\": \"floor\", \"description\": \"A modern storage cabinet with multiple shelves and drawers, featuring a sleek design with a combination of light wood and black surfaces.\"}, {\"id\": \"obj_0002\", \"category\": \"desk\", \"on\": \"floor\", \"description\": \"A modern dining table with a rectangular wooden tabletop and sleek black metal legs.\"}, {\"id\": \"obj_0003\", \"category\": \"lounge chair\", \"on\": \"floor\", \"description\": \"A metal-framed chair with a wooden seat and backrest, featuring an X-shaped back design.\"}, {\"id\": \"obj_0004\", \"category\": \"bookcase\", \"on\": \"floor\", \"description\": \"A modern storage cabinet with multiple shelves and drawers, featuring a sleek design with a combination of light wood and black surfaces.\"}, {\"id\": \"obj_0005\", \"category\": \"potted plant\", \"on\": \"floor\", \"description\": \"A lush green potted plant with broad leaves, placed in a white pot on a black square base.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 851,
+    "completion_tokens": 129,
+    "total_tokens": 980,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 65
+    }
+   },
+   "cost_usd": 0.005984,
+   "latency_s": 14.291,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the book you are carrying on the desk.\",\"uses\":[\"obj_0002\"],\"articulation\":[]},{\"text\":\"Place the blanket you are carrying on the X-backed lounge chair.\",\"uses\":[\"obj_0003\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the book you are carrying on the desk.",
+   "uses": [
+    "obj_0002"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Place the blanket you are carrying on the X-backed lounge chair.",
+   "uses": [
+    "obj_0003"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.006
+}

@@ -1,0 +1,47 @@
+{
+ "room": 5,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:b69664e2-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"dining room\", \"size_m\": [6.53, 9.19]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"armchair\", \"on\": \"floor\", \"description\": \"A modern black armchair with a tufted backrest and sleek design, featuring thin legs.\"}, {\"id\": \"obj_0001\", \"category\": \"tv stand\", \"on\": \"floor\", \"description\": \"A wooden lowboard with a minimalist design, featuring a flat top surface, two drawers, and four slender legs. It has a light brown finish and appears sturdy and functional.\"}, {\"id\": \"obj_0002\", \"category\": \"loveseat sofa\", \"on\": \"floor\", \"description\": \"A modern black sofa with two cushions and a sleek design, featuring short legs and a minimalist aesthetic.\"}, {\"id\": \"obj_0003\", \"category\": \"coffee table\", \"on\": \"floor\", \"description\": \"A sleek, modern coffee table with a dark gray tabletop and black metal legs. The table has a minimalist design with geometric patterns on the surface. There are two stacks of books placed on the table.\"}, {\"id\": \"obj_0004\", \"category\": \"side table\", \"on\": \"floor\", \"description\": \"A round coffee table with three angular legs, topped with a stack of books and a mug.\"}, {\"id\": \"obj_0005\", \"category\": \"armchair\", \"on\": \"floor\", \"description\": \"A modern black armchair with a tufted backrest and sleek design, featuring thin legs.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 873,
+    "completion_tokens": 162,
+    "total_tokens": 1035,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 86
+    }
+   },
+   "cost_usd": 0.006732,
+   "latency_s": 72.582,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Place the book you are carrying on the round side table.\",\"uses\":[\"obj_0004\"],\"articulation\":[]},{\"text\":\"Open a drawer in the wooden TV stand and put the napkins you are carrying inside.\",\"uses\":[\"obj_0001\"],\"articulation\":[\"obj_0001\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the book you are carrying on the round side table.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open a drawer in the wooden TV stand and put the napkins you are carrying inside.",
+   "uses": [
+    "obj_0001"
+   ],
+   "articulation": [
+    "obj_0001"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0067
+}

@@ -1,0 +1,17 @@
+name, memory.total [MiB]
+NVIDIA GH200 120GB, 97871 MiB
+== 1.7b-all-full /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500
+150/150 room 295 objects   5     60.3 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 18.39, "seconds_median": 0.0649, "seconds_max": 1.9516, "load_s": 15.21}
+== 1.7b-all-r64a128 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-r64a128/model-step-3500
+150/150 room 295 objects   5     60.8 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 10.63, "seconds_median": 0.0632, "seconds_max": 0.2504, "load_s": 6.44}
+== 1.7b-all-r8a32 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-r8a32/model-step-3500
+150/150 room 295 objects   5     63.5 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 11.35, "seconds_median": 0.0682, "seconds_max": 0.2443, "load_s": 5.08}
+== 4b-all-r64a128 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-r64a128/model-step-4500
+150/150 room 295 objects   5     83.0 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 14.42, "seconds_median": 0.0856, "seconds_max": 0.4508, "load_s": 5.67}
+== 4b-all-r8a32 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-r8a32/model-step-3500
+150/150 room 295 objects   5     74.9 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 13.34, "seconds_median": 0.0785, "seconds_max": 0.4357, "load_s": 4.75}

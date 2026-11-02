@@ -1,0 +1,45 @@
+{
+ "room": 47,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:754a0cb2-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"balcony\", \"size_m\": [8.84, 6.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A modern lounge chair paired with an ottoman, featuring a sleek design with black cushioning and wooden panels. The chair has a five-star base with casters for mobility.\"}, {\"id\": \"obj_0001\", \"category\": \"flowerpot\", \"on\": \"floor\", \"description\": \"A rectangular planter with a brown body and black decorative legs. It appears to be empty.\"}, {\"id\": \"obj_0002\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A round coffee table with a sleek design featuring a glass top and metal legs connected by curved supports.\"}, {\"id\": \"obj_0003\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A minimalist side table with a round wooden top and three slender legs.\"}, {\"id\": \"obj_0004\", \"category\": \"couch\", \"on\": \"floor\", \"description\": \"A modern sofa with a sleek design, featuring a black frame and white cushions. It has a minimalist aesthetic with clean lines and a contemporary style.\"}, {\"id\": \"obj_0005\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A minimalist side table with a round wooden top and three slender legs.\"}, {\"id\": \"obj_0006\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A modern lounge chair paired with an ottoman, featuring a sleek design with black cushioning and wooden panels. The chair has a five-star base with casters for mobility.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 904,
+    "completion_tokens": 67,
+    "total_tokens": 971,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.004956,
+   "latency_s": 67.552,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Bring a cup you carry in to the glass coffee table.\",\"uses\":[\"obj_0002\"],\"articulation\":[]},{\"text\":\"Bring a book you carry in to someone on the white-cushioned sofa.\",\"uses\":[\"obj_0004\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Bring a cup you carry in to the glass coffee table.",
+   "uses": [
+    "obj_0002"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Bring a book you carry in to someone on the white-cushioned sofa.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.005
+}

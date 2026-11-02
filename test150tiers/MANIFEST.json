@@ -1,0 +1,1747 @@
+{
+ "base_rows": "../test150detail/rows.jsonl",
+ "base_sha256": "e86df753e279386e172265c31d50439bbea3a41171872f6052c4d5195cd4e593",
+ "rows_sha256": "93b51bda60afa93519bf50ce0d9754ef94d19d373fa20f038155d28246b1c4a1",
+ "mid_m": 0.3,
+ "rooms": [
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  116,
+  117,
+  118,
+  119,
+  120,
+  121,
+  122,
+  123,
+  124,
+  125,
+  126,
+  127,
+  128,
+  129,
+  130,
+  131,
+  133,
+  134,
+  135,
+  137,
+  138,
+  139,
+  140,
+  141,
+  142,
+  143,
+  145,
+  146,
+  147,
+  148,
+  149
+ ],
+ "summary": {
+  "easy": {
+   "versions": 40,
+   "objects": 1597,
+   "constraints": 63
+  },
+  "medium": {
+   "versions": 40,
+   "objects": 1870,
+   "constraints": 72
+  },
+  "hard": {
+   "versions": 40,
+   "objects": 3227,
+   "constraints": 102
+  }
+ },
+ "versions": [
+  {
+   "base_index": 106,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_cede3d04::0",
+   "objects": 58,
+   "of": 94,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 58,
+    "2": 1,
+    "3": 35
+   },
+   "row": 0
+  },
+  {
+   "base_index": 106,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_cede3d04::0",
+   "objects": 59,
+   "of": 94,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 58,
+    "2": 1,
+    "3": 35
+   },
+   "row": 1
+  },
+  {
+   "base_index": 106,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_cede3d04::0",
+   "objects": 94,
+   "of": 94,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 58,
+    "2": 1,
+    "3": 35
+   },
+   "row": null
+  },
+  {
+   "base_index": 107,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_db866866::0",
+   "objects": 30,
+   "of": 66,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 30,
+    "2": 6,
+    "3": 30
+   },
+   "row": 2
+  },
+  {
+   "base_index": 107,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_db866866::0",
+   "objects": 36,
+   "of": 66,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 30,
+    "2": 6,
+    "3": 30
+   },
+   "row": 3
+  },
+  {
+   "base_index": 107,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_db866866::0",
+   "objects": 66,
+   "of": 66,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 30,
+    "2": 6,
+    "3": 30
+   },
+   "row": null
+  },
+  {
+   "base_index": 108,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_c554160b::0",
+   "objects": 59,
+   "of": 142,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 59,
+    "2": 4,
+    "3": 79
+   },
+   "row": 4
+  },
+  {
+   "base_index": 108,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_c554160b::0",
+   "objects": 63,
+   "of": 142,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 59,
+    "2": 4,
+    "3": 79
+   },
+   "row": 5
+  },
+  {
+   "base_index": 108,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_c554160b::0",
+   "objects": 142,
+   "of": 142,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 59,
+    "2": 4,
+    "3": 79
+   },
+   "row": null
+  },
+  {
+   "base_index": 109,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_d1367a17::0",
+   "objects": 14,
+   "of": 50,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 14,
+    "2": 3,
+    "3": 33
+   },
+   "row": 6
+  },
+  {
+   "base_index": 109,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_d1367a17::0",
+   "objects": 17,
+   "of": 50,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 14,
+    "2": 3,
+    "3": 33
+   },
+   "row": 7
+  },
+  {
+   "base_index": 109,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_d1367a17::0",
+   "objects": 50,
+   "of": 50,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 14,
+    "2": 3,
+    "3": 33
+   },
+   "row": null
+  },
+  {
+   "base_index": 110,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_06596ab4::0",
+   "objects": 64,
+   "of": 130,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 64,
+    "2": 22,
+    "3": 44
+   },
+   "row": 8
+  },
+  {
+   "base_index": 110,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_06596ab4::0",
+   "objects": 86,
+   "of": 130,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 64,
+    "2": 22,
+    "3": 44
+   },
+   "row": 9
+  },
+  {
+   "base_index": 110,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_06596ab4::0",
+   "objects": 130,
+   "of": 130,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 64,
+    "2": 22,
+    "3": 44
+   },
+   "row": null
+  },
+  {
+   "base_index": 111,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_2ceae3db::0",
+   "objects": 44,
+   "of": 102,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 44,
+    "2": 21,
+    "3": 37
+   },
+   "row": 10
+  },
+  {
+   "base_index": 111,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_2ceae3db::0",
+   "objects": 65,
+   "of": 102,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 44,
+    "2": 21,
+    "3": 37
+   },
+   "row": 11
+  },
+  {
+   "base_index": 111,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_2ceae3db::0",
+   "objects": 102,
+   "of": 102,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 44,
+    "2": 21,
+    "3": 37
+   },
+   "row": null
+  },
+  {
+   "base_index": 112,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_6866cfc9::0",
+   "objects": 27,
+   "of": 74,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 27,
+    "2": 5,
+    "3": 42
+   },
+   "row": 12
+  },
+  {
+   "base_index": 112,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_6866cfc9::0",
+   "objects": 32,
+   "of": 74,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 27,
+    "2": 5,
+    "3": 42
+   },
+   "row": 13
+  },
+  {
+   "base_index": 112,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_6866cfc9::0",
+   "objects": 74,
+   "of": 74,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 27,
+    "2": 5,
+    "3": 42
+   },
+   "row": null
+  },
+  {
+   "base_index": 113,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_db70f61b::0",
+   "objects": 12,
+   "of": 24,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 12,
+    "2": 4,
+    "3": 8
+   },
+   "row": 14
+  },
+  {
+   "base_index": 113,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_db70f61b::0",
+   "objects": 16,
+   "of": 24,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 12,
+    "2": 4,
+    "3": 8
+   },
+   "row": 15
+  },
+  {
+   "base_index": 113,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_db70f61b::0",
+   "objects": 24,
+   "of": 24,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 12,
+    "2": 4,
+    "3": 8
+   },
+   "row": null
+  },
+  {
+   "base_index": 114,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_bc4c6787::0",
+   "objects": 29,
+   "of": 51,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 29,
+    "2": 3,
+    "3": 19
+   },
+   "row": 16
+  },
+  {
+   "base_index": 114,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_bc4c6787::0",
+   "objects": 32,
+   "of": 51,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 29,
+    "2": 3,
+    "3": 19
+   },
+   "row": 17
+  },
+  {
+   "base_index": 114,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_bc4c6787::0",
+   "objects": 51,
+   "of": 51,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 29,
+    "2": 3,
+    "3": 19
+   },
+   "row": null
+  },
+  {
+   "base_index": 116,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_b8132b51::0",
+   "objects": 74,
+   "of": 123,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 74,
+    "2": 6,
+    "3": 43
+   },
+   "row": 18
+  },
+  {
+   "base_index": 116,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_b8132b51::0",
+   "objects": 80,
+   "of": 123,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 74,
+    "2": 6,
+    "3": 43
+   },
+   "row": 19
+  },
+  {
+   "base_index": 116,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_b8132b51::0",
+   "objects": 123,
+   "of": 123,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 74,
+    "2": 6,
+    "3": 43
+   },
+   "row": null
+  },
+  {
+   "base_index": 117,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_56e900c3::0",
+   "objects": 51,
+   "of": 135,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 51,
+    "2": 15,
+    "3": 69
+   },
+   "row": 20
+  },
+  {
+   "base_index": 117,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_56e900c3::0",
+   "objects": 66,
+   "of": 135,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 51,
+    "2": 15,
+    "3": 69
+   },
+   "row": 21
+  },
+  {
+   "base_index": 117,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_56e900c3::0",
+   "objects": 135,
+   "of": 135,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 51,
+    "2": 15,
+    "3": 69
+   },
+   "row": null
+  },
+  {
+   "base_index": 118,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_ba01b7cb::0",
+   "objects": 33,
+   "of": 44,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 33,
+    "2": 3,
+    "3": 8
+   },
+   "row": 22
+  },
+  {
+   "base_index": 118,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_ba01b7cb::0",
+   "objects": 36,
+   "of": 44,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 33,
+    "2": 3,
+    "3": 8
+   },
+   "row": 23
+  },
+  {
+   "base_index": 118,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_ba01b7cb::0",
+   "objects": 44,
+   "of": 44,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 33,
+    "2": 3,
+    "3": 8
+   },
+   "row": null
+  },
+  {
+   "base_index": 119,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_01aaa50e::0",
+   "objects": 20,
+   "of": 63,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 20,
+    "2": 8,
+    "3": 35
+   },
+   "row": 24
+  },
+  {
+   "base_index": 119,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_01aaa50e::0",
+   "objects": 28,
+   "of": 63,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 20,
+    "2": 8,
+    "3": 35
+   },
+   "row": 25
+  },
+  {
+   "base_index": 119,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_01aaa50e::0",
+   "objects": 63,
+   "of": 63,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 20,
+    "2": 8,
+    "3": 35
+   },
+   "row": null
+  },
+  {
+   "base_index": 120,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_ec29bf9d::0",
+   "objects": 38,
+   "of": 87,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 38,
+    "2": 6,
+    "3": 43
+   },
+   "row": 26
+  },
+  {
+   "base_index": 120,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_ec29bf9d::0",
+   "objects": 44,
+   "of": 87,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 38,
+    "2": 6,
+    "3": 43
+   },
+   "row": 27
+  },
+  {
+   "base_index": 120,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_ec29bf9d::0",
+   "objects": 87,
+   "of": 87,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 38,
+    "2": 6,
+    "3": 43
+   },
+   "row": null
+  },
+  {
+   "base_index": 121,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_62025115::0",
+   "objects": 112,
+   "of": 144,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 112,
+    "2": 7,
+    "3": 25
+   },
+   "row": 28
+  },
+  {
+   "base_index": 121,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_62025115::0",
+   "objects": 119,
+   "of": 144,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 112,
+    "2": 7,
+    "3": 25
+   },
+   "row": 29
+  },
+  {
+   "base_index": 121,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_62025115::0",
+   "objects": 144,
+   "of": 144,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 112,
+    "2": 7,
+    "3": 25
+   },
+   "row": null
+  },
+  {
+   "base_index": 122,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_f17b0cd9::0",
+   "objects": 46,
+   "of": 102,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 46,
+    "2": 5,
+    "3": 51
+   },
+   "row": 30
+  },
+  {
+   "base_index": 122,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_f17b0cd9::0",
+   "objects": 51,
+   "of": 102,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 46,
+    "2": 5,
+    "3": 51
+   },
+   "row": 31
+  },
+  {
+   "base_index": 122,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_f17b0cd9::0",
+   "objects": 102,
+   "of": 102,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 46,
+    "2": 5,
+    "3": 51
+   },
+   "row": null
+  },
+  {
+   "base_index": 123,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_251e0562::0",
+   "objects": 30,
+   "of": 36,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 30,
+    "2": 5,
+    "3": 1
+   },
+   "row": 32
+  },
+  {
+   "base_index": 123,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_251e0562::0",
+   "objects": 35,
+   "of": 36,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 30,
+    "2": 5,
+    "3": 1
+   },
+   "row": 33
+  },
+  {
+   "base_index": 123,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_251e0562::0",
+   "objects": 36,
+   "of": 36,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 30,
+    "2": 5,
+    "3": 1
+   },
+   "row": null
+  },
+  {
+   "base_index": 124,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_d4393aa4::0",
+   "objects": 38,
+   "of": 78,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 38,
+    "2": 16,
+    "3": 24
+   },
+   "row": 34
+  },
+  {
+   "base_index": 124,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_d4393aa4::0",
+   "objects": 54,
+   "of": 78,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 38,
+    "2": 16,
+    "3": 24
+   },
+   "row": 35
+  },
+  {
+   "base_index": 124,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_d4393aa4::0",
+   "objects": 78,
+   "of": 78,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 38,
+    "2": 16,
+    "3": 24
+   },
+   "row": null
+  },
+  {
+   "base_index": 125,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_157c1758::0",
+   "objects": 74,
+   "of": 117,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 74,
+    "2": 3,
+    "3": 40
+   },
+   "row": 36
+  },
+  {
+   "base_index": 125,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_157c1758::0",
+   "objects": 77,
+   "of": 117,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 74,
+    "2": 3,
+    "3": 40
+   },
+   "row": 37
+  },
+  {
+   "base_index": 125,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_157c1758::0",
+   "objects": 117,
+   "of": 117,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 74,
+    "2": 3,
+    "3": 40
+   },
+   "row": null
+  },
+  {
+   "base_index": 126,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_9d327f81::0",
+   "objects": 62,
+   "of": 104,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 62,
+    "2": 12,
+    "3": 30
+   },
+   "row": 38
+  },
+  {
+   "base_index": 126,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_9d327f81::0",
+   "objects": 74,
+   "of": 104,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 62,
+    "2": 12,
+    "3": 30
+   },
+   "row": 39
+  },
+  {
+   "base_index": 126,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_9d327f81::0",
+   "objects": 104,
+   "of": 104,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 62,
+    "2": 12,
+    "3": 30
+   },
+   "row": null
+  },
+  {
+   "base_index": 127,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_301264f9::0",
+   "objects": 36,
+   "of": 56,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 36,
+    "2": 10,
+    "3": 10
+   },
+   "row": 40
+  },
+  {
+   "base_index": 127,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_301264f9::0",
+   "objects": 46,
+   "of": 56,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 36,
+    "2": 10,
+    "3": 10
+   },
+   "row": 41
+  },
+  {
+   "base_index": 127,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_301264f9::0",
+   "objects": 56,
+   "of": 56,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 36,
+    "2": 10,
+    "3": 10
+   },
+   "row": null
+  },
+  {
+   "base_index": 128,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_9c8f4dd7::0",
+   "objects": 40,
+   "of": 76,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 40,
+    "2": 3,
+    "3": 33
+   },
+   "row": 42
+  },
+  {
+   "base_index": 128,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_9c8f4dd7::0",
+   "objects": 43,
+   "of": 76,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 40,
+    "2": 3,
+    "3": 33
+   },
+   "row": 43
+  },
+  {
+   "base_index": 128,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_9c8f4dd7::0",
+   "objects": 76,
+   "of": 76,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 40,
+    "2": 3,
+    "3": 33
+   },
+   "row": null
+  },
+  {
+   "base_index": 129,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_b0aa93a1::0",
+   "objects": 20,
+   "of": 58,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 20,
+    "2": 3,
+    "3": 35
+   },
+   "row": 44
+  },
+  {
+   "base_index": 129,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_b0aa93a1::0",
+   "objects": 23,
+   "of": 58,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 20,
+    "2": 3,
+    "3": 35
+   },
+   "row": 45
+  },
+  {
+   "base_index": 129,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_b0aa93a1::0",
+   "objects": 58,
+   "of": 58,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 20,
+    "2": 3,
+    "3": 35
+   },
+   "row": null
+  },
+  {
+   "base_index": 130,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_3ef28c3b::0",
+   "objects": 68,
+   "of": 131,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 68,
+    "2": 1,
+    "3": 62
+   },
+   "row": 46
+  },
+  {
+   "base_index": 130,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_3ef28c3b::0",
+   "objects": 69,
+   "of": 131,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 68,
+    "2": 1,
+    "3": 62
+   },
+   "row": 47
+  },
+  {
+   "base_index": 130,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_3ef28c3b::0",
+   "objects": 131,
+   "of": 131,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 68,
+    "2": 1,
+    "3": 62
+   },
+   "row": null
+  },
+  {
+   "base_index": 131,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_1d66bf3f::0",
+   "objects": 45,
+   "of": 104,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 45,
+    "2": 5,
+    "3": 54
+   },
+   "row": 48
+  },
+  {
+   "base_index": 131,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_1d66bf3f::0",
+   "objects": 50,
+   "of": 104,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 45,
+    "2": 5,
+    "3": 54
+   },
+   "row": 49
+  },
+  {
+   "base_index": 131,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_1d66bf3f::0",
+   "objects": 104,
+   "of": 104,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 45,
+    "2": 5,
+    "3": 54
+   },
+   "row": null
+  },
+  {
+   "base_index": 133,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_a7883300::0",
+   "objects": 34,
+   "of": 69,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 34,
+    "2": 7,
+    "3": 28
+   },
+   "row": 50
+  },
+  {
+   "base_index": 133,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_a7883300::0",
+   "objects": 41,
+   "of": 69,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 34,
+    "2": 7,
+    "3": 28
+   },
+   "row": 51
+  },
+  {
+   "base_index": 133,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_a7883300::0",
+   "objects": 69,
+   "of": 69,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 34,
+    "2": 7,
+    "3": 28
+   },
+   "row": null
+  },
+  {
+   "base_index": 134,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_2d7eb979::0",
+   "objects": 16,
+   "of": 26,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 16,
+    "2": 1,
+    "3": 9
+   },
+   "row": 52
+  },
+  {
+   "base_index": 134,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_2d7eb979::0",
+   "objects": 17,
+   "of": 26,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 16,
+    "2": 1,
+    "3": 9
+   },
+   "row": 53
+  },
+  {
+   "base_index": 134,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_2d7eb979::0",
+   "objects": 26,
+   "of": 26,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 16,
+    "2": 1,
+    "3": 9
+   },
+   "row": null
+  },
+  {
+   "base_index": 135,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_e3b36c2d::0",
+   "objects": 40,
+   "of": 97,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 40,
+    "2": 5,
+    "3": 52
+   },
+   "row": 54
+  },
+  {
+   "base_index": 135,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_e3b36c2d::0",
+   "objects": 45,
+   "of": 97,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 40,
+    "2": 5,
+    "3": 52
+   },
+   "row": 55
+  },
+  {
+   "base_index": 135,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_e3b36c2d::0",
+   "objects": 97,
+   "of": 97,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 40,
+    "2": 5,
+    "3": 52
+   },
+   "row": null
+  },
+  {
+   "base_index": 137,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_14c1b39f::0",
+   "objects": 36,
+   "of": 90,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 36,
+    "2": 12,
+    "3": 42
+   },
+   "row": 56
+  },
+  {
+   "base_index": 137,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_14c1b39f::0",
+   "objects": 48,
+   "of": 90,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 36,
+    "2": 12,
+    "3": 42
+   },
+   "row": 57
+  },
+  {
+   "base_index": 137,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_14c1b39f::0",
+   "objects": 90,
+   "of": 90,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 36,
+    "2": 12,
+    "3": 42
+   },
+   "row": null
+  },
+  {
+   "base_index": 138,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_284bbd3e::0",
+   "objects": 33,
+   "of": 107,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 33,
+    "2": 3,
+    "3": 71
+   },
+   "row": 58
+  },
+  {
+   "base_index": 138,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_284bbd3e::0",
+   "objects": 36,
+   "of": 107,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 33,
+    "2": 3,
+    "3": 71
+   },
+   "row": 59
+  },
+  {
+   "base_index": 138,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_284bbd3e::0",
+   "objects": 107,
+   "of": 107,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 33,
+    "2": 3,
+    "3": 71
+   },
+   "row": null
+  },
+  {
+   "base_index": 139,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_6b01c180::0",
+   "objects": 16,
+   "of": 40,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 16,
+    "2": 1,
+    "3": 23
+   },
+   "row": 60
+  },
+  {
+   "base_index": 139,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_6b01c180::0",
+   "objects": 17,
+   "of": 40,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 16,
+    "2": 1,
+    "3": 23
+   },
+   "row": 61
+  },
+  {
+   "base_index": 139,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_6b01c180::0",
+   "objects": 40,
+   "of": 40,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 16,
+    "2": 1,
+    "3": 23
+   },
+   "row": null
+  },
+  {
+   "base_index": 140,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_2bdcd8a2::0",
+   "objects": 45,
+   "of": 102,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 45,
+    "2": 25,
+    "3": 32
+   },
+   "row": 62
+  },
+  {
+   "base_index": 140,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_2bdcd8a2::0",
+   "objects": 70,
+   "of": 102,
+   "constraints": 0,
+   "layer_counts": {
+    "1": 45,
+    "2": 25,
+    "3": 32
+   },
+   "row": 63
+  },
+  {
+   "base_index": 140,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_2bdcd8a2::0",
+   "objects": 102,
+   "of": 102,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 45,
+    "2": 25,
+    "3": 32
+   },
+   "row": null
+  },
+  {
+   "base_index": 141,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_17eee075::0",
+   "objects": 30,
+   "of": 66,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 30,
+    "2": 6,
+    "3": 30
+   },
+   "row": 64
+  },
+  {
+   "base_index": 141,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_17eee075::0",
+   "objects": 36,
+   "of": 66,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 30,
+    "2": 6,
+    "3": 30
+   },
+   "row": 65
+  },
+  {
+   "base_index": 141,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_17eee075::0",
+   "objects": 66,
+   "of": 66,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 30,
+    "2": 6,
+    "3": 30
+   },
+   "row": null
+  },
+  {
+   "base_index": 142,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_ac183c85::0",
+   "objects": 23,
+   "of": 80,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 23,
+    "2": 2,
+    "3": 55
+   },
+   "row": 66
+  },
+  {
+   "base_index": 142,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_ac183c85::0",
+   "objects": 25,
+   "of": 80,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 23,
+    "2": 2,
+    "3": 55
+   },
+   "row": 67
+  },
+  {
+   "base_index": 142,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_ac183c85::0",
+   "objects": 80,
+   "of": 80,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 23,
+    "2": 2,
+    "3": 55
+   },
+   "row": null
+  },
+  {
+   "base_index": 143,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_0cc7eb66::0",
+   "objects": 47,
+   "of": 74,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 47,
+    "2": 5,
+    "3": 22
+   },
+   "row": 68
+  },
+  {
+   "base_index": 143,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_0cc7eb66::0",
+   "objects": 52,
+   "of": 74,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 47,
+    "2": 5,
+    "3": 22
+   },
+   "row": 69
+  },
+  {
+   "base_index": 143,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_0cc7eb66::0",
+   "objects": 74,
+   "of": 74,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 47,
+    "2": 5,
+    "3": 22
+   },
+   "row": null
+  },
+  {
+   "base_index": 145,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_813eca2c::0",
+   "objects": 29,
+   "of": 34,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 29,
+    "2": 2,
+    "3": 3
+   },
+   "row": 70
+  },
+  {
+   "base_index": 145,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_813eca2c::0",
+   "objects": 31,
+   "of": 34,
+   "constraints": 1,
+   "layer_counts": {
+    "1": 29,
+    "2": 2,
+    "3": 3
+   },
+   "row": 71
+  },
+  {
+   "base_index": 145,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_813eca2c::0",
+   "objects": 34,
+   "of": 34,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 29,
+    "2": 2,
+    "3": 3
+   },
+   "row": null
+  },
+  {
+   "base_index": 146,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_7d10f3bd::0",
+   "objects": 15,
+   "of": 35,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 15,
+    "2": 6,
+    "3": 14
+   },
+   "row": 72
+  },
+  {
+   "base_index": 146,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_7d10f3bd::0",
+   "objects": 21,
+   "of": 35,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 15,
+    "2": 6,
+    "3": 14
+   },
+   "row": 73
+  },
+  {
+   "base_index": 146,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_7d10f3bd::0",
+   "objects": 35,
+   "of": 35,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 15,
+    "2": 6,
+    "3": 14
+   },
+   "row": null
+  },
+  {
+   "base_index": 147,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_7f197be4::0",
+   "objects": 23,
+   "of": 50,
+   "constraints": 2,
+   "layer_counts": {
+    "1": 23,
+    "2": 16,
+    "3": 11
+   },
+   "row": 74
+  },
+  {
+   "base_index": 147,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_7f197be4::0",
+   "objects": 39,
+   "of": 50,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 23,
+    "2": 16,
+    "3": 11
+   },
+   "row": 75
+  },
+  {
+   "base_index": 147,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_7f197be4::0",
+   "objects": 50,
+   "of": 50,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 23,
+    "2": 16,
+    "3": 11
+   },
+   "row": null
+  },
+  {
+   "base_index": 148,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_93e4ab11::0",
+   "objects": 23,
+   "of": 37,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 23,
+    "2": 2,
+    "3": 12
+   },
+   "row": 76
+  },
+  {
+   "base_index": 148,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_93e4ab11::0",
+   "objects": 25,
+   "of": 37,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 23,
+    "2": 2,
+    "3": 12
+   },
+   "row": 77
+  },
+  {
+   "base_index": 148,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_93e4ab11::0",
+   "objects": 37,
+   "of": 37,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 23,
+    "2": 2,
+    "3": 12
+   },
+   "row": null
+  },
+  {
+   "base_index": 149,
+   "level": "easy",
+   "scene_id": "SAGE-10k::layout_e3c1922a::0",
+   "objects": 63,
+   "of": 129,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 63,
+    "2": 3,
+    "3": 63
+   },
+   "row": 78
+  },
+  {
+   "base_index": 149,
+   "level": "medium",
+   "scene_id": "SAGE-10k::layout_e3c1922a::0",
+   "objects": 66,
+   "of": 129,
+   "constraints": 3,
+   "layer_counts": {
+    "1": 63,
+    "2": 3,
+    "3": 63
+   },
+   "row": 79
+  },
+  {
+   "base_index": 149,
+   "level": "hard",
+   "scene_id": "SAGE-10k::layout_e3c1922a::0",
+   "objects": 129,
+   "of": 129,
+   "constraints": 4,
+   "layer_counts": {
+    "1": 63,
+    "2": 3,
+    "3": 63
+   },
+   "row": null
+  }
+ ]
+}

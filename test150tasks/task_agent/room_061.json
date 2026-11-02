@@ -1,0 +1,47 @@
+{
+ "room": 61,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:7595218e-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"office\", \"size_m\": [8.39, 6.34]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A simple rectangular coffee table with a white tabletop and light wooden legs. The design includes diagonal crossbars for stability.\"}, {\"id\": \"obj_0001\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A white file cabinet with two drawers, each equipped with a metallic handle. The design is simple and functional, suitable for office or home storage.\"}, {\"id\": \"obj_0002\", \"category\": \"shelf\", \"on\": \"floor\", \"description\": \"A tall white bookshelf with wooden shelves and base, containing various books and decorative items.\"}, {\"id\": \"obj_0003\", \"category\": \"desk\", \"on\": \"floor\", \"description\": \"A modern desk with a wooden tabletop and metal legs. It features an open shelf underneath for additional storage.\"}, {\"id\": \"obj_0004\", \"category\": \"drawer desk\", \"on\": \"floor\", \"description\": \"A white desk with a rectangular tabletop supported by two large side panels. It features multiple drawers with silver handles, providing ample storage space. The design is simple yet elegant, suitable for an office or study area.\"}, {\"id\": \"obj_0005\", \"category\": \"tissue\", \"on\": \"floor\", \"description\": \"A simple geometric pyramid with smooth surfaces and sharp edges.\"}, {\"id\": \"obj_0006\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A tall, rectangular cabinet with a smooth surface and a flat top. It appears to be designed for storage or display purposes.\"}, {\"id\": \"obj_0007\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"An ergonomic office chair with a mesh backrest and padded seat, featuring adjustable armrests and a five-star base with casters for mobility.\"}, {\"id\": \"obj_0008\", \"category\": \"coffee maker\", \"on\": \"floor\", \"description\": \"A vintage-style typewriter with a pink body and black keys, featuring a small roller at the top for paper insertion.\"}, {\"id\": \"obj_0009\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A modern desk with a flat surface and two sets of drawers on either side. The desk appears sturdy and functional, suitable for office or home use.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1071,
+    "completion_tokens": 165,
+    "total_tokens": 1236,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 90
+    }
+   },
+   "cost_usd": 0.007584,
+   "latency_s": 12.956,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the geometric pyramid on the white coffee table.\",\"uses\":[\"obj_0005\",\"obj_0000\"],\"articulation\":[]},{\"text\":\"Move the pink typewriter onto the wooden-top desk with metal legs.\",\"uses\":[\"obj_0008\",\"obj_0003\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the geometric pyramid on the white coffee table.",
+   "uses": [
+    "obj_0005",
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Move the pink typewriter onto the wooden-top desk with metal legs.",
+   "uses": [
+    "obj_0008",
+    "obj_0003"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0076
+}

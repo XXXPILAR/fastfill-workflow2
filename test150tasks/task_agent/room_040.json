@@ -1,0 +1,47 @@
+{
+ "room": 40,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:74f5256c-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"garage\", \"size_m\": [8.09, 7.52]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"shelf\", \"on\": \"floor\", \"description\": \"A dark gray bookshelf with multiple shelves holding various colorful objects such as boxes, cylinders, and cubes.\"}, {\"id\": \"obj_0001\", \"category\": \"box\", \"on\": \"floor\", \"description\": \"A tall, rectangular storage bin with a woven texture and a handle on the lid.\"}, {\"id\": \"obj_0002\", \"category\": \"weight\", \"on\": \"floor\", \"description\": \"A black weight rack designed for storing multiple weight plates. It features a sturdy frame with a horizontal bar that securely holds the weights in place.\"}, {\"id\": \"obj_0003\", \"category\": \"desk\", \"on\": \"floor\", \"description\": \"A wooden desk with multiple drawers and black metal legs. The desk has a rustic appearance with visible wood grain and a sturdy build.\"}, {\"id\": \"obj_0004\", \"category\": \"shelf\", \"on\": \"floor\", \"description\": \"A dark gray bookshelf with multiple shelves holding various colorful objects such as boxes, cylinders, and cubes.\"}, {\"id\": \"obj_0005\", \"category\": \"nightstand\", \"on\": \"floor\", \"description\": \"A minimalist white drawer unit with two horizontal drawers, designed for simple storage solutions.\"}, {\"id\": \"obj_0006\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A minimalist geometric structure composed of interconnected golden cubes with transparent panels, designed for decorative purposes.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 886,
+    "completion_tokens": 162,
+    "total_tokens": 1048,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 87
+    }
+   },
+   "cost_usd": 0.006784,
+   "latency_s": 21.545,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the screwdriver you are carrying on the wooden desk.\",\"uses\":[\"obj_0003\"],\"articulation\":[]},{\"text\":\"Open a drawer in the white drawer unit and put the work gloves you are carrying inside.\",\"uses\":[\"obj_0005\"],\"articulation\":[\"obj_0005\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the screwdriver you are carrying on the wooden desk.",
+   "uses": [
+    "obj_0003"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open a drawer in the white drawer unit and put the work gloves you are carrying inside.",
+   "uses": [
+    "obj_0005"
+   ],
+   "articulation": [
+    "obj_0005"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0068
+}

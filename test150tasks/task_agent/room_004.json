@@ -1,0 +1,47 @@
+{
+ "room": 4,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:b683c83c-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"dining room\", \"size_m\": [3.02, 3.59]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"drawer chest\", \"on\": \"floor\", \"description\": \"A tall, dark brown wooden chest of drawers with six drawers, each equipped with silver handles. It features a classic design with a slightly curved base and a decorative crown molding at the top.\"}, {\"id\": \"obj_0001\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"A modern dining chair with a sleek design, featuring a black seat and backrest with a slightly textured surface. The chair has four legs made of dark brown metal, providing sturdy support.\"}, {\"id\": \"obj_0002\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"A modern dining chair with a sleek design, featuring a black seat and backrest with a slightly textured surface. The chair has four legs made of dark brown metal, providing sturdy support.\"}, {\"id\": \"obj_0003\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"A modern dining chair with a sleek design, featuring a black seat and backrest with a slightly textured surface. The chair has four legs made of dark brown metal, providing sturdy support.\"}, {\"id\": \"obj_0004\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"A modern dining chair with a sleek design, featuring a black seat and backrest with a slightly textured surface. The chair has four legs made of dark brown metal, providing sturdy support.\"}, {\"id\": \"obj_0005\", \"category\": \"dining table\", \"on\": \"floor\", \"description\": \"A sleek round table with a flat top and three angled legs, designed for modern interiors.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 929,
+    "completion_tokens": 70,
+    "total_tokens": 999,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.005116,
+   "latency_s": 73.446,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Bring a napkin to the round dining table.\",\"uses\":[\"obj_0005\"],\"articulation\":[]},{\"text\":\"Open a lower drawer of the dark brown chest and take out a tablecloth.\",\"uses\":[\"obj_0000\"],\"articulation\":[\"obj_0000\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Bring a napkin to the round dining table.",
+   "uses": [
+    "obj_0005"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open a lower drawer of the dark brown chest and take out a tablecloth.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": [
+    "obj_0000"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0051
+}

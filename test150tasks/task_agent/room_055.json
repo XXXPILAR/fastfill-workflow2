@@ -1,0 +1,56 @@
+{
+ "room": 55,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:75672982-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"kitchen\", \"size_m\": [9.03, 7.57]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"fridge\", \"on\": \"floor\", \"description\": \"A modern side-by-side refrigerator with a water and ice dispenser on the left door. It has a sleek design with a metallic finish.\"}, {\"id\": \"obj_0001\", \"category\": \"container\", \"on\": \"floor\", \"description\": \"A wooden cabinet with a slatted design on one side and a smooth wood grain finish on the other. It has a rectangular shape and appears sturdy.\"}, {\"id\": \"obj_0002\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A simple dining table with a white tabletop and dark wooden legs.\"}, {\"id\": \"obj_0003\", \"category\": \"air conditioner\", \"on\": \"floor\", \"description\": \"A modern, rectangular cabinet with a sleek design, featuring horizontal lines across its surface. It has a minimalist appearance with a smooth finish.\"}, {\"id\": \"obj_0004\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A simple cabinet with a white body and a light brown wooden top. It has a clean, minimalist design suitable for various settings.\"}, {\"id\": \"obj_0005\", \"category\": \"kitchen island\", \"on\": \"floor\", \"description\": \"A modern kitchen island with a sleek design, featuring a dark gray cabinet base and a black marble countertop. The island has two drawers and two doors with silver handles.\"}, {\"id\": \"obj_0006\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A modern cabinet with a sleek design, featuring a flat countertop and multiple drawers or compartments below. It has a minimalist appearance with clean lines.\"}, {\"id\": \"obj_0007\", \"category\": \"oven\", \"on\": \"floor\", \"description\": \"A modern electric oven with a black finish and white control knobs. It features a glass door with a handle and a stainless steel trim at the bottom.\"}, {\"id\": \"obj_0008\", \"category\": \"rack\", \"on\": \"floor\", \"description\": \"A tall metal shelf unit with four wire mesh shelves and a wooden top. It features hooks at the top for hanging items.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1036,
+    "completion_tokens": 107,
+    "total_tokens": 1143,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.006284,
+   "latency_s": 9.167,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Put the milk you bring into the metallic refrigerator, opening and closing its door.\",\"uses\":[\"obj_0000\"],\"articulation\":[\"obj_0000\"]},{\"text\":\"Place the book you bring on the white dining table.\",\"uses\":[\"obj_0002\"],\"articulation\":[]},{\"text\":\"Put the dish towel you bring into a drawer of the black marble kitchen island.\",\"uses\":[\"obj_0005\"],\"articulation\":[\"obj_0005\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Put the milk you bring into the metallic refrigerator, opening and closing its door.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": [
+    "obj_0000"
+   ]
+  },
+  {
+   "text": "Place the book you bring on the white dining table.",
+   "uses": [
+    "obj_0002"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Put the dish towel you bring into a drawer of the black marble kitchen island.",
+   "uses": [
+    "obj_0005"
+   ],
+   "articulation": [
+    "obj_0005"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0063
+}

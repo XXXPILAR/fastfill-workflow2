@@ -1,0 +1,8 @@
+name, memory.total [MiB]
+NVIDIA GH200 120GB, 97871 MiB
+FastFill code: 51dfc2c Isambard v4: FASTFILL_TIME for the detail arms' time limit
+== 1.7b-all-full /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500 rooms [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+28/30 room  27 objects  50    373.3 ms
+29/30 room  28 objects  37    254.8 ms
+30/30 room  29 objects 129   1118.3 ms
+{"rooms_ok": 30, "rooms_failed": 0, "seconds_total": 19.47, "seconds_median": 0.503, "seconds_max": 1.3506, "load_s": 19.81}

@@ -141,6 +141,21 @@ class LoopTests(unittest.TestCase):
         self.assertNotIn("lamp", new)
         self.assertAlmostEqual(new["desk"]["bottom_center_m"][1], 2.2)
 
+    def test_gpt_repair_request_carries_each_objects_description(self):
+        condition = _room()
+        plan = make_plan(condition, llm=False, semantic_only=True)
+        g = _geometry(condition, plan)
+        sizes = {"bed": [2.1, 1.6, .5], "nightstand": [.45, .45, .55], "desk": [.6, 1.2, .75], "chair": [.5, .5, .9],
+                 "lamp": [.25, .25, .45]}
+        if not hasattr(CriticTests, "placed"):
+            CriticTests.setUpClass()
+        loop = Loop(g, plan, sizes, SizeCatalog(CATALOG), Critic.for_plan(g, plan, templates=[]),
+                    locked_parents=_required_parents(condition), budget=LoopBudget(gpt_repairs=1))
+        target = Violation("overlap", ("desk", "chair"), .1)
+        payload = json.loads(loop._payload({"desk"}, target, Assessment(hard=[target]), CriticTests.placed))
+        self.assertEqual({o["id"]: o["description"] for o in payload["objects"]},
+                         {o["id"]: o["description"] for o in condition["objects"]})
+
 
 def _box(ident, cat, x, y, sx, sy, sz, yaw):
     """A box in layout_quality.boxes' form (front: local +X)."""

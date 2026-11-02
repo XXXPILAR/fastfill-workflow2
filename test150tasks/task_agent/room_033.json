@@ -1,0 +1,45 @@
+{
+ "room": 33,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:74734c9a-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"recreation room\", \"size_m\": [8.39, 6.59]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A simple, modern table with a square tabletop supported by a single central leg.\"}, {\"id\": \"obj_0001\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A rectangular dining table with a light wooden tabletop and dark, ornate legs.\"}, {\"id\": \"obj_0002\", \"category\": \"rolling cart\", \"on\": \"floor\", \"description\": \"A three-tiered serving cart with wooden trays and black metal frame. It features a handle at the top for easy mobility and wheels at the bottom for convenience.\"}, {\"id\": \"obj_0003\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A round pedestal table with a dark wood finish, featuring a smooth tabletop and a decorative base with a bulbous center and fluted details.\"}, {\"id\": \"obj_0004\", \"category\": \"picture\", \"on\": \"floor\", \"description\": \"A rectangular tabletop with a marble-like texture featuring white, gray, and black patterns.\"}, {\"id\": \"obj_0005\", \"category\": \"shelf\", \"on\": \"floor\", \"description\": \"A wooden bookshelf with three shelves, featuring a minimalist design. It holds a few books and decorative items.\"}, {\"id\": \"obj_0006\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A round coffee table with a sleek design featuring a glass top and metal legs connected by curved supports.\"}, {\"id\": \"obj_0007\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A modern, minimalist table with a sleek design featuring a rectangular tabletop supported by a single central leg.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 937,
+    "completion_tokens": 141,
+    "total_tokens": 1078,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 77
+    }
+   },
+   "cost_usd": 0.006568,
+   "latency_s": 73.486,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Place the mug you bring in on the square table.\",\"uses\":[\"obj_0000\"],\"articulation\":[]},{\"text\":\"Put the book you bring in on the glass-top table.\",\"uses\":[\"obj_0006\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the mug you bring in on the square table.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Put the book you bring in on the glass-top table.",
+   "uses": [
+    "obj_0006"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0066
+}

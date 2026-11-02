@@ -1,0 +1,60 @@
+{
+ "room": 124,
+ "source": "SAGE-10k",
+ "scene_id": "SAGE-10k::layout_79b30207::0",
+ "prompt": "{\"room\": {\"type\": \"kitchen\", \"size_m\": [5.0, 4.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"kitchentimer\", \"on\": \"obj_0008\", \"description\": \"A minimalist kitchen timer with a circular plastic shell, bright pastel color, and a small magnetic back for optional attachment\"}, {\"id\": \"obj_0001\", \"category\": \"kitchenappliance\", \"on\": \"floor\", \"description\": \"A minimalist kitchen appliance with a compact rectangular silhouette, brushed aluminum surface, and a single sleek control knob\"}, {\"id\": \"obj_0002\", \"category\": \"lightfixture\", \"on\": \"floor\", \"description\": \"A minimalist light fixture with a tall cylindrical shade, frosted glass, and a thin brushed metal base that hangs just above the countertop\"}, {\"id\": \"obj_0003\", \"category\": \"kitchenappliance\", \"on\": \"obj_0014\", \"description\": \"A minimalist kitchen appliance with a compact rectangular silhouette, brushed aluminum surface, and a single sleek control knob\"}, {\"id\": \"obj_0004\", \"category\": \"coffeemaker\", \"on\": \"obj_0008\", \"description\": \"A minimalist coffee maker featuring a compact rectangular body, stainless‑steel surface, and a smooth curved handle for easy pouring\"}, {\"id\": \"obj_0005\", \"category\": \"stove\", \"on\": \"floor\", \"description\": \"A black gas stove with a compact rectangular form, matte black metal surface, minimalist design, equipped with four circular burners and a sleek front panel.\"}, {\"id\": \"obj_0006\", \"category\": \"pottedplant\", \"on\": \"floor\", \"description\": \"A minimalist potted plant in a smooth cylindrical white pot, featuring a single tall green leaf that curls at the tip\"}, {\"id\": \"obj_0007\", \"category\": \"sink\", \"on\": \"floor\", \"description\": \"A white undermount sink with a rectangular basin, smooth ceramic surface, minimalist style, low-profile edge and a single deep basin.\"}, {\"id\": \"obj_0008\", \"category\": \"countertop\", \"on\": \"floor\", \"description\": \"A white quartz countertop with a long rectangular slab, smooth polished surface, minimalist appearance, subtle veining pattern and a seamless edge.\"}, {\"id\": \"obj_0009\", \"category\": \"pottedplant\", \"on\": \"obj_0014\", \"description\": \"A minimalist potted plant in a smooth cylindrical white pot, featuring a single tall green leaf that curls at the tip\"}, {\"id\": \"obj_0010\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A base kitchen cabinet with a rectangular box shape, white painted front, minimalist design, flat front doors and a simple brushed interior.\"}, {\"id\": \"obj_0011\", \"category\": \"fridge\", \"on\": \"floor\", \"description\": \"A stainless steel fridge with a sleek rectangular body, smooth polished finish, minimalist style, featuring a recessed handle and a subtle brushed texture.\"}, {\"id\": \"obj_0012\", \"category\": \"cookbook\", \"on\": \"obj_0014\", \"description\": \"A minimalist cookbook with a slim rectangular cover, matte pastel finish, and a subtle embossed pattern along the spine\"}, {\"id\": \"obj_0013\", \"category\": \"utensilholder\", \"on\": \"obj_0010\", \"description\": \"A minimalist utensil holder with a sleek cylindrical shape, matte white finish, and a subtle brushed metal rim that adds a refined touch\"}, {\"id\": \"obj_0014\", \"category\": \"cabinet\", \"on\": \"floor\", \"description\": \"A base kitchen cabinet with a rectangular box shape, white painted front, minimalist design, flat front doors and a simple brushed interior.\"}, {\"id\": \"obj_0015\", \"category\": \"oven\", \"on\": \"floor\", \"description\": \"A built-in electric oven with a rectangular shape, glossy white enamel front, minimalist aesthetic, integrated digital control panel and a seamless door.\"}, {\"id\": \"obj_0016\", \"category\": \"utensilholder\", \"on\": \"obj_0008\", \"description\": \"A minimalist utensil holder with a sleek cylindrical shape, matte white finish, and a subtle brushed metal rim that adds a refined touch\"}, {\"id\": \"obj_0017\", \"category\": \"kitchentimer\", \"on\": \"floor\", \"description\": \"A minimalist kitchen timer with a circular plastic shell, bright pastel color, and a small magnetic back for optional attachment\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1517,
+    "completion_tokens": 126,
+    "total_tokens": 1643,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.008588,
+   "latency_s": 11.151,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Move the timer from the countertop onto the cabinet holding the cookbook.\",\"uses\":[\"obj_0000\",\"obj_0008\",\"obj_0014\"],\"articulation\":[]},{\"text\":\"Put the cookbook on the countertop.\",\"uses\":[\"obj_0012\",\"obj_0014\",\"obj_0008\"],\"articulation\":[]},{\"text\":\"Open the cabinet beneath the utensil holder and put the timer from the floor inside.\",\"uses\":[\"obj_0010\",\"obj_0013\",\"obj_0017\"],\"articulation\":[\"obj_0010\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Move the timer from the countertop onto the cabinet holding the cookbook.",
+   "uses": [
+    "obj_0000",
+    "obj_0008",
+    "obj_0014"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Put the cookbook on the countertop.",
+   "uses": [
+    "obj_0012",
+    "obj_0014",
+    "obj_0008"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open the cabinet beneath the utensil holder and put the timer from the floor inside.",
+   "uses": [
+    "obj_0010",
+    "obj_0013",
+    "obj_0017"
+   ],
+   "articulation": [
+    "obj_0010"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0086
+}

@@ -1,0 +1,9 @@
+{
+ "protocol": "fastfill.v2.ops.llm_probe (one request, no repair)",
+ "model": "gpt-6.1-sol",
+ "effort": "medium",
+ "base_url": "https://api.kbsfdxc.net/codex/v1",
+ "rpm": 30,
+ "rows": "../test300/rows.jsonl",
+ "rooms": 150
+}

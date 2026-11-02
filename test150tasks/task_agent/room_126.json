@@ -1,0 +1,59 @@
+{
+ "room": 126,
+ "source": "SAGE-10k",
+ "scene_id": "SAGE-10k::layout_bc0e1d7d::0",
+ "prompt": "{\"room\": {\"type\": \"bathroom\", \"size_m\": [3.7, 3.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"countertop\", \"on\": \"floor\", \"description\": \"A slate stone countertop, flat rectangular slab with smooth surface, dark gray color, rustic style, displaying natural veining.\"}, {\"id\": \"obj_0001\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wall sconce with a copper finish, curved arm and rounded glass shade, providing warm ambient lighting\"}, {\"id\": \"obj_0002\", \"category\": \"tub\", \"on\": \"floor\", \"description\": \"A stone freestanding tub crafted from rugged natural stone, elongated rectangular shape, beige stone texture, rustic style, with a subtle carved water channel along its side.\"}, {\"id\": \"obj_0003\", \"category\": \"basket\", \"on\": \"floor\", \"description\": \"A woven storage basket made of cork and natural fiber, round shape, rustic style, with a textured woven pattern and a reinforced handle.\"}, {\"id\": \"obj_0004\", \"category\": \"mirror\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright mirror with a woven wood frame, dark brown finish, rectangular shape and slightly textured surface\"}, {\"id\": \"obj_0005\", \"category\": \"conditioner\", \"on\": \"obj_0021\", \"description\": \"A glass conditioner bottle with a cork stopper, clear glass with a soft green tint, rustic style, rounded bottle shape\"}, {\"id\": \"obj_0006\", \"category\": \"trashcan\", \"on\": \"floor\", \"description\": \"A small metal trash can, cylindrical shape, rusted metal exterior with uneven patina, rustic style, featuring a dented rim.\"}, {\"id\": \"obj_0007\", \"category\": \"soap\", \"on\": \"obj_0018\", \"description\": \"A rectangular bar of rustic soap with a matte earthy tone, slightly tapered edges and a compact solid form\"}, {\"id\": \"obj_0008\", \"category\": \"toiletpaper\", \"on\": \"obj_0025\", \"description\": \"A circular wooden toilet paper roll holder with an earthy brown woven finish, smooth round shape and a short cylindrical core\"}, {\"id\": \"obj_0009\", \"category\": \"towel\", \"on\": \"wall\", \"description\": \"A woven linen towel with a soft, slightly crinkled texture, beige color and rectangular shape\"}, {\"id\": \"obj_0010\", \"category\": \"candle\", \"on\": \"obj_0018\", \"description\": \"A cylindrical scented candle with honey‑colored wax in a smooth ceramic holder, rounded top and slightly tapered body\"}, {\"id\": \"obj_0011\", \"category\": \"bottle\", \"on\": \"obj_0021\", \"description\": \"A cylindrical glass bottle with a cork stopper, clear glass body and smooth neck, giving a vintage rustic feel\"}, {\"id\": \"obj_0012\", \"category\": \"towelrack\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wooden towel rack with rustic texture, natural oak finish, rectangular profile and open slats for hanging towels\"}, {\"id\": \"obj_0013\", \"category\": \"shampoo\", \"on\": \"obj_0021\", \"description\": \"A glass shampoo bottle with a cork stopper, clear glass with a warm amber tint, rustic style, rounded bottle shape\"}, {\"id\": \"obj_0014\", \"category\": \"conditioner\", \"on\": \"obj_0021\", \"description\": \"A glass conditioner bottle with a cork stopper, clear glass with a soft green tint, rustic style, rounded bottle shape\"}, {\"id\": \"obj_0015\", \"category\": \"toothbrush\", \"on\": \"obj_0018\", \"description\": \"A wooden toothbrush with a natural wooden handle, slender elongated shape, smooth grain finish, rustic style\"}, {\"id\": \"obj_0016\", \"category\": \"shampoo\", \"on\": \"obj_0021\", \"description\": \"A glass shampoo bottle with a smooth cylindrical shape, clear amber glass and a rustic wooden cap, simple label\"}, {\"id\": \"obj_0017\", \"category\": \"candle\", \"on\": \"obj_0018\", \"description\": \"A scented candle with a tapered cylindrical wax body, natural linen‑wrapped base, warm amber hue\"}, {\"id\": \"obj_0018\", \"category\": \"vanity\", \"on\": \"floor\", \"description\": \"A wooden vanity made of rough-hewn oak, low rectangular cabinet with dark brown finish, rustic style, featuring a hand‑carved grain pattern on the doors.\"}, {\"id\": \"obj_0019\", \"category\": \"conditioner\", \"on\": \"obj_0021\", \"description\": \"A glass conditioner bottle matching the shampoo, cylindrical, clear glass with a muted earth‑tone label and wooden cap\"}, {\"id\": \"obj_0020\", \"category\": \"shampoo\", \"on\": \"obj_0021\", \"description\": \"A glass shampoo bottle with a smooth cylindrical shape, clear amber glass and a rustic wooden cap, simple label\"}, {\"id\": \"obj_0021\", \"category\": \"caddy\", \"on\": \"wall\", \"description\": \"A rectangular wooden shower caddy with a natural finish, 360° rotatable base and multiple shallow compartments\"}, {\"id\": \"obj_0022\", \"category\": \"razor\", \"on\": \"obj_0018\", \"description\": \"A compact safety razor featuring a short wooden handle, cylindrical body and a subtle curved grip, earthy brown finish\"}, {\"id\": \"obj_0023\", \"category\": \"bottle\", \"on\": \"obj_0021\", \"description\": \"A cylindrical glass bottle with a cork stopper, clear glass body and smooth neck, giving a vintage rustic feel\"}, {\"id\": \"obj_0024\", \"category\": \"candle\", \"on\": \"obj_0002\", \"description\": \"A simple rustic candle in a smooth, natural beeswax form, warm amber hue and a slightly tapered cylindrical shape\"}, {\"id\": \"obj_0025\", \"category\": \"toilet\", \"on\": \"floor\", \"description\": \"A standard toilet with a wooden seat, rectangular bowl shape, natural wood finish, rustic style, seat has a subtle carved edge.\"}, {\"id\": \"obj_0026\", \"category\": \"candle\", \"on\": \"obj_0018\", \"description\": \"A honey‑colored scented candle, smooth cylindrical wax, rustic finish, slightly tapered at the top\"}, {\"id\": \"obj_0027\", \"category\": \"sconce\", \"on\": \"wall\", \"description\": \"A single piece of thin and upright wall sconce with a copper finish, curved arm and rounded glass shade, providing warm ambient lighting\"}, {\"id\": \"obj_0028\", \"category\": \"shower\", \"on\": \"floor\", \"description\": \"A stone walk-in shower with a rectangular footprint, rough-hewn natural stone surfaces in an earthy gray tone, rustic style, featuring a stepped stone ledge at the entrance.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 2073,
+    "completion_tokens": 122,
+    "total_tokens": 2195,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.010732,
+   "latency_s": 8.847,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Move the linen-wrapped candle from the vanity to the countertop.\",\"uses\":[\"obj_0017\",\"obj_0018\",\"obj_0000\"],\"articulation\":[]},{\"text\":\"Open the vanity doors and put the wooden-handled razor inside.\",\"uses\":[\"obj_0022\",\"obj_0018\"],\"articulation\":[\"obj_0018\"]},{\"text\":\"Move the beeswax candle from the tub to the countertop.\",\"uses\":[\"obj_0024\",\"obj_0002\",\"obj_0000\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Move the linen-wrapped candle from the vanity to the countertop.",
+   "uses": [
+    "obj_0017",
+    "obj_0018",
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open the vanity doors and put the wooden-handled razor inside.",
+   "uses": [
+    "obj_0022",
+    "obj_0018"
+   ],
+   "articulation": [
+    "obj_0018"
+   ]
+  },
+  {
+   "text": "Move the beeswax candle from the tub to the countertop.",
+   "uses": [
+    "obj_0024",
+    "obj_0002",
+    "obj_0000"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0107
+}

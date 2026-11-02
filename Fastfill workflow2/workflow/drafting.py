@@ -3,7 +3,8 @@
 Sizes come from step ② (one per object, e.g. FastFill's prediction); support, priority, groups and relations from
 step ① (``make_plan(..., semantic_only=True)``). The LLM answers positions and yaws only; heights follow from the
 support (the floor, a wall-mounted default, or the top of the parent), and sizes stay the given ones whatever the
-answer says. An object the answer misses or gets wrong is still placed (on its parent, else at the room's
+answer says. With ``free_sizes`` (the workflow without FastFill) the request gives no sizes and the LLM answers each
+object's size with its pose (``FREE_SIZE_INSTRUCTIONS``); an object it gives no valid size keeps the given one. An object the answer misses or gets wrong is still placed (on its parent, else at the room's
 representative point) and counted in ``missing``, so the draft is always complete.
 """
 
@@ -38,12 +39,32 @@ degrees from the world +x axis; the depth axis points along it.
 doors clear. Follow the plan's groups and relations where you can.
 - Wall-supported objects hang with their back against a wall, facing into the room."""
 
+# the draft without FastFill: the LLM gives every size with the pose (the request has no size_m)
+FIXED_SIZE_TEXT = """Every object's size is already fixed (size_m: width = left-right as seen from its front, depth = \
+front-back, height); do not change sizes."""
+FIXED_ANSWER = """{"objects": {"<id>": {"x": x, "y": y, "yaw_deg": a}}}"""
+assert FIXED_SIZE_TEXT in DRAFT_INSTRUCTIONS and FIXED_ANSWER in DRAFT_INSTRUCTIONS
+FREE_SIZE_INSTRUCTIONS = DRAFT_INSTRUCTIONS.replace(FIXED_SIZE_TEXT, """No object has a size yet: give each object the \
+real-world size it should have in this room, following its description (a "large", "king size" or "three-seat" one \
+is sized so), with width_m = left-right as seen from its front, depth_m = front-back, height_m = bottom to top, in \
+metres.""").replace(FIXED_ANSWER, """{"objects": {"<id>": {"width_m": w, "depth_m": d, "height_m": h, "x": x, "y": y, \
+"yaw_deg": a}}}""")
+
+
 # appended to DRAFT_INSTRUCTIONS when the objects carry a learned facing (``suggested_yaw_deg``)
 SUGGESTED_YAW_RULE = """
 - suggested_yaw_deg, when given, is the facing a model trained on real rooms predicts for the object (same convention \
 as yaw_deg). Use it as the object's yaw and choose the position to suit it (e.g. the wall its back goes against). \
 Depart from it only where it cannot work: it would push the object through a wall, block a door, or collide; then \
 choose a yaw that fits."""
+
+
+# appended when the request says which objects the task needs (the others complete the room and may give way)
+REQUIRED_RULE = """
+- Objects marked "required": true are what the task needs. Place each of them legally (inside the room, off every \
+other object, doors clear) and where the robot can reach it (and open it, when it has doors or drawers). Place the \
+other objects the same way, legally and within the robot's reach; where both cannot fit, the required ones come \
+first and the others give way."""
 
 
 # appended when a robot uses the room (``robot.Robot``); the objects it concerns are marked in the request
@@ -78,15 +99,21 @@ def robot_marks(condition: dict, plan: Plan, sizes: dict[str, list[float]], robo
 
 
 def request_text(condition: dict, plan: Plan, sizes: dict[str, list[float]],
-                 yaws: dict[str, float] | None = None, robot=None) -> str:
+                 yaws: dict[str, float] | None = None, robot=None, free_sizes: bool = False,
+                 required: set[str] | None = None) -> str:
+    """The placement request; ``free_sizes``: without size_m (the LLM gives the sizes; ``sizes`` then only serve
+    the robot marks' openable test, which needs a box); ``required``: those objects are marked "required"."""
     marks = robot_marks(condition, plan, sizes, robot) if robot is not None else {}
     objects = []
     for obj in condition["objects"]:
         ident = obj["id"]
         depth, width, height = sizes[ident]
         entry = {"id": ident, "category": obj["category"], "description": obj.get("description", ""),
-                 "support": plan.parents[ident],
-                 "size_m": {"width": round(width, 3), "depth": round(depth, 3), "height": round(height, 3)}}
+                 "support": plan.parents[ident]}
+        if not free_sizes:
+            entry["size_m"] = {"width": round(width, 3), "depth": round(depth, 3), "height": round(height, 3)}
+        if required and ident in required:
+            entry["required"] = True
         if ident in plan.priority:
             entry["priority"] = plan.priority[ident]
         if yaws and ident in yaws:
@@ -130,6 +157,19 @@ def parse_poses(text: str, ids: set[str]) -> tuple[dict[str, dict], dict]:
         poses[ident] = {"x": x, "y": y, "yaw_rad": math.remainder(math.radians(yaw), 2 * math.pi),
                         "z": _number(entry.get("z"), -1e3, 1e3)}
     return poses, {k: v for k, v in dropped.items() if v}
+
+
+def parse_sizes(text: str, ids: set[str]) -> dict[str, list[float]]:
+    """{id: [depth, width, height]} from the answer's width_m / depth_m / height_m (``FREE_SIZE_INSTRUCTIONS``);
+    an entry without three valid sizes is left out."""
+    answer = json.loads(text[text.find("{"):text.rfind("}") + 1])
+    sizes = {}
+    for ident, entry in (answer.get("objects") or {}).items():
+        if ident in ids and isinstance(entry, dict):
+            values = [_number(entry.get(k), 1e-3, 50.) for k in ("depth_m", "width_m", "height_m")]
+            if None not in values:
+                sizes[ident] = values
+    return sizes
 
 
 def assemble(geometry: Geometry, plan: Plan, sizes: dict[str, list[float]],
@@ -180,22 +220,34 @@ def assemble(geometry: Geometry, plan: Plan, sizes: dict[str, list[float]],
 def make_draft(condition: dict, plan: Plan, sizes: dict[str, list[float]], geometry: Geometry, *,
                yaws: dict[str, float] | None = None, robot=None,
                model: str | None = None, base_url: str | None = None,
-               api_key: str | None = None) -> tuple[dict[str, dict], dict]:
+               api_key: str | None = None, free_sizes: bool = False,
+               required: set[str] | None = None) -> tuple[dict[str, dict], dict]:
     """Returns (placed, info) with info = {calls, dropped, missing, error}. ``yaws`` (rad, e.g. FastFill's) go to
     the LLM as ``suggested_yaw_deg``: it decides each position for that facing instead of having it swapped in.
-    ``robot`` (``robot.Robot``): the request marks what the robot needs (``ROBOT_RULE``)."""
+    ``robot`` (``robot.Robot``): the request marks what the robot needs (``ROBOT_RULE``). ``free_sizes``: the LLM
+    gives the sizes too; info then also holds ``sizes`` (the ones placed: the LLM's, else the given ones),
+    ``size_source`` ({"draft": n, "given": n}) and ``sized_by_draft`` (the ids the LLM sized). ``required``: the
+    task's objects, marked in the request (``REQUIRED_RULE``)."""
     info: dict = {"calls": [], "dropped": {}, "missing": [], "error": None}
     poses: dict[str, dict] = {}
+    drafted: dict[str, list[float]] = {}
     try:
-        instructions = DRAFT_INSTRUCTIONS + (SUGGESTED_YAW_RULE if yaws else "") + robot_rule(robot)
-        text, call = llm_client.ask(instructions, request_text(condition, plan, sizes, yaws, robot),
+        instructions = (FREE_SIZE_INSTRUCTIONS if free_sizes else DRAFT_INSTRUCTIONS) + \
+            (SUGGESTED_YAW_RULE if yaws else "") + (REQUIRED_RULE if required else "") + robot_rule(robot)
+        text, call = llm_client.ask(instructions, request_text(condition, plan, sizes, yaws, robot, free_sizes, required),
                                     model=model, base_url=base_url, api_key=api_key)
         info["calls"].append(call)
         poses, info["dropped"] = parse_poses(text, set(geometry.requests))
+        if free_sizes:
+            drafted = parse_sizes(text, set(geometry.requests))
     except (RuntimeError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
         if isinstance(exc, ValueError) and "requires --model" in str(exc):
             raise
         info["error"] = f"{type(exc).__name__}: {exc}"[:300]
+    if free_sizes:
+        sizes = {**sizes, **drafted}
+        info.update(sizes=sizes, size_source={"draft": len(drafted), "given": len(sizes) - len(drafted)},
+                    sized_by_draft=sorted(drafted))
     placed, info["missing"] = assemble(geometry, plan, sizes, poses)
     return placed, info
 

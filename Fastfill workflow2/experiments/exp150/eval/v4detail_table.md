@@ -1,0 +1,29 @@
+# exp150, FastFill alone: 8B base against the v4detail models
+
+exp150, FastFill alone: the 8B base run (fastfill_server) against the six v4detail every-room models
+(fastfill_v4detail/<run>, 2026-11-01: trained on SAGE-10k + IL3D only, every training row with its detailed descriptions)
+on the same 150 rooms, with exp150's checks (evaluate.py: legality, constraints, our robot checker, SceneEval,
+EmbodiedGen, rectangular base). No LLM, no money. Writes eval/v4detail_table.md, eval/v4detail_table.json and
+eval/v4detail_per_room.json.
+
+| metric | ground truth | 8B base (all sources) | 1.7B full | 1.7B LoRA r64 a128 | 1.7B LoRA r8 a32 | 4B full | 4B LoRA r64 a128 | 4B LoRA r8 a32 |
+|---|---|---|---|---|---|---|---|---|
+| layouts | 150 | 149 | 150 | 150 | 150 | 150 | 150 | 150 |
+| objects placed % | 100.0 | 92.7 | 100.0 | 100.0 | 100.0 | 100.0 | 100.0 | 100.0 |
+| legal rooms % | 48.7 | 18.7 | 24.0 | 23.3 | 20.7 | 24.0 | 22.7 | 20.0 |
+| constraints % | 99.7 | 42.3 | 39.2 | 39.6 | 33.8 | 37.5 | 41.0 | 39.9 |
+| complete+legal+constraints rooms % | 48.0 | 8.7 | 10.0 | 8.0 | 8.7 | 8.0 | 7.3 | 6.7 |
+| …and robot ok (ours 0.5 m) % | 26.7 | 7.3 | 8.7 | 6.0 | 7.3 | 7.3 | 6.0 | 4.7 |
+| doors linked % | 92.6 | 65.8 | 79.3 | 80.2 | 88.4 | 80.2 | 82.6 | 80.2 |
+| work furniture reached % | 86.2 | 65.7 | 71.2 | 67.9 | 68.4 | 68.1 | 73.6 | 60.7 |
+| items in arm reach % | 86.9 | 76.0 | 87.8 | 82.8 | 88.3 | 76.5 | 84.1 | 71.3 |
+| doors/drawers open % | 70.8 | 61.7 | 59.5 | 54.8 | 51.3 | 65.6 | 60.7 | 57.7 |
+| SceneEval nav 0.5 m % | 92.1 | 89.1 | 94.4 | 96.0 | 95.7 | 94.8 | 95.3 | 94.1 |
+| SceneEval objects colliding % | 31.4 | 26.8 | 27.7 | 28.2 | 28.4 | 29.1 | 29.2 | 30.8 |
+| SceneEval out of bounds % | 15.6 | 16.3 | 14.2 | 15.3 | 15.9 | 12.9 | 15.0 | 16.6 |
+| EmbodiedGen largest free % | 94.7 | 93.7 | 95.9 | 97.3 | 97.6 | 96.5 | 97.4 | 96.3 |
+| EmbodiedGen roam ok rooms % | 98.7 | 99.3 | 100.0 | 100.0 | 100.0 | 100.0 | 100.0 | 100.0 |
+| rect base: furniture parked % | 80.2 | 61.8 | 57.1 | 56.0 | 58.2 | 53.7 | 59.2 | 46.0 |
+| rect base: items in 3D reach % | 79.4 | 72.0 | 72.3 | 69.2 | 75.8 | 61.5 | 64.7 | 51.9 |
+| rect base: rooms all reached % | 53.3 | 38.7 | 37.3 | 40.7 | 51.3 | 45.3 | 44.0 | 40.0 |
+| s / room (median) | – | 0.075 | 0.065 | 0.063 | 0.068 | 0.060 | 0.086 | 0.079 |

@@ -1,6 +1,7 @@
 #!/bin/bash
-# Clone the five baseline repos at the commits checked locally on 2026-10-21 (run on the server: login nodes have internet).
-# LayoutVLM, IDesign and ReSpace have no license file, so they are fetched here rather than committed to our repo.
+# Clone the baseline repos at the commits checked locally (2026-10-21; LaviGen and robolayout added 2026-11-01). Runs on
+# the server too (login nodes have internet). LayoutVLM, IDesign, ReSpace and robolayout have no license file, so they
+# are fetched here rather than committed to our repo. LaviGen ships no trained weights (train from TRELLIS, see README).
 set -euo pipefail
 cd "$(dirname "$0")"
 while read -r repo commit _; do

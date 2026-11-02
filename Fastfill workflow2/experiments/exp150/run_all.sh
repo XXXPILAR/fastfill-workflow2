@@ -23,6 +23,8 @@ RPMF=$PWD/$OUT/.rpm_state.json
 ROOMS=$($PY -c "import json; print(' '.join(map(str, json.load(open('$OUT/rooms.json')))))")
 mkdir -p $OUT/logs
 export WORKFLOW_REASONING_EFFORT=medium
+# test300 rows are category-only (description = category name): replayed as run then, before descriptions were required
+export WORKFLOW_ALLOW_BARE_DESCRIPTIONS=1
 # every LLM call of every group is retried until it succeeds on transient problems (busy relay, rate limit, 5xx,
 # dropped connection): a room never ends with a missing LLM answer. A rejected key / quota still stops at once.
 export WORKFLOW_LLM_ATTEMPTS=${WORKFLOW_LLM_ATTEMPTS:-0}

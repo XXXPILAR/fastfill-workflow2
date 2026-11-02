@@ -1,0 +1,1519 @@
+{
+ "base_rows": "../test150tasks/base_rows.jsonl",
+ "base_sha256": "c8740413601965e1427d6dd4f63f84404d31cca32d68d046aac15a4887c4e041",
+ "tasks_sha256": "af815fd16534883b6d83070cccb0d804a7b975ccacaa7b97aaeb6f183f1996e0",
+ "rows_sha256": "e4069b804b872a92cec7d0311e6c6b5f1cc2f30a9770c3503108a3a4864e59bd",
+ "summary": {
+  "rooms": 150,
+  "tasks": 348,
+  "objects": 6599,
+  "required": 652,
+  "expansion": 5947,
+  "articulation": 100,
+  "supports_added": 0,
+  "required_constraints": 53,
+  "expansion_constraints": 333
+ },
+ "rooms": [
+  {
+   "row": 0,
+   "base_index": 0,
+   "source": "IL3D_3dfront",
+   "room_type": "dining room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 1,
+   "base_index": 1,
+   "source": "IL3D_3dfront",
+   "room_type": "dining room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 2,
+   "base_index": 2,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 8,
+   "required": 3,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 3,
+   "base_index": 3,
+   "source": "IL3D_3dfront",
+   "room_type": "living room",
+   "objects": 14,
+   "required": 2,
+   "expansion": 12,
+   "tasks": 2
+  },
+  {
+   "row": 4,
+   "base_index": 4,
+   "source": "IL3D_3dfront",
+   "room_type": "dining room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 5,
+   "base_index": 5,
+   "source": "IL3D_3dfront",
+   "room_type": "dining room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 6,
+   "base_index": 6,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 7,
+   "base_index": 7,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 8,
+   "base_index": 8,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 9,
+   "base_index": 9,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 9,
+   "required": 2,
+   "expansion": 7,
+   "tasks": 2
+  },
+  {
+   "row": 10,
+   "base_index": 10,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 17,
+   "required": 2,
+   "expansion": 15,
+   "tasks": 2
+  },
+  {
+   "row": 11,
+   "base_index": 11,
+   "source": "IL3D_3dfront",
+   "room_type": "living room",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 12,
+   "base_index": 12,
+   "source": "IL3D_3dfront",
+   "room_type": "library",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 13,
+   "base_index": 13,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 14,
+   "base_index": 14,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 15,
+   "base_index": 15,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 10,
+   "required": 2,
+   "expansion": 8,
+   "tasks": 2
+  },
+  {
+   "row": 16,
+   "base_index": 16,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 17,
+   "base_index": 17,
+   "source": "IL3D_3dfront",
+   "room_type": "living room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 18,
+   "base_index": 18,
+   "source": "IL3D_3dfront",
+   "room_type": "living dining room",
+   "objects": 13,
+   "required": 3,
+   "expansion": 10,
+   "tasks": 3
+  },
+  {
+   "row": 19,
+   "base_index": 19,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 8,
+   "required": 3,
+   "expansion": 5,
+   "tasks": 3
+  },
+  {
+   "row": 20,
+   "base_index": 20,
+   "source": "IL3D_3dfront",
+   "room_type": "library",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 21,
+   "base_index": 21,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 22,
+   "base_index": 22,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 23,
+   "base_index": 23,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 8,
+   "required": 3,
+   "expansion": 5,
+   "tasks": 3
+  },
+  {
+   "row": 24,
+   "base_index": 24,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 25,
+   "base_index": 25,
+   "source": "IL3D_3dfront",
+   "room_type": "dining room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 26,
+   "base_index": 26,
+   "source": "IL3D_3dfront",
+   "room_type": "library",
+   "objects": 7,
+   "required": 4,
+   "expansion": 3,
+   "tasks": 2
+  },
+  {
+   "row": 27,
+   "base_index": 27,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 10,
+   "required": 2,
+   "expansion": 8,
+   "tasks": 2
+  },
+  {
+   "row": 28,
+   "base_index": 28,
+   "source": "IL3D_3dfront",
+   "room_type": "dining room",
+   "objects": 13,
+   "required": 2,
+   "expansion": 11,
+   "tasks": 2
+  },
+  {
+   "row": 29,
+   "base_index": 29,
+   "source": "IL3D_3dfront",
+   "room_type": "aisle",
+   "objects": 8,
+   "required": 3,
+   "expansion": 5,
+   "tasks": 3
+  },
+  {
+   "row": 30,
+   "base_index": 30,
+   "source": "IL3D_3dfront",
+   "room_type": "living room",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 31,
+   "base_index": 31,
+   "source": "IL3D_3dfront",
+   "room_type": "bedroom",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 32,
+   "base_index": 32,
+   "source": "IL3D_synthetic",
+   "room_type": "recreation room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 33,
+   "base_index": 33,
+   "source": "IL3D_synthetic",
+   "room_type": "recreation room",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 34,
+   "base_index": 34,
+   "source": "IL3D_synthetic",
+   "room_type": "recreation room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 35,
+   "base_index": 35,
+   "source": "IL3D_synthetic",
+   "room_type": "recreation room",
+   "objects": 7,
+   "required": 3,
+   "expansion": 4,
+   "tasks": 3
+  },
+  {
+   "row": 36,
+   "base_index": 36,
+   "source": "IL3D_synthetic",
+   "room_type": "recreation room",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 37,
+   "base_index": 37,
+   "source": "IL3D_synthetic",
+   "room_type": "recreation room",
+   "objects": 7,
+   "required": 3,
+   "expansion": 4,
+   "tasks": 3
+  },
+  {
+   "row": 38,
+   "base_index": 38,
+   "source": "IL3D_synthetic",
+   "room_type": "laundry room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 2
+  },
+  {
+   "row": 39,
+   "base_index": 39,
+   "source": "IL3D_synthetic",
+   "room_type": "laundry room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 40,
+   "base_index": 40,
+   "source": "IL3D_synthetic",
+   "room_type": "garage",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 41,
+   "base_index": 41,
+   "source": "IL3D_synthetic",
+   "room_type": "garage",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 42,
+   "base_index": 42,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 7,
+   "required": 4,
+   "expansion": 3,
+   "tasks": 2
+  },
+  {
+   "row": 43,
+   "base_index": 43,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 13,
+   "required": 4,
+   "expansion": 9,
+   "tasks": 2
+  },
+  {
+   "row": 44,
+   "base_index": 44,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 45,
+   "base_index": 45,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 46,
+   "base_index": 46,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 9,
+   "required": 3,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 47,
+   "base_index": 47,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 48,
+   "base_index": 48,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 8,
+   "required": 4,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 49,
+   "base_index": 49,
+   "source": "IL3D_synthetic",
+   "room_type": "balcony",
+   "objects": 8,
+   "required": 2,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 50,
+   "base_index": 50,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 10,
+   "required": 2,
+   "expansion": 8,
+   "tasks": 2
+  },
+  {
+   "row": 51,
+   "base_index": 51,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 14,
+   "required": 2,
+   "expansion": 12,
+   "tasks": 2
+  },
+  {
+   "row": 52,
+   "base_index": 52,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 53,
+   "base_index": 53,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 7,
+   "required": 3,
+   "expansion": 4,
+   "tasks": 3
+  },
+  {
+   "row": 54,
+   "base_index": 54,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 9,
+   "required": 2,
+   "expansion": 7,
+   "tasks": 2
+  },
+  {
+   "row": 55,
+   "base_index": 55,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 9,
+   "required": 3,
+   "expansion": 6,
+   "tasks": 3
+  },
+  {
+   "row": 56,
+   "base_index": 56,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 9,
+   "required": 3,
+   "expansion": 6,
+   "tasks": 3
+  },
+  {
+   "row": 57,
+   "base_index": 57,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 58,
+   "base_index": 58,
+   "source": "IL3D_synthetic",
+   "room_type": "kitchen",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 59,
+   "base_index": 59,
+   "source": "IL3D_synthetic",
+   "room_type": "office",
+   "objects": 10,
+   "required": 4,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 60,
+   "base_index": 60,
+   "source": "IL3D_synthetic",
+   "room_type": "office",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 2
+  },
+  {
+   "row": 61,
+   "base_index": 61,
+   "source": "IL3D_synthetic",
+   "room_type": "office",
+   "objects": 10,
+   "required": 4,
+   "expansion": 6,
+   "tasks": 2
+  },
+  {
+   "row": 62,
+   "base_index": 62,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 63,
+   "base_index": 63,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 7,
+   "required": 3,
+   "expansion": 4,
+   "tasks": 3
+  },
+  {
+   "row": 64,
+   "base_index": 64,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 65,
+   "base_index": 65,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 66,
+   "base_index": 66,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 67,
+   "base_index": 67,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 68,
+   "base_index": 68,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 69,
+   "base_index": 69,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 70,
+   "base_index": 70,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 3,
+   "expansion": 3,
+   "tasks": 3
+  },
+  {
+   "row": 71,
+   "base_index": 71,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 7,
+   "required": 2,
+   "expansion": 5,
+   "tasks": 2
+  },
+  {
+   "row": 72,
+   "base_index": 72,
+   "source": "IL3D_synthetic",
+   "room_type": "elderly room",
+   "objects": 6,
+   "required": 2,
+   "expansion": 4,
+   "tasks": 2
+  },
+  {
+   "row": 73,
+   "base_index": 73,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 95,
+   "required": 7,
+   "expansion": 88,
+   "tasks": 3
+  },
+  {
+   "row": 74,
+   "base_index": 74,
+   "source": "SAGE-10k",
+   "room_type": "hair salon",
+   "objects": 126,
+   "required": 4,
+   "expansion": 122,
+   "tasks": 2
+  },
+  {
+   "row": 75,
+   "base_index": 75,
+   "source": "SAGE-10k",
+   "room_type": "gym_fitness_center",
+   "objects": 94,
+   "required": 6,
+   "expansion": 88,
+   "tasks": 2
+  },
+  {
+   "row": 76,
+   "base_index": 76,
+   "source": "SAGE-10k",
+   "room_type": "walk-in closet",
+   "objects": 64,
+   "required": 5,
+   "expansion": 59,
+   "tasks": 2
+  },
+  {
+   "row": 77,
+   "base_index": 77,
+   "source": "SAGE-10k",
+   "room_type": "conference room",
+   "objects": 142,
+   "required": 6,
+   "expansion": 136,
+   "tasks": 2
+  },
+  {
+   "row": 78,
+   "base_index": 78,
+   "source": "SAGE-10k",
+   "room_type": "living room",
+   "objects": 66,
+   "required": 8,
+   "expansion": 58,
+   "tasks": 3
+  },
+  {
+   "row": 79,
+   "base_index": 79,
+   "source": "SAGE-10k",
+   "room_type": "garage",
+   "objects": 86,
+   "required": 5,
+   "expansion": 81,
+   "tasks": 2
+  },
+  {
+   "row": 80,
+   "base_index": 80,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 130,
+   "required": 6,
+   "expansion": 124,
+   "tasks": 2
+  },
+  {
+   "row": 81,
+   "base_index": 81,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 102,
+   "required": 6,
+   "expansion": 96,
+   "tasks": 2
+  },
+  {
+   "row": 82,
+   "base_index": 82,
+   "source": "SAGE-10k",
+   "room_type": "fast food restaurant",
+   "objects": 86,
+   "required": 5,
+   "expansion": 81,
+   "tasks": 2
+  },
+  {
+   "row": 83,
+   "base_index": 83,
+   "source": "SAGE-10k",
+   "room_type": "classroom",
+   "objects": 134,
+   "required": 6,
+   "expansion": 128,
+   "tasks": 2
+  },
+  {
+   "row": 84,
+   "base_index": 84,
+   "source": "SAGE-10k",
+   "room_type": "restaurant_dining_area",
+   "objects": 114,
+   "required": 6,
+   "expansion": 108,
+   "tasks": 2
+  },
+  {
+   "row": 85,
+   "base_index": 85,
+   "source": "SAGE-10k",
+   "room_type": "nursery",
+   "objects": 69,
+   "required": 7,
+   "expansion": 62,
+   "tasks": 3
+  },
+  {
+   "row": 86,
+   "base_index": 86,
+   "source": "SAGE-10k",
+   "room_type": "gym_fitness_center",
+   "objects": 189,
+   "required": 6,
+   "expansion": 183,
+   "tasks": 2
+  },
+  {
+   "row": 87,
+   "base_index": 87,
+   "source": "SAGE-10k",
+   "room_type": "corridor",
+   "objects": 53,
+   "required": 5,
+   "expansion": 48,
+   "tasks": 2
+  },
+  {
+   "row": 88,
+   "base_index": 88,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 24,
+   "required": 9,
+   "expansion": 15,
+   "tasks": 3
+  },
+  {
+   "row": 89,
+   "base_index": 89,
+   "source": "SAGE-10k",
+   "room_type": "living room",
+   "objects": 58,
+   "required": 7,
+   "expansion": 51,
+   "tasks": 3
+  },
+  {
+   "row": 90,
+   "base_index": 90,
+   "source": "SAGE-10k",
+   "room_type": "waiting room",
+   "objects": 123,
+   "required": 4,
+   "expansion": 119,
+   "tasks": 2
+  },
+  {
+   "row": 91,
+   "base_index": 91,
+   "source": "SAGE-10k",
+   "room_type": "warehouse",
+   "objects": 44,
+   "required": 5,
+   "expansion": 39,
+   "tasks": 2
+  },
+  {
+   "row": 92,
+   "base_index": 92,
+   "source": "SAGE-10k",
+   "room_type": "lobby",
+   "objects": 87,
+   "required": 6,
+   "expansion": 81,
+   "tasks": 2
+  },
+  {
+   "row": 93,
+   "base_index": 93,
+   "source": "SAGE-10k",
+   "room_type": "conference room",
+   "objects": 140,
+   "required": 7,
+   "expansion": 133,
+   "tasks": 3
+  },
+  {
+   "row": 94,
+   "base_index": 94,
+   "source": "SAGE-10k",
+   "room_type": "kindergarten classroom",
+   "objects": 72,
+   "required": 4,
+   "expansion": 68,
+   "tasks": 2
+  },
+  {
+   "row": 95,
+   "base_index": 95,
+   "source": "SAGE-10k",
+   "room_type": "restaurant_dining_area",
+   "objects": 25,
+   "required": 5,
+   "expansion": 20,
+   "tasks": 2
+  },
+  {
+   "row": 96,
+   "base_index": 96,
+   "source": "SAGE-10k",
+   "room_type": "kitchen",
+   "objects": 17,
+   "required": 5,
+   "expansion": 12,
+   "tasks": 2
+  },
+  {
+   "row": 97,
+   "base_index": 97,
+   "source": "SAGE-10k",
+   "room_type": "laundromat",
+   "objects": 76,
+   "required": 6,
+   "expansion": 70,
+   "tasks": 3
+  },
+  {
+   "row": 98,
+   "base_index": 98,
+   "source": "SAGE-10k",
+   "room_type": "children's bedroom",
+   "objects": 87,
+   "required": 9,
+   "expansion": 78,
+   "tasks": 3
+  },
+  {
+   "row": 99,
+   "base_index": 99,
+   "source": "SAGE-10k",
+   "room_type": "toy store",
+   "objects": 147,
+   "required": 6,
+   "expansion": 141,
+   "tasks": 2
+  },
+  {
+   "row": 100,
+   "base_index": 100,
+   "source": "SAGE-10k",
+   "room_type": "conference room",
+   "objects": 77,
+   "required": 5,
+   "expansion": 72,
+   "tasks": 2
+  },
+  {
+   "row": 101,
+   "base_index": 101,
+   "source": "SAGE-10k",
+   "room_type": "lobby",
+   "objects": 57,
+   "required": 5,
+   "expansion": 52,
+   "tasks": 2
+  },
+  {
+   "row": 102,
+   "base_index": 102,
+   "source": "SAGE-10k",
+   "room_type": "restaurant_dining_area",
+   "objects": 58,
+   "required": 6,
+   "expansion": 52,
+   "tasks": 2
+  },
+  {
+   "row": 103,
+   "base_index": 103,
+   "source": "SAGE-10k",
+   "room_type": "office",
+   "objects": 71,
+   "required": 6,
+   "expansion": 65,
+   "tasks": 2
+  },
+  {
+   "row": 104,
+   "base_index": 104,
+   "source": "SAGE-10k",
+   "room_type": "dining room",
+   "objects": 78,
+   "required": 5,
+   "expansion": 73,
+   "tasks": 2
+  },
+  {
+   "row": 105,
+   "base_index": 105,
+   "source": "SAGE-10k",
+   "room_type": "dining room",
+   "objects": 117,
+   "required": 5,
+   "expansion": 112,
+   "tasks": 2
+  },
+  {
+   "row": 106,
+   "base_index": 106,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 94,
+   "required": 10,
+   "expansion": 84,
+   "tasks": 3
+  },
+  {
+   "row": 107,
+   "base_index": 107,
+   "source": "SAGE-10k",
+   "room_type": "hospital room",
+   "objects": 88,
+   "required": 7,
+   "expansion": 81,
+   "tasks": 3
+  },
+  {
+   "row": 108,
+   "base_index": 108,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 104,
+   "required": 8,
+   "expansion": 96,
+   "tasks": 3
+  },
+  {
+   "row": 109,
+   "base_index": 109,
+   "source": "SAGE-10k",
+   "room_type": "waiting room",
+   "objects": 89,
+   "required": 8,
+   "expansion": 81,
+   "tasks": 3
+  },
+  {
+   "row": 110,
+   "base_index": 110,
+   "source": "SAGE-10k",
+   "room_type": "corridor",
+   "objects": 56,
+   "required": 8,
+   "expansion": 48,
+   "tasks": 3
+  },
+  {
+   "row": 111,
+   "base_index": 111,
+   "source": "SAGE-10k",
+   "room_type": "restaurant_dining_area",
+   "objects": 72,
+   "required": 5,
+   "expansion": 67,
+   "tasks": 2
+  },
+  {
+   "row": 112,
+   "base_index": 112,
+   "source": "SAGE-10k",
+   "room_type": "locker_room",
+   "objects": 76,
+   "required": 7,
+   "expansion": 69,
+   "tasks": 3
+  },
+  {
+   "row": 113,
+   "base_index": 113,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 20,
+   "required": 2,
+   "expansion": 18,
+   "tasks": 2
+  },
+  {
+   "row": 114,
+   "base_index": 114,
+   "source": "SAGE-10k",
+   "room_type": "game room",
+   "objects": 60,
+   "required": 4,
+   "expansion": 56,
+   "tasks": 2
+  },
+  {
+   "row": 115,
+   "base_index": 115,
+   "source": "SAGE-10k",
+   "room_type": "office",
+   "objects": 58,
+   "required": 7,
+   "expansion": 51,
+   "tasks": 3
+  },
+  {
+   "row": 116,
+   "base_index": 116,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 83,
+   "required": 6,
+   "expansion": 77,
+   "tasks": 2
+  },
+  {
+   "row": 117,
+   "base_index": 117,
+   "source": "SAGE-10k",
+   "room_type": "grocery_store",
+   "objects": 131,
+   "required": 6,
+   "expansion": 125,
+   "tasks": 2
+  },
+  {
+   "row": 118,
+   "base_index": 118,
+   "source": "SAGE-10k",
+   "room_type": "laundromat",
+   "objects": 104,
+   "required": 9,
+   "expansion": 95,
+   "tasks": 3
+  },
+  {
+   "row": 119,
+   "base_index": 119,
+   "source": "SAGE-10k",
+   "room_type": "dining room",
+   "objects": 104,
+   "required": 6,
+   "expansion": 98,
+   "tasks": 3
+  },
+  {
+   "row": 120,
+   "base_index": 120,
+   "source": "SAGE-10k",
+   "room_type": "computer_lab",
+   "objects": 69,
+   "required": 6,
+   "expansion": 63,
+   "tasks": 2
+  },
+  {
+   "row": 121,
+   "base_index": 121,
+   "source": "SAGE-10k",
+   "room_type": "locker room",
+   "objects": 97,
+   "required": 7,
+   "expansion": 90,
+   "tasks": 2
+  },
+  {
+   "row": 122,
+   "base_index": 122,
+   "source": "SAGE-10k",
+   "room_type": "living room",
+   "objects": 72,
+   "required": 7,
+   "expansion": 65,
+   "tasks": 3
+  },
+  {
+   "row": 123,
+   "base_index": 123,
+   "source": "SAGE-10k",
+   "room_type": "classroom",
+   "objects": 151,
+   "required": 6,
+   "expansion": 145,
+   "tasks": 2
+  },
+  {
+   "row": 124,
+   "base_index": 124,
+   "source": "SAGE-10k",
+   "room_type": "kitchen",
+   "objects": 18,
+   "required": 7,
+   "expansion": 11,
+   "tasks": 3
+  },
+  {
+   "row": 125,
+   "base_index": 125,
+   "source": "SAGE-10k",
+   "room_type": "bar_pub",
+   "objects": 68,
+   "required": 4,
+   "expansion": 64,
+   "tasks": 2
+  },
+  {
+   "row": 126,
+   "base_index": 126,
+   "source": "SAGE-10k",
+   "room_type": "bathroom",
+   "objects": 29,
+   "required": 6,
+   "expansion": 23,
+   "tasks": 3
+  },
+  {
+   "row": 127,
+   "base_index": 127,
+   "source": "SAGE-10k",
+   "room_type": "computer lab",
+   "objects": 63,
+   "required": 9,
+   "expansion": 54,
+   "tasks": 3
+  },
+  {
+   "row": 128,
+   "base_index": 128,
+   "source": "SAGE-10k",
+   "room_type": "children's bedroom",
+   "objects": 35,
+   "required": 9,
+   "expansion": 26,
+   "tasks": 3
+  },
+  {
+   "row": 129,
+   "base_index": 129,
+   "source": "SAGE-10k",
+   "room_type": "hair salon",
+   "objects": 114,
+   "required": 8,
+   "expansion": 106,
+   "tasks": 3
+  },
+  {
+   "row": 130,
+   "base_index": 130,
+   "source": "SAGE-10k",
+   "room_type": "bathroom",
+   "objects": 31,
+   "required": 4,
+   "expansion": 27,
+   "tasks": 2
+  },
+  {
+   "row": 131,
+   "base_index": 131,
+   "source": "SAGE-10k",
+   "room_type": "office",
+   "objects": 107,
+   "required": 6,
+   "expansion": 101,
+   "tasks": 2
+  },
+  {
+   "row": 132,
+   "base_index": 132,
+   "source": "SAGE-10k",
+   "room_type": "children_room",
+   "objects": 40,
+   "required": 8,
+   "expansion": 32,
+   "tasks": 3
+  },
+  {
+   "row": 133,
+   "base_index": 133,
+   "source": "SAGE-10k",
+   "room_type": "walk_in_closet",
+   "objects": 62,
+   "required": 6,
+   "expansion": 56,
+   "tasks": 2
+  },
+  {
+   "row": 134,
+   "base_index": 134,
+   "source": "SAGE-10k",
+   "room_type": "kitchen",
+   "objects": 94,
+   "required": 5,
+   "expansion": 89,
+   "tasks": 2
+  },
+  {
+   "row": 135,
+   "base_index": 135,
+   "source": "SAGE-10k",
+   "room_type": "living_room",
+   "objects": 66,
+   "required": 7,
+   "expansion": 59,
+   "tasks": 3
+  },
+  {
+   "row": 136,
+   "base_index": 136,
+   "source": "SAGE-10k",
+   "room_type": "conference room",
+   "objects": 80,
+   "required": 5,
+   "expansion": 75,
+   "tasks": 2
+  },
+  {
+   "row": 137,
+   "base_index": 137,
+   "source": "SAGE-10k",
+   "room_type": "wine cellar",
+   "objects": 18,
+   "required": 5,
+   "expansion": 13,
+   "tasks": 2
+  },
+  {
+   "row": 138,
+   "base_index": 138,
+   "source": "SAGE-10k",
+   "room_type": "warehouse",
+   "objects": 53,
+   "required": 2,
+   "expansion": 51,
+   "tasks": 2
+  },
+  {
+   "row": 139,
+   "base_index": 139,
+   "source": "SAGE-10k",
+   "room_type": "clothing store",
+   "objects": 107,
+   "required": 6,
+   "expansion": 101,
+   "tasks": 2
+  },
+  {
+   "row": 140,
+   "base_index": 140,
+   "source": "SAGE-10k",
+   "room_type": "kitchen",
+   "objects": 34,
+   "required": 9,
+   "expansion": 25,
+   "tasks": 3
+  },
+  {
+   "row": 141,
+   "base_index": 141,
+   "source": "SAGE-10k",
+   "room_type": "living_room",
+   "objects": 35,
+   "required": 7,
+   "expansion": 28,
+   "tasks": 3
+  },
+  {
+   "row": 142,
+   "base_index": 142,
+   "source": "SAGE-10k",
+   "room_type": "living room",
+   "objects": 50,
+   "required": 9,
+   "expansion": 41,
+   "tasks": 3
+  },
+  {
+   "row": 143,
+   "base_index": 143,
+   "source": "SAGE-10k",
+   "room_type": "bathroom",
+   "objects": 26,
+   "required": 6,
+   "expansion": 20,
+   "tasks": 3
+  },
+  {
+   "row": 144,
+   "base_index": 144,
+   "source": "SAGE-10k",
+   "room_type": "bathroom",
+   "objects": 37,
+   "required": 3,
+   "expansion": 34,
+   "tasks": 2
+  },
+  {
+   "row": 145,
+   "base_index": 145,
+   "source": "SAGE-10k",
+   "room_type": "master bedroom",
+   "objects": 23,
+   "required": 3,
+   "expansion": 20,
+   "tasks": 2
+  },
+  {
+   "row": 146,
+   "base_index": 146,
+   "source": "SAGE-10k",
+   "room_type": "examination room",
+   "objects": 99,
+   "required": 6,
+   "expansion": 93,
+   "tasks": 2
+  },
+  {
+   "row": 147,
+   "base_index": 147,
+   "source": "SAGE-10k",
+   "room_type": "gym_fitness_center",
+   "objects": 99,
+   "required": 5,
+   "expansion": 94,
+   "tasks": 2
+  },
+  {
+   "row": 148,
+   "base_index": 148,
+   "source": "SAGE-10k",
+   "room_type": "patient room",
+   "objects": 84,
+   "required": 8,
+   "expansion": 76,
+   "tasks": 3
+  },
+  {
+   "row": 149,
+   "base_index": 149,
+   "source": "SAGE-10k",
+   "room_type": "delicatessen",
+   "objects": 129,
+   "required": 8,
+   "expansion": 121,
+   "tasks": 3
+  }
+ ]
+}

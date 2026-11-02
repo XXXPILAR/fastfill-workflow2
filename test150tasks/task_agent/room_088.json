@@ -1,0 +1,58 @@
+{
+ "room": 88,
+ "source": "SAGE-10k",
+ "scene_id": "SAGE-10k::layout_db70f61b::0",
+ "prompt": "{\"room\": {\"type\": \"master bedroom\", \"size_m\": [4.2, 5.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"vanity\", \"on\": \"floor\", \"description\": \"A glam style vanity table with a mirrored surface, rectangular base, sleek chrome legs and a polished glass top that reflects light, edged with a thin gold trim\"}, {\"id\": \"obj_0001\", \"category\": \"bottle\", \"on\": \"obj_0000\", \"description\": \"A slender cylindrical cosmetic bottle with a clear glass body and a glittering rose‑gold cap, elegant and reflective\"}, {\"id\": \"obj_0002\", \"category\": \"nightstand\", \"on\": \"floor\", \"description\": \"A glam style nightstand with a sleek silver finish, rectangular silhouette, smooth straight‑edged surfaces and tapered legs, accented with subtle sparkle detailing\"}, {\"id\": \"obj_0003\", \"category\": \"lamp\", \"on\": \"obj_0012\", \"description\": \"A sleek cylindrical table lamp with a polished chrome base and a frosted glass shade, exuding a glamorous sparkle\"}, {\"id\": \"obj_0004\", \"category\": \"vase\", \"on\": \"obj_0013\", \"description\": \"A curvy ceramic vase with an elongated neck, glazed in a deep amethyst hue with subtle metallic flecks, glamorous finish\"}, {\"id\": \"obj_0005\", \"category\": \"bottle\", \"on\": \"obj_0000\", \"description\": \"A slender cylindrical cosmetic bottle with a clear glass body and a glittering rose‑gold cap, elegant and reflective\"}, {\"id\": \"obj_0006\", \"category\": \"fur\", \"on\": \"obj_0015\", \"description\": \"A plush rectangular fur throw with a silky sheen, featuring a glamorous gold‑threaded pattern, soft and slightly fluffy texture\"}, {\"id\": \"obj_0007\", \"category\": \"book\", \"on\": \"obj_0002\", \"description\": \"A hardcover rectangular book with a glossy black cover adorned with gold foil lettering, sleek and compact\"}, {\"id\": \"obj_0008\", \"category\": \"basket\", \"on\": \"floor\", \"description\": \"A glam style woven storage basket, compact rectangular shape with a textured woven exterior, accented by a subtle metallic trim around the rim\"}, {\"id\": \"obj_0009\", \"category\": \"endtable\", \"on\": \"floor\", \"description\": \"A compact square side table with a light wood top and slender metal legs, minimalist and low‑slung\"}, {\"id\": \"obj_0010\", \"category\": \"console\", \"on\": \"floor\", \"description\": \"A glam style console table, narrow rectangular profile, sleek polished surface with a thin gold‑leaf veneer and slender tapered legs, giving a streamlined appearance\"}, {\"id\": \"obj_0011\", \"category\": \"sculpture\", \"on\": \"floor\", \"description\": \"A glam style gold‑leaf sculpture, abstract elongated form with sweeping curves and a glossy metallic surface that catches the light\"}, {\"id\": \"obj_0012\", \"category\": \"nightstand\", \"on\": \"floor\", \"description\": \"A glam style nightstand with a sleek silver finish, rectangular silhouette, smooth straight‑edged surfaces and tapered legs, accented with subtle sparkle detailing\"}, {\"id\": \"obj_0013\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A glam style dresser with a gold finish, tall rectangular form, multiple glossy drawer fronts and decorative brass handles, featuring a slightly curved top edge\"}, {\"id\": \"obj_0014\", \"category\": \"armchair\", \"on\": \"floor\", \"description\": \"A glam style armchair upholstered in plush velvet fabric, rounded back, deep seat, and elegant tapered wooden legs, finished in a deep jewel tone with subtle metallic stitching\"}, {\"id\": \"obj_0015\", \"category\": \"bed\", \"on\": \"floor\", \"description\": \"A glam style bed with a rectangular crystal‑encrusted headboard, silver and gold accents, and plush fur throws, featuring a sleek low‑profile frame and a luxurious upholstered footboard\"}, {\"id\": \"obj_0016\", \"category\": \"bottle\", \"on\": \"obj_0000\", \"description\": \"A small cylindrical cosmetic bottle with a clear glass body and a metallic cap, delicate and glossy\"}, {\"id\": \"obj_0017\", \"category\": \"lamp\", \"on\": \"obj_0002\", \"description\": \"A sleek cylindrical table lamp with a polished chrome base and a frosted glass shade, exuding a glamorous sparkle\"}, {\"id\": \"obj_0018\", \"category\": \"bottle\", \"on\": \"obj_0000\", \"description\": \"A slender cylindrical cosmetic bottle with a clear glass body and a glittering rose‑gold cap, elegant and reflective\"}, {\"id\": \"obj_0019\", \"category\": \"sidetable\", \"on\": \"floor\", \"description\": \"A compact square side table with a mirrored top and slender chrome legs, sleek and glamorous\"}, {\"id\": \"obj_0020\", \"category\": \"bookarmchair\", \"on\": \"obj_0014\", \"description\": \"A hardcover rectangular book with a glossy black cover adorned with gold foil lettering, sleek and compact\"}, {\"id\": \"obj_0021\", \"category\": \"book\", \"on\": \"obj_0012\", \"description\": \"A slim rectangular hardcover book with a smooth cover and subtle embossed pattern\"}, {\"id\": \"obj_0022\", \"category\": \"ottoman\", \"on\": \"floor\", \"description\": \"A glam style ottoman with plush fabric upholstery, low‑slung square shape, rounded edges and a subtle tufted surface, featuring a hidden metallic frame\"}, {\"id\": \"obj_0023\", \"category\": \"book\", \"on\": \"obj_0012\", \"description\": \"A hardcover rectangular book with a glossy black cover adorned with gold foil lettering, sleek and compact\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1811,
+    "completion_tokens": 131,
+    "total_tokens": 1942,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.009864,
+   "latency_s": 8.372,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Move the metallic-cap cosmetic bottle from the vanity to the mirrored side table.\",\"uses\":[\"obj_0016\",\"obj_0000\",\"obj_0019\"],\"articulation\":[]},{\"text\":\"Take the embossed book from the nightstand to the light-wood side table.\",\"uses\":[\"obj_0021\",\"obj_0012\",\"obj_0009\"],\"articulation\":[]},{\"text\":\"Move the gold-threaded fur throw from the bed to the velvet armchair.\",\"uses\":[\"obj_0006\",\"obj_0015\",\"obj_0014\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Move the metallic-cap cosmetic bottle from the vanity to the mirrored side table.",
+   "uses": [
+    "obj_0016",
+    "obj_0000",
+    "obj_0019"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Take the embossed book from the nightstand to the light-wood side table.",
+   "uses": [
+    "obj_0021",
+    "obj_0012",
+    "obj_0009"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Move the gold-threaded fur throw from the bed to the velvet armchair.",
+   "uses": [
+    "obj_0006",
+    "obj_0015",
+    "obj_0014"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0099
+}

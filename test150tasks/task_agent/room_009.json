@@ -1,0 +1,45 @@
+{
+ "room": 9,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:b7c0716e-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"living dining room\", \"size_m\": [3.57, 6.35]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"armchair\", \"on\": \"floor\", \"description\": \"A modern armchair with a sleek design, featuring a high backrest and comfortable armrests. It has a dark brown leather-like upholstery and short, dark legs.\"}, {\"id\": \"obj_0001\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant, ornate chair with a high backrest and curved legs. The seat and backrest are upholstered with patterned fabric, while the frame is made of dark wood with decorative carvings.\"}, {\"id\": \"obj_0002\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant, ornate chair with a high backrest and curved legs. The seat and backrest are upholstered with patterned fabric, while the frame is made of dark wood with decorative carvings.\"}, {\"id\": \"obj_0003\", \"category\": \"dining table\", \"on\": \"floor\", \"description\": \"A square dining table with a dark, textured surface and four sturdy legs that taper slightly towards the bottom.\"}, {\"id\": \"obj_0004\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant, ornate chair with a high backrest and curved legs. The seat and backrest are upholstered with patterned fabric, while the frame is made of dark wood with decorative carvings.\"}, {\"id\": \"obj_0005\", \"category\": \"tv stand\", \"on\": \"floor\", \"description\": \"A long, rectangular cabinet with a dark frame and glass panels. It has a sleek design with metallic accents and appears sturdy and functional.\"}, {\"id\": \"obj_0006\", \"category\": \"loveseat sofa\", \"on\": \"floor\", \"description\": \"A modern gray sofa with multiple cushions and decorative pillows arranged neatly along its backrest. The sofa features a tufted design on the backrest and armrests, with nailhead trim adding a touch of elegance. The cushions include a mix of\"}, {\"id\": \"obj_0007\", \"category\": \"coffee table\", \"on\": \"floor\", \"description\": \"A dark, ornate coffee table with intricate carvings and curved legs. It features various decorative items such as candlesticks, vases, and small sculptures arranged on its surface.\"}, {\"id\": \"obj_0008\", \"category\": \"dining chair\", \"on\": \"floor\", \"description\": \"An elegant, ornate chair with a high backrest and curved legs. The seat and backrest are upholstered with patterned fabric, while the frame is made of dark wood with decorative carvings.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1124,
+    "completion_tokens": 140,
+    "total_tokens": 1264,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 69
+    }
+   },
+   "cost_usd": 0.007296,
+   "latency_s": 12.475,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the book you are carrying on the square dining table.\",\"uses\":[\"obj_0003\"],\"articulation\":[]},{\"text\":\"Bring the bottle of water you are carrying to someone sitting in the dark brown armchair.\",\"uses\":[\"obj_0000\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the book you are carrying on the square dining table.",
+   "uses": [
+    "obj_0003"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Bring the bottle of water you are carrying to someone sitting in the dark brown armchair.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0073
+}

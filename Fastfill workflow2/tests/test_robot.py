@@ -18,7 +18,7 @@ UP, DOWN = math.pi / 2, -math.pi / 2
 
 def _condition(objects):
     """A 4 x 3 m room, one door on the bottom wall (left) and one on the top wall (left too)."""
-    return check_request(fill_room_defaults({
+    return check_request(require_descriptions=False, condition=fill_room_defaults({
         "schema_version": "fastfill.v2",
         "room": {"frame": "right_handed_z_up", "floor_polygon_xy_m": [[0, 0], [4, 0], [4, 3], [0, 3]],
                  "floor_z_m": 0, "height_m": 2.8,

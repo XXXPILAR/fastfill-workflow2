@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import math
 import time
+import traceback
 
 from .catalog import SizeCatalog
 from .critic import Critic, load_templates
+from .credentials import FatalAPIError
 from .contract import check_request, fill_room_defaults, validate_condition, validate_layout
 from .drafting import assemble, make_draft
 from .local_repair import DRAFT_WEIGHT, local_repair
@@ -26,7 +28,8 @@ def run_draft_workflow(condition: dict, sizes: dict[str, list[float]] | None, *,
                        templates_path: str | None = None, placement: str = "simple", semantic: bool = True,
                        semantic_ask=None, robot=None, drafts: int = 1, resize: bool = False,
                        robot_margin: float = 0.0, hard_zones: bool = False, relocate: bool = False,
-                       repair_rounds: int = 1, repair_seconds: float | None = None) -> dict:
+                       repair_rounds: int = 1, repair_seconds: float | None = None, draft_sizes: bool = False,
+                       required: set[str] | None = None, articulation: set[str] | None = None) -> dict:
     """Draft workflow, steps ①–④: ① LLM semantic plan, ② one size per object (``sizes``, or when it is None
     ``sizer(condition)``, a ``FastFillSizer`` run on the request as given; an id without one gets the train
     catalog's, and a room the sizer cannot take is recorded in ``size_error``), ③ LLM draft at those sizes, the hard checks, and ④ local
@@ -63,7 +66,17 @@ def run_draft_workflow(condition: dict, sizes: dict[str, list[float]] | None, *,
     by one whole-room critic loop (``orders`` mode C with the final repair, "C_final"); "all" places every object in one LLM call and then runs the whole-room loop (mode A).
     On the 45 test50 rooms run with both, "group" left 39/45 rooms hard-valid against 34/45 and a lower soft cost in
     27 rooms against 12, at about twice the cost and time; the gap is in rooms with more than 20 objects.
-    "staged" and "group" take the "prompt" and "llm" yaw modes only."""
+    "staged" and "group" take the "prompt" and "llm" yaw modes only.
+
+    ``draft_sizes`` (the workflow without FastFill; "simple" placement, no ``sizes`` or ``sizer``): step ② is left
+    out and step ③'s placement call gives every size with the poses (``simple.run_simple``).
+
+    ``required`` / ``articulation`` (the task mode; "simple" placement): the task's required objects are never removed
+    or shrunk and must be legal and reachable, expansion objects give way (``simple.run_simple``)."""
+    if required is not None and not (critic and placement == "simple"):
+        raise ValueError("required (the task mode) needs placement 'simple' with the critic")
+    if draft_sizes and (sizes is not None or sizer is not None or not (critic and placement == "simple")):
+        raise ValueError("draft_sizes needs placement 'simple' with the critic and no sizes or sizer")
     if yaw_mode not in ("prompt", "llm", "fastfill", "hybrid"):
         raise ValueError(f"unknown yaw_mode {yaw_mode!r}")
     if placement not in ("simple", "staged", "group", "all"):
@@ -76,7 +89,14 @@ def run_draft_workflow(condition: dict, sizes: dict[str, list[float]] | None, *,
     request = condition
     condition, notes = fill_room_defaults(condition)
     condition = check_request(condition)
-    plan = make_plan(condition, llm=llm, model=model, base_url=base_url, api_key=api_key, semantic_only=True)
+    try:
+        plan = make_plan(condition, llm=llm, model=model, base_url=base_url, api_key=api_key, semantic_only=True)
+    except FatalAPIError:
+        raise
+    except Exception:
+        if required is None:
+            raise
+        plan = make_plan(condition, llm=False, semantic_only=True)  # the task mode goes on with the rules' plan
     planned = time.perf_counter()
     size_error = None
     if sizes is None and sizer is not None:
@@ -86,13 +106,29 @@ def run_draft_workflow(condition: dict, sizes: dict[str, list[float]] | None, *,
             size_error = f"{type(exc).__name__}: {exc}"[:300]
     sized = time.perf_counter()
     if critic and placement == "simple":  # workflow 2: one placement, one program check, one LLM check
-        from .simple import run_simple
-        result = run_simple(request, sizes, plan=plan, yaws=yaws if yaw_mode == "prompt" else None,
-                            catalog_path=catalog_path, llm=llm, model=model, base_url=base_url, api_key=api_key,
-                            repair=repair, semantic=semantic, semantic_ask=semantic_ask, templates_path=templates_path,
-                            beam_width=beam_width, candidate_limit=candidate_limit, robot=robot, drafts=drafts,
-                            resize=resize, robot_margin=robot_margin, hard_zones=hard_zones,
-                            relocate=relocate, repair_rounds=repair_rounds, repair_seconds=repair_seconds)
+        from .simple import required_only, run_simple
+        try:
+            result = run_simple(request, sizes, plan=plan, yaws=yaws if yaw_mode == "prompt" else None,
+                                catalog_path=catalog_path, llm=llm, model=model, base_url=base_url, api_key=api_key,
+                                repair=repair, semantic=semantic, semantic_ask=semantic_ask,
+                                templates_path=templates_path, beam_width=beam_width, candidate_limit=candidate_limit,
+                                robot=robot, drafts=drafts, resize=resize, robot_margin=robot_margin,
+                                hard_zones=hard_zones, relocate=relocate, repair_rounds=repair_rounds,
+                                repair_seconds=repair_seconds, draft_sizes=draft_sizes, required=required,
+                                articulation=articulation)
+        except FatalAPIError:
+            raise  # a rejected key or an exhausted quota stops the run (the caller decides); see run_draft.py
+        except Exception as exc:
+            if required is None:
+                raise
+            # the task mode always delivers a room: the required objects alone, laid out by the program
+            result = required_only(request, sizes, required, articulation or set(), plan=plan, robot=robot,
+                                   robot_margin=robot_margin, hard_zones=hard_zones, catalog_path=catalog_path,
+                                   templates_path=templates_path, beam_width=beam_width,
+                                   candidate_limit=candidate_limit, repair_seconds=repair_seconds,
+                                   repair_rounds=repair_rounds,
+                                   reason=f"the workflow failed: {type(exc).__name__}: {exc}"[:300])
+            result["diagnostics"]["workflow_error"] = traceback.format_exc()[-2000:]
         result["diagnostics"].update(size_error=size_error,
                                      yaw={"mode": yaw_mode if yaws else "llm", "suggested": len(yaws or {})})
         result["timing_s"].update(plan=round(planned - start, 3), size=round(sized - planned, 3),

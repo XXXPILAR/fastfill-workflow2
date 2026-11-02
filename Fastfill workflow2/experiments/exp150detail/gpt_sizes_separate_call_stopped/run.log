@@ -1,0 +1,24 @@
+model gpt-6.1-sol at https://api.kbsfdxc.net/codex/v1: reachable
+room  17 objects   2 clean          89.7s $0.020 (total $0.02) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room   5 objects   6 clean         109.0s $0.062 (total $0.08) plan llm+rules sizes {'given': 6, 'catalog': 0} 
+room  27 objects   4 clean         113.1s $0.047 (total $0.13) plan llm+rules sizes {'given': 4, 'catalog': 0} 
+room  33 objects  11 clean         199.6s $0.112 (total $0.24) plan llm+rules sizes {'given': 11, 'catalog': 0} 
+room  38 objects   1 clean          92.8s $0.020 (total $0.26) plan llm+rules sizes {'given': 1, 'catalog': 0} 
+room  45 objects   6 clean         127.9s $0.085 (total $0.35) plan llm+rules sizes {'given': 6, 'catalog': 0} 
+room  49 objects   2 clean          45.0s $0.026 (total $0.37) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room  36 objects   2 clean         167.0s $0.087 (total $0.46) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room  48 objects   8 clean          88.9s $0.089 (total $0.55) plan llm+rules sizes {'given': 8, 'catalog': 0} 
+room  53 objects   2 clean          67.2s $0.034 (total $0.58) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room  51 objects   2 clean          78.6s $0.035 (total $0.62) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room  62 objects   2 clean          58.0s $0.041 (total $0.66) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room  65 objects   5 clean          48.5s $0.051 (total $0.71) plan llm+rules sizes {'given': 5, 'catalog': 0} 
+room  64 objects   5 clean          56.2s $0.055 (total $0.76) plan llm+rules sizes {'given': 5, 'catalog': 0} 
+room  61 objects   3 clean         114.5s $0.046 (total $0.81) plan llm+rules sizes {'given': 3, 'catalog': 0} 
+room  73 objects   5 clean          80.3s $0.061 (total $0.87) plan llm+rules sizes {'given': 5, 'catalog': 0} 
+room  86 objects   4 clean          62.5s $0.034 (total $0.91) plan llm+rules sizes {'given': 4, 'catalog': 0} 
+room  81 objects   5 clean          88.2s $0.068 (total $0.97) plan llm+rules sizes {'given': 5, 'catalog': 0} 
+room  95 objects  15 clean         114.9s $0.122 (total $1.09) plan llm+rules sizes {'given': 15, 'catalog': 0} 
+room 103 objects   2 clean          99.0s $0.025 (total $1.12) plan llm+rules sizes {'given': 2, 'catalog': 0} 
+room  97 objects   6 clean         128.3s $0.058 (total $1.18) plan llm+rules sizes {'given': 6, 'catalog': 0} 
+/opt/anaconda3/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

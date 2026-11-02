@@ -1,0 +1,12 @@
+model gpt-6.1-sol at https://api.kbsfdxc.net/codex/v1: reachable
+room   6 objects  24 clean         107.9s $0.161 (total $0.16) plan llm+rules sizes {'given': 24, 'catalog': 0} 
+room   0 objects   8 clean         159.3s $0.100 (total $0.26) plan llm+rules sizes {'given': 8, 'catalog': 0} 
+room   1 objects   8 fallback_required_only  310.6s $0.000 (total $0.26) plan None sizes None 
+room  19 objects  29 clean          93.2s $0.155 (total $0.42) plan llm+rules sizes {'given': 29, 'catalog': 0} 
+room  13 objects  76 best_effort   546.1s $0.319 (total $0.73) plan llm+rules sizes {'given': 76, 'catalog': 0} 
+room  22 objects  66 clean         322.1s $0.328 (total $1.06) plan llm+rules sizes {'given': 66, 'catalog': 0} 
+room  12 objects  56 clean         634.2s $0.518 (total $1.58) plan llm+rules sizes {'given': 56, 'catalog': 0} 
+room  10 objects 117 best_effort   814.8s $0.501 (total $2.08) plan llm+rules sizes {'given': 117, 'catalog': 0} 
+room  24 objects  53 clean         126.3s $0.232 (total $2.31) plan llm+rules sizes {'given': 53, 'catalog': 0} 
+room  26 objects  35 clean         143.4s $0.191 (total $2.50) plan llm+rules sizes {'given': 35, 'catalog': 0} 
+summary: {"rooms_picked": 10, "rooms_done": 10, "status": {"clean": 7, "fallback_required_only": 1, "best_effort": 2}, "spent_usd": 2.5045, "tokens": {"prompt_tokens": 298137, "completion_tokens": 74143, "reasoning_tokens": 30523}, "wall_s": {"median": 310.65, "max": 814.82, "sum": 3258.1}, "size_fallback_rooms": 0, "error_recovered_rooms": 0}

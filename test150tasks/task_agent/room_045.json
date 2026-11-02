@@ -1,0 +1,45 @@
+{
+ "room": 45,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:7539f23c-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"balcony\", \"size_m\": [9.5, 6.0]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"decoration\", \"on\": \"floor\", \"description\": \"a decorative plant with thin stems and small, oval-shaped leaves, suitable for indoor decoration\"}, {\"id\": \"obj_0001\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A rectangular coffee table with a light wooden top and white painted legs and lower shelf. It has a simple design suitable for living room settings.\"}, {\"id\": \"obj_0002\", \"category\": \"bench\", \"on\": \"floor\", \"description\": \"A black wooden bench with a white cushioned seat and backrest featuring vertical slats. The legs are curved for an elegant design.\"}, {\"id\": \"obj_0003\", \"category\": \"freestanding shelf unit\", \"on\": \"floor\", \"description\": \"A black shelf unit with multiple compartments, designed for storage or display purposes.\"}, {\"id\": \"obj_0004\", \"category\": \"decoration\", \"on\": \"floor\", \"description\": \"a decorative plant with thin stems and small, oval-shaped leaves, suitable for indoor decoration\"}, {\"id\": \"obj_0005\", \"category\": \"bench\", \"on\": \"floor\", \"description\": \"A black wooden bench with a white cushioned seat and backrest featuring vertical slats. The legs are curved for an elegant design.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 849,
+    "completion_tokens": 130,
+    "total_tokens": 979,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 62
+    }
+   },
+   "cost_usd": 0.005996,
+   "latency_s": 10.404,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the book you are carrying on the coffee table.\",\"uses\":[\"obj_0001\"],\"articulation\":[]},{\"text\":\"Put the bottle you are carrying on a low shelf of the black shelf unit.\",\"uses\":[\"obj_0003\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the book you are carrying on the coffee table.",
+   "uses": [
+    "obj_0001"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Put the bottle you are carrying on a low shelf of the black shelf unit.",
+   "uses": [
+    "obj_0003"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.006
+}

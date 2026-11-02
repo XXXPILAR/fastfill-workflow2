@@ -1,0 +1,21 @@
+name, memory.total [MiB]
+NVIDIA GH200 120GB, 97871 MiB
+FastFill code: 51dfc2c Isambard v4: FASTFILL_TIME for the detail arms' time limit
+== 1.7b-all-full /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500
+150/150 room 149 objects 129   1117.1 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 35.37, "seconds_median": 0.0744, "seconds_max": 1.3497, "load_s": 24.66}
+== 1.7b-all-r64a128 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-r64a128/model-step-3500
+150/150 room 149 objects 129    173.6 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 12.19, "seconds_median": 0.0625, "seconds_max": 0.2007, "load_s": 6.68}
+== 1.7b-all-r8a32 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-r8a32/model-step-3500
+150/150 room 149 objects 129    165.9 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 11.9, "seconds_median": 0.0619, "seconds_max": 0.195, "load_s": 4.52}
+== 4b-all-full /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-full/model-step-4500
+150/150 room 149 objects 129    279.5 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 14.36, "seconds_median": 0.0576, "seconds_max": 0.4003, "load_s": 5.86}
+== 4b-all-r64a128 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-r64a128/model-step-4500
+150/150 room 149 objects 129    312.9 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 16.76, "seconds_median": 0.075, "seconds_max": 0.3608, "load_s": 5.43}
+== 4b-all-r8a32 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-r8a32/model-step-3500
+150/150 room 149 objects 129    298.3 ms
+{"rooms_ok": 150, "rooms_failed": 0, "seconds_total": 17.14, "seconds_median": 0.0809, "seconds_max": 0.3495, "load_s": 4.51}

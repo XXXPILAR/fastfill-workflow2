@@ -1,0 +1,32 @@
+model gpt-6.1-sol at https://api.kbsfdxc.net/codex/v1: reachable
+room  17 objects   2 clean          26.7s $0.019 (total $0.02) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  27 objects   4 clean          46.5s $0.044 (total $0.06) plan llm+rules sizes {'draft': 4, 'catalog': 0} 
+room   5 objects   6 best_effort    52.1s $0.057 (total $0.12) plan llm+rules sizes {'draft': 6, 'catalog': 0} 
+room  38 objects   1 clean          32.1s $0.020 (total $0.14) plan llm+rules sizes {'draft': 1, 'catalog': 0} 
+room  36 objects   2 best_effort    53.7s $0.048 (total $0.19) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  33 objects  11 clean          98.0s $0.161 (total $0.35) plan llm+rules sizes {'draft': 11, 'catalog': 0} 
+room  45 objects   6 clean          49.7s $0.061 (total $0.41) plan llm+rules sizes {'draft': 6, 'catalog': 0} 
+room  49 objects   2 clean          35.5s $0.026 (total $0.44) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  53 objects   2 clean          37.6s $0.033 (total $0.47) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  51 objects   2 clean          42.6s $0.036 (total $0.51) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  48 objects   8 clean          72.4s $0.084 (total $0.59) plan llm+rules sizes {'draft': 8, 'catalog': 0} 
+room  61 objects   3 clean          50.0s $0.046 (total $0.64) plan llm+rules sizes {'draft': 3, 'catalog': 0} 
+room  62 objects   2 clean          35.1s $0.028 (total $0.66) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  64 objects   5 clean          41.6s $0.051 (total $0.71) plan llm+rules sizes {'draft': 5, 'catalog': 0} 
+room  65 objects   5 clean          45.3s $0.046 (total $0.76) plan llm+rules sizes {'draft': 5, 'catalog': 0} 
+room  86 objects   4 clean          34.1s $0.033 (total $0.79) plan llm+rules sizes {'draft': 4, 'catalog': 0} 
+room  73 objects   5 clean          51.4s $0.053 (total $0.85) plan llm+rules sizes {'draft': 5, 'catalog': 0} 
+room  81 objects   5 clean          66.6s $0.073 (total $0.92) plan llm+rules sizes {'draft': 5, 'catalog': 0} 
+room 103 objects   2 clean          36.2s $0.027 (total $0.95) plan llm+rules sizes {'draft': 2, 'catalog': 0} 
+room  97 objects   6 clean          45.5s $0.051 (total $1.00) plan llm+rules sizes {'draft': 6, 'catalog': 0} 
+room  95 objects  15 clean          78.1s $0.120 (total $1.12) plan llm+rules sizes {'draft': 15, 'catalog': 0} 
+room 112 objects  74 clean         122.9s $0.305 (total $1.42) plan llm+rules sizes {'draft': 74, 'catalog': 0} 
+room 110 objects 130 clean         157.4s $0.595 (total $2.02) plan llm+rules sizes {'draft': 130, 'catalog': 0} 
+room 127 objects  56 clean          96.7s $0.239 (total $2.26) plan llm+rules sizes {'draft': 56, 'catalog': 0} 
+room 136 objects  29 clean         109.4s $0.209 (total $2.47) plan llm+rules sizes {'draft': 29, 'catalog': 0} 
+room 115 objects  58 best_effort   301.6s $0.274 (total $2.74) plan llm+rules sizes {'draft': 58, 'catalog': 0} 
+room 144 objects  53 clean          86.9s $0.247 (total $2.99) plan llm+rules sizes {'draft': 53, 'catalog': 0} 
+room 125 objects 117 best_effort   361.3s $0.463 (total $3.45) plan llm+rules sizes {'draft': 117, 'catalog': 0} 
+room 146 objects  35 clean          77.5s $0.165 (total $3.61) plan llm+rules sizes {'draft': 35, 'catalog': 0} 
+room 141 objects  66 best_effort   343.0s $0.348 (total $3.96) plan llm+rules sizes {'draft': 66, 'catalog': 0} 
+summary: {"rooms_picked": 30, "rooms_done": 30, "status": {"best_effort": 5, "clean": 25}, "spent_usd": 3.9623, "tokens": {"prompt_tokens": 408636, "completion_tokens": 136669, "reasoning_tokens": 40455}, "wall_s": {"median": 52.07, "max": 361.32, "sum": 2687.7}, "size_fallback_rooms": 0, "error_recovered_rooms": 0}

@@ -1,0 +1,54 @@
+{
+ "room": 56,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:75699f8c-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"kitchen\", \"size_m\": [10.89, 6.73]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"sink cabinet\", \"on\": \"floor\", \"description\": \"A modern kitchen sink unit with a white cabinet, a wooden countertop, and a stainless steel sink with a curved faucet.\"}, {\"id\": \"obj_0001\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A green cabinet with a wooden countertop, featuring two doors and a drawer. It has silver handles and appears sturdy and functional.\"}, {\"id\": \"obj_0002\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A green cabinet with a wooden countertop, featuring two doors and a drawer. It has silver handles and appears sturdy and functional.\"}, {\"id\": \"obj_0003\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A green cabinet with a wooden countertop, featuring two doors and a drawer. It has silver handles and appears sturdy and functional.\"}, {\"id\": \"obj_0004\", \"category\": \"dresser\", \"on\": \"floor\", \"description\": \"A green cabinet with a wooden countertop, featuring two doors and a drawer. It has silver handles and appears sturdy and functional.\"}, {\"id\": \"obj_0005\", \"category\": \"oven\", \"on\": \"floor\", \"description\": \"A modern kitchen stove with a gas cooktop and multiple ovens. It features a sleek design with a metallic finish and several control knobs.\"}, {\"id\": \"obj_0006\", \"category\": \"fridge\", \"on\": \"floor\", \"description\": \"A modern black refrigerator with a sleek design, featuring two side-by-side doors at the top and two drawers at the bottom. It has a water and ice dispenser on the left door.\"}, {\"id\": \"obj_0007\", \"category\": \"rack\", \"on\": \"floor\", \"description\": \"A modern, minimalist shelf unit with multiple open compartments arranged in an asymmetrical design. It features clean lines and a geometric structure.\"}, {\"id\": \"obj_0008\", \"category\": \"grill\", \"on\": \"floor\", \"description\": \"A robust outdoor kitchen island featuring a built-in grill, storage cabinets, and a countertop. The design includes a combination of dark stone-like materials for the body and a metallic finish for the grill area.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 1048,
+    "completion_tokens": 105,
+    "total_tokens": 1153,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.006292,
+   "latency_s": 9.234,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Place the mug you are carrying on the wooden countertop of the white sink cabinet.\",\"uses\":[\"obj_0000\"],\"articulation\":[]},{\"text\":\"Open the black fridge and put the milk you are carrying inside.\",\"uses\":[\"obj_0006\"],\"articulation\":[\"obj_0006\"]},{\"text\":\"Place the cookbook you are carrying in an open compartment of the asymmetrical shelf unit.\",\"uses\":[\"obj_0007\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Place the mug you are carrying on the wooden countertop of the white sink cabinet.",
+   "uses": [
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open the black fridge and put the milk you are carrying inside.",
+   "uses": [
+    "obj_0006"
+   ],
+   "articulation": [
+    "obj_0006"
+   ]
+  },
+  {
+   "text": "Place the cookbook you are carrying in an open compartment of the asymmetrical shelf unit.",
+   "uses": [
+    "obj_0007"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0063
+}

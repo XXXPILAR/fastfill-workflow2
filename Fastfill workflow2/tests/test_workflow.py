@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 from workflow.catalog import SizeCatalog, build_catalog
@@ -56,6 +58,17 @@ class WorkflowTests(unittest.TestCase):
         wrong["objects"][0]["fixed_size_local_m"] = [2, 1.5, .6]
         with self.assertRaisesRegex(ValueError, "size must not be an input"):
             check_request(wrong)
+
+    def test_every_object_needs_a_description_beyond_its_category(self):
+        for description in ("", "  ", "Desk", "desk"):
+            wrong = json.loads(json.dumps(self.condition))
+            wrong["objects"][2]["description"] = description
+            with self.assertRaisesRegex(ValueError, r"1 of 5 objects have no description.*\['desk'\]"):
+                check_request(wrong)
+            check_request(wrong, require_descriptions=False)  # the older category-only test sets
+            with mock.patch.dict(os.environ, {"WORKFLOW_ALLOW_BARE_DESCRIPTIONS": "1"}):
+                check_request(wrong)
+        check_request(self.condition)
 
     def test_reject_unverifiable_opening(self):
         wrong = json.loads(json.dumps(self.condition))

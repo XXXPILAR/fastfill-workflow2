@@ -1,0 +1,17 @@
+name, memory.total [MiB]
+NVIDIA GH200 120GB, 97871 MiB
+FastFill code (v4detail models): 51dfc2c Isambard v4: FASTFILL_TIME for the detail arms' time limit
+== 1.7b-all-full /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 24.47, "seconds_median": 0.2604, "seconds_max": 0.8639, "load_s": 22.42}
+== 1.7b-all-r64a128 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-r64a128/model-step-3500
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 7.16, "seconds_median": 0.0741, "seconds_max": 0.1461, "load_s": 6.94}
+== 1.7b-all-r8a32 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-1.7b-all-r8a32/model-step-3500
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 6.52, "seconds_median": 0.0692, "seconds_max": 0.1427, "load_s": 4.53}
+== 4b-all-full /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-full/model-step-4500
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 8.59, "seconds_median": 0.0891, "seconds_max": 0.2291, "load_s": 5.93}
+== 4b-all-r64a128 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-r64a128/model-step-4500
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 9.62, "seconds_median": 0.0979, "seconds_max": 0.2546, "load_s": 5.43}
+== 4b-all-r8a32 /lus/lfs1aip2/projects/u6uv/shanliantian.u6uv/fastfill-v4-detail/runs/main4-cell05-v4detail-e5-4b-all-r8a32/model-step-3500
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 9.53, "seconds_median": 0.0969, "seconds_max": 0.249, "load_s": 4.32}
+== 8b-base /lus/lfs1aip2/scratch/u6uv/shanliantian.u6uv/fastfill-v4-runs/main4-cell05-v4fixed-e5-base/model-step-6552
+{"rooms_ok": 80, "rooms_failed": 0, "seconds_total": 11.93, "seconds_median": 0.1296, "seconds_max": 0.338, "load_s": 5.69}

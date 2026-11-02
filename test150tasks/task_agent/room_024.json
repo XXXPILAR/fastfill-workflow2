@@ -1,0 +1,47 @@
+{
+ "room": 24,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:bba333e8-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"bedroom\", \"size_m\": [3.41, 4.32]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"nightstand\", \"on\": \"floor\", \"description\": \"A modern nightstand with a sleek design, featuring two drawers with heart-shaped handles. On top of it, there is a black lamp with a curved neck and a rectangular base, along with a stack of books.\"}, {\"id\": \"obj_0001\", \"category\": \"nightstand\", \"on\": \"floor\", \"description\": \"A modern nightstand with a sleek design, featuring two drawers with heart-shaped handles. On top of it, there is a black lamp with a curved neck and a rectangular base, along with a stack of books.\"}, {\"id\": \"obj_0002\", \"category\": \"drawer chest\", \"on\": \"floor\", \"description\": \"A dark brown dresser with multiple drawers and a flat top surface. It has a modern design with clean lines and a sturdy build.\"}, {\"id\": \"obj_0003\", \"category\": \"king size bed\", \"on\": \"floor\", \"description\": \"A modern bed with a brown leather headboard and base, featuring dark green bedding with yellow and gray accents.\"}, {\"id\": \"obj_0004\", \"category\": \"round end table\", \"on\": \"floor\", \"description\": \"A tall wooden pedestal with a square base and a flat top, supported by four slender legs connected by horizontal bars near the bottom.\"}, {\"id\": \"obj_0005\", \"category\": \"wardrobe\", \"on\": \"floor\", \"description\": \"A tall, rectangular wardrobe with a smooth surface and two doors. It features black metal handles and hinges, giving it a sturdy and functional appearance.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 910,
+    "completion_tokens": 71,
+    "total_tokens": 981,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    }
+   },
+   "cost_usd": 0.00506,
+   "latency_s": 9.461,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Put a shirt you bring in into a drawer of the dark brown dresser.\",\"uses\":[\"obj_0002\"],\"articulation\":[\"obj_0002\"]},{\"text\":\"Place a book you bring in on the wooden pedestal table.\",\"uses\":[\"obj_0004\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Put a shirt you bring in into a drawer of the dark brown dresser.",
+   "uses": [
+    "obj_0002"
+   ],
+   "articulation": [
+    "obj_0002"
+   ]
+  },
+  {
+   "text": "Place a book you bring in on the wooden pedestal table.",
+   "uses": [
+    "obj_0004"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0051
+}

@@ -1,0 +1,31 @@
+{
+ "rows": "../test30tasks/rows.jsonl",
+ "model": "gpt-6.1-sol",
+ "base_url": "https://api.kbsfdxc.net/codex/v1",
+ "api": "relay",
+ "rpm": 30,
+ "sizes": {
+  "file": "experiments/exp30tasks/fastfill/1.7b-all-full/predictions_spread.jsonl"
+ },
+ "yaw_mode": "llm",
+ "placement": "simple",
+ "semantic": true,
+ "critic": true,
+ "robot": {
+  "width_m": 0.5,
+  "arm_m": 0.4,
+  "margin_m": 0.1,
+  "hard_zones": true
+ },
+ "repair": {
+  "off": false,
+  "relocate": true,
+  "rounds": 3,
+  "seconds": 180.0
+ },
+ "drafts": 2,
+ "resize": true,
+ "task_roles": false,
+ "budget_usd": 20.0,
+ "rooms": 30
+}

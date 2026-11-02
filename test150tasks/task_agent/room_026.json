@@ -1,0 +1,49 @@
+{
+ "room": 26,
+ "source": "IL3D_3dfront",
+ "scene_id": "il3d:bc362a2c-86d4-11f0-a478-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"library\", \"size_m\": [3.2, 2.84]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"bookcase\", \"on\": \"floor\", \"description\": \"A tall, modern bookshelf with multiple compartments, each holding stacks of books. The shelves are staggered and have an asymmetrical design.\"}, {\"id\": \"obj_0001\", \"category\": \"side table\", \"on\": \"floor\", \"description\": \"A modern nightstand with a rectangular shape, featuring two drawers with small knobs. It has four angled wooden legs and is topped with a couple of framed pictures and a book.\"}, {\"id\": \"obj_0002\", \"category\": \"lounge chair\", \"on\": \"floor\", \"description\": \"A modern armchair with a sleek design, featuring a white plastic seat and backrest supported by four wooden legs.\"}, {\"id\": \"obj_0003\", \"category\": \"desk\", \"on\": \"floor\", \"description\": \"A modern desk with a rectangular tabletop and two drawers, supported by four slender legs.\"}, {\"id\": \"obj_0004\", \"category\": \"armchair\", \"on\": \"floor\", \"description\": \"A modern armchair with a sleek design, featuring a combination of dark brown and light gray upholstery. It has a cushioned seat and backrest, along with a single dark brown pillow for added comfort.\"}, {\"id\": \"obj_0005\", \"category\": \"bookcase\", \"on\": \"floor\", \"description\": \"A tall, modern bookshelf with multiple compartments, each holding stacks of books. The shelves are staggered and have an asymmetrical design.\"}, {\"id\": \"obj_0006\", \"category\": \"bookcase\", \"on\": \"floor\", \"description\": \"A tall, modern bookshelf with multiple compartments, each holding stacks of books. The shelves are staggered and have an asymmetrical design.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 942,
+    "completion_tokens": 191,
+    "total_tokens": 1133,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 98
+    }
+   },
+   "cost_usd": 0.007588,
+   "latency_s": 12.554,
+   "failed_attempts": 0,
+   "answer": "{\"tasks\":[{\"text\":\"Take the book from the nightstand and put it in a desk drawer, opening the drawer first.\",\"uses\":[\"obj_0001\",\"obj_0003\"],\"articulation\":[\"obj_0003\"]},{\"text\":\"Move the dark brown pillow from the upholstered armchair to the white plastic lounge chair.\",\"uses\":[\"obj_0004\",\"obj_0002\"],\"articulation\":[]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Take the book from the nightstand and put it in a desk drawer, opening the drawer first.",
+   "uses": [
+    "obj_0001",
+    "obj_0003"
+   ],
+   "articulation": [
+    "obj_0003"
+   ]
+  },
+  {
+   "text": "Move the dark brown pillow from the upholstered armchair to the white plastic lounge chair.",
+   "uses": [
+    "obj_0004",
+    "obj_0002"
+   ],
+   "articulation": []
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0076
+}

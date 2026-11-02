@@ -1,0 +1,49 @@
+{
+ "room": 42,
+ "source": "IL3D_synthetic",
+ "scene_id": "il3d:7528d182-94ff-11f0-9d02-60cf84ae2082",
+ "prompt": "{\"room\": {\"type\": \"balcony\", \"size_m\": [8.0, 6.98]}, \"objects\": [{\"id\": \"obj_0000\", \"category\": \"table\", \"on\": \"floor\", \"description\": \"A small, round table with a simple design and thin legs.\"}, {\"id\": \"obj_0001\", \"category\": \"carpet\", \"on\": \"floor\", \"description\": \"A light-colored rectangular rug with a textured surface and fringed edges.\"}, {\"id\": \"obj_0002\", \"category\": \"lamp\", \"on\": \"floor\", \"description\": \"A beige lantern with a black handle and rim. It has a simple, elegant design suitable for both indoor and outdoor use.\"}, {\"id\": \"obj_0003\", \"category\": \"seat\", \"on\": \"floor\", \"description\": \"A sleek chaise lounge with a curved backrest and a long seat cushion, upholstered in dark teal fabric. It features short, tapered wooden legs.\"}, {\"id\": \"obj_0004\", \"category\": \"decoration\", \"on\": \"floor\", \"description\": \"a small potted plant with green leaves and yellow flowers, placed on a flat surface\"}, {\"id\": \"obj_0005\", \"category\": \"decoration\", \"on\": \"floor\", \"description\": \"A minimalist floor lamp with a spherical lampshade supported by three slender legs.\"}, {\"id\": \"obj_0006\", \"category\": \"bench\", \"on\": \"floor\", \"description\": \"A wooden storage bench with a cushioned seat and a handle on the front for opening the storage compartment.\"}]}",
+ "calls": [
+  {
+   "model": "gpt-6.1-sol",
+   "host": "api.kbsfdxc.net",
+   "usage": {
+    "prompt_tokens": 877,
+    "completion_tokens": 166,
+    "total_tokens": 1043,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 84
+    }
+   },
+   "cost_usd": 0.006828,
+   "latency_s": 72.66,
+   "failed_attempts": 1,
+   "answer": "{\"tasks\":[{\"text\":\"Put the small potted plant with yellow flowers on the round table.\",\"uses\":[\"obj_0004\",\"obj_0000\"],\"articulation\":[]},{\"text\":\"Open the wooden storage bench and put the beige lantern inside.\",\"uses\":[\"obj_0006\",\"obj_0002\"],\"articulation\":[\"obj_0006\"]}]}"
+  }
+ ],
+ "tasks": [
+  {
+   "text": "Put the small potted plant with yellow flowers on the round table.",
+   "uses": [
+    "obj_0004",
+    "obj_0000"
+   ],
+   "articulation": []
+  },
+  {
+   "text": "Open the wooden storage bench and put the beige lantern inside.",
+   "uses": [
+    "obj_0006",
+    "obj_0002"
+   ],
+   "articulation": [
+    "obj_0006"
+   ]
+  }
+ ],
+ "problems_left": [],
+ "cost_usd": 0.0068
+}

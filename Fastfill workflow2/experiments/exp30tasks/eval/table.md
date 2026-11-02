@@ -1,0 +1,61 @@
+# exp30tasks: the task mode against the workflow before it
+
+exp30tasks evaluation (no LLM, no money): the task mode against the workflow before it on the 30 rooms of
+test30tasks (required and expansion furniture from each room's tasks), beside the ground truth and FastFill alone.
+
+Checks are the independent ones exp150 uses, not the workflow's own critic: collisions (fastfill.validate on box
+meshes, the objects in one), out of bounds (more than 1 % of the footprint outside the floor), door zones blocked
+(layout_quality's door zones), constraints (Geometry.relation_issue), and the robot checker for a 0.5 m robot with
+the task's objects (robot.RobotChecker with simple.task_robot: every work furniture reachable and openable furniture
+free to open, plus the required objects reached and the articulation objects free to open); supports are inferred
+from the boxes (robot.infer_parents), as for any method. SceneEval, EmbodiedGen and the rectangular base as in exp150.
+A layout is scored on the objects it holds (the task mode may remove expansion objects); removed objects count as not
+kept, never as a failure of a required object, and a missing required object counts as one.
+
+Per required object: kept, legal (in no collision, inside, not blocking a door), reached (the robot reaches it: the
+furniture it stands on for an object on furniture; within arm's reach for an object on furniture; free to open when
+the task opens it). A task is doable when every object it uses is kept, legal and reached, and the doors are linked.
+
+Column headers give the rooms scored; a method's missing rooms count as failed rooms.
+
+| metric | ground truth (30) | FastFill alone (1.7B full) (30) | workflow before (old_mode) (30) | task mode (task_mode) (30) |
+|---|---|---|---|---|
+| required objects kept % | 100.0 | 100.0 | 100.0 | 100.0 |
+| required objects legal % | 100.0 | 79.9 | 98.5 | 100.0 |
+| required objects reached by the robot % | 70.6 | 76.5 | 91.7 | 97.1 |
+| required objects kept + legal + reached % | 70.6 | 64.2 | 90.7 | 97.1 |
+| rooms with every required object good % | 10.0 | 10.0 | 70.0 | 90.0 |
+| required relations met % | 100.0 | 68.2 | 100.0 | 100.0 |
+| tasks doable (every object used good, doors linked) % | 44.2 | 26.7 | 86.0 | 95.3 |
+| expansion objects kept % | 100.0 | 100.0 | 100.0 | 99.2 |
+| expansion objects kept + legal % | 100.0 | 93.5 | 94.9 | 97.1 |
+| rooms legal (every object kept) % | 100.0 | 3.3 | 63.3 | 83.3 |
+| rooms with doors linked % | 100.0 | 76.7 | 100.0 | 100.0 |
+| work furniture reached % | 67.8 | 73.5 | 94.2 | 94.8 |
+| openable furniture free to open % | 69.0 | 67.6 | 95.8 | 100.0 |
+| items within arm's reach % | 64.5 | 88.3 | 92.8 | 98.6 |
+| rooms robot ok (task robot) % | 3.3 | 16.7 | 63.3 | 73.3 |
+| SceneEval objects colliding % | 42.6 | 58.4 | 14.9 | 10.3 |
+| SceneEval out of bounds % | 0.1 | 0.6 | 11.1 | 6.6 |
+| rect base: rooms all reached % | 10.0 | 26.7 | 53.3 | 56.7 |
+| s / room (median) | – | 0.5 | 346.4 | 413.1 |
+| $ / room (est.) | – | 0.000 | 0.349 | 0.363 |
+
+## Expansion objects the task mode removed
+
+- room row 8 (116): obj_0110 book: collision ['obj_0037', 'obj_0110']
+- room row 9 (120): obj_0070 basket: robot_reach ['obj_0083', 'obj_0032', 'obj_0070'] (task object, blocked by obj_0032, obj_0070)
+- room row 9 (120): obj_0065 lamp: robot_openable ['obj_0062', 'obj_0065'] (32% of the 0.42 m sweep blocked by obj_0065)
+- room row 12 (127): obj_0045 stool: robot_openable ['obj_0007', 'obj_0045', 'obj_0049'] (66% of the 0.51 m sweep blocked by obj_0045, obj_0049)
+- room row 12 (127): obj_0049 bench with ['obj_0021']: robot_reach ['obj_0000', 'obj_0049'] (task object, blocked by obj_0049)
+- room row 13 (128): obj_0043 cup: collision ['obj_0008', 'obj_0043']
+- room row 13 (128): obj_0044 cup: collision ['obj_0008', 'obj_0044']
+- room row 17 (133): obj_0039 plantfloor: robot_reach ['obj_0019', 'obj_0039'] (carries task object obj_0016, blocked by obj_0039)
+- room row 22 (141): obj_0063 candle: collision ['obj_0013', 'obj_0063']
+- room row 22 (141): obj_0047 armchair: robot_reach ['obj_0016', 'obj_0000', 'obj_0047'] (carries obj_0010, blocked by obj_0000, obj_0047)
+- room row 29 (149): obj_0030 bowlshelf: collision ['obj_0030', 'obj_0104']
+- room row 29 (149): obj_0082 notepad: collision ['obj_0024', 'obj_0082']
+- room row 29 (149): obj_0106 bowl: object_support ['obj_0106', 'obj_0007']
+- room row 29 (149): obj_0048 jarshelf: object_support ['obj_0048', 'obj_0007']
+- room row 29 (149): obj_0047 bowl: object_support ['obj_0047', 'obj_0007']
+- room row 29 (149): obj_0061 bowl: object_support ['obj_0061', 'obj_0007']

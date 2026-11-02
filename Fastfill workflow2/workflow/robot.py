@@ -13,9 +13,10 @@ geometric checks (``Geometry.validate``) a layout must leave the robot a way to 
                   furniture stands for the floor furniture under it), furniture that carries another requested object
                   (``reach_supports``: something on it will be picked up or put down) and openable furniture
                   (``reach_openable``). Ids: the object, then the objects whose removal alone reaches it.
-  robot_openable  the doors or drawers of openable floor furniture (``OPENABLE``) can open: the sweep in front of it
-                  (as wide as its front, ``sweep_depth`` deep) is inside the room and at most ``OPEN_BLOCKED_SHARE`` of
-                  it is covered by floor obstacles. Ids: the object, then what covers the sweep.
+  robot_openable  the doors or drawers of openable floor furniture (``OPENABLE``, plus ``openable_ids``: what the
+                  request says the task opens) can open: the sweep in front of it (as wide as its front,
+                  ``sweep_depth`` deep) is inside the room and at most ``OPEN_BLOCKED_SHARE`` of it is covered by floor
+                  obstacles. Ids: the object, then what covers the sweep.
   robot_arm       an object standing on furniture (``items``; and every task object in ``reach_ids``) is within the
                   arm's reach: some point the robot's centre can reach from the doors is at most ``arm_reach_m`` from
                   the object's centre in plan (EmbodiedGen's ``check_reachable``: 0.20-0.85 m from the robot base to a
@@ -73,6 +74,8 @@ class Robot:
     reach_openable: bool = True
     doors: bool = True
     openable: bool = True
+    openable_ids: frozenset = field(default_factory=frozenset)  # the objects the task opens (articulation), besides
+                                                                # openable furniture by category (OPENABLE)
 
     @property
     def half_width(self) -> float:
@@ -82,6 +85,12 @@ class Robot:
 def openable(b: dict) -> bool:
     return lq.obstacle(b) and b["size"][2] >= lq.ACC_MIN_HEIGHT_M and \
         (b["head"] in OPENABLE_HEADS or b["cat"] in OPENABLE_CATS)
+
+
+def opens(robot: Robot, b: dict) -> bool:
+    """Whether the robot checks treat ``b`` as furniture to open: openable furniture by category, and the objects the
+    task opens (``openable_ids``; floor furniture only: a sweep is floor in front of it)."""
+    return openable(b) or (b["id"] in robot.openable_ids and lq.obstacle(b))
 
 
 def sweep_depth(b: dict) -> float:
@@ -187,7 +196,7 @@ class RobotChecker:
                     out.setdefault(r, f"carries {child}")
         if self.robot.reach_openable:
             for b in bs:
-                if openable(b):
+                if opens(self.robot, b):
                     out.setdefault(b["id"], "openable")
         return {k: v for k, v in out.items() if by_id[k]["size"][2] >= lq.ACC_MIN_HEIGHT_M}
 
@@ -226,7 +235,7 @@ class RobotChecker:
             found["robot_reach"].append(((ident,) + ids, gap, why + (", blocked by " + ", ".join(ids) if ids else "")))
         if self.robot.openable:
             for b in obstacles:
-                if not openable(b):
+                if not opens(self.robot, b):
                     continue
                 zone = sweep(b)
                 outside = zone.difference(self.floor).area
@@ -276,7 +285,7 @@ class RobotChecker:
         parents = parents or infer_parents(bs)
         found = self._check(bs, parents, blockers=False)
         required = self.required(bs, parents)
-        n_open = sum(openable(b) for b in bs)
+        n_open = sum(opens(self.robot, b) for b in bs)
         obstacles = [b for b in bs if lq.obstacle(b) and b["size"][2] >= lq.ACC_MIN_HEIGHT_M]
         _regions, main = self._space([b for b in bs if lq.obstacle(b)])
         reached_all = sum(self._reach_gap(main, b) <= EPS for b in obstacles)
@@ -333,7 +342,7 @@ class RobotZones:
         if b is None:
             b = lq.boxes(self.row, {"objects": [box]})[0]
             b["key"] = key
-            b["obstacle"], b["openable"] = lq.obstacle(b), openable(b)
+            b["obstacle"], b["openable"] = lq.obstacle(b), opens(self.robot, b)
             b["bounds"] = b["poly"].bounds
             if b["openable"]:
                 b["zone"] = self._strip(b, b["front"], b["size"][1] / 2, b["size"][0] / 2,
@@ -368,8 +377,12 @@ class RobotZones:
         return hit
 
     def _carried(self, bs: dict[str, dict]) -> dict[str, list[str]]:
+        """{furniture id: the objects on it the robot handles}: every object on furniture, or only the task's
+        (``reach_ids``) when the robot does not work at every carrying furniture (``reach_supports`` off)."""
         carried: dict[str, list[str]] = {}
         for ident, b in bs.items():
+            if not self.robot.reach_supports and ident not in self.robot.reach_ids:
+                continue
             parent = self.g.parents.get(ident)
             if parent in bs and bs[parent]["stands"] and not b["obstacle"]:
                 carried.setdefault(parent, []).append(ident)
