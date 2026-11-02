@@ -55,6 +55,83 @@
 | `server_runs/test300-v4/` | FastFill base/D/E 在 test300 上的输出（spread 解码），workflow 从这里读家具尺寸，也作为"FastFill 纯跑"基线 |
 | `related work code/baselines/` | related work 基线（LayoutGPT、Holodeck、LayoutVLM、I-Design、DirectLayout）的适配脚本 `adapters/`、仓库版本 `SOURCES.txt`（新增了 LaviGen 和 RoboLayout，只用 `fetch_baselines.sh` 拉取，不放进仓库）、之前的完整运行结果 `runs/full_agentsize/` 和 `runs/exp150_g61/`（LayoutVLM 的资产和渲染图没有放进来） |
 
+## 全链路怎么跑（给接手的人）
+
+一个房间经过两步：**① FastFill 给每件家具一个尺寸（需要 GPU）→ ② 摆放流程（调用 GPT，在能连上 API 的机器上跑）**。两步可以在同一台机器上，也可以分开（我们是服务器 GPU 跑 ①，Mac 跑 ②，因为服务器连不上中转站）。
+
+### 0. 环境
+
+```bash
+git clone https://github.com/XXXPILAR/fastfill-workflow2.git fastfill-v4 && cd fastfill-v4
+python3.11 -m venv .venv && .venv/bin/pip install -r requirements-experiments.txt
+cd "Fastfill workflow2" && ../.venv/bin/python -m pytest -q tests          # 应该是 115 passed
+```
+
+**API key**（不要放进仓库）：
+- 走中转站（`--api relay`，我们的实验都是这样）：新建 `~/.fastfill_api.env`，权限 600，写 `OPENAI_API_KEY=<key>` 和 `OPENAI_MODEL=gpt-6.1-sol`。地址用 `--base-url` 指定，只接受 `workflow/credentials.py` 里 `RELAY_HOSTS` 列出的地址。
+- 走 OpenAI 官方（`--api official`）：key 写在 `Fastfill workflow2/.env` 或 `~/.fastfill_openai.env`。
+- 中转站限制每分钟 30 次请求：`--rpm 30`。同时跑多个任务时，给它们同一个 `--rpm-file`，合计才不会超。
+
+### 1. 输入：一行一个房间（`rows.jsonl`）
+
+```json
+{"schema_version": "fastfill.v2",
+ "condition": {"schema_version": "fastfill.v2",
+               "room": {"frame": "right_handed_z_up", "floor_polygon_xy_m": [[0,0],[4,0],[4,3],[0,3]], "height_m": 2.6, "room_type": "bedroom",
+                        "openings": [{"type": "door", "wall_index": 0, "position_on_wall": 0.5, "width_m": 0.9, "height_m": 2.0}]},
+               "objects": [{"id": "obj_0000", "category": "bed", "description": "A double bed with a grey fabric headboard.", "support_parent": "floor"},
+                           {"id": "obj_0001", "category": "nightstand", "description": "A small oak nightstand with one drawer.", "support_parent": "floor"},
+                           {"id": "obj_0002", "category": "lamp", "description": "A white ceramic table lamp.", "support_parent": "obj_0001"}],
+               "constraints": [{"type": "against_wall", "object_id": "obj_0000"}]},
+ "task": {"required_ids": ["obj_0001", "obj_0002"], "articulation_ids": ["obj_0001"]}}
+```
+
+- `condition`：上游给的房间和家具清单。`schema_version`、`room.frame`、`room.floor_polygon_xy_m`、`objects`、`constraints`（可以为空列表）是必填的。**每件家具都要有描述，不能只写类别**，否则会被拒绝。`support_parent` 可以是 `floor`、`wall`，或者另一件家具的 id。字段的完整定义见 `fastfill-main/fastfill/v2/schema.py`。
+- 约束只支持 8 种：`on`、`between`、`against_wall`、`faces`、`faces_direction`、`near`、`clearance`、`keepout`。
+- `task.required_ids`：必须家具。`task.articulation_ids`：要打开的家具。不在 `required_ids` 里的都算扩充家具。
+- 不需要真实布局（`target`）。真实的例子见 `test30tasks/rows.jsonl`、`test150tasks/rows.jsonl`，字段说明见 `test30tasks/README.md`。
+
+### 2. 第 ① 步：FastFill 尺寸（GPU）
+
+先下载权重（见下一节），然后：
+
+```bash
+cd "Fastfill workflow2"
+echo '[0, 1, 2]' > my_rooms.json                     # 要跑的行号（从 0 开始）
+../.venv/bin/python experiments/fastfill_server_run.py --rows my_rows.jsonl --rooms my_rooms.json \
+    --checkpoint ../runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500 --out my_sizes --device cuda
+```
+
+输出 `my_sizes/predictions_spread.jsonl`，和 `my_rows.jsonl` 逐行对齐，第 ② 步读它。在 GH200 上（test150tasks 实测，不算加载模型），每个房间中位数 0.14 秒，最多 2.4 秒。
+
+### 3. 第 ② 步：摆放（任务模式）
+
+参数和我们实验用的一样（`experiments/exp30tasks/run_all.sh`）：
+
+```bash
+WORKFLOW_REASONING_EFFORT=medium WORKFLOW_LLM_ATTEMPTS=0 ../.venv/bin/python experiments/run_draft.py \
+    --rows my_rows.jsonl --indices 0 1 2 --task-roles --sizes-file my_sizes/predictions_spread.jsonl \
+    --api relay --base-url https://api.kbsfdxc.net/codex/v1 --model gpt-6.1-sol --rpm 30 --rpm-file my_out/.rpm_state.json \
+    --robot-width 0.5 --drafts 2 --resize --robot-margin 0.1 --hard-zones --relocate --repair-rounds 3 --repair-seconds 180 \
+    --workers 4 --budget-usd 20 --out my_out
+```
+
+- 如果同一台机器既有 GPU 又能连上 API，可以把 `--sizes-file` 换成 `--checkpoint <model-step-4500> --device cuda`，两步合成一步。
+- 可以中断后重跑：已经完成的房间会跳过。
+- 费用和时间（10 个房间实测）：每个房间中位数 $0.21（最多 $0.52），用时中位数约 4 分钟。房间越大越慢，每件家具约 5 秒。
+
+### 4. 输出
+
+每个房间写一个 `my_out/room_XXX.json`：
+- `status`：`clean`（没有剩下的硬问题），`best_effort`（修复后还剩硬问题，见 `diagnostics.hard_issues`；必须家具是否都没问题看 `diagnostics.task.required_ok`），或 `fallback_required_only`（兜底：只放了必须家具）；
+- `layout.objects`：每件家具的 `id`、`target_size_local_m`（局部尺寸，米）、`bottom_center_m`（底面中心）、`yaw_rad`、`support_parent`；
+- `diagnostics.task`：`required_ok`、`required_issues`、`removed`（删掉的扩充家具和原因）、`moved`、`expansion_issues`；兜底时还有 `unmet_constraints`（没满足的约束）；
+- `cost_usd`、`wall_s`。
+
+另外还有：`predictions.jsonl`（和输入逐行对齐的布局）、`ledger.json`（费用）、`llm_calls/`（每次 GPT 调用的输入和输出，不含 key）。
+
+需要导出成 3D 场景（RoomGenBench / SAGE 坐标约定）时，用 `experiments/export_roomgenbench.py --run my_out`。打分可以参考 `experiments/exp30tasks/evaluate.py`。
+
 ## FastFill 模型权重
 
 实验用的尺寸模型是 **FastFill 1.7B 全量微调（v4detail，model-step-4500）**，公开在 HuggingFace：
