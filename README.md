@@ -130,6 +130,24 @@ WORKFLOW_REASONING_EFFORT=medium WORKFLOW_LLM_ATTEMPTS=0 ../.venv/bin/python exp
 
 另外还有：`predictions.jsonl`（和输入逐行对齐的布局）、`ledger.json`（费用）、`llm_calls/`（每次 GPT 调用的输入和输出，不含 key）。
 
+### 5. 坐标约定（下游接的时候一定要看）
+
+| | 约定 | 代码出处 |
+|---|---|---|
+| 世界坐标 | 右手系，**Z 朝上**，单位米；`room.frame` 固定为 `right_handed_z_up`；地面在 `floor_z_m`（默认 0） | `fastfill/v2/schema.py` |
+| 墙 | 第 `i` 面墙是 `floor_polygon_xy_m` 的第 `i` 个顶点到第 `i+1` 个顶点（最后一个顶点连回第 0 个） | `workflow/geometry.py` `_opening_strip` |
+| 门窗 | `wall_index` 指墙；`position_on_wall` 是门窗**中心**在这面墙上的位置，从第 `i` 个顶点算起，取 0–1 的比例；`width_m` 是宽度 | 同上 |
+| 家具位置 `bottom_center_m` | 家具包围盒**底面中心**的世界坐标 [x, y, z]；落地家具 z = 地面高度，放在别的家具上时 z = 那件家具的顶面高度 | `schema.py` |
+| 家具尺寸 `target_size_local_m` | **[深, 宽, 高]**：深 = 前后方向，沿家具局部 +X；宽 = 左右方向，沿局部 +Y；高沿 +Z | `workflow/fastfill_sizes.py`、`workflow/drafting.py` |
+| 朝向 `yaw_rad` | 家具绕 +Z 轴的旋转角，从世界 +X 轴**逆时针**量，单位弧度。家具的**正面朝向局部 +X**，也就是朝向世界方向 (cos yaw, sin yaw)。例如 yaw = π/2 表示正面朝世界 +Y | `fastfill/v2/geometry.py` `bev_corners`、`workflow/drafting.py` |
+| 挂墙的家具 | 背面贴墙，正面朝向房间里 | `workflow/drafting.py` |
+
+正面朝向由第 ② 步的 GPT 决定。FastFill 只给尺寸：它预测的 yaw 只能区分轴向，分不清正反（训练时按 π 取模），所以流程不用它的 yaw。
+
+**转换成 SAGE / RoomGenBench 的约定**（正面是局部 +Y，角度用度）：`width = 宽`、`length = 深`、`yaw_sage = yaw - 90°`。`workflow/export.py` 的 `_sage_object` 里有现成的转换代码。
+
+### 6. 导出
+
 需要导出成 3D 场景（RoomGenBench / SAGE 坐标约定）时，用 `experiments/export_roomgenbench.py --run my_out`。打分可以参考 `experiments/exp30tasks/evaluate.py`。
 
 ## FastFill 模型权重
