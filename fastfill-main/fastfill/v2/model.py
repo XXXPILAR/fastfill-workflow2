@@ -20,6 +20,7 @@ It is not a Qwen model and must not be used as evidence of model quality.
 
 from __future__ import annotations
 
+import contextlib
 from dataclasses import asdict, dataclass, replace
 import json
 import math
@@ -75,6 +76,10 @@ class ModelConfig:
     support_head: bool = False
     # Recompute backbone activations in the backward pass: needed to fit 27B-class backbones at 8192 tokens.
     gradient_checkpointing: bool = False
+    # Run the backbone under bf16 autocast at inference (eval mode), as it trained under mixed precision bf16: a full
+    # fine-tuning checkpoint keeps its fp32 master weights, and fp32 attention has no memory-efficient kernel, so it
+    # holds heads x tokens^2 scores (45 GiB on a 19,399-token room for Qwen3-4B).
+    inference_autocast_bf16: bool = False
 
     def __post_init__(self) -> None:
         if not isinstance(self.backbone, str) or not self.backbone.strip():
@@ -91,7 +96,8 @@ class ModelConfig:
             value = getattr(self, key)
             if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or not 0 <= value <= 1:
                 raise ValueError(f"{key} must be finite and in [0,1]")
-        for key in ("train_backbone", "local_files_only", "pose_conditioning", "support_head", "gradient_checkpointing"):
+        for key in ("train_backbone", "local_files_only", "pose_conditioning", "support_head", "gradient_checkpointing",
+                    "inference_autocast_bf16"):
             if not isinstance(getattr(self, key), bool):
                 raise ValueError(f"{key} must be a boolean")
         if (not isinstance(self.lora_target_modules, (list, tuple)) or not self.lora_target_modules or
@@ -230,8 +236,10 @@ class StructuredFastFillModel(nn.Module):
         (``remask``) runs it once per request and ``decode`` once per round."""
         if not attention_mask.bool().any(dim=1).all():
             raise ValueError("every condition requires at least one unmasked token")
-        memory = self.backbone(input_ids=input_ids, attention_mask=attention_mask, use_cache=False,
-                               return_dict=True).last_hidden_state
+        cast = self.config.inference_autocast_bf16 and not self.training
+        with torch.autocast(input_ids.device.type, dtype=torch.bfloat16) if cast else contextlib.nullcontext():
+            memory = self.backbone(input_ids=input_ids, attention_mask=attention_mask, use_cache=False,
+                                   return_dict=True).last_hidden_state
         memory = self.memory_projection(memory.to(self.memory_projection.weight.dtype))
         return {"memory": memory, "slots": self._slots(memory, object_spans, slot_mask),
                 "attention_mask": attention_mask, "slot_mask": slot_mask}
