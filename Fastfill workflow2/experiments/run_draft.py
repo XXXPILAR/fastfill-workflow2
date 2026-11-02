@@ -25,7 +25,7 @@ exhausted quota starts no new room (those in flight finish). At the end: ``rows.
 for ``fastfill.v2.evaluate``, and ``summary.json``; ``--evaluate`` also runs the evaluator into ``eval/``.
 
     python fastfill_workflow/experiments/run_draft.py --rows fastfill/v2/ops/test300/rows.jsonl \\
-        --checkpoint runs/main4-cell05-v4fixed-e5-base/model-step-6552 --device cuda \\
+        --checkpoint runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500 --device cuda \\
         --out runs/draft-workflow/test300 --budget-usd 55 --evaluate
 """
 import argparse, json, multiprocessing as mp, os, random, shutil, subprocess, sys, time, traceback, urllib.error, urllib.request

@@ -6,7 +6,8 @@ it); positions are discarded. The size head is a linear
 layer, so the size does not depend on the decode: argmax, spread and remask1L give identical sizes (checked on all
 4541 test300 objects of the base arm), and this is the size the earlier test300 runs used.
 
-    sizer = FastFillSizer("runs/main4-cell05-v4fixed-e5-base/model-step-6552", device="cuda")
+    # FastFill 1.7B full fine-tuning on v4detail, the model of the 2026-11 experiments (tokenizer beside model-step-4500)
+    sizer = FastFillSizer("runs/main4-cell05-v4detail-e5-1.7b-all-full/model-step-4500", device="cuda")
     sizes = sizer(condition)          # {object id: [depth, width, height]}
     sizes, yaws = sizer.predict(condition)   # and {object id: yaw in rad}, for the hybrid yaw mode
 
